@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<agent_list>
+	<agent
+		id="1"
+		name="은봉"
+		hp="4"
+		mental="120"
+		movement="2"
+		work="4"
+		
+		directSkillId="10001"
+		indirectSkillId="20001"
+		blockSkillId="30001"
+		>
+		<preferSkill type="direct" bonus="15"/>
+		<rejectSkill type="indirect" bonus="-10"/>
+		<img src="Unit/agent1"/>
+		
+		<speech action="work_start" text="피곤하다……."/>
+		<speech action="work_hit" text="이럴 줄 알았어."/>
+		<speech action="work_complete" text="한 건 했다."/>
+		<speech action="dead" text="영원히 자자."/>
+		
+		<panic action="roaming"/>
+	</agent>
+	<agent
+		id="2"
+		name="탱탱"
+		hp="4"
+		mental="100"
+		movement="4"
+		work="4"
+		
+		directSkillId="10001"
+		indirectSkillId="20001"
+		blockSkillId="30001">
+		
+		<preferSkill type="direct" bonus="10"/>
+		<rejectSkill type="block" bonus="-10"/>
+		<img src="Unit/agent2"/>
+		
+		<speech action="work_start" text="좋아, 가볼까?"/>
+		<speech action="work_hit" text="좀 아픈데?"/>
+		<speech action="work_complete" text="후…."/>
+		<speech action="dead" text="안돼!!"/>
+		<speech action="panic" text="으으으으..."/>
+		
+		<panic action="roaming"/>
+	</agent>
+	<agent
+		id="3"
+		name="윰윰"
+		hp="6"
+		mental="90"
+		movement="3"
+		work="1"
+		
+		directSkillId="10001"
+		indirectSkillId="20001"
+		blockSkillId="30001">
+		
+		<preferSkill type="direct" bonus="10"/>
+		<rejectSkill type="block" bonus="-10"/>
+		<img src="Unit/agent3"/>
+		
+		<speech action="work_start" text="또 시작이네"/>
+		<speech action="work_hit" text="아야!"/>
+		<speech action="work_complete" text="엄마, 내가 해냈어요!^_^"/>
+		<speech action="dead" text="엄마…"/>
+		
+		<panic action="roaming"/>
+	</agent>
+	<agent
+		id="4"
+		name="훈훈"
+		hp="5"
+		mental="90"
+		movement="3"
+		work="3"
+		
+		directSkillId="10001"
+		indirectSkillId="20001"
+		blockSkillId="30001">
+		
+		<preferSkill type="direct" bonus="10"/>
+		<rejectSkill type="block" bonus="-10"/>
+		<img src="Unit/agent4"/>
+		
+		<speech action="work_start" text="오늘은 내가 죽을까…?"/>
+		<speech action="work_hit" text="내가 죽겠네."/>
+		<speech action="work_complete" text="다음에는 죽겠지…."/>
+		<speech action="dead" text="결국 죽었네…."/>
+		
+		<panic action="roaming"/>
+	</agent>
+</agent_list>

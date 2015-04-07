@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+	types
+	- road
+	- elevator
+	- door
+-->
+<edge_list>
+	<!--
+	<edge node1="100" node2="101" type="road" />
+	<edge node1="100" node2="102" type="road" />
+	<edge node1="101" node2="103" type="road" />
+	<edge node1="102" node2="103" type="road" />
+	<edge node1="102" node2="2" type="road" />
+	<edge node1="103" node2="3" type="road" />
+	<edge node1="3" node2="5" type="road" />
+	<edge node1="5" node2="7" type="door" cost="2" />
+	<edge node1="2" node2="4" type="road" />
+	<edge node1="4" node2="6" type="door" cost="2" />
+-->
+
+	<edge node1="1001001" node2="1001002" type="road" />
+	<edge node1="1001002" node2="1001003" type="road" />
+
+	<edge node1="1001002" node2="1003111" type="road" />
+	<!--
+	<edge node1="1003111" node2="1003112" type="road" />
+	<edge node1="1003112" node2="1004111" type="road" />
+-->
+	<edge node1="1003111" node2="1003111-left-1" type="road" />
+	<edge node1="1003111-left-1" node2="1003111-left-2" type="road" />
+
+	<edge node1="1003111" node2="1003111-right-1" type="road" />
+	<edge node1="1003111-right-1" node2="1003111-right-2" type="road" />
+
+	<edge node1="1001001" node2="1002001" type="road" />
+	<edge node1="1002001" node2="1002002" type="road" />
+
+	<edge node1="1001003" node2="1002101" type="road" />
+	<edge node1="1002101" node2="1002102" type="road" />
+
+	<edge node1="1002002" node2="1003002" type="door" />
+
+	<edge node1="1003002" node2="1004002" type="road" />
+
+	<edge node1="1002101" node2="1003101" type="door" />
+	<edge node1="1002102" node2="1003102" type="door" />
+
+	<edge node1="1003101" node2="1004101" type="road" />
+	<edge node1="1003102" node2="1004102" type="road" />
+
+</edge_list>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<skills>
+	<skill id="10001" type="direct" name="영양공급" amount="20" imgsrc="UI/skill/Work_Feed"/>
+	<skill id="10002" type="direct" name="인신공양" amount="40" imgsrc="UI/skill/Work_Commu"/> 
+	
+	<skill id="20001" type="indirect" name="청소하기" amount="30" imgsrc="UI/skill/Work_Clean"/> 
+	<skill id="20002" type="indirect" name="이야기하기" amount="20" imgsrc="UI/skill/Work_Commu"/> 
+	
+	<skill id="30001" type="block" name="제압하기" amount="30" imgsrc="UI/skill/Work_Supression"/>
+
+	<skill id="40001" type="unique" name="고해하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
+	<skill id="40002" type="unique" name="포옹하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
+	
+</skills>
