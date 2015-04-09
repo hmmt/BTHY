@@ -454,16 +454,23 @@ public class AgentUnit : MonoBehaviour {
 		if(panicType == "default")
 		{
 			currentPanicAction = new PanicDefaultAction();
+			string narration = this.name+"(이)가 공황에 빠져 우두커니 서있습니다.";
+			Notice.instance.Send("AddSystemLog", narration);
 		}
 		else if(panicType == "roaming")
 		{
 			currentPanicAction = new PanicRoaming(this);
+			string narration = this.name+"(이)가 공황에 빠져 방향을 잃고 배회합니다.";
+			Notice.instance.Send("AddSystemLog", narration);
 		}
 	}
 
 	public void Die()
-	{
+	{	
+		string narration = this.name + "(이)가 사망했습니다.";
+
 		Notice.instance.Send("AgentDie", this);
+		Notice.instance.Send("AddSystemLog", narration);
 		Destroy (gameObject);
 	}
 }
