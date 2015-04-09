@@ -1,7 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{838EDB7C-1D6E-06CD-33E6-BD71B309D0D4}") = "NewMoon", "Assembly-CSharp-vs.csproj", "{38439646-9F1F-7F85-0E46-876F92E0E59D}"
+Project("{18336BD8-E789-09C5-AF3D-A837523E376D}") = "NewMoon_4_7", "Assembly-CSharp-vs.csproj", "{9CDB5E00-DF9F-55C1-C684-A37986515F9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,15 +9,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{38439646-9F1F-7F85-0E46-876F92E0E59D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38439646-9F1F-7F85-0E46-876F92E0E59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38439646-9F1F-7F85-0E46-876F92E0E59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38439646-9F1F-7F85-0E46-876F92E0E59D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CDB5E00-DF9F-55C1-C684-A37986515F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CDB5E00-DF9F-55C1-C684-A37986515F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CDB5E00-DF9F-55C1-C684-A37986515F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CDB5E00-DF9F-55C1-C684-A37986515F9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																																																																																																																																																																																																																																	GlobalSection(MonoDevelopProperties) = preSolution
+				GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
@@ -30,6 +30,7 @@ Global
 		$0.TextStylePolicy = $3
 		$3.FileWidth = 120
 		$3.TabWidth = 4
+		$3.IndentWidth = 4
 		$3.EolMarker = Unix
 		$3.inheritsSet = Mono
 		$3.inheritsScope = text/plain

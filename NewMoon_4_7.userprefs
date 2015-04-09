@@ -1,0 +1,26 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SystemLoggerUI.cs">
+    <Files>
+      <File FileName="Assets\Scripts\UI\CollectionWindow.cs" Line="40" Column="22" />
+      <File FileName="Assets\Scripts\Model\Static\CreatureTypeInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Window\SelectWorkAgentWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\View\EnergyUIView.cs" Line="21" Column="17" />
+      <File FileName="Assets\Scripts\Effect\SoundEffectPlayer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Creatures\MatchGirl.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Creatures\HappyTeddy.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Creatures\Fetus.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CameraMover.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\NarrationLoggerUI.cs" Line="96" Column="22" />
+      <File FileName="Assets\Scripts\PlayLoggerUI.cs" Line="3" Column="13" />
+      <File FileName="Assets\Scripts\Unit\CreatureUnit.cs" Line="2" Column="13" />
+      <File FileName="Assets\Scripts\Unit\AgentUnit.cs" Line="3" Column="13" />
+      <File FileName="Assets\Scripts\UnitActions\UseSkill.cs" Line="2" Column="13" />
+      <File FileName="Assets\Scripts\SystemLoggerUI.cs" Line="23" Column="21" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
