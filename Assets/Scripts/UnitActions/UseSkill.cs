@@ -92,8 +92,6 @@ public class UseSkill : MonoBehaviour {
         if(workPlaying && readyToFinish)
         {
             FinshWork();
-			string narration = agent.name+"( 이)가 "+skillTypeInfo.name+" 작업을 완료하였습니다.";
-			Notice.instance.Send("AddSystemLog", narration);
         }
 
 
@@ -275,8 +273,6 @@ public class UseSkill : MonoBehaviour {
 
             FinshWork();
             agent.Panic();
-			string narration = this.name+" (이)가 공황에 빠져 "+skillTypeInfo.name+" 작업에 실패하였습니다.";
-			Notice.instance.Send("AddSystemLog", narration);
         }
         if (agent.hp <= 0)
         {
@@ -289,8 +285,6 @@ public class UseSkill : MonoBehaviour {
             targetCreature.ShowNarrationText("dead", agent.name);
             FinshWork();
             agent.Die();
-			string narration = this.name+" (이)가 사망하여 안타깝게도 "+skillTypeInfo.name+" 작업에 실패하였습니다.";
-			Notice.instance.Send("AddSystemLog", narration);
         }
     }
 
@@ -301,9 +295,6 @@ public class UseSkill : MonoBehaviour {
 			return null;
 		}
 		GameObject newObject = new GameObject ();
-
-		string narration = agent.name+" (이)가 "+skillInfo.name+" 작업을 시작합니다.";
-		Notice.instance.Send("AddSystemLog", narration);
 
 		UseSkill inst = newObject.AddComponent<UseSkill> ();
 

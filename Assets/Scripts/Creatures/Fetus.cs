@@ -32,12 +32,25 @@ public class Fetus : CreatureBase
         {
             cryTimer = 0;
 
-            Debug.Log("전체공격");
-
             // 전체공격!!!!
             foreach (AgentUnit agent in AgentFacade.instance.GetAgentList())
             {
+                if (agent.mental <= 0)
+                    continue;
+                    
                 agent.mental -= 20;
+                if (agent.mental <= 0)
+                {
+                    string speech;
+                    if (agent.speechTable.TryGetValue("panic", out speech))
+                    {
+                        Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
+                    }
+
+                    creature.ShowNarrationText("panic", agent.name);
+
+                    agent.Panic();
+                }
                 Notice.instance.Send("UpdateAgentState_" + agent.gameObject.GetInstanceID());
             }
         }

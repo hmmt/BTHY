@@ -19,14 +19,10 @@ public class GameStaticDataLoader {
 	public void LoadSKillData()
 	{
 		// skills
-		StreamReader sr = new StreamReader (Application.dataPath + "/Resources/xml/Skills.xml");
-		
-		string text = sr.ReadToEnd ();
-		sr.Close ();
-		
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Skills");
 		
 		XmlDocument doc = new XmlDocument ();
-		doc.LoadXml (text);
+		doc.LoadXml (textAsset.text);
 		
 		XmlNodeList nodes = doc.SelectNodes ("/skills/skill");
 		
@@ -52,13 +48,10 @@ public class GameStaticDataLoader {
 	public void LoadAgentData()
 	{
 		// agents
-        StreamReader sr = new StreamReader(Application.dataPath + "/Resources/xml/Agents.xml");
-		
-		string text = sr.ReadToEnd ();
-		sr.Close ();
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Agents");
 		
 		XmlDocument doc = new XmlDocument ();
-		doc.LoadXml (text);
+		doc.LoadXml (textAsset.text);
 		
 		XmlNodeList nodes = doc.SelectNodes ("/agent_list/agent");
 		
@@ -118,14 +111,17 @@ public class GameStaticDataLoader {
 	public void LoadCreatureData()
 	{
 		// creature
-
+        /*
         StreamReader sr = new StreamReader(Application.dataPath + "/Resources/xml/Creatures.xml");
 		
 		string text = sr.ReadToEnd ();
 		sr.Close ();
+        */
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Creatures");
+        
 		
 		XmlDocument doc = new XmlDocument ();
-		doc.LoadXml (text);
+        doc.LoadXml(textAsset.text);
 		
 		XmlNodeList nodes = doc.SelectNodes ("/creature_list/creature");
 		
@@ -138,9 +134,9 @@ public class GameStaticDataLoader {
 			model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
 			model.name = node.Attributes.GetNamedItem("name").InnerText;
 			model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
-			model.level = node.Attributes.GetNamedItem("level").InnerText;
+			model.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
 			model.attackType = node.Attributes.GetNamedItem("attackType").InnerText;
-			model.intelligence = node.Attributes.GetNamedItem("intelligence").InnerText;
+			model.intelligence = int.Parse(node.Attributes.GetNamedItem("intelligence").InnerText);
 
 
 			model.horrorProb = float.Parse(node.Attributes.GetNamedItem("horrorProb").InnerText);

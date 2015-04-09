@@ -42,11 +42,12 @@ public class MapGraph : MonoBehaviour {
 
 	public void LoadMap()
 	{
-		StreamReader sr = new StreamReader (Application.dataPath + "/Resources/xml/MapNodeList.xml");
+		//StreamReader sr = new StreamReader (Application.dataPath + "/Resources/xml/MapNodeList.xml");
+
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
 
 		XmlDocument doc = new XmlDocument ();
-		doc.LoadXml (sr.ReadToEnd());
-		sr.Close ();
+		doc.LoadXml (textAsset.text);
 
 		XmlNodeList nodes = doc.SelectNodes ("/node_list/node");
 
@@ -66,11 +67,10 @@ public class MapGraph : MonoBehaviour {
 			nodePoint.transform.localPosition = new Vector3(x,y,0);
 		}
 
-		sr = new StreamReader (Application.dataPath + "/Resources/xml/MapEdgeList.xml");
+        textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
 		
 		doc = new XmlDocument ();
-		doc.LoadXml (sr.ReadToEnd());
-		sr.Close ();
+		doc.LoadXml (textAsset.text);
 
 		nodes = doc.SelectNodes ("/edge_list/edge");
 

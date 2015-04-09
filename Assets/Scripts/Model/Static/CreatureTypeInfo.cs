@@ -9,9 +9,9 @@ public class CreatureTypeInfo
 	public long id;
 	public string name;
 	public string codeId;
-	public string level;
+	public int level;
 	public string attackType;
-	public string intelligence;
+	public int intelligence;
 
 	public float horrorProb;
 	public int horrorDmg;

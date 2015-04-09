@@ -3,9 +3,9 @@
 	<creature id="10001"
 		name="행복할 성냥팔이소녀와 성냥들"
 		codeId="F-01-035-R"
-		level="THEH"
-		attackType="RED"
-		intelligence="대화 가능"
+		level="4"
+		attackType=""
+		intelligence="1"
 		
 		horrorProb="0.4"
 		horrorDmg="-20"
@@ -154,11 +154,11 @@
 	</creature>
 
 	<creature id="10002"
-		name="늙은여인"
+		name="늙음"
 		codeId="F-01-035-R"
-		level="TETH"
-		attackType="WHITE"
-		intelligence="대화 가능"
+		level="4"
+		attackType=""
+		intelligence="1"
 		
 		horrorProb="0.4"
 		horrorDmg="-20"
@@ -208,14 +208,14 @@
 		</narration>
 		<narration action="mid3">
 			-> [
-			{늙은 여인은 귀도 멀고 눈도 거의 보이지 않지만 #0(이)가 있다는 사실은 직시하고 있습니다.},
+			{늙은 여인은 귀도 멀고 눈도 거의 보이지 않지만 도스토예프스키가 있다는 사실은 직시하고 있습니다.},
 			{ 어느 순간 의자의 소리가 멈춥니다.늙은 여인이 말합니다. “그리고 당신이 원하는 모든 것은 무지개예요. 그리고 당신이 얻을 모든 것은 비에요.”}
 			]
 		</narration>
 		<narration action="mid4">
 			-> [
-			{#0(은)는 작업을 끝마쳤습니다. #0(은)는 서둘러 늙은 여인의 방에서 빠져나옵니다.},
-			{작업이 끝난 #0(은)는 방을 벗어납니다. 그녀의 남은 고독은 이야기로 채워질 것입니다.}
+			{도스토예프스키는 작업을 끝마쳤습니다. 도스토예프스키는 서둘러 늙은 여인의 방에서 빠져나옵니다.},
+			{작업이 끝난 도스토예프스키는 방을 벗어납니다. 그녀의 남은 고독은 이야기로 채워질 것입니다.}
 			]
 		</narration>
 
@@ -300,9 +300,9 @@
 	<creature id="10003"
 		name="행복한 테디"
 		codeId="F-01-035-R"
-		level="HE"
-		attackType="RED"
-		intelligence="대화 불가"
+		level="4"
+		attackType=""
+		intelligence="1"
 		
 		horrorProb="0.4"
 		horrorDmg="-20"
@@ -374,7 +374,7 @@
 		</narration>
 		<narration action="special_ability1">
 			-> [
-			{행복한 테디가 팔을 뻗더니 #0(을)를 그대로 그의 넓은품 속으로 끌어당깁니다.#0(은)는 숨이 막히는지 콜록거리며 발버둥을 치고 있습니다.}
+			{행복한 테디가 팔을 뻗더니 도스토예프스키를 그대로 그의 넓은품 속으로 끌어당깁니다.도스토예프스키는 숨이 막히는지 콜록거리며 발버둥을 치고 있습니다.}
 			]
 		</narration>
 
@@ -410,16 +410,16 @@
 			<edge node1="workspace" node2="door" type="road" />
 		</graph>
 
-		<sound action="attack" src="creature/happy_teddy/happyTeddy_Ability_Normal"/>
-		<sound action="enter" src="creature/happy_teddy/happyTeddy_Enter"/>
+		<sound action="attack" src="creature/match_girl/matchgirl_attack"/>
+		<sound action="enter" src="creature/match_girl/matchgirl_enter"/>
 	</creature>
 
 	<creature id="10004"
 		name="이름없는 태아"
 		codeId="F-01-035-R"
-		level="HE"
-		attackType="WHITE / RED"
-		intelligence="대화 불가"
+		level="4"
+		attackType=""
+		intelligence="1"
 		
 		horrorProb="0.4"
 		horrorDmg="-20"
@@ -472,7 +472,7 @@
 			-> [
 			{작업도중 #0(이)가 ‘태아’ 를 돌아보며 흔히 아기들에게 해주듯이 리듬 섞인 의성어를 내뱉습니다.},
 			{#0(이)가 하던 작업을 멈추고 ‘태아’가 신경 쓰이는지 가까스로 웃음을 지으며 태아에게 다가갑니다.},
-			{#0(이)가 ‘태아’ 의 상태를 확인하기 위해 돌아보곤 합니다.다행히도 ‘태아’는 울음 없이 #0의 작업을 잘 견뎌냅니다.},
+			{#0(이)가 ‘태아’ 의 상태를 확인하기 위해 돌아보곤 합니다.다행히도 ‘태아’는 울음 없이 도스토예프스키의 작업을 잘 견뎌냅니다.},
 			{#0(은)는 ‘태아’가 걱정되는지 작업에 중간마다 확인을 반복합니다.무엇에 대해서 걱정하는 지도 모두가 알고 있을 것입니다.}
 			]
 		</narration>
@@ -481,7 +481,7 @@
 			{태아는 입을 열어 조그맣게 입맛을 다십니다.까만 색 눈동자엔 본능적인 욕구가 은밀히 묻어납니다.},
 			{태아는 눈을 감습니다.분명 잠을 위한 행위는 아닐 것입니다.태아가 원하는 것은 단 한 가지입니다.},
 			{문득 태아가 고개를 돌려 작업을 거의 끝내놓고 있는 #0(을)를 바라봅니다.눈동자에 악의는 묻어 있지 않지만 분명히 ‘사람’을 바라보는 눈빛은 아닐 것입니다.},
-			{태아는 허기짐을 느꼈는지 #0(을)를 문득 쳐다봅니다.태아의 태초적인 순수 악은 대상을 그대로 관통합니다.}
+			{태아는 허기짐을 느꼈는지 도스토예프스키를 문득 쳐다봅니다.태아의 태초적인 순수 악은 대상을 그대로 관통합니다.}
 			]
 		</narration>
 
@@ -513,7 +513,7 @@
 
 		<narration action="dead">
 			-> [
-			{마지막까지 끔찍하게 울려대는 태아의 울음소리를 들으며 #0(이)가 바닥에 쓰러집니다.}
+			{마지막까지 끔찍하게 울려대는 태아의 울음소리를 들으며 도스토예프스키가 바닥에 쓰러집니다.}
 			]
 		</narration>
 
@@ -545,16 +545,16 @@
 			<edge node1="workspace" node2="door" type="road" />
 		</graph>
 
-		<sound action="attack" src="creature/name_less_fetus/nameLessFetus_Ability_Normal"/>
-		<sound action="enter" src="creature/name_less_fetus/nameLessFetus_Enter"/>
+		<sound action="attack" src="creature/match_girl/matchgirl_attack"/>
+		<sound action="enter" src="creature/match_girl/matchgirl_enter"/>
 	</creature>
 
 	<creature id="10005"
 		name="빨간 구두"
 		codeId="F-01-035-R"
-		level="HE"
-		attackType="White / Red"
-		intelligence="대화 불가"
+		level="4"
+		attackType=""
+		intelligence="1"
 		
 		horrorProb="0.4"
 		horrorDmg="-20"
@@ -742,7 +742,7 @@
 			-> [
 			{‘단 한번의 악과 수백 가지의 선행’ 의 눈은 텅 비어있습니다. 그러나 #0(이)가 방에 들어왔다는 사실은 분명히 인지할 것입니다.},
 			{‘단 한번의 악과 수백 가지의 선행’은 당신들의 단죄자 입니다.},
-			{‘단 한번의 악과 수백 가지의 선행’ 에게서 #0(은)는 경건한 느낌을 받습니다.}
+			{‘단 한번의 악과 수백 가지의 선행’ 에게서 도스토예프스키는 경건한 느낌을 받습니다.}
 			]
 		</narration>
 		<narration action="mid3">
@@ -778,7 +778,7 @@
 		</narration>
 		<narration action="special_ability3">
 			-> [
-			{평생 지워지지 않을 자책이 #0에게는 최대의 벌일 것입니다.}
+			{평생 지워지지 않을 자책이 도스토예프스키에게는 최대의 벌일 것입니다.}
 			]
 		</narration>
 
