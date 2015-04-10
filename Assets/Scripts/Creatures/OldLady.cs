@@ -20,6 +20,8 @@ public class OldLady : CreatureBase {
         // skill이 이미 release 될 상황 고려 필요
         effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
 
+		SoundEffectPlayer.PlayOnce("creature/old_lady/oldlady_special", skill.targetCreature.transform.position);
+
         OutsideTextEffect.Create(skill.targetCreature.room, "typo/oldlady/OldLady_AttackTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.0f, 7.0f)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.room, "typo/oldlady/OldLady_AttackTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.5f, 6.5f)
