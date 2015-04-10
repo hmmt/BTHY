@@ -63,6 +63,7 @@ public class HappyTeddy  : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
         skill.targetCreature.ShowNarrationText("special_ability1", skill.agent.name);
+		SoundEffectPlayer.PlayOnce("creature/happy_teddy/happyTeddy_Ability_Special", skill.targetCreature.transform.position);
 
         TimerCallback.Create(4.0f, delegate() {
             skill.agent.hp -= 1; // temporary value
