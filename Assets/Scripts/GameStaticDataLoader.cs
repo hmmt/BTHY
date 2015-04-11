@@ -18,15 +18,11 @@ public class GameStaticDataLoader {
 
 	public void LoadSKillData()
 	{
-		// skills
-		StreamReader sr = new StreamReader (Application.dataPath + "/Resources/xml/Skills.xml");
-		
-		string text = sr.ReadToEnd ();
-		sr.Close ();
-		
-		
-		XmlDocument doc = new XmlDocument ();
-		doc.LoadXml (text);
+        // skills
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Skills");
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
 		
 		XmlNodeList nodes = doc.SelectNodes ("/skills/skill");
 		
@@ -51,14 +47,11 @@ public class GameStaticDataLoader {
 
 	public void LoadAgentData()
 	{
-		// agents
-        StreamReader sr = new StreamReader(Application.dataPath + "/Resources/xml/Agents.xml");
-		
-		string text = sr.ReadToEnd ();
-		sr.Close ();
-		
-		XmlDocument doc = new XmlDocument ();
-		doc.LoadXml (text);
+        // agents
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Agents");
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
 		
 		XmlNodeList nodes = doc.SelectNodes ("/agent_list/agent");
 		
@@ -123,13 +116,10 @@ public class GameStaticDataLoader {
 	{
 		// creature
 
-        StreamReader sr = new StreamReader(Application.dataPath + "/Resources/xml/Creatures.xml");
-		
-		string text = sr.ReadToEnd ();
-		sr.Close ();
-		
-		XmlDocument doc = new XmlDocument ();
-		doc.LoadXml (text);
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Creatures");
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
 		
 		XmlNodeList nodes = doc.SelectNodes ("/creature_list/creature");
 		
