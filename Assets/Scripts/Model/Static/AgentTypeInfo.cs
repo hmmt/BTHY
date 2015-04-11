@@ -10,6 +10,10 @@ public class AgentTypeInfo {
 	public int movement;
 	public int work;
 
+	public string gender;
+	public int level;
+	public int workDays;
+
 	public string prefer;
 	public int preferBonus;
 

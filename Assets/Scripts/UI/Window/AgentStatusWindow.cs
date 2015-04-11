@@ -6,6 +6,9 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	public UnityEngine.UI.Text NameText;
 	public UnityEngine.UI.Text HPText;
 	public UnityEngine.UI.Text MentalText;
+	public UnityEngine.UI.Text LevelText;
+	public UnityEngine.UI.Text GenderText;
+	public UnityEngine.UI.Text WorkDayText;
 	
 	public Transform anchor;
 
@@ -101,9 +104,12 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	
 	public void UpdateCreatureStatus()
 	{
-		NameText.text = "name : " + target.name;
-		HPText.text = "HP : " + target.hp;
-		MentalText.text = "mental : " + target.mental;
+		NameText.text =  ""+target.name;
+		HPText.text =  ""+target.hp;
+		MentalText.text = ""+target.mental;
+		LevelText.text = ""+target.level;
+		GenderText.text = ""+target.gender;
+		WorkDayText.text = ""+target.workDays;
 	}
 	
 	public void OnClickClose()

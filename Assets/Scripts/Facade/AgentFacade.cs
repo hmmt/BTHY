@@ -68,6 +68,10 @@ public class AgentFacade : MonoBehaviour {
 		unit.movement = info.movement;
 		unit.work = info.work;
 
+		unit.gender = info.gender;
+		unit.level = info.level;
+		unit.workDays = info.workDays;
+
 		unit.prefer = info.prefer;
 		unit.preferBonus = info.preferBonus;
 		unit.reject = info.reject;

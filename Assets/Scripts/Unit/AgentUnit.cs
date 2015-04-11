@@ -10,6 +10,10 @@ public class AgentUnit : MonoBehaviour {
 	public string name;
 	public int hp;
 
+	public string gender;
+	public int level;
+	public int workDays;
+
 	public int mental;
 	public int movement;
 	public int work;

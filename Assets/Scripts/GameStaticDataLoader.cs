@@ -74,6 +74,10 @@ public class GameStaticDataLoader {
 			model.mental = int.Parse(node.Attributes.GetNamedItem("mental").InnerText);
 			model.movement = int.Parse(node.Attributes.GetNamedItem("movement").InnerText);
 			model.work = int.Parse(node.Attributes.GetNamedItem("work").InnerText);
+
+			model.gender = node.Attributes.GetNamedItem("gender").InnerText;
+			model.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
+			model.workDays = int.Parse(node.Attributes.GetNamedItem("workDays").InnerText);
 			
 			XmlNode preferSkillNode = node.SelectSingleNode("preferSkill");
 			model.prefer = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
