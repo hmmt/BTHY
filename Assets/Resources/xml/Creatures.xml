@@ -4,6 +4,8 @@
 		name="행복할 성냥팔이소녀와 성냥들"
 		codeId="F-01-035-R"
 		level="THEH"
+		stackLevel="2"
+
 		attackType="RED"
 		intelligence="대화 가능"
 		
@@ -15,6 +17,9 @@
 		
 		mentalProb="0.7"
 		mentalDmg="40"
+
+		observeLevel="5"
+
 
 		script="MatchGirl"
 		>
@@ -157,6 +162,7 @@
 		name="늙은여인"
 		codeId="F-01-035-R"
 		level="TETH"
+		stackLevel="2"
 		attackType="WHITE"
 		intelligence="대화 가능"
 		
@@ -168,6 +174,9 @@
 		
 		mentalProb="0.7"
 		mentalDmg="40"
+
+		observeLevel="5"
+
 
 		script="OldLady"
 		>
@@ -301,6 +310,7 @@
 		name="행복한 테디"
 		codeId="F-01-035-R"
 		level="HE"
+		stackLevel="3"
 		attackType="RED"
 		intelligence="대화 불가"
 		
@@ -314,6 +324,9 @@
 		mentalDmg="10"
 
 		script="HappyTeddy"
+
+		observeLevel="5"
+
 
 		specialSkillId="40002"		
 		>
@@ -418,6 +431,7 @@
 		name="이름없는 태아"
 		codeId="F-01-035-R"
 		level="HE"
+		stackLevel="3"
 		attackType="WHITE / RED"
 		intelligence="대화 불가"
 		
@@ -429,6 +443,9 @@
 		
 		mentalProb="0.7"
 		mentalDmg="40"
+
+		observeLevel="5"
+
 
 		script="Fetus"
 		>
@@ -553,6 +570,7 @@
 		name="빨간 구두"
 		codeId="F-01-035-R"
 		level="HE"
+		stackLevel="3"
 		attackType="White / Red"
 		intelligence="대화 불가"
 		
@@ -564,6 +582,9 @@
 		
 		mentalProb="0.7"
 		mentalDmg="40"
+
+		observeLevel="5"
+
 
 		script="RedShoes"
 		>
@@ -693,7 +714,8 @@
 	<creature id="10006"
 		name="악 선행"
 		codeId="F-01-035-R"
-		level="4"
+		level="ZAYIN"
+		stackLevel="1"
 		attackType=""
 		intelligence="1"
 		
@@ -707,6 +729,8 @@
 		mentalDmg="40"
 
 		script="OneBadManyGood"
+
+		observeLevel="5"
 
 		specialSkillId="40001"
 		>

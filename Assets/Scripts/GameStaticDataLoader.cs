@@ -136,6 +136,8 @@ public class GameStaticDataLoader {
 			model.attackType = node.Attributes.GetNamedItem("attackType").InnerText;
 			model.intelligence = node.Attributes.GetNamedItem("intelligence").InnerText;
 
+            model.stackLevel= int.Parse(node.Attributes.GetNamedItem("stackLevel").InnerText);
+            model.observeLevel = int.Parse(node.Attributes.GetNamedItem("observeLevel").InnerText);
 
 			model.horrorProb = float.Parse(node.Attributes.GetNamedItem("horrorProb").InnerText);
 			model.horrorDmg = int.Parse(node.Attributes.GetNamedItem("horrorDmg").InnerText);

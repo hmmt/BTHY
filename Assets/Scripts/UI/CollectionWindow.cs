@@ -15,6 +15,7 @@ public class CollectionWindow : MonoBehaviour {
 	public UnityEngine.UI.Text dangerLevel;
 	public UnityEngine.UI.Text attackType;
 	public UnityEngine.UI.Text intLevel;
+    public UnityEngine.UI.Text observePercent;
 
 	public UnityEngine.UI.Image profImage;
 
@@ -37,6 +38,12 @@ public class CollectionWindow : MonoBehaviour {
         }
     }
 
+    public void onClickObserveButton()
+    {
+        Debug.Log("");
+        SelectObserveAgentWindow.CreateWindow(creature);
+    }
+
 	public static void Create(CreatureUnit creature)
     {
         if (currentWindow != null)
@@ -51,29 +58,7 @@ public class CollectionWindow : MonoBehaviour {
         wnd.creature = creature;
 
         wnd.descText.text = creature.metaInfo.desc;
-        /*
-        Vector2 pos = wnd.descText.GetComponent<RectTransform>().anchoredPosition;
 
-        GameObject clone = (GameObject)Instantiate(wnd.descText.gameObject);
-        clone.transform.SetParent(wnd.descText.transform.parent);
-        clone.GetComponent<RectTransform>().anchoredPosition = pos + new Vector2(1, 0);
-        clone.GetComponent<UnityEngine.UI.Text>().color = Color.black;
-
-        clone = (GameObject)Instantiate(wnd.descText.gameObject);
-        clone.transform.SetParent(wnd.descText.transform.parent);
-        clone.GetComponent<RectTransform>().anchoredPosition = pos + new Vector2(-1, 0);
-        clone.GetComponent<UnityEngine.UI.Text>().color = Color.black;
-
-        clone = (GameObject)Instantiate(wnd.descText.gameObject);
-        clone.transform.SetParent(wnd.descText.transform.parent);
-        clone.GetComponent<RectTransform>().anchoredPosition = pos + new Vector2(0, -1);
-        clone.GetComponent<UnityEngine.UI.Text>().color = Color.black;
-
-        clone = (GameObject)Instantiate(wnd.descText.gameObject);
-        clone.transform.SetParent(wnd.descText.transform.parent);
-        clone.GetComponent<RectTransform>().anchoredPosition = pos + new Vector2(0, 1);
-        clone.GetComponent<UnityEngine.UI.Text>().color = Color.black;
-        */
         wnd.observeText.text = creature.metaInfo.observe;
 
 		wnd.name.text = creature.metaInfo.name;
@@ -81,6 +66,7 @@ public class CollectionWindow : MonoBehaviour {
 		wnd.attackType.text = creature.metaInfo.attackType;
 		wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
 		wnd.dangerLevel.text = creature.metaInfo.level.ToString();
+        wnd.observePercent.text = (float)creature.observeProgress / creature.metaInfo.observeLevel * 100+"%";
 
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
 

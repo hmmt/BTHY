@@ -202,11 +202,6 @@ public class AgentUnit : MonoBehaviour {
 			if(waitTimer <= 0)
 			{
 				int x,y;
-				/*
-				CreatureRoom.instance.WorldToTile(transform.position, out x, out y);
-				Vector2 goalPoint = CreatureRoom.instance.GetNearRoamingPoint(new Vector2(x,y));
-				MoveToTilePos((int)goalPoint.x, (int)goalPoint.y);
-				*/
 
 				MoveToNode(MapGraph.instance.GetRandomRestPoint());
 				

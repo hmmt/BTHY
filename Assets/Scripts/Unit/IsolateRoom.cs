@@ -8,6 +8,9 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public SpriteRenderer frameSpriteRenderer;
 	public SpriteRenderer roomSpriteRenderer;
     public RectTransform touchButtonTransform;
+
+	public SpriteRenderer roomFogRenderer;
+
 	
 	public CreatureUnit targetUnit
 	{   
@@ -79,5 +82,21 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 	{
 
 		//IsolateRoomStatus.CreateWindow (targetUnit);
+	}
+
+	public void Update()
+	{
+        Color color = roomFogRenderer.color;
+
+        if (_targetUnit.state == CreatureState.WORKING)
+        {
+            color.a = 0f;
+            roomFogRenderer.color = color;
+        }
+        else
+        {
+            color.a = 1 - 0.2f * _targetUnit.observeProgress;
+            roomFogRenderer.color = color;
+        }
 	}
 }

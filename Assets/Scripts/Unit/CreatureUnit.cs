@@ -7,6 +7,9 @@ public class CreatureUnit : MonoBehaviour, IObserver {
 
 	public CreatureState state = CreatureState.WAIT;
 
+    //환상체 도감 완성도
+    public int observeProgress = 0;
+
 	//
 	public SpriteRenderer spriteRenderer;
 	//

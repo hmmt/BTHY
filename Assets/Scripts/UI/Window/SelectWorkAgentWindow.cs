@@ -97,16 +97,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	
 	public void OnClickAgentOK()
 	{
-		/*
-		if(selectedAgentList.Count == 0)
-		{
-			// show messagebox
-			return;
-		}
-		GlobalObjectManager.instance.GetSelectActionWindow ().ShowSelectActon (selectedAgentList.ToArray (), target);
-		
-		CloseWindow ();
-		*/
+
 	}
 	public void OnClickClose()
 	{
@@ -115,7 +106,6 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
 	public void SelectAgentSkill(AgentUnit agent, SkillTypeInfo skillInfo)
 	{
-		//UseSkill.InitUseSkillAction(skillInfo, selectedAgentList[0].GetComponent<AgentUnit>(), targetCreature);
 		UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
 		CloseWindow ();
 	}
@@ -160,44 +150,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		UpdatePosition ();
 	}
 
-	/*
-	public void ShowSelectAgent(GameObject target)
-	{
-		this.target = target;
-		gameObject.SetActive (true);
-		selectedAgentList = new List<GameObject> ();
-		
-		Transform selectAgent = transform.FindChild ("SelectAgent");
-		Transform agentList = selectAgent.FindChild ("AgentList");
-		
-		//agentList.DetachChildren ();
-		foreach(Transform child in agentList)
-		{
-			Destroy(child.gameObject);
-		}
-		
-		AgentUnit[] agents = AgentFacade.instance.GetAgentList ();
-		
-		float ypos = 0;
-		for(int i=0; i<agents.Length; i++)
-		{
-			GameObject slot = Instantiate(Resources.Load<GameObject> ("Prefabs/AgentSlot")) as GameObject;
-			AgentSlot agentSlot = slot.GetComponent<AgentSlot>();
-			agentSlot.receiver = this;
-			agentSlot.slotIndex = i;
-			
-			Transform name = slot.transform.FindChild("Name");
-			name.gameObject.GetComponent<TextMesh>().text = agents[i].name;
-			
-			slot.transform.parent = agentList;
-			slot.transform.localPosition = new Vector3(0,ypos,0);
-			
-			ypos -= 0.4f;
-		}
-		
-		UpdatePosition ();
-	}
-	*/
+	
 	public void OnClickSlot(GameObject slotObject)
 	{
 		AgentSlot agentSlot = slotObject.GetComponent<AgentSlot> ();

@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour {
 		Notice.instance.Observe ("EnergyTimer", EnergyModel.instance);
 		GetComponent<RootTimer> ().AddTimer ("CreatureFeelingUpdateTimer", 10);
 
-
+        
 		AgentFacade.instance.AddAgent (1, 6, 0);
 		AgentFacade.instance.AddAgent (2, 7, 0);
 //		AgentFacade.instance.AddAgent (3, 8, 0);

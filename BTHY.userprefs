@@ -1,13 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Creatures\OneBadManyGood.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UnitActions\UseSkill.cs">
     <Files>
-      <File FileName="Assets\Scripts\Creatures\OldLady.cs" Line="23" Column="4" />
-      <File FileName="Assets\Scripts\Creatures\Fetus.cs" Line="50" Column="6" />
-      <File FileName="..\NewMoon_4_7\Assets\Scripts\Effect\SoundEffectPlayer.cs" Line="4" Column="1" />
-      <File FileName="Assets\Scripts\Creatures\HappyTeddy.cs" Line="72" Column="2" />
-      <File FileName="Assets\Scripts\Creatures\MatchGirl.cs" Line="102" Column="1" />
-      <File FileName="Assets\Scripts\Creatures\OneBadManyGood.cs" Line="33" Column="4" />
+      <File FileName="Assets\Scripts\Unit\AgentUnit.cs" Line="7" Column="14" />
+      <File FileName="Assets\Scripts\Model\Static\AgentTypeInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameStaticDataLoader.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Facade\AgentFacade.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\View\EnergyUIView.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Unit\CreatureUnit.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Unit\IsolateRoom.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Facade\CreatureFacade.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UnitActions\UseSkill.cs" Line="15" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
