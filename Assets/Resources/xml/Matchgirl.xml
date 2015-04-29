@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<creature>
+	<info id="10001"
+		name="행복할 성냥팔이소녀와 성냥들"
+		codeId="F-01-035-R"
+		level="THEH"
+		stackLevel="2"
+
+		attackType="RED"
+		intelligence="대화 가능"
+		
+		horrorProb="0.4"
+		horrorDmg="-20"
+		
+		physicsProb="0.1"
+		physicsDmg="1"
+		
+		mentalProb="0.7"
+		mentalDmg="40"
+
+		observeLevel="5"
+
+
+		script="MatchGirl"
+		>
+		<feeling max="300" downProb="0.1" downValue="4">
+			<section feelingValue="200" state="good" energy="2"/>
+			<section feelingValue="50" state="normal" energy="1"/>
+			<section feelingValue="0" state="bad" energy="0"/>
+		</feeling>
+		
+		<preferSkill type="indirect" bonus="0.25"/>
+		<rejectSkill type="direct" bonus="-0.2"/>
+		<rejectSkill type="block" bonus="-0.5"/>
+
+		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
+
+		<narration action="move">
+			-> #0(이)가 작업을 시작하러 성냥팔이 소녀의 방에 들어갑니다
+		</narration>
+
+		<narration action="start">
+			-> #0(이)가 성냥팔이 소녀에게 작업을 시작하고 있습니다. #0(이)가 살갑게 인사를 건넵니다. 소녀는 웃음으로 인사를 대신 받아주는 것 같네요.
+		</narration>
+
+		<narration action="mid1">
+			-> [
+			{소녀는 #0의 눈치를 보며 구석으로 숨어버립니다.},
+			{#0의 반응을 살피던 소녀는 이내 벽 뒤로 물러섭니다.},
+			{소녀는 구석에 자리를 잡은 뒤 #0가 하는 일을 물끄러미 관찰합니다.},
+			{소녀는 낯선 이에 겁을 먹었는지, 구석진 곳으로 향합니다.},
+			]
+		</narration>
+		<narration action="mid2">
+			-> [
+			{구석에서 소녀는 혼잣말을 하며 성냥들을 가지고 놉니다.},
+			{자리에 주저앉은 소녀는 들고 있던 바구니에서 성냥들을 꺼냅니다.},
+			{조금 무료했는지 이내 소녀는 자신의 바구니에 들어있던 성냥갑을 꺼냅니다.},
+			{소녀는 항상 갖고 다니던 바구니에 손을 넣어 성냥 뭉치들을 꺼냅니다.}
+			]
+		</narration>
+		<narration action="mid3">
+			-> [
+			{성냥갑에서 성냥 하나를 꺼내더니 불을 붙입니다. 일렁이는 불꽃 속에서 소녀는 즐거운 듯 웃음소리를 냅니다.},
+			{소녀는 성냥 여러 개를 쥐더니 한꺼번에 불을 붙입니다. 꽤 위험해 보임에도 소녀는 아랑곳 않습니다.},
+			{소녀는 익숙한 자세로 성냥갑을 그으며 불을 붙입니다.}
+			]
+		</narration>
+		<narration action="mid4">
+			-> [
+			{혼잣말을 계속하던 소녀는 “잘 가, 아빠”라고 중얼거립니다. 불꽃이 꺼지고 #0의 작업이 끝났습니다..},
+			{소녀가 불꽃을 바라보며 “좋은 꿈 꿔“ 라고 중얼거립니다. 불꽃 속엔 아무도 없지만 소녀의 눈동자엔 누군가가 비추듯이 일렁거립니다.},
+			{불꽃을 바라보며 에서 소녀는= 행복하게 웃습니다. 물론 불꽃 속엔 아무도, 아무 것도 없습니다.}
+			]
+		</narration>
+
+		<narration action="finish">
+			-> 청소 작업이 성공적으로 끝난 것 같네요. 소녀는 풀이 죽은 표정입니다.
+		</narration>
+
+		<narration action="special_ability1">
+			-> [
+			{성냥팔이 소녀가 먼저 말을 겁니다. “친절한 아저씨, 성냥 사실래요?”}
+			]
+		</narration>
+		<narration action="special_ability2">
+			-> [
+			{성냥에 불이 붙습니다. #0가 조그만 불꽃에서 무언가를 보았습니다.}
+			]
+		</narration>
+		<narration action="special_ability3">
+			-> [
+			{무엇을 보고 있는 건진 잘 모르겠군요. 충격을 먹은 듯 응시하고만 있습니다. 그리고..}
+			]
+		</narration>
+		<!--
+		<narration action="special_ability4">
+			-> [
+			{#0가 만족스럽다는 듯이 빨간 구두를 신고 또각 또각 하는 소리를 즐기고 있네요.}
+			]
+		</narration>
+	-->
+
+		<narration action="panic">
+			-> [
+			{#0의 눈엔 초점이 없습니다. 성냥의 불은 꺼진지 오래지만 #0의 정신도 같이 타 들어간 듯 #0는 아무런 명령도 듣지 않습니다.},
+			{#0의 얼굴이 잔뜩 일그러지더니 알아듣지 못할 소리를 지껄이며 방을 빠져나옵니다. 아무도 #0에게 말을 걸지 못합니다.}
+			]
+		</narration>
+
+		<narration action="dead">
+			-> [
+			{체력이 0이 되며 #0가 불꽃 속에서 총 45(직원 근무 일수 )일의 날들을 회상하며 죽어갑니다. 주변에는 그을음을 내며 타 들어가는 불꽃들이 타닥입니다.}
+			]
+		</narration>
+
+		<desc>
+			"허름한 망토를 입고 바구니를 들고 다니는 10세 안팎의 소녀의 모습이다."
+			"피부가 비정상적으로 차갑다."
+			"귀여운 소녀의 외모 때문에 상대를 방심시킬 수 있으니 유의해야 한다."
+
+			"눈이 마주칠 때 상냥한 표정을 지어주거나, 먼저 말을 걸 경우 공격성을 띈다."
+			"하지만 겉으로 보기엔 공격을 취한다고 보기 힘들기 때문에 본인이 공격을 당하는 걸 눈치채지 못 할 수 있다."
+			"평소에 갖고 다니는 성냥들에 불을 붙이면, 가상의 형태가 등장하는데 그것을 주시하고 있는 대상의 욕망에 따라 그 속성이 바뀐다."
+		</desc>
+
+		<observe>
+			"이것을 처음 보는 사람이라면 누구든지 상냥하게 웃으면서 도움이 필요하냐고 물어볼 거에요."
+			"전 교육을 받고 투입이 되었기 때문에 가까스로 참았지만, 말 그대로 동화에서 튀어나온 것 같은 생김새 때문에 무의식적으로 웃는 제스쳐를 취했어요. "
+			"(중략)"
+
+			"저한테 관심을 보이는 듯 하더군요."
+			"그리고 늘 가지고 다니는 성냥에 불을 비췄는데 불길 속에서 뭐가 나타났냐면..."
+			"(중략)"
+
+			"일주일 동안 작업을 쉬어야만 했어요."
+			"정신을 차리면 그것이 있는 방으로 발걸음이 향해지더군요."
+			"그것은 10살 또래 소녀들과는 확연히 달라요. "
+			"어쩌면 우리보다 지능이 높을 수도 있다는 사실을 항상 유의해야 할 거에요."
+			"(중략)"
+
+			"마지막으로 경고하는데, 그것 앞에서 절대로 다른 동화들을 언급해선 안돼요."
+			"가령 백설공주나, 신데렐라 같은 흔한 동화들이요..."
+		</observe>
+
+		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
+		<room src="creature_room1"/>
+		<frame src="Unit/creature/01_matchGirl_frame"/>
+
+		<graph>
+			<node id="creature" x="-1.6" y="-1" type="creature"/>
+			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
+			<node id="door"  x="2" y="-1" type="entry"/>
+			<edge node1="workspace" node2="door" type="road" />
+		</graph>
+
+		<sound action="attack" src="creature/match_girl/matchgirl_attack"/>
+		<sound action="enter" src="creature/match_girl/matchgirl_enter"/>
+	</info>
+</creature>

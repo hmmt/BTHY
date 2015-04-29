@@ -116,135 +116,147 @@ public class GameStaticDataLoader {
 	{
 		// creature
 
-        TextAsset textAsset = Resources.Load<TextAsset>("xml/Creatures");
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/CreatureList");
 
-        XmlDocument doc = new XmlDocument();
-        doc.LoadXml(textAsset.text);
-		
-		XmlNodeList nodes = doc.SelectNodes ("/creature_list/creature");
-		
-		List<CreatureTypeInfo> creatureTypeList = new List<CreatureTypeInfo> ();
-		
-		foreach(XmlNode node in nodes)
-		{
-			CreatureTypeInfo model = new CreatureTypeInfo();
-			
-			model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
-			model.name = node.Attributes.GetNamedItem("name").InnerText;
-			model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
-			model.level = node.Attributes.GetNamedItem("level").InnerText;
-			model.attackType = node.Attributes.GetNamedItem("attackType").InnerText;
-			model.intelligence = node.Attributes.GetNamedItem("intelligence").InnerText;
+        XmlDocument list_doc = new XmlDocument();
+        list_doc.LoadXml(textAsset.text);
+        XmlNodeList creature_list = list_doc.SelectNodes("/creature_list/creature");
 
-            model.stackLevel= int.Parse(node.Attributes.GetNamedItem("stackLevel").InnerText);
-            model.observeLevel = int.Parse(node.Attributes.GetNamedItem("observeLevel").InnerText);
+        List<CreatureTypeInfo> creatureTypeList = new List<CreatureTypeInfo>();
 
-			model.horrorProb = float.Parse(node.Attributes.GetNamedItem("horrorProb").InnerText);
-			model.horrorDmg = int.Parse(node.Attributes.GetNamedItem("horrorDmg").InnerText);
-			
-			model.physicsProb = float.Parse(node.Attributes.GetNamedItem("physicsProb").InnerText);
-			model.physicsDmg = int.Parse(node.Attributes.GetNamedItem("physicsDmg").InnerText);
-			
-			model.mentalProb = float.Parse(node.Attributes.GetNamedItem("mentalProb").InnerText);
-			model.mentalDmg = int.Parse(node.Attributes.GetNamedItem("mentalDmg").InnerText);
+        foreach (XmlNode pathInfoNode in creature_list)
+        {
+            string src = pathInfoNode.Attributes.GetNamedItem("src").InnerText;
 
-			model.script = node.Attributes.GetNamedItem("script").InnerText;
+            TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/"+src);
 
-			XmlNode feelingNode = node.SelectSingleNode("feeling");
-			model.feelingMax = int.Parse(feelingNode.Attributes.GetNamedItem("max").InnerText);
-			model.feelingDownProb = float.Parse(feelingNode.Attributes.GetNamedItem("downProb").InnerText);
-			model.feelingDownValue = int.Parse(feelingNode.Attributes.GetNamedItem("downValue").InnerText);
+            XmlDocument doc = new XmlDocument();
+            Debug.Log(src);
+            doc.LoadXml(creatureTextAsset.text);
 
-			XmlNode skillAttr = node.Attributes.GetNamedItem("specialSkillId");
-			if(skillAttr != null)
-			{
-				model.specialSkill = SkillTypeList.instance.GetData(long.Parse(skillAttr.InnerText));
-			}
+            XmlNodeList nodes = doc.SelectNodes("/creature/info");
 
-			List<int> energyItems = new List<int>();
-			XmlNodeList genEnergies = feelingNode.SelectNodes("section");
-
-			// temp
-			// TODO : must read feeling value
-			foreach(XmlNode itemNode in genEnergies)
-			{
-				energyItems.Add(int.Parse(itemNode.Attributes.GetNamedItem("energy").InnerText));
-			}
-			energyItems.Sort();
-			model.genEnergy = energyItems.ToArray();
-
-			
-			XmlNode preferSkillNode = node.SelectSingleNode("preferSkill");
-			model.prefer = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.preferBonus = float.Parse(preferSkillNode.Attributes.GetNamedItem("bonus").InnerText);
-			
-			XmlNode rejectSkillNode = node.SelectSingleNode("rejectSkill");
-			model.reject = rejectSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.rejectBonus = float.Parse(rejectSkillNode.Attributes.GetNamedItem("bonus").InnerText);
-			/*
-			XmlNodeList genEnergy = node.SelectNodes("genEnergy/item");
-			List<int> items = new List<int>();
-			foreach(XmlNode itemNode in genEnergy)
-			{
-				items.Add(int.Parse(itemNode.Attributes.GetNamedItem("value").InnerText));
-			}
-			items.Sort();
-			model.genEnergy = items.ToArray();
-			*/
-			
-			XmlNode imgNode = node.SelectSingleNode("img");
-			model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
-            XmlNode roomNode = node.SelectSingleNode("room");
-            model.roomsrc = roomNode.Attributes.GetNamedItem("src").InnerText;
-            XmlNode frameNode = node.SelectSingleNode("frame");
-            model.framesrc = frameNode.Attributes.GetNamedItem("src").InnerText;
-
-			Dictionary<string, string> typoTable = new Dictionary<string, string>();
-			XmlNodeList typoNodeList = node.SelectNodes("typo");
-			foreach(XmlNode typoNode in typoNodeList)
-			{
-				string key = typoNode.Attributes.GetNamedItem("action").InnerText;
-				string ttext = typoNode.InnerText;
-				
-				typoTable.Add(key, ttext);
-			}
-			model.typoTable = typoTable;
-
-			Dictionary<string, string> narrationTable = new Dictionary<string, string>();
-			XmlNodeList narrationNodeList = node.SelectNodes("narration");
-			foreach(XmlNode narrationNode in narrationNodeList)
-			{
-				string key = narrationNode.Attributes.GetNamedItem("action").InnerText;
-				string ntext = narrationNode.InnerText.Trim();
-
-				narrationTable.Add(key, ntext);
-			}
-			model.narrationTable = narrationTable;
-
-            Dictionary<string, string> soundTable = new Dictionary<string, string>();
-            XmlNodeList soundNodeList = node.SelectNodes("sound");
-            foreach (XmlNode soundNode in soundNodeList)
+            foreach (XmlNode node in nodes)
             {
-                string key = soundNode.Attributes.GetNamedItem("action").InnerText;
-                string stext = soundNode.Attributes.GetNamedItem("src").InnerText;
+                CreatureTypeInfo model = new CreatureTypeInfo();
 
-                soundTable.Add(key, stext);
+                model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+                model.name = node.Attributes.GetNamedItem("name").InnerText;
+                model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
+                model.level = node.Attributes.GetNamedItem("level").InnerText;
+                model.attackType = node.Attributes.GetNamedItem("attackType").InnerText;
+                model.intelligence = node.Attributes.GetNamedItem("intelligence").InnerText;
+
+                model.stackLevel = int.Parse(node.Attributes.GetNamedItem("stackLevel").InnerText);
+                model.observeLevel = int.Parse(node.Attributes.GetNamedItem("observeLevel").InnerText);
+
+                model.horrorProb = float.Parse(node.Attributes.GetNamedItem("horrorProb").InnerText);
+                model.horrorDmg = int.Parse(node.Attributes.GetNamedItem("horrorDmg").InnerText);
+
+                model.physicsProb = float.Parse(node.Attributes.GetNamedItem("physicsProb").InnerText);
+                model.physicsDmg = int.Parse(node.Attributes.GetNamedItem("physicsDmg").InnerText);
+
+                model.mentalProb = float.Parse(node.Attributes.GetNamedItem("mentalProb").InnerText);
+                model.mentalDmg = int.Parse(node.Attributes.GetNamedItem("mentalDmg").InnerText);
+
+                model.script = node.Attributes.GetNamedItem("script").InnerText;
+
+                XmlNode feelingNode = node.SelectSingleNode("feeling");
+                model.feelingMax = int.Parse(feelingNode.Attributes.GetNamedItem("max").InnerText);
+                model.feelingDownProb = float.Parse(feelingNode.Attributes.GetNamedItem("downProb").InnerText);
+                model.feelingDownValue = int.Parse(feelingNode.Attributes.GetNamedItem("downValue").InnerText);
+
+                XmlNode skillAttr = node.Attributes.GetNamedItem("specialSkillId");
+                if (skillAttr != null)
+                {
+                    model.specialSkill = SkillTypeList.instance.GetData(long.Parse(skillAttr.InnerText));
+                }
+
+                List<int> energyItems = new List<int>();
+                XmlNodeList genEnergies = feelingNode.SelectNodes("section");
+
+                // temp
+                // TODO : must read feeling value
+                foreach (XmlNode itemNode in genEnergies)
+                {
+                    energyItems.Add(int.Parse(itemNode.Attributes.GetNamedItem("energy").InnerText));
+                }
+                energyItems.Sort();
+                model.genEnergy = energyItems.ToArray();
+
+
+                XmlNode preferSkillNode = node.SelectSingleNode("preferSkill");
+                model.prefer = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
+                model.preferBonus = float.Parse(preferSkillNode.Attributes.GetNamedItem("bonus").InnerText);
+
+                XmlNode rejectSkillNode = node.SelectSingleNode("rejectSkill");
+                model.reject = rejectSkillNode.Attributes.GetNamedItem("type").InnerText;
+                model.rejectBonus = float.Parse(rejectSkillNode.Attributes.GetNamedItem("bonus").InnerText);
+                /*
+                XmlNodeList genEnergy = node.SelectNodes("genEnergy/item");
+                List<int> items = new List<int>();
+                foreach(XmlNode itemNode in genEnergy)
+                {
+                    items.Add(int.Parse(itemNode.Attributes.GetNamedItem("value").InnerText));
+                }
+                items.Sort();
+                model.genEnergy = items.ToArray();
+                */
+
+                XmlNode imgNode = node.SelectSingleNode("img");
+                model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
+                XmlNode roomNode = node.SelectSingleNode("room");
+                model.roomsrc = roomNode.Attributes.GetNamedItem("src").InnerText;
+                XmlNode frameNode = node.SelectSingleNode("frame");
+                model.framesrc = frameNode.Attributes.GetNamedItem("src").InnerText;
+
+                Dictionary<string, string> typoTable = new Dictionary<string, string>();
+                XmlNodeList typoNodeList = node.SelectNodes("typo");
+                foreach (XmlNode typoNode in typoNodeList)
+                {
+                    string key = typoNode.Attributes.GetNamedItem("action").InnerText;
+                    string ttext = typoNode.InnerText;
+
+                    typoTable.Add(key, ttext);
+                }
+                model.typoTable = typoTable;
+
+                Dictionary<string, string> narrationTable = new Dictionary<string, string>();
+                XmlNodeList narrationNodeList = node.SelectNodes("narration");
+                foreach (XmlNode narrationNode in narrationNodeList)
+                {
+                    string key = narrationNode.Attributes.GetNamedItem("action").InnerText;
+                    string ntext = narrationNode.InnerText.Trim();
+
+                    narrationTable.Add(key, ntext);
+                }
+                model.narrationTable = narrationTable;
+
+                Dictionary<string, string> soundTable = new Dictionary<string, string>();
+                XmlNodeList soundNodeList = node.SelectNodes("sound");
+                foreach (XmlNode soundNode in soundNodeList)
+                {
+                    string key = soundNode.Attributes.GetNamedItem("action").InnerText;
+                    string stext = soundNode.Attributes.GetNamedItem("src").InnerText;
+
+                    soundTable.Add(key, stext);
+                }
+                model.soundTable = soundTable;
+
+                XmlNode descNode = node.SelectSingleNode("desc");
+                string descData = descNode.InnerText;
+                model.desc = TextConverter.TranslateDescData(descData);
+
+                XmlNode observeNode = node.SelectSingleNode("observe");
+                string observeData = observeNode.InnerText;
+                model.observe = TextConverter.TranslateDescData(observeData);
+
+                // inner graph
+                model.nodeInfo = node.SelectNodes("graph/node");
+                model.edgeInfo = node.SelectNodes("graph/edge");
+                creatureTypeList.Add(model);
             }
-            model.soundTable = soundTable;
-
-            XmlNode descNode = node.SelectSingleNode("desc");
-            string descData = descNode.InnerText;
-            model.desc = TextConverter.TranslateDescData(descData);
-
-            XmlNode observeNode = node.SelectSingleNode("observe");
-            string observeData = observeNode.InnerText;
-            model.observe = TextConverter.TranslateDescData(observeData);
-
-            // inner graph
-            model.nodeInfo = node.SelectNodes("graph/node");
-            model.edgeInfo = node.SelectNodes("graph/edge");
-			creatureTypeList.Add(model);
-		}
+        }
 		
 		CreatureTypeList.instance.Init (creatureTypeList.ToArray ());
 	}

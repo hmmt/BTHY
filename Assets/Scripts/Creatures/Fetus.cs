@@ -4,10 +4,10 @@ using System.Collections;
 public class Fetus : CreatureBase
 {
     private float feedTimer = 0;
-    private float feedLimit = 18.0f;
+    private float feedLimit = 180.0f;
 
     private float cryTimer = 0;
-    private float cryLimit = 12.0f;
+    private float cryLimit = 120.0f;
 
     public override void FixedUpdate(CreatureUnit creature)
     {
@@ -31,8 +31,6 @@ public class Fetus : CreatureBase
         if(cryTimer > cryLimit)
         {
             cryTimer = 0;
-
-            Debug.Log("전체공격");
 
             // 전체공격!!!!
             foreach (AgentUnit agent in AgentFacade.instance.GetAgentList())
