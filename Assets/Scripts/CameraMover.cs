@@ -8,7 +8,7 @@ public class CameraMover : MonoBehaviour {
 		//float a = Camera.main.aspect * Camera.main.orthographicSize;
 		Vector3 pos = Input.mousePosition;
 
-		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)|| pos.x < 10)
+		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
 		{
 			Vector3 newPos = Camera.main.transform.localPosition;
 			newPos.x -= 0.1f;
@@ -16,14 +16,14 @@ public class CameraMover : MonoBehaviour {
 		}
 
 
-		if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || pos.x > Screen.width - 10)
+		if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
 		{
 			Vector3 newPos = Camera.main.transform.localPosition;
 			newPos.x += 0.1f;
 			Camera.main.transform.localPosition = newPos;
 		}
 
-		if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || pos.y < 10)
+		if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
 		{
 			Vector3 newPos = Camera.main.transform.localPosition;
 			newPos.y -= 0.1f;
@@ -31,7 +31,7 @@ public class CameraMover : MonoBehaviour {
 		}
 		
 		
-		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || pos.y > Screen.height - 10)
+		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 		{
 			Vector3 newPos = Camera.main.transform.localPosition;
 			newPos.y += 0.1f;

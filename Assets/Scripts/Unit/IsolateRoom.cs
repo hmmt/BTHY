@@ -9,8 +9,31 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 	public SpriteRenderer roomSpriteRenderer;
     public RectTransform touchButtonTransform;
 
+    public GameObject workLog;
+    public GameObject collection;
+
 	public SpriteRenderer roomFogRenderer;
 
+    public void Awake()
+    {
+        workLog = GameObject.FindGameObjectWithTag("AnimationController");
+        //collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
+    }
+
+    public void onClickWorkLog()
+    {
+        if (workLog.GetComponent<Animator>().GetBool("isTrue"))
+        {
+            Debug.Log(workLog.GetComponent<Animator>().GetBool("isTrue"));
+
+            workLog.GetComponent<Animator>().SetBool("isTrue", false);
+        }
+        else
+        {
+            Debug.Log(workLog.GetComponent<Animator>().GetBool("isTrue"));
+            workLog.GetComponent<Animator>().SetBool("isTrue", true);
+        }
+    }
 	
 	public CreatureUnit targetUnit
 	{   
@@ -66,7 +89,23 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void OnClick()
     {
+        CreatureUnit oldCreature = (CollectionWindow.currentWindow != null )? CollectionWindow.currentWindow.GetCreature() : null;
         CollectionWindow.Create(_targetUnit);
+
+        // TODO : 최적화 필요
+        collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
+
+        
+        if (collection.GetComponent<Animator>().GetBool("isTrue"))
+        {
+            Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
+            collection.GetComponent<Animator>().SetBool("isTrue", false);
+        }
+        else if (oldCreature == _targetUnit)
+        {
+            Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
+            collection.GetComponent<Animator>().SetBool("isTrue", true);
+        }
     }
 
 	public void OnNotice(string notice, params object[] param)

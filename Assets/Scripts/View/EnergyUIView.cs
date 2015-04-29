@@ -11,10 +11,22 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 	public UnityEngine.UI.Text mustEnergyNum;
 	public UnityEngine.UI.Text leftEnergyNum;
 
+    public Animator energyView;
+  
 	private float mustFillEnergy = 400;
 	private float leftFillEnergy = 400;
 
 	private float chargeTick=0;
+
+    public void openSettings()
+    {
+        Debug.Log("UI버튼");
+
+        if(energyView.GetBool("isHidden"))
+            energyView.SetBool("isHidden",false);
+        else
+            energyView.SetBool("isHidden", true);
+    }
 
 	void Start()
 	{

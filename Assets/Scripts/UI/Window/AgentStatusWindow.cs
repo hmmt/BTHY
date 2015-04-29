@@ -9,7 +9,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	public UnityEngine.UI.Text LevelText;
 	public UnityEngine.UI.Text GenderText;
 	public UnityEngine.UI.Text WorkDayText;
-	
+
+  
 	public Transform anchor;
 
 	public UnityEngine.UI.Image agentIcon;
@@ -37,13 +38,20 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	
 	public static AgentStatusWindow CreateWindow(AgentUnit unit)
 	{
-		if(currentWindow != null)
-		{
-			currentWindow.CloseWindow();
-		}
-		GameObject newObj = Instantiate(Resources.Load<GameObject> ("Prefabs/AgentStatusWindow")) as GameObject;
+        GameObject newObj;
+        AgentStatusWindow inst;
+        if (currentWindow != null)
+        {
+            newObj = currentWindow.gameObject;
+            //currentWindow.CloseWindow();
+        }
+        else
+        {
+            newObj = Prefab.LoadPrefab("AgentStatusWindow");
+        }
 		
-		AgentStatusWindow inst = newObj.GetComponent<AgentStatusWindow> ();
+		 inst = newObj.GetComponent<AgentStatusWindow> ();
+
 		inst.target = unit;
 		inst.UpdateCreatureStatus ();
 		inst.UpdatePosition ();
@@ -119,8 +127,10 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	
 	public void CloseWindow()
 	{
-		currentWindow = null;
-		Destroy (gameObject);
+        GameObject.FindGameObjectWithTag("AnimAgentController")
+            .GetComponent<Animator>().SetBool("isTrue", true);
+		//currentWindow = null;
+		//Destroy (gameObject);
 	}
 
 	public void Test()

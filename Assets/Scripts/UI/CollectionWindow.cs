@@ -46,14 +46,19 @@ public class CollectionWindow : MonoBehaviour {
 
 	public static void Create(CreatureUnit creature)
     {
+        GameObject wndObject;
+        CollectionWindow wnd;
+
         if (currentWindow != null)
         {
-            currentWindow.CloseWindow();
+            wndObject = currentWindow.gameObject;
+            //currentWindow.CloseWindow();
         }
-
-        GameObject wndObject = Prefab.LoadPrefab("CollectionWindow");
-
-        CollectionWindow wnd = wndObject.GetComponent<CollectionWindow>();
+        else
+        {
+            wndObject = Prefab.LoadPrefab("CollectionWindow");
+        }
+            wnd = wndObject.GetComponent<CollectionWindow>();
 
         wnd.creature = creature;
 
@@ -75,9 +80,16 @@ public class CollectionWindow : MonoBehaviour {
         currentWindow = wnd;
     }
 
+    public CreatureUnit GetCreature()
+    {
+        return creature;
+    }
+
     public void CloseWindow()
     {
-        currentWindow = null;
-        Destroy(gameObject);
+        //currentWindow = null;
+        GameObject.FindGameObjectWithTag("AnimCollectionController")
+            .GetComponent<Animator>().SetBool("isTrue", true);
+        //Destroy(gameObject);
     }
 }

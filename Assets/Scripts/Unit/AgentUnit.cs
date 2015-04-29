@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class AgentUnit : MonoBehaviour {
 
+    public GameObject agentWindow;
+
 	// game data
 	public AgentTypeInfo metadata;
 	public long metadataId;
@@ -416,7 +418,22 @@ public class AgentUnit : MonoBehaviour {
 
 	public void OpenStatusWindow()
 	{
+        AgentUnit oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
 		AgentStatusWindow.CreateWindow (this);
+
+        // TODO : 최적화 필요
+        agentWindow = GameObject.FindGameObjectWithTag("AnimAgentController");
+
+        if (agentWindow.GetComponent<Animator>().GetBool("isTrue"))
+        {
+            Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
+            agentWindow.GetComponent<Animator>().SetBool("isTrue", false);
+        }
+        else if(oldUnit == this)
+        {
+            Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
+            agentWindow.GetComponent<Animator>().SetBool("isTrue", true);
+        }
 	}
 /*
 	void MoveOnPath(AIPoint[] dir)
