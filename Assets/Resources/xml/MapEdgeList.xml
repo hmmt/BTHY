@@ -59,4 +59,14 @@
 
 	<edge node1="N-center-point" node2="N-center-way-point1" type="road" />
 
+	<edge node1="1002102" node2="H-way1-point1" type="road" />
+	<edge node1="H-way1-point1" node2="H-way1-point2" type="road" />
+	<edge node1="H-way1-point2" node2="H-way1-point3" type="road" />
+
+	<edge node1="H-way1-point3" node2="H-center-point" type="road" />
+	<edge node1="H-center-point" node2="H-way2-point1" type="road" />
+	<edge node1="H-way2-point1" node2="H-way2-point2" type="road" />
+
+	<edge node1="H-center-point" node2="H-center-way-point1" type="road" />
+
 </edge_list>

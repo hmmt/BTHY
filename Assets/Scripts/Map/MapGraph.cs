@@ -62,6 +62,7 @@ public class MapGraph : MonoBehaviour
 
             nodeDic.Add(id, new MapNode(id, new Vector2(x, y)));
 
+            // 게임 뷰에 위치 표시
             GameObject nodePoint = Prefab.LoadPrefab("NodePoint");
 
             nodePoint.transform.SetParent(gameObject.transform);
@@ -105,8 +106,16 @@ public class MapGraph : MonoBehaviour
             }
             edgeList.Add(edge);
 
+
             node1.AddEdge(edge);
             node2.AddEdge(edge);
+
+
+            // 게임 뷰에 위치 표시
+            GameObject edgeLine = Prefab.LoadPrefab("EdgeLine");
+            edgeLine.transform.SetParent(gameObject.transform);
+            edgeLine.GetComponent<LineRenderer>().SetPosition(0, new Vector3(node1.GetPosition().x, node1.GetPosition().y, 0));
+            edgeLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(node2.GetPosition().x, node2.GetPosition().y, 0));
         }
 
         graphNodes = nodeDic;

@@ -58,6 +58,18 @@
 	<node id="N-center-point" x="-30" y="-20"  comment="갈래길"/>
 	<node id="N-center-way-point1" x="-18" y="-20" />
 
+<!--  -->
+	<node id="H-way1-point1" x="30" y="2.5"/>
+
+	<node id="H-way1-point2" x="30" y="-4" />
+	<node id="H-way1-point3" x="30" y="-10" />
+
+	<node id="H-way2-point1" x="30" y="-30" />
+	<node id="H-way2-point2" x="30" y="-36" />
+
+	<node id="H-center-point" x="30" y="-20"  comment="갈래길"/>
+	<node id="H-center-way-point1" x="18" y="-20" />
+
 	<!--
 	<node id="1003112" x="0" y="-5" />
 
