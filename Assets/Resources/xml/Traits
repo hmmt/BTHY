@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<traits>
+	<trait id="10001" name="열등감" hp="0" mental="-20" moveSpeed="0" workSpeed="0" />
+	<trait id="10002" name="허약함" hp="-1" mental="0" moveSpeed="-1" workSpeed="0" />
+	<trait id="10003" name="구부정한 자세" hp="0" mental="0" moveSpeed="0" workSpeed="0" />
+	<trait id="10004" name="높은 집중력" hp="0" mental="0" moveSpeed="0" workSpeed="1" />
+	<trait id="10005" name="게으름" hp="0" mental="0" moveSpeed="0" workSpeed="-2" />
+	<trait id="10006" name="운동애호가" hp="2" mental="0" moveSpeed="0" workSpeed="0" />
+	<trait id="10007" name="날다람쥐" hp="0" mental="0" moveSpeed="1" workSpeed="1" />
+	<trait id="10008" name="골초" hp="-1" mental="0" moveSpeed="0" workSpeed="0" />
+	<trait id="10009" name="부우지어러언함" hp="0" mental="0" moveSpeed="-1" workSpeed="1" />
+
+</traits>

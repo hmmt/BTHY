@@ -92,6 +92,9 @@ public class UseSkill : MonoBehaviour {
         if(workPlaying && readyToFinish)
         {
             FinshWork();
+
+            agent.expSuccess++;
+
 			string narration = agent.name+"( 이)가 "+skillTypeInfo.name+" 작업을 완료하였습니다.";
 			Notice.instance.Send("AddSystemLog", narration);
         }
@@ -230,6 +233,9 @@ public class UseSkill : MonoBehaviour {
                     if (physicsAtk)
                     {
                         agent.hp -= targetCreature.metaInfo.physicsDmg;
+                        agent.expHpDamage += targetCreature.metaInfo.physicsDmg;
+         
+
                         agentUpdated = true;
 
                         AgentHitEffect.Create(agent);
@@ -245,6 +251,8 @@ public class UseSkill : MonoBehaviour {
                     if (mentalAtk)
                     {
                         agent.mental -= targetCreature.metaInfo.mentalDmg;
+                        agent.expMentalDamage += targetCreature.metaInfo.mentalDmg;
+
                         agentUpdated = true;
                     }
                 }
@@ -275,6 +283,9 @@ public class UseSkill : MonoBehaviour {
 
             FinshWork();
             agent.Panic();
+
+            agent.expFail++;
+
 			string narration = this.name+" (이)가 공황에 빠져 "+skillTypeInfo.name+" 작업에 실패하였습니다.";
 			Notice.instance.Send("AddSystemLog", narration);
         }

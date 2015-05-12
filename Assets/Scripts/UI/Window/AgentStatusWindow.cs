@@ -10,6 +10,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	public UnityEngine.UI.Text GenderText;
 	public UnityEngine.UI.Text WorkDayText;
 
+    public UnityEngine.UI.Text TraitText;
+
   
 	public Transform anchor;
 
@@ -118,6 +120,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 		LevelText.text = ""+target.level;
 		GenderText.text = ""+target.gender;
 		WorkDayText.text = ""+target.workDays;
+
+        TraitText.text = "<"+target.traitNameList[0]+">";
 	}
 	
 	public void OnClickClose()

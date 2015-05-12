@@ -144,7 +144,7 @@
 		</observe>
 
 		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
-		<room src="creature_room1"/>
+		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/01_matchGirl_frame"/>
 
 		<graph>

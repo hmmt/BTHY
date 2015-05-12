@@ -4,13 +4,13 @@
 		id="1"
 		name="은봉"
 		hp="4"
-		mental="120"
-		movement="2"
+		mental="100"
+		movement="4"
 		work="4"
 		level="1"
 		gender="Female"
 		workDays="1"
-		
+
 		directSkillId="10001"
 		indirectSkillId="20001"
 		blockSkillId="30001"

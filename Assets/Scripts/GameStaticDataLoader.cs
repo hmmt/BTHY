@@ -13,8 +13,37 @@ public class GameStaticDataLoader {
 		loader.LoadSKillData ();
 		loader.LoadCreatureData ();
 		loader.LoadAgentData ();
+
+        loader.LoadTraitData();
 	}
 
+    public void LoadTraitData()
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Traits");
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        XmlNodeList nodes = doc.SelectNodes("/traits/trait");
+
+        List<TraitTypeInfo> traitTypeList = new List<TraitTypeInfo>();
+
+        foreach (XmlNode node in nodes)
+        {
+            TraitTypeInfo model = new TraitTypeInfo();
+
+            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            model.name = node.Attributes.GetNamedItem("name").InnerText;
+            model.hp = int.Parse(node.Attributes.GetNamedItem("hp").InnerText);
+            model.mental = int.Parse(node.Attributes.GetNamedItem("mental").InnerText);
+
+            model.moveSpeed = int.Parse(node.Attributes.GetNamedItem("moveSpeed").InnerText);
+            model.workSpeed = int.Parse(node.Attributes.GetNamedItem("workSpeed").InnerText);
+
+            traitTypeList.Add(model);
+        }
+        TraitTypeList.instance.Init(traitTypeList.ToArray());
+    }
 
 	public void LoadSKillData()
 	{

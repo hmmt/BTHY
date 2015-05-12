@@ -10,7 +10,7 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 
 	private float boxPosition = 200;
 
-	private float lastTextPosition = -200;
+	private float lastTextPosition = -300;
 	private float lastTextHeight = 0;
 
     private float diff = 15f;
@@ -32,7 +32,7 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 	public void AddText(string msg)
 	{
 		
-		GameObject logTextObj = Prefab.LoadPrefab ("NarrationText");
+		GameObject logTextObj = Prefab.LoadPrefab ("SystemText");
 		
 		Text textUI = logTextObj.GetComponent<Text> ();
 
@@ -75,11 +75,11 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 
         if (addedText)
         {
-            GameObject logTextLineObj = Prefab.LoadPrefab("NarrationText");
+            GameObject logTextLineObj = Prefab.LoadPrefab("SystemText");
             Text textLine = logTextLineObj.GetComponent<Text>();
 
             textLine.transform.SetParent(logBoard.transform, false);
-            textLine.text = "---------------------------------------------------------";
+            textLine.text = "-------------------------------------------------";
 
             RectTransform textLineRt = logTextLineObj.GetComponent<RectTransform>();
             Vector3 textLinePos = textLineRt.localPosition;
@@ -96,6 +96,7 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 	{
 		if("AddSystemLog" == notice)
 		{
+            Debug.Log("텍스트가 뜬다");
 			AddText (" "+(string)param [0]);
 		}
 	}

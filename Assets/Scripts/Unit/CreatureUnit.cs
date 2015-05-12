@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class CreatureUnit : MonoBehaviour, IObserver {
+   
+    //환상체 나레이션 저장 List
+    public List<string> narrationList;
 
 	public CreatureTypeInfo metaInfo;
 
@@ -146,7 +149,8 @@ public class CreatureUnit : MonoBehaviour, IObserver {
 		if(metaInfo.narrationTable.TryGetValue (narrationKey, out narrationFormat))
 		{
 			string narration = TextConverter.GetTextFromFormatText(narrationFormat, param);
-			Notice.instance.Send("AddNarrationLog", narration);
+            narrationList.Add(narration);
+			Notice.instance.Send("AddNarrationLog", narration,this);
 		}
 	}
 
