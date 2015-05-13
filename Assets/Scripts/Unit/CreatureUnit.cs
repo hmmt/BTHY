@@ -173,6 +173,17 @@ public class CreatureUnit : MonoBehaviour, IObserver {
         Notice.instance.Send("UpdateCreatureState_" + gameObject.GetInstanceID());
 	}
 
+    public string GetObserveText()
+    {
+        string output = "";
+        int level = Mathf.Clamp(observeProgress, 0, metaInfo.observeList.Length-1);
+        for(int i=0; i<=level; i++)
+        {
+            output += metaInfo.observeList[i];
+        }
+        return output;
+    }
+
 	public void OnClicked()
 	{
 		if(state == CreatureState.WAIT)

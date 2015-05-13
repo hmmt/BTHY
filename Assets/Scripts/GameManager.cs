@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
 //		AgentFacade.instance.AddAgent (4, 7, 1);
 
 		CreatureFacade.instance.AddCreature (10001, "1002001", -8, -1);
-		CreatureFacade.instance.AddCreature (10002, "1003002", -16, -1);
+		/*CreatureFacade.instance.AddCreature (10002, "1003002", -16, -1);
 		CreatureFacade.instance.AddCreature (10003, "1004101", 8, -1);
 		CreatureFacade.instance.AddCreature (10004, "1004102", 17, -1);
 		CreatureFacade.instance.AddCreature (10005, "1003111-left-1", -10, -9);
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour {
 
         CreatureFacade.instance.AddCreature(10001, "N-center-way-point1", -18, -16);
         CreatureFacade.instance.AddCreature(10001, "N-center-way-point1", -18, -24);
-
+*/
 		Notice.instance.Send ("AddPlayerLog", "game start가나다");
 	}
 

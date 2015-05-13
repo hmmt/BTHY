@@ -248,8 +248,18 @@ public class GameStaticDataLoader {
                 model.desc = TextConverter.TranslateDescData(descData);
 
                 XmlNode observeNode = node.SelectSingleNode("observe");
+                XmlNodeList observeSubList = observeNode.SelectNodes("observe_sub");
+                List<string> observeTexts = new List<string>();
+                foreach (XmlNode observeSub in observeSubList)
+                {
+                    observeTexts.Add(TextConverter.TranslateDescData(observeSub.InnerText));
+                }
+
                 string observeData = observeNode.InnerText;
                 model.observe = TextConverter.TranslateDescData(observeData);
+                model.observeList = observeTexts.ToArray();
+
+                Debug.Log(model.observeList);
 
                 // inner graph
                 model.nodeInfo = node.SelectNodes("graph/node");

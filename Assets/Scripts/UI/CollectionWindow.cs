@@ -63,8 +63,7 @@ public class CollectionWindow : MonoBehaviour {
         wnd.creature = creature;
 
         wnd.descText.text = creature.metaInfo.desc;
-
-        wnd.observeText.text = creature.metaInfo.observe;
+        wnd.observeText.text = creature.GetObserveText();
 
 		wnd.name.text = creature.metaInfo.name;
 		wnd.code.text = creature.metaInfo.codeId;

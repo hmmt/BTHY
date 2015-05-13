@@ -53,6 +53,7 @@ public class CreatureTypeInfo
 
     public string desc;
     public string observe;
+    public string[] observeList;
 
     public XmlNodeList nodeInfo;
     public XmlNodeList edgeInfo;
