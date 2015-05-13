@@ -10,6 +10,8 @@ public class CollectionWindow : MonoBehaviour {
     public UnityEngine.UI.Text descText;
     public UnityEngine.UI.Text observeText;
 
+    //public UnityEngine.UI.Text observeSubText;
+
 	public UnityEngine.UI.Text code;
 	public UnityEngine.UI.Text name;
 	public UnityEngine.UI.Text dangerLevel;
@@ -40,7 +42,7 @@ public class CollectionWindow : MonoBehaviour {
 
     public void onClickObserveButton()
     {
-        Debug.Log("");
+        Debug.Log("Sibal Clicked");
         SelectObserveAgentWindow.CreateWindow(creature);
     }
 

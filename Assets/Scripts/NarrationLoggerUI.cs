@@ -4,7 +4,17 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class NarrationLoggerUI : MonoBehaviour, IObserver {
-	public GameObject logBoard;
+
+
+    public CreatureUnit newInputCreature;
+    public CreatureUnit oldInputCreature;
+    public CreatureUnit targetCreature;
+
+    public static NarrationLoggerUI instantNarrationLog;
+
+    public GameObject logBoard;
+
+    private int logSize = 0;
 	
 	//private int boxHeight = 200;
 
@@ -26,11 +36,13 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 
     void Start()
     {
+        instantNarrationLog = this;
     }
 	
 	public void AddText(string msg)
 	{
-		
+        oldInputCreature = newInputCreature;
+
 		GameObject logTextObj = Prefab.LoadPrefab ("NarrationText");
 		
 		Text textUI = logTextObj.GetComponent<Text> ();
@@ -78,7 +90,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
             Text textLine = logTextLineObj.GetComponent<Text>();
 
             textLine.transform.SetParent(logBoard.transform, false);
-            textLine.text = "---------------------------------------------------------";
+            textLine.text = "---------------------------------------------------";
 
             RectTransform textLineRt = logTextLineObj.GetComponent<RectTransform>();
             Vector3 textLinePos = textLineRt.localPosition;
@@ -93,9 +105,43 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	
 	public void OnNotice(string notice, params object[] param)
 	{
-		if("AddNarrationLog" == notice)
+        if ("AddNarrationLog" == notice && targetCreature == (CreatureUnit)param[1])
 		{
 			AddText (" "+(string)param [0]);
+            newInputCreature = (CreatureUnit)param[1];
 		}
 	}
+
+    //리스트를 받아와서 기존에 있는걸 clear시키고 받아온 리스트들의 로그를 출력한다.
+    public void setLogList(CreatureUnit focusCreature)
+    {
+        newInputCreature = focusCreature;
+
+        if (oldInputCreature != newInputCreature)
+        {
+            logClear();
+            foreach(string narrationLog in newInputCreature.narrationList)
+            {
+                AddText(""+narrationLog);
+            }
+            oldInputCreature = newInputCreature;
+        }
+    }
+
+    public void logClear()
+    {
+        foreach (Transform child in logBoard.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        logSize = 0;
+        boxPosition = 200;
+        lastTextPosition = -200;
+        lastTextHeight = 0;
+
+        diff = 15f;
+
+        addedText = false;
+    }
 }

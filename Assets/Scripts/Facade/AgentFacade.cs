@@ -52,6 +52,8 @@ public class AgentFacade : MonoBehaviour {
 	{
 		AgentTypeInfo info = AgentTypeList.instance.GetData (typeId);
 
+        TraitTypeInfo traitInfo = TraitTypeList.instance.GetRandomInitTrait();
+
 		if(info == null)
 		{
 			return null;
@@ -59,14 +61,17 @@ public class AgentFacade : MonoBehaviour {
 
 		AgentUnit unit = NewAgent ();
 
+        unit.traitNameList.Add(traitInfo.name);
+
 		unit.metadata = info;
 		unit.metadataId = info.id;
 		
 		unit.name = info.name;
-		unit.hp = info.hp;
-		unit.mental = info.mental;
-		unit.movement = info.movement;
-		unit.work = info.work;
+
+		unit.hp = info.hp + traitInfo.hp;
+		unit.mental = info.mental + traitInfo.mental;
+		unit.movement = info.movement + traitInfo.moveSpeed;
+		unit.work = info.work + traitInfo.workSpeed;
 
 		unit.gender = info.gender;
 		unit.level = info.level;
@@ -96,6 +101,9 @@ public class AgentFacade : MonoBehaviour {
 		unit.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
 */
 		unit.SetMaxHP (info.hp);
+
+
+
 
 		return unit;
 	}

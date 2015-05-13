@@ -7,6 +7,9 @@ public class AgentUnit : MonoBehaviour {
     public GameObject agentWindow;
 
 	// game data
+
+    //public TraitTypeInfo metaTraitInfo;
+
 	public AgentTypeInfo metadata;
 	public long metadataId;
 	public string name;
@@ -15,6 +18,13 @@ public class AgentUnit : MonoBehaviour {
 	public string gender;
 	public int level;
 	public int workDays;
+
+    public int expFail = 0;
+    public int expSuccess = 0;
+    public int expHpDamage = 0;
+    public int expMentalDamage = 0;
+
+    public List<string> traitNameList;
 
 	public int mental;
 	public int movement;

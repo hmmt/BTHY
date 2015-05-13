@@ -120,7 +120,7 @@
 		</observe>
 
 		<img src="Unit/creature/oneGoodManyBad" x="-1" y="-1"/>
-		<room src="Unit/creature/nameless_baby_room"/>
+		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/oneGoodManyBad_Frame"/>
 		
 		<graph>

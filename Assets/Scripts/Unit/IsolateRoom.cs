@@ -22,17 +22,20 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void onClickWorkLog()
     {
-        if (workLog.GetComponent<Animator>().GetBool("isTrue"))
+        //workLog.GetComponent<Animator>().GetBool("isTrue") && 
+        if (workLog.GetComponent<Animator>().GetBool("isTrue") && NarrationLoggerUI.instantNarrationLog.newInputCreature == _targetUnit)
         {
-            Debug.Log(workLog.GetComponent<Animator>().GetBool("isTrue"));
-
             workLog.GetComponent<Animator>().SetBool("isTrue", false);
-        }
-        else
-        {
             Debug.Log(workLog.GetComponent<Animator>().GetBool("isTrue"));
-            workLog.GetComponent<Animator>().SetBool("isTrue", true);
         }
+        else if (workLog.GetComponent<Animator>().GetBool("isTrue") == false)
+        {
+            workLog.GetComponent<Animator>().SetBool("isTrue", true);
+            Debug.Log("sibal");
+        }
+
+        NarrationLoggerUI.instantNarrationLog.targetCreature = _targetUnit;
+        NarrationLoggerUI.instantNarrationLog.setLogList(_targetUnit);
     }
 	
 	public CreatureUnit targetUnit
@@ -91,6 +94,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     {
         CreatureUnit oldCreature = (CollectionWindow.currentWindow != null )? CollectionWindow.currentWindow.GetCreature() : null;
         CollectionWindow.Create(_targetUnit);
+
 
         // TODO : 최적화 필요
         collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
