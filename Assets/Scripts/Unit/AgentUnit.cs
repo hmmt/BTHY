@@ -15,6 +15,10 @@ public class AgentUnit : MonoBehaviour {
 	public string name;
 	public int hp;
 
+    //public TraitTypeInfo[] traitList;
+
+    public List<TraitTypeInfo> traitList;
+
 	public string gender;
 	public int level;
 	public int workDays;
@@ -25,6 +29,9 @@ public class AgentUnit : MonoBehaviour {
     public int expMentalDamage = 0;
 
     public List<string> traitNameList;
+
+    public int maxHp;
+    public int maxMental;
 
 	public int mental;
 	public int movement;
@@ -187,6 +194,24 @@ public class AgentUnit : MonoBehaviour {
 
 	// if map is destroyed....?
 
+    public void applyTrait(TraitTypeInfo addTrait)
+    {
+        maxHp += addTrait.hp;
+        maxMental += addTrait.mental;
+        movement += addTrait.moveSpeed;
+        work += addTrait.workSpeed;
+
+        /*
+        for (int i = 2; i < traitList.Count; i++)
+        {
+            maxHp += traitList[i].hp;
+            maxMental += traitList[i].mental;
+            movement += traitList[i].moveSpeed;
+            work += traitList[i].workSpeed;
+        }
+         */
+    }
+
 	void FixedUpdate()
 	{
 		ProcessAction ();
@@ -334,7 +359,7 @@ public class AgentUnit : MonoBehaviour {
 
 	public void UpdateMentalView()
 	{
-		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)mental / (float)metadata.mental);
+		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)mental / (float)maxMental);
 	}
 /*
 	public void MoveToTilePos(int goalx, int goaly)

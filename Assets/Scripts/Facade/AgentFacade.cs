@@ -50,28 +50,55 @@ public class AgentFacade : MonoBehaviour {
 
 	public AgentUnit AddAgent(long typeId, int x, int y)
 	{
+        int traitHp=0;
+        int traitMental=0;
+        int traitMoveSpeed=0;
+        int traitWorkSpeed=0;
+
 		AgentTypeInfo info = AgentTypeList.instance.GetData (typeId);
+        
+        if (info == null)
+        {
+            return null;
+        }
 
-        TraitTypeInfo traitInfo = TraitTypeList.instance.GetRandomInitTrait();
+        AgentUnit unit = NewAgent();
 
-		if(info == null)
-		{
-			return null;
-		}
+        TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetRandomInitTrait();
+        TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
 
-		AgentUnit unit = NewAgent ();
+        if (RandomTraitInfo1.id == RandomTraitInfo2.id)
+        {
+            while (true)
+            {
+                RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
+                if (RandomTraitInfo1.id != RandomTraitInfo2.id)
+                    break;
+            }
+        }
 
-        unit.traitNameList.Add(traitInfo.name);
+        unit.traitList.Add(RandomTraitInfo1);
+        unit.traitList.Add(RandomTraitInfo2);
+
+        for (int i = 0; i < unit.traitList.Count; i++)
+        {
+            traitHp += unit.traitList[i].hp;
+            traitMental += unit.traitList[i].mental;
+            traitMoveSpeed += unit.traitList[i].moveSpeed;
+            traitWorkSpeed += unit.traitList[i].workSpeed;
+
+            unit.traitNameList.Add(unit.traitList[i].name);
+        }
 
 		unit.metadata = info;
 		unit.metadataId = info.id;
 		
 		unit.name = info.name;
 
-		unit.hp = info.hp + traitInfo.hp;
-		unit.mental = info.mental + traitInfo.mental;
-		unit.movement = info.movement + traitInfo.moveSpeed;
-		unit.work = info.work + traitInfo.workSpeed;
+		unit.maxHp = unit.hp = info.hp + traitHp;
+		unit.maxMental = unit.mental = info.mental + traitMental;
+		unit.movement = info.movement + traitMoveSpeed;
+		unit.work = info.work + traitWorkSpeed;
 
 		unit.gender = info.gender;
 		unit.level = info.level;
@@ -100,10 +127,7 @@ public class AgentFacade : MonoBehaviour {
 		Vector2 pos = CreatureRoom.instance.TileToWorld (x, y);
 		unit.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
 */
-		unit.SetMaxHP (info.hp);
-
-
-
+		unit.SetMaxHP (unit.maxHp);
 
 		return unit;
 	}

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class UseSkill : MonoBehaviour {
 
+    public TraitTypeList traitList;
+
 	public int goalWork;
 	public float elapsedWorkingTime;
 	public int currentWork;
@@ -94,6 +96,44 @@ public class UseSkill : MonoBehaviour {
             FinshWork();
 
             agent.expSuccess++;
+
+            string traitNarration;
+
+            if (agent.expMentalDamage > 100)
+            {
+                int i = Random.Range(0, 6);
+                if (i == 3)
+                {
+                    agent.traitList.Add(traitList.GetTraitWithId(10011));
+                    agent.applyTrait(traitList.GetTraitWithId(10011));
+                    traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10011).name + " 특성을 획득하였습니다.";
+                    Notice.instance.Send("AddSystemLog", traitNarration);
+                }
+            }
+
+            if (agent.expHpDamage > 5)
+            {
+                int i = Random.Range(0, 6);
+                if (i == 3)
+                {
+                    agent.traitList.Add(traitList.GetTraitWithId(10010));
+                    agent.applyTrait(traitList.GetTraitWithId(10010));
+                    traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10010).name + " 특성을 획득하였습니다.";
+                    Notice.instance.Send("AddSystemLog", traitNarration);
+                }
+            }
+
+            if (agent.expSuccess > 5)
+            {
+                int i = Random.Range(0, 6);
+                if (i == 3)
+                {
+                    agent.traitList.Add(traitList.GetTraitWithId(10013));
+                    agent.applyTrait(traitList.GetTraitWithId(10013));
+                    traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10013).name + " 특성을 획득하였습니다.";
+                    Notice.instance.Send("AddSystemLog", traitNarration);
+                }
+            }
 
 			string narration = agent.name+"( 이)가 "+skillTypeInfo.name+" 작업을 완료하였습니다.";
 			Notice.instance.Send("AddSystemLog", narration);
@@ -271,6 +311,8 @@ public class UseSkill : MonoBehaviour {
 
     public void CheckLive()
     {
+        string traitNarration;
+
         if (agent.mental <= 0)
         {
             string speech;
@@ -285,6 +327,31 @@ public class UseSkill : MonoBehaviour {
             agent.Panic();
 
             agent.expFail++;
+
+
+            if (agent.expMentalDamage> 100)
+            {
+                int i = Random.Range(0, 6);
+                if (i == 3)
+                {
+                    agent.traitList.Add(traitList.GetTraitWithId(10012));
+                    agent.applyTrait(traitList.GetTraitWithId(10012));
+                    traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10012).name + " 특성을 획득하였습니다.";
+                    Notice.instance.Send("AddSystemLog", traitNarration);
+                }
+            }
+
+            if (agent.expHpDamage > 6)
+            {
+                int i = Random.Range(0, 6);
+                if (i == 3)
+                {
+                    agent.traitList.Add(traitList.GetTraitWithId(10014));
+                    agent.applyTrait(traitList.GetTraitWithId(10014));
+                    traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10014).name + " 특성을 획득하였습니다.";
+                    Notice.instance.Send("AddSystemLog", traitNarration);
+                }
+            }
 
 			string narration = this.name+" (이)가 공황에 빠져 "+skillTypeInfo.name+" 작업에 실패하였습니다.";
 			Notice.instance.Send("AddSystemLog", narration);
@@ -317,6 +384,8 @@ public class UseSkill : MonoBehaviour {
 		Notice.instance.Send("AddSystemLog", narration);
 
 		UseSkill inst = newObject.AddComponent<UseSkill> ();
+
+        inst.traitList = TraitTypeList.instance;
 
 		agent.Speech ("work_start");
 		creature.ShowNarrationText("move", agent.name);

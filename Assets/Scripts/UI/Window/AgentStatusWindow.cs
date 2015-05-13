@@ -14,6 +14,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
   
 	public Transform anchor;
+    public Transform traitScrollTarget;
 
 	public UnityEngine.UI.Image agentIcon;
 
@@ -83,6 +84,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	void FixedUpdate()
 	{
 		UpdatePosition ();
+        //Debug.Log(traitScrollTarget.GetComponent<RectTransform>().localPosition);
 	}
 
 	public void OnNotice(string notice, params object[] param)
@@ -121,8 +123,37 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 		GenderText.text = ""+target.gender;
 		WorkDayText.text = ""+target.workDays;
 
-        TraitText.text = "<"+target.traitNameList[0]+">";
+        ShowTraitList();
 	}
+
+    public void ShowTraitList()
+    {
+
+        foreach (Transform childs in traitScrollTarget.transform)
+        {
+            Destroy(childs.gameObject);
+        }
+
+        float posY = 0;
+        for (int i = 0; i < target.traitList.Count; i++)
+        {
+            GameObject traitSlot = Prefab.LoadPrefab("traitText");
+            Debug.Log(traitSlot.GetComponent<RectTransform>().localPosition);
+            traitSlot.transform.SetParent(traitScrollTarget, false);
+
+            Debug.Log(traitSlot.GetComponent<RectTransform>().localPosition);
+            
+            RectTransform tr = traitSlot.GetComponent<RectTransform>();
+            tr.localPosition = new Vector3(0, posY, 0);
+
+            //Debug.Log(traitScrollTarget.GetComponent<RectTransform>().localPosition);
+
+            traitSlot.GetComponent<UnityEngine.UI.Text>().text ="<" +target.traitList[i].name+">";
+
+            posY -= 30f;
+        }
+        UpdatePosition();
+    }
 	
 	public void OnClickClose()
 	{

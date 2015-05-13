@@ -50,7 +50,28 @@ public class TraitTypeList
 
         i = Random.Range(0, _list.Count);
 
+        if (_list[i].randomFlag != 1)
+        {
+            while (true)
+            {
+                i = Random.Range(0, _list.Count);
+                if (_list[i].randomFlag == 1)
+                    return _list[i];
+            }
+        }
+
         return _list[i];
+    }
+
+    public TraitTypeInfo GetTraitWithId(long id)
+    {
+        for(int i=0; i<_list.Count; i++)
+        {
+            if(id == _list[i].id)
+                return _list[i];
+        }
+
+        return null;
     }
 }
 

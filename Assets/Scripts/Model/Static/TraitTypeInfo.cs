@@ -7,6 +7,9 @@ public class TraitTypeInfo : MonoBehaviour {
     
     public long id;
     public string name;
+
+    public int level;
+    public int randomFlag;
     
     public int hp;
     public int mental;

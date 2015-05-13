@@ -34,6 +34,10 @@ public class GameStaticDataLoader {
 
             model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
             model.name = node.Attributes.GetNamedItem("name").InnerText;
+
+            model.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
+            model.randomFlag = int.Parse(node.Attributes.GetNamedItem("randomFlag").InnerText);
+
             model.hp = int.Parse(node.Attributes.GetNamedItem("hp").InnerText);
             model.mental = int.Parse(node.Attributes.GetNamedItem("mental").InnerText);
 
