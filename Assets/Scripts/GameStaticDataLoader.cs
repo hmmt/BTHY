@@ -160,7 +160,6 @@ public class GameStaticDataLoader {
             TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/"+src);
 
             XmlDocument doc = new XmlDocument();
-            Debug.Log(src);
             doc.LoadXml(creatureTextAsset.text);
 
             XmlNodeList nodes = doc.SelectNodes("/creature/info");
@@ -287,8 +286,6 @@ public class GameStaticDataLoader {
                 string observeData = observeNode.InnerText;
                 model.observe = TextConverter.TranslateDescData(observeData);
                 model.observeList = observeTexts.ToArray();
-
-                Debug.Log(model.observeList);
 
                 // inner graph
                 model.nodeInfo = node.SelectNodes("graph/node");
