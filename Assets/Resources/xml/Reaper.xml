@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<creature>
+	<info id="20002"
+		name="보고 싶은 사신"
+		codeId="O-04-098-R"
+		level="HE"
+		stackLevel="2"
+
+		attackType="RED,WHITE"
+		intelligence="정상적인 의사소통 가능"
+		
+		horrorProb="0.95"
+		horrorDmg="20" cmt1="-20~40으로 되어 잇음"
+		
+		physicsProb="0.9"
+		physicsDmg="4" cmt2="4~7으로 되어 잇음"
+		
+		mentalProb="0.95"
+		mentalDmg="10" cmt3="-10~30으로 되어 잇음"
+
+		observeLevel="5"
+
+		script="Reaper"
+		>
+		<feeling max="200" downProb="0.3" downValue="1">
+			<section feelingValue="100" state="good" energy="5"/>
+			<section feelingValue="50" state="normal" energy="3"/>
+			<section feelingValue="0" state="bad" energy="-2"/>
+		</feeling>
+
+		<preferSkill type="direct" bonus="0.3"/>
+		<preferSkill type="block" bonus="0.5"/>
+		<rejectSkill type="block" bonus="-0.5"/>
+
+		<desc>
+			"empty"
+		</desc>
+
+		<observe>
+		</observe>
+
+		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
+		<room src="creature_room1"/>
+		<frame src="Unit/creature/frame/Reaper_frame"/>
+
+		<graph>
+			<node id="creature" x="-1.6" y="-1" type="creature"/>
+			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
+			<node id="door"  x="2" y="-1" type="entry"/>
+			<edge node1="workspace" node2="door" type="road" />
+		</graph>
+	</info>
+</creature>

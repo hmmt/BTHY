@@ -29,41 +29,11 @@ public class CreatureFacade : MonoBehaviour {
 
 	public void AddCreature(CreatureTypeInfo typeInfo, string nodeId, float x, float y)
 	{
-		/*
 		GameObject newCreature = Prefab.LoadPrefab ("Creature1");
 
 		CreatureUnit unit = newCreature.GetComponent<CreatureUnit> ();
 
-		unit.transform.parent = creatureListNode.transform;
-
-		Vector2 pos = CreatureRoom.instance.TileToWorld (x, y);
-		unit.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
-		creatureList.Add (unit);
-
-		unit.metaInfo = typeInfo;
-		unit.feeling = typeInfo.feelingMax;
-		
-		Texture2D tex = Resources.Load<Texture2D> ("Sprites/"+typeInfo.imgsrc);
-		unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0,0,tex.width, tex.height), new Vector2(0.5f, 0.5f));
-		unit.spriteRenderer.gameObject.transform.localScale = new Vector3 (150f/tex.width, 150f/tex.height, 1);
-
-		GameObject creatureRoom = Prefab.LoadPrefab ("IsolateRoom");
-		IsolateRoom room = creatureRoom.GetComponent<IsolateRoom> ();
-		room.targetUnit = unit;
-		creatureRoom.transform.position = new Vector3 (pos.x, pos.y, 0);
-		room.UpdateStatus ();
-		*/
-
-		GameObject newCreature = Prefab.LoadPrefab ("Creature1");
-
-		CreatureUnit unit = newCreature.GetComponent<CreatureUnit> ();
-
-		unit.transform.parent = creatureListNode.transform;
-
-/*
-		Vector2 pos = CreatureRoom.instance.TileToWorld (x, y);
-		unit.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
-		*/
+        unit.transform.SetParent(creatureListNode.transform, false);
 
 		Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
 		List<MapEdge> edgeList = new List<MapEdge> ();
@@ -148,6 +118,7 @@ public class CreatureFacade : MonoBehaviour {
 		unit.spriteRenderer.gameObject.transform.localScale = new Vector3 (150f/tex.width, 150f/tex.height, 1);
 
 		GameObject creatureRoom = Prefab.LoadPrefab ("IsolateRoom");
+        creatureRoom.transform.SetParent(creatureListNode.transform, false);
 		IsolateRoom room = creatureRoom.GetComponent<IsolateRoom> ();
         tex = Resources.Load<Texture2D> ("Sprites/"+typeInfo.roomsrc);
         

@@ -164,7 +164,6 @@ public class GameStaticDataLoader {
             TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/"+src);
 
             XmlDocument doc = new XmlDocument();
-            Debug.Log(src);
             doc.LoadXml(creatureTextAsset.text);
 
             XmlNodeList nodes = doc.SelectNodes("/creature/info");
@@ -218,13 +217,28 @@ public class GameStaticDataLoader {
                 model.genEnergy = energyItems.ToArray();
 
 
-                XmlNode preferSkillNode = node.SelectSingleNode("preferSkill");
-                model.prefer = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
-                model.preferBonus = float.Parse(preferSkillNode.Attributes.GetNamedItem("bonus").InnerText);
+                // 
+                XmlNodeList preferSkillNodeList = node.SelectNodes("preferSkill");
+                List<SkillBonusInfo> preferSkillList = new List<SkillBonusInfo>();
+                foreach (XmlNode preferSkillNode in preferSkillNodeList)
+                {
+                    SkillBonusInfo preferInfo = new SkillBonusInfo();
+                    preferInfo.skillType = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
+                    preferInfo.bonus = float.Parse(preferSkillNode.Attributes.GetNamedItem("bonus").InnerText);
+                    preferSkillList.Add(preferInfo);
+                }
+                model.preferList = preferSkillList.ToArray();
 
-                XmlNode rejectSkillNode = node.SelectSingleNode("rejectSkill");
-                model.reject = rejectSkillNode.Attributes.GetNamedItem("type").InnerText;
-                model.rejectBonus = float.Parse(rejectSkillNode.Attributes.GetNamedItem("bonus").InnerText);
+                XmlNodeList rejectSkillNodeList = node.SelectNodes("rejectSkill");
+                List<SkillBonusInfo> rejectSkillList = new List<SkillBonusInfo>();
+                foreach (XmlNode rejectSkillNode in rejectSkillNodeList)
+                {
+                    SkillBonusInfo rejectInfo = new SkillBonusInfo();
+                    rejectInfo.skillType = rejectSkillNode.Attributes.GetNamedItem("type").InnerText;
+                    rejectInfo.bonus = float.Parse(rejectSkillNode.Attributes.GetNamedItem("bonus").InnerText);
+                    rejectSkillList.Add(rejectInfo);
+                }
+                model.rejectList = preferSkillList.ToArray();
                 /*
                 XmlNodeList genEnergy = node.SelectNodes("genEnergy/item");
                 List<int> items = new List<int>();
@@ -281,8 +295,16 @@ public class GameStaticDataLoader {
                 model.desc = TextConverter.TranslateDescData(descData);
 
                 XmlNode observeNode = node.SelectSingleNode("observe");
+                XmlNodeList observeSubList = observeNode.SelectNodes("observe_sub");
+                List<string> observeTexts = new List<string>();
+                foreach (XmlNode observeSub in observeSubList)
+                {
+                    observeTexts.Add(TextConverter.TranslateDescData(observeSub.InnerText));
+                }
+
                 string observeData = observeNode.InnerText;
                 model.observe = TextConverter.TranslateDescData(observeData);
+                model.observeList = observeTexts.ToArray();
 
                 // inner graph
                 model.nodeInfo = node.SelectNodes("graph/node");

@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.Xml;
 
 [System.Serializable]
+public class SkillBonusInfo
+{
+    public string skillType;
+    public float bonus;
+}
+[System.Serializable]
 public class CreatureTypeInfo
 {
 	public long id;
@@ -34,11 +40,9 @@ public class CreatureTypeInfo
 
 	public int[] genEnergy;
 			
-	public string prefer;
-	public float preferBonus;
+    public SkillBonusInfo[] preferList;
 
-	public string reject;
-	public float rejectBonus;
+    public SkillBonusInfo[] rejectList;
 
 	public string imgsrc;
     public string roomsrc;
@@ -53,6 +57,7 @@ public class CreatureTypeInfo
 
     public string desc;
     public string observe;
+    public string[] observeList;
 
     public XmlNodeList nodeInfo;
     public XmlNodeList edgeInfo;

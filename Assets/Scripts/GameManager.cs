@@ -43,15 +43,14 @@ public class GameManager : MonoBehaviour {
 		CreatureFacade.instance.AddCreature (10005, "1003111-left-1", -10, -9);
 		CreatureFacade.instance.AddCreature (10006, "1003111-right-1", 10, -9);
 
-
         // Na??
-        CreatureFacade.instance.AddCreature(10001, "N-way1-point2", -25, -4);
-        CreatureFacade.instance.AddCreature(10001, "N-way1-point3", -25, -10);
-        CreatureFacade.instance.AddCreature(10001, "N-way2-point1", -25, -30);
-        CreatureFacade.instance.AddCreature(10001, "N-way2-point2", -25, -36);
+        CreatureFacade.instance.AddCreature(20001, "N-way1-point2", -25, -4);
+        CreatureFacade.instance.AddCreature(20002, "N-way1-point3", -25, -10);
+        CreatureFacade.instance.AddCreature(20003, "N-way2-point1", -25, -30);
+        CreatureFacade.instance.AddCreature(20004, "N-way2-point2", -25, -36);
 
-        CreatureFacade.instance.AddCreature(10001, "N-center-way-point1", -18, -16);
-        CreatureFacade.instance.AddCreature(10001, "N-center-way-point1", -18, -24);
+        //CreatureFacade.instance.AddCreature(10001, "N-center-way-point1", -18, -16);
+        //CreatureFacade.instance.AddCreature(10001, "N-center-way-point1", -18, -24);
 
 		Notice.instance.Send ("AddPlayerLog", "game start가나다");
 	}

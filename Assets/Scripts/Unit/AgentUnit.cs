@@ -490,6 +490,16 @@ public class AgentUnit : MonoBehaviour {
 		pathIndex = 0;	
 	}
 
+    public void TakePhysicalDamage(int damage)
+    {
+        hp -= damage;
+    }
+
+    public void TakeMentalDamage(int damage)
+    {
+        mental -= damage;
+    }
+
 	public void Speech(string speechKey)
 	{
 		string speech;
