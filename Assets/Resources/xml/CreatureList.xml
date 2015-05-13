@@ -6,4 +6,9 @@
 	<creature src="Fetus" />
 	<creature src="RedShoes" />
 	<creature src="OneBadManyGood" />
+
+	<creature src="Reaper" />
+	<creature src="LadyLookingAtWall" />
+	<creature src="AnonymousManPortrait" />
+	<creature src="SmilePierrot" />
 </creature_list>

@@ -177,6 +177,46 @@ public class CreatureUnit : MonoBehaviour, IObserver {
         Notice.instance.Send("UpdateCreatureState_" + gameObject.GetInstanceID());
 	}
 
+    public bool GetPreferSkillBonus(string type, out float bonus)
+    {
+        foreach (SkillBonusInfo info in metaInfo.preferList)
+        {
+            if (info.skillType == type)
+            {
+                bonus = info.bonus;
+                return true;
+            }
+        }
+        bonus = 0;
+        return false;
+    }
+
+    public bool GetRejectSkillBonus(string type, out float bonus)
+    {
+        foreach (SkillBonusInfo info in metaInfo.rejectList)
+        {
+            if (info.skillType == type)
+            {
+                bonus = info.bonus;
+                return true;
+            }
+        }
+        bonus = 0;
+        return false;
+    }
+
+    public bool IsPreferSkill(string type)
+    {
+        float bonus;
+        return GetPreferSkillBonus(type, out bonus);
+    }
+
+    public bool IsRejectSkill(string type)
+    {
+        float bonus;
+        return GetRejectSkillBonus(type, out bonus);
+    }
+
     public string GetObserveText()
     {
         string output = "";

@@ -170,15 +170,16 @@ public class UseSkill : MonoBehaviour {
             }
 
             // creature prefer
-            if (targetCreature.metaInfo.prefer == skillTypeInfo.type)
+            float bonus = 0;
+            if (targetCreature.GetPreferSkillBonus(skillTypeInfo.type, out bonus))
             {
                 // prob up
-                workProb += targetCreature.metaInfo.preferBonus;
+                workProb += bonus;
             }
-            else if (targetCreature.metaInfo.reject == skillTypeInfo.type)
+            else if (targetCreature.GetRejectSkillBonus(skillTypeInfo.type, out bonus))
             {
                 // prob down
-                workProb += targetCreature.metaInfo.rejectBonus;
+                workProb += bonus;
             }
             else
             {
@@ -196,11 +197,11 @@ public class UseSkill : MonoBehaviour {
 
             if (success)
             {
-                if (targetCreature.metaInfo.prefer == skillTypeInfo.type)
+                if (targetCreature.IsPreferSkill(skillTypeInfo.type))
                 {
                     workValue = (int)(workValue * 1.5);
                 }
-                else if (targetCreature.metaInfo.reject == skillTypeInfo.type)
+                else if (targetCreature.IsRejectSkill(skillTypeInfo.type))
                 {
                     workValue = (int)(workValue * 0.5);
                 }
@@ -212,11 +213,11 @@ public class UseSkill : MonoBehaviour {
                 // when changed in SkillFailWorkTick
                 if (workPlaying)
                 {
-                    if (targetCreature.metaInfo.prefer == skillTypeInfo.type)
+                    if (targetCreature.IsPreferSkill(skillTypeInfo.type))
                     {
                         workValue = (int)(workValue * 0.5);
                     }
-                    else if (targetCreature.metaInfo.reject == skillTypeInfo.type)
+                    else if (targetCreature.IsRejectSkill(skillTypeInfo.type))
                     {
                         workValue = (int)(workValue * 1.5);
                     }

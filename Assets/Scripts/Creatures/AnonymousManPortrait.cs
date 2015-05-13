@@ -10,5 +10,7 @@ public class AnonymousManPortrait : CreatureBase {
 
     public override void EnterRoom(UseSkill skill)
     {
+        //skill.PauseWorking();
+        //SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
     }
 }

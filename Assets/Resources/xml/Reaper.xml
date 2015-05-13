@@ -32,12 +32,16 @@
 		<preferSkill type="block" bonus="0.5"/>
 		<rejectSkill type="block" bonus="-0.5"/>
 
+		<desc>
+			"empty"
+		</desc>
+
 		<observe>
 		</observe>
 
 		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
 		<room src="creature_room1"/>
-		<frame src="Unit/creature/01_matchGirl_frame"/>
+		<frame src="Unit/creature/frame/Reaper_frame"/>
 
 		<graph>
 			<node id="creature" x="-1.6" y="-1" type="creature"/>

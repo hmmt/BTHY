@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <creature>
-	<info id="20001"
-		name="이름 모를 남자의 초상화"
+	<info id="20004"
+		name="웃는 삐에로"
 		codeId="?????"
-		level="THEH"
+		level="HE"
 		stackLevel="2"
 
 		attackType="WHITE"
 		intelligence="대화 불가"
 		
-		horrorProb="0.3"
-		horrorDmg="-10"
+		horrorProb="0.4"
+		horrorDmg="-20"
 		
-		physicsProb="0"
-		physicsDmg="0"
+		physicsProb="0.5"
+		physicsDmg="2" cmt1="뭔가 추가 조건이 있는데..."
 		
-		mentalProb="0.3"
+		mentalProb="1"
 		mentalDmg="30"
 
 		observeLevel="5"
 
-		script="AnonymousManPortrait"
+		script="SmilePierrot"
 		>
-		<feeling max="200" downProb="0.1" downValue="1">
-			<section feelingValue="120" state="normal" energy="2"/>
+		<feeling max="300" downProb="0.44" downValue="1">
+			<section feelingValue="200" state="good" energy="2"/>
+			<section feelingValue="50" state="normal" energy="1"/>
 			<section feelingValue="0" state="bad" energy="-1"/>
 		</feeling>
 
-		<preferSkill type="indirect" bonus="0.5"/>
+		<rejectSkill type="block" bonus="-0.3"/>
 
 		<desc>
 			"empty"
@@ -38,7 +39,7 @@
 
 		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
 		<room src="creature_room1"/>
-		<frame src="Unit/creature/frame/AnonymousManPortrait_frame"/>
+		<frame src="Unit/creature/frame/SmilePierrot_frame"/>
 
 		<graph>
 			<node id="creature" x="-1.6" y="-1" type="creature"/>
