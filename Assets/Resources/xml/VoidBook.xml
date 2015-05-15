@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<creature>
+	<info id="20006"
+		name="마법소녀"
+		codeId="T-04-11-T"
+		level="TETH"
+		stackLevel="2"
+
+		attackType="WHITE"
+		intelligence="대화 불가"
+		
+		horrorProb="0.9"
+		horrorDmg="-10"
+		
+		physicsProb="0"
+		physicsDmg="0" 
+		
+		mentalProb="0.4"
+		mentalDmg="0"
+
+		observeLevel="5"
+
+		script="VoidBook"
+		>
+		<feeling max="200" downProb="0.25" downValue="1">
+			<section feelingValue="100" state="good" energy="4"/>
+			<section feelingValue="50" state="normal" energy="2"/>
+			<section feelingValue="0" state="bad" energy="-3"/>
+		</feeling>
+
+		<preferSkill type="indirect" bonus="0.2"/>
+		<rejectSkill type="block" bonus="-0.2"/>
+
+		<narration action="mid1">
+			-> [
+			{오래된 양피지들로 만들어진 책이 하나 있습니다. },
+			{꽤 두껍지만, 정작 모든 페이지가 백지에 불과한 책이 하나 있습니다.},
+			{조금이라도 함부로 다루면, 너덜너덜 해지게 표지가 뜯겨 나갈 것 같은 책이 하나 있습니다.}
+			]
+		</narration>
+
+		<narration action="mid2">
+			-> [
+			{낡은 외양에 비해선, 관리는 꾸준히 되고 있는 듯 먼지는 보이지 않습니다. },
+			{관리상태는 좋은 듯, 딱히 찢겨나가거나 손실된 장은 없습니다. 어쩌면 ‘손실’ 자체가 불가능할지도 모릅니다. },
+			{적어도 수십 년은 되어보이는 책이지만, 그 흔한 곰팡이도 하나 안 서렸습니다.}
+			]
+		</narration>
+
+		<narration action="mid3">
+			-> [
+			{#0(은)는 평소에 책을 많이 읽는 직원입니다만, 이 ‘책’ 만큼은 넘기면 안될 것 같습니다.},
+			{#0(은)는 평소에 책을 멀리하는 직원입니다만, 이상하게 이 책만큼은 넘겨봐야 할 것 같습니다. }
+			]
+		</narration>
+
+		<narration action="special_ability1">
+			-> [
+			{#0(이)가 작업명령을 모두 무시하고, 책에 다가갑니다.}
+			]
+		</narration>
+
+		<narration action="special_ability2">
+			-> [
+			{‘알 수 없는 집착’ 특성이 붙은 #0(은)는 책의 겉표지를 넘깁니다. }
+			]
+		</narration>
+
+		<narration action="special_ability3">
+			-> [
+			{#0에게 마법적인 힘을 가했습니다. }
+			]
+		</narration>
+
+		<narration action="special_ability3_1">
+			-> [
+			{#0(은)는 비상제압용 무기를 꺼내 동맥에 상처를 내려 합니다. 책의 모든 페이지들이 채워질 때까지 그는 난도질을 계속 할 것입니다.}
+			]
+		</narration>
+
+
+		<narration action="special_ability3_2">
+			-> [
+			{#0(은)는 주머니에서 꺼낸 펜을 꺼내더니 책의 첫 장을 열어 빼곡히 채우기 시작합니다. 의미없는 문장들이 페이지를 채우기 시작합니다.}
+			]
+		</narration>
+
+
+		<narration action="special_ability3_3">
+			-> [
+			{#0(은)는 들고 다니던 만년필을 꺼내더니 책의 첫 장을 열어 미친듯이 글을 휘갈기기 시작합니다. 날짜를 쓰는 걸로 봐선, 일기의 일부분 같습니다. }
+			]
+		</narration>
+
+		<narration action="panic">
+			-> [
+			{작업 할당 시간이 몇 시간은 지났지만, #0(은)는 여전히 비어버린 책의 페이지들을 채워 버리는데 집중합니다. 동료들이 그를 말리겠지만, 아마 오랜 시간 동안 그는 집착을 거두지 못할 것입니다. },
+			{#0에겐 더 이상 아무런 작업 명령을 내릴 수 없습니다. 그의 온 정신은 그 책에 가 향해 있습니다. 동료도, 친구도, 애인도, 가족도 없습니다. }
+			]
+		</narration>
+
+
+		<desc>
+			"낡은 양피지로 접합이 된 오래되어 보이는 책이다. 무수한 페이지에 비해서 정작 안에 든 내용은 없다. 일단 책의 겉표지를 넘기기 시작하면 어떻게서든 책의 모든 장들을 다 채우게 해야 겠다는 마음이 다른 모든 것들을 제치고 1순위가 되어버린다. 책의 페이지를 채우기 위ㅐ서 수단과 방법은 딱히 정해져 있는 것이 아니므로 겉표지를 넘긴 상대에 따라서 각기 다른 행동이 취해지는 걸 볼 수 있다. 단순한 경우엔 펜으로 일기와 비슷한 알 수 없는 글을 마구 써재껴간 식이지만, 심한 경우엔 자신의 피로 페이지를 몽땅 적셔버리려는 경우도 있으므로 일단 대상에 세뇌가 된 직원은 격리를 시켜야 한다. 접근만 하지 않는다면 안전하다고 볼 수 있으니 관리하기가 까다롭진 않다."
+		</desc>
+
+		<observe>
+			"관찰일지 없다. 은봉 일해라""
+		</observe>
+
+		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
+		<room src="creature_room1"/>
+		<frame src="Unit/creature/frame/MagicalGirl_frame"/>
+
+		<graph>
+			<node id="creature" x="-1.6" y="-1" type="creature"/>
+			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
+			<node id="door"  x="2" y="-1" type="entry"/>
+			<edge node1="workspace" node2="door" type="road" />
+		</graph>
+	</info>
+</creature>
