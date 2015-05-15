@@ -44,10 +44,12 @@ public class GameManager : MonoBehaviour {
 		CreatureFacade.instance.AddCreature (10006, "1003111-right-1", 10, -9);
 
         // Na??
-        CreatureFacade.instance.AddCreature(20001, "N-way1-point2", -25, -4);
-        CreatureFacade.instance.AddCreature(20002, "N-way1-point3", -25, -10);
-        CreatureFacade.instance.AddCreature(20003, "N-way2-point1", -25, -30);
-        CreatureFacade.instance.AddCreature(20004, "N-way2-point2", -25, -36);
+        // CreatureFacade.instance.AddCreature(20001, "N-way1-point2", -25, -4); // 남자 초상화
+        CreatureFacade.instance.AddCreature(20005, "N-way1-point2", -25, -4); // 마법소녀
+        CreatureFacade.instance.AddCreature(20002, "N-way1-point3", -25, -14); // 보고 싶은 사신
+        //CreatureFacade.instance.AddCreature(20003, "N-way2-point1", -25, -26); // 벽 여인
+        CreatureFacade.instance.AddCreature(20006, "N-way2-point1", -25, -26); // 없는 책
+        CreatureFacade.instance.AddCreature(20004, "N-way2-point2", -25, -36); // 삐에로
 
         //CreatureFacade.instance.AddCreature(10001, "N-center-way-point1", -18, -16);
         //CreatureFacade.instance.AddCreature(10001, "N-center-way-point1", -18, -24);

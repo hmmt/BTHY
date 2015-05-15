@@ -108,7 +108,7 @@
 			"관찰일지 없다. 은봉 일해라""
 		</observe>
 
-		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
+		<img src="Unit/creature/voidBook" x="-1" y="-1"/>
 		<room src="creature_room1"/>
 		<frame src="Unit/creature/frame/MagicalGirl_frame"/>
 

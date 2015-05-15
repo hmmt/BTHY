@@ -500,6 +500,16 @@ public class AgentUnit : MonoBehaviour {
         mental -= damage;
     }
 
+    public bool HasTrait(long id)
+    {
+        foreach (TraitTypeInfo info in traitList)
+        {
+            if (info.id == id)
+                return true;
+        }
+        return false;
+    }
+
 	public void Speech(string speechKey)
 	{
 		string speech;

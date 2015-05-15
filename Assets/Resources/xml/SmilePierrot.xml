@@ -81,7 +81,7 @@
 			"아직 없다. 일해라 은봉"
 		</observe>
 
-		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
+		<img src="Unit/creature/smilePierrot" x="-1" y="-1"/>
 		<room src="creature_room1"/>
 		<frame src="Unit/creature/frame/SmilePierrot_frame"/>
 

@@ -122,7 +122,7 @@
 			"소녀: 세상은 선과 악 두 가지로 구분할 수 있어. 나는 정의의 편에 속해. 하지만, 본래 선과 악은 하나일지도 몰라. 악당의 역할이 없다면, 세상은 누가 지켜주지?"
 		</observe>
 
-		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
+		<img src="Unit/creature/magicalGirl" x="-1" y="-1"/>
 		<room src="creature_room1"/>
 		<frame src="Unit/creature/frame/MagicalGirl_frame"/>
 

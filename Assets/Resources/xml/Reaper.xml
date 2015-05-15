@@ -117,7 +117,7 @@
 			"(정신착란증이 보여 더 이상은 상담은 불가)"
 		</observe>
 
-		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
+		<img src="Unit/creature/reaper" x="-1" y="-1"/>
 		<room src="creature_room1"/>
 		<frame src="Unit/creature/frame/Reaper_frame"/>
 
