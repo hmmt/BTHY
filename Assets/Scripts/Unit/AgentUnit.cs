@@ -455,6 +455,8 @@ public class AgentUnit : MonoBehaviour {
 	{
         AgentUnit oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
 		AgentStatusWindow.CreateWindow (this);
+        if (CollectionWindow.currentWindow != null)
+        CollectionWindow.currentWindow.CloseWindow();
 
         // TODO : 최적화 필요
         agentWindow = GameObject.FindGameObjectWithTag("AnimAgentController");

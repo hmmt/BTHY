@@ -93,6 +93,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public void OnClick()
     {
         CreatureUnit oldCreature = (CollectionWindow.currentWindow != null )? CollectionWindow.currentWindow.GetCreature() : null;
+        if (SelectWorkAgentWindow.currentWindow != null)
+        SelectWorkAgentWindow.currentWindow.CloseWindow();
         CollectionWindow.Create(_targetUnit);
 
 
