@@ -154,6 +154,37 @@ public class CreatureUnit : MonoBehaviour, IObserver {
 		}
 	}
 
+    public void ShowProcessNarrationText(string narrationKey, params string[] param)
+    {
+        string narrationFormat;
+        if (metaInfo.narrationTable.TryGetValue(narrationKey, out narrationFormat))
+        {
+            string[] narration = TextConverter.GetTextFromFormatProcessText(narrationFormat, param);
+            string selected = "";
+            if (observeProgress < 40)
+            {
+                selected = narration[0];
+            }
+
+            else if (40 <= observeProgress && observeProgress < 80)
+            {
+                selected = narration[1];
+            }
+
+            else if (80 <= observeProgress && observeProgress < 100)
+            {
+                selected = narration[2];
+            }
+
+            else if (observeProgress <=100)
+            {
+                selected = narration[3];
+            }
+             narrationList.Add(selected);
+            Notice.instance.Send("AddNarrationLog", selected, this);
+        }
+    }
+
     public void PlaySound(string soundKey)
     {
         string soundFilename;

@@ -107,7 +107,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	{
         if ("AddNarrationLog" == notice && targetCreature == (CreatureUnit)param[1])
 		{
-			AddText (" "+(string)param [0]);
+			AddText (" "+(string)param[0]);
             newInputCreature = (CreatureUnit)param[1];
 		}
 	}

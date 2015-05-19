@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="20006"
-		name="마법소녀"
+		name="그림도 없고 대화도 없는책"
 		codeId="T-04-11-T"
 		level="TETH"
 		stackLevel="2"
@@ -30,6 +30,20 @@
 
 		<preferSkill type="indirect" bonus="0.2"/>
 		<rejectSkill type="block" bonus="-0.2"/>
+
+
+		<narration action="move">
+			-> #0(이)가 작업을 시작하러 '그림도 없고 대화도 없는책'의 방에 들어갑니다
+		</narration>
+
+		<narration action="start">
+			-> [
+			{‘그림도 없고 대화도 없는 책’ 은 오래된 장서관에서 흔히 볼 수 있을 것 같은 정도의 생김새 입니다. },
+			{우리에게 ‘그림도 없는 대화도 없는 책’ 은 아직까진 무난한 환상체입니다만, 모든 환상체가 그렇듯 항상 유의하세요. },
+			{‘그림도 없고 대화도 없는 책’ 은 때에 따라서 은근히 성가실 수 있는 환상체입니다.},
+			{한 때, ‘그림도 없고 대화도 없는 책’ 의 모든 페이지들이 채워진 적이 있었습니다. 한 장도 남김없이, 붉은 색으로 말이죠.}
+			]
+		</narration>
 
 		<narration action="mid1">
 			-> [
@@ -105,7 +119,18 @@
 		</desc>
 
 		<observe>
-			"관찰일지 없다. 은봉 일해라""
+			<observe_sub>
+			"관찰일지 없다. 은봉 일해라"
+			</observe_sub>
+
+			<observe_sub>
+			</observe_sub>
+
+			<observe_sub>
+			</observe_sub>
+
+			<observe_sub>
+			</observe_sub>
 		</observe>
 
 		<img src="Unit/creature/voidBook" x="-1" y="-1"/>
