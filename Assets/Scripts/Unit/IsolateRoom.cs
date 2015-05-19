@@ -140,7 +140,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
         }
         else
         {
-            color.a = 1 - 0.2f * _targetUnit.observeProgress;
+            color.a = (1 - 0.2f * _targetUnit.observeProgress)*0.75f;
             roomFogRenderer.color = color;
         }
 	}
