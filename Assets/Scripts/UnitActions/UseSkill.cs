@@ -147,7 +147,8 @@ public class UseSkill : MonoBehaviour {
 			{
 				faceCreature = true;
 				//OutsideTextEffect.Create(targetCreature.room, "typo/01_matchGirl_out_typo", CreatureOutsideTextLayout.CENTER_BOTTOM);
-				targetCreature.ShowNarrationText("start", agent.name);
+				//targetCreature.ShowNarrationText("start", agent.name);
+                targetCreature.ShowProcessNarrationText("start",agent.name);
                 targetCreature.PlaySound("enter");
 				targetCreature.script.EnterRoom(this);
 			}

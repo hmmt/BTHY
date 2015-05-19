@@ -30,6 +30,19 @@
 
 		<rejectSkill type="block" bonus="-0.3"/>
 
+		<narration action="move">
+			-> #0(이)가 작업을 시작하러 '웃는 삐에로'의 방에 들어갑니다
+		</narration>
+
+		<narration action="start">
+			-> [
+			{웃는 삐에로는 유쾌한 분위기를 띈 남성입니다. 그는 항상 사람들을 웃길 준비를 하고 있습니다. },
+			{웃는 삐에로에게 유희를 기대하며 작업을 하러 간다면 곤란할 것입니다.},
+			{웃는 삐에로는 상대가 웃어주기를 기다립니다. 간절히도요. },
+			{웃으세요! Just Laugh! }
+			]
+		</narration>
+
 		<narration action="mid1">
 			-> [
 			{#0(이)가 격리소에 들어올 때, ‘웃는 삐에로’ 는 새로운 동물모양으로 풍선 만드는 것을 시도하고 있습니다. },
@@ -78,7 +91,18 @@
 		</desc>
 
 		<observe>
+			<observe_sub>
 			"아직 없다. 일해라 은봉"
+			</observe_sub>
+
+			<observe_sub>
+			</observe_sub>
+
+			<observe_sub>
+			</observe_sub>
+
+			<observe_sub>
+			</observe_sub>
 		</observe>
 
 		<img src="Unit/creature/smilePierrot" x="-1" y="-1"/>
