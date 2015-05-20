@@ -274,10 +274,13 @@ public class UseSkill : MonoBehaviour {
 
                     if (physicsAtk)
                     {
+
+                        //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp",true);
+                       // Debug.Log("직원 애니메이터 1불 : "+agent.agentAttackedAnimator.GetComponent<Animator>().GetBool("attackUP"));
+
                         agent.hp -= targetCreature.metaInfo.physicsDmg;
                         agent.expHpDamage += targetCreature.metaInfo.physicsDmg;
-         
-
+        
                         agentUpdated = true;
 
                         AgentHitEffect.Create(agent);
@@ -289,6 +292,9 @@ public class UseSkill : MonoBehaviour {
                             Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
                             alreadyHit = true;
                         }
+
+                        //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp", false);
+                      //  Debug.Log("직원 애니메이터 2불 : " + agent.agentAttackedAnimator.GetComponent<Animator>().GetBool("attackUP"));
                     }
                     if (mentalAtk)
                     {

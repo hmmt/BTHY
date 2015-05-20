@@ -90,7 +90,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
             Text textLine = logTextLineObj.GetComponent<Text>();
 
             textLine.transform.SetParent(logBoard.transform, false);
-            textLine.text = "---------------------------------------------------";
+            textLine.text = "----------------------------------------------";
 
             RectTransform textLineRt = logTextLineObj.GetComponent<RectTransform>();
             Vector3 textLinePos = textLineRt.localPosition;

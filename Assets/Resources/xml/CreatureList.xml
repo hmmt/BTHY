@@ -13,4 +13,9 @@
 	<creature src="SmilePierrot" />
 	<creature src="MagicalGirl" />
 	<creature src="VoidBook" />
+
+	<creature src="Theresia" />
+	<creature src="null" />
+	<creature src="SilentGirl" />
+	<creature src="JackLessTree" />
 </creature_list>
