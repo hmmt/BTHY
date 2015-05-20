@@ -16,12 +16,38 @@ public class Reaper : CreatureBase {
     private void ActivateSkill(UseSkill skill)
     {
         // 스킬 : <I am MISSIN’ U>
-        int damage = skill.agent.hp / 2;
 
-        if (damage <= 0)
-            damage = 1;
 
-        skill.agent.TakePhysicalDamage(damage);
+        skill.PauseWorking();
+
+        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_attackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
+        effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
+
+        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_attackTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 5)
+    .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_attackTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 4)
+            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_attackTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
+            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+
+        // skill이 이미 release 될 상황 고려 필요
+        effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
+
+        skill.targetCreature.ShowNarrationText("special_ability1", skill.agent.name);
+        TimerCallback.Create(3.0f, delegate() { skill.targetCreature.ShowNarrationText("special_ability2", skill.agent.name); });
+        TimerCallback.Create(3.0f, delegate() {skill.targetCreature.ShowNarrationText("special_ability3", skill.agent.name);  });
+        TimerCallback.Create(3.0f, 
+            delegate()
+        {
+            skill.targetCreature.ShowNarrationText("special_ability4", skill.agent.name);
+                int damage = skill.agent.hp / 2;
+
+                if (damage <= 0)
+                    damage = 1;
+
+                skill.agent.TakePhysicalDamage(damage);
+            //skill.CheckLive();
+        });
     }
 
     public override void EnterRoom(UseSkill skill)
