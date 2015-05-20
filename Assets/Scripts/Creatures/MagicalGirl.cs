@@ -3,11 +3,42 @@ using System.Collections;
 
 public class MagicalGirl : CreatureBase {
 
-    // 역변
+    // 기분상태에 따라 마취약 투여가 가능해야 함.
 
-    public override void EnterRoom(UseSkill skill)
+    private bool isDark = false;
+
+    // 역변
+    //public override void OnFeelingUpdate(CreatureUnit creature)
+    public override void  OnFixedUpdate(CreatureUnit creature)
+    {
+        if (creature.feeling <= 50)
+        {
+            if(isDark == false)
+                Debug.Log("MagicalGirl.. darkness");
+            isDark = true;
+        }
+        else
+        {
+            if(isDark == true)
+                Debug.Log("MagicalGirl.. status ok");
+            isDark = false;
+        }
+    }
+
+    private void SkillDarkAttack(UseSkill skill)
+    {
+        Debug.Log("MagicalGirl dark attack");
+        skill.agent.TakePhysicalDamage(4);
+    }
+
+    public override void OnEnterRoom(UseSkill skill)
     {
         skill.PauseWorking();
+
+        if (isDark)
+        {
+            SkillDarkAttack(skill);
+        }
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/magicalGirl/magicalGirl_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);

@@ -495,11 +495,13 @@ public class AgentUnit : MonoBehaviour {
 
     public void TakePhysicalDamage(int damage)
     {
+        Debug.Log(name + " takes PHYSICAL dmg " + damage);
         hp -= damage;
     }
 
     public void TakeMentalDamage(int damage)
     {
+        Debug.Log(name + " takes MENTAL dmg " + damage);
         mental -= damage;
     }
 

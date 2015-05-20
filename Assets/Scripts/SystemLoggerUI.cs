@@ -20,7 +20,6 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 	
 	void Awake()
 	{
-		Debug.Log("asdf");
 		Notice.instance.Observe ("AddSystemLog", this);
 		//Notice.instance.Observe ("AgentDie", this);
 	}

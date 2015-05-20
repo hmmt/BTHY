@@ -3,7 +3,7 @@ using System.Collections;
 
 public class HappyTeddy  : CreatureBase {
 
-	public override void SkillStartUpdate(UseSkill skill)
+	public override void OnSkillStart(UseSkill skill)
 	{
 		if(skill.skillId == 40002) // 
 		{
@@ -17,7 +17,7 @@ public class HappyTeddy  : CreatureBase {
 		}
 	}
 
-    public override void SkillTickUpdate(UseSkill skill)
+    public override void OnSkillTickUpdate(UseSkill skill)
 	{
 		if(skill.skillId == 40002)
 		{
@@ -33,7 +33,7 @@ public class HappyTeddy  : CreatureBase {
 	}
 
     // temporary
-    public override void SkillFailWorkTick(UseSkill skill)
+    public override void OnSkillFailWorkTick(UseSkill skill)
     {
         //ActivateSkill(skill);
     }
@@ -72,7 +72,7 @@ public class HappyTeddy  : CreatureBase {
 
     //
 
-    public override void EnterRoom(UseSkill skill)
+    public override void OnEnterRoom(UseSkill skill)
     {
         skill.PauseWorking();
 

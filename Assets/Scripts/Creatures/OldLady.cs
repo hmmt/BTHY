@@ -5,13 +5,14 @@ public class OldLady : CreatureBase {
 
     private int skillDamage = 5;
 
-    public override void SkillGoalComplete(UseSkill skill)
+    public override void OnSkillGoalComplete(UseSkill skill)
     {
         ActivateSkill(skill);
     }
 
     public void ActivateSkill(UseSkill skill)
     {
+        Debug.Log("OldLady ActivateSkill()");
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/oldlady/OldLady_AttackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 7.5f);
@@ -54,11 +55,12 @@ public class OldLady : CreatureBase {
         }
         TimerCallback.Create(7.2f, delegate() {
             skill.targetCreature.ShowNarrationText("special_ability6", skill.agent.name);
-            skill.agent.mental -= skillDamage;
+            //skill.agent.mental -= skillDamage;
+            skill.agent.TakeMentalDamage(skillDamage);
         });
     }
 
-    public override void EnterRoom(UseSkill skill)
+    public override void OnEnterRoom(UseSkill skill)
     {
         skill.PauseWorking();
 

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Reaper : CreatureBase {
 
-    public override void SkillTickUpdate(UseSkill skill)
+    public override void OnSkillTickUpdate(UseSkill skill)
     {
         // 혼자 투입 시
 
@@ -15,8 +15,8 @@ public class Reaper : CreatureBase {
 
     private void ActivateSkill(UseSkill skill)
     {
+        Debug.Log("Reaper ActivateSkill");
         // 스킬 : <I am MISSIN’ U>
-
 
         skill.PauseWorking();
 
@@ -45,12 +45,16 @@ public class Reaper : CreatureBase {
                 if (damage <= 0)
                     damage = 1;
 
+                 // 단호박 특성
+                if (skill.agent.HasTrait(10016) == true)
+                    return;
                 skill.agent.TakePhysicalDamage(damage);
+                skill.agent.TakeMentalDamage(10);
             //skill.CheckLive();
         });
     }
 
-    public override void EnterRoom(UseSkill skill)
+    public override void OnEnterRoom(UseSkill skill)
     {
         skill.PauseWorking();
 
