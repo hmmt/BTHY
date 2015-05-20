@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class AgentUnit : MonoBehaviour {
 
     public GameObject agentWindow;
+    public GameObject agentAttackedAnimator;
 
 	// game data
 
