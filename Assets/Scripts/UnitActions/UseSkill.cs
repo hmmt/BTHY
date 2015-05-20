@@ -84,7 +84,7 @@ public class UseSkill : MonoBehaviour {
 			}
 			targetCreature.ShowNarrationText("finish", agent.name);
 
-            targetCreature.script.SkillGoalComplete(this);
+            targetCreature.script.OnSkillGoalComplete(this);
 
 			//StatusView.instance.Hide ();
 
@@ -150,7 +150,7 @@ public class UseSkill : MonoBehaviour {
 				//targetCreature.ShowNarrationText("start", agent.name);
                 targetCreature.ShowProcessNarrationText("start",agent.name);
                 targetCreature.PlaySound("enter");
-				targetCreature.script.EnterRoom(this);
+				targetCreature.script.OnEnterRoom(this);
 			}
 			if(workPlaying)
 			{
@@ -188,7 +188,7 @@ public class UseSkill : MonoBehaviour {
 	{
 		//EnergyModel.instance.AddEnergy()
 
-        targetCreature.script.SkillTickUpdate(this);
+        targetCreature.script.OnSkillTickUpdate(this);
 
         // 
         if (workPlaying)
@@ -249,7 +249,7 @@ public class UseSkill : MonoBehaviour {
             }
             else
             {
-                targetCreature.script.SkillFailWorkTick(this);
+                targetCreature.script.OnSkillFailWorkTick(this);
 
                 // when changed in SkillFailWorkTick
                 if (workPlaying)
@@ -269,7 +269,7 @@ public class UseSkill : MonoBehaviour {
 
                     if (physicsAtk || mentalAtk)
                     {
-                        targetCreature.script.SkillNormalAttack(this);
+                        targetCreature.script.OnSkillNormalAttack(this);
                     }
 
                     if (physicsAtk)

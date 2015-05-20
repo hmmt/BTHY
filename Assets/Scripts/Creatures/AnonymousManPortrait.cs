@@ -8,7 +8,7 @@ public class AnonymousManPortrait : CreatureBase {
 이 그림에 대해 궁금해하는 듯한 텍스트를 읽을 수 있다. "
 */
 
-    public override void EnterRoom(UseSkill skill)
+    public override void OnEnterRoom(UseSkill skill)
     {
         //skill.PauseWorking();
         //SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MatchGirl  : CreatureBase {
 
-    public override void SkillFailWorkTick(UseSkill skill)
+    public override void OnSkillFailWorkTick(UseSkill skill)
 	{
 		if(Random.value <= 0.4)
 		{
@@ -13,6 +13,7 @@ public class MatchGirl  : CreatureBase {
 
 	public void ActivateSkill(UseSkill skill)
 	{
+        Debug.Log("MatchGirl ActivateSkill");
         // show effect
 
         skill.PauseWorking();
@@ -57,7 +58,7 @@ public class MatchGirl  : CreatureBase {
             });
 	}
 
-    public override void SkillNormalAttack(UseSkill skill)
+    public override void OnSkillNormalAttack(UseSkill skill)
     {
         /*
         OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_commonAttack_00", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
@@ -72,7 +73,7 @@ public class MatchGirl  : CreatureBase {
         TypoEffect.Create(skill.targetCreature, typos[Random.Range(0,typos.Length)], 0, 2);
     }
 
-	public override void EnterRoom(UseSkill skill)
+	public override void OnEnterRoom(UseSkill skill)
 	{
 		skill.PauseWorking ();
 		//SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
