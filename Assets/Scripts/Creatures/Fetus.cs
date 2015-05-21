@@ -9,7 +9,7 @@ public class Fetus : CreatureBase
     private float cryTimer = 0;
     private float cryLimit = 120.0f;
 
-    public override void FixedUpdate(CreatureUnit creature)
+    public override void OnFixedUpdate(CreatureUnit creature)
     {
         feedTimer += Time.deltaTime;
 
@@ -35,18 +35,19 @@ public class Fetus : CreatureBase
             // 전체공격!!!!
             foreach (AgentUnit agent in AgentFacade.instance.GetAgentList())
             {
-                agent.mental -= 20;
+                agent.TakeMentalDamage(20); // 나눠서 입히기 필요?
                 Notice.instance.Send("UpdateAgentState_" + agent.gameObject.GetInstanceID());
             }
         }
     }
 
     // temporary
-    public override void SkillFailWorkTick(UseSkill skill)
+    public override void OnSkillFailWorkTick(UseSkill skill)
     {
         ActivateSkill(skill);
     }
 
+    // 타이포를 띄우기 위한 것
     public void ActivateSkill(UseSkill skill)
     {
         // show effect
@@ -78,7 +79,7 @@ public class Fetus : CreatureBase
 
     }
 
-    public override void SkillTickUpdate(UseSkill skill)
+    public override void OnSkillTickUpdate(UseSkill skill)
     {
         //if()
         {
@@ -88,7 +89,7 @@ public class Fetus : CreatureBase
 
     //
 
-    public override void EnterRoom(UseSkill skill)
+    public override void OnEnterRoom(UseSkill skill)
     {
         //if()
         {

@@ -84,7 +84,7 @@ public class UseSkill : MonoBehaviour {
 			}
 			targetCreature.ShowNarrationText("finish", agent.name);
 
-            targetCreature.script.SkillGoalComplete(this);
+            targetCreature.script.OnSkillGoalComplete(this);
 
 			//StatusView.instance.Hide ();
 
@@ -150,7 +150,7 @@ public class UseSkill : MonoBehaviour {
 				//targetCreature.ShowNarrationText("start", agent.name);
                 targetCreature.ShowProcessNarrationText("start",agent.name);
                 targetCreature.PlaySound("enter");
-				targetCreature.script.EnterRoom(this);
+				targetCreature.script.OnEnterRoom(this);
 			}
 			if(workPlaying)
 			{
@@ -177,6 +177,10 @@ public class UseSkill : MonoBehaviour {
 		tempView.Hide();
 		tempCreView.Hide();
 		*/
+
+        //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(false);
+        agent.showSkillIcon.turnOnDoingSkillIcon(false);
+
 		agent.FinishWorking();
 		targetCreature.state = CreatureState.WAIT;
 
@@ -188,7 +192,7 @@ public class UseSkill : MonoBehaviour {
 	{
 		//EnergyModel.instance.AddEnergy()
 
-        targetCreature.script.SkillTickUpdate(this);
+        targetCreature.script.OnSkillTickUpdate(this);
 
         // 
         if (workPlaying)
@@ -249,7 +253,7 @@ public class UseSkill : MonoBehaviour {
             }
             else
             {
-                targetCreature.script.SkillFailWorkTick(this);
+                targetCreature.script.OnSkillFailWorkTick(this);
 
                 // when changed in SkillFailWorkTick
                 if (workPlaying)
@@ -269,15 +273,18 @@ public class UseSkill : MonoBehaviour {
 
                     if (physicsAtk || mentalAtk)
                     {
-                        targetCreature.script.SkillNormalAttack(this);
+                        targetCreature.script.OnSkillNormalAttack(this);
                     }
 
                     if (physicsAtk)
                     {
+
+                        //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp",true);
+                       // Debug.Log("직원 애니메이터 1불 : "+agent.agentAttackedAnimator.GetComponent<Animator>().GetBool("attackUP"));
+
                         agent.hp -= targetCreature.metaInfo.physicsDmg;
                         agent.expHpDamage += targetCreature.metaInfo.physicsDmg;
-         
-
+        
                         agentUpdated = true;
 
                         AgentHitEffect.Create(agent);
@@ -289,6 +296,9 @@ public class UseSkill : MonoBehaviour {
                             Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
                             alreadyHit = true;
                         }
+
+                        //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp", false);
+                      //  Debug.Log("직원 애니메이터 2불 : " + agent.agentAttackedAnimator.GetComponent<Animator>().GetBool("attackUP"));
                     }
                     if (mentalAtk)
                     {
@@ -381,6 +391,11 @@ public class UseSkill : MonoBehaviour {
 			return null;
 		}
 		GameObject newObject = new GameObject ();
+
+        agent.showSkillIcon.turnOnDoingSkillIcon(true);
+        agent.showSkillIcon.showDoingSkillIcon(skillInfo,agent);
+        //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(true);
+       // agent.GetComponentInChildren<agentSkillDoing>().showDoingSkillIcon(skillInfo, agent);
 
 		string narration = agent.name+" (이)가 "+skillInfo.name+" 작업을 시작합니다.";
 		Notice.instance.Send("AddSystemLog", narration);

@@ -6,7 +6,7 @@ public class OneBadManyGood : CreatureBase {
     private int skillDamage = 20;
 
     // temporary
-    public override void SkillFailWorkTick(UseSkill skill)
+    public override void OnSkillFailWorkTick(UseSkill skill)
     {
         if(skill.skillId == 40001 )
         {
@@ -14,13 +14,14 @@ public class OneBadManyGood : CreatureBase {
         }
     }
 
-    public override void SkillSucceedWorkTick(UseSkill skill)
+    public override void OnSkillSucceedWorkTick(UseSkill skill)
     {
         skill.targetCreature.AddFeeling(100);
     }
 
     public void ActivateSkill(UseSkill skill)
     {
+        Debug.Log("OneBadManyGood ActivateSkill()");
         // show effect
 
         skill.PauseWorking();
@@ -57,6 +58,8 @@ public class OneBadManyGood : CreatureBase {
             TimerCallback.Create(3.0f, delegate() {
             skill.targetCreature.ShowNarrationText("special_ability2", skill.agent.name);
             skill.agent.mental -= skillDamage;
+
+                // 죄책감 특성 사라져야 함.
         });
 
             TimerCallback.Create(6.0f, delegate() {
@@ -67,7 +70,7 @@ public class OneBadManyGood : CreatureBase {
 
     //
 
-    public override void EnterRoom(UseSkill skill)
+    public override void OnEnterRoom(UseSkill skill)
     {
         skill.PauseWorking();
 

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class AgentUnit : MonoBehaviour {
 
     public GameObject agentWindow;
+    public GameObject agentAttackedAnimator;
+
+    public agentSkillDoing showSkillIcon;
 
 	// game data
 
@@ -494,11 +497,13 @@ public class AgentUnit : MonoBehaviour {
 
     public void TakePhysicalDamage(int damage)
     {
+        Debug.Log(name + " takes PHYSICAL dmg " + damage);
         hp -= damage;
     }
 
     public void TakeMentalDamage(int damage)
     {
+        Debug.Log(name + " takes MENTAL dmg " + damage);
         mental -= damage;
     }
 

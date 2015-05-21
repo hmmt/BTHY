@@ -133,7 +133,7 @@ public class CreatureUnit : MonoBehaviour, IObserver {
 	{
         if (script != null)
         {
-            script.FixedUpdate(this);
+            script.OnFixedUpdate(this);
         }
 		UpdateViewPosition();
 	}

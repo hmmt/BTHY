@@ -5,12 +5,14 @@ public class SmilePierrot : CreatureBase {
 
     private const int skillPhysicalDmg = 4;
 
-    public override void SkillTickUpdate(UseSkill skill)
+    public override void OnSkillStart(UseSkill skill)
     {
         // 직원 특성에 따라 칼빵!
         //skill.agent.
-        //if(skill.agent.HasTrait())
-        if(true)
+
+        // 헤픈 웃음, 쾌활함
+        if (skill.agent.HasTrait(10017) == false &&
+            skill.agent.HasTrait(10018) == false)
         {
             if (Random.value <= 0.7f)
             {
@@ -21,10 +23,11 @@ public class SmilePierrot : CreatureBase {
 
     private void ActivateSkill(UseSkill skill)
     {
+        Debug.Log("SmilePierrot ActivateSkill");
         skill.agent.TakePhysicalDamage(skillPhysicalDmg);
     }
 
-    public override void EnterRoom(UseSkill skill)
+    public override void OnEnterRoom(UseSkill skill)
     {
         skill.PauseWorking();
 

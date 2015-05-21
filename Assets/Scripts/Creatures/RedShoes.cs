@@ -5,7 +5,7 @@ public class RedShoes : CreatureBase {
 
 
     // temporary
-    public override void SkillFailWorkTick(UseSkill skill)
+    public override void OnSkillFailWorkTick(UseSkill skill)
     {
         ActivateSkill(skill);
     }
@@ -35,7 +35,7 @@ public class RedShoes : CreatureBase {
 
     //
 
-    public override void EnterRoom(UseSkill skill)
+    public override void OnEnterRoom(UseSkill skill)
     {
         skill.PauseWorking();
 
