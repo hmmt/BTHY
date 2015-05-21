@@ -7,6 +7,8 @@ public class AgentUnit : MonoBehaviour {
     public GameObject agentWindow;
     public GameObject agentAttackedAnimator;
 
+    public agentSkillDoing showSkillIcon;
+
 	// game data
 
     //public TraitTypeInfo metaTraitInfo;

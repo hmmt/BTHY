@@ -177,6 +177,10 @@ public class UseSkill : MonoBehaviour {
 		tempView.Hide();
 		tempCreView.Hide();
 		*/
+
+        //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(false);
+        agent.showSkillIcon.turnOnDoingSkillIcon(false);
+
 		agent.FinishWorking();
 		targetCreature.state = CreatureState.WAIT;
 
@@ -387,6 +391,11 @@ public class UseSkill : MonoBehaviour {
 			return null;
 		}
 		GameObject newObject = new GameObject ();
+
+        agent.showSkillIcon.turnOnDoingSkillIcon(true);
+        agent.showSkillIcon.showDoingSkillIcon(skillInfo,agent);
+        //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(true);
+       // agent.GetComponentInChildren<agentSkillDoing>().showDoingSkillIcon(skillInfo, agent);
 
 		string narration = agent.name+" (이)가 "+skillInfo.name+" 작업을 시작합니다.";
 		Notice.instance.Send("AddSystemLog", narration);
