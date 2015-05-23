@@ -37,8 +37,11 @@ public class CameraMover : MonoBehaviour {
 			newPos.y += 0.1f;
 			Camera.main.transform.localPosition = newPos;
 		}
-		if(Input.GetAxis("Mouse ScrollWheel") > 0 )
-			Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize-0.1f, 1.5f, 16.5f );
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+           Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
+            //Camera.allCameras. = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
+        }
 		if(Input.GetAxis("Mouse ScrollWheel") < 0 )
 			Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize+0.1f, 1.5f, 16.5f );
 	}

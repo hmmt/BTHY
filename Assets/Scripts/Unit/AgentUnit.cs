@@ -8,6 +8,7 @@ public class AgentUnit : MonoBehaviour {
     public GameObject agentAttackedAnimator;
 
     public agentSkillDoing showSkillIcon;
+    public AgentSpeech showSpeech;
 
 	// game data
 

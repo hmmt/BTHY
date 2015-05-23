@@ -23,9 +23,9 @@
 		script="Fetus"
 		>
 		<feeling max="100" downProb="1" downValue="3">
-			<section feelingValue="100" state="good" energy="2"/>
-			<section feelingValue="40" state="normal" energy="1"/>
-			<section feelingValue="0" state="bad" energy="0"/>
+			<section feelingValue="100" state="good" energy="0.5"/>
+			<section feelingValue="40" state="normal" energy="0.2"/>
+			<section feelingValue="0" state="bad" energy="-0.4"/>
 		</feeling>
 		
 		<preferSkill type="indirect" bonus="0.25"/>

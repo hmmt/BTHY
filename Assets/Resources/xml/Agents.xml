@@ -23,7 +23,8 @@
 		<speech action="work_hit" text="이럴 줄 알았어."/>
 		<speech action="work_complete" text="한 건 했다."/>
 		<speech action="dead" text="영원히 자자."/>
-		
+		<speech action="panic" text="빼애애앸"/> 
+	
 		<panic action="roaming"/>
 	</agent>
 	<agent

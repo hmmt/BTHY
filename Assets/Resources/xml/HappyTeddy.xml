@@ -25,9 +25,9 @@
 		specialSkillId="40002"		
 		>
 		<feeling max="300" downProb="0.1" downValue="4">
-			<section feelingValue="200" state="good" energy="2"/>
-			<section feelingValue="50" state="normal" energy="1"/>
-			<section feelingValue="0" state="bad" energy="0"/>
+			<section feelingValue="200" state="good" energy="0.4"/>
+			<section feelingValue="50" state="normal" energy="0.2"/>
+			<section feelingValue="0" state="bad" energy="-0.2"/>
 		</feeling>
 		
 		<preferSkill type="indirect" bonus="0.25"/>

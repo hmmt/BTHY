@@ -38,7 +38,7 @@ public class CreatureTypeInfo
 
 	public SkillTypeInfo specialSkill;
 
-	public int[] genEnergy;
+	public float[] genEnergy;
 			
     public SkillBonusInfo[] preferList;
 

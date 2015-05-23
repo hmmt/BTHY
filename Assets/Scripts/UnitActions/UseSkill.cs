@@ -81,6 +81,8 @@ public class UseSkill : MonoBehaviour {
 			if(agent.speechTable.TryGetValue ("work_complete", out speech))
 			{
 				Notice.instance.Send("AddPlayerLog", agent.name + " : " +  speech);
+                Notice.instance.Send("AddSystemLog", agent.name+" : "+speech);
+                agent.showSpeech.showSpeech(speech);
 			}
 			targetCreature.ShowNarrationText("finish", agent.name);
 
@@ -293,8 +295,10 @@ public class UseSkill : MonoBehaviour {
                         string speech;
                         if (!alreadyHit && agent.speechTable.TryGetValue("work_hit", out speech))
                         {
+                            Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
                             Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
                             alreadyHit = true;
+                            agent.showSpeech.showSpeech(speech);
                         }
 
                         //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp", false);
@@ -331,6 +335,8 @@ public class UseSkill : MonoBehaviour {
             if (agent.speechTable.TryGetValue("panic", out speech))
             {
                 Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
+                Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
+                agent.showSpeech.showSpeech(speech);
             }
 
             targetCreature.ShowNarrationText("panic", agent.name);
@@ -374,6 +380,8 @@ public class UseSkill : MonoBehaviour {
             if (agent.speechTable.TryGetValue("dead", out speech))
             {
                 Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
+                Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
+                agent.showSpeech.showSpeech(speech);
             }
 
             targetCreature.ShowNarrationText("dead", agent.name);
@@ -404,7 +412,12 @@ public class UseSkill : MonoBehaviour {
 
         inst.traitList = TraitTypeList.instance;
 
-		agent.Speech ("work_start");
+
+        string speech;
+        agent.speechTable.TryGetValue("work_start", out speech);
+        Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
+        agent.showSpeech.showSpeech(speech);
+
 		creature.ShowNarrationText("move", agent.name);
 
 		//agent.MoveToCreture(creature.gameObject);

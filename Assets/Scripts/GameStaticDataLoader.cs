@@ -204,14 +204,14 @@ public class GameStaticDataLoader {
                     model.specialSkill = SkillTypeList.instance.GetData(long.Parse(skillAttr.InnerText));
                 }
 
-                List<int> energyItems = new List<int>();
+                List<float> energyItems = new List<float>();
                 XmlNodeList genEnergies = feelingNode.SelectNodes("section");
 
                 // temp
                 // TODO : must read feeling value
                 foreach (XmlNode itemNode in genEnergies)
                 {
-                    energyItems.Add(int.Parse(itemNode.Attributes.GetNamedItem("energy").InnerText));
+                    energyItems.Add(float.Parse(itemNode.Attributes.GetNamedItem("energy").InnerText));
                 }
                 energyItems.Sort();
                 model.genEnergy = energyItems.ToArray();

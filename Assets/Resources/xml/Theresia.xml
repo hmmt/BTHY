@@ -23,9 +23,9 @@
 		script="Theresia"
 		>
 		<feeling max="200" downProb="0.25" downValue="1">
-			<section feelingValue="100" state="good" energy="4"/>
-			<section feelingValue="50" state="normal" energy="2"/>
-			<section feelingValue="0" state="bad" energy="-3"/>
+			<section feelingValue="100" state="good" energy="0.4"/>
+			<section feelingValue="50" state="normal" energy="0.2"/>
+			<section feelingValue="0" state="bad" energy="-0.2"/>
 		</feeling>
 
 		<preferSkill type="indirect" bonus="0.2"/>

@@ -23,9 +23,9 @@
 		script="Reaper"
 		>
 		<feeling max="200" downProb="0.3" downValue="1">
-			<section feelingValue="100" state="good" energy="5"/>
-			<section feelingValue="50" state="normal" energy="3"/>
-			<section feelingValue="0" state="bad" energy="-2"/>
+			<section feelingValue="100" state="good" energy="0.6"/>
+			<section feelingValue="50" state="normal" energy="0.3"/>
+			<section feelingValue="0" state="bad" energy="-1"/>
 		</feeling>
 
 		<preferSkill type="direct" bonus="0.3"/>

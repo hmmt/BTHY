@@ -3,18 +3,6 @@ using System.Collections;
 
 public class agentSkillDoing : MonoBehaviour {
 
-    /*
-    public SpriteRenderer mentalZeroRenderer;
-    public SpriteRenderer mentalFullRenderer;
-
-    public void SetMentalRate(float rate)
-    {
-        Color color = mentalFullRenderer.color;
-        color.a = rate;
-        mentalFullRenderer.color = color;
-    }
-    */
-
     public SpriteRenderer skillIcon;
 
     public void showDoingSkillIcon(SkillTypeInfo nowSkill, AgentUnit nowAgent)

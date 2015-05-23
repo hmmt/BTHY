@@ -16,19 +16,19 @@ public class EnergyModel : IObserver {
 		}
 	}
 
-	private int energy = 0;
+	private float energy = 0;
 
 	public void Init()
 	{
 		energy = 0;
 	}
 
-	public void AddEnergy(int added)
+	public void AddEnergy(float added)
 	{
 		this.energy += added;
 	}
 
-	public int GetEnergy()
+	public float GetEnergy()
 	{
 		return energy;
 	}
@@ -39,7 +39,7 @@ public class EnergyModel : IObserver {
 		
 		foreach(CreatureUnit unit in units)
 		{
-			int addedEnergy = 1;
+			float addedEnergy = 1;
 
 			int feelingTick = unit.metaInfo.feelingMax / unit.metaInfo.genEnergy.Length;
 			addedEnergy = unit.metaInfo.genEnergy[Mathf.Clamp(unit.feeling/feelingTick, 0, unit.metaInfo.genEnergy.Length-1)];

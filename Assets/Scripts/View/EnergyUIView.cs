@@ -13,7 +13,7 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 
     public Animator energyView;
   
-	private float mustFillEnergy = 400;
+	private float mustFillEnergy = 100;
 	private float leftFillEnergy = 400;
 
 	private float chargeTick=0;
@@ -43,8 +43,10 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 		Notice.instance.Remove ("UpdateEnergy", this);
 	}
 
-	public void SetEnergy(int energy)
+	public void SetEnergy(float energy)
 	{	
+
+        //energy = energy / 
 		
 		float leftChargeEnergy = energy - mustFillEnergy;
 
@@ -62,13 +64,13 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 
 		leftChargeEnergyGage.GetComponent<RectTransform>().localScale = new Vector3(Mathf.Clamp(leftChargeEnergy/leftFillEnergy,0,1),1,1);
 
-		mustEnergyNum.text = energy+" / "+ mustFillEnergy;
+		mustEnergyNum.text = (int)energy+" / "+ mustFillEnergy;
 
 		if(leftChargeEnergy <= 0)
 			leftEnergyNum.text = "0 / "+ leftFillEnergy;
 
 		else
-			leftEnergyNum.text = leftChargeEnergy+" / "+leftFillEnergy;
+			leftEnergyNum.text = (int)leftChargeEnergy+" / "+leftFillEnergy;
 	}
 
 
