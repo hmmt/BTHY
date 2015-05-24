@@ -55,7 +55,11 @@ public class ElevatorMover : MonoBehaviour {
 	{
 
 		Vector2 nextPosition = GetComponent<Rigidbody2D>().position;
-		timer += Time.deltaTime;
+        if(playerOn)
+        {
+		    timer += Time.deltaTime;
+        }
+
 
 		switch(currentState)
 		{
@@ -108,12 +112,14 @@ public class ElevatorMover : MonoBehaviour {
 			currentState = STATE.RSTOP;
 			break;
 		case STATE.RMOVE:
+            playerOn = false;
 			currentState = STATE.STOP;
 			break;
 		case STATE.STOP:
 			currentState = STATE.MOVE;
 			break;
 		case STATE.RSTOP:
+            playerOn = false;
 			currentState = STATE.RMOVE;
 			break;
 		}
@@ -153,9 +159,9 @@ public class ElevatorMover : MonoBehaviour {
         {
             //Physics2D.IgnoreCollision(collider2D, col.collider, true);
            // Debug.Log("으으으으흠");
-            currentState = STATE.STOP;
+            //currentState = STATE.RMOVE;
             playerOn = true;
-           // playerBody.gravityScale = 100;
+            playerBody.gravityScale = 40;
         }
 
         else

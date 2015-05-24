@@ -77,11 +77,11 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "PlatForm")
+        if (col.gameObject.tag == "Floor")
         {
             Rigidbody2D player = GetComponent<Rigidbody2D>();
-            player.gravityScale = 50;
-            Debug.Log("ㅇ호애에ㅔㅇ");
+            player.gravityScale = 1;
+            Debug.Log("ㅇ호애에ㅔㅇ" + player.gravityScale);
         }
 
     }
