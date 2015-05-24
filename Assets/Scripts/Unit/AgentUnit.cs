@@ -365,33 +365,7 @@ public class AgentUnit : MonoBehaviour {
 	{
 		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)mental / (float)maxMental);
 	}
-/*
-	public void MoveToTilePos(int goalx, int goaly)
-	{
-		int x,y;
-		CreatureRoom.instance.WorldToTile(transform.position, out x, out y);
-		AIPoint[] path = Astar.SearchPath(CreatureRoom.instance.GetTileMap(), x,y, goalx,goaly);
-		MoveOnPath(path);
-	}
 
-	public void MoveToGlobalPos(Vector2 pos)
-	{
-		int x,y;
-		CreatureRoom.instance.WorldToTile(pos, out x, out y);
-		MoveToTilePos (x, y);
-	}
-	*/
-
-	/*
-		private MapNode currentNode;
-
-		private MapEdge currentEdge;
-		private int edgeDirection;
-		private float edgePosRate; // 0~1
-
-		private MapEdge[] pathList;
-		private int pathIndex;
-		*/
 	public void MoveToNode(MapNode targetNode)
 	{
 		if(currentNode != null)
@@ -403,7 +377,7 @@ public class AgentUnit : MonoBehaviour {
 		}
 		else if(currentEdge != null)
 		{
-			MapNode tempNode = new MapNode("-1", GetCurrentViewPosition());
+            MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
 			MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
 			MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
 			tempNode.AddEdge(tempEdge1);

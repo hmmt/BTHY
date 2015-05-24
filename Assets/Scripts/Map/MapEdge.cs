@@ -31,6 +31,10 @@ public class MapEdge {
 
 	public MapNode ConnectedNode(MapNode node)
 	{
+        if (node1.activate == false || node2.activate == false)
+        {
+            return null;
+        }
 		if(node == node1)
 		{
 			return node2;

@@ -12,6 +12,8 @@ public class MapGraph : MonoBehaviour
 
     private Dictionary<string, MapNode> graphNodes;
 
+    private Dictionary<string, List<MapNode>> nodeAreaTable;
+
     private List<MapEdge> edges;
 
     void Awake()
@@ -41,6 +43,18 @@ public class MapGraph : MonoBehaviour
         return 100;
     }
 
+    public void ActivateArea(string name)
+    {
+        List<MapNode> nodeList;
+        if (nodeAreaTable.TryGetValue(name, out nodeList))
+        {
+            foreach (MapNode node in nodeList)
+            {
+                node.activate = true;
+            }
+        }
+    }
+
     public void LoadMap()
     {
         //StreamReader sr = new StreamReader (Application.dataPath + "/Resources/xml/MapNodeList.xml");
@@ -50,31 +64,52 @@ public class MapGraph : MonoBehaviour
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(textAsset.text);
 
-        XmlNodeList nodes = doc.SelectNodes("/node_list/node");
+        XmlNodeList areaNodes = doc.SelectNodes("/node_list/area");
 
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
+        Dictionary<string, List<MapNode>> nodesInAreaDic = new Dictionary<string, List<MapNode>>();
 
+        foreach (XmlNode areaNode in areaNodes)
+        {
+            List<MapNode> nodesInArea = new List<MapNode>();
+            string areaName = areaNode.Attributes.GetNamedItem("name").InnerText;
+
+            foreach (XmlNode node in areaNode.ChildNodes)
+            {
+                string id = node.Attributes.GetNamedItem("id").InnerText;
+                float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);
+                float y = float.Parse(node.Attributes.GetNamedItem("y").InnerText);
+
+                MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName);
+                newMapNode.activate = false;
+                nodeDic.Add(id, newMapNode);
+
+                nodesInArea.Add(newMapNode);
+
+                // 게임 뷰에 위치 표시
+                GameObject nodePoint = Prefab.LoadPrefab("NodePoint");
+
+                nodePoint.transform.SetParent(gameObject.transform);
+                nodePoint.transform.localPosition = new Vector3(x, y, 0);
+            }
+
+            nodesInAreaDic.Add(areaName, nodesInArea);
+        }
+        //XmlNodeList nodes = doc.SelectNodes("/node_list/node");
+
+        
+        /*
         foreach (XmlNode node in nodes)
         {
-            string id = node.Attributes.GetNamedItem("id").InnerText;
-            float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);
-            float y = float.Parse(node.Attributes.GetNamedItem("y").InnerText);
-
-            nodeDic.Add(id, new MapNode(id, new Vector2(x, y)));
-
-            // 게임 뷰에 위치 표시
-            GameObject nodePoint = Prefab.LoadPrefab("NodePoint");
-
-            nodePoint.transform.SetParent(gameObject.transform);
-            nodePoint.transform.localPosition = new Vector3(x, y, 0);
+            
         }
-
+        */
         textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
 
         doc = new XmlDocument();
         doc.LoadXml(textAsset.text);
 
-        nodes = doc.SelectNodes("/edge_list/edge");
+        XmlNodeList nodes = doc.SelectNodes("/edge_list/edge");
 
         List<MapEdge> edgeList = new List<MapEdge>();
 
@@ -91,6 +126,7 @@ public class MapGraph : MonoBehaviour
                 nodeDic.TryGetValue(node2Id, out node2) == false)
             {
                 Debug.Log("cannot create edge - (" + node1Id + ", " + node2Id + ")");
+                continue;
             }
 
             XmlNode costNode = node.Attributes.GetNamedItem("cost");
@@ -121,5 +157,7 @@ public class MapGraph : MonoBehaviour
         graphNodes = nodeDic;
         //edges = edgeList.ToArray();
         edges = edgeList;
+
+        nodeAreaTable = nodesInAreaDic;
     }
 }

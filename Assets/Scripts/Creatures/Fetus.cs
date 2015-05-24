@@ -33,7 +33,7 @@ public class Fetus : CreatureBase
             cryTimer = 0;
 
             // 전체공격!!!!
-            foreach (AgentUnit agent in AgentFacade.instance.GetAgentList())
+            foreach (AgentUnit agent in AgentManager.instance.GetAgentList())
             {
                 agent.TakeMentalDamage(20); // 나눠서 입히기 필요?
                 Notice.instance.Send("UpdateAgentState_" + agent.gameObject.GetInstanceID());

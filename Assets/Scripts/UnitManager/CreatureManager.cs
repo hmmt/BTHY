@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
-public class CreatureFacade : MonoBehaviour {
+public class CreatureManager : MonoBehaviour {
 
-	private static CreatureFacade _instance;
+	private static CreatureManager _instance;
 
-	public static CreatureFacade instance
+	public static CreatureManager instance
 	{
 		get
 		{
 			//if(_instance == null)
-				//_instance = new CreatureFacade();
+				//_instance = new CreatureManager();
 			return _instance;
 		}
 	}
@@ -35,6 +35,7 @@ public class CreatureFacade : MonoBehaviour {
 
         unit.transform.SetParent(creatureListNode.transform, false);
 
+        MapNode entryNode = MapGraph.instance.GetNodeById(nodeId);
 		Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
 		List<MapEdge> edgeList = new List<MapEdge> ();
 
@@ -44,7 +45,7 @@ public class CreatureFacade : MonoBehaviour {
 			float nodeX = x+float.Parse(node.Attributes.GetNamedItem("x").InnerText);
 			float nodeY = y+float.Parse(node.Attributes.GetNamedItem("y").InnerText);
 
-			MapNode newNode = new MapNode(id, new Vector2(nodeX, nodeY));
+            MapNode newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
 
 			XmlNode typeNode = node.Attributes.GetNamedItem("type");
 			if(typeNode != null && typeNode.InnerText == "workspace")
@@ -57,7 +58,6 @@ public class CreatureFacade : MonoBehaviour {
 			}
 			else if(typeNode != null && typeNode.InnerText == "entry")
 			{
-				MapNode entryNode = MapGraph.instance.GetNodeById(nodeId);
 				MapEdge edge = new MapEdge(newNode, entryNode, "door");
 
 				edgeList.Add(edge);
@@ -134,6 +134,17 @@ public class CreatureFacade : MonoBehaviour {
 		room.UpdateStatus ();
 
 		unit.room = room;
+        /*
+        if (PlayerModel.instnace.IsOpenedArea(entryNode.GetAreaName()))
+        {
+
+        }
+        else
+        {
+            unit.gameObject.SetActive(false);
+            room.gameObject.SetActive(false);
+        }
+         */
 	}
 
 	public void AddCreature(long typeId, string nodeId, float x, float y)

@@ -35,7 +35,7 @@ public class EnergyModel : IObserver {
 
 	public void UpdateEnergy()
 	{
-		CreatureUnit[] units = CreatureFacade.instance.GetCreatureList ();
+		CreatureUnit[] units = CreatureManager.instance.GetCreatureList ();
 		
 		foreach(CreatureUnit unit in units)
 		{

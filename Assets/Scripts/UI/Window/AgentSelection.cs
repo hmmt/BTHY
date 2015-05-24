@@ -49,7 +49,7 @@ public class AgentSelection : MonoBehaviour {
 
     public void ShowAgentList()
     {
-        AgentUnit[] agents = AgentFacade.instance.GetAgentList();
+        AgentUnit[] agents = AgentManager.instance.GetAgentList();
 
         float posy = 0;
         foreach (AgentUnit unit in agents)

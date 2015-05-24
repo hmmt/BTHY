@@ -1,6 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public class NoticeName
+{
+    public static string EnergyTimer = "EnergyTimer";
+    public static string AddNarrationLog = "AddNarrationLog";
+    public static string AreaOpenUpdate = "AreaOpenUpdate";
+    public static string AddPlayerLog = "AddPlayerLog";
+    public static string AddSystemLog = "AddSystemLog";
+    public static string CreatureFeelingUpdateTimer = "CreatureFeelingUpdateTimer";
+    public static string UpdateEnergy = "UpdateEnergy";
+}
+
 public class Notice {
 
 	private static Notice _instance;

@@ -112,7 +112,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
 	public void ShowAgentList()
 	{
-		AgentUnit[] agents = AgentFacade.instance.GetAgentList ();
+		AgentUnit[] agents = AgentManager.instance.GetAgentList ();
 
 		float posy = 0;
 		foreach(AgentUnit unit in agents)
@@ -155,7 +155,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	{
 		AgentSlot agentSlot = slotObject.GetComponent<AgentSlot> ();
 		
-		AgentUnit[] agents = AgentFacade.instance.GetAgentList ();
+		AgentUnit[] agents = AgentManager.instance.GetAgentList ();
 		AgentUnit unit = agents [agentSlot.slotIndex];
 		
 		if(!selectedAgentList.Contains(unit.gameObject))

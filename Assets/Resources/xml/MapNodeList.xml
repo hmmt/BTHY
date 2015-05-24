@@ -13,62 +13,67 @@
 	<node id="6" x="-2" y="-3" />
 	<node id="7" x="2" y="-3" />
 -->
-
-	<node id="1001001" x="-0.5" y="2.5" />
-	<node id="1001002" x="0" y="2.5" />
-	<node id="1001003" x="0.5" y="2.5" />
-
-
-	<node id="1002001" x="-8" y="2.5" comment="문 입구"/>
-	<node id="1002002" x="-16" y="2.5"/>
-
-	<node id="1003002" x="-16" y="2" />
-
-	<node id="1004001" x="-8" y="-1" comment="환상체 격리소"/>
-	<node id="1004002" x="-16" y="-1" comment="환상체 격리소"/>
-
-	<node id="1002101" x="8" y="2.5" />
-	<node id="1002102" x="16" y="2.5" />
-
-	<node id="1003101" x="8" y="2" />
-	<node id="1003102" x="16" y="2" />
-
-	<node id="1004101" x="8" y="-1" comment="몬스터"/>
-	<node id="1004102" x="16" y="-1" comment="몬스터"/>
+	<area name="1">
+		<node id="1001001" x="-0.5" y="2.5" />
+		<node id="1001002" x="0" y="2.5" />
+		<node id="1001003" x="0.5" y="2.5" />
 
 
-	<node id="1003111" x="0" y="-9" />
+		<node id="1002001" x="-8" y="2.5" comment="문 입구"/>
+		<node id="1002002" x="-16" y="2.5"/>
 
-	<node id="1003111-left-1" x="-4" y="-9" />
-	<node id="1003111-left-2" x="-8" y="-9" />
+		<node id="1003002" x="-16" y="2" />
 
-	<node id="1003111-right-1" x="4" y="-9" />
-	<node id="1003111-right-2" x="8" y="-9" />
+		<node id="1004001" x="-8" y="-1" comment="환상체 격리소"/>
+		<node id="1004002" x="-16" y="-1" comment="환상체 격리소"/>
+
+		<node id="1002101" x="8" y="2.5" />
+		<node id="1002102" x="16" y="2.5" />
+
+		<node id="1003101" x="8" y="2" />
+		<node id="1003102" x="16" y="2" />
+
+		<node id="1004101" x="8" y="-1" comment="몬스터"/>
+		<node id="1004102" x="16" y="-1" comment="몬스터"/>
 
 
+		<node id="1003111" x="0" y="-9" />
 
-	<node id="N-way1-point1" x="-30" y="2.5"/>
+		<node id="1003111-left-1" x="-4" y="-9" />
+		<node id="1003111-left-2" x="-8" y="-9" />
 
-	<node id="N-way1-point2" x="-30" y="-4" />
-	<node id="N-way1-point3" x="-30" y="-14" />
+		<node id="1003111-right-1" x="4" y="-9" />
+		<node id="1003111-right-2" x="8" y="-9" />
+	</area>
 
-	<node id="N-way2-point1" x="-30" y="-26" />
-	<node id="N-way2-point2" x="-30" y="-36" />
+	<area name="2">
 
-	<node id="N-center-point" x="-30" y="-20"  comment="갈래길"/>
-	<node id="N-center-way-point1" x="-18" y="-20" />
+		<node id="N-way1-point1" x="-30" y="2.5"/>
+
+		<node id="N-way1-point2" x="-30" y="-4" />
+		<node id="N-way1-point3" x="-30" y="-14" />
+
+		<node id="N-way2-point1" x="-30" y="-26" />
+		<node id="N-way2-point2" x="-30" y="-36" />
+
+		<node id="N-center-point" x="-30" y="-20"  comment="갈래길"/>
+		<node id="N-center-way-point1" x="-18" y="-20" />
+
+	</area>
 
 <!--  -->
-	<node id="H-way1-point1" x="30" y="2.5"/>
+	<area name="3">
+		<node id="H-way1-point1" x="30" y="2.5"/>
 
-	<node id="H-way1-point2" x="30" y="-4" />
-	<node id="H-way1-point3" x="30" y="-14" />
+		<node id="H-way1-point2" x="30" y="-4" />
+		<node id="H-way1-point3" x="30" y="-14" />
 
-	<node id="H-way2-point1" x="30" y="-26" />
-	<node id="H-way2-point2" x="30" y="-36" />
+		<node id="H-way2-point1" x="30" y="-26" />
+		<node id="H-way2-point2" x="30" y="-36" />
 
-	<node id="H-center-point" x="30" y="-20"  comment="갈래길"/>
-	<node id="H-center-way-point1" x="18" y="-20" />
+		<node id="H-center-point" x="30" y="-20"  comment="갈래길"/>
+		<node id="H-center-way-point1" x="18" y="-20" />
+	</area>
 
 	<!--
 	<node id="1003112" x="0" y="-5" />

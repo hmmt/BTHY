@@ -248,6 +248,11 @@ public class CreatureUnit : MonoBehaviour, IObserver {
         return GetRejectSkillBonus(type, out bonus);
     }
 
+    public string GetArea()
+    {
+        return workspaceNode.GetAreaName();
+    }
+
     public string GetObserveText()
     {
         string output = "";

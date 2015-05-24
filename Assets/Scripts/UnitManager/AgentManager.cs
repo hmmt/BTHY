@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AgentFacade : MonoBehaviour {
+public class AgentManager : MonoBehaviour {
 
-	private static AgentFacade _instance;
+	private static AgentManager _instance;
 	
-	public static AgentFacade instance
+	public static AgentManager instance
 	{
 		get{ return _instance; }
 	}
@@ -14,10 +14,6 @@ public class AgentFacade : MonoBehaviour {
 	void Awake()
 	{
 		_instance = this;
-	}
-
-	void Start()
-	{
 	}
 
 	//private List<AgentUnit> agentList = new List<AgentUnit>();
@@ -48,7 +44,7 @@ public class AgentFacade : MonoBehaviour {
 		return newUnit.GetComponent<AgentUnit> ();
 	}
 
-	public AgentUnit AddAgent(long typeId, int x, int y)
+	public AgentUnit AddAgent(long typeId)
 	{
         int traitHp=0;
         int traitMental=0;
@@ -152,4 +148,18 @@ public class AgentFacade : MonoBehaviour {
 
 		return output.ToArray ();
 	}
+
+    public bool BuyAgent(long id)
+    {
+        AgentTypeInfo info = AgentTypeList.instance.GetData(id);
+
+        //info.
+
+        float energy = EnergyModel.instance.GetEnergy();
+        //int needEnergy = 1;
+
+        AgentManager.instance.AddAgent(id);
+
+        return true;
+    }
 }
