@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour {
         {
            player.AddForce(new Vector2(0,jumpForce));
         }
+
+        Camera.main.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y+2, Camera.main.transform.localPosition.z);
 	}
 
     void FixedUpdate()
@@ -36,6 +38,8 @@ public class PlayerController : MonoBehaviour {
         
         float move = Input.GetAxis("Horizontal");
         player.velocity = new Vector2(move * maxSpeed, player.velocity.y);
+
+       
 
         if (move < 0 && facingRight)
             Filp();
@@ -68,6 +72,17 @@ public class PlayerController : MonoBehaviour {
         }
       
       flash.transform.localRotation = theRotate;
+
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "PlatForm")
+        {
+            Rigidbody2D player = GetComponent<Rigidbody2D>();
+            player.gravityScale = 50;
+            Debug.Log("ㅇ호애에ㅔㅇ");
+        }
 
     }
 }

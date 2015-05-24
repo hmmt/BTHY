@@ -4,6 +4,8 @@ using System.Collections;
 public class CameraMover : MonoBehaviour
 {
 
+    public GameObject player;
+
     void FixedUpdate()
     {
         //float a = Camera.main.aspect * Camera.main.orthographicSize;
