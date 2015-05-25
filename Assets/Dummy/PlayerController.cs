@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
     public LayerMask whatIsGround;
 	public float jumpForce = 700f;
 
+
+
 	// Use this for initialization
 	void Start () {
 	
@@ -27,7 +29,7 @@ public class PlayerController : MonoBehaviour {
            player.AddForce(new Vector2(0,jumpForce));
         }
 
-        Camera.main.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y+2, Camera.main.transform.localPosition.z);
+        Camera.main.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y+3.5f, Camera.main.transform.localPosition.z);
 	}
 
     void FixedUpdate()
@@ -77,12 +79,10 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Floor")
+        if (col.gameObject.tag == "Floor" || col.gameObject.tag == "SecurityHall")
         {
             Rigidbody2D player = GetComponent<Rigidbody2D>();
             player.gravityScale = 1;
-            Debug.Log("ㅇ호애에ㅔㅇ" + player.gravityScale);
         }
-
     }
 }
