@@ -12,8 +12,8 @@
 		horrorProb="0.4"
 		horrorDmg="-20"
 		
-		physicsProb="1"
-		physicsDmg="100"
+		physicsProb="0.1"
+		physicsDmg="1"
 		
 		mentalProb="0.7"
 		mentalDmg="40"
