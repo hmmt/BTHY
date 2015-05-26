@@ -16,6 +16,12 @@ public class TraitTypeList
     }
 
     private List<TraitTypeInfo> _list;
+    private bool _loaded = false;
+
+    public bool loaded
+    {
+        get { return _loaded; }
+    }
 
     private TraitTypeList()
     {
@@ -25,6 +31,7 @@ public class TraitTypeList
     public void Init(TraitTypeInfo[] list)
     {
         _list = new List<TraitTypeInfo>(list);
+        _loaded = true;
     }
 
     public TraitTypeInfo[] GetList()

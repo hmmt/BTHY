@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public class NoticeName
 {
+    //public static string StartScene = "StartScene";
+
+    public static string FixedUpdate = "FixedUpdate";
+
     public static string EnergyTimer = "EnergyTimer";
     public static string AddNarrationLog = "AddNarrationLog";
     public static string AreaOpenUpdate = "AreaOpenUpdate";
@@ -10,6 +14,14 @@ public class NoticeName
     public static string AddSystemLog = "AddSystemLog";
     public static string CreatureFeelingUpdateTimer = "CreatureFeelingUpdateTimer";
     public static string UpdateEnergy = "UpdateEnergy";
+    public static string UpdateDay = "UpdateDay";
+
+    public static string AddAgent = "AddAgent";
+    public static string AddCreature = "AddCreature";
+
+    public static string RemoveAgent = "RemoveAgent";
+
+    public static string LoadMapGraphComplete = "LoadMapGraphComplete";
 }
 
 public class Notice {

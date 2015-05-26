@@ -15,6 +15,12 @@ public class SkillTypeList
 	}
 	
 	private List<SkillTypeInfo> _list;
+    private bool _loaded = false;
+
+    public bool loaded
+    {
+        get { return _loaded; }
+    }
 
 	private SkillTypeList()
 	{
@@ -24,6 +30,7 @@ public class SkillTypeList
 	public void Init(SkillTypeInfo[] list)
 	{
 		_list = new List<SkillTypeInfo> (list);
+        _loaded = true;
 	}
 	
 	public SkillTypeInfo[] GetList()

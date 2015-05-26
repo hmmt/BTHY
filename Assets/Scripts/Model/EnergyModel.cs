@@ -18,6 +18,10 @@ public class EnergyModel : IObserver {
 
 	private float energy = 0;
 
+    public EnergyModel()
+    {
+        Init();
+    }
 	public void Init()
 	{
 		energy = 0;
@@ -28,16 +32,21 @@ public class EnergyModel : IObserver {
 		this.energy += added;
 	}
 
+    public void SubEnergy(float sub)
+    {
+        this.energy -= sub;
+    }
+
 	public float GetEnergy()
 	{
 		return energy;
 	}
 
-	public void UpdateEnergy()
+	private void UpdateEnergy()
 	{
-		CreatureUnit[] units = CreatureManager.instance.GetCreatureList ();
+		CreatureModel[] units = CreatureManager.instance.GetCreatureList ();
 		
-		foreach(CreatureUnit unit in units)
+		foreach(CreatureModel unit in units)
 		{
 			float addedEnergy = 1;
 
@@ -46,11 +55,11 @@ public class EnergyModel : IObserver {
 			AddEnergy(addedEnergy);
 			if(addedEnergy > 0)
 			{
-				TextAppearEffect.Create((Vector2)unit.transform.position, "+" + addedEnergy.ToString(), Color.white);
+				TextAppearEffect.Create((Vector2)unit.GetCurrentViewPosition(), "+" + addedEnergy.ToString(), Color.white);
 			}
 			else if(addedEnergy < 0)
 			{
-				TextAppearEffect.Create((Vector2)unit.transform.position, addedEnergy.ToString(), Color.white);
+                TextAppearEffect.Create((Vector2)unit.GetCurrentViewPosition(), addedEnergy.ToString(), Color.white);
 			}
 		}
 		

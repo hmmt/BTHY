@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CollectionWindow : MonoBehaviour {
 
-    private CreatureUnit creature;
+    private CreatureModel creature;
     public GameObject backgroundDefault;
     public GameObject backgroundDiary;
 
@@ -46,7 +46,7 @@ public class CollectionWindow : MonoBehaviour {
         SelectObserveAgentWindow.CreateWindow(creature);
     }
 
-	public static void Create(CreatureUnit creature)
+	public static void Create(CreatureModel creature)
     {
         GameObject wndObject;
         CollectionWindow wnd;
@@ -81,7 +81,7 @@ public class CollectionWindow : MonoBehaviour {
         currentWindow = wnd;
     }
 
-    public CreatureUnit GetCreature()
+    public CreatureModel GetCreature()
     {
         return creature;
     }

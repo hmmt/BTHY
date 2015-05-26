@@ -11,7 +11,7 @@ public class AgentSpeech : MonoBehaviour {
 
         textDialogue.gameObject.SetActive(true);
 
-        TimerCallback.Create(4.0f, delegate()
+        TimerCallback.Create(4.0f, gameObject, delegate()
         {
             textDialogue.gameObject.SetActive(false);
         });

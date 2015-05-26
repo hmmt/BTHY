@@ -15,8 +15,12 @@ public class UseSkill : MonoBehaviour {
 
 
 	public ProgressBar progressBar;
-	public AgentUnit agent;
-	public CreatureUnit targetCreature;
+    public AgentModel agent;
+    public AgentUnit agentView;
+
+    public CreatureModel targetCreature;
+    public CreatureUnit targetCreatureView;
+    public IsolateRoom room;
 
 	private bool alreadyHit = false;
 	private bool workPlaying = true;
@@ -82,7 +86,7 @@ public class UseSkill : MonoBehaviour {
 			{
 				Notice.instance.Send("AddPlayerLog", agent.name + " : " +  speech);
                 Notice.instance.Send("AddSystemLog", agent.name+" : "+speech);
-                agent.showSpeech.showSpeech(speech);
+                agentView.showSpeech.showSpeech(speech);
 			}
 			targetCreature.ShowNarrationText("finish", agent.name);
 
@@ -151,7 +155,7 @@ public class UseSkill : MonoBehaviour {
 				//OutsideTextEffect.Create(targetCreature.room, "typo/01_matchGirl_out_typo", CreatureOutsideTextLayout.CENTER_BOTTOM);
 				//targetCreature.ShowNarrationText("start", agent.name);
                 targetCreature.ShowProcessNarrationText("start",agent.name);
-                targetCreature.PlaySound("enter");
+                targetCreatureView.PlaySound("enter");
 				targetCreature.script.OnEnterRoom(this);
 			}
 			if(workPlaying)
@@ -181,7 +185,7 @@ public class UseSkill : MonoBehaviour {
 		*/
 
         //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(false);
-        agent.showSkillIcon.turnOnDoingSkillIcon(false);
+        agentView.showSkillIcon.turnOnDoingSkillIcon(false);
 
 		agent.FinishWorking();
 		targetCreature.state = CreatureState.WAIT;
@@ -290,7 +294,7 @@ public class UseSkill : MonoBehaviour {
                         agentUpdated = true;
 
                         AgentHitEffect.Create(agent);
-                        targetCreature.PlaySound("attack");
+                        targetCreatureView.PlaySound("attack");
 
                         string speech;
                         if (!alreadyHit && agent.speechTable.TryGetValue("work_hit", out speech))
@@ -298,7 +302,7 @@ public class UseSkill : MonoBehaviour {
                             Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
                             Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
                             alreadyHit = true;
-                            agent.showSpeech.showSpeech(speech);
+                            agentView.showSpeech.showSpeech(speech);
                         }
 
                         //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp", false);
@@ -316,10 +320,10 @@ public class UseSkill : MonoBehaviour {
 
             targetCreature.AddFeeling(workValue);
 
-            Notice.instance.Send("UpdateCreatureState_" + targetCreature.gameObject.GetInstanceID());
+            Notice.instance.Send("UpdateCreatureState_" + targetCreature.instanceId);
             if (agentUpdated)
             {
-                Notice.instance.Send("UpdateAgentState_" + agent.gameObject.GetInstanceID());
+                Notice.instance.Send("UpdateAgentState_" + agent.instanceId);
             }
             CheckLive();
         }
@@ -336,7 +340,7 @@ public class UseSkill : MonoBehaviour {
             {
                 Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
                 Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
-                agent.showSpeech.showSpeech(speech);
+                agentView.showSpeech.showSpeech(speech);
             }
 
             targetCreature.ShowNarrationText("panic", agent.name);
@@ -381,7 +385,7 @@ public class UseSkill : MonoBehaviour {
             {
                 Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
                 Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
-                agent.showSpeech.showSpeech(speech);
+                agentView.showSpeech.showSpeech(speech);
             }
 
             targetCreature.ShowNarrationText("dead", agent.name);
@@ -392,7 +396,7 @@ public class UseSkill : MonoBehaviour {
         }
     }
 
-	public static UseSkill InitUseSkillAction(SkillTypeInfo skillInfo, AgentUnit agent, CreatureUnit creature)
+    public static UseSkill InitUseSkillAction(SkillTypeInfo skillInfo, AgentModel agent, CreatureModel creature)
 	{
 		if(agent.target != null || creature.state != CreatureState.WAIT)
 		{
@@ -400,15 +404,16 @@ public class UseSkill : MonoBehaviour {
 		}
 		GameObject newObject = new GameObject ();
 
-        agent.showSkillIcon.turnOnDoingSkillIcon(true);
-        agent.showSkillIcon.showDoingSkillIcon(skillInfo,agent);
-        //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(true);
-       // agent.GetComponentInChildren<agentSkillDoing>().showDoingSkillIcon(skillInfo, agent);
-
 		string narration = agent.name+" (이)가 "+skillInfo.name+" 작업을 시작합니다.";
 		Notice.instance.Send("AddSystemLog", narration);
 
 		UseSkill inst = newObject.AddComponent<UseSkill> ();
+
+        AgentUnit agentView = AgentLayer.currentLayer.GetAgent(agent.instanceId);
+        CreatureUnit creatureView = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
+
+        agentView.showSkillIcon.turnOnDoingSkillIcon(true);
+        agentView.showSkillIcon.showDoingSkillIcon(skillInfo, agent);
 
         inst.traitList = TraitTypeList.instance;
 
@@ -416,7 +421,7 @@ public class UseSkill : MonoBehaviour {
         string speech;
         agent.speechTable.TryGetValue("work_start", out speech);
         Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
-        agent.showSpeech.showSpeech(speech);
+        agentView.showSpeech.showSpeech(speech);
 
 		creature.ShowNarrationText("move", agent.name);
 
@@ -428,8 +433,12 @@ public class UseSkill : MonoBehaviour {
 		inst.currentWork = 0;
 		inst.goalWork = skillInfo.amount;
 		inst.workCount = 0;
+
 		inst.agent = agent;
+        inst.agentView = agentView;
+
 		inst.targetCreature = creature;
+        inst.targetCreatureView = creatureView;
 
 		inst.skillTypeInfo = skillInfo;
 		inst.skillId = skillInfo.id;
@@ -437,7 +446,7 @@ public class UseSkill : MonoBehaviour {
 		creature.state = CreatureState.WORKING;
 
 		GameObject progressObj = Instantiate(Resources.Load<GameObject> ("Prefabs/ProgressBar")) as GameObject;
-		progressObj.transform.parent = creature.transform;
+        progressObj.transform.parent = creatureView.transform;
 		progressObj.transform.localPosition = new Vector3(0, -0.7f, 0);
 
 		inst.progressBar = progressObj.GetComponent<ProgressBar> ();

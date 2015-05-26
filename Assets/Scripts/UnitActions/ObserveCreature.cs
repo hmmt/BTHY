@@ -4,8 +4,8 @@ using System.Collections;
 public class ObserveCreature : MonoBehaviour
 {
 
-    public AgentUnit agent;
-    public CreatureUnit creature;
+    public AgentModel agent;
+    public CreatureModel creature;
 
     public int agentStack;
     public int creatureStack;
@@ -17,7 +17,7 @@ public class ObserveCreature : MonoBehaviour
     private float timer = 0.0f;
 
 
-    public static void Create(AgentUnit agent, CreatureUnit creature)
+    public static void Create(AgentModel agent, CreatureModel creature)
     {
 
         GameObject a = new GameObject();

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/*
 public class AgentSelection : MonoBehaviour {
 
     public Transform agentScrollTarget;
@@ -40,7 +40,7 @@ public class AgentSelection : MonoBehaviour {
         CloseWindow();
     }
 
-    public void SelectAgentSkill(AgentUnit agent, SkillTypeInfo skillInfo)
+    public void SelectAgentSkill(AgentModel agent, SkillTypeInfo skillInfo)
     {
         //UseSkill.InitUseSkillAction(skillInfo, selectedAgentList[0].GetComponent<AgentUnit>(), targetCreature);
         UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
@@ -49,10 +49,11 @@ public class AgentSelection : MonoBehaviour {
 
     public void ShowAgentList()
     {
-        AgentUnit[] agents = AgentManager.instance.GetAgentList();
+        //AgentUnit[] agents = AgentManager.instance.GetAgentList();
+        AgentModel[] agents = AgentManager.instance.GetAgentList();
 
         float posy = 0;
-        foreach (AgentUnit unit in agents)
+        foreach (AgentModel unit in agents)
         {
             GameObject slot = Prefab.LoadPrefab("AgentSlotPanel");
 
@@ -62,7 +63,7 @@ public class AgentSelection : MonoBehaviour {
             tr.localPosition = new Vector3(0, posy, 0);
             AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
 
-            AgentUnit copied = unit;
+            AgentModel copied = unit;
             slotPanel.skillButton1.onClick.AddListener(
                 delegate() {
                     ObserveCreature.Create(copied, targetCreature);
@@ -82,3 +83,4 @@ public class AgentSelection : MonoBehaviour {
         Destroy(gameObject);
     }
 }
+*/

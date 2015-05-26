@@ -2,63 +2,48 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AgentManager : MonoBehaviour {
+public class AgentManager {
 
 	private static AgentManager _instance;
 	
 	public static AgentManager instance
 	{
-		get{ return _instance; }
+		get
+        {
+            if (_instance == null)
+                _instance = new AgentManager();
+            return _instance;
+        }
 	}
+
+    private List<AgentModel> agentList;
 	
-	void Awake()
+    public AgentManager()
 	{
-		_instance = this;
+        Init();
 	}
 
-	//private List<AgentUnit> agentList = new List<AgentUnit>();
+    public void Init()
+    {
+        agentList = new List<AgentModel>();
+    }
 
-	public AgentUnit NewAgent()
-	{
-		/*
-		GameObject newUnit = new GameObject ("unit");
-		//newUnit.AddComponent<RectDrawer> ().texture = Resources.Load<Texture2D> ("Sprites/Unit/unit1");
-		newUnit.AddComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Sprites/Unit/unit1");
-		
-		
-		GameObject touchable = new GameObject ("unit_touchable");
-		ButtonMsgHandler btn = touchable.AddComponent<ButtonMsgHandler>();
-		btn.functionName = "OpenStatusWindow";
-		btn.target = newUnit;
-		touchable.layer = LayerMask.NameToLayer ("UI");
-		touchable.transform.parent = newUnit.transform;
+    private int instId = 1;
+    public AgentModel AddAgentModel(long typeId)
+    {
+        int traitHp = 0;
+        int traitMental = 0;
+        int traitMoveSpeed = 0;
+        int traitWorkSpeed = 0;
 
-		
-		newUnit.transform.parent = GameObject.Find ("Units").transform;
-		newUnit.transform.localPosition = new Vector3(0,0,0);
+        AgentTypeInfo info = AgentTypeList.instance.GetData(typeId);
 
-		return newUnit.AddComponent<AgentUnit>();
-		*/
-		GameObject newUnit = Prefab.LoadPrefab ("unit");
-		newUnit.transform.SetParent( GameObject.Find ("Units").transform);
-		return newUnit.GetComponent<AgentUnit> ();
-	}
-
-	public AgentUnit AddAgent(long typeId)
-	{
-        int traitHp=0;
-        int traitMental=0;
-        int traitMoveSpeed=0;
-        int traitWorkSpeed=0;
-
-		AgentTypeInfo info = AgentTypeList.instance.GetData (typeId);
-        
         if (info == null)
         {
             return null;
         }
 
-        AgentUnit unit = NewAgent();
+        AgentModel unit = new AgentModel(instId++);
 
         TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetRandomInitTrait();
         TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
@@ -83,71 +68,60 @@ public class AgentManager : MonoBehaviour {
             traitMoveSpeed += unit.traitList[i].moveSpeed;
             traitWorkSpeed += unit.traitList[i].workSpeed;
 
-            unit.traitNameList.Add(unit.traitList[i].name);
+            //unit.traitNameList.Add(unit.traitList[i].name);
         }
 
-		unit.metadata = info;
-		unit.metadataId = info.id;
-		
-		unit.name = info.name;
+        unit.metadata = info;
+        unit.metadataId = info.id;
 
-		unit.maxHp = unit.hp = info.hp + traitHp;
-		unit.maxMental = unit.mental = info.mental + traitMental;
-		unit.movement = info.movement + traitMoveSpeed;
-		unit.work = info.work + traitWorkSpeed;
+        unit.name = info.name;
 
-		unit.gender = info.gender;
-		unit.level = info.level;
-		unit.workDays = info.workDays;
+        unit.maxHp = unit.hp = info.hp + traitHp;
+        unit.maxMental = unit.mental = info.mental + traitMental;
+        unit.movement = info.movement + traitMoveSpeed;
+        unit.work = info.work + traitWorkSpeed;
 
-		unit.prefer = info.prefer;
-		unit.preferBonus = info.preferBonus;
-		unit.reject = info.reject;
-		unit.rejectBonus = info.rejectBonus;
+        unit.gender = info.gender;
+        unit.level = info.level;
+        unit.workDays = info.workDays;
 
-		unit.directSkill = info.directSkill;
-		unit.indirectSkill = info.indirectSkill;
-		unit.blockSkill = info.blockSkill;
+        unit.prefer = info.prefer;
+        unit.preferBonus = info.preferBonus;
+        unit.reject = info.reject;
+        unit.rejectBonus = info.rejectBonus;
 
-		unit.imgsrc = info.imgsrc;
+        unit.directSkill = info.directSkill;
+        unit.indirectSkill = info.indirectSkill;
+        unit.blockSkill = info.blockSkill;
 
-		unit.speechTable = new Dictionary<string, string> (info.speechTable);
+        unit.imgsrc = info.imgsrc;
 
-		unit.panicType = info.panicType;
+        unit.speechTable = new Dictionary<string, string>(info.speechTable);
 
-		Texture2D tex = Resources.Load<Texture2D> ("Sprites/"+unit.imgsrc);
-		//unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0,0,tex.width, tex.height), new Vector2(0.5f, 0.5f));
-		unit.spriteRenderer.sprite = null;
+        unit.panicType = info.panicType;
 
-		/*
-		Vector2 pos = CreatureRoom.instance.TileToWorld (x, y);
-		unit.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
-*/
-		unit.SetMaxHP (unit.maxHp);
 
-		return unit;
-	}
+        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
+        unit.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
+        agentList.Add(unit);
+
+        Notice.instance.Send(NoticeName.AddAgent, unit);
+
+        return unit;
+    }
+
+    public void RemoveAgent(AgentModel model)
+    {
+        agentList.Remove(model);
+        Notice.instance.Send(NoticeName.RemoveAgent, model);
+    }
 	
-	public AgentUnit[] GetAgentList()
-	{
-		GameObject units = GameObject.Find ("Units");
-		if(units == null)
-		{
-			return new AgentUnit[]{};
-		}
+    public AgentModel[] GetAgentList()
+    {
+        return agentList.ToArray();
+    }
 
-		List<AgentUnit> output = new List<AgentUnit> ();
-		foreach(Transform child in units.transform)
-		{
-			AgentUnit com = child.GetComponent<AgentUnit>();
-			if(com != null)
-			{
-				output.Add(com);
-			}
-		}
-
-		return output.ToArray ();
-	}
 
     public bool BuyAgent(long id)
     {
@@ -158,7 +132,7 @@ public class AgentManager : MonoBehaviour {
         float energy = EnergyModel.instance.GetEnergy();
         //int needEnergy = 1;
 
-        AgentManager.instance.AddAgent(id);
+        AgentManager.instance.AddAgentModel(id);
 
         return true;
     }

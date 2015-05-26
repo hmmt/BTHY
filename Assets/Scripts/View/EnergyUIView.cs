@@ -44,9 +44,9 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 	}
 
 	public void SetEnergy(float energy)
-	{	
-
+	{
         //energy = energy / 
+        mustFillEnergy = StageTypeInfo.instnace.GetEnergyNeed(PlayerModel.instnace.GetDay());
 		
 		float leftChargeEnergy = energy - mustFillEnergy;
 

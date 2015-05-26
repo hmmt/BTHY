@@ -5,7 +5,7 @@ public class agentSkillDoing : MonoBehaviour {
 
     public SpriteRenderer skillIcon;
 
-    public void showDoingSkillIcon(SkillTypeInfo nowSkill, AgentUnit nowAgent)
+    public void showDoingSkillIcon(SkillTypeInfo nowSkill, AgentModel nowAgent)
     {
         if (nowSkill.type == "direct")
         {

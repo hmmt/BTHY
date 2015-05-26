@@ -4,11 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-public class MapGraph : MonoBehaviour
+public class MapGraph
 {
-
     private static MapGraph _instance;
-    public static MapGraph instance { get { return _instance; } }
+    public static MapGraph instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new MapGraph();
+            return _instance;
+        }
+    }
 
     private Dictionary<string, MapNode> graphNodes;
 
@@ -16,14 +23,11 @@ public class MapGraph : MonoBehaviour
 
     private List<MapEdge> edges;
 
-    void Awake()
-    {
-        _instance = this;
-    }
+    public bool loaded { private set; get; }
 
-    void Start()
+    public MapGraph()
     {
-        LoadMap();
+        loaded = false;
     }
 
     public MapNode GetNodeById(string id)
@@ -57,6 +61,8 @@ public class MapGraph : MonoBehaviour
 
     public void LoadMap()
     {
+        if (loaded)
+            return;
         //StreamReader sr = new StreamReader (Application.dataPath + "/Resources/xml/MapNodeList.xml");
 
         TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
@@ -86,11 +92,13 @@ public class MapGraph : MonoBehaviour
 
                 nodesInArea.Add(newMapNode);
 
+                /*
                 // 게임 뷰에 위치 표시
                 GameObject nodePoint = Prefab.LoadPrefab("NodePoint");
 
                 nodePoint.transform.SetParent(gameObject.transform);
                 nodePoint.transform.localPosition = new Vector3(x, y, 0);
+                */
             }
 
             nodesInAreaDic.Add(areaName, nodesInArea);
@@ -147,11 +155,13 @@ public class MapGraph : MonoBehaviour
             node2.AddEdge(edge);
 
 
+            /*
             // 게임 뷰에 위치 표시
             GameObject edgeLine = Prefab.LoadPrefab("EdgeLine");
             edgeLine.transform.SetParent(gameObject.transform);
             edgeLine.GetComponent<LineRenderer>().SetPosition(0, new Vector3(node1.GetPosition().x, node1.GetPosition().y, 0));
             edgeLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(node2.GetPosition().x, node2.GetPosition().y, 0));
+            */
         }
 
         graphNodes = nodeDic;
@@ -159,5 +169,48 @@ public class MapGraph : MonoBehaviour
         edges = edgeList;
 
         nodeAreaTable = nodesInAreaDic;
+
+        loaded = true;
+
+        Notice.instance.Send(NoticeName.LoadMapGraphComplete);
     }
+
+    public MapNode[] GetGraphNodes()
+    {
+        MapNode[] output = new MapNode[graphNodes.Count];
+        int i=0;
+        foreach (KeyValuePair<string, MapNode> kv in graphNodes)
+        {
+            output[i++] = kv.Value;
+        }
+        return output;
+    }
+
+    public MapEdge[] GetGraphEdges()
+    {
+        return edges.ToArray();
+    }
+    /*
+    public void DrawPath()
+    {
+        foreach (KeyValuePair<string, MapNode> kv in graphNodes)
+        {
+            MapNode node = kv.Value;
+            // 게임 뷰에 위치 표시
+            GameObject nodePoint = Prefab.LoadPrefab("NodePoint");
+
+            nodePoint.transform.SetParent(gameObject.transform);
+            nodePoint.transform.localPosition = new Vector3(node.GetPosition().x, node.GetPosition().y, 0);
+        }
+
+        foreach (MapEdge e in edges)
+        {
+            // 게임 뷰에 위치 표시
+            GameObject edgeLine = Prefab.LoadPrefab("EdgeLine");
+            edgeLine.transform.SetParent(gameObject.transform);
+            edgeLine.GetComponent<LineRenderer>().SetPosition(0, new Vector3(e.node1.GetPosition().x, e.node1.GetPosition().y, 0));
+            edgeLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(e.node2.GetPosition().x, e.node2.GetPosition().y, 0));
+        }
+    }
+    */
 }

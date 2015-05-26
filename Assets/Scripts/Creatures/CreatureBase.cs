@@ -3,17 +3,17 @@ using System.Collections;
 
 public class CreatureBase {
 
-	public virtual void OnFixedUpdate(CreatureUnit creature)
+    public virtual void OnFixedUpdate(CreatureModel creature)
 	{
 
 	}
 
-	public virtual void OnIdleFixedUpdate(CreatureUnit creature)
+    public virtual void OnIdleFixedUpdate(CreatureModel creature)
 	{
 		
 	}
 
-    public virtual void OnFeelingUpdate(CreatureUnit creature)
+    public virtual void OnFeelingUpdate(CreatureModel creature)
     {
     }
 	

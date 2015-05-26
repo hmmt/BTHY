@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class NarrationLoggerUI : MonoBehaviour, IObserver {
 
 
-    public CreatureUnit newInputCreature;
-    public CreatureUnit oldInputCreature;
-    public CreatureUnit targetCreature;
+    public CreatureModel newInputCreature;
+    public CreatureModel oldInputCreature;
+    public CreatureModel targetCreature;
 
     public static NarrationLoggerUI instantNarrationLog;
 
@@ -105,15 +105,15 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	
 	public void OnNotice(string notice, params object[] param)
 	{
-        if ("AddNarrationLog" == notice && targetCreature == (CreatureUnit)param[1])
+        if ("AddNarrationLog" == notice && targetCreature == (CreatureModel)param[1])
 		{
 			AddText (" "+(string)param[0]);
-            newInputCreature = (CreatureUnit)param[1];
+            newInputCreature = (CreatureModel)param[1];
 		}
 	}
 
     //리스트를 받아와서 기존에 있는걸 clear시키고 받아온 리스트들의 로그를 출력한다.
-    public void setLogList(CreatureUnit focusCreature)
+    public void setLogList(CreatureModel focusCreature)
     {
         newInputCreature = focusCreature;
 

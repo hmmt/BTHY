@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TraitTypeInfo : MonoBehaviour {
+public class TraitTypeInfo {
     //<trait id="10001" name="열등감" hp="0" 
     //mental="-20" moveSpeed="0" workSpeed="0" />
     

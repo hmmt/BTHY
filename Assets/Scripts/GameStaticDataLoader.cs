@@ -10,11 +10,15 @@ public class GameStaticDataLoader {
 	public static void LoadStaticData()
 	{
 		GameStaticDataLoader loader = new GameStaticDataLoader ();
-		loader.LoadSKillData ();
-		loader.LoadCreatureData ();
-		loader.LoadAgentData ();
+        if(SkillTypeList.instance.loaded == false)
+		    loader.LoadSKillData ();
+        if (CreatureTypeList.instance.loaded == false)
+		    loader.LoadCreatureData ();
+        if (AgentTypeList.instance.loaded == false)
+		    loader.LoadAgentData ();
 
-        loader.LoadTraitData();
+        if(TraitTypeList.instance.loaded == false)
+            loader.LoadTraitData();
 	}
 
     public void LoadTraitData()

@@ -9,7 +9,7 @@ public class Fetus : CreatureBase
     private float cryTimer = 0;
     private float cryLimit = 120.0f;
 
-    public override void OnFixedUpdate(CreatureUnit creature)
+    public override void OnFixedUpdate(CreatureModel creature)
     {
         feedTimer += Time.deltaTime;
 
@@ -33,10 +33,11 @@ public class Fetus : CreatureBase
             cryTimer = 0;
 
             // 전체공격!!!!
-            foreach (AgentUnit agent in AgentManager.instance.GetAgentList())
+            //foreach (AgentUnit agent in AgentManager.instance.GetAgentList())
+            foreach (AgentModel agent in AgentManager.instance.GetAgentList())
             {
                 agent.TakeMentalDamage(20); // 나눠서 입히기 필요?
-                Notice.instance.Send("UpdateAgentState_" + agent.gameObject.GetInstanceID());
+                Notice.instance.Send("UpdateAgentState_" + agent.instanceId);
             }
         }
     }

@@ -6,16 +6,44 @@ using System.Xml;
 
 public class GameManager : MonoBehaviour {
 
+    private static GameManager _currentGameManager;
+
 	private CurrentUIState currentUIState;
+
+    public StageTimeInfoUI stageTimeInfoUI;
+    public StageUI stageUI;
+
+    public static GameManager currentGameManager
+    {
+        get { return _currentGameManager; } 
+    }
 
 	void Awake()
 	{
 		Screen.fullScreen = true;
+        _currentGameManager = this;
+
+
+        // 옮겨야 한다.
+        MapGraph.instance.LoadMap();
+        GameStaticDataLoader.LoadStaticData();
+        //EnergyModel.instance.Init();
 	}
 
 	void Start()
 	{
-		StartGame ();
+        AgentLayer.currentLayer.Init();
+        CreatureLayer.currentLayer.Init();
+
+        PlayerModel.instnace.OpenArea("1");
+
+        //AgentManager.instance.AddAgentModel(1);
+        AgentManager.instance.AddAgentModel(1);
+        //AgentManager.instance.AddAgent(2);
+
+
+		//StartGame ();
+        stageUI.Open(StageUI.UIType.START_STAGE);
 	}
 
 	// start managing isolate
@@ -23,51 +51,45 @@ public class GameManager : MonoBehaviour {
 	{
 		currentUIState = CurrentUIState.DEFAULT;
 
-		GameStaticDataLoader.LoadStaticData ();
-
-		EnergyModel.instance.Init ();
 		GetComponent<RootTimer> ().AddTimer ("EnergyTimer", 5);
 		Notice.instance.Observe ("EnergyTimer", EnergyModel.instance);
 		GetComponent<RootTimer> ().AddTimer ("CreatureFeelingUpdateTimer", 10);
 
-        PlayerModel.instnace.OpenArea("1");
-        
-		AgentUnit agent1 = AgentManager.instance.AddAgent (1);
-		AgentManager.instance.AddAgent (2);
-
-        //agent1.traitList.Add(TraitTypeList.instance.GetTraitWithId(10018));
-        //agent1.applyTrait(TraitTypeList.instance.GetTraitWithId(10018));
-
-        
-
-        /*
-		CreatureManager.instance.AddCreature (10001, "1002001", -8, -1);
-		CreatureManager.instance.AddCreature (10002, "1003002", -16, -1);
-		CreatureManager.instance.AddCreature (10003, "1004101", 8, -1);
-		CreatureManager.instance.AddCreature (10004, "1004102", 17, -1);
-		CreatureManager.instance.AddCreature (10005, "1003111-left-1", -10, -9);
-		CreatureManager.instance.AddCreature (10006, "1003111-right-1", 10, -9);
-         */
-
-        /*
-        // Na??
-        // CreatureManager.instance.AddCreature(20001, "N-way1-point2", -25, -4); // 남자 초상화
-        CreatureManager.instance.AddCreature(20005, "N-way1-point2", -25, -4); // 마법소녀
-        CreatureManager.instance.AddCreature(20002, "N-way1-point3", -25, -14); // 보고 싶은 사신
-        //CreatureManager.instance.AddCreature(20003, "N-way2-point1", -25, -26); // 벽 여인
-        CreatureManager.instance.AddCreature(20006, "N-way2-point1", -25, -26); // 없는 책
-        CreatureManager.instance.AddCreature(20004, "N-way2-point2", -25, -36); // 삐에로
-        */
-        //CreatureManager.instance.AddCreature(10001, "N-center-way-point1", -18, -16);
-        //CreatureManager.instance.AddCreature(10001, "N-center-way-point1", -18, -24);
-
-		Notice.instance.Send ("AddPlayerLog", "game start가나다");
+        int day = PlayerModel.instnace.GetDay();
+        stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
 	}
 
 	public void EndGame()
 	{
 		GetComponent<RootTimer> ().RemoveTimer ("EnergyTimer");
+        GetComponent<RootTimer>().AddTimer("CreatureFeelingUpdateTimer", 10);
 	}
+
+    public void TimeOver()
+    {
+        EndGame();
+
+        int day = PlayerModel.instnace.GetDay();
+        float needEnergy = StageTypeInfo.instnace.GetEnergyNeed(day);
+        float energy = EnergyModel.instance.GetEnergy();
+        
+        if(energy >= needEnergy)
+        {
+            stageUI.Open(StageUI.UIType.END_STAGE);
+        }
+        else
+        {
+            Debug.Log("Game Over..");
+        }
+    }
+
+    public void ExitStage()
+    {
+        int day = PlayerModel.instnace.GetDay();
+        PlayerModel.instnace.SetDay(day + 1);
+        //stageUI.Open(StageUI.UIType.START_STAGE);
+        Application.LoadLevel("Menu");
+    }
 
 	public void SetCurrentUIState(CurrentUIState state)
 	{

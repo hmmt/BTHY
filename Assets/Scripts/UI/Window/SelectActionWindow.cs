@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// UNUSED
 public class SelectActionWindow : MonoBehaviour {
 
 	private Vector2 offset = new Vector2 (0, 0);
 
-	private GameObject[] selectedAgentList;
-	private GameObject targetCreature;
+	private AgentModel[] selectedAgentList;
+	private CreatureModel targetCreature;
 
 	// Use this for initialization
 	void Awake () {
@@ -23,7 +24,7 @@ public class SelectActionWindow : MonoBehaviour {
 	{
 		if(targetCreature != null)
 		{
-			Vector3 targetPos = targetCreature.transform.position;
+			Vector3 targetPos = targetCreature.GetCurrentViewPosition();
 			
 			Vector3 newPos = transform.position;
 			newPos.x = targetPos.x+offset.x;
@@ -40,25 +41,25 @@ public class SelectActionWindow : MonoBehaviour {
 
 		if(action == "a")
 		{
-			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(10001), selectedAgentList[0].GetComponent<AgentUnit>(), targetCreature.GetComponent<CreatureUnit>());
+			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(10001), selectedAgentList[0], targetCreature);
 
 			CloseWindow();
 		}
 		else if(action == "b")
 		{
-			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(20001), selectedAgentList[0].GetComponent<AgentUnit>(), targetCreature.GetComponent<CreatureUnit>());
+			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(20001), selectedAgentList[0], targetCreature);
 			
 			CloseWindow();
 		}
 		else if(action == "c")
 		{
-			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(20001), selectedAgentList[0].GetComponent<AgentUnit>(), targetCreature.GetComponent<CreatureUnit>());
+			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(20001), selectedAgentList[0], targetCreature);
 			
 			CloseWindow();
 		}
 	}
 
-	public void ShowSelectActon(GameObject[] selectedAgentList, GameObject targetCreature)
+    public void ShowSelectActon(AgentModel[] selectedAgentList, CreatureModel targetCreature)
 	{
 		this.selectedAgentList = selectedAgentList;
 		this.targetCreature = targetCreature;

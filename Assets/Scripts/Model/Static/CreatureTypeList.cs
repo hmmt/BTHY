@@ -15,6 +15,12 @@ public class CreatureTypeList {
 	}
 	
 	private List<CreatureTypeInfo> _list;
+    private bool _loaded = false;
+
+    public bool loaded
+    {
+        get { return _loaded; }
+    }
 	
 	private CreatureTypeList()
 	{
@@ -24,6 +30,7 @@ public class CreatureTypeList {
 	public void Init(CreatureTypeInfo[] list)
 	{
 		_list = new List<CreatureTypeInfo> (list);
+        _loaded = true;
 	}
 	
 	public CreatureTypeInfo[] GetList()

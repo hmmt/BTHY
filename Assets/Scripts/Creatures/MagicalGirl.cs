@@ -9,7 +9,7 @@ public class MagicalGirl : CreatureBase {
 
     // 역변
     //public override void OnFeelingUpdate(CreatureUnit creature)
-    public override void  OnFixedUpdate(CreatureUnit creature)
+    public override void OnFixedUpdate(CreatureModel creature)
     {
         if (creature.feeling <= 50)
         {

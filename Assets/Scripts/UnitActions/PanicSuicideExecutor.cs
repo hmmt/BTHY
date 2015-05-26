@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PanicSuicideExecutor : PanicAction
 {
-	private AgentUnit targetAgent;
+	private AgentModel targetAgent;
 
 	private float cooldown;
 

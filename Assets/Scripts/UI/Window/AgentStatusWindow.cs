@@ -12,8 +12,6 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
     public UnityEngine.UI.Text TraitText;
 
-  
-	public Transform anchor;
     public Transform traitScrollTarget;
 
 	public UnityEngine.UI.Image agentIcon;
@@ -21,25 +19,25 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	[HideInInspector]
 	public static AgentStatusWindow currentWindow = null;
 
-	private AgentUnit _target = null;
+	private AgentModel _target = null;
 	private bool enabled = false;
 
-	public AgentUnit target
+    public AgentModel target
 	{
 		get{ return _target; }
 		set
 		{
 			if(_target != null && enabled)
-				Notice.instance.Remove("UpdateAgentState_"+target.gameObject.GetInstanceID(), this);
+				Notice.instance.Remove("UpdateAgentState_"+target.instanceId, this);
 			_target = value;
 			if(_target != null && enabled)
 			{
-				Notice.instance.Observe("UpdateAgentState_"+target.gameObject.GetInstanceID(), this);
+                Notice.instance.Observe("UpdateAgentState_" + target.instanceId, this);
 			}
 		}
 	}
-	
-	public static AgentStatusWindow CreateWindow(AgentUnit unit)
+
+    public static AgentStatusWindow CreateWindow(AgentModel unit)
 	{
         GameObject newObj;
         AgentStatusWindow inst;
@@ -57,9 +55,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
 		inst.target = unit;
 		inst.UpdateCreatureStatus ();
-		inst.UpdatePosition ();
 
-		inst.agentIcon.sprite = unit.spriteRenderer.sprite;
+		inst.agentIcon.sprite = unit.sprite;
 
 		currentWindow = inst;
 
@@ -70,7 +67,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 		enabled = true;
 		if(target != null)
 		{
-			Notice.instance.Observe("UpdateAgentState_"+target.gameObject.GetInstanceID(), this);
+			Notice.instance.Observe("UpdateAgentState_"+target.instanceId, this);
 		}
 		Notice.instance.Observe ("AgentDie", this);
 	}
@@ -78,13 +75,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	{
 		enabled = false;
 		if(target != null) 
-			Notice.instance.Remove("UpdateAgentState_"+target.gameObject.GetInstanceID(), this);
-	}
-
-	void FixedUpdate()
-	{
-		UpdatePosition ();
-        //Debug.Log(traitScrollTarget.GetComponent<RectTransform>().localPosition);
+			Notice.instance.Remove("UpdateAgentState_"+target.instanceId, this);
 	}
 
 	public void OnNotice(string notice, params object[] param)
@@ -102,16 +93,6 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	public void OnOpen()
 	{
 		
-	}
-	
-	private void UpdatePosition()
-	{
-		if(target != null)
-		{
-			Vector3 targetPos = target.transform.position;
-			
-			anchor.position = Camera.main.WorldToScreenPoint(targetPos);
-		}
 	}
 	
 	public void UpdateCreatureStatus()
@@ -152,7 +133,6 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
             posY -= 30f;
         }
-        UpdatePosition();
     }
 	
 	public void OnClickClose()

@@ -95,7 +95,6 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 	{
 		if("AddSystemLog" == notice)
 		{
-            Debug.Log("텍스트가 뜬다");
 			AddText (" "+(string)param [0]);
 		}
 	}

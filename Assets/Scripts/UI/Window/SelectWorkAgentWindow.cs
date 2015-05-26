@@ -11,8 +11,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
 	private CreatureUnit targetCreature = null;
     private IsolateRoom targetRoom = null;
-	
-	List<GameObject> selectedAgentList = new List<GameObject>();
+
+    List<AgentModel> selectedAgentList = new List<AgentModel>();
 
 	public static SelectWorkAgentWindow currentWindow = null;
 
@@ -104,18 +104,18 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		CloseWindow ();
 	}
 
-	public void SelectAgentSkill(AgentUnit agent, SkillTypeInfo skillInfo)
+    public void SelectAgentSkill(AgentModel agent, SkillTypeInfo skillInfo)
 	{
-		UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
+		UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature.model);
 		CloseWindow ();
 	}
 
 	public void ShowAgentList()
 	{
-		AgentUnit[] agents = AgentManager.instance.GetAgentList ();
+        AgentModel[] agents = AgentManager.instance.GetAgentList();
 
 		float posy = 0;
-		foreach(AgentUnit unit in agents)
+        foreach (AgentModel unit in agents)
 		{
 			GameObject slot = Prefab.LoadPrefab ("AgentSlotPanel");
 
@@ -129,15 +129,15 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
             slotPanel.skillButton2.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.indirectSkill.imgsrc);
             slotPanel.skillButton3.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.blockSkill.imgsrc);
-            
 
-			AgentUnit copied = unit;
+
+            AgentModel copied = unit;
 			slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));
 			slotPanel.skillButton2.onClick.AddListener(()=>SelectAgentSkill(copied, copied.indirectSkill));
 			slotPanel.skillButton3.onClick.AddListener(()=>SelectAgentSkill(copied, copied.blockSkill));
 
-			if(targetCreature.specialSkill != null)
-				slotPanel.skillButton4.onClick.AddListener(()=>SelectAgentSkill(copied, targetCreature.specialSkill));
+			if(targetCreature.model.specialSkill != null)
+                slotPanel.skillButton4.onClick.AddListener(() => SelectAgentSkill(copied, targetCreature.model.specialSkill));
 			else
 				slotPanel.skillButton4.gameObject.SetActive(false);
 
@@ -154,20 +154,20 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	public void OnClickSlot(GameObject slotObject)
 	{
 		AgentSlot agentSlot = slotObject.GetComponent<AgentSlot> ();
+
+        AgentModel[] agents = AgentManager.instance.GetAgentList();
+        AgentModel unit = agents[agentSlot.slotIndex];
 		
-		AgentUnit[] agents = AgentManager.instance.GetAgentList ();
-		AgentUnit unit = agents [agentSlot.slotIndex];
-		
-		if(!selectedAgentList.Contains(unit.gameObject))
+		if(!selectedAgentList.Contains(unit))
 		{
 			if(selectedAgentList.Count > 0)
 				return;
-			selectedAgentList.Add(unit.gameObject);
+			selectedAgentList.Add(unit);
 			agentSlot.SetSelect(true);
 		}
 		else
 		{
-			selectedAgentList.Remove(unit.gameObject);
+			selectedAgentList.Remove(unit);
 			agentSlot.SetSelect(false);
 		}
 		OnClickAgentOK ();

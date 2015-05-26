@@ -28,4 +28,16 @@ public class TimerCallback : MonoBehaviour {
         script.elapsedTime = 0;
         script.callback = callback;
     }
+
+    public static void Create(float time, GameObject parent, Callback callback)
+    {
+        GameObject obj = new GameObject();
+
+        TimerCallback script = obj.AddComponent<TimerCallback>();
+        script.goalTime = time;
+        script.elapsedTime = 0;
+        script.callback = callback;
+
+        obj.transform.SetParent(parent.transform);
+    }
 }

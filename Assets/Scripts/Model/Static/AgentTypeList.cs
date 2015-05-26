@@ -15,6 +15,12 @@ public class AgentTypeList
 	}
 
 	private List<AgentTypeInfo> _list;
+    private bool _loaded = false;
+
+    public bool loaded
+    {
+        get { return _loaded; }
+    }
 
 	private AgentTypeList()
 	{
@@ -24,6 +30,7 @@ public class AgentTypeList
 	public void Init(AgentTypeInfo[] list)
 	{
 		_list = new List<AgentTypeInfo> (list);
+        _loaded = true;
 	}
 
 	public AgentTypeInfo[] GetList()

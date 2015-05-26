@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestTouchScript : MonoBehaviour {
+public class BackgroundTouchArea : MonoBehaviour {
 
-	public void Test()
+	public void OnClick()
 	{
         // notification으로 바꿔야 함
 		if (AgentStatusWindow.currentWindow != null)

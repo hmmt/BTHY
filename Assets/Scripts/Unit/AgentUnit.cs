@@ -4,89 +4,19 @@ using System.Collections.Generic;
 
 public class AgentUnit : MonoBehaviour {
 
+    public AgentModel model;
+
     public GameObject agentWindow;
     public GameObject agentAttackedAnimator;
 
     public agentSkillDoing showSkillIcon;
     public AgentSpeech showSpeech;
 
-	// game data
-
-    //public TraitTypeInfo metaTraitInfo;
-
-	public AgentTypeInfo metadata;
-	public long metadataId;
-	public string name;
-	public int hp;
-
-    //public TraitTypeInfo[] traitList;
-
-    public List<TraitTypeInfo> traitList;
-
-	public string gender;
-	public int level;
-	public int workDays;
-
-    public int expFail = 0;
-    public int expSuccess = 0;
-    public int expHpDamage = 0;
-    public int expMentalDamage = 0;
-
-    public List<string> traitNameList;
-
-    public int maxHp;
-    public int maxMental;
-
-	public int mental;
-	public int movement;
-	public int work;
-
-	public string prefer;
-	public int preferBonus;
-	public string reject;
-	public int rejectBonus;
-
-	public SkillTypeInfo directSkill;
-	public SkillTypeInfo indirectSkill;
-	public SkillTypeInfo blockSkill;
-
-	public string imgsrc;
-
-	public Dictionary<string, string> speechTable = new Dictionary<string, string>();
-
-	public string panicType;
-	//
-
-	public SpriteRenderer spriteRenderer;
-	//
-
-	private AgentCmdState state = AgentCmdState.IDLE;
-	public CreatureUnit target; // state; MOVE, WORKING
-
-	private PanicAction currentPanicAction;
-
-	// path finding
-	/*
-	private bool movingOnPath = false;
-	private AIPoint[] shortestPath;
-	private int pathCurIndex;
-	*/
-
-	// path finding2
-	private MapNode currentNode;
-
-	private MapEdge currentEdge;
-	private float edgePosRate; // 0~1
-
-	private int edgeDirection; //?
-
-//	private GraphPosition graphPosition;
-
-	private MapEdge[] pathList;
-	private int pathIndex;
-
 	private void UpdateDirection()
 	{
+        MapEdge currentEdge = model.GetCurrentEdge();
+        int edgeDirection = model.edgeDirection;
+
 		if(currentEdge != null)
 		{
 			MapNode node1 = currentEdge.node1;
@@ -125,41 +55,13 @@ public class AgentUnit : MonoBehaviour {
 		}
 	}
 
-	private Vector2 GetCurrentViewPosition()
-	{
-		Vector2 output = transform.localPosition;
-		if(currentNode != null)
-		{
-			Vector2 pos = currentNode.GetPosition();
-			output.x = pos.x;
-			output.y = pos.y;
-		}
-		else if(currentEdge != null)
-		{
-			MapNode node1 = currentEdge.node1;
-			MapNode node2 = currentEdge.node2;
-			Vector2 pos1 = node1.GetPosition();
-			Vector2 pos2 = node2.GetPosition();
-
-			if(edgeDirection == 1)
-			{
-				output.x = Mathf.Lerp(pos1.x, pos2.x, edgePosRate);
-				output.y = Mathf.Lerp(pos1.y, pos2.y, edgePosRate);
-			}
-			else
-			{
-				output.x = Mathf.Lerp(pos1.x, pos2.x, 1-edgePosRate);
-				output.y = Mathf.Lerp(pos1.y, pos2.y, 1-edgePosRate);
-			}
-		}
-		return output;
-	}
-
 	private bool visible = true;
 	private float oldZ;
 
 	private void UpdateViewPosition()
 	{
+        MapEdge currentEdge = model.GetCurrentEdge();
+
 		if(currentEdge != null && currentEdge.type == "door")
 		{
 			if(visible)
@@ -180,7 +82,7 @@ public class AgentUnit : MonoBehaviour {
 				oldViewPosition.z = oldZ;
 				transform.localPosition = oldViewPosition;	
 			}
-			transform.localPosition = GetCurrentViewPosition();
+			transform.localPosition = model.GetCurrentViewPosition();
 		}
 	}
 
@@ -190,165 +92,23 @@ public class AgentUnit : MonoBehaviour {
 
 	void Start () {
 
-		//currentNode = MapGraph.instance.GetNodeById(100);
-		currentNode = MapGraph.instance.GetNodeById("1001002");
-
-//		MoveToNode(MapGraph.instance.GetNodeById(5));
+		//currentNode = MapGraph.instance.GetNodeById("1001002");
 	}
 
 	// if map is destroyed....?
 
-    public void applyTrait(TraitTypeInfo addTrait)
-    {
-        maxHp += addTrait.hp;
-        maxMental += addTrait.mental;
-        movement += addTrait.moveSpeed;
-        work += addTrait.workSpeed;
-
-        /*
-        for (int i = 2; i < traitList.Count; i++)
-        {
-            maxHp += traitList[i].hp;
-            maxMental += traitList[i].mental;
-            movement += traitList[i].moveSpeed;
-            work += traitList[i].workSpeed;
-        }
-         */
-    }
-
 	void FixedUpdate()
 	{
-		ProcessAction ();
-
-		//ProcessMoving ();
-		ProcessMoveNode();
+        // ?
+        model.FixedUpdate();
 	}
 
 	void Update()
 	{
 		UpdateViewPosition();
 		UpdateDirection();
-		SetCurrentHP (hp);
+		SetCurrentHP (model.hp);
 		UpdateMentalView ();
-	}
-
-	private void ProcessAction()
-	{
-		if(currentPanicAction != null)
-		{
-			currentPanicAction.Execute();
-		}
-		else if(state == AgentCmdState.IDLE)
-		{
-			if(waitTimer <= 0)
-			{
-				int x,y;
-
-				MoveToNode(MapGraph.instance.GetRandomRestPoint());
-				
-				waitTimer = 1.5f + Random.value;
-			}
-		}
-		waitTimer -= Time.deltaTime;
-	}
-	/*
-	private void ProcessMoving()
-	{		
-		Vector2 moveDirection = new Vector2(0,0);
-		do
-		{
-			if(movingOnPath)
-			{
-				int x,y;
-				CreatureRoom.instance.WorldToTile(transform.position, out x, out y);
-				AIPoint nextPoint = shortestPath[pathCurIndex];
-				if(x == nextPoint.x && y == nextPoint.y)
-				{
-					pathCurIndex++;
-					if(pathCurIndex >= shortestPath.Length)
-					{
-						movingOnPath = false;
-						moveDirection = new Vector2(0,0);
-						break;
-					}
-					nextPoint = shortestPath[pathCurIndex];
-				}
-				Vector2 nextPosition = CreatureRoom.instance.TileToWorld(nextPoint.x, nextPoint.y);
-				
-				moveDirection = (nextPosition - (Vector2)transform.position).normalized;
-			}
-		}while(false);
-		
-		
-		// update position
-		Vector2 newLocalPos = (Vector2)transform.localPosition +  moveDirection * movement * Time.deltaTime;
-		
-		transform.localPosition = new Vector3 (newLocalPos.x, newLocalPos.y, transform.localPosition.z);
-	}
-*/
-	private void ProcessMoveNode()
-	{
-		/*
-		private MapNode currentNode;
-
-		private MapEdge currentEdge;
-		private int edgeDirection;
-		private float edgePosRate; // 0~1
-
-		private MapEdge[] pathList;
-		private int pathIndex;
-		*/
-
-		if(pathList != null)
-		{
-			if(currentNode != null)
-			{
-				if(pathIndex >= pathList.Length)
-				{
-					pathList = null;
-				}
-				else
-				{
-					
-					currentEdge = pathList[pathIndex];
-					if(currentEdge.node1 == currentNode)
-					{
-						edgeDirection = 1;
-					}
-					else
-					{
-						edgeDirection = 0;
-					}
-					currentNode = null;
-				}
-			}
-			else if(currentEdge != null)
-			{
-				edgePosRate += Time.deltaTime/currentEdge.cost * movement;
-
-				if(edgePosRate >= 1)
-				{
-					if(edgeDirection == 1)
-						currentNode = currentEdge.node2;
-					else
-						currentNode = currentEdge.node1;
-
-					edgePosRate = 0;
-					currentEdge = null;
-					pathIndex++;
-				}
-			}
-		}
-	}
-
-	// edge 위에 있을 때도 통합할 수 있는 타입 필요
-	public MapNode GetCurrentNode()
-	{
-		return currentNode;
-	}
-	public AgentCmdState GetState()
-	{
-		return state;
 	}
 
 	public void SetMaxHP(int maxHP)
@@ -363,76 +123,13 @@ public class AgentUnit : MonoBehaviour {
 
 	public void UpdateMentalView()
 	{
-		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)mental / (float)maxMental);
+		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)model.mental / (float)model.maxMental);
 	}
-
-	public void MoveToNode(MapNode targetNode)
-	{
-		if(currentNode != null)
-		{
-			MapEdge[] searchedPath = GraphAstar.SearchPath(currentNode, targetNode);
-
-			pathList = searchedPath;
-			pathIndex = 0;
-		}
-		else if(currentEdge != null)
-		{
-            MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
-			MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
-			MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
-			tempNode.AddEdge(tempEdge1);
-			tempNode.AddEdge(tempEdge2);
-
-			MapEdge[] searchedPath = GraphAstar.SearchPath(tempNode, targetNode);
-
-			pathList = searchedPath;
-			pathIndex = 0;
-			if(searchedPath.Length > 0)
-			{
-				currentEdge = searchedPath[0];
-				edgePosRate = 0;
-				edgeDirection = 1;
-			}
-		}
-		else
-		{
-			Debug.Log("Current State invalid");
-		}
-	}
-
-	public void MoveToNode(string targetNodeId)
-	{
-		MoveToNode(MapGraph.instance.GetNodeById(targetNodeId));
-	}
-
-	public void MoveToCreture(CreatureUnit target)
-	{
-		//MoveToGlobalPos ((Vector2)target.transform.position);
-		//MoveToNode(target.GetNode());
-		MoveToNode(target.GetWorkspaceNode());
-	}
-	public void Working(CreatureUnit target)
-	{
-		state = AgentCmdState.WORKING;
-		this.target = target;
-		MoveToCreture (target);
-	}
-	public void FinishWorking()
-	{
-		state = AgentCmdState.IDLE;
-		this.target = null;
-	}
-/*
-	public bool isMoving()
-	{
-		return movingOnPath;
-	}
-	*/
 
 	public void OpenStatusWindow()
 	{
-        AgentUnit oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
-		AgentStatusWindow.CreateWindow (this);
+        AgentModel oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
+		AgentStatusWindow.CreateWindow (model);
         if (CollectionWindow.currentWindow != null)
         CollectionWindow.currentWindow.CloseWindow();
 
@@ -444,86 +141,20 @@ public class AgentUnit : MonoBehaviour {
             Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
             agentWindow.GetComponent<Animator>().SetBool("isTrue", false);
         }
-        else if(oldUnit == this)
+        else if(oldUnit == model)
         {
             Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
             agentWindow.GetComponent<Animator>().SetBool("isTrue", true);
         }
 	}
-/*
-	void MoveOnPath(AIPoint[] dir)
-	{
-		Debug.Log("old call");
-		if(dir.Length == 0)
-			return;
-		shortestPath = (AIPoint[])dir.Clone ();
-		pathCurIndex = 0;
-		movingOnPath = true;
-	}
-*/
-	void MoveOnPath(MapEdge[] path)
-	{
-		if(path.Length == 0)
-			return;
 
-		pathList = path;
-		pathIndex = 0;	
-	}
-
-    public void TakePhysicalDamage(int damage)
+    public void Speech(string speechKey)
     {
-        Debug.Log(name + " takes PHYSICAL dmg " + damage);
-        hp -= damage;
-    }
-
-    public void TakeMentalDamage(int damage)
-    {
-        Debug.Log(name + " takes MENTAL dmg " + damage);
-        mental -= damage;
-    }
-
-    public bool HasTrait(long id)
-    {
-        foreach (TraitTypeInfo info in traitList)
+        string speech;
+        if (model.speechTable.TryGetValue(speechKey, out speech))
         {
-            if (info.id == id)
-                return true;
+            Notice.instance.Send("AddPlayerLog", name + " : " + speech);
+            TextAppearNormalEffect.Create(GetComponent<DestroyHandler>(), new Vector2(0, 0.5f), 4f, name + " : " + speech, Color.blue);
         }
-        return false;
     }
-
-	public void Speech(string speechKey)
-	{
-		string speech;
-		if(speechTable.TryGetValue (speechKey, out speech))
-		{
-			Notice.instance.Send("AddPlayerLog", name + " : " +  speech);
-			TextAppearNormalEffect.Create(GetComponent<DestroyHandler>(), new Vector2(0, 0.5f), 4f, name + " : " +  speech, Color.blue);
-		}
-	}
-
-	public void Panic()
-	{
-		if(panicType == "default")
-		{
-			currentPanicAction = new PanicDefaultAction();
-			string narration = this.name+" (이)가 공황에 빠져 우두커니 서있습니다.";
-			Notice.instance.Send("AddSystemLog", narration);
-		}
-		else if(panicType == "roaming")
-		{
-			currentPanicAction = new PanicRoaming(this);
-			string narration = this.name+" (이)가 공황에 빠져 방향을 잃고 배회합니다.";
-			Notice.instance.Send("AddSystemLog", narration);
-		}
-	}
-
-	public void Die()
-	{	
-		string narration = this.name + " (이)가 사망했습니다.";
-
-		Notice.instance.Send("AgentDie", this);
-		Notice.instance.Send("AddSystemLog", narration);
-		Destroy (gameObject);
-	}
 }

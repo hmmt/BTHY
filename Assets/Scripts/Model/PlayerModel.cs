@@ -7,6 +7,8 @@ public class PlayerModel {
     public HashSet<string> openedAreaList;
     public List<long> openedAgentList;
 
+    private int day;
+
     private static PlayerModel _instance;
     public static PlayerModel instnace
     {
@@ -37,6 +39,8 @@ public class PlayerModel {
         openedAgentList.Add(2);
         openedAgentList.Add(3);
         openedAgentList.Add(4);
+
+        day = 0;
     }
 
     public void OpenArea(string area)
@@ -53,6 +57,17 @@ public class PlayerModel {
         return openedAreaList.Contains(area);
     }
 
+    public void SetDay(int day)
+    {
+        this.day = day;
+        Notice.instance.Send(NoticeName.UpdateDay);
+    }
+
+    public int GetDay()
+    {
+        return day;
+    }
+
     public long[] GetAvailableAgentList()
     {
         return openedAgentList.ToArray();
@@ -61,7 +76,7 @@ public class PlayerModel {
     private void UpdateArea(string added)
     {
         MapGraph.instance.ActivateArea(added);
-        foreach (CreatureUnit unit in CreatureManager.instance.GetCreatureList())
+        foreach (CreatureModel unit in CreatureManager.instance.GetCreatureList())
         {
             if (unit.GetArea() == added)
             {

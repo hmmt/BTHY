@@ -95,8 +95,8 @@ public class GraphAstar {
 			foreach(MapEdge edge in cur.node.GetEdges())
 			{
 				MapNode nextNode = edge.ConnectedNode(cur.node);
-                //if (nextNode == null)
-                //    continue;
+                if (nextNode == null)
+                    continue;
 				if(closedset.Contains(nextNode))
 				{
 					continue;

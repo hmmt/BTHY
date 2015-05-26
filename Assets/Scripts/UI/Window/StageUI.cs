@@ -11,6 +11,8 @@ public class AreaButton
 
 public class StageUI : MonoBehaviour, IObserver {
 
+    public enum UIType {START_STAGE, END_STAGE};
+
     private static StageUI _instance;
     public static StageUI instance
     {
@@ -23,6 +25,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
     private Dictionary<string, AreaButton> areaBtnDic;
     private bool opened;
+    private UIType currentType;
 
     void Awake()
     {
@@ -35,10 +38,13 @@ public class StageUI : MonoBehaviour, IObserver {
         }
     }
 
-    void Start()
+    void OnEnable()
     {
         Notice.instance.Observe(NoticeName.AreaOpenUpdate, this);
-        Open();
+    }
+    void OnDisable()
+    {
+        Notice.instance.Remove(NoticeName.AreaOpenUpdate, this);
     }
 
     private void Init()
@@ -97,15 +103,26 @@ public class StageUI : MonoBehaviour, IObserver {
 
 
 
+    // ok btn
     public void Close()
     {
         opened = false;
         canvas.gameObject.SetActive(false);
+
+        if (currentType == UIType.START_STAGE)
+        {
+            GameManager.currentGameManager.StartGame();
+        }
+        else if (currentType == UIType.END_STAGE)
+        {
+            GameManager.currentGameManager.ExitStage();
+        }
     }
 
-    public void Open()
+    public void Open(UIType uiType)
     {
         opened = true;
+        currentType = uiType;
         canvas.gameObject.SetActive(true);
         Init();
     }

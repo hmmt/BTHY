@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * 뷰어 역할이어야 한다. 
+ * 
+ * 
+ * 
+*/
 public class IsolateRoom : MonoBehaviour, IObserver {
 
 	public CreatureUnit _targetUnit;
@@ -23,7 +29,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public void onClickWorkLog()
     {
         //workLog.GetComponent<Animator>().GetBool("isTrue") && 
-        if (workLog.GetComponent<Animator>().GetBool("isTrue") && NarrationLoggerUI.instantNarrationLog.newInputCreature == _targetUnit)
+        if (workLog.GetComponent<Animator>().GetBool("isTrue") && NarrationLoggerUI.instantNarrationLog.newInputCreature == _targetUnit.model)
         {
             workLog.GetComponent<Animator>().SetBool("isTrue", false);
             Debug.Log(workLog.GetComponent<Animator>().GetBool("isTrue"));
@@ -34,8 +40,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             Debug.Log("sibal");
         }
 
-        NarrationLoggerUI.instantNarrationLog.targetCreature = _targetUnit;
-        NarrationLoggerUI.instantNarrationLog.setLogList(_targetUnit);
+        NarrationLoggerUI.instantNarrationLog.targetCreature = _targetUnit.model;
+        NarrationLoggerUI.instantNarrationLog.setLogList(_targetUnit.model);
     }
 	
 	public CreatureUnit targetUnit
@@ -45,14 +51,14 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		{
 			if(_targetUnit != null)
 			{
-				Notice.instance.Remove("UpdateCreatureState_"+_targetUnit.gameObject.GetInstanceID(), this);
-				Notice.instance.Remove("ShowOutsideTypo_"+_targetUnit.gameObject.GetInstanceID(), this);
+				Notice.instance.Remove("UpdateCreatureState_"+_targetUnit.model.instanceId, this);
+				Notice.instance.Remove("ShowOutsideTypo_"+_targetUnit.model.instanceId, this);
 			}
 			_targetUnit = value;
 			if(_targetUnit != null)
 			{
-				Notice.instance.Observe("UpdateCreatureState_"+_targetUnit.gameObject.GetInstanceID(), this);
-				Notice.instance.Observe("ShowOutsideTypo_"+_targetUnit.gameObject.GetInstanceID(), this);
+                Notice.instance.Observe("UpdateCreatureState_" + _targetUnit.model.instanceId, this);
+                Notice.instance.Observe("ShowOutsideTypo_" + _targetUnit.model.instanceId, this);
 			}
 		}
 	}
@@ -76,7 +82,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		if(targetUnit != null)
 		{
             // 잠시 안 띄움
-			feelingText.text = targetUnit.feeling.ToString ();
+			feelingText.text = targetUnit.model.feeling.ToString ();
             //feelingText.text = "";
 		}
 	}
@@ -85,17 +91,17 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 	{
 		if(_targetUnit != null)
 		{
-			Notice.instance.Remove("UpdateCreatureState_"+_targetUnit.gameObject.GetInstanceID(), this);
-			Notice.instance.Remove("ShowOutsideTypo_"+_targetUnit.gameObject.GetInstanceID(), this);
+			Notice.instance.Remove("UpdateCreatureState_"+_targetUnit.model.instanceId, this);
+			Notice.instance.Remove("ShowOutsideTypo_"+_targetUnit.model.instanceId, this);
 		}
 	}
 
     public void OnClick()
     {
-        CreatureUnit oldCreature = (CollectionWindow.currentWindow != null )? CollectionWindow.currentWindow.GetCreature() : null;
+        CreatureModel oldCreature = (CollectionWindow.currentWindow != null )? CollectionWindow.currentWindow.GetCreature() : null;
         if (SelectWorkAgentWindow.currentWindow != null)
         SelectWorkAgentWindow.currentWindow.CloseWindow();
-        CollectionWindow.Create(_targetUnit);
+        CollectionWindow.Create(_targetUnit.model);
 
 
         // TODO : 최적화 필요
@@ -107,7 +113,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
             collection.GetComponent<Animator>().SetBool("isTrue", false);
         }
-        else if (oldCreature == _targetUnit)
+        else if (oldCreature == _targetUnit.model)
         {
             Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
             collection.GetComponent<Animator>().SetBool("isTrue", true);
@@ -133,14 +139,14 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 	{
         Color color = roomFogRenderer.color;
 
-        if (_targetUnit.state == CreatureState.WORKING)
+        if (_targetUnit.model.state == CreatureState.WORKING)
         {
             color.a = 0f;
             roomFogRenderer.color = color;
         }
         else
         {
-            color.a = (1 - 0.2f * _targetUnit.observeProgress)*0.75f;
+            color.a = (1 - 0.2f * _targetUnit.model.observeProgress)*0.75f;
             roomFogRenderer.color = color;
         }
 	}

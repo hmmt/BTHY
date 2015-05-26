@@ -6,38 +6,16 @@ public class SelectObserveAgentWindow : MonoBehaviour
 {
 
     public Transform agentScrollTarget;
-    public Transform anchor;
 
     private int state1 = 0;
 
-    private CreatureUnit targetCreature = null;
-    private IsolateRoom targetRoom = null;
+    private CreatureModel targetCreature = null;
 
     List<GameObject> selectedAgentList = new List<GameObject>();
 
     public static SelectObserveAgentWindow currentWindow = null;
 
-    public static SelectObserveAgentWindow CreateWindow(IsolateRoom room)
-    {
-        if (currentWindow != null)
-        {
-            currentWindow.CloseWindow();
-        }
-
-        GameObject newObj = Instantiate(Resources.Load<GameObject>("Prefabs/SelectObserveAgentWindow")) as GameObject;
-
-        SelectObserveAgentWindow inst = newObj.GetComponent<SelectObserveAgentWindow>();
-
-        inst.targetRoom = room;
-        inst.targetCreature = room.targetUnit;
-        inst.ShowAgentList();
-
-        currentWindow = inst;
-
-        return inst;
-    }
-
-    public static SelectObserveAgentWindow CreateWindow(CreatureUnit unit)
+    public static SelectObserveAgentWindow CreateWindow(CreatureModel unit)
     {
         if (currentWindow != null)
         {
@@ -56,38 +34,6 @@ public class SelectObserveAgentWindow : MonoBehaviour
         return inst;
     }
 
-    // Use this for initialization
-    void Awake()
-    {
-        UpdatePosition();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    void FixedUpdate()
-    {
-        UpdatePosition();
-    }
-
-    private void UpdatePosition()
-    {
-        if (targetCreature != null && false)
-        {
-            Vector3 targetPos = targetCreature.transform.position;
-
-            anchor.position = Camera.main.WorldToScreenPoint(targetPos);
-        }
-        else if (targetRoom != null)
-        {
-            Vector3 targetPos = targetRoom.transform.position;
-
-            anchor.position = Camera.main.WorldToScreenPoint(targetPos + new Vector3(0, -3, 0));
-        }
-    }
-
     public void OnClickAgentOK()
     {
 
@@ -97,7 +43,7 @@ public class SelectObserveAgentWindow : MonoBehaviour
         CloseWindow();
     }
 
-    public void SelectAgentSkill(AgentUnit agent)
+    public void SelectAgentSkill(AgentModel agent)
     {
         ObserveCreature.Create(agent,targetCreature);
         //UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
@@ -106,10 +52,10 @@ public class SelectObserveAgentWindow : MonoBehaviour
 
     public void ShowAgentList()
     {
-        AgentUnit[] agents = AgentManager.instance.GetAgentList();
+        AgentModel[] agents = AgentManager.instance.GetAgentList();
 
         float posy = 0;
-        foreach (AgentUnit unit in agents)
+        foreach (AgentModel unit in agents)
         {
             GameObject slot = Prefab.LoadPrefab("AgentSlotPanelObserve");
 
@@ -122,7 +68,7 @@ public class SelectObserveAgentWindow : MonoBehaviour
             slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
 
 
-            AgentUnit copied = unit;
+            AgentModel copied = unit;
             slotPanel.skillButton1.onClick.AddListener(() => SelectAgentSkill(copied));
 
 
@@ -133,8 +79,6 @@ public class SelectObserveAgentWindow : MonoBehaviour
 
             posy -= 50f;
         }
-
-        UpdatePosition();
     }
     public void CloseWindow()
     {

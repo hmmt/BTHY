@@ -31,7 +31,7 @@ public class OneBadManyGood : CreatureBase {
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/goodbad/oneGoodManyBad_AttackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6.0f);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
-		SoundEffectPlayer.PlayOnce("creature/onebad_good/oneBad_special", skill.targetCreature.transform.position);
+        SoundEffectPlayer.PlayOnce("creature/onebad_good/oneBad_special", skill.targetCreatureView.transform.position);
 
         // skill이 이미 release 될 상황 고려 필요
         effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });

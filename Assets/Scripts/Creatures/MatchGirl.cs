@@ -17,7 +17,7 @@ public class MatchGirl  : CreatureBase {
         // show effect
 
         skill.PauseWorking();
-        SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability", skill.targetCreature.transform.position);
+        SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability", skill.targetCreatureView.transform.position);
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
@@ -45,14 +45,14 @@ public class MatchGirl  : CreatureBase {
                 skill.agent.hp = (int)(skill.agent.hp * (1 - damage));
                 skill.agent.mental = (int)(skill.agent.mental * (1 - damage));
 
-                SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability_damage", skill.targetCreature.transform.position);
+                SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability_damage", skill.targetCreatureView.transform.position);
 
                 string[] typos = {"typo/matchgirl/01_matchGirl_specialAttack_00",
                     "typo/matchgirl/01_matchGirl_specialAttack_01",
                     "typo/matchgirl/01_matchGirl_specialAttack_02"};
 
 
-                TypoEffect.Create(skill.targetCreature, typos[Random.Range(0, typos.Length)], 0, 2);
+                TypoEffect.Create(skill.targetCreatureView, typos[Random.Range(0, typos.Length)], 0, 2);
 
                 skill.CheckLive();
             });
@@ -69,8 +69,8 @@ public class MatchGirl  : CreatureBase {
                     "typo/matchgirl/01_matchGirl_commonAttack_01",
                     "typo/matchgirl/01_matchGirl_commonAttack_02"};
 
-        
-        TypoEffect.Create(skill.targetCreature, typos[Random.Range(0,typos.Length)], 0, 2);
+
+        TypoEffect.Create(skill.targetCreatureView, typos[Random.Range(0, typos.Length)], 0, 2);
     }
 
 	public override void OnEnterRoom(UseSkill skill)
