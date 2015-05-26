@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-    public float maxSpeed = 10;
+    public float maxSpeed = 6;
     public bool facingRight = true;
 
     bool grounded = false;
@@ -11,12 +11,17 @@ public class PlayerController : MonoBehaviour {
     float groundRadius = 0.2f;
     public LayerMask whatIsGround;
 	public float jumpForce = 700f;
+    public float oldPos;
 
+    public bool playerMove = false;
+
+    public Animator playerAnimator;
 
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start () 
+    {
+        oldPos = transform.localPosition.x;
 	}
 	
 	// Update is called once per frame
@@ -29,8 +34,35 @@ public class PlayerController : MonoBehaviour {
            player.AddForce(new Vector2(0,jumpForce));
         }
 
+        if (playerMove)
+        {
+            playerAnimator.SetBool("PlayerMove", true);
+        }
+
+        else
+        {
+            playerAnimator.SetBool("PlayerMove", false);
+        }
+
+
+        if (player.velocity.x > 3 || player.velocity.x < -3)
+        {
+            if (oldPos != transform.localPosition.x)
+            {
+                Debug.Log("old" + oldPos);
+                Debug.Log("now" + transform.localPosition.x);
+                playerMove = true;
+            }
+        }
+        else
+        {
+            playerMove = false;
+        }
+
+        oldPos = transform.localPosition.x;
+
         Camera.main.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y+3.5f, Camera.main.transform.localPosition.z);
-	}
+  	}
 
     void FixedUpdate()
     {
@@ -41,7 +73,6 @@ public class PlayerController : MonoBehaviour {
         float move = Input.GetAxis("Horizontal");
         player.velocity = new Vector2(move * maxSpeed, player.velocity.y);
 
-       
 
         if (move < 0 && facingRight)
             Filp();
