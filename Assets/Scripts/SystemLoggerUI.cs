@@ -16,21 +16,19 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
     private float diff = 15f;
 
     private bool addedText = false;
-	
-	
-	void Awake()
-	{
-		Notice.instance.Observe ("AddSystemLog", this);
-		//Notice.instance.Observe ("AgentDie", this);
-	}
 
-    void Start()
+    void OnEnable()
     {
+        Notice.instance.Observe("AddSystemLog", this);
+    }
+
+    void OnDisable()
+    {
+        Notice.instance.Remove("AddSystemLog", this);
     }
 	
 	public void AddText(string msg)
 	{
-		
 		GameObject logTextObj = Prefab.LoadPrefab ("SystemText");
 		
 		Text textUI = logTextObj.GetComponent<Text> ();
