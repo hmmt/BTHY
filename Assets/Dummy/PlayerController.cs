@@ -49,8 +49,6 @@ public class PlayerController : MonoBehaviour {
         {
             if (oldPos != transform.localPosition.x)
             {
-                Debug.Log("old" + oldPos);
-                Debug.Log("now" + transform.localPosition.x);
                 playerMove = true;
             }
         }

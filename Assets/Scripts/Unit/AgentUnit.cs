@@ -12,6 +12,17 @@ public class AgentUnit : MonoBehaviour {
     public agentSkillDoing showSkillIcon;
     public AgentSpeech showSpeech;
 
+    public Animator agentAnimator;
+
+    public float oldPos;
+    public bool agentMove=false;
+
+    void  Start()
+    {
+        oldPos = transform.localPosition.x;
+        //currentNode = MapGraph.instance.GetNodeById("1001002");
+    }
+
 	private void UpdateDirection()
 	{
         MapEdge currentEdge = model.GetCurrentEdge();
@@ -52,6 +63,8 @@ public class AgentUnit : MonoBehaviour {
 				}
 				anim.transform.localScale = scale;
 			}
+
+
 		}
 	}
 
@@ -90,17 +103,23 @@ public class AgentUnit : MonoBehaviour {
 
 	private float waitTimer = 0;
 
-	void Start () {
-
-		//currentNode = MapGraph.instance.GetNodeById("1001002");
-	}
-
 	// if map is destroyed....?
 
 	void FixedUpdate()
 	{
         // ?
         model.FixedUpdate();
+
+        if (oldPos != transform.localPosition.x)
+        {
+            agentAnimator.SetBool("AgentMove", true);
+        }
+        else
+        {
+            agentAnimator.SetBool("AgentMove", false);
+        }
+
+        oldPos = transform.localPosition.x;
 	}
 
 	void Update()
@@ -109,6 +128,7 @@ public class AgentUnit : MonoBehaviour {
 		UpdateDirection();
 		SetCurrentHP (model.hp);
 		UpdateMentalView ();
+
 	}
 
 	public void SetMaxHP(int maxHP)

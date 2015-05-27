@@ -404,6 +404,7 @@ public class UseSkill : MonoBehaviour {
 		}
 		GameObject newObject = new GameObject ();
 
+
 		string narration = agent.name+" (이)가 "+skillInfo.name+" 작업을 시작합니다.";
 		Notice.instance.Send("AddSystemLog", narration);
 
