@@ -80,7 +80,6 @@ public class SlideDoor : MonoBehaviour {
         if (col.gameObject.tag == "Player" && !onceCheck)
         {
             onceCheck = true;
-            Debug.Log("나감");
             rightDoorOpen = true;
         }
     }

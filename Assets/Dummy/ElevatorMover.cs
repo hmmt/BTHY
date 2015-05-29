@@ -12,7 +12,7 @@ public class ElevatorMover : MonoBehaviour {
 	public Vector2 endPosition;
 
 	
-	public float totalTime = 1.0f;
+	public float totalTime = 1.5f;
 	public float moveDelay = 1.0f;
 	public float timer = 0.0f;
 

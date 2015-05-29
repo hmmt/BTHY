@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
             player.transform.localPosition = PlayerModel.instnace.playerSpot;
         else
         {
-            player.transform.localPosition = new Vector3(-16.3f, 27.09f ,0);
+            player.transform.localPosition = new Vector3(-16.3f, 30.33f, 0);
         }
 	}
 	

@@ -26,6 +26,9 @@ public class OpenRightDoor : MonoBehaviour {
                 checkOnce = true;
                 playerThroguh = true;
             }
+
+            if (GlobalFunction.currentDay + 1 == PlayerModel.instnace.GetDay())
+                GlobalFunction.finishWork = true;
         }
 
         if (coll.gameObject.tag == "SlideDoorRight")
@@ -34,11 +37,13 @@ public class OpenRightDoor : MonoBehaviour {
         }
     }
 
+    /*
     void OnTriggerExit2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Player")
         {
-            GlobalFunction.finishWork = true;
-        }
-    }
+            if (GlobalFunction.currentDay+1 == PlayerModel.instnace.GetDay())
+                GlobalFunction.finishWork = true;
+          }
+    }*/
 }

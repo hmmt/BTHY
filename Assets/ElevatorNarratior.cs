@@ -6,7 +6,7 @@ public class ElevatorNarratior : MonoBehaviour {
     public ElevatorMover elevator;
 
     public bool checkTime=false;
-    public float time = 0.0f;
+    public static float time = 0.0f;
 
     public TextMesh narration;
 
@@ -15,6 +15,7 @@ public class ElevatorNarratior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        time = 0.0f;
         citySound.time = 12f;
 	
 	}
@@ -46,9 +47,16 @@ public class ElevatorNarratior : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Player" )
         {
-            Debug.Log("멈춘다");
             elevator.isStop = true;
             citySound.Play();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D coll)
+    {
+        if (coll.gameObject.tag == "Player")
+        {
+            
         }
     }
 }

@@ -19,7 +19,6 @@ public class StartController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("sibal");
         if (coll.gameObject.tag == "Player" && Input.GetKey(KeyCode.E))
         {
             Application.LoadLevel("Main");
