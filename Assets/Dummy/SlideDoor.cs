@@ -28,7 +28,7 @@ public class SlideDoor : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
         // 왼쪽문 개방
-        if (elevatorState.currentState == ElevatorMover.STATE.RSTOP)
+        if (ElevatorMover.currentState == ElevatorMover.STATE.RSTOP)
         {
             leftDoor.MovePosition (new Vector2(leftDoor.position.x, leftDoor.position.y+0.03f));
         }

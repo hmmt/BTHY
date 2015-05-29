@@ -7,6 +7,8 @@ public class PlayerModel {
     public HashSet<string> openedAreaList;
     public List<long> openedAgentList;
 
+    public Vector3 playerSpot;
+      
     private int day;
 
     private static PlayerModel _instance;

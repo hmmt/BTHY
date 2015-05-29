@@ -11,12 +11,14 @@ public class ElevatorMover : MonoBehaviour {
 	public Vector2 startPosition;
 	public Vector2 endPosition;
 
-	public STATE currentState = STATE.STOP;
+	
 	public float totalTime = 1.0f;
 	public float moveDelay = 1.0f;
-	private float timer = 0.0f;
+	public float timer = 0.0f;
 
+    public static STATE currentState = STATE.STOP;
     public bool playerOn=false;
+    public bool isStop = false;
 
     public Rigidbody2D playerBody;
 
@@ -28,6 +30,18 @@ public class ElevatorMover : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+        if (PlayerModel.instnace.GetDay() != 0)
+        {
+            transform.localPosition = endPoint.localPosition;
+            //currentState = STATE.RSTOP;
+        }
+
+        else
+        {
+            //transform.localPosition = startPoint.localPosition;
+        }
+
 		if(startPoint != null)
 		{
 			startPosition = new Vector2(startPoint.position.x, startPoint.position.y);
@@ -55,7 +69,7 @@ public class ElevatorMover : MonoBehaviour {
 	{
 
 		Vector2 nextPosition = GetComponent<Rigidbody2D>().position;
-        if(playerOn)
+        if(playerOn && !isStop)
         {
 		    timer += Time.deltaTime;
         }
@@ -67,7 +81,7 @@ public class ElevatorMover : MonoBehaviour {
 			if(timer > totalTime)
 			{
 				timer = 0.0f;
-				//transform.position = new Vector3(endPosition.x, endPosition.y);
+                //transform.position = new Vector3(endPosition.x, endPosition.y);-1.175.03
 				nextPosition = endPosition;
 				NextState();
 				break;

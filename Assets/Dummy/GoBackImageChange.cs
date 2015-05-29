@@ -16,15 +16,16 @@ public class GoBackImageChange : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (elevatorState.currentState == ElevatorMover.STATE.RMOVE ||
-            elevatorState.currentState == ElevatorMover.STATE.STOP)
+        if ( ElevatorMover.currentState== ElevatorMover.STATE.RMOVE ||
+            ElevatorMover.currentState == ElevatorMover.STATE.STOP)
         {
             goImage.SetActive(true);
             backImage.SetActive(false);
+            //elevatorState.currentState
         }
 
-        else if (elevatorState.currentState == ElevatorMover.STATE.MOVE
-            || elevatorState.currentState == ElevatorMover.STATE.RSTOP)
+        else if (ElevatorMover.currentState == ElevatorMover.STATE.MOVE
+            || ElevatorMover.currentState == ElevatorMover.STATE.RSTOP)
         {
             backImage.SetActive(true);
             goImage.SetActive(false);

@@ -60,6 +60,20 @@ public class PlatformerCamera : MonoBehaviour
         lightCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
         frontCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
     }
+
+    public void cameraZoomOut(float zoomOut)
+    {
+        Camera.main.orthographicSize += zoomOut;
+        lightCamera.orthographicSize += zoomOut;
+        frontCamera.orthographicSize += zoomOut;
+    }
+
+    public void cameraZoomIn(float zoomIn)
+    {
+        Camera.main.orthographicSize -= zoomIn;
+        lightCamera.orthographicSize -= zoomIn;
+        frontCamera.orthographicSize -= zoomIn;
+    }
 }
 
 

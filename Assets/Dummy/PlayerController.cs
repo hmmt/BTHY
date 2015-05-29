@@ -17,11 +17,23 @@ public class PlayerController : MonoBehaviour {
 
     public Animator playerAnimator;
 
+    public bool cameraWalk=false;
+
 
 	// Use this for initialization
 	void Start () 
     {
+        Rigidbody2D player = GetComponent<Rigidbody2D>();
         oldPos = transform.localPosition.x;
+
+        Debug.Log(PlayerModel.instnace.playerSpot.x + " " + PlayerModel.instnace.playerSpot.y);
+
+        if (PlayerModel.instnace.GetDay() != 0)
+            player.transform.localPosition = PlayerModel.instnace.playerSpot;
+        else
+        {
+            player.transform.localPosition = new Vector3(-16.3f, 27.09f ,0);
+        }
 	}
 	
 	// Update is called once per frame
@@ -59,7 +71,10 @@ public class PlayerController : MonoBehaviour {
 
         oldPos = transform.localPosition.x;
 
-        Camera.main.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y+3.5f, Camera.main.transform.localPosition.z);
+        if (!cameraWalk)
+        {
+            Camera.main.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y + 3.5f, Camera.main.transform.localPosition.z);
+        }
   	}
 
     void FixedUpdate()

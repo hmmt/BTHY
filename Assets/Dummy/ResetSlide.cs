@@ -7,8 +7,6 @@ public class ResetSlide : MonoBehaviour {
     public OpenRightDoor rightDoor;
     public OpenLeftDoor leftDoor;
 
-    public TextMesh dDay;
-
 
 	// Use this for initialization
 	void Start () {
@@ -26,8 +24,6 @@ public class ResetSlide : MonoBehaviour {
         if (coll.gameObject.tag == "Player")
         {
 
-
-            dDay.text = "Day - " + PlayerModel.instnace.GetDay();
 
             slideDoor.leftDoorOpen = false;
             slideDoor.rightDoorOpen = false;
