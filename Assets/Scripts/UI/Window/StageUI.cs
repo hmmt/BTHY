@@ -13,6 +13,9 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public enum UIType {START_STAGE, END_STAGE};
 
+    public int agentCost;
+    public int areaCost;
+
     private static StageUI _instance;
     public static StageUI instance
     {
@@ -30,6 +33,9 @@ public class StageUI : MonoBehaviour, IObserver {
     void Awake()
     {
         _instance = this;
+
+        agentCost = 1;
+        areaCost = 10;
 
         areaBtnDic = new Dictionary<string, AreaButton>();
         foreach (AreaButton btn in areaButtons)
@@ -88,17 +94,31 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public void OnClickAddAgent()
     {
-        long[] idList = PlayerModel.instnace.GetAvailableAgentList();
+        if (EnergyModel.instance.GetLeftEnergy() >= agentCost)
+        {
+            EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - agentCost);
 
-        long selected = idList[Random.Range(0, idList.Length)];
+            long[] idList = PlayerModel.instnace.GetAvailableAgentList();
 
-        AgentManager.instance.BuyAgent(selected);
+            long selected = idList[Random.Range(0, idList.Length)];
+
+            AgentManager.instance.BuyAgent(selected);
+        }
+        else
+            Debug.Log("에너지가 모자라");
     }
 
     public void OnClickBuyArea(string areaName)
     {
+        if (EnergyModel.instance.GetLeftEnergy() >=areaCost)
+        {
+            EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - areaCost);
+            PlayerModel.instnace.OpenArea(areaName);
+        }
+        else
+            Debug.Log("에너지가 모자라");
         //MapGraph.instance.
-        PlayerModel.instnace.OpenArea(areaName);
+
     }
 
 

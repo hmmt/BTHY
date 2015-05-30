@@ -19,6 +19,8 @@ public class SlideDoor : MonoBehaviour {
     public bool onceCheck = false;
     public static bool leftDoorClose = false;
 
+    public static bool onceCheckGround = false;
+
 	// Use this for initialization
 	void Awake () {
         leftDoor.isKinematic = true;
@@ -68,10 +70,13 @@ public class SlideDoor : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player" && !onceCheckGround)
         {
             if (!GlobalFunction.finishWork)
+            {
+                onceCheckGround = true;
                 leftDoorOpen = true;
+            }
         }
     }
 

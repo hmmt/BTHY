@@ -25,6 +25,7 @@ public class OpenRightDoor : MonoBehaviour {
             {
                 checkOnce = true;
                 playerThroguh = true;
+                Debug.Log("ON");
             }
 
             if (GlobalFunction.currentDay + 1 == PlayerModel.instnace.GetDay())

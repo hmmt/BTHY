@@ -4,6 +4,7 @@ using System.Collections;
 public class StageTypeInfo  {
 
     private static StageTypeInfo _instance;
+    public int goal = 100;
     public static StageTypeInfo instnace
     {
         get
@@ -16,11 +17,12 @@ public class StageTypeInfo  {
 
     public int GetStageGoalTime(int day)
     {
-        return 10;
+        return 120;
     }
 
     public float GetEnergyNeed(int day)
     {
-        return 1;
+
+        return 20 +20*day;
     }
 }

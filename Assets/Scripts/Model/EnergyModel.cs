@@ -17,6 +17,7 @@ public class EnergyModel : IObserver {
 	}
 
 	private float energy = 0;
+    private float leftEnergy = 10;
 
     public EnergyModel()
     {
@@ -41,6 +42,16 @@ public class EnergyModel : IObserver {
 	{
 		return energy;
 	}
+
+    public void SetLeftEnergy(float left)
+    {
+        leftEnergy = left;
+    }
+
+    public float GetLeftEnergy()
+    {
+        return leftEnergy;
+    }
 
 	private void UpdateEnergy()
 	{

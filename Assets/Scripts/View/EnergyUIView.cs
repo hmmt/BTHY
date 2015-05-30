@@ -58,6 +58,7 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 		if(leftChargeEnergy > leftFillEnergy)
 		{
 			leftChargeEnergy = (int)leftFillEnergy;
+           EnergyModel.instance.SetLeftEnergy(leftChargeEnergy);
 		}
 
 		chargeEnergyGage.GetComponent<RectTransform>().localScale = new Vector3(Mathf.Clamp(energy/mustFillEnergy,0,1),1,1);
@@ -65,6 +66,7 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 		leftChargeEnergyGage.GetComponent<RectTransform>().localScale = new Vector3(Mathf.Clamp(leftChargeEnergy/leftFillEnergy,0,1),1,1);
 
 		mustEnergyNum.text = (int)energy+" / "+ mustFillEnergy;
+
 
 		if(leftChargeEnergy <= 0)
 			leftEnergyNum.text = "0 / "+ leftFillEnergy;

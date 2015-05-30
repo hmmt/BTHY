@@ -105,7 +105,7 @@ public class CreatureManager {
 
         unit.metaInfo = typeInfo;
         unit.specialSkill = typeInfo.specialSkill;
-        unit.AddFeeling(typeInfo.feelingMax);
+        unit.AddFeeling(typeInfo.feelingMax/2);
 
         unit.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
 

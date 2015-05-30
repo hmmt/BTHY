@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour {
         int day = PlayerModel.instnace.GetDay();
         PlayerModel.instnace.SetDay(day + 1);
         //stageUI.Open(StageUI.UIType.START_STAGE);
+        EnergyModel.instance.Init();
         Application.LoadLevel("Menu");
     }
 
