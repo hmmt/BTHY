@@ -72,11 +72,11 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     {
         float sizex = Mathf.Max(
             roomSpriteRenderer.sprite.bounds.size.x * roomSpriteRenderer.gameObject.transform.localScale.x,
-            frameSpriteRenderer.sprite.bounds.size.x * frameSpriteRenderer.gameObject.transform.localScale.x
+            roomSpriteRenderer.sprite.bounds.size.x * roomSpriteRenderer.gameObject.transform.localScale.x
             );
         float sizey = Mathf.Max(
             roomSpriteRenderer.sprite.bounds.size.y * roomSpriteRenderer.gameObject.transform.localScale.y,
-            frameSpriteRenderer.sprite.bounds.size.y * frameSpriteRenderer.gameObject.transform.localScale.y
+            roomSpriteRenderer.sprite.bounds.size.y * roomSpriteRenderer.gameObject.transform.localScale.y
             );
 
         touchButtonTransform.sizeDelta = new Vector2(sizex, sizey);
