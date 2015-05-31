@@ -53,10 +53,10 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
         room.roomSpriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
         room.targetUnit = unit;
-
+        /*
         tex = Resources.Load<Texture2D>("Sprites/" + model.metaInfo.framesrc);
         room.frameSpriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
+        */
         room.Init();
 
         creatureRoom.transform.position = (Vector3)model.position;

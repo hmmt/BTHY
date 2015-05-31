@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class PlayerModel {
 
     private HashSet<string> areaList;
-    public HashSet<string> openedAreaList;
+    public HashSet<string> openedAreaList { private set; get; }
     public List<long> openedAgentList;
 
     public Vector3 playerSpot;
@@ -28,6 +28,7 @@ public class PlayerModel {
         areaList.Add("1");
         areaList.Add("2");
         areaList.Add("3");
+        areaList.Add("4");
         Init();
     }
 
@@ -99,14 +100,28 @@ public class PlayerModel {
         else if (added == "2")
         {
             // Na??
-            // CreatureManager.instance.AddCreature(20001, "N-way1-point2", -25, -4); // 남자 초상화
             CreatureManager.instance.AddCreature(20005, "N-way1-point2", -25, -4); // 마법소녀
             CreatureManager.instance.AddCreature(20002, "N-way1-point3", -25, -14); // 보고 싶은 사신
-            //CreatureManager.instance.AddCreature(20003, "N-way2-point1", -25, -26); // 벽 여인
             CreatureManager.instance.AddCreature(20006, "N-way2-point1", -25, -26); // 없는 책
             CreatureManager.instance.AddCreature(20004, "N-way2-point2", -25, -36); // 삐에로
         }
+        else if (added == "3")
+        {
+            CreatureManager.instance.AddCreature(20001, "H-way1-point2", 25, -4); // 남자 초상화
+            CreatureManager.instance.AddCreature(20003, "H-way1-point3", 25, -14); // 벽 여인
+            CreatureManager.instance.AddCreature(30002, "H-way2-point1", 25, -26); // 잭이 없는 콩나무
+            CreatureManager.instance.AddCreature(20003, "H-way2-point2", 25, -36); // (아무 것도 없는)
+        }
+        else if (added == "4")
+        {
+            CreatureManager.instance.AddCreature(30004, "tessod-left-point", -10, -26); // 테레지아
+            CreatureManager.instance.AddCreature(30001, "tessod-right-point", 10, -26); // 아무말 없는 수녀
 
-        Notice.instance.Send("AreaOpenUpdate", added);
+
+            //CreatureManager.instance.AddCreature(20005, "tessod-down-point", -6, -35); // 마법소녀
+            //CreatureManager.instance.AddCreature(20005, "tessod-down-point", 6, -35); // 마법소녀
+        }
+
+        Notice.instance.Send(NoticeName.AreaOpenUpdate, added);
     }
 }

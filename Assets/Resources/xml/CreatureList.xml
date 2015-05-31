@@ -8,10 +8,16 @@
 	<creature src="OneBadManyGood" />
 
 	<creature src="Reaper" />
-	<creature src="LadyLookingAtWall" />
-	<creature src="AnonymousManPortrait" />
 	<creature src="SmilePierrot" />
 	<creature src="MagicalGirl" />
 	<creature src="VoidBook" />
+
+	<creature src="AnonymousManPortrait" />
+	<creature src="LadyLookingAtWall" />
+	<creature src="JackLessTree" />
+	<creature src="null" />
+
+	<creature src="SilentGirl" />
+	<creature src="Theresia" />
 
 </creature_list>

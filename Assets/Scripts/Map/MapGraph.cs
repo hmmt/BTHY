@@ -18,6 +18,7 @@ public class MapGraph
     }
 
     private Dictionary<string, MapNode> graphNodes;
+    private Dictionary<string, List<MapNode>> sefiraNodesTable;
 
     private Dictionary<string, List<MapNode>> nodeAreaTable;
 
@@ -42,6 +43,27 @@ public class MapGraph
         return Random.Range(1001001, 1001003).ToString();
     }
 
+    public MapNode GetSepiraNodeByRandom(string area)
+    {
+        MapNode[] nodes = GetSefiraNodes(area);
+        if (nodes.Length == 0)
+            return GetNodeById("sefira-malkuth-5");
+
+        return nodes[Random.Range(0, nodes.Length)];
+    }
+
+    public MapNode[] GetSefiraNodes(string area)
+    {
+        List<MapNode> output;
+
+        if (sefiraNodesTable.TryGetValue(area, out output))
+        {
+            return output.ToArray();
+        }
+
+        return new MapNode[]{ };
+    }
+
     public int GetRandomPanicRoamingPoint()
     {
         return 100;
@@ -63,8 +85,6 @@ public class MapGraph
     {
         if (loaded)
             return;
-        //StreamReader sr = new StreamReader (Application.dataPath + "/Resources/xml/MapNodeList.xml");
-
         TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
 
         XmlDocument doc = new XmlDocument();
@@ -73,11 +93,13 @@ public class MapGraph
         XmlNodeList areaNodes = doc.SelectNodes("/node_list/area");
 
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
-        Dictionary<string, List<MapNode>> nodesInAreaDic = new Dictionary<string, List<MapNode>>();
+        Dictionary<string, List<MapNode>> sefiraNodesDic = new Dictionary<string, List<MapNode>>();
+        Dictionary<string, List<MapNode>> nodeAreaDic = new Dictionary<string, List<MapNode>>();
 
         foreach (XmlNode areaNode in areaNodes)
         {
             List<MapNode> nodesInArea = new List<MapNode>();
+            List<MapNode> sefiraNodes = new List<MapNode>();
             string areaName = areaNode.Attributes.GetNamedItem("name").InnerText;
 
             foreach (XmlNode node in areaNode.ChildNodes)
@@ -86,32 +108,24 @@ public class MapGraph
                 float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);
                 float y = float.Parse(node.Attributes.GetNamedItem("y").InnerText);
 
+                XmlNode typeNode = node.Attributes.GetNamedItem("type");
+
                 MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName);
                 newMapNode.activate = false;
                 nodeDic.Add(id, newMapNode);
 
+                if (typeNode != null && typeNode.InnerText == "sefira")
+                {
+                    sefiraNodes.Add(newMapNode);
+                }
+
                 nodesInArea.Add(newMapNode);
-
-                /*
-                // 게임 뷰에 위치 표시
-                GameObject nodePoint = Prefab.LoadPrefab("NodePoint");
-
-                nodePoint.transform.SetParent(gameObject.transform);
-                nodePoint.transform.localPosition = new Vector3(x, y, 0);
-                */
             }
 
-            nodesInAreaDic.Add(areaName, nodesInArea);
+            nodeAreaDic.Add(areaName, nodesInArea);
+            sefiraNodesDic.Add(areaName, sefiraNodes);
         }
-        //XmlNodeList nodes = doc.SelectNodes("/node_list/node");
 
-        
-        /*
-        foreach (XmlNode node in nodes)
-        {
-            
-        }
-        */
         textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
 
         doc = new XmlDocument();
@@ -153,22 +167,13 @@ public class MapGraph
 
             node1.AddEdge(edge);
             node2.AddEdge(edge);
-
-
-            /*
-            // 게임 뷰에 위치 표시
-            GameObject edgeLine = Prefab.LoadPrefab("EdgeLine");
-            edgeLine.transform.SetParent(gameObject.transform);
-            edgeLine.GetComponent<LineRenderer>().SetPosition(0, new Vector3(node1.GetPosition().x, node1.GetPosition().y, 0));
-            edgeLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(node2.GetPosition().x, node2.GetPosition().y, 0));
-            */
         }
 
         graphNodes = nodeDic;
-        //edges = edgeList.ToArray();
         edges = edgeList;
 
-        nodeAreaTable = nodesInAreaDic;
+        nodeAreaTable = nodeAreaDic;
+        sefiraNodesTable = sefiraNodesDic;
 
         loaded = true;
 
@@ -190,27 +195,4 @@ public class MapGraph
     {
         return edges.ToArray();
     }
-    /*
-    public void DrawPath()
-    {
-        foreach (KeyValuePair<string, MapNode> kv in graphNodes)
-        {
-            MapNode node = kv.Value;
-            // 게임 뷰에 위치 표시
-            GameObject nodePoint = Prefab.LoadPrefab("NodePoint");
-
-            nodePoint.transform.SetParent(gameObject.transform);
-            nodePoint.transform.localPosition = new Vector3(node.GetPosition().x, node.GetPosition().y, 0);
-        }
-
-        foreach (MapEdge e in edges)
-        {
-            // 게임 뷰에 위치 표시
-            GameObject edgeLine = Prefab.LoadPrefab("EdgeLine");
-            edgeLine.transform.SetParent(gameObject.transform);
-            edgeLine.GetComponent<LineRenderer>().SetPosition(0, new Vector3(e.node1.GetPosition().x, e.node1.GetPosition().y, 0));
-            edgeLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(e.node2.GetPosition().x, e.node2.GetPosition().y, 0));
-        }
-    }
-    */
 }

@@ -23,7 +23,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             currentWindow.CloseWindow();
         }
 
-        GameObject newObj = Instantiate(Resources.Load<GameObject>("Prefabs/SelectWorkAgentWindow")) as GameObject;
+        GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
 
         SelectWorkAgentWindow inst = newObj.GetComponent<SelectWorkAgentWindow>();
         //inst.ShowSelectAgent (unit.gameObject);
@@ -43,7 +43,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 			currentWindow.CloseWindow();
 		}
 
-		GameObject newObj = Instantiate(Resources.Load<GameObject> ("Prefabs/SelectWorkAgentWindow")) as GameObject;
+        GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
 		
 		SelectWorkAgentWindow inst = newObj.GetComponent<SelectWorkAgentWindow> ();
 		//inst.ShowSelectAgent (unit.gameObject);
@@ -146,6 +146,11 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
 			posy -= 100f;
 		}
+
+        // scroll rect size
+        Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
+        scrollRectSize.y = -posy + 100f;
+        agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
 
 		UpdatePosition ();
 	}

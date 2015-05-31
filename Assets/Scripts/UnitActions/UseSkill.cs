@@ -190,6 +190,8 @@ public class UseSkill : MonoBehaviour {
 		agent.FinishWorking();
 		targetCreature.state = CreatureState.WAIT;
 
+        Notice.instance.Send("UpdateCreatureState_" + targetCreature.instanceId);
+
 		Destroy(gameObject);
 		Destroy(progressBar.gameObject);
 	}
@@ -375,7 +377,7 @@ public class UseSkill : MonoBehaviour {
                 }
             }
 
-			string narration = this.name+" (이)가 공황에 빠져 "+skillTypeInfo.name+" 작업에 실패하였습니다.";
+			string narration = agent.name+" (이)가 공황에 빠져 "+skillTypeInfo.name+" 작업에 실패하였습니다.";
 			Notice.instance.Send("AddSystemLog", narration);
         }
         if (agent.hp <= 0)
@@ -403,7 +405,6 @@ public class UseSkill : MonoBehaviour {
 			return null;
 		}
 		GameObject newObject = new GameObject ();
-
 
 		string narration = agent.name+" (이)가 "+skillInfo.name+" 작업을 시작합니다.";
 		Notice.instance.Send("AddSystemLog", narration);
@@ -453,6 +454,8 @@ public class UseSkill : MonoBehaviour {
 		inst.progressBar = progressObj.GetComponent<ProgressBar> ();
 		inst.progressBar.SetVisible (true);
 		inst.progressBar.SetRate (0);
+
+        Notice.instance.Send("UpdateCreatureState_" + inst.targetCreature.instanceId);
 
 		return inst;
 	}

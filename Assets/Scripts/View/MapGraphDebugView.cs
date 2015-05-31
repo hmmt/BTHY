@@ -11,6 +11,7 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
         }
     }
 
+    private bool debugOn = true;
     private bool init = false;
 
     private float defaultZ = -0.01f;
@@ -38,6 +39,11 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
 
     public void UpdateView()
     {
+        if (debugOn == false)
+        {
+            init = true;
+            return;
+        }
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);

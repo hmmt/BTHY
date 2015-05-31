@@ -52,10 +52,14 @@ public class AgentModel {
     public string panicType;
     //
 
+    public string currentSefira { private set; get; }
+
     private AgentCmdState state = AgentCmdState.IDLE;
     public CreatureModel target; // state; MOVE, WORKING
 
     private PanicAction currentPanicAction;
+
+    // 
 
     // path finding2
     private MapNode currentNode;
@@ -70,11 +74,12 @@ public class AgentModel {
     private MapEdge[] pathList;
     private int pathIndex;
 
-    public AgentModel(int instanceId)
+    public AgentModel(int instanceId, string area)
     {
         traitList = new List<TraitTypeInfo>();
         this.instanceId = instanceId;
-        currentNode = MapGraph.instance.GetNodeById("1001002");
+        currentSefira = area;
+        currentNode = MapGraph.instance.GetSepiraNodeByRandom(area);
     }
 
     private bool visible = true;
@@ -83,21 +88,19 @@ public class AgentModel {
     ////
 
     private float waitTimer = 0;
-    public void Start()
+
+
+    // 현재 AgentUnit에서 호출됨
+    public void FixedUpdate()
     {
-        currentNode = MapGraph.instance.GetNodeById("1001002");
+        ProcessAction();
+
+        ProcessMoveNode();
     }
 
     public Vector2 GetCurrentViewPosition()
     {
         Vector2 output = new Vector2(0,0);
-        /*
-        MapNode currentNode = GetCurrentNode();
-        MapEdge currentEdge = GetCurrentEdge();
-        float edgePosRate = edgePosRate;
-        int edgeDirection = edgeDirection;
-        */
-
 
         if (currentNode != null)
         {
@@ -136,13 +139,6 @@ public class AgentModel {
         work += addTrait.workSpeed;
     }
 
-    public void FixedUpdate()
-    {
-        ProcessAction();
-
-        ProcessMoveNode();
-    }
-
     private void ProcessAction()
     {
         if (currentPanicAction != null)
@@ -154,7 +150,7 @@ public class AgentModel {
             if (waitTimer <= 0)
             {
 
-                MoveToNode(MapGraph.instance.GetRandomRestPoint());
+                MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
 
                 waitTimer = 1.5f + Random.value;
             }
@@ -304,6 +300,12 @@ public class AgentModel {
                 return true;
         }
         return false;
+    }
+
+    public void SetCurrentSefira(string sefira)
+    {
+        currentSefira = sefira;
+        waitTimer = 0;
     }
 
     public void Panic()

@@ -43,7 +43,7 @@ public class AgentManager {
             return null;
         }
 
-        AgentModel unit = new AgentModel(instId++);
+        AgentModel unit = new AgentModel(instId++, "1");
 
         TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetRandomInitTrait();
         TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();

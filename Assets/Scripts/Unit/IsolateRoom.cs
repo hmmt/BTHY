@@ -20,6 +20,13 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
 	public SpriteRenderer roomFogRenderer;
 
+    public SpriteRenderer frameRedRenderer;
+    public SpriteRenderer frameYellowRenderer;
+    public SpriteRenderer frameGreenRenderer;
+
+    public SpriteRenderer workingOffRenderer;
+    public SpriteRenderer workingOnRenderer;
+
     public void Awake()
     {
         workLog = GameObject.FindGameObjectWithTag("AnimationController");
@@ -32,12 +39,10 @@ public class IsolateRoom : MonoBehaviour, IObserver {
         if (workLog.GetComponent<Animator>().GetBool("isTrue") && NarrationLoggerUI.instantNarrationLog.newInputCreature == _targetUnit.model)
         {
             workLog.GetComponent<Animator>().SetBool("isTrue", false);
-            Debug.Log(workLog.GetComponent<Animator>().GetBool("isTrue"));
         }
         else if (workLog.GetComponent<Animator>().GetBool("isTrue") == false)
         {
             workLog.GetComponent<Animator>().SetBool("isTrue", true);
-            Debug.Log("sibal");
         }
 
         NarrationLoggerUI.instantNarrationLog.targetCreature = _targetUnit.model;
@@ -82,8 +87,60 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		if(targetUnit != null)
 		{
             // 잠시 안 띄움
-			feelingText.text = targetUnit.model.feeling.ToString ();
-            //feelingText.text = "";
+			//feelingText.text = targetUnit.model.feeling.ToString ();
+            feelingText.text = "";
+
+            int feeling = targetUnit.model.feeling;
+
+            int length = targetUnit.model.metaInfo.genEnergy.Length;
+
+            if (length >= 3)
+            {
+                if (feeling > targetUnit.model.metaInfo.feelingMax * 2 / 3)
+                {
+                    frameRedRenderer.gameObject.SetActive(false);
+                    frameYellowRenderer.gameObject.SetActive(false);
+                    frameGreenRenderer.gameObject.SetActive(true);
+                }
+                else if (feeling > targetUnit.model.metaInfo.feelingMax / 3)
+                {
+                    frameRedRenderer.gameObject.SetActive(false);
+                    frameYellowRenderer.gameObject.SetActive(true);
+                    frameGreenRenderer.gameObject.SetActive(false);
+                }
+                else
+                {
+                    frameRedRenderer.gameObject.SetActive(true);
+                    frameYellowRenderer.gameObject.SetActive(false);
+                    frameGreenRenderer.gameObject.SetActive(false);
+                }
+            }
+            else if (length <= 2)
+            {
+                if (feeling > targetUnit.model.metaInfo.feelingMax / 2)
+                {
+                    frameRedRenderer.gameObject.SetActive(false);
+                    frameYellowRenderer.gameObject.SetActive(false);
+                    frameGreenRenderer.gameObject.SetActive(true);
+                }
+                else
+                {
+                    frameRedRenderer.gameObject.SetActive(true);
+                    frameYellowRenderer.gameObject.SetActive(false);
+                    frameGreenRenderer.gameObject.SetActive(false);
+                }
+            }
+
+            if (targetUnit.model.state == CreatureState.WORKING)
+            {
+                workingOnRenderer.gameObject.SetActive(true);
+                workingOffRenderer.gameObject.SetActive(false);
+            }
+            else
+            {
+                workingOnRenderer.gameObject.SetActive(false);
+                workingOffRenderer.gameObject.SetActive(true);
+            }
 		}
 	}
 

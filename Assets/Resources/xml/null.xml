@@ -20,7 +20,7 @@
 
 		observeLevel="5"
 
-		script="NULL"
+		script="Null"
 		>
 		<feeling max="200" downProb="0.25" downValue="1">
 			<section feelingValue="100" state="good" energy="0.4"/>

@@ -25,6 +25,8 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public AreaButton[] areaButtons;
 
+    public Transform agentScrollTarget;
+
 
     private Dictionary<string, AreaButton> areaBtnDic;
     private bool opened;
@@ -61,6 +63,8 @@ public class StageUI : MonoBehaviour, IObserver {
             AreaButton btn = v.Value;
             UpdateButton(btn);
         }
+
+        ShowAgentList();
     }
 
     public void OnUpdateOpenedArea(string name)
@@ -103,9 +107,45 @@ public class StageUI : MonoBehaviour, IObserver {
             long selected = idList[Random.Range(0, idList.Length)];
 
             AgentManager.instance.BuyAgent(selected);
+
+            ShowAgentList();
         }
         else
             Debug.Log("에너지가 모자라");
+    }
+
+    public void ShowAgentList()
+    {
+        AgentModel[] agents = AgentManager.instance.GetAgentList();
+
+        foreach (Transform child in agentScrollTarget.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        float posy = 0;
+        foreach (AgentModel unit in agents)
+        {
+            GameObject slot = Prefab.LoadPrefab("Slot/AgentSlotPanelStage");
+
+            slot.transform.SetParent(agentScrollTarget, false);
+
+            RectTransform tr = slot.GetComponent<RectTransform>();
+            tr.localPosition = new Vector3(0, posy, 0);
+            AgentSlotPanelStage slotPanel = slot.GetComponent<AgentSlotPanelStage>();
+
+            slotPanel.nameText.text = unit.name;
+
+            Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
+            slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
+            posy -= 100f;
+        }
+
+        // scroll rect size
+        Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
+        scrollRectSize.y = -posy + 100f;
+        agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
     }
 
     public void OnClickBuyArea(string areaName)
