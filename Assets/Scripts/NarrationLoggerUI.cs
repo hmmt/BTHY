@@ -136,7 +136,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
         }
 
         logSize = 0;
-        boxPosition = 200;
+        boxPosition = 250;
         lastTextPosition = -200;
         lastTextHeight = 0;
 
