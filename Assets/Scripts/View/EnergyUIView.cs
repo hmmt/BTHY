@@ -61,9 +61,9 @@ public class EnergyUIView : MonoBehaviour, IObserver {
            EnergyModel.instance.SetLeftEnergy(leftChargeEnergy);
 		}
 
-		chargeEnergyGage.GetComponent<RectTransform>().localScale = new Vector3(Mathf.Clamp(energy/mustFillEnergy,0,1),1,1);
+		chargeEnergyGage.GetComponent<RectTransform>().localScale = new Vector3(1,Mathf.Clamp(energy/mustFillEnergy,0,1),1);
 
-		leftChargeEnergyGage.GetComponent<RectTransform>().localScale = new Vector3(Mathf.Clamp(leftChargeEnergy/leftFillEnergy,0,1),1,1);
+        leftChargeEnergyGage.GetComponent<RectTransform>().localScale = new Vector3(1, Mathf.Clamp(leftChargeEnergy / leftFillEnergy, 0, 1), 1);
 
 		mustEnergyNum.text = (int)energy+" / "+ mustFillEnergy;
 
