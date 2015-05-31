@@ -48,6 +48,7 @@ public class PlatformerCamera : MonoBehaviour
             newPos.y += 0.1f;
             Camera.main.transform.localPosition = newPos;
         }
+
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
@@ -57,7 +58,7 @@ public class PlatformerCamera : MonoBehaviour
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
             Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
-        lightCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
+             lightCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
         frontCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
     }
 
