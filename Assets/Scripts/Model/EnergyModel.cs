@@ -17,7 +17,7 @@ public class EnergyModel : IObserver {
 	}
 
 	private float energy = 0;
-    private float leftEnergy = 10;
+    private float leftEnergy = 30;
 
     public EnergyModel()
     {

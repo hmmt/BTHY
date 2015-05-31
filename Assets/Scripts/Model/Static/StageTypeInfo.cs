@@ -17,12 +17,12 @@ public class StageTypeInfo  {
 
     public int GetStageGoalTime(int day)
     {
-        return 120;
+        return 60;
     }
 
     public float GetEnergyNeed(int day)
     {
 
-        return 20 +20*day;
+        return 5 +5*day;
     }
 }
