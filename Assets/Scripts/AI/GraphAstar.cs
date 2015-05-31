@@ -107,12 +107,19 @@ public class GraphAstar {
 				newPoint.h = ComputeHeuristic(nextNode.GetPosition(), endPoint.GetPosition());
 
 				SearchInfo oldInfo = null;
-				dic.TryGetValue(nextNode, out oldInfo);
-				
-				if(!dic.TryGetValue(nextNode, out oldInfo) || oldInfo.cost > newPoint.cost)
+				bool findNode = dic.TryGetValue(nextNode, out oldInfo);
+
+                if (!findNode || oldInfo.cost > newPoint.cost)
 				{
 					opendset.Enqueue(newPoint);
-					dic.Add(nextNode, new SearchInfo(newPoint.cost, edge));
+
+                    if (!findNode)
+                        dic.Add(nextNode, new SearchInfo(newPoint.cost, edge));
+                    else
+                    {
+                        oldInfo.cost = newPoint.cost;
+                        oldInfo.edge = edge;
+                    }
 				}
 			}
 		}

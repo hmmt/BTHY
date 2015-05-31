@@ -37,10 +37,7 @@ public class GameManager : MonoBehaviour {
 
         if (PlayerModel.instnace.GetDay() == 0)
         {
-            PlayerModel.instnace.OpenArea("1");
-            PlayerModel.instnace.OpenArea("2");
-            PlayerModel.instnace.OpenArea("3");
-            PlayerModel.instnace.OpenArea("4");
+            PlayerModel.instnace.OpenArea("1");;
             AgentManager.instance.AddAgentModel(1);
         }
 
