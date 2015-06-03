@@ -14,6 +14,8 @@ public class AgentModel {
     public string name;
     public int hp;
 
+    public Animator anim;
+
     //public TraitTypeInfo[] traitList;
 
     public List<TraitTypeInfo> traitList;
@@ -73,6 +75,7 @@ public class AgentModel {
 
     private MapEdge[] pathList;
     private int pathIndex;
+   
 
     public AgentModel(int instanceId, string area)
     {
