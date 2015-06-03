@@ -155,6 +155,13 @@ public class AgentModel {
                 waitTimer = 1.5f + Random.value;
             }
         }
+        else if (state == AgentCmdState.WORKING)
+        {
+            if (pathList == null && currentNode != target.GetWorkspaceNode())
+            {
+                MoveToCreture(target);
+            }
+        }
         waitTimer -= Time.deltaTime;
     }
     private void ProcessMoveNode()
@@ -201,10 +208,18 @@ public class AgentModel {
         }
     }
 
+
+
     // edge 위에 있을 때도 통합할 수 있는 타입 필요
     public MapNode GetCurrentNode()
     {
         return currentNode;
+    }
+    public void SetCurrentNode(MapNode node)
+    {
+        pathList = null;
+        currentNode = node;
+        currentEdge = null;
     }
     public MapEdge GetCurrentEdge()
     {
@@ -213,6 +228,10 @@ public class AgentModel {
     public AgentCmdState GetState()
     {
         return state;
+    }
+    public void ReturnToSefira()
+    {
+        SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
     }
 
     public void MoveToNode(MapNode targetNode)

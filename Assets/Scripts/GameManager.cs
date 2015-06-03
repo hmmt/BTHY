@@ -45,6 +45,11 @@ public class GameManager : MonoBehaviour {
             AgentManager.instance.AddAgentModel(1);
         }
 
+        foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+        {
+            agent.ReturnToSefira();
+        }
+
 
 		//StartGame ();
         stageUI.Open(StageUI.UIType.START_STAGE);
