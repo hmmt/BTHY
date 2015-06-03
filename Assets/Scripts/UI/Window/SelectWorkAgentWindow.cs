@@ -117,6 +117,9 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		float posy = 0;
         foreach (AgentModel unit in agents)
 		{
+            if (unit.GetState() == AgentCmdState.WORKING)
+                continue;
+
 			GameObject slot = Prefab.LoadPrefab ("AgentSlotPanel");
 
 			slot.transform.SetParent (agentScrollTarget, false);

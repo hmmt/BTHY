@@ -34,6 +34,16 @@ public class UseSkill : MonoBehaviour {
 	private bool narrationPart4 = false;
 	//private bool narrationPart5 = false;
 
+    private bool finished = false;
+
+    void OnDisable()
+    {
+        if (finished == false)
+        {
+            Release();
+        }
+    }
+
 	public void FixedUpdate()
 	{
 		if(!narrationPart1 && currentWork >= (goalWork)/5.0f)
@@ -175,10 +185,15 @@ public class UseSkill : MonoBehaviour {
 		workPlaying = true;
 	}
 
+    private void Release()
+    {
+        agent.FinishWorking();
+        targetCreature.state = CreatureState.WAIT;
+    }
 
 	private void FinshWork()
 	{
-        
+        finished = true;
 		/*
 		tempView.Hide();
 		tempCreView.Hide();
@@ -187,8 +202,7 @@ public class UseSkill : MonoBehaviour {
         //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(false);
         agentView.showSkillIcon.turnOnDoingSkillIcon(false);
 
-		agent.FinishWorking();
-		targetCreature.state = CreatureState.WAIT;
+        Release();
 
         Notice.instance.Send("UpdateCreatureState_" + targetCreature.instanceId);
 
@@ -405,6 +419,7 @@ public class UseSkill : MonoBehaviour {
 			return null;
 		}
 		GameObject newObject = new GameObject ();
+        newObject.name = "UseSkill";
 
 		string narration = agent.name+" (이)가 "+skillInfo.name+" 작업을 시작합니다.";
 		Notice.instance.Send("AddSystemLog", narration);
