@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="10002"
 		name="늙은여인"
@@ -8,29 +8,29 @@
 		attackType="WHITE"
 		intelligence="대화 가능"
 		
-		horrorProb="0.4"
-		horrorDmg="-20"
+		horrorProb="0"
+		horrorDmg="0"
 		
-		physicsProb="0.1"
-		physicsDmg="1"
+		physicsProb="0"
+		physicsDmg="0"
 		
-		mentalProb="0.7"
-		mentalDmg="40"
+		mentalProb="95"
+		mentalDmg="30"
 
 		observeLevel="5"
 
 
 		script="OldLady"
 		>
-		<feeling max="300" downProb="0.1" downValue="4">
-			<section feelingValue="200" state="good" energy="0.3"/>
-			<section feelingValue="50" state="normal" energy="0.1"/>
-			<section feelingValue="0" state="bad" energy="-0.1"/>
+		<feeling max="300" downProb="0.4" downValue="2.9">
+			<section feelingValue="200" state="good" energy="1.8"/>
+			<section feelingValue="100" state="normal" energy="1.2"/>
+			<section feelingValue="0" state="bad" energy="-0.4"/>
 		</feeling>
 		
-		<preferSkill type="indirect" bonus="0.25"/>
-		<rejectSkill type="direct" bonus="-0.2"/>
-		<rejectSkill type="block" bonus="-0.5"/>
+		<preferSkill type="indirect" bonus="0.4"/>
+		<preferSkill type="direct" bonus="0.2"/>
+		<rejectSkill type="block" bonus="-0.3"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 

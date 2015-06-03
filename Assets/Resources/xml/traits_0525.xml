@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <traits>
 	<trait id="10001" level="1" randomFlag="1" name="열등감" hp="0" mental="-20" moveSpeed="0" workSpeed="0"/>
 	<trait id="10002" level="1" randomFlag="1" name="허약함" hp="-1" mental="0" moveSpeed="-1" workSpeed="0"/>
@@ -38,6 +38,7 @@
 	<trait id="10036" level="2" randomFlag="0" name="불휘 기픈 남간" hp="0" mental="-10" moveSpeed="2" workSpeed="-1"/>
 	<trait id="10037" level="2" randomFlag="0" name="Libera me" hp="0" mental="10" moveSpeed="0" workSpeed="0"/>
 	<trait id="10038" level="2" randomFlag="0" name="이유 모를 두통" hp="-2" mental="0" moveSpeed="3" workSpeed="0"/>
+	<trait id="10039" level="2" randomFlag="0" name="Only my matches"/>
 	<trait id="10040" level="3" randomFlag="1" name="심사숙고" hp="0" mental="25" moveSpeed="-1" workSpeed="-2"/>
 	<trait id="10041" level="3" randomFlag="1" name="탁월한 지혜" hp="0" mental="20" moveSpeed="0" workSpeed="2"/>
 	<trait id="10042" level="3" randomFlag="1" name="실속파" hp="0" mental="0" moveSpeed="0" workSpeed="3"/>
@@ -59,10 +60,13 @@
 	<trait id="10058" level="3" randomFlag="0" name="여백의 미" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
 	<trait id="10059" level="3" randomFlag="0" name="노인과 동화" hp="0" mental="-25" moveSpeed="0" workSpeed="0"/>
 	<trait id="10060" level="4" randomFlag="1" name="팔자 걸음" hp="1" mental="0" moveSpeed="-3" workSpeed="0"/>
+	<trait id="10061" level="4" randomFlag="1" name="인내심"/>
 	<trait id="10062" level="3" randomFlag="1" name="노력파" hp="0" mental="20" moveSpeed="0" workSpeed="3"/>
 	<trait id="10063" level="4" randomFlag="1" name="베테랑" hp="0" mental="0" moveSpeed="0" workSpeed="2"/>
+	<trait id="10064" level="4" randomFlag="1" name="깊은 반성"/>
 	<trait id="10065" level="4" randomFlag="1" name="뛰어난 화술" hp="0" mental="0" moveSpeed="0" workSpeed="-2"/>
 	<trait id="10066" level="4" randomFlag="1" name="다혈질" hp="0" mental="-50" moveSpeed="3" workSpeed="3"/>
+	<trait id="10067" level="4" randomFlag="1" name="쿨 워터 "/>
 	<trait id="10068" level="4" randomFlag="1" name="완벽주의자" hp="1" mental="20" moveSpeed="-3" workSpeed="-3"/>
 	<trait id="10069" level="4" randomFlag="1" name="돌려말하기" hp="0" mental="0" moveSpeed="0" workSpeed="2"/>
 	<trait id="10070" level="4" randomFlag="0" name="금강불괴" hp="5" mental="0" moveSpeed="0" workSpeed="0"/>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="10004"
 		name="이름없는 태아"
@@ -8,28 +8,27 @@
 		attackType="WHITE / RED"
 		intelligence="대화 불가"
 		
-		horrorProb="0.4"
-		horrorDmg="-20"
+		horrorProb="0.7"
+		horrorDmg="-30"
 		
-		physicsProb="0.1"
-		physicsDmg="1"
+		physicsProb="0.6"
+		physicsDmg="3"
 		
-		mentalProb="0.7"
-		mentalDmg="40"
+		mentalProb="0.6"
+		mentalDmg="44"
 
 		observeLevel="5"
 
 
 		script="Fetus"
 		>
-		<feeling max="100" downProb="1" downValue="3">
-			<section feelingValue="100" state="good" energy="0.5"/>
-			<section feelingValue="40" state="normal" energy="0.2"/>
-			<section feelingValue="0" state="bad" energy="-0.4"/>
+		<feeling max="100" downProb="0.8" downValue="3.3">
+			<section feelingValue="100" state="good" energy="2.3"/>
+			<section feelingValue="40" state="normal" energy="-0.2"/>
+			<section feelingValue="0" state="bad" energy="-1.5"/>
 		</feeling>
 		
-		<preferSkill type="indirect" bonus="0.25"/>
-		<rejectSkill type="direct" bonus="-0.2"/>
+		<preferSkill type="direct" bonus="0.1"/>
 		<rejectSkill type="block" bonus="-0.5"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>

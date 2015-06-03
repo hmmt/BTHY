@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="10003"
 		name="행복한 테디"
@@ -8,14 +8,14 @@
 		attackType="RED"
 		intelligence="대화 불가"
 		
-		horrorProb="0.4"
-		horrorDmg="-20"
+		horrorProb="0.1"
+		horrorDmg="-10"
 		
-		physicsProb="0.1"
-		physicsDmg="1"
+		physicsProb="1"
+		physicsDmg="4"
 		
-		mentalProb="0.1"
-		mentalDmg="10"
+		mentalProb="0"
+		mentalDmg="0"
 
 		script="HappyTeddy"
 
@@ -24,14 +24,13 @@
 
 		specialSkillId="40002"		
 		>
-		<feeling max="300" downProb="0.1" downValue="4">
-			<section feelingValue="200" state="good" energy="0.4"/>
-			<section feelingValue="50" state="normal" energy="0.2"/>
-			<section feelingValue="0" state="bad" energy="-0.2"/>
+		<feeling max="200" downProb="0.4" downValue="4.2">
+			<section feelingValue="200" state="good" energy="3.7"/>
+			<section feelingValue="0" state="bad" energy="-1.7"/>
 		</feeling>
 		
-		<preferSkill type="indirect" bonus="0.25"/>
-		<rejectSkill type="direct" bonus="-0.2"/>
+
+		<rejectSkill type="direct" bonus="-0.3"/>
 		<rejectSkill type="block" bonus="-0.5"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
