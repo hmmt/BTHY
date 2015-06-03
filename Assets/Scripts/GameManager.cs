@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
 
 	void Awake()
 	{
+
 		Screen.fullScreen = true;
         _currentGameManager = this;
 

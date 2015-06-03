@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class PlayerController : MonoBehaviour {
 
@@ -16,7 +17,8 @@ public class PlayerController : MonoBehaviour {
     public bool playerMove = false;
 
     public Animator playerAnimator;
-
+    public AnimationClip Stay;
+ 
     public bool cameraWalk=false;
 
 

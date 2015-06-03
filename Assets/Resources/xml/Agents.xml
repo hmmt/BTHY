@@ -17,7 +17,7 @@
 		>
 		<preferSkill type="direct" bonus="15"/>
 		<rejectSkill type="indirect" bonus="-10"/>
-		<img src="Agent/0"/>
+		<img src="Agent/Malkuth/0"/>
 		
 		<speech action="work_start" text="피곤하다……."/>
 		<speech action="work_hit" text="이럴 줄 알았어."/>
@@ -44,7 +44,7 @@
 		
 		<preferSkill type="direct" bonus="10"/>
 		<rejectSkill type="block" bonus="-10"/>
-		<img src="Agent/0"/>
+		<img src="Agent/Malkuth/0"/>
 		
 		<speech action="work_start" text="좋아, 가볼까?"/>
 		<speech action="work_hit" text="좀 아픈데?"/>
@@ -71,7 +71,7 @@
 		
 		<preferSkill type="direct" bonus="10"/>
 		<rejectSkill type="block" bonus="-10"/>
-		<img src="Agent/0"/>
+		<img src="Agent/Malkuth/0"/>
 		
 		<speech action="work_start" text="또 시작이네"/>
 		<speech action="work_hit" text="아야!"/>
@@ -97,7 +97,7 @@
 		
 		<preferSkill type="direct" bonus="10"/>
 		<rejectSkill type="block" bonus="-10"/>
-		<img src="Agent/0"/>
+		<img src="Agent/Malkuth/0"/>
 		
 		<speech action="work_start" text="오늘은 내가 죽을까…?"/>
 		<speech action="work_hit" text="내가 죽겠네."/>

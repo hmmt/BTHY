@@ -24,6 +24,7 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 
     public static EnergyUIView instance
     {
+
         get
         {
             if (_instance == null)
