@@ -57,8 +57,8 @@ public class PlayerController : MonoBehaviour {
         }
 
 
-        if (player.velocity.x > 3 || player.velocity.x < -3)
-        {
+      if (player.velocity.x > 1 || player.velocity.x < -1)
+      {
             if (oldPos != transform.localPosition.x)
             {
                 playerMove = true;

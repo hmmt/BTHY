@@ -37,7 +37,6 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
             else
             {
                 timerText.text = "0";
-
                 // 뷰어에서 timeover 하는 건 이상한 듯.
                 gameManager.TimeOver();
                 yield break;

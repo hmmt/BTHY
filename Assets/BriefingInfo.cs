@@ -11,9 +11,11 @@ public class BriefingInfo : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        SetDefaultBriefing();
+
        // alwaysBriefing = "환영합니다.";
         //alertBriefing = "비상계획팀 - 시설의 비상상황을 관리하는 부서";
-        tmpBriefing = "에너지주식회사에 입사하게 된 것을 진심으로 환영합니다.\n당신은 관리자로서 이 회사에 중요한역할을 하게 될 것입니다.\n저는 앞으로 당신을 도와줄 A.I 엔젤라 입니다. \n따라서 상호적인 대화는 불가능함을 미리 알려드립니다. \n하지만 든든한 파트너와 비서의 역할로서 최선을 다해 조력하겠습니다.\n작업을 시작하기에 앞서, 왼쪽 상단의 관리자를 위한 지침서를 꼭 읽어봐주세요. 이를 숙지하지 않음에서 오는 불이익은 모두 관리자 본인의 책임에 있습니다.";	
+
 	}
 	
 	// Update is called once per frame
@@ -54,6 +56,20 @@ public class BriefingInfo : MonoBehaviour {
     public void SetDefaultBriefing()
     {
         tmpBriefing = "에너지주식회사에 입사하게 된 것을 진심으로 환영합니다.\n당신은 관리자로서 이 회사에 중요한역할을 하게 될 것입니다.\n저는 앞으로 당신을 도와줄 A.I 엔젤라 입니다. \n따라서 상호적인 대화는 불가능함을 미리 알려드립니다. \n하지만 든든한 파트너와 비서의 역할로서 최선을 다해 조력하겠습니다.\n작업을 시작하기에 앞서, 왼쪽 상단의 관리자를 위한 지침서를 꼭 읽어봐주세요. 이를 숙지하지 않음에서 오는 불이익은 모두 관리자 본인의 책임에 있습니다.";
+    }
+
+    public void SetNarrationByDay()
+    {
+        if (StageUI.instance.getCurrnetType() == StageUI.UIType.START_STAGE)
+        {
+            if (PlayerModel.instnace.GetDay() == 0)
+                tmpBriefing = "우어어어엉";
+        }
+
+        else if (StageUI.instance.getCurrnetType() == StageUI.UIType.END_STAGE)
+        {
+            tmpBriefing = "수고하셨습니다.";
+        }
     }
     
 }

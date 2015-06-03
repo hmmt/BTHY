@@ -8,6 +8,8 @@ public class CreatureUnit : MonoBehaviour {
     public IsolateRoom room;
     public SpriteRenderer spriteRenderer;
 
+   Vector2 oldScale;
+
 	private void UpdateViewPosition()
 	{
 		//transform.localPosition = GetCurrentViewPosition();
@@ -37,4 +39,15 @@ public class CreatureUnit : MonoBehaviour {
 			//IsolateRoomStatus.CreateWindow(this);
 		}
 	}
+
+    public void PointerEnter()
+    {
+        oldScale = spriteRenderer.gameObject.transform.localScale;
+        spriteRenderer.gameObject.transform.localScale = new Vector2(oldScale.x*1.2f, oldScale.y*1.2f);
+    }
+
+    public void PointerOut()
+    {
+        spriteRenderer.gameObject.transform.localScale = oldScale;
+    }
 }

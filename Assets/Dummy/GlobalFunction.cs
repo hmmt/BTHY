@@ -14,13 +14,12 @@ public class GlobalFunction : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        tempDay = currentDay + 1;
-        dDay.text = "Day - " + tempDay;
-	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        dDay.text = "Day - " + currentDay;
 	
 	}
 }

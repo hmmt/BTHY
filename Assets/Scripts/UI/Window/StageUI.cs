@@ -23,6 +23,10 @@ public class StageUI : MonoBehaviour, IObserver {
     }
     public Canvas canvas;
 
+    public GameObject startStageUi;
+    public GameObject endStageUi;
+    public GameObject commonStageUi;
+
     public AreaButton[] areaButtons;
 
     public Transform agentScrollTarget;
@@ -167,14 +171,18 @@ public class StageUI : MonoBehaviour, IObserver {
     public void Close()
     {
         opened = false;
-        canvas.gameObject.SetActive(false);
+        //canvas.gameObject.SetActive(false);
 
         if (currentType == UIType.START_STAGE)
         {
+            commonStageUi.gameObject.SetActive(false);
+            startStageUi.gameObject.SetActive(false);
             GameManager.currentGameManager.StartGame();
         }
         else if (currentType == UIType.END_STAGE)
         {
+            //commonStageUi.gameObject.SetActive(false);
+            //endStageUi.gameObject.SetActive(false);
             GameManager.currentGameManager.ExitStage();
         }
     }
@@ -183,8 +191,19 @@ public class StageUI : MonoBehaviour, IObserver {
     {
         opened = true;
         currentType = uiType;
-        canvas.gameObject.SetActive(true);
+        commonStageUi.gameObject.SetActive(true);
+
+        Debug.Log(currentType);
+
+        if (currentType == UIType.START_STAGE)
+            startStageUi.gameObject.SetActive(true);
+
+        else if (currentType == UIType.END_STAGE)
+            endStageUi.gameObject.SetActive(true);
+
         Init();
+            //canvas.gameObject.SetActive(true);
+
     }
 
 
@@ -194,5 +213,10 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             OnUpdateOpenedArea((string)param[0]);
         }
+    }
+
+    public UIType getCurrnetType()
+    {
+        return currentType;
     }
 }

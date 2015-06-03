@@ -12,11 +12,27 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 	public UnityEngine.UI.Text leftEnergyNum;
 
     public Animator energyView;
+
+    private static EnergyUIView _instance = null;
   
-	private float mustFillEnergy = 100;
+	private float mustFillEnergy;
 	private float leftFillEnergy = 400;
 
+    float leftChargeEnergy = 0;
+
 	private float chargeTick=0;
+
+    public static EnergyUIView instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new EnergyUIView();
+            }
+            return _instance;
+        }
+    }
 
     public void openSettings()
     {
@@ -43,12 +59,22 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 		Notice.instance.Remove ("UpdateEnergy", this);
 	}
 
+    public int getLeftEnergy()
+    {
+        return (int)leftChargeEnergy;
+    }
+
+    public int getMustFillEnergy()
+    {
+        return (int)mustFillEnergy;
+    }
+
 	public void SetEnergy(float energy)
 	{
         //energy = energy / 
         mustFillEnergy = StageTypeInfo.instnace.GetEnergyNeed(PlayerModel.instnace.GetDay());
 		
-		float leftChargeEnergy = energy - mustFillEnergy;
+		leftChargeEnergy = energy - mustFillEnergy;
 
 		if(energy>mustFillEnergy)
 		{
@@ -58,7 +84,6 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 		if(leftChargeEnergy > leftFillEnergy)
 		{
 			leftChargeEnergy = (int)leftFillEnergy;
-           EnergyModel.instance.SetLeftEnergy(leftChargeEnergy);
 		}
 
 		chargeEnergyGage.GetComponent<RectTransform>().localScale = new Vector3(1,Mathf.Clamp(energy/mustFillEnergy,0,1),1);
@@ -67,6 +92,7 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 
 		mustEnergyNum.text = (int)energy+" / "+ mustFillEnergy;
 
+        EnergyModel.instance.SetStageLeftEnergy(leftChargeEnergy);
 
 		if(leftChargeEnergy <= 0)
 			leftEnergyNum.text = "0 / "+ leftFillEnergy;
