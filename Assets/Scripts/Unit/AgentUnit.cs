@@ -8,6 +8,7 @@ public class AgentUnit : MonoBehaviour {
 
     public GameObject agentWindow;
     public GameObject agentAttackedAnimator;
+    public GameObject agentPlatform;
 
     public agentSkillDoing showSkillIcon;
     public AgentSpeech showSpeech;
@@ -15,11 +16,18 @@ public class AgentUnit : MonoBehaviour {
     public Animator agentAnimator;
 
     public float oldPos;
+    public float oldPosY;
     public bool agentMove=false;
+
+    private string oldSefira;
 
     void  Start()
     {
+        agentAnimator.SetInteger("Sepira", 1);
+        agentAnimator.SetBool("Change", false);
         oldPos = transform.localPosition.x;
+        oldPosY = transform.localPosition.y;
+        oldSefira = model.currentSefira;
         //currentNode = MapGraph.instance.GetNodeById("1001002");
     }
 
@@ -63,8 +71,6 @@ public class AgentUnit : MonoBehaviour {
 				}
 				anim.transform.localScale = scale;
 			}
-
-
 		}
 	}
 
@@ -105,10 +111,48 @@ public class AgentUnit : MonoBehaviour {
 
 	// if map is destroyed....?
 
+
 	void FixedUpdate()
 	{
-        // ?
         model.FixedUpdate();
+
+        if (oldSefira != model.currentSefira)
+        {
+            Debug.Log("올드세피라" + oldSefira);
+            Debug.Log("바뀐세피라" + model.currentSefira);
+            Debug.Log(agentAnimator.GetBool("Change"));
+
+            agentAnimator.SetBool("Change", true);
+
+            Debug.Log(agentAnimator.GetBool("Change"));
+
+            if (model.currentSefira == "1")
+            {
+                agentAnimator.SetInteger("Sepira", 1);
+            }
+
+            else if (model.currentSefira == "2")
+            {
+                agentAnimator.SetInteger("Sepira", 2);
+            }
+
+             else if (model.currentSefira == "3")
+            {
+                agentAnimator.SetInteger("Sepira", 3);
+             }
+
+            else if (model.currentSefira == "4")
+            {
+                agentAnimator.SetInteger("Sepira", 4);
+            }
+
+            TimerCallback.Create(1, delegate()
+            {
+                if (agentAnimator.GetBool("Change"))
+                    agentAnimator.SetBool("Change", false);
+            });
+            oldSefira = model.currentSefira;
+        }
 
         if (oldPos != transform.localPosition.x)
         {
@@ -119,6 +163,17 @@ public class AgentUnit : MonoBehaviour {
             agentAnimator.SetBool("AgentMove", false);
         }
 
+        if (oldPosY != transform.localPosition.y)
+        {
+            agentPlatform.SetActive(true);
+        }
+
+        else
+        {
+            agentPlatform.SetActive(false);
+        }
+
+        oldPosY = transform.localPosition.y;
         oldPos = transform.localPosition.x;
 	}
 

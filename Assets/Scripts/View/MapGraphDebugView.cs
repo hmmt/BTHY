@@ -11,7 +11,7 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
         }
     }
 
-    private bool debugOn = false;
+    private bool debugOn = true;
     private bool init = false;
 
     private float defaultZ = -0.01f;

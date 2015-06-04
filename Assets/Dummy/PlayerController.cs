@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class PlayerController : MonoBehaviour {
 
@@ -16,7 +17,8 @@ public class PlayerController : MonoBehaviour {
     public bool playerMove = false;
 
     public Animator playerAnimator;
-
+    public AnimationClip Stay;
+ 
     public bool cameraWalk=false;
 
 
@@ -57,8 +59,8 @@ public class PlayerController : MonoBehaviour {
         }
 
 
-        if (player.velocity.x > 3 || player.velocity.x < -3)
-        {
+      if (player.velocity.x > 1 || player.velocity.x < -1)
+      {
             if (oldPos != transform.localPosition.x)
             {
                 playerMove = true;

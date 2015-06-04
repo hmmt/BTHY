@@ -125,8 +125,10 @@ public class GameStaticDataLoader {
 			model.indirectSkill = SkillTypeList.instance.GetData(indirectSkillId);
 			model.blockSkill = SkillTypeList.instance.GetData(blockSkillId);
 			
+            /*
 			XmlNode imgNode = node.SelectSingleNode("img");
 			model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
+            */
 			
 			XmlNodeList speechList = node.SelectNodes("speech");
 			Dictionary<string, string> speechTable = new Dictionary<string, string>();

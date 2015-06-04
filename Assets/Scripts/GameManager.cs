@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
     public StageTimeInfoUI stageTimeInfoUI;
     public StageUI stageUI;
 
+    public BriefingInfo briefingText;
+
     public static GameManager currentGameManager
     {
         get { return _currentGameManager; } 
@@ -20,8 +22,11 @@ public class GameManager : MonoBehaviour {
 
 	void Awake()
 	{
+
 		Screen.fullScreen = true;
         _currentGameManager = this;
+
+        Camera.main.orthographicSize += 5;
 
 
         // 옮겨야 한다.
@@ -54,6 +59,8 @@ public class GameManager : MonoBehaviour {
 	// start managing isolate
 	public void StartGame()
 	{
+        briefingText.SetNarrationByDay();
+
 		currentUIState = CurrentUIState.DEFAULT;
 
 		GetComponent<RootTimer> ().AddTimer ("EnergyTimer", 5);
@@ -66,8 +73,10 @@ public class GameManager : MonoBehaviour {
 
 	public void EndGame()
 	{
-		GetComponent<RootTimer> ().RemoveTimer ("EnergyTimer");
-        //GetComponent<RootTimer>().AddTimer("CreatureFeelingUpdateTimer", 10);
+        Debug.Log("EndGame");
+        EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy()+EnergyModel.instance.GetStageLeftEnergy());
+
+        GetComponent<RootTimer> ().RemoveTimer ("EnergyTimer");
         GetComponent<RootTimer>().RemoveTimer("CreatureFeelingUpdateTimer");
 	}
 
@@ -82,6 +91,7 @@ public class GameManager : MonoBehaviour {
         if(energy >= needEnergy)
         {
             stageUI.Open(StageUI.UIType.END_STAGE);
+            briefingText.SetNarrationByDay();
         }
         else
         {

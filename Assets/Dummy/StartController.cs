@@ -6,6 +6,7 @@ public class StartController : MonoBehaviour {
     public GameObject player;
 
     public static bool Check=false;
+    public UnityEngine.UI.Image loadingImage;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +17,7 @@ public class StartController : MonoBehaviour {
 	void Update () {
 	
 	}
-
+    /*
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Player" && Input.GetKey(KeyCode.E))
@@ -24,7 +25,7 @@ public class StartController : MonoBehaviour {
             Application.LoadLevel("Main");
             PlayerModel.instnace.playerSpot = player.transform.localPosition;
         }
-    }
+    }*/
 
     void OnTriggerStay2D(Collider2D coll)
     {
@@ -33,7 +34,7 @@ public class StartController : MonoBehaviour {
             Check = true;
             Application.LoadLevel("Main");
             PlayerModel.instnace.playerSpot = player.transform.localPosition;
-
+            loadingImage.gameObject.SetActive(true);
         }
     }
 }
