@@ -24,14 +24,14 @@
 
 		specialSkillId="40002"		
 		>
-		<feeling max="200" downProb="0.4" downValue="4.2">
-			<section feelingValue="200" state="good" energy="3.7"/>
-			<section feelingValue="0" state="bad" energy="-1.7"/>
+		<feeling max="200" downProb="0.4" downValue="5">
+			<section feelingValue="200" state="good" energy="2.8"/>
+			<section feelingValue="0" state="bad" energy="-1.6"/>
 		</feeling>
 		
 
-		<rejectSkill type="direct" bonus="-0.3"/>
-		<rejectSkill type="block" bonus="-0.5"/>
+		<rejectSkill type="direct" bonus="-0.1"/>
+		<rejectSkill type="block" bonus="-0.3"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 

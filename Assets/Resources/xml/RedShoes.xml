@@ -22,14 +22,14 @@
 
 		script="RedShoes"
 		>
-		<feeling max="200" downProb="0.7" downValue="3.3">
-			<section feelingValue="150" state="good" energy="2"/>
-			<section feelingValue="50" state="normal" energy="0.7"/>
+		<feeling max="200" downProb="0.7" downValue="4.2">
+			<section feelingValue="150" state="good" energy="1.5"/>
+			<section feelingValue="50" state="normal" energy="0.3"/>
 			<section feelingValue="0" state="bad" energy="-0.8"/>
 		</feeling>
 		
 		<preferSkill type="indirect" bonus="0.4"/>
-		<rejectSkill type="direct" bonus="-0.2"/>
+		<rejectSkill type="direct" bonus="-0.38"/>
 		<preferSkill type="block" bonus="0.2"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>

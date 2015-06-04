@@ -22,15 +22,15 @@
 
 		script="OldLady"
 		>
-		<feeling max="300" downProb="0.4" downValue="2.9">
-			<section feelingValue="200" state="good" energy="1.8"/>
-			<section feelingValue="100" state="normal" energy="1.2"/>
-			<section feelingValue="0" state="bad" energy="-0.4"/>
+		<feeling max="300" downProb="0.4" downValue="5">
+			<section feelingValue="200" state="good" energy="1.6"/>
+			<section feelingValue="100" state="normal" energy="0.6"/>
+			<section feelingValue="0" state="bad" energy="-0.7"/>
 		</feeling>
 		
-		<preferSkill type="indirect" bonus="0.4"/>
-		<preferSkill type="direct" bonus="0.2"/>
-		<rejectSkill type="block" bonus="-0.3"/>
+		<preferSkill type="indirect" bonus="0.2"/>
+		<preferSkill type="direct" bonus="0.3"/>
+		<rejectSkill type="block" bonus="-0.34"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 

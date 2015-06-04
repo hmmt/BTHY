@@ -21,7 +21,7 @@ public class CreatureModel : IObserver
     //환상체 도감 완성도
     public int observeProgress = 0;
 
-    public int feeling { get; private set; }
+    public float feeling { get; private set; }
 
     public CreatureBase script;
 
@@ -177,7 +177,7 @@ public class CreatureModel : IObserver
         }
     }
 
-    public void AddFeeling(int value)
+    public void AddFeeling(float value)
     {
         feeling += value;
         if (feeling > metaInfo.feelingMax)
@@ -186,7 +186,7 @@ public class CreatureModel : IObserver
         Notice.instance.Send("UpdateCreatureState_" + instanceId);
     }
 
-    public void SubFeeling(int value)
+    public void SubFeeling(float value)
     {
         feeling = Mathf.Max(feeling - value, 0);
         Notice.instance.Send("UpdateCreatureState_" + instanceId);

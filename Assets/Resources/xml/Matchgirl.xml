@@ -23,15 +23,15 @@
 
 		script="MatchGirl"
 		>
-		<feeling max="300" downProb="0.2" downValue="5">
-			<section feelingValue="200" state="good" energy="3.3"/>
-			<section feelingValue="50" state="normal" energy="1.7/>
+		<feeling max="300" downProb="0.2" downValue="7.3">
+			<section feelingValue="200" state="good" energy="2"/>
+			<section feelingValue="50" state="normal" energy="1"/>
 			<section feelingValue="0" state="bad" energy="0"/>
 		</feeling>
 		
 		<preferSkill type="indirect" bonus="0.25"/>
 		<rejectSkill type="direct" bonus="-0.2"/>
-		<rejectSkill type="block" bonus="-0.5"/>
+		<rejectSkill type="block" bonus="-0.3"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 

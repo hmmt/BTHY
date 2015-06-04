@@ -25,11 +25,11 @@
 		>
 		<feeling max="400" downProb="0.1" downValue="3.3">
 			<section feelingValue="400" state="good" energy="0.6"/>
-			<section feelingValue="100" state="bad" energy="0"/>
+			<section feelingValue="100" state="bad" energy="0.1"/>
 		</feeling>
 		
 		<rejectSkill type="direct" bonus="0"/>
-		<rejectSkill type="block" bonus="-0.2"/>
+		<rejectSkill type="block" bonus="-0.1"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 

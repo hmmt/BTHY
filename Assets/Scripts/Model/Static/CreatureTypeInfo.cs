@@ -34,7 +34,7 @@ public class CreatureTypeInfo
 			
 	public int feelingMax;
 	public float feelingDownProb;
-	public int feelingDownValue;
+	public float feelingDownValue;
 
 	public SkillTypeInfo specialSkill;
 

@@ -170,6 +170,8 @@ public class GameStaticDataLoader {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(creatureTextAsset.text);
 
+            Debug.Log("Loading ... " + src);
+
             XmlNodeList nodes = doc.SelectNodes("/creature/info");
 
             foreach (XmlNode node in nodes)
@@ -200,7 +202,7 @@ public class GameStaticDataLoader {
                 XmlNode feelingNode = node.SelectSingleNode("feeling");
                 model.feelingMax = int.Parse(feelingNode.Attributes.GetNamedItem("max").InnerText);
                 model.feelingDownProb = float.Parse(feelingNode.Attributes.GetNamedItem("downProb").InnerText);
-                model.feelingDownValue = int.Parse(feelingNode.Attributes.GetNamedItem("downValue").InnerText);
+                model.feelingDownValue = float.Parse(feelingNode.Attributes.GetNamedItem("downValue").InnerText);
 
                 XmlNode skillAttr = node.Attributes.GetNamedItem("specialSkillId");
                 if (skillAttr != null)
