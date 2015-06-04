@@ -94,6 +94,7 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
             AgentSlotPanelSefira slotPanel = slot.GetComponent<AgentSlotPanelSefira>();
 
             slotPanel.nameText.text = unit.name;
+            slotPanel.HPText.text = "HP : " + unit.hp + "/"+unit.maxHp;
 
             AgentModel copied = unit;
             slotPanel.button.onClick.AddListener(() => OnSelectAgent(copied));

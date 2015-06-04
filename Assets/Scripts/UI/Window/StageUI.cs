@@ -135,6 +135,7 @@ public class StageUI : MonoBehaviour, IObserver {
             AgentSlotPanelStage slotPanel = slot.GetComponent<AgentSlotPanelStage>();
 
             slotPanel.nameText.text = unit.name;
+            slotPanel.HPText.text = "HP : " + unit.hp + "/" + unit.maxHp;
 
             Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
             slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
