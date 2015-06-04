@@ -24,7 +24,7 @@ public class agentSkillDoing : MonoBehaviour {
 
         else if (nowSkill.type == "unique")
         {
-            skillIcon.sprite = Resources.Load<Sprite>("Sprites/UI/skill/Work_Feed_back");
+            skillIcon.sprite = Resources.Load<Sprite>("Sprites/UI/skill/Work_Unique");
         }
 
         else
