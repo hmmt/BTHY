@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour {
         EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy()+EnergyModel.instance.GetStageLeftEnergy());
 
         GetComponent<RootTimer> ().RemoveTimer ("EnergyTimer");
-        GetComponent<RootTimer>().AddTimer("CreatureFeelingUpdateTimer", 10);
+        GetComponent<RootTimer>().RemoveTimer("CreatureFeelingUpdateTimer");
 	}
 
     public void TimeOver()
