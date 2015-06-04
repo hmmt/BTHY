@@ -19,6 +19,8 @@ public class AgentUnit : MonoBehaviour {
     public float oldPosY;
     public bool agentMove=false;
 
+    public TextMesh agentName;
+
     private string oldSefira;
 
     void  Start()
@@ -28,6 +30,7 @@ public class AgentUnit : MonoBehaviour {
         oldPos = transform.localPosition.x;
         oldPosY = transform.localPosition.y;
         oldSefira = model.currentSefira;
+        agentName.text = model.name;
         //currentNode = MapGraph.instance.GetNodeById("1001002");
     }
 
