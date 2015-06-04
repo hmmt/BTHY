@@ -118,7 +118,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         float posY = 0;
         for (int i = 0; i < target.traitList.Count; i++)
         {
-            GameObject traitSlot = Prefab.LoadPrefab("traitText");
+            GameObject traitSlot = Prefab.LoadPrefab("TraitText");
             Debug.Log(traitSlot.GetComponent<RectTransform>().localPosition);
             traitSlot.transform.SetParent(traitScrollTarget, false);
 
