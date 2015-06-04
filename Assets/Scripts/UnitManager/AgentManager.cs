@@ -94,16 +94,14 @@ public class AgentManager {
         unit.indirectSkill = info.indirectSkill;
         unit.blockSkill = info.blockSkill;
 
-        unit.imgsrc = info.imgsrc;
-
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
 
         unit.panicType = info.panicType;
 
-
+        /*
         Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
         unit.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
+        */
         agentList.Add(unit);
 
         Notice.instance.Send(NoticeName.AddAgent, unit);

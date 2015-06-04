@@ -45,9 +45,7 @@ public class AgentModel {
     public SkillTypeInfo indirectSkill;
     public SkillTypeInfo blockSkill;
 
-    public string imgsrc;
-
-    public Sprite sprite;
+    public string imgsrc {private set; get;}
 
     public Dictionary<string, string> speechTable = new Dictionary<string, string>();
 
@@ -81,7 +79,8 @@ public class AgentModel {
     {
         traitList = new List<TraitTypeInfo>();
         this.instanceId = instanceId;
-        currentSefira = area;
+        //currentSefira = area;
+        SetCurrentSefira(area);
         currentNode = MapGraph.instance.GetSepiraNodeByRandom(area);
     }
 
@@ -327,6 +326,13 @@ public class AgentModel {
     public void SetCurrentSefira(string sefira)
     {
         currentSefira = sefira;
+        switch (currentSefira)
+        {
+            case "1": imgsrc = "Agent/Malkuth/0"; break;
+            case "2": imgsrc = "Agent/Nezzach/00"; break;
+            case "3": imgsrc = "Agent/Hodd/00"; break;
+            case "4": imgsrc = "Agent/Yessod/00"; break;
+        }
         waitTimer = 0;
     }
 
