@@ -8,6 +8,7 @@ public class AgentUnit : MonoBehaviour {
 
     public GameObject agentWindow;
     public GameObject agentAttackedAnimator;
+    public GameObject agentPlatform;
 
     public agentSkillDoing showSkillIcon;
     public AgentSpeech showSpeech;
@@ -15,6 +16,7 @@ public class AgentUnit : MonoBehaviour {
     public Animator agentAnimator;
 
     public float oldPos;
+    public float oldPosY;
     public bool agentMove=false;
 
     private string oldSefira;
@@ -24,6 +26,7 @@ public class AgentUnit : MonoBehaviour {
         agentAnimator.SetInteger("Sepira", 1);
         agentAnimator.SetBool("Change", false);
         oldPos = transform.localPosition.x;
+        oldPosY = transform.localPosition.y;
         oldSefira = model.currentSefira;
         //currentNode = MapGraph.instance.GetNodeById("1001002");
     }
@@ -68,8 +71,6 @@ public class AgentUnit : MonoBehaviour {
 				}
 				anim.transform.localScale = scale;
 			}
-
-
 		}
 	}
 
@@ -162,6 +163,17 @@ public class AgentUnit : MonoBehaviour {
             agentAnimator.SetBool("AgentMove", false);
         }
 
+        if (oldPosY != transform.localPosition.y)
+        {
+            agentPlatform.SetActive(true);
+        }
+
+        else
+        {
+            agentPlatform.SetActive(false);
+        }
+
+        oldPosY = transform.localPosition.y;
         oldPos = transform.localPosition.x;
 	}
 

@@ -54,15 +54,15 @@
 
 	<area name="2">
 
-		<node id="sefira-netzach-1" x="-34" y="-22" type="sefira"/>
-		<node id="sefira-netzach-2" x="-33" y="-22" type="sefira"/>
-		<node id="sefira-netzach-3" x="-32" y="-22" type="sefira"/>
-		<node id="sefira-netzach-4" x="-31" y="-22" type="sefira"/>
-		<node id="sefira-netzach-5" x="-30" y="-22" type="sefira"/>
-		<node id="sefira-netzach-6" x="-29" y="-22" type="sefira"/>
-		<node id="sefira-netzach-7" x="-28" y="-22" type="sefira"/>
-		<node id="sefira-netzach-8" x="-27" y="-22" type="sefira"/>
-		<node id="sefira-netzach-9" x="-26" y="-22" type="sefira"/>
+		<node id="sefira-netzach-1" x="-34" y="-23" type="sefira"/>
+		<node id="sefira-netzach-2" x="-33" y="-23" type="sefira"/>
+		<node id="sefira-netzach-3" x="-32" y="-23" type="sefira"/>
+		<node id="sefira-netzach-4" x="-31" y="-23" type="sefira"/>
+		<node id="sefira-netzach-5" x="-30" y="-23" type="sefira"/>
+		<node id="sefira-netzach-6" x="-29" y="-23" type="sefira"/>
+		<node id="sefira-netzach-7" x="-28" y="-23" type="sefira"/>
+		<node id="sefira-netzach-8" x="-27" y="-23" type="sefira"/>
+		<node id="sefira-netzach-9" x="-26" y="-23" type="sefira"/>
 
 		<node id="N-way1-point1" x="-30" y="2.5"/>
 
@@ -72,22 +72,22 @@
 		<node id="N-way2-point1" x="-30" y="-26" />
 		<node id="N-way2-point2" x="-30" y="-36" />
 
-		<node id="N-center-way-point1" x="-18" y="-22" />
+		<node id="N-center-way-point1" x="-18" y="-23" />
 
 	</area>
 
 <!--  -->
 	<area name="3">
 
-		<node id="sefira-hod-1" x="34" y="-22" type="sefira"/>
-		<node id="sefira-hod-2" x="33" y="-22" type="sefira"/>
-		<node id="sefira-hod-3" x="32" y="-22" type="sefira"/>
-		<node id="sefira-hod-4" x="31" y="-22" type="sefira"/>
-		<node id="sefira-hod-5" x="30" y="-22" type="sefira"/>
-		<node id="sefira-hod-6" x="29" y="-22" type="sefira"/>
-		<node id="sefira-hod-7" x="28" y="-22" type="sefira"/>
-		<node id="sefira-hod-8" x="27" y="-22" type="sefira"/>
-		<node id="sefira-hod-9" x="26" y="-22" type="sefira"/>
+		<node id="sefira-hod-1" x="34" y="-23" type="sefira"/>
+		<node id="sefira-hod-2" x="33" y="-23" type="sefira"/>
+		<node id="sefira-hod-3" x="32" y="-23" type="sefira"/>
+		<node id="sefira-hod-4" x="31" y="-23" type="sefira"/>
+		<node id="sefira-hod-5" x="30" y="-23" type="sefira"/>
+		<node id="sefira-hod-6" x="29" y="-23" type="sefira"/>
+		<node id="sefira-hod-7" x="28" y="-23" type="sefira"/>
+		<node id="sefira-hod-8" x="27" y="-23" type="sefira"/>
+		<node id="sefira-hod-9" x="26" y="-23" type="sefira"/>
 
 		<node id="H-way1-point1" x="30" y="2.5"/>
 
@@ -97,22 +97,22 @@
 		<node id="H-way2-point1" x="30" y="-26" />
 		<node id="H-way2-point2" x="30" y="-36" />
 
-		<node id="H-center-way-point1" x="18" y="-22" />
+		<node id="H-center-way-point1" x="18" y="-23" />
 	</area>
 
 	<area name="4">
-		<node id="sefira-tessod-1" x="-4" y="-22" type="sefira"/>
-		<node id="sefira-tessod-2" x="-3" y="-22" type="sefira"/>
-		<node id="sefira-tessod-3" x="-2" y="-22" type="sefira"/>
-		<node id="sefira-tessod-4" x="-1" y="-22" type="sefira"/>
-		<node id="sefira-tessod-5" x="0" y="-22" type="sefira"/>
-		<node id="sefira-tessod-6" x="1" y="-22" type="sefira"/>
-		<node id="sefira-tessod-7" x="2" y="-22" type="sefira"/>
-		<node id="sefira-tessod-8" x="3" y="-22" type="sefira"/>
-		<node id="sefira-tessod-9" x="4" y="-22" type="sefira"/>
+		<node id="sefira-tessod-1" x="-4" y="-23" type="sefira"/>
+		<node id="sefira-tessod-2" x="-3" y="-23" type="sefira"/>
+		<node id="sefira-tessod-3" x="-2" y="-23" type="sefira"/>
+		<node id="sefira-tessod-4" x="-1" y="-23" type="sefira"/>
+		<node id="sefira-tessod-5" x="0" y="-23" type="sefira"/>
+		<node id="sefira-tessod-6" x="1" y="-23" type="sefira"/>
+		<node id="sefira-tessod-7" x="2" y="-23" type="sefira"/>
+		<node id="sefira-tessod-8" x="3" y="-23" type="sefira"/>
+		<node id="sefira-tessod-9" x="4" y="-23" type="sefira"/>
 
-		<node id="tessod-left-point" x="-10" y="-22"/>
-		<node id="tessod-right-point" x="10" y="-22"/>
+		<node id="tessod-left-point" x="-10" y="-23"/>
+		<node id="tessod-right-point" x="10" y="-23"/>
 
 		<node id="tessod-down-point" x="0" y="-37"/>		
 	</area>
