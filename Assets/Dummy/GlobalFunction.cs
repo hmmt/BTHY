@@ -9,6 +9,11 @@ public class GlobalFunction : MonoBehaviour {
 
     public static int currentDay=0;
 
+    public GameObject HomeOn;
+    public GameObject HomeOff;
+
+    public static bool HomeLight=true;
+
     int tempDay = 0;
 
 	// Use this for initialization
@@ -17,9 +22,25 @@ public class GlobalFunction : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
         dDay.text = "Day - " + currentDay;
+
+        TimerCallback.Create(1f, delegate()
+        {
+            if (HomeLight)
+            {
+                HomeOff.SetActive(false);
+                HomeOn.SetActive(true);
+            }
+            else
+            {
+                HomeOn.SetActive(false);
+                HomeOff.SetActive(true);
+            }
+        });
+
+
 	
 	}
 }

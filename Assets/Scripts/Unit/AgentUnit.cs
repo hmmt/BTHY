@@ -118,9 +118,6 @@ public class AgentUnit : MonoBehaviour {
 
         if (oldSefira != model.currentSefira)
         {
-            Debug.Log("올드세피라" + oldSefira);
-            Debug.Log("바뀐세피라" + model.currentSefira);
-            Debug.Log(agentAnimator.GetBool("Change"));
 
             agentAnimator.SetBool("Change", true);
 
