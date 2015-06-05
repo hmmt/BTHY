@@ -15,8 +15,8 @@
 		physicsProb="0.1"
 		physicsDmg="1"
 		
-		mentalProb="0.6"
-		mentalDmg="50"
+		mentalProb="0.3"
+		mentalDmg="11"
 
 		observeLevel="5"
 
@@ -24,12 +24,12 @@
 		script="MatchGirl"
 		>
 		<feeling max="300" downProb="0.2" downValue="7.3">
-			<section feelingValue="200" state="good" energy="2"/>
+			<section feelingValue="150" state="good" energy="2"/>
 			<section feelingValue="50" state="normal" energy="1"/>
 			<section feelingValue="0" state="bad" energy="0"/>
 		</feeling>
 		
-		<preferSkill type="indirect" bonus="0.25"/>
+		<preferSkill type="indirect" bonus="0.33"/>
 		<rejectSkill type="direct" bonus="-0.2"/>
 		<rejectSkill type="block" bonus="-0.3"/>
 

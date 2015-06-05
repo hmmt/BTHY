@@ -11,11 +11,11 @@
 		horrorProb="0.7"
 		horrorDmg="-30"
 		
-		physicsProb="0.6"
-		physicsDmg="3"
+		physicsProb="0.44"
+		physicsDmg="1"
 		
-		mentalProb="0.6"
-		mentalDmg="44"
+		mentalProb="0.44"
+		mentalDmg="20"
 
 		observeLevel="5"
 
@@ -28,7 +28,7 @@
 			<section feelingValue="0" state="bad" energy="-2.3"/>
 		</feeling>
 		
-		<preferSkill type="direct" bonus="0.2"/>
+		<preferSkill type="direct" bonus="0.3"/>
 		<rejectSkill type="block" bonus="-0.44"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>

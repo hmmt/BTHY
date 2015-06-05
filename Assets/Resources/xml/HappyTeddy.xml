@@ -11,8 +11,8 @@
 		horrorProb="0.1"
 		horrorDmg="-10"
 		
-		physicsProb="1"
-		physicsDmg="4"
+		physicsProb="0.28"
+		physicsDmg="1"
 		
 		mentalProb="0"
 		mentalDmg="0"
@@ -25,7 +25,7 @@
 		specialSkillId="40002"		
 		>
 		<feeling max="200" downProb="0.4" downValue="5">
-			<section feelingValue="200" state="good" energy="2.8"/>
+			<section feelingValue="50" state="good" energy="2.8"/>
 			<section feelingValue="0" state="bad" energy="-1.6"/>
 		</feeling>
 		

@@ -14,8 +14,8 @@
 		physicsProb="0"
 		physicsDmg="0"
 		
-		mentalProb="95"
-		mentalDmg="30"
+		mentalProb="0.33"
+		mentalDmg="20"
 
 		observeLevel="5"
 
@@ -28,8 +28,8 @@
 			<section feelingValue="0" state="bad" energy="-0.7"/>
 		</feeling>
 		
-		<preferSkill type="indirect" bonus="0.2"/>
-		<preferSkill type="direct" bonus="0.3"/>
+		<preferSkill type="indirect" bonus="0.25"/>
+		<preferSkill type="direct" bonus="0.35"/>
 		<rejectSkill type="block" bonus="-0.34"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
