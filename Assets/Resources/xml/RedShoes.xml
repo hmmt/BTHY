@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="10005"
 		name="빨간 구두"
@@ -8,29 +8,29 @@
 		attackType="White / Red"
 		intelligence="대화 불가"
 		
-		horrorProb="0.4"
-		horrorDmg="-20"
+		horrorProb="0.9"
+		horrorDmg="10"
 		
-		physicsProb="0.1"
+		physicsProb="0.4"
 		physicsDmg="1"
 		
-		mentalProb="0.7"
-		mentalDmg="40"
+		mentalProb="0.3"
+		mentalDmg="20"
 
 		observeLevel="5"
 
 
 		script="RedShoes"
 		>
-		<feeling max="300" downProb="0.1" downValue="4">
-			<section feelingValue="200" state="good" energy="0.5"/>
-			<section feelingValue="50" state="normal" energy="0.2"/>
-			<section feelingValue="0" state="bad" energy="-0.3"/>
+		<feeling max="200" downProb="0.7" downValue="4.2">
+			<section feelingValue="150" state="good" energy="1.5"/>
+			<section feelingValue="50" state="normal" energy="0.3"/>
+			<section feelingValue="0" state="bad" energy="-0.8"/>
 		</feeling>
 		
-		<preferSkill type="indirect" bonus="0.25"/>
-		<rejectSkill type="direct" bonus="-0.2"/>
-		<rejectSkill type="block" bonus="-0.5"/>
+		<preferSkill type="indirect" bonus="0.42"/>
+		<rejectSkill type="direct" bonus="-0.38"/>
+		<preferSkill type="block" bonus="0.28"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 

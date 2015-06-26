@@ -90,7 +90,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 			//feelingText.text = targetUnit.model.feeling.ToString ();
             feelingText.text = "";
 
-            int feeling = targetUnit.model.feeling;
+            float feeling = targetUnit.model.feeling;
 
             int length = targetUnit.model.metaInfo.genEnergy.Length;
 

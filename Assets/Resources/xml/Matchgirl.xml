@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="10001"
 		name="행복할 성냥팔이소녀와 성냥들"
@@ -15,23 +15,23 @@
 		physicsProb="0.1"
 		physicsDmg="1"
 		
-		mentalProb="0.7"
-		mentalDmg="40"
+		mentalProb="0.3"
+		mentalDmg="11"
 
 		observeLevel="5"
 
 
 		script="MatchGirl"
 		>
-		<feeling max="300" downProb="0.1" downValue="4">
-			<section feelingValue="200" state="good" energy="0.2"/>
-			<section feelingValue="50" state="normal" energy="0.1"/>
+		<feeling max="300" downProb="0.2" downValue="7.3">
+			<section feelingValue="150" state="good" energy="2"/>
+			<section feelingValue="50" state="normal" energy="1"/>
 			<section feelingValue="0" state="bad" energy="0"/>
 		</feeling>
 		
-		<preferSkill type="indirect" bonus="0.25"/>
+		<preferSkill type="indirect" bonus="0.33"/>
 		<rejectSkill type="direct" bonus="-0.2"/>
-		<rejectSkill type="block" bonus="-0.5"/>
+		<rejectSkill type="block" bonus="-0.3"/>
 
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 
