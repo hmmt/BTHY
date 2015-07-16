@@ -16,7 +16,11 @@ public class PlayerController : MonoBehaviour {
     public bool playerMove = false;
 
     public Animator playerAnimator;
-    public AnimationClip Stay;
+
+    public Animator playerHair;
+    public Animator playerFace;
+    public Animator playerBody;
+
  
     public bool cameraWalk=false;
 
@@ -49,12 +53,18 @@ public class PlayerController : MonoBehaviour {
 
         if (playerMove)
         {
-            playerAnimator.SetBool("PlayerMove", true);
+            //playerAnimator.SetBool("PlayerMove", true);
+            playerHair.SetBool("Move",true);
+            playerFace.SetBool("Move", true);
+            playerBody.SetBool("Move", true);
         }
 
         else
         {
-            playerAnimator.SetBool("PlayerMove", false);
+            //playerAnimator.SetBool("PlayerMove", false);
+            playerHair.SetBool("Move", false);
+            playerFace.SetBool("Move", false);
+            playerBody.SetBool("Move", false);
         }
 
 

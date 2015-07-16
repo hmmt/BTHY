@@ -8,11 +8,36 @@ public class PlatformerCamera : MonoBehaviour
     public Camera lightCamera;
     public Camera frontCamera;
 
+    public GameObject escapeButton;
+
+    bool paused = false;
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (paused)
+            {
+                escapeButton.SetActive(true);
+                Time.timeScale = 0;
+                paused = false;
+            }
+
+            else
+            {
+                escapeButton.SetActive(false);
+                Time.timeScale = 1;
+                paused = true;
+            }
+        }
+    }
 
     void FixedUpdate()
     {
         //float a = Camera.main.aspect * Camera.main.orthographicSize;
         Vector3 pos = Input.mousePosition;
+
+
 
         if (Input.GetKey(KeyCode.P))
         {
@@ -60,7 +85,9 @@ public class PlatformerCamera : MonoBehaviour
             Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
              lightCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
         frontCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
-    }
+        }
+
+
 
     public void cameraZoomOut(float zoomOut)
     {

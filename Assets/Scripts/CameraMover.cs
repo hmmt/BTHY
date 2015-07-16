@@ -5,6 +5,26 @@ public class CameraMover : MonoBehaviour
 {
 
     public GameObject player;
+    public GameObject escapeButton;
+
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (escapeButton.activeSelf)
+            {
+                escapeButton.SetActive(false);
+                Time.timeScale = 1;
+            }
+
+            else
+            {
+                escapeButton.SetActive(true);
+                Time.timeScale = 0;
+            }
+        }
+    }
 
     void FixedUpdate()
     {

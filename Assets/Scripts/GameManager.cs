@@ -116,4 +116,9 @@ public class GameManager : MonoBehaviour {
 	{
 		return currentUIState;
 	}
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
