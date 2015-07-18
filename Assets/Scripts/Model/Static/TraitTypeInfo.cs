@@ -16,4 +16,6 @@ public class TraitTypeInfo {
 
     public int moveSpeed;
     public int workSpeed;
+
+    public string description;
 }

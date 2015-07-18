@@ -130,9 +130,9 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
             //Debug.Log(traitScrollTarget.GetComponent<RectTransform>().localPosition);
 
-            traitSlot.GetComponent<UnityEngine.UI.Text>().text ="<" +target.traitList[i].name+">";
-
-            posY -= 30f;
+            traitSlot.GetComponent<UnityEngine.UI.Text>().text = "<" + target.traitList[i].name + ">\n"+"Info : "+target.traitList[i].description;
+          
+            posY -= 35f;
         }
     }
 	

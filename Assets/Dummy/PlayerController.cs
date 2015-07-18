@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour {
     public Animator playerHair;
     public Animator playerFace;
     public Animator playerBody;
-
  
     public bool cameraWalk=false;
 
@@ -40,7 +39,7 @@ public class PlayerController : MonoBehaviour {
             player.transform.localPosition = new Vector3(-16.3f, 30.33f, 0);
         }
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
     {
@@ -50,7 +49,7 @@ public class PlayerController : MonoBehaviour {
         {
            player.AddForce(new Vector2(0,jumpForce));
         }
-
+        
         if (playerMove)
         {
             //playerAnimator.SetBool("PlayerMove", true);
@@ -66,7 +65,6 @@ public class PlayerController : MonoBehaviour {
             playerFace.SetBool("Move", false);
             playerBody.SetBool("Move", false);
         }
-
 
       if (player.velocity.x > 1 || player.velocity.x < -1)
       {
@@ -140,4 +138,5 @@ public class PlayerController : MonoBehaviour {
             player.gravityScale = 1;
         }
     }
+
 }

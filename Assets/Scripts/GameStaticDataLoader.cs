@@ -48,6 +48,8 @@ public class GameStaticDataLoader {
             model.moveSpeed = int.Parse(node.Attributes.GetNamedItem("moveSpeed").InnerText);
             model.workSpeed = int.Parse(node.Attributes.GetNamedItem("workSpeed").InnerText);
 
+            model.description = node.Attributes.GetNamedItem("description").InnerText;
+
             traitTypeList.Add(model);
         }
         TraitTypeList.instance.Init(traitTypeList.ToArray());
