@@ -53,15 +53,29 @@ public class OutsideTextEffect : MonoBehaviour {
     }
 
 
+    public static OutsideTextEffect Create(long creatureId, string typoKey, CreatureOutsideTextLayout layout)
+    {
+        return Create(CreatureLayer.currentLayer.GetCreature(creatureId).room, typoKey, layout);
+    }
 	public static OutsideTextEffect Create(IsolateRoom room, string typoKey, CreatureOutsideTextLayout layout)
 	{
 		return Create(room, typoKey, layout, 0, 1);
 	}
 
+    public static OutsideTextEffect Create(long creatureId, string typoKey, CreatureOutsideTextLayout layout, float start, float time)
+    {
+        return Create(CreatureLayer.currentLayer.GetCreature(creatureId).room, typoKey, layout, start, time);
+    }
 	public static OutsideTextEffect Create(IsolateRoom room, string typoKey, CreatureOutsideTextLayout layout, float start, float time)
 	{
 		return Create(room, typoKey, layout, start, time, null);
 	}
+
+
+    public static OutsideTextEffect Create(long creatureId, string typoKey, CreatureOutsideTextLayout layout, float start, float time, Callback callback)
+    {
+        return Create(CreatureLayer.currentLayer.GetCreature(creatureId).room, typoKey, layout, start, time, callback);
+    }
 	public static OutsideTextEffect Create(IsolateRoom room, string typoKey, CreatureOutsideTextLayout layout, float start, float time, Callback callback)
 	{
 		GameObject newEffect = Prefab.LoadPrefab ("OutsideTextEffect");

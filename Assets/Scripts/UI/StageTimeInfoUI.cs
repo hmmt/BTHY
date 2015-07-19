@@ -56,7 +56,7 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
 
     public void OnUpdateDayUI()
     {
-        dayText.text = "DAY : " + PlayerModel.instnace.GetDay();
+        dayText.text = "DAY : " + PlayerModel.instance.GetDay();
     }
 
     public void OnNotice(string name, params object[] param)

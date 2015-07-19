@@ -61,7 +61,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
     private void Init()
     {
-        PlayerModel playerModel = PlayerModel.instnace;
+        PlayerModel playerModel = PlayerModel.instance;
         foreach (KeyValuePair<string, AreaButton> v in areaBtnDic)
         {
             AreaButton btn = v.Value;
@@ -88,7 +88,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
     private void UpdateButton(AreaButton btn)
     {
-        if (PlayerModel.instnace.IsOpenedArea(btn.name))
+        if (PlayerModel.instance.IsOpenedArea(btn.name))
         {
             btn.on.gameObject.SetActive(false);
             btn.off.gameObject.SetActive(true);
@@ -106,7 +106,7 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - agentCost);
 
-            long[] idList = PlayerModel.instnace.GetAvailableAgentList();
+            long[] idList = PlayerModel.instance.GetAvailableAgentList();
 
             long selected = idList[Random.Range(0, idList.Length)];
 
@@ -158,7 +158,7 @@ public class StageUI : MonoBehaviour, IObserver {
         if (EnergyModel.instance.GetLeftEnergy() >=areaCost)
         {
             EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - areaCost);
-            PlayerModel.instnace.OpenArea(areaName);
+            PlayerModel.instance.OpenArea(areaName);
         }
         else
             Debug.Log("에너지가 모자라");

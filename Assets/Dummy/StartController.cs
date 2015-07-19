@@ -23,7 +23,7 @@ public class StartController : MonoBehaviour {
         if (coll.gameObject.tag == "Player" && Input.GetKey(KeyCode.E))
         {
             Application.LoadLevel("Main");
-            PlayerModel.instnace.playerSpot = player.transform.localPosition;
+            PlayerModel.instance.playerSpot = player.transform.localPosition;
         }
     }*/
 
@@ -33,7 +33,7 @@ public class StartController : MonoBehaviour {
         {
             Check = true;
             Application.LoadLevel("Main");
-            PlayerModel.instnace.playerSpot = player.transform.localPosition;
+            PlayerModel.instance.playerSpot = player.transform.localPosition;
             loadingImage.gameObject.SetActive(true);
         }
     }

@@ -21,6 +21,15 @@ public class CreatureUnit : MonoBehaviour {
 		UpdateViewPosition();
 	}
 
+    /**
+     * 환상체가 삭제되면 격리소도 삭제
+     * 
+     */
+    void OnDestroy()
+    {
+        Destroy(room.gameObject);
+    }
+
     public void PlaySound(string soundKey)
     {
         string soundFilename;

@@ -19,17 +19,17 @@ public class MatchGirl  : CreatureBase {
         skill.PauseWorking();
         SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability", skill.targetCreatureView.transform.position);
 
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
+        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
         // skill이 이미 release 될 상황 고려 필요
         effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
 
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 5)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 5)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 4)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 4)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
 
@@ -61,7 +61,7 @@ public class MatchGirl  : CreatureBase {
     public override void OnSkillNormalAttack(UseSkill skill)
     {
         /*
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_commonAttack_00", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_commonAttack_00", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
          * */
 
@@ -79,24 +79,24 @@ public class MatchGirl  : CreatureBase {
 		//SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
 
 
-		OutsideTextEffect effect = OutsideTextEffect.Create (skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 8);
+		OutsideTextEffect effect = OutsideTextEffect.Create (skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 8);
 		effect.transform.localScale = new Vector3(1.1f,1.1f,1);
 
 		// skill이 이미 release 될 상황 고려 필요
 		effect.GetComponent<DestroyHandler> ().AddReceiver (delegate() {skill.ResumeWorking();});
 
 
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 6)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 6)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 5)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 5)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 4)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 4)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 5, 3)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 5, 3)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
 	}
 }

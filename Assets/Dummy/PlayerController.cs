@@ -30,10 +30,10 @@ public class PlayerController : MonoBehaviour {
         Rigidbody2D player = GetComponent<Rigidbody2D>();
         oldPos = transform.localPosition.x;
 
-        Debug.Log(PlayerModel.instnace.playerSpot.x + " " + PlayerModel.instnace.playerSpot.y);
+        Debug.Log(PlayerModel.instance.playerSpot.x + " " + PlayerModel.instance.playerSpot.y);
 
-        if (PlayerModel.instnace.GetDay() != 0)
-            player.transform.localPosition = PlayerModel.instnace.playerSpot;
+        if (PlayerModel.instance.GetDay() != 0)
+            player.transform.localPosition = PlayerModel.instance.playerSpot;
         else
         {
             player.transform.localPosition = new Vector3(-16.3f, 30.33f, 0);

@@ -9,7 +9,10 @@ public class NoticeName
 
     public static string EnergyTimer = "EnergyTimer";
     public static string AddNarrationLog = "AddNarrationLog";
+
     public static string AreaOpenUpdate = "AreaOpenUpdate";
+    public static string AreaUpdate = "AreaUpdate";
+
     public static string AddPlayerLog = "AddPlayerLog";
     public static string AddSystemLog = "AddSystemLog";
     public static string CreatureFeelingUpdateTimer = "CreatureFeelingUpdateTimer";
@@ -17,9 +20,11 @@ public class NoticeName
     public static string UpdateDay = "UpdateDay";
 
     public static string AddAgent = "AddAgent";
-    public static string AddCreature = "AddCreature";
-
     public static string RemoveAgent = "RemoveAgent";
+    public static string InitAgent = "InitAgent";
+
+    public static string AddCreature = "AddCreature";
+    public static string RemoveCreature = "RemoveCreature";
 
     public static string LoadMapGraphComplete = "LoadMapGraphComplete";
 }

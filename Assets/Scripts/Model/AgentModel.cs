@@ -1,22 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
+
+// 직원 데이터
 public class AgentModel {
 
-    public int instanceId { get;  private set; }
+    public int instanceId;
 
-    // game data
-
-    //public TraitTypeInfo metaTraitInfo;
-
-    public AgentTypeInfo metadata;
+    // 초기화 이외에는 사용하지 않고 있다.
+    //public AgentTypeInfo metadata;
     public long metadataId;
+
     public string name;
     public int hp;
-
-    public Animator anim;
-
-    //public TraitTypeInfo[] traitList;
 
     public List<TraitTypeInfo> traitList;
 
@@ -45,21 +43,30 @@ public class AgentModel {
     public SkillTypeInfo indirectSkill;
     public SkillTypeInfo blockSkill;
 
-    public string imgsrc {private set; get;}
+    public string imgsrc;
 
     public Dictionary<string, string> speechTable = new Dictionary<string, string>();
 
     public string panicType;
     //
 
-    public string currentSefira { private set; get; }
+    // 현재 소속된 세피라
+    public string currentSefira;
+
+
+
+    // 이하 save 되지 않는 데이터들
 
     private AgentCmdState state = AgentCmdState.IDLE;
-    public CreatureModel target; // state; MOVE, WORKING
 
+    /*
+     * state; MOVE, WORKING
+     * 이동하거나 작업할 때 대상 환상체
+     */
+    public CreatureModel target; 
+
+    // panic action을 실행하는 클래스
     private PanicAction currentPanicAction;
-
-    // 
 
     // path finding2
     private MapNode currentNode;
@@ -73,7 +80,6 @@ public class AgentModel {
 
     private MapEdge[] pathList;
     private int pathIndex;
-   
 
     public AgentModel(int instanceId, string area)
     {
@@ -91,6 +97,116 @@ public class AgentModel {
 
     private float waitTimer = 0;
 
+    public Dictionary<string, object> GetSaveData()
+    {
+        Dictionary<string, object> output = new Dictionary<string, object>();
+
+        output.Add("instanceId", instanceId);
+        output.Add("currentSefira", currentSefira);
+
+        output.Add("metadataId", metadataId);
+        output.Add("name", name);
+        output.Add("hp", hp);
+        //output.Add("traitList", 
+
+        output.Add("gender", gender);
+        output.Add("level", level);
+        output.Add("workDays", workDays);
+
+        output.Add("expFail", expFail);
+        output.Add("expSuccess", expSuccess);
+        output.Add("expHpDamage", expHpDamage);
+        output.Add("expMentalDamage", expMentalDamage);
+
+        output.Add("maxHp", maxHp);
+        output.Add("maxMental", maxMental);
+
+        output.Add("mental", mental);
+        output.Add("movement", movement);
+        output.Add("work", work);
+
+        output.Add("prefer", prefer);
+        output.Add("preferBonus", preferBonus);
+        output.Add("reject", reject);
+        output.Add("rejectBonus", rejectBonus);
+
+        output.Add("directSkillId", directSkill.id);
+        output.Add("indirectSkillId", indirectSkill.id);
+        output.Add("blockSkillId", blockSkill.id);
+
+        output.Add("imgsrc", imgsrc);
+        output.Add("speechTable", speechTable);
+        output.Add("panicType", panicType);
+        
+        /*
+        BinaryFormatter bf = new BinaryFormatter();
+        MemoryStream stream = new MemoryStream();
+        bf.Serialize(stream, output);
+        return stream.ToArray();
+        */
+
+        return output;
+    }
+
+    private static bool TryGetValue<T>(Dictionary<string, object> dic, string name, ref T field)
+    {
+        object output;
+        if (dic.TryGetValue(name, out output))
+        {
+            field = (T)output;
+            return true;
+        }
+        return false;
+    }
+    public void LoadData(Dictionary<string, object> dic)
+    {
+        //BinaryFormatter bf = new BinaryFormatter();
+        //Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(stream);
+        TryGetValue(dic, "instanceId", ref instanceId);
+
+        TryGetValue(dic, "metadataId", ref metadataId);
+
+        TryGetValue(dic, "name", ref name);
+        TryGetValue(dic, "hp", ref hp);
+        //output.Add("traitList", 
+
+        TryGetValue(dic, "gender", ref gender);
+        TryGetValue(dic, "level", ref level);
+        TryGetValue(dic, "workDays", ref workDays);
+
+        TryGetValue(dic, "expFail", ref expFail);
+        TryGetValue(dic, "expSuccess", ref expSuccess);
+        TryGetValue(dic, "expHpDamage", ref expHpDamage);
+        TryGetValue(dic, "expMentalDamage", ref expMentalDamage);
+
+        TryGetValue(dic, "maxHp", ref maxHp);
+        TryGetValue(dic, "maxMental", ref maxMental);
+
+        TryGetValue(dic, "mental", ref mental);
+        TryGetValue(dic, "movement", ref movement);
+        TryGetValue(dic, "work", ref work);
+
+        TryGetValue(dic, "prefer", ref prefer);
+        TryGetValue(dic, "preferBonus", ref preferBonus);
+        TryGetValue(dic, "reject", ref reject);
+        TryGetValue(dic, "rejectBonus", ref rejectBonus);
+
+        long id = 0;
+        TryGetValue(dic, "directSkillId", ref id);
+        directSkill = SkillTypeList.instance.GetData(id);
+        id = 0;
+        TryGetValue(dic, "indirectSkillId", ref id);
+        indirectSkill = SkillTypeList.instance.GetData(id);
+        id = 0;
+        TryGetValue(dic, "blockSkillId", ref id);
+        blockSkill = SkillTypeList.instance.GetData(id);
+
+        TryGetValue(dic, "imgsrc", ref imgsrc);
+        TryGetValue(dic, "speechTable", ref speechTable);
+        TryGetValue(dic, "panicType", ref panicType);
+
+        TryGetValue(dic, "currentSefira", ref currentSefira);
+    }
 
     // 현재 AgentUnit에서 호출됨
     public void FixedUpdate()

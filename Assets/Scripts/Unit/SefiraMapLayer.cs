@@ -9,7 +9,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
     {
         foreach (SefiraObject sefira in sefiras)
         {
-            if (PlayerModel.instnace.openedAreaList.Contains(sefira.sefiraName))
+            if (PlayerModel.instance.openedAreaList.Contains(sefira.sefiraName))
                 sefira.gameObject.SetActive(true);
             else
                 sefira.gameObject.SetActive(false);
@@ -43,6 +43,10 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         if (notice == NoticeName.AreaOpenUpdate)
         {
             SetSefiraActive((string)param[0], true);
+        }
+        else if (notice == NoticeName.AreaUpdate)
+        {
+            SetSefiraActive((string)param[0], (bool)param[1]);
         }
     }
 }

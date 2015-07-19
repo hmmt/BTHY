@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
+[System.Serializable]
 public class PlayerModel {
 
     private HashSet<string> areaList;
-    public HashSet<string> openedAreaList { private set; get; }
+    public HashSet<string> openedAreaList;
     public List<long> openedAgentList;
 
     public Vector3 playerSpot;
@@ -12,7 +14,7 @@ public class PlayerModel {
     private int day;
 
     private static PlayerModel _instance;
-    public static PlayerModel instnace
+    public static PlayerModel instance
     {
         get
         {
@@ -52,6 +54,15 @@ public class PlayerModel {
         {
             openedAreaList.Add(area);
             UpdateArea(area);
+        }
+    }
+
+    private void UpdateAreaActive()
+    {
+        MapGraph.instance.InitActivates();
+        foreach (string area in openedAreaList)
+        {
+            MapGraph.instance.ActivateArea(area);
         }
     }
 
@@ -122,6 +133,30 @@ public class PlayerModel {
             //CreatureManager.instance.AddCreature(20005, "tessod-down-point", 6, -35); // 마법소녀
         }
 
-        Notice.instance.Send(NoticeName.AreaOpenUpdate, added);
+        //Notice.instance.Send(NoticeName.AreaOpenUpdate, added);
+    }
+
+    public Dictionary<string, object> GetSaveData()
+    {
+        Dictionary<string, object> output = new Dictionary<string,object>();
+
+        output.Add("areaList", openedAreaList.ToList());
+        output.Add("day", day);
+
+        return output;
+    }
+
+    public void LoadData(Dictionary<string, object> dic)
+    {
+        List<string> openedAreaListImp = new List<string>();
+        GameUtil.TryGetValue(dic, "areaList", ref openedAreaListImp);
+        foreach (string area in openedAreaListImp)
+        {
+            Debug.Log("test!!!");
+            openedAreaList.Add(area);
+        }
+        GameUtil.TryGetValue(dic, "day", ref day);
+
+        UpdateAreaActive();
     }
 }

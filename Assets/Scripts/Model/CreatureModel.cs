@@ -1,27 +1,55 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
+public class Vector2Serializer
+{
+    public float x;
+    public float y;
 
+    public Vector2Serializer()
+    {
+    }
+
+    public Vector2Serializer(Vector2 v2)
+    {
+        Fill(v2);
+    }
+
+    public void Fill(Vector2 v2)
+    {
+        x = v2.x;
+        y = v2.y;
+    }
+
+    public Vector3 V2 { get { return new Vector2(x, y); } set { Fill(value); } }
+}
+
+// 
 public class CreatureModel : IObserver
 {
+    public int instanceId;
 
-    public long instanceId { private set; get; }
+    // 메타데이터
+    public CreatureTypeInfo metaInfo;
+    public long metadataId; // metaInfo.id
 
+    public Vector2 basePosition;
     public Vector2 position;
 
-    //환상체 나레이션 저장 List
-    public List<string> narrationList;
-
-    public CreatureTypeInfo metaInfo;
-
-    public CreatureState state = CreatureState.WAIT;
-
-    public IsolateRoom room;
+    public string baseNodeId;
 
     //환상체 도감 완성도
     public int observeProgress = 0;
 
     public float feeling { get; private set; }
+
+    //환상체 나레이션 저장 List
+    public List<string> narrationList;
+
+    // 이하 save 되지 않는 데이터들
+
+    public CreatureState state = CreatureState.WAIT;
 
     public CreatureBase script;
 
@@ -37,10 +65,58 @@ public class CreatureModel : IObserver
     private MapEdge[] pathList;
     private int pathIndex;
 
+
     // graph
     private MapNode workspaceNode;
 
-    public CreatureModel(long instanceId)
+    public Dictionary<string, object> GetSaveData()
+    {
+        Dictionary<string, object> output = new Dictionary<string, object>();
+
+        output.Add("instanceId", instanceId);
+
+        output.Add("metadataId", metadataId);
+        output.Add("baseNodeId", baseNodeId);
+
+        output.Add("observeProgress", observeProgress);
+
+        output.Add("basePosition", new Vector2Serializer(basePosition));
+
+        output.Add("narrationList", narrationList);
+
+        return output;
+    }
+    private static bool TryGetValue<T>(Dictionary<string, object> dic, string name, ref T field)
+    {
+        object output;
+        if (dic.TryGetValue(name, out output))
+        {
+            field = (T)output;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 환상체 데이터를 dictionary로부터 로드합니다.
+     * 메타데이터 정보를 적용하려면 CreatureManager.BuildCreatureModel()를 사용해야 합니다.
+     * 
+     */
+    public void LoadData(Dictionary<string, object> dic)
+    {
+        TryGetValue(dic, "instanceId", ref instanceId);
+
+        TryGetValue(dic, "metadataId", ref metadataId);
+        TryGetValue(dic, "baseNodeId", ref baseNodeId);
+
+        TryGetValue(dic, "observeProgress", ref observeProgress);
+
+        Vector2Serializer v2 = new Vector2Serializer();
+        TryGetValue(dic, "basePosition", ref v2);
+        position = basePosition = v2.V2;
+    }
+
+    public CreatureModel(int instanceId)
     {
         this.instanceId = instanceId;
         narrationList = new List<string>();
@@ -248,6 +324,7 @@ public class CreatureModel : IObserver
         return output;
     }
 
+    /*
     public void OnClicked()
     {
         if (state == CreatureState.WAIT)
@@ -257,5 +334,6 @@ public class CreatureModel : IObserver
             //IsolateRoomStatus.CreateWindow(this);
         }
     }
+    */
 }
 

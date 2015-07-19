@@ -31,7 +31,7 @@ public class ElevatorMover : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        if (PlayerModel.instnace.GetDay() != 0)
+        if (PlayerModel.instance.GetDay() != 0)
         {
             transform.localPosition = endPoint.localPosition;
             //currentState = STATE.RSTOP;

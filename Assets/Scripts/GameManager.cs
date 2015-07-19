@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameManager : MonoBehaviour {
 
@@ -40,9 +41,9 @@ public class GameManager : MonoBehaviour {
         AgentLayer.currentLayer.Init();
         CreatureLayer.currentLayer.Init();
 
-        if (PlayerModel.instnace.GetDay() == 0)
+        if (PlayerModel.instance.GetDay() == 0)
         {
-            PlayerModel.instnace.OpenArea("1");;
+            PlayerModel.instance.OpenArea("1"); ;
             AgentManager.instance.AddAgentModel(1);
         }
 
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour {
 		Notice.instance.Observe ("EnergyTimer", EnergyModel.instance);
 		GetComponent<RootTimer> ().AddTimer ("CreatureFeelingUpdateTimer", 10);
 
-        int day = PlayerModel.instnace.GetDay();
+        int day = PlayerModel.instance.GetDay();
         stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
 	}
 
@@ -84,7 +85,7 @@ public class GameManager : MonoBehaviour {
     {
         EndGame();
 
-        int day = PlayerModel.instnace.GetDay();
+        int day = PlayerModel.instance.GetDay();
         float needEnergy = StageTypeInfo.instnace.GetEnergyNeed(day);
         float energy = EnergyModel.instance.GetEnergy();
         
@@ -101,8 +102,8 @@ public class GameManager : MonoBehaviour {
 
     public void ExitStage()
     {
-        int day = PlayerModel.instnace.GetDay();
-        PlayerModel.instnace.SetDay(day + 1);
+        int day = PlayerModel.instance.GetDay();
+        PlayerModel.instance.SetDay(day + 1);
         //stageUI.Open(StageUI.UIType.START_STAGE);
         EnergyModel.instance.Init();
         Application.LoadLevel("Menu");
@@ -120,5 +121,37 @@ public class GameManager : MonoBehaviour {
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void SaveData()
+    {
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+
+        dic.Add("agents", AgentManager.instance.GetSaveData());
+        dic.Add("creatures", CreatureManager.instance.GetSaveData());
+        dic.Add("playerData", PlayerModel.instance.GetSaveData());
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/saveData1.txt");
+        bf.Serialize(file, dic);
+        file.Close();
+    }
+
+    public void LoadData()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file =  File.Open(Application.persistentDataPath + "/saveData1.txt", FileMode.Open);
+        Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(file);
+        file.Close();
+
+        Dictionary<string, object> agents = null, creatures = null, playerData = null;
+
+        GameUtil.TryGetValue(dic, "agents", ref agents);
+        GameUtil.TryGetValue(dic, "creatures", ref creatures);
+        GameUtil.TryGetValue(dic, "playerData", ref playerData);
+
+        PlayerModel.instance.LoadData(playerData);
+        AgentManager.instance.LoadData(agents);
+        CreatureManager.instance.LoadData(creatures);
     }
 }

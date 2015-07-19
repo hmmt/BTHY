@@ -24,7 +24,7 @@ public class ResetSlide : MonoBehaviour {
         if (coll.gameObject.tag == "Player")
         {
             ElevatorNarratior.time = 0;
-            GlobalFunction.currentDay = PlayerModel.instnace.GetDay();
+            GlobalFunction.currentDay = PlayerModel.instance.GetDay();
             slideDoor.leftDoorOpen = false;
             slideDoor.rightDoorOpen = false;
             slideDoor.onceCheck = false;
