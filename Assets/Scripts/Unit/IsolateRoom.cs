@@ -27,6 +27,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public SpriteRenderer workingOffRenderer;
     public SpriteRenderer workingOnRenderer;
 
+    public SpriteRenderer warningPoint;
+
     public void Awake()
     {
         workLog = GameObject.FindGameObjectWithTag("AnimationController");
@@ -98,18 +100,21 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             {
                 if (feeling > targetUnit.model.metaInfo.feelingMax * 2 / 3)
                 {
+                    warningPoint.gameObject.SetActive(false);
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(true);
                 }
                 else if (feeling > targetUnit.model.metaInfo.feelingMax / 3)
                 {
+                    warningPoint.gameObject.SetActive(false);
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(true);
                     frameGreenRenderer.gameObject.SetActive(false);
                 }
                 else
                 {
+                    warningPoint.gameObject.SetActive(true);
                     frameRedRenderer.gameObject.SetActive(true);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(false);
@@ -119,12 +124,14 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             {
                 if (feeling > targetUnit.model.metaInfo.feelingMax / 2)
                 {
+                    warningPoint.gameObject.SetActive(false);
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(true);
                 }
                 else
                 {
+                    warningPoint.gameObject.SetActive(true);
                     frameRedRenderer.gameObject.SetActive(true);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(false);

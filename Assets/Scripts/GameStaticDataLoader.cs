@@ -100,8 +100,15 @@ public class GameStaticDataLoader {
 		{
 			AgentTypeInfo model = new AgentTypeInfo();
 			
+            /*
 			model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
 			model.name = node.Attributes.GetNamedItem("name").InnerText;
+            */
+
+            model.id = int.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            model.name = node.Attributes.GetNamedItem("name").InnerText;
+
+           
 			model.hp = int.Parse(node.Attributes.GetNamedItem("hp").InnerText);
 			model.mental = int.Parse(node.Attributes.GetNamedItem("mental").InnerText);
 			model.movement = int.Parse(node.Attributes.GetNamedItem("movement").InnerText);
