@@ -135,6 +135,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             slotPanel.skillButton3.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.blockSkill.imgsrc);
 
             slotPanel.agentName.text = unit.name;
+            slotPanel.agentHealth.text = HealthCheck(unit);
+            slotPanel.agentMental.text = MentalCheck(unit);
 
             AgentModel copied = unit;
 			slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));
@@ -189,4 +191,52 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		currentWindow = null;
 		Destroy (gameObject);
 	}
+
+    public string MentalCheck(AgentModel unit)
+    {
+        if (unit.mental >= unit.maxMental * 2 / 3f)
+        {
+            return "멘탈 : 건강";
+        }
+
+        else if (unit.mental <= unit.maxMental * 2 / 3f && unit.mental >= unit.maxMental * 1 / 3f)
+        {
+            return "멘탈 : 보통";
+        }
+
+        else if (unit.mental >= unit.maxMental * 1 / 3f)
+        {
+            return "멘탈 : 심각";
+        }
+
+        else
+        {
+            return "멘탈 : ???";
+        }
+
+    }
+
+    public string HealthCheck(AgentModel unit)
+    {
+
+        if (unit.hp >= unit.hp * 2 / 3f)
+        {
+            return "신체 : 건강";
+        }
+
+        else if (unit.hp <= unit.maxHp * 2 / 3f && unit.hp >= unit.maxHp * 1 / 3f)
+        {
+            return "신체 : 보통";
+        }
+
+        else if (unit.hp >= unit.maxHp * 1 / 3f)
+        {
+            return "신체 : 심각";
+        }
+
+        else
+        {
+            return "신체 : ???";
+        }
+    }
 }

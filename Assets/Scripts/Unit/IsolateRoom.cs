@@ -32,6 +32,17 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public Light2D Warning3;
     public Light2D Warning4;
 
+    public Light2D Warning_Yellow1;
+    public Light2D Warning_Yellow2;
+    public Light2D Warning_Yellow3;
+    public Light2D Warning_Yellow4;
+
+
+    public Light2D Warning_Green1;
+    public Light2D Warning_Green2;
+    public Light2D Warning_Green3;
+    public Light2D Warning_Green4;
+
 
 
     public void Awake()
@@ -110,6 +121,16 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                     Warning3.gameObject.SetActive(false);
                     Warning4.gameObject.SetActive(false);
 
+                    Warning_Yellow1.gameObject.SetActive(false);
+                    Warning_Yellow2.gameObject.SetActive(false);
+                    Warning_Yellow3.gameObject.SetActive(false);
+                    Warning_Yellow4.gameObject.SetActive(false);
+
+                    Warning_Green1.gameObject.SetActive(true);
+                    Warning_Green2.gameObject.SetActive(true);
+                    Warning_Green3.gameObject.SetActive(true);
+                    Warning_Green4.gameObject.SetActive(true);
+
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(true);
@@ -121,6 +142,16 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                     Warning3.gameObject.SetActive(false);
                     Warning4.gameObject.SetActive(false);
 
+                    Warning_Yellow1.gameObject.SetActive(true);
+                    Warning_Yellow2.gameObject.SetActive(true);
+                    Warning_Yellow3.gameObject.SetActive(true);
+                    Warning_Yellow4.gameObject.SetActive(true);
+
+                    Warning_Green1.gameObject.SetActive(false);
+                    Warning_Green2.gameObject.SetActive(false);
+                    Warning_Green3.gameObject.SetActive(false);
+                    Warning_Green4.gameObject.SetActive(false);
+
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(true);
                     frameGreenRenderer.gameObject.SetActive(false);
@@ -131,6 +162,16 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                     Warning2.gameObject.SetActive(true);
                     Warning3.gameObject.SetActive(true);
                     Warning4.gameObject.SetActive(true);
+
+                    Warning_Yellow1.gameObject.SetActive(false);
+                    Warning_Yellow2.gameObject.SetActive(false);
+                    Warning_Yellow3.gameObject.SetActive(false);
+                    Warning_Yellow4.gameObject.SetActive(false);
+
+                    Warning_Green1.gameObject.SetActive(false);
+                    Warning_Green2.gameObject.SetActive(false);
+                    Warning_Green3.gameObject.SetActive(false);
+                    Warning_Green4.gameObject.SetActive(false);
 
                     frameRedRenderer.gameObject.SetActive(true);
                     frameYellowRenderer.gameObject.SetActive(false);
@@ -146,6 +187,16 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                     Warning3.gameObject.SetActive(false);
                     Warning4.gameObject.SetActive(false);
 
+                    Warning_Yellow1.gameObject.SetActive(false);
+                    Warning_Yellow2.gameObject.SetActive(false);
+                    Warning_Yellow3.gameObject.SetActive(false);
+                    Warning_Yellow4.gameObject.SetActive(false);
+
+                    Warning_Green1.gameObject.SetActive(true);
+                    Warning_Green2.gameObject.SetActive(true);
+                    Warning_Green3.gameObject.SetActive(true);
+                    Warning_Green4.gameObject.SetActive(true);
+
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(true);
@@ -156,6 +207,16 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                     Warning2.gameObject.SetActive(true);
                     Warning3.gameObject.SetActive(true);
                     Warning4.gameObject.SetActive(true);
+
+                    Warning_Yellow1.gameObject.SetActive(false);
+                    Warning_Yellow2.gameObject.SetActive(false);
+                    Warning_Yellow3.gameObject.SetActive(false);
+                    Warning_Yellow4.gameObject.SetActive(false);
+
+                    Warning_Green1.gameObject.SetActive(false);
+                    Warning_Green2.gameObject.SetActive(false);
+                    Warning_Green3.gameObject.SetActive(false);
+                    Warning_Green4.gameObject.SetActive(false);
 
                     frameRedRenderer.gameObject.SetActive(true);
                     frameYellowRenderer.gameObject.SetActive(false);
