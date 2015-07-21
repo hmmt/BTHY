@@ -78,6 +78,32 @@ public class MapGraph
             {
                 node.activate = true;
             }
+            Notice.instance.Send(NoticeName.AreaOpenUpdate, name);
+        }
+    }
+
+    public void DeactivateArea(string name)
+    {
+        List<MapNode> nodeList;
+        if (nodeAreaTable.TryGetValue(name, out nodeList))
+        {
+            foreach (MapNode node in nodeList)
+            {
+                node.activate = false;
+            }
+            Notice.instance.Send(NoticeName.AreaUpdate, name, false);
+        }
+    }
+
+    public void InitActivates()
+    {
+        foreach (KeyValuePair<string, List<MapNode>> pair in nodeAreaTable)
+        {
+            foreach (MapNode node in pair.Value)
+            {
+                node.activate = false;
+            }
+            Notice.instance.Send(NoticeName.AreaUpdate, pair.Key, false);
         }
     }
 

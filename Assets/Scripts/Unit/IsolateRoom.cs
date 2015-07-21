@@ -27,7 +27,12 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public SpriteRenderer workingOffRenderer;
     public SpriteRenderer workingOnRenderer;
 
-    public SpriteRenderer warningPoint;
+    public Light2D Warning1;
+    public Light2D Warning2;
+    public Light2D Warning3;
+    public Light2D Warning4;
+
+
 
     public void Awake()
     {
@@ -89,8 +94,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		if(targetUnit != null)
 		{
             // 잠시 안 띄움
-			//feelingText.text = targetUnit.model.feeling.ToString ();
-            feelingText.text = "";
+			feelingText.text = targetUnit.model.feeling.ToString ();
+            //feelingText.text = "";
 
             float feeling = targetUnit.model.feeling;
 
@@ -100,21 +105,33 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             {
                 if (feeling > targetUnit.model.metaInfo.feelingMax * 2 / 3)
                 {
-                    warningPoint.gameObject.SetActive(false);
+                    Warning1.gameObject.SetActive(false);
+                    Warning2.gameObject.SetActive(false);
+                    Warning3.gameObject.SetActive(false);
+                    Warning4.gameObject.SetActive(false);
+
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(true);
                 }
                 else if (feeling > targetUnit.model.metaInfo.feelingMax / 3)
                 {
-                    warningPoint.gameObject.SetActive(false);
+                    Warning1.gameObject.SetActive(false);
+                    Warning2.gameObject.SetActive(false);
+                    Warning3.gameObject.SetActive(false);
+                    Warning4.gameObject.SetActive(false);
+
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(true);
                     frameGreenRenderer.gameObject.SetActive(false);
                 }
                 else
                 {
-                    warningPoint.gameObject.SetActive(true);
+                    Warning1.gameObject.SetActive(true);
+                    Warning2.gameObject.SetActive(true);
+                    Warning3.gameObject.SetActive(true);
+                    Warning4.gameObject.SetActive(true);
+
                     frameRedRenderer.gameObject.SetActive(true);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(false);
@@ -124,14 +141,22 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             {
                 if (feeling > targetUnit.model.metaInfo.feelingMax / 2)
                 {
-                    warningPoint.gameObject.SetActive(false);
+                    Warning1.gameObject.SetActive(false);
+                    Warning2.gameObject.SetActive(false);
+                    Warning3.gameObject.SetActive(false);
+                    Warning4.gameObject.SetActive(false);
+
                     frameRedRenderer.gameObject.SetActive(false);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(true);
                 }
                 else
                 {
-                    warningPoint.gameObject.SetActive(true);
+                    Warning1.gameObject.SetActive(true);
+                    Warning2.gameObject.SetActive(true);
+                    Warning3.gameObject.SetActive(true);
+                    Warning4.gameObject.SetActive(true);
+
                     frameRedRenderer.gameObject.SetActive(true);
                     frameYellowRenderer.gameObject.SetActive(false);
                     frameGreenRenderer.gameObject.SetActive(false);

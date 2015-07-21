@@ -8,10 +8,13 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
     private List<CreatureUnit> creatureList;
 
+    private Dictionary<long, CreatureUnit> creatureDic;
+
     void Awake()
     {
         currentLayer = this;
         creatureList = new List<CreatureUnit>();
+        creatureDic = new Dictionary<long, CreatureUnit>();
     }
 
     void OnEnable()
@@ -59,20 +62,18 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         */
         room.Init();
 
-        creatureRoom.transform.position = (Vector3)model.position;
+        creatureRoom.transform.position = (Vector3)model.basePosition;
         room.UpdateStatus();
 
         unit.room = room;
 
-        // 임시
-        // model에 view를 넣으면 안되지만 빨리 하기 위해 일단 넣음.
-        model.room = room;
-
         creatureList.Add(unit);
+        creatureDic.Add(model.instanceId, unit);
     }
 
     public CreatureUnit GetCreature(long id)
     {
+        /*
         foreach (CreatureUnit creature in creatureList)
         {
             if (creature.model.instanceId == id)
@@ -80,7 +81,20 @@ public class CreatureLayer : MonoBehaviour, IObserver {
                 return creature;
             }
         }
-        return null;
+        */
+        CreatureUnit unit = null;
+        creatureDic.TryGetValue(id, out unit);
+        return unit;
+    }
+
+    public void ClearAgent()
+    {
+        foreach (CreatureUnit creatureUnit in creatureList)
+        {
+            Destroy(creatureUnit.gameObject);
+        }
+        creatureList.Clear();
+        creatureDic.Clear();
     }
 
     // TODO : 기분수치 타이머를 여기에 넣는다.?

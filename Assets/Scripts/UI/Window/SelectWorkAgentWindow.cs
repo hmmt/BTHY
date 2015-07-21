@@ -129,10 +129,12 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 			//slot.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new UnityEngine.Events.UnityAction(System.
 			//slot.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(()=>CloseWindow());
 			AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
+
             slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
             slotPanel.skillButton2.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.indirectSkill.imgsrc);
             slotPanel.skillButton3.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.blockSkill.imgsrc);
 
+            slotPanel.agentName.text = unit.name;
 
             AgentModel copied = unit;
 			slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));

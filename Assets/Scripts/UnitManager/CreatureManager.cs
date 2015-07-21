@@ -26,16 +26,53 @@ public class CreatureManager {
 
 	private List<CreatureModel> creatureList;
 
-	public void AddCreature(long typeId, string nodeId, float x, float y)
-	{
-		CreatureTypeInfo info = CreatureTypeList.instance.GetData (typeId);
-        AddCreature(info, nodeId, x, y);
-	}
+	
+    private int nextInstId = 1;
 
-    private int instId = 1;
-    public void AddCreature(CreatureTypeInfo typeInfo, string nodeId, float x, float y)
+    /**
+     * 새 환상체를 추가합니다.
+     **/
+    public void AddCreature(long metadataId, string nodeId, float x, float y)
     {
-        CreatureModel unit = new CreatureModel(instId++);
+        CreatureModel model = new CreatureModel(nextInstId++);
+
+        BuildCreatureModel(model, metadataId, nodeId, x, y);
+
+        model.AddFeeling(model.metaInfo.feelingMax / 2);
+
+        model.position = new Vector2(x, y);
+
+        RegisterCreature(model);
+    }
+    
+    /**
+     * 환상체를 리스트에 추가합니다.
+     * 
+     */
+    private void RegisterCreature(CreatureModel model)
+    {
+        creatureList.Add(model);
+
+        Notice.instance.Remove(NoticeName.FixedUpdate, model);
+        Notice.instance.Observe(NoticeName.CreatureFeelingUpdateTimer, model);
+        Notice.instance.Send(NoticeName.AddCreature, model);
+    }
+
+    /**
+     * 1. 환상체에 메타데이터(CreatureTypeInfo) 를 적용합니다.
+     * 2. 환상체의 MapNode를 생성합니다.
+     * 
+     **/
+    private void BuildCreatureModel(CreatureModel model, long metadataId, string nodeId, float x, float y)
+    {
+        CreatureTypeInfo typeInfo = CreatureTypeList.instance.GetData(metadataId);
+
+        model.metadataId = metadataId;
+        model.metaInfo = typeInfo;
+        model.specialSkill = typeInfo.specialSkill;
+        model.basePosition = new Vector2(x, y);
+        model.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
+        model.baseNodeId = nodeId;
 
         MapNode entryNode = MapGraph.instance.GetNodeById(nodeId);
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
@@ -44,19 +81,19 @@ public class CreatureManager {
         foreach (XmlNode node in typeInfo.nodeInfo)
         {
             string id = nodeId + "@" + node.Attributes.GetNamedItem("id").InnerText;
-            float nodeX = x + float.Parse(node.Attributes.GetNamedItem("x").InnerText);
-            float nodeY = y + float.Parse(node.Attributes.GetNamedItem("y").InnerText);
+            float nodeX = model.basePosition.x + float.Parse(node.Attributes.GetNamedItem("x").InnerText);
+            float nodeY = model.basePosition.y + float.Parse(node.Attributes.GetNamedItem("y").InnerText);
 
             MapNode newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
 
             XmlNode typeNode = node.Attributes.GetNamedItem("type");
             if (typeNode != null && typeNode.InnerText == "workspace")
             {
-                unit.SetWorkspaceNode(newNode);
+                model.SetWorkspaceNode(newNode);
             }
             else if (typeNode != null && typeNode.InnerText == "creature")
             {
-                unit.SetNode(newNode);
+                model.SetNode(newNode);
             }
             else if (typeNode != null && typeNode.InnerText == "entry")
             {
@@ -102,20 +139,6 @@ public class CreatureManager {
             node1.AddEdge(edge);
             node2.AddEdge(edge);
         }
-
-        unit.metaInfo = typeInfo;
-        unit.specialSkill = typeInfo.specialSkill;
-        unit.AddFeeling(typeInfo.feelingMax/2);
-
-        unit.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
-
-        unit.position = new Vector2(x, y);
-
-        creatureList.Add(unit);
-
-        Notice.instance.Remove(NoticeName.FixedUpdate, unit);
-        Notice.instance.Observe(NoticeName.CreatureFeelingUpdateTimer, unit);
-        Notice.instance.Send(NoticeName.AddCreature, unit);
     }
 
 	public void Init()
@@ -127,4 +150,58 @@ public class CreatureManager {
 	{
 		return creatureList.ToArray();
 	}
+
+    private static bool TryGetValue<T>(Dictionary<string, object> dic, string name, ref T field)
+    {
+        object output;
+        if (dic.TryGetValue(name, out output))
+        {
+            field = (T)output;
+            return true;
+        }
+        return false;
+    }
+
+    public Dictionary<string, object> GetSaveData()
+    {
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+
+        dic.Add("nextInstId", nextInstId);
+
+        List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+
+        foreach (CreatureModel creature in creatureList)
+        {
+            Dictionary<string, object> creatureData = creature.GetSaveData();
+            list.Add(creatureData);
+        }
+
+        dic.Add("creatureList", list);
+
+        return dic;
+    }
+
+    public void LoadData(Dictionary<string, object> dic)
+    {
+        CreatureLayer.currentLayer.ClearAgent();
+
+        creatureList = new List<CreatureModel>();
+        TryGetValue(dic, "nextInstId", ref nextInstId);
+
+        List<Dictionary<string, object>> agentDataList = new List<Dictionary<string, object>>();
+        TryGetValue(dic, "creatureList", ref agentDataList);
+        foreach (Dictionary<string, object> data in agentDataList)
+        {
+            int creatureId = 0;
+
+            TryGetValue(data, "instanceId", ref creatureId);
+
+            CreatureModel model = new CreatureModel(creatureId);
+            model.LoadData(data);
+
+            BuildCreatureModel(model, model.metadataId, model.baseNodeId, model.basePosition.x, model.basePosition.y);
+
+            RegisterCreature(model);
+        }
+    }
 }

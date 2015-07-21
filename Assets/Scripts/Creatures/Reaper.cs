@@ -20,14 +20,14 @@ public class Reaper : CreatureBase {
 
         skill.PauseWorking();
 
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_attackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
+        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_attackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_attackTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 5)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_attackTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 5)
     .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_attackTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 4)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_attackTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 4)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_attackTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_attackTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
         // skill이 이미 release 될 상황 고려 필요
@@ -58,24 +58,24 @@ public class Reaper : CreatureBase {
     {
         skill.PauseWorking();
 
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 8);
+        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 8);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
         // skill이 이미 release 될 상황 고려 필요
         effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
 
 
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_enterTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_enterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 6)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 6)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_enterTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 5)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 5)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_enterTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 4)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 4)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_enterTypo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 5, 3)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 5, 3)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/reaper/reaper_enterTypo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
     }
 }

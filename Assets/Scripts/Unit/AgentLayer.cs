@@ -27,11 +27,13 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
     public void Init()
     {
+        ClearAgent();
         foreach (AgentModel model in AgentManager.instance.GetAgentList())
         {
             AddAgent(model);
         }
     }
+
 
     public void AddAgent(AgentModel model)
     {
@@ -53,6 +55,15 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
         agentList.Remove(unit);
         Destroy(unit.gameObject);
+    }
+
+    public void ClearAgent()
+    {
+        foreach (AgentUnit agentUnit in agentList)
+        {
+            Destroy(agentUnit.gameObject);
+        }
+        agentList.Clear();
     }
 
     public AgentUnit GetAgent(long id)

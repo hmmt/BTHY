@@ -62,7 +62,7 @@ public class BriefingInfo : MonoBehaviour {
     {
         if (StageUI.instance.getCurrnetType() == StageUI.UIType.START_STAGE)
         {
-            if (PlayerModel.instnace.GetDay() == 0)
+            if (PlayerModel.instance.GetDay() == 0)
                 tmpBriefing = "우어어어엉";
         }
 

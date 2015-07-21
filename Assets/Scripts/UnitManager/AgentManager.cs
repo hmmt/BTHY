@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Reflection;
 
 public class AgentManager {
 
@@ -16,6 +19,7 @@ public class AgentManager {
         }
 	}
 
+    private int nextInstId = 1;
     private List<AgentModel> agentList;
 	
     public AgentManager()
@@ -28,7 +32,6 @@ public class AgentManager {
         agentList = new List<AgentModel>();
     }
 
-    private int instId = 1;
     public AgentModel AddAgentModel(long typeId)
     {
         int traitHp = 0;
@@ -43,7 +46,7 @@ public class AgentManager {
             return null;
         }
 
-        AgentModel unit = new AgentModel(instId++, "1");
+        AgentModel unit = new AgentModel(nextInstId++, "1");
 
         TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetRandomInitTrait();
         TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
@@ -71,7 +74,7 @@ public class AgentManager {
             //unit.traitNameList.Add(unit.traitList[i].name);
         }
 
-        unit.metadata = info;
+        //unit.metadata = info;
         unit.metadataId = info.id;
 
         unit.name = info.name;
@@ -133,5 +136,76 @@ public class AgentManager {
         AgentManager.instance.AddAgentModel(id);
 
         return true;
+    }
+
+    private static bool TryGetValue<T>(Dictionary<string, object> dic, string name, ref T field)
+    {
+        object output;
+        if (dic.TryGetValue(name, out output))
+        {
+            field = (T)output;
+            return true;
+        }
+        return false;
+    }
+
+    public Dictionary<string, object> GetSaveData()
+    {
+        Dictionary<string, object> dic = new Dictionary<string,object>();
+
+        dic.Add("nextInstId", nextInstId);
+
+        List<Dictionary<string, object>> list = new List<Dictionary<string,object>>();
+
+        foreach (AgentModel agent in agentList)
+        {
+            Dictionary<string, object> agentData = agent.GetSaveData();
+            list.Add(agentData);
+        }
+
+        dic.Add("agentList", list);
+
+        return dic;
+        /*
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/test.txt");
+        bf.Serialize(file, dic);
+        file.Close();
+        */
+    }
+    public void LoadData()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file =  File.Open(Application.persistentDataPath + "/test.txt", FileMode.Open);
+        Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(file);
+        file.Close();
+
+        LoadData(dic);
+    }
+    public void LoadData(Dictionary<string, object> dic)
+    {
+        AgentLayer.currentLayer.ClearAgent();
+
+        agentList = new List<AgentModel>();
+        TryGetValue(dic, "nextInstId", ref nextInstId);
+
+        List<Dictionary<string, object>> agentDataList = new List<Dictionary<string,object>>();
+        TryGetValue(dic, "agentList", ref agentDataList);
+        foreach (Dictionary<string, object> data in agentDataList)
+        {
+            int agentId = 0;
+            string sefira = "";
+
+            TryGetValue(data, "instanceId", ref agentId);
+            TryGetValue(data, "currentSefira", ref sefira);
+
+
+            AgentModel model = new AgentModel(agentId, sefira);
+            model.LoadData(data);
+
+            agentList.Add(model);
+
+            Notice.instance.Send(NoticeName.AddAgent, model);
+        }
     }
 }

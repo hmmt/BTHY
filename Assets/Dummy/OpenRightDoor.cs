@@ -28,7 +28,7 @@ public class OpenRightDoor : MonoBehaviour {
                 Debug.Log("ON");
             }
 
-            if (GlobalFunction.currentDay + 1 == PlayerModel.instnace.GetDay())
+            if (GlobalFunction.currentDay + 1 == PlayerModel.instance.GetDay())
                 GlobalFunction.finishWork = true;
         }
 
@@ -43,7 +43,7 @@ public class OpenRightDoor : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Player")
         {
-            if (GlobalFunction.currentDay+1 == PlayerModel.instnace.GetDay())
+            if (GlobalFunction.currentDay+1 == PlayerModel.instance.GetDay())
                 GlobalFunction.finishWork = true;
           }
     }*/
