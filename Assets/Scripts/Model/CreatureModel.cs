@@ -66,6 +66,11 @@ public class CreatureModel : IObserver
     private int pathIndex;
 
 
+    // 관찰관련 조건 변수 추가
+    public float genEnergyCount=0;
+    public int workCount=0;
+    public int observeCondition = 0;
+
     // graph
     private MapNode workspaceNode;
 
@@ -322,6 +327,52 @@ public class CreatureModel : IObserver
             output += metaInfo.observeList[i];
         }
         return output;
+    }
+
+    //환상체 관찰 조건 갱신 함수
+    public void CheckObserveCondition()
+    {
+        if (workCount ==1 && observeCondition == 0)
+        {
+            Debug.Log("관찰 컨디션 1단계로 갱신");
+            observeCondition = 1;
+        }
+
+        else if (workCount == 5 && genEnergyCount >= 20 && observeCondition == 1)
+        {
+            Debug.Log("관찰 컨디션 2단계로 갱신");
+            observeCondition = 2;
+        }
+
+        else if (workCount == 7 && genEnergyCount >= 40 && observeCondition == 2)
+        {
+            Debug.Log("관찰 컨디션 3단계로 갱신");
+            observeCondition = 3;
+        }
+
+        else if (workCount == 10 && genEnergyCount >= 100 && observeCondition == 3)
+        {
+            Debug.Log("관찰 컨디션 4단계로 갱신");
+            observeCondition = 4;
+        }
+        else
+        {
+            Debug.Log("환상체 관찰조건 쪽 코드가 이상함");
+        }
+    }
+
+    //관찰 가능하다고 알림을 보내는 함수
+    public bool NoticeDoObserve()
+    {
+        if (observeCondition >= observeProgress + 1)
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
     }
 
     /*

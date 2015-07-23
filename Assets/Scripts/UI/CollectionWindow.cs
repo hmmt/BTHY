@@ -42,8 +42,16 @@ public class CollectionWindow : MonoBehaviour {
 
     public void onClickObserveButton()
     {
-        Debug.Log("Sibal Clicked");
-        SelectObserveAgentWindow.CreateWindow(creature);
+        Debug.Log("Work Count : "+creature.workCount+"Observe Condition : "+creature.observeCondition + "Observe Progress : "+creature.observeProgress+1);
+
+        if (creature.NoticeDoObserve())
+        {
+            SelectObserveAgentWindow.CreateWindow(creature);
+        }
+        else
+        {
+            Debug.Log("관찰 조건이 충족되지 않았음");
+        }
     }
 
 	public static void Create(CreatureModel creature)
