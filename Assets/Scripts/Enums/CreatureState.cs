@@ -11,6 +11,7 @@ using System;
 public enum CreatureState
 {
 	WAIT,
-	WORKING
+	WORKING,
+    OBSERVE
 }
 

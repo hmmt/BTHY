@@ -41,6 +41,7 @@ public class CreatureUnit : MonoBehaviour {
 
 	public void OnClicked()
 	{
+        Debug.Log("크리쳐 상태 "+model.state);
 		if(model.state == CreatureState.WAIT)
 		{
 			//SelectWorkAgentWindow.CreateWindow(this);

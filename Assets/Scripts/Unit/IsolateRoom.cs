@@ -43,7 +43,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public Light2D Warning_Green3;
     public Light2D Warning_Green4;
 
-
+    public SpriteRenderer observeCatuionSprite;
 
     public void Awake()
     {
@@ -228,11 +228,21 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             {
                 workingOnRenderer.gameObject.SetActive(true);
                 workingOffRenderer.gameObject.SetActive(false);
+                observeCatuionSprite.gameObject.SetActive(false);
             }
+
+            else if (targetUnit.model.state == CreatureState.OBSERVE)
+            {
+                workingOnRenderer.gameObject.SetActive(true);
+                workingOffRenderer.gameObject.SetActive(false);
+                observeCatuionSprite.gameObject.SetActive(true);
+            }
+
             else
             {
                 workingOnRenderer.gameObject.SetActive(false);
                 workingOffRenderer.gameObject.SetActive(true);
+                observeCatuionSprite.gameObject.SetActive(false);
             }
 		}
 	}
@@ -294,6 +304,13 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             color.a = 0f;
             roomFogRenderer.color = color;
         }
+
+        else if (_targetUnit.model.state == CreatureState.OBSERVE)
+        {
+            color.a = 0f;
+            roomFogRenderer.color = color;
+        }
+
         else
         {
             color.a = (1 - 0.2f * _targetUnit.model.observeProgress)*0.75f;

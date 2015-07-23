@@ -22,7 +22,6 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         {
             currentWindow.CloseWindow();
         }
-
         GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
 
         SelectWorkAgentWindow inst = newObj.GetComponent<SelectWorkAgentWindow>();
@@ -32,7 +31,6 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         inst.ShowAgentList();
 
         currentWindow = inst;
-
         return inst;
     }
 	
@@ -42,7 +40,6 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		{
 			currentWindow.CloseWindow();
 		}
-
         GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
 		
 		SelectWorkAgentWindow inst = newObj.GetComponent<SelectWorkAgentWindow> ();

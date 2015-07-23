@@ -30,8 +30,11 @@ public class ObserveCreature : MonoBehaviour
         c.agentStack = c.agent.level;
         c.creatureStack = c.creature.metaInfo.stackLevel;
 
+
         agent.Working(creature);
-        creature.state = CreatureState.WORKING;
+        creature.state = CreatureState.OBSERVE;
+        Debug.Log("OBSERVE");
+
 
     }
 
@@ -39,7 +42,6 @@ public class ObserveCreature : MonoBehaviour
     {
         int agentDice = Random.Range(1, 6);
         int creatureDice = Random.Range(1, 7);
-
         //int agentDice = 2;
        // int creatureDice = 1;
 
@@ -120,9 +122,9 @@ public class ObserveCreature : MonoBehaviour
 
         timer += Time.deltaTime;
 
-        if (timer >= 1.0f)
+        if (timer >= 10.0f)
         {
-            timer -= 1.0f;
+            timer -= 10.0f;
             if (agent.GetCurrentNode() != null && agent.GetCurrentNode().GetId() == creature.GetWorkspaceNode().GetId())
             {
                 observeAction();
