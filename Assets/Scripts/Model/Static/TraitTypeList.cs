@@ -57,12 +57,31 @@ public class TraitTypeList
 
         i = Random.Range(0, _list.Count);
 
-        if (_list[i].randomFlag != 1)
+        if (_list[i].randomFlag != 1 && _list[i].level != 1)
         {
             while (true)
             {
                 i = Random.Range(0, _list.Count);
-                if (_list[i].randomFlag == 1)
+                if (_list[i].randomFlag == 1 && _list[i].level == 1)
+                    return _list[i];
+            }
+        }
+
+        return _list[i];
+    }
+
+    public TraitTypeInfo GetTraitWithLevel(int traitLevel)
+    {
+        int i = 0;
+
+        i = Random.Range(0, _list.Count);
+
+        if (_list[i].randomFlag != 1 && _list[i].level != traitLevel)
+        {
+            while (true)
+            {
+                i = Random.Range(0, _list.Count);
+                if (_list[i].randomFlag == 1 && _list[i].level == traitLevel)
                     return _list[i];
             }
         }
