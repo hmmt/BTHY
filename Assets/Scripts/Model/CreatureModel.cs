@@ -134,7 +134,7 @@ public class CreatureModel : IObserver
         
         float energyDummy = metaInfo.genEnergy[Mathf.Clamp((int)(feeling) / feelingTick, 0, metaInfo.genEnergy.Length - 1)];
 
-        return energyDummy * (((float)(observeProgress)*0.5f+2)/2);
+        return energyDummy + energyDummy * 0.6f * ((float)(observeProgress)/ 5);
     }
 
     public Vector2 GetCurrentViewPosition()
