@@ -156,7 +156,7 @@
 			</observe_sub>
 		</observe>
 
-		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
+		<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>
 		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/01_matchGirl_frame"/>
 

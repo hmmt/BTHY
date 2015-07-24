@@ -35,7 +35,7 @@ public class ObserveCreature : MonoBehaviour
         creature.state = CreatureState.OBSERVE;
         Debug.Log("OBSERVE");
 
-
+        Notice.instance.Send("UpdateCreatureState_" + creature.instanceId);
     }
 
     private void observeAction()
@@ -57,6 +57,7 @@ public class ObserveCreature : MonoBehaviour
             agent.mental -= creature.metaInfo.mentalDmg;
             agent.FinishWorking();
             creature.state = CreatureState.WAIT;
+            Notice.instance.Send("UpdateCreatureState_" + creature.instanceId);
             Destroy(gameObject);
             return;
         }
@@ -67,6 +68,7 @@ public class ObserveCreature : MonoBehaviour
             creature.observeProgress++;
             agent.FinishWorking();
             creature.state = CreatureState.WAIT;
+            Notice.instance.Send("UpdateCreatureState_" + creature.instanceId);
             Destroy(gameObject);
             return;
         }
@@ -122,9 +124,9 @@ public class ObserveCreature : MonoBehaviour
 
         timer += Time.deltaTime;
 
-        if (timer >= 10.0f)
+        if (timer >= 6.0f)
         {
-            timer -= 10.0f;
+            timer -= 6.0f;
             if (agent.GetCurrentNode() != null && agent.GetCurrentNode().GetId() == creature.GetWorkspaceNode().GetId())
             {
                 observeAction();

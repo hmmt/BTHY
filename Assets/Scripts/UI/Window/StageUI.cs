@@ -138,8 +138,12 @@ public class StageUI : MonoBehaviour, IObserver {
             tr.localPosition = new Vector3(0, posy, 0);
             AgentSlotPanelStage slotPanel = slot.GetComponent<AgentSlotPanelStage>();
 
+            AgentModel copied = unit;
+            ShowPromotionButton(copied, slotPanel.promotion);
+
             slotPanel.nameText.text = unit.name;
             slotPanel.HPText.text = "HP : " + unit.hp + "/" + unit.maxHp;
+            slotPanel.agentLevel.text = "직원등급 : "+unit.level;
 
             Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
             slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
@@ -166,6 +170,113 @@ public class StageUI : MonoBehaviour, IObserver {
 
     }
 
+    //직원 승급 조건 및 버튼 활성화 
+    public void ShowPromotionButton(AgentModel agent, UnityEngine.UI.Button button)
+    {
+
+        if (agent.expSuccess < 2 && agent.expSuccess >= 0 && agent.level == 1)
+        {
+            button.gameObject.SetActive(true);
+            button.GetComponentInChildren<UnityEngine.UI.Text>().text = "승급 비용 2";
+            button.onClick.AddListener(() => PromotionAgent(agent,1,button));
+        }
+
+        else if (agent.expSuccess < 3 && agent.expSuccess >= 2 && agent.level == 2)
+        {
+            button.gameObject.SetActive(true);
+            button.GetComponentInChildren<UnityEngine.UI.Text>().text = "승급 비용 5";
+            button.onClick.AddListener(() => PromotionAgent(agent, 2, button));
+        }
+
+        else
+        {
+            button.gameObject.SetActive(false);
+        }
+    }
+
+    public void PromotionAgent(AgentModel agent, int level, UnityEngine.UI.Button button)
+    {
+
+        int level2Cost = 2;
+        int level3Cost = 5;
+
+        if (level == 1)
+        {
+            if (EnergyModel.instance.GetLeftEnergy() >= level2Cost)
+            {
+                EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - level2Cost);
+                agent.level = 2;
+
+                TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetTraitWithLevel(level);
+                TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetTraitWithLevel(level);
+
+                if (RandomTraitInfo1.id == RandomTraitInfo2.id)
+                {
+                    while (true)
+                    {
+                        RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
+                        if (RandomTraitInfo1.id != RandomTraitInfo2.id)
+                            break;
+                    }
+                }
+
+                agent.traitList.Add(RandomTraitInfo1);
+                agent.traitList.Add(RandomTraitInfo2);
+
+                agent.applyTrait(RandomTraitInfo1);
+                agent.applyTrait(RandomTraitInfo2);
+
+                button.gameObject.SetActive(false);
+                ShowAgentList();
+            }
+
+            else
+            {
+                Debug.Log("코스트 부족");
+            }
+        }
+
+        else if (level == 2)
+        {
+            if (EnergyModel.instance.GetLeftEnergy() >= level3Cost)
+            {
+                EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - level3Cost);
+                agent.level = 3;
+
+                TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetTraitWithLevel(level);
+                TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetTraitWithLevel(level);
+
+                if (RandomTraitInfo1.id == RandomTraitInfo2.id)
+                {
+                    while (true)
+                    {
+                        RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
+                        if (RandomTraitInfo1.id != RandomTraitInfo2.id)
+                            break;
+                    }
+                }
+
+                agent.traitList.Add(RandomTraitInfo1);
+                agent.traitList.Add(RandomTraitInfo2);
+
+                agent.applyTrait(RandomTraitInfo1);
+                agent.applyTrait(RandomTraitInfo2);
+
+                button.gameObject.SetActive(false);
+                ShowAgentList();
+            }
+
+            else
+            {
+                Debug.Log("코스트 부족");
+            }
+        }
+
+        else
+        {
+            Debug.Log("승급버튼 문제");
+        }
+    }
 
 
     // ok btn
