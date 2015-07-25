@@ -36,8 +36,8 @@
 		<observe>
 		</observe>
 
-		<img src="Unit/creature/match_girl" x="-1" y="-1"/>
-		<room src="creature_room1"/>
+		<img src="Unit/creature/ManPortrait" x="-1" y="-1"/>
+		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/frame/AnonymousManPortrait_frame"/>
 
 		<graph>
