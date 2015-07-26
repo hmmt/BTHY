@@ -152,7 +152,11 @@
 			</observe_sub>
 		</observe>
 
+<<<<<<< HEAD:Assets/Resources/xml/NullThing.xml
 		<img src="Unit/creature/NullThing" x="-1" y="-1"/>
+=======
+		<img src="Unit/creature/Null" x="-1" y="-1"/>
+>>>>>>> 20c92afb2513e489978818cd9b54035c2c1b423f:Assets/Resources/xml/null.xml
 		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/frame/MagicalGirl_frame"/>
 
