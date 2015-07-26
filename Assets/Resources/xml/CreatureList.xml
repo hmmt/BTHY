@@ -15,7 +15,7 @@
 	<creature src="AnonymousManPortrait" />
 	<creature src="LadyLookingAtWall" />
 	<creature src="JackLessTree" />
-	<creature src="null" />
+	<creature src="NullThing" />
 
 	<creature src="SilentGirl" />
 	<creature src="Theresia" />

@@ -98,6 +98,38 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             );
 
         touchButtonTransform.sizeDelta = new Vector2(sizex, sizey);
+
+        if (targetUnit.model.sefiraNum == "1")
+        {
+            frameRedRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Malkuth_Feel_Red");
+            frameYellowRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Malkuth_Feel_Yellow");
+            frameGreenRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Malkuth_Feel_Green");
+            workingOffRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Malkuth_Work_Off");
+            workingOnRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Malkuth_Work_On");
+        }
+
+        else if (targetUnit.model.sefiraNum == "2")
+        {
+            frameRedRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Nezzach_Feel_Red");
+            frameYellowRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Nezzach_Feel_Yellow");
+            frameGreenRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Nezzach_Feel_Green");
+            workingOffRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Nezzach_Work_Off");
+            workingOnRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Nezzach_Work_On");
+        }
+
+        else if (targetUnit.model.sefiraNum == "3")
+        {
+            frameRedRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Feel_Red");
+            frameYellowRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Feel_Yellow");
+            frameGreenRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Feel_Green");
+            workingOffRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Work_Off");
+            workingOnRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Work_On");
+        }
+
+        else if (targetUnit.model.sefiraNum == "4")
+        {
+
+        }
     }
 
 	public void UpdateStatus()
@@ -107,7 +139,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             // 잠시 안 띄움
 			feelingText.text = targetUnit.model.feeling.ToString ();
             //feelingText.text = "";
-
+            
             float feeling = targetUnit.model.feeling;
 
             int length = targetUnit.model.metaInfo.genEnergy.Length;

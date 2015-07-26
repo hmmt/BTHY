@@ -71,6 +71,9 @@ public class CreatureModel : IObserver
     public int workCount=0;
     public int observeCondition = 0;
 
+    // 세피라 변수
+    public string sefiraNum;
+
 
     // graph
     private MapNode workspaceNode;

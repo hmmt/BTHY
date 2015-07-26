@@ -32,12 +32,13 @@ public class CreatureManager {
     /**
      * 새 환상체를 추가합니다.
      **/
-    public void AddCreature(long metadataId, string nodeId, float x, float y)
+    public void AddCreature(long metadataId, string nodeId, float x, float y, string sefiraNum)
     {
         CreatureModel model = new CreatureModel(nextInstId++);
 
         BuildCreatureModel(model, metadataId, nodeId, x, y);
 
+        model.sefiraNum = sefiraNum;
         model.AddFeeling(model.metaInfo.feelingMax / 2);
 
         model.position = new Vector2(x, y);
@@ -71,6 +72,7 @@ public class CreatureManager {
         model.metaInfo = typeInfo;
         model.specialSkill = typeInfo.specialSkill;
         model.basePosition = new Vector2(x, y);
+        Debug.Log(typeInfo.script);
         model.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
         model.baseNodeId = nodeId;
 
