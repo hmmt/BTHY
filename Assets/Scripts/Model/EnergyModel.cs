@@ -17,7 +17,7 @@ public class EnergyModel : IObserver {
 	}
 
 	private float energy = 0;
-    private float leftEnergy = 10;
+    private float leftEnergy = 40;
     private float stageLeftEnergy = 0;
 
     public EnergyModel()
@@ -71,9 +71,11 @@ public class EnergyModel : IObserver {
 		foreach(CreatureModel unit in units)
 		{
 			float addedEnergy = 1;
-
+            /*
 			int feelingTick = unit.metaInfo.feelingMax / unit.metaInfo.genEnergy.Length;
 			addedEnergy = unit.metaInfo.genEnergy[Mathf.Clamp((int)(unit.feeling)/feelingTick, 0, unit.metaInfo.genEnergy.Length-1)];
+            */
+            addedEnergy = unit.GetEnergyTick();
 			AddEnergy(addedEnergy);
             unit.genEnergyCount += addedEnergy;
 			if(addedEnergy > 0)

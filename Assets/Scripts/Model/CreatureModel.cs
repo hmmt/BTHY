@@ -63,6 +63,10 @@ public class CreatureModel : IObserver
     public int workCount=0;
     public int observeCondition = 0;
 
+    // 세피라 변수
+    public string sefiraNum;
+
+
     // graph
     private MapNode workspaceNode;
 
@@ -114,7 +118,14 @@ public class CreatureModel : IObserver
         narrationList = new List<string>();
     }
 
-    
+    public float GetEnergyTick()
+    {
+        int feelingTick = metaInfo.feelingMax / metaInfo.genEnergy.Length;
+        
+        float energyDummy = metaInfo.genEnergy[Mathf.Clamp((int)(feeling) / feelingTick, 0, metaInfo.genEnergy.Length - 1)];
+
+        return energyDummy + energyDummy * 0.6f * ((float)(observeProgress)/ 5);
+    }
 
     private static int counter = 0;
 
@@ -172,7 +183,18 @@ public class CreatureModel : IObserver
             script.OnFixedUpdate(this);
         }
 
-        if (state == CreatureState.ESCAPE)
+        if (state == CreatureState.ESCAPE_RETURN)
+        {
+            if (movableNode.GetCurrentNode() == workspaceNode)
+            {
+                state = CreatureState.WAIT;
+            }
+            else
+            {
+                movableNode.MoveToNode(workspaceNode);
+            }
+        }
+        else if (state == CreatureState.ESCAPE)
         {
             OnEscapeUpdate();
         }
@@ -324,6 +346,11 @@ public class CreatureModel : IObserver
         return workspaceNode.GetAreaName();
     }
 
+    public void Escape()
+    {
+        state = CreatureState.ESCAPE;
+    }
+
     public string GetObserveText()
     {
         string output = "";
@@ -336,6 +363,7 @@ public class CreatureModel : IObserver
     }
 
     //환상체 관찰 조건 갱신 함수
+    /*
     public void CheckObserveCondition()
     {
         if (workCount ==1 && observeCondition == 0)
@@ -366,10 +394,39 @@ public class CreatureModel : IObserver
             Debug.Log("환상체 관찰조건 쪽 코드가 이상함");
         }
     }
-
+    */
     //관찰 가능하다고 알림을 보내는 함수
     public bool NoticeDoObserve()
     {
+
+        if ( workCount < 5 && workCount >= 1 && observeCondition == 0)
+        {
+            Debug.Log("관찰 컨디션 1단계로 갱신");
+            observeCondition = 1;
+        }
+
+        else if ( workCount < 7 && workCount >= 5 && genEnergyCount <40 &&genEnergyCount >= 20 && observeCondition == 1)
+        {
+            Debug.Log("관찰 컨디션 2단계로 갱신");
+            observeCondition = 2;
+        }
+
+        else if (workCount <10 && workCount >= 7 && genEnergyCount <100 &&genEnergyCount >= 40 && observeCondition == 2)
+        {
+            Debug.Log("관찰 컨디션 3단계로 갱신");
+            observeCondition = 3;
+        }
+
+        else if (workCount >= 10 && genEnergyCount >= 100 && observeCondition == 3)
+        {
+            Debug.Log("관찰 컨디션 4단계로 갱신");
+            observeCondition = 4;
+        }
+        else
+        {
+            Debug.Log("환상체 관찰조건 쪽 코드가 이상함");
+        }
+
         if (observeCondition >= observeProgress + 1)
         {
             return true;

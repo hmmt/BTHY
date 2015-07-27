@@ -134,6 +134,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             slotPanel.agentName.text = unit.name;
             slotPanel.agentHealth.text = HealthCheck(unit);
             slotPanel.agentMental.text = MentalCheck(unit);
+            slotPanel.agentLevel.text = ""+unit.level;
 
             AgentModel copied = unit;
 			slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));

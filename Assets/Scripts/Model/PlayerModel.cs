@@ -13,6 +13,9 @@ public class PlayerModel {
       
     private int day;
 
+    // 지금까지 등장한 환상체 인덱스 기록하는 배열
+    public List<int> inGameCreatureList= new List<int>();
+
     private static PlayerModel _instance;
     public static PlayerModel instance
     {
@@ -105,34 +108,32 @@ public class PlayerModel {
 
         if (added == "1")
         {
-            CreatureManager.instance.AddCreature(10001, "1002001", -8, -1);
-            /*
-            CreatureManager.instance.AddCreature(10002, "1003002", -16, -1);
-            CreatureManager.instance.AddCreature(10003, "1004101", 8, -1);
-            CreatureManager.instance.AddCreature(10004, "1004102", 17, -1);
-            CreatureManager.instance.AddCreature(10005, "1003111-left-1", -10, -9);
-            CreatureManager.instance.AddCreature(10006, "1003111-right-1", 10, -9);
-            */
+            CreatureManager.instance.AddCreature(RandomCreature(), "1002001", -8, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "1003002", -16, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "1004101", 8, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "1004102", 17, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "1003111-left-1", -10, -9, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "1003111-right-1", 10, -9, added);
         }
         else if (added == "2")
         {
             // Na??
-            CreatureManager.instance.AddCreature(20005, "N-way1-point2", -25, -4); // 마법소녀
-            CreatureManager.instance.AddCreature(20002, "N-way1-point3", -25, -14); // 보고 싶은 사신
-            CreatureManager.instance.AddCreature(20006, "N-way2-point1", -25, -26); // 없는 책
-            CreatureManager.instance.AddCreature(20004, "N-way2-point2", -25, -36); // 삐에로
+            CreatureManager.instance.AddCreature(RandomCreature(), "N-way1-point2", -25, -4, added); // 마법소녀
+            CreatureManager.instance.AddCreature(RandomCreature(), "N-way1-point3", -25, -14, added); // 보고 싶은 사신
+            CreatureManager.instance.AddCreature(RandomCreature(), "N-way2-point1", -25, -26, added); // 없는 책
+            CreatureManager.instance.AddCreature(RandomCreature(), "N-way2-point2", -25, -36, added); // 삐에로
         }
         else if (added == "3")
         {
-            CreatureManager.instance.AddCreature(20001, "H-way1-point2", 25, -4); // 남자 초상화
-            CreatureManager.instance.AddCreature(20003, "H-way1-point3", 25, -14); // 벽 여인
-            CreatureManager.instance.AddCreature(30002, "H-way2-point1", 25, -26); // 잭이 없는 콩나무
-            CreatureManager.instance.AddCreature(20003, "H-way2-point2", 25, -36); // (아무 것도 없는)
+            CreatureManager.instance.AddCreature(RandomCreature(), "H-way1-point2", 25, -4, added); // 남자 초상화
+            CreatureManager.instance.AddCreature(RandomCreature(), "H-way1-point3", 25, -14, added); // 벽 여인
+            CreatureManager.instance.AddCreature(RandomCreature(), "H-way2-point1", 25, -26, added); // 잭이 없는 콩나무
+            CreatureManager.instance.AddCreature(RandomCreature(), "H-way2-point2", 25, -36, added); // (아무 것도 없는)
         }
         else if (added == "4")
         {
-            CreatureManager.instance.AddCreature(30004, "tessod-left-point", -10, -26); // 테레지아
-            CreatureManager.instance.AddCreature(30001, "tessod-right-point", 10, -26); // 아무말 없는 수녀
+            CreatureManager.instance.AddCreature(RandomCreature(), "tessod-left-point", -10, -26, added); // 테레지아
+            CreatureManager.instance.AddCreature(RandomCreature(), "tessod-right-point", 10, -26, added); // 아무말 없는 수녀
 
 
             //CreatureManager.instance.AddCreature(20005, "tessod-down-point", -6, -35); // 마법소녀
@@ -163,5 +164,34 @@ public class PlayerModel {
         GameUtil.TryGetValue(dic, "day", ref day);
 
         UpdateAreaActive();
+    }
+
+    // 환상체 랜덤 인덱스 함수
+    public long RandomCreature()
+    {
+        int randomIndex = Random.Range(0, CreatureTypeList.instance.GetList().Length);
+
+        if (inGameCreatureList.Count == 0)
+        {
+             inGameCreatureList.Add(randomIndex);
+
+             return CreatureTypeList.instance.GetList()[randomIndex].id;
+        }
+
+        else
+        {
+            for (int i = 0; i < inGameCreatureList.Count; i++)
+            {
+                if (randomIndex == inGameCreatureList[i])
+                {
+                    randomIndex = Random.Range(0, CreatureTypeList.instance.GetList().Length);
+                    i = 0;
+                }
+            }
+
+            inGameCreatureList.Add(randomIndex);
+
+            return CreatureTypeList.instance.GetList()[randomIndex].id;
+        }
     }
 }

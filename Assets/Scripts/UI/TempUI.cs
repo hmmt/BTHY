@@ -24,4 +24,22 @@ public class TempUI : MonoBehaviour {
     {
         GameManager.currentGameManager.LoadData();
     }
+
+    public void Escape()
+    {
+        CreatureModel[] list = CreatureManager.instance.GetCreatureList();
+        List<CreatureModel> waitCreatures = new List<CreatureModel>();
+        foreach (CreatureModel c in list)
+        {
+            if (c.state == CreatureState.WAIT)
+            {
+                waitCreatures.Add(c);
+            }
+        }
+
+        if (waitCreatures.Count > 0)
+        {
+            waitCreatures[Random.Range(0, waitCreatures.Count)].Escape();
+        }
+    }
 }

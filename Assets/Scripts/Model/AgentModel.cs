@@ -212,9 +212,33 @@ public class AgentModel : IObserver
     public void applyTrait(TraitTypeInfo addTrait)
     {
         maxHp += addTrait.hp;
+        hp += addTrait.hp;
         maxMental += addTrait.mental;
+        mental += addTrait.mental;
         movement += addTrait.moveSpeed;
         work += addTrait.workSpeed;
+
+        if (maxHp <= 0)
+        {
+            maxHp = 1;
+            hp = 1;
+        }
+
+        if (maxMental <= 0)
+        {
+            maxMental = 1;
+            mental = 1;
+        }
+
+        if(movement <= 0)
+        {
+            movement = 1;
+        }
+
+        if(work <= 0)
+        {
+            work = 1;
+        }
     }
 
     private void ProcessAction()
