@@ -11,6 +11,8 @@ public class MapNode {
 	private List<MapEdge> edges;
 	private Vector2 pos;
 
+    public bool isTemporary = false;
+
     public bool activate
     {
         get { return _activate; }
@@ -34,6 +36,11 @@ public class MapNode {
 	{
 		edges.Add (edge);
 	}
+
+    public void RemoveEdge(MapEdge edge)
+    {
+        edges.Remove(edge);
+    }
 
 	public Vector2 GetPosition()
 	{

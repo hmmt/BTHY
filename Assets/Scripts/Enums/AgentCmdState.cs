@@ -12,6 +12,7 @@ using System;
 public enum AgentCmdState
 {
 	IDLE, // no command
-	WORKING // working command
+	WORKING, // working command
+    CAPTURE // 
 }
 

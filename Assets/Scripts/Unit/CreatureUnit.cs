@@ -10,11 +10,31 @@ public class CreatureUnit : MonoBehaviour {
 
    Vector2 oldScale;
 
-	private void UpdateViewPosition()
-	{
-		//transform.localPosition = GetCurrentViewPosition();
-        transform.localPosition = model.GetCurrentViewPosition();
-	}
+   private bool visible = true;
+
+   private void UpdateViewPosition()
+   {
+       MapEdge currentEdge = model.GetCurrentEdge();
+
+       if (currentEdge != null && currentEdge.type == "door")
+       {
+           if (visible)
+           {
+               visible = false;
+               Vector3 newPosition = model.GetCurrentViewPosition();
+               newPosition.z = 100000f;
+               transform.localPosition = newPosition;
+           }
+       }
+       else
+       {
+           if (!visible)
+           {
+               visible = true;
+           }
+           transform.localPosition = model.GetCurrentViewPosition();
+       }
+   }
 
 	void FixedUpdate()
 	{

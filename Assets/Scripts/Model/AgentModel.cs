@@ -5,7 +5,8 @@ using System.IO;
 
 
 // 직원 데이터
-public class AgentModel {
+public class AgentModel : IObserver
+{
 
     public int instanceId;
 
@@ -69,25 +70,17 @@ public class AgentModel {
     private PanicAction currentPanicAction;
 
     // path finding2
-    private MapNode currentNode;
-
-    private MapEdge currentEdge;
-    public float edgePosRate; // 0~1
-
-    public int edgeDirection; //?
-
-    //	private GraphPosition graphPosition;
-
-    private MapEdge[] pathList;
-    private int pathIndex;
+    MovableObjectNode movableNode;
 
     public AgentModel(int instanceId, string area)
     {
+        movableNode = new MovableObjectNode();
+
         traitList = new List<TraitTypeInfo>();
         this.instanceId = instanceId;
         //currentSefira = area;
         SetCurrentSefira(area);
-        currentNode = MapGraph.instance.GetSepiraNodeByRandom(area);
+        movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
     }
 
     private bool visible = true;
@@ -208,46 +201,13 @@ public class AgentModel {
         TryGetValue(dic, "currentSefira", ref currentSefira);
     }
 
-    // 현재 AgentUnit에서 호출됨
-    public void FixedUpdate()
+    // notice로 호출됨
+    public void OnFixedUpdate()
     {
         ProcessAction();
 
-        ProcessMoveNode();
+        movableNode.ProcessMoveNode(movement);
     }
-
-    public Vector2 GetCurrentViewPosition()
-    {
-        Vector2 output = new Vector2(0,0);
-
-        if (currentNode != null)
-        {
-            Vector2 pos = currentNode.GetPosition();
-            output.x = pos.x;
-            output.y = pos.y;
-        }
-        else if (currentEdge != null)
-        {
-            MapNode node1 = currentEdge.node1;
-            MapNode node2 = currentEdge.node2;
-            Vector2 pos1 = node1.GetPosition();
-            Vector2 pos2 = node2.GetPosition();
-
-            if (edgeDirection == 1)
-            {
-                output.x = Mathf.Lerp(pos1.x, pos2.x, edgePosRate);
-                output.y = Mathf.Lerp(pos1.y, pos2.y, edgePosRate);
-            }
-            else
-            {
-                output.x = Mathf.Lerp(pos1.x, pos2.x, 1 - edgePosRate);
-                output.y = Mathf.Lerp(pos1.y, pos2.y, 1 - edgePosRate);
-            }
-        }
-        return output;
-    }
-
-    // if map is destroyed....?
 
     public void applyTrait(TraitTypeInfo addTrait)
     {
@@ -268,81 +228,48 @@ public class AgentModel {
             if (waitTimer <= 0)
             {
 
-                MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
+                movableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
 
                 waitTimer = 1.5f + Random.value;
             }
         }
         else if (state == AgentCmdState.WORKING)
         {
-            if (pathList == null && currentNode != target.GetWorkspaceNode())
+            if (movableNode.GetCurrentEdge() == null && movableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
                 MoveToCreture(target);
             }
         }
         waitTimer -= Time.deltaTime;
     }
-    private void ProcessMoveNode()
+
+
+    public MovableObjectNode GetMovableNode()
     {
-        if (pathList != null)
-        {
-            if (currentNode != null)
-            {
-                if (pathIndex >= pathList.Length)
-                {
-                    pathList = null;
-                }
-                else
-                {
-
-                    currentEdge = pathList[pathIndex];
-                    if (currentEdge.node1 == currentNode)
-                    {
-                        edgeDirection = 1;
-                    }
-                    else
-                    {
-                        edgeDirection = 0;
-                    }
-                    currentNode = null;
-                }
-            }
-            else if (currentEdge != null)
-            {
-                edgePosRate += Time.deltaTime / currentEdge.cost * movement;
-
-                if (edgePosRate >= 1)
-                {
-                    if (edgeDirection == 1)
-                        currentNode = currentEdge.node2;
-                    else
-                        currentNode = currentEdge.node1;
-
-                    edgePosRate = 0;
-                    currentEdge = null;
-                    pathIndex++;
-                }
-            }
-        }
+        return movableNode;
     }
-
-
-
+    public Vector2 GetCurrentViewPosition()
+    {
+        return movableNode.GetCurrentViewPosition();
+    }
     // edge 위에 있을 때도 통합할 수 있는 타입 필요
     public MapNode GetCurrentNode()
     {
-        return currentNode;
+        return movableNode.GetCurrentNode();
     }
     public void SetCurrentNode(MapNode node)
     {
-        pathList = null;
-        currentNode = node;
-        currentEdge = null;
+        movableNode.SetCurrentNode(node);
     }
     public MapEdge GetCurrentEdge()
     {
-        return currentEdge;
+        return movableNode.GetCurrentEdge();
     }
+    public int GetEdgeDirection()
+    {
+        return movableNode.GetEdgeDirection();
+    }
+
     public AgentCmdState GetState()
     {
         return state;
@@ -352,50 +279,21 @@ public class AgentModel {
         SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
     }
 
-    public void MoveToNode(MapNode targetNode)
-    {
-        if (currentNode != null)
-        {
-            MapEdge[] searchedPath = GraphAstar.SearchPath(currentNode, targetNode);
-
-            pathList = searchedPath;
-            pathIndex = 0;
-        }
-        else if (currentEdge != null)
-        {
-            MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
-            MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
-            MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
-            tempNode.AddEdge(tempEdge1);
-            tempNode.AddEdge(tempEdge2);
-
-            MapEdge[] searchedPath = GraphAstar.SearchPath(tempNode, targetNode);
-
-            pathList = searchedPath;
-            pathIndex = 0;
-            if (searchedPath.Length > 0)
-            {
-                currentEdge = searchedPath[0];
-                edgePosRate = 0;
-                edgeDirection = 1;
-            }
-        }
-        else
-        {
-            Debug.Log("Current State invalid");
-        }
-    }
-
     public void MoveToNode(string targetNodeId)
     {
-        MoveToNode(MapGraph.instance.GetNodeById(targetNodeId));
+        movableNode.MoveToNode(MapGraph.instance.GetNodeById(targetNodeId));
     }
 
     public void MoveToCreture(CreatureModel target)
     {
         //MoveToGlobalPos ((Vector2)target.transform.position);
         //MoveToNode(target.GetNode());
-        MoveToNode(target.GetWorkspaceNode());
+        movableNode.MoveToNode(target.GetWorkspaceNode());
+    }
+    public void Attacked()
+    {
+        state = AgentCmdState.CAPTURE;
+        movableNode.StopMoving();
     }
     public void Working(CreatureModel target)
     {
@@ -408,15 +306,6 @@ public class AgentModel {
         state = AgentCmdState.IDLE;
         this.target = null;
     }
-    void MoveOnPath(MapEdge[] path)
-    {
-        if (path.Length == 0)
-            return;
-
-        pathList = path;
-        pathIndex = 0;
-    }
-
     public void TakePhysicalDamage(int damage)
     {
         Debug.Log(name + " takes PHYSICAL dmg " + damage);
@@ -479,5 +368,13 @@ public class AgentModel {
 
         // temp?
         AgentManager.instance.RemoveAgent(this);
+    }
+
+    public void OnNotice(string notice, params object[] param)
+    {
+        if (notice == NoticeName.FixedUpdate)
+        {
+            OnFixedUpdate();
+        }
     }
 }

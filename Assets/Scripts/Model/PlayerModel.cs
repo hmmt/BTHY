@@ -82,6 +82,10 @@ public class PlayerModel {
         return day;
     }
 
+    public string[] GetOpenedAreaList()
+    {
+        return openedAreaList.ToArray();
+    }
     public long[] GetAvailableAgentList()
     {
         return openedAgentList.ToArray();
@@ -102,11 +106,13 @@ public class PlayerModel {
         if (added == "1")
         {
             CreatureManager.instance.AddCreature(10001, "1002001", -8, -1);
+            /*
             CreatureManager.instance.AddCreature(10002, "1003002", -16, -1);
             CreatureManager.instance.AddCreature(10003, "1004101", 8, -1);
             CreatureManager.instance.AddCreature(10004, "1004102", 17, -1);
             CreatureManager.instance.AddCreature(10005, "1003111-left-1", -10, -9);
             CreatureManager.instance.AddCreature(10006, "1003111-right-1", 10, -9);
+            */
         }
         else if (added == "2")
         {
@@ -152,7 +158,6 @@ public class PlayerModel {
         GameUtil.TryGetValue(dic, "areaList", ref openedAreaListImp);
         foreach (string area in openedAreaListImp)
         {
-            Debug.Log("test!!!");
             openedAreaList.Add(area);
         }
         GameUtil.TryGetValue(dic, "day", ref day);

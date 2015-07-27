@@ -105,6 +105,8 @@ public class AgentManager {
         Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
         unit.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
         */
+
+        Notice.instance.Observe(NoticeName.FixedUpdate, unit);
         agentList.Add(unit);
 
         Notice.instance.Send(NoticeName.AddAgent, unit);
@@ -114,8 +116,21 @@ public class AgentManager {
 
     public void RemoveAgent(AgentModel model)
     {
+        Notice.instance.Remove(NoticeName.FixedUpdate, model);
         agentList.Remove(model);
         Notice.instance.Send(NoticeName.RemoveAgent, model);
+    }
+
+    public void ClearAgent()
+    {
+        foreach (AgentModel model in agentList)
+        {
+            Notice.instance.Remove(NoticeName.FixedUpdate, model);
+            Notice.instance.Send(NoticeName.RemoveAgent, model);
+        }
+        AgentLayer.currentLayer.ClearAgent();
+
+        agentList = new List<AgentModel>();
     }
 	
     public AgentModel[] GetAgentList()
@@ -184,9 +199,6 @@ public class AgentManager {
     }
     public void LoadData(Dictionary<string, object> dic)
     {
-        AgentLayer.currentLayer.ClearAgent();
-
-        agentList = new List<AgentModel>();
         TryGetValue(dic, "nextInstId", ref nextInstId);
 
         List<Dictionary<string, object>> agentDataList = new List<Dictionary<string,object>>();
@@ -207,5 +219,18 @@ public class AgentManager {
 
             Notice.instance.Send(NoticeName.AddAgent, model);
         }
+    }
+
+    public AgentModel[] GetNearAgents(MovableObjectNode node)
+    {
+        List<AgentModel> output = new List<AgentModel>();
+        foreach (AgentModel agent in agentList)
+        {
+            if (node.CheckInRange(agent.GetMovableNode()))
+            {
+                output.Add(agent);
+            }
+        }
+        return output.ToArray();
     }
 }

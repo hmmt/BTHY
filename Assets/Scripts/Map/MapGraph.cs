@@ -38,9 +38,13 @@ public class MapGraph
         return output;
     }
 
-    public string GetRandomRestPoint()
+    //
+    public MapNode GetCreatureRoamingPoint()
     {
-        return Random.Range(1001001, 1001003).ToString();
+        string[] arr = PlayerModel.instance.GetOpenedAreaList();
+
+        string selectedSefira = arr[Random.Range(0, arr.Length)];
+        return GetSepiraNodeByRandom(selectedSefira);
     }
 
     public MapNode GetSepiraNodeByRandom(string area)
@@ -62,11 +66,6 @@ public class MapGraph
         }
 
         return new MapNode[]{ };
-    }
-
-    public int GetRandomPanicRoamingPoint()
-    {
-        return 100;
     }
 
     public void ActivateArea(string name)

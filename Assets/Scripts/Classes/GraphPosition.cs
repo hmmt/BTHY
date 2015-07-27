@@ -21,7 +21,7 @@ public class GraphPosition{
 		this.edgePosRate = rate;
 	}
 
-	private bool GetCurrentViewPosition(out Vector2 output)
+	public bool GetCurrentViewPosition(out Vector2 output)
 	{
 		output = new Vector2();
 		if(currentNode != null)
