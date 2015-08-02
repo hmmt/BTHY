@@ -126,4 +126,91 @@ public class GraphAstar {
 		
 		return new MapEdge[]{};
 	}
+
+    /*
+     * 
+     * 두 노드의 거리를 구한다.
+     * 
+     */
+    public static float Distance(MapNode startPoint, MapNode endPoint, float limit)
+    {
+        PriorityQueue<PathScore> opendset = new PriorityQueue<PathScore>();
+        HashSet<MapNode> closedset = new HashSet<MapNode>();
+
+        Dictionary<MapNode, SearchInfo> dic = new Dictionary<MapNode, SearchInfo>();
+
+        PathScore cur = new PathScore(startPoint);
+        cur.cost = 0;
+        cur.h = 0;
+
+        opendset.Enqueue(cur);
+
+        while (true)
+        {
+            if (opendset.Count() <= 0)
+                break;
+            cur = opendset.Dequeue();
+
+            if (cur.node == endPoint)
+            {
+                float distance = 0;
+                MapNode pathNode = cur.node;
+
+                while (true)
+                {
+                    SearchInfo value = null;
+                    if (!dic.TryGetValue(pathNode, out value))
+                    {
+                        break;
+                    }
+                    MapEdge edge = value.edge;
+                    pathNode = edge.ConnectedNode(pathNode);
+                    distance += edge.cost;
+                }
+                return distance;
+            }
+
+            // Debug.Log("visit : ["+cur.x+", "+cur.y+"]");
+            //Debug.Log("visit : ["+cur.node.GetId()+"]");
+
+            closedset.Add(cur.node);
+
+            foreach (MapEdge edge in cur.node.GetEdges())
+            {
+                MapNode nextNode = edge.ConnectedNode(cur.node);
+                if (nextNode == null)
+                    continue;
+                if (closedset.Contains(nextNode))
+                {
+                    continue;
+                }
+                //Debug.Log("visit : ["+nextNode.GetId()+"]");
+                PathScore newPoint = new PathScore(nextNode);
+                newPoint.cost = cur.cost + edge.cost;
+                newPoint.h = ComputeHeuristic(nextNode.GetPosition(), endPoint.GetPosition());
+
+                SearchInfo oldInfo = null;
+                bool findNode = dic.TryGetValue(nextNode, out oldInfo);
+
+                if (!findNode || oldInfo.cost > newPoint.cost)
+                {
+                    if (newPoint.cost > limit)
+                    {
+                        continue;
+                    }
+                    opendset.Enqueue(newPoint);
+
+                    if (!findNode)
+                        dic.Add(nextNode, new SearchInfo(newPoint.cost, edge));
+                    else
+                    {
+                        oldInfo.cost = newPoint.cost;
+                        oldInfo.edge = edge;
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
 }

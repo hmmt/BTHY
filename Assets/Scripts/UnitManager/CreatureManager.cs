@@ -54,7 +54,7 @@ public class CreatureManager {
     {
         creatureList.Add(model);
 
-        Notice.instance.Remove(NoticeName.FixedUpdate, model);
+        Notice.instance.Observe(NoticeName.FixedUpdate, model);
         Notice.instance.Observe(NoticeName.CreatureFeelingUpdateTimer, model);
         Notice.instance.Send(NoticeName.AddCreature, model);
     }
@@ -95,7 +95,8 @@ public class CreatureManager {
             }
             else if (typeNode != null && typeNode.InnerText == "creature")
             {
-                model.SetNode(newNode);
+                model.SetRoomNode(newNode);
+                model.SetCurrentNode(newNode);
             }
             else if (typeNode != null && typeNode.InnerText == "entry")
             {
@@ -164,6 +165,18 @@ public class CreatureManager {
         return false;
     }
 
+    public void ClearCreatue()
+    {
+        foreach (CreatureModel model in creatureList)
+        {
+            Notice.instance.Remove(NoticeName.FixedUpdate, model);
+            Notice.instance.Remove(NoticeName.CreatureFeelingUpdateTimer, model);
+        }
+        CreatureLayer.currentLayer.ClearAgent();
+
+        creatureList = new List<CreatureModel>();
+    }
+
     public Dictionary<string, object> GetSaveData()
     {
         Dictionary<string, object> dic = new Dictionary<string, object>();
@@ -185,9 +198,8 @@ public class CreatureManager {
 
     public void LoadData(Dictionary<string, object> dic)
     {
-        CreatureLayer.currentLayer.ClearAgent();
+        ClearCreatue();
 
-        creatureList = new List<CreatureModel>();
         TryGetValue(dic, "nextInstId", ref nextInstId);
 
         List<Dictionary<string, object>> agentDataList = new List<Dictionary<string, object>>();

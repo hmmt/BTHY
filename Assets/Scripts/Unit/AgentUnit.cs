@@ -37,7 +37,7 @@ public class AgentUnit : MonoBehaviour {
 	private void UpdateDirection()
 	{
         MapEdge currentEdge = model.GetCurrentEdge();
-        int edgeDirection = model.edgeDirection;
+        int edgeDirection = model.GetEdgeDirection();
 
 		if(currentEdge != null)
 		{
@@ -78,7 +78,6 @@ public class AgentUnit : MonoBehaviour {
 	}
 
 	private bool visible = true;
-	private float oldZ;
 
 	private void UpdateViewPosition()
 	{
@@ -89,10 +88,9 @@ public class AgentUnit : MonoBehaviour {
 			if(visible)
 			{
 				visible = false;
-				Vector3 oldViewPosition = transform.localPosition;
-				oldZ = oldViewPosition.z;
-				oldViewPosition.z = 100000f;
-				transform.localPosition = oldViewPosition;
+                Vector3 newPosition = model.GetCurrentViewPosition();
+                newPosition.z = 100000f;
+                transform.localPosition = newPosition;
 			}
 		}
 		else
@@ -100,9 +98,6 @@ public class AgentUnit : MonoBehaviour {
 			if(!visible)
 			{
 				visible = true;
-				Vector3 oldViewPosition = transform.localPosition;
-				oldViewPosition.z = oldZ;
-				transform.localPosition = oldViewPosition;	
 			}
 			transform.localPosition = model.GetCurrentViewPosition();
 		}
@@ -117,8 +112,6 @@ public class AgentUnit : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-        model.FixedUpdate();
-
         if (oldSefira != model.currentSefira)
         {
 

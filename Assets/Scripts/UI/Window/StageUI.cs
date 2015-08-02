@@ -117,10 +117,20 @@ public class StageUI : MonoBehaviour, IObserver {
 
             long selected = idList[Random.Range(0, idList.Length)];
 
+            AgentModel newAgent = AgentManager.instance.BuyAgent(selected);
+
+            if (SefiraAgentSlot.instance.MalkuthAgentList.Count <= 5)
+            {
+                SefiraAgentSlot.instance.MalkuthAgentList.Add(newAgent);
+            }
+
+            else if (SefiraAgentSlot.instance.MalkuthAgentList.Count > 5 )
+
             AgentManager.instance.BuyAgent(selected);
 
             StartStageUI.instance.ShowAgentCount();
             ShowAgentList();
+            SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
         }
         else
             Debug.Log("에너지가 모자라거나 고용가능 직원수가 다찼어");
@@ -252,6 +262,7 @@ public class StageUI : MonoBehaviour, IObserver {
             if (!agentExist)
             {
                 SefiraAgentSlot.instance.MalkuthAgentList.Add(unit);
+                unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
                 unit.SetCurrentSefira("1");
             }
             else
@@ -271,6 +282,7 @@ public class StageUI : MonoBehaviour, IObserver {
             if (!agentExist)
             {
                 SefiraAgentSlot.instance.NezzachAgentList.Add(unit);
+                unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("2"));
                 unit.SetCurrentSefira("2");
             }
             else
@@ -289,6 +301,7 @@ public class StageUI : MonoBehaviour, IObserver {
             if (!agentExist)
             {
                 SefiraAgentSlot.instance.HodAgentList.Add(unit);
+                unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("3"));
                 unit.SetCurrentSefira("3");
             }
             else
@@ -307,6 +320,7 @@ public class StageUI : MonoBehaviour, IObserver {
             if (!agentExist)
             {
                 SefiraAgentSlot.instance.YesodAgentList.Add(unit);
+                unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
                 unit.SetCurrentSefira("4");
             }
             else

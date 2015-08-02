@@ -85,6 +85,10 @@ public class PlayerModel {
         return day;
     }
 
+    public string[] GetOpenedAreaList()
+    {
+        return openedAreaList.ToArray();
+    }
     public long[] GetAvailableAgentList()
     {
         return openedAgentList.ToArray();
@@ -132,8 +136,8 @@ public class PlayerModel {
             CreatureManager.instance.AddCreature(RandomCreature(), "tessod-right-point", 10, -26, added); // 아무말 없는 수녀
 
 
-            //CreatureManager.instance.AddCreature(20005, "tessod-down-point", -6, -35); // 마법소녀
-            //CreatureManager.instance.AddCreature(20005, "tessod-down-point", 6, -35); // 마법소녀
+            CreatureManager.instance.AddCreature(RandomCreature(), "tessod-down-point", -6, -35, added); // 마법소녀
+            CreatureManager.instance.AddCreature(RandomCreature(), "tessod-down-point", 6, -35, added); // 마법소녀
         }
 
         //Notice.instance.Send(NoticeName.AreaOpenUpdate, added);
@@ -155,7 +159,6 @@ public class PlayerModel {
         GameUtil.TryGetValue(dic, "areaList", ref openedAreaListImp);
         foreach (string area in openedAreaListImp)
         {
-            Debug.Log("test!!!");
             openedAreaList.Add(area);
         }
         GameUtil.TryGetValue(dic, "day", ref day);

@@ -159,6 +159,7 @@
 			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
 			<node id="door"  x="2" y="-1" type="entry"/>
 			<edge node1="workspace" node2="door" type="road" />
+			<edge node1="creature" node2="workspace" type="road" />
 		</graph>
 	</info>
 </creature>

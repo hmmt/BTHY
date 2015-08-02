@@ -5,8 +5,15 @@ using System.IO;
 using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
 
+public enum GameState
+{
+    PLAYING,
+    PAUSE
+}
+
 public class GameManager : MonoBehaviour {
 
+    private string saveFileName;
     private static GameManager _currentGameManager;
 
 	private CurrentUIState currentUIState;
@@ -15,6 +22,7 @@ public class GameManager : MonoBehaviour {
     public StageUI stageUI;
 
     public BriefingInfo briefingText;
+    public GameState state;
 
     public static GameManager currentGameManager
     {
@@ -23,6 +31,9 @@ public class GameManager : MonoBehaviour {
 
 	void Awake()
 	{
+        state = GameState.PAUSE;
+
+        saveFileName = Application.persistentDataPath + "/saveData1.txt";
 
 		Screen.fullScreen = true;
         _currentGameManager = this;
@@ -60,6 +71,7 @@ public class GameManager : MonoBehaviour {
 	// start managing isolate
 	public void StartGame()
 	{
+        state = GameState.PLAYING;
         briefingText.SetNarrationByDay();
 
 		currentUIState = CurrentUIState.DEFAULT;
@@ -74,12 +86,21 @@ public class GameManager : MonoBehaviour {
 
 	public void EndGame()
 	{
+        state = GameState.PAUSE;
         Debug.Log("EndGame");
         EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy()+EnergyModel.instance.GetStageLeftEnergy());
 
         GetComponent<RootTimer> ().RemoveTimer ("EnergyTimer");
         GetComponent<RootTimer>().RemoveTimer("CreatureFeelingUpdateTimer");
 	}
+
+    void FixedUpdate()
+    {
+        if (state == GameState.PLAYING)
+        {
+            Notice.instance.Send(NoticeName.FixedUpdate);
+        }
+    }
 
     public void TimeOver()
     {
@@ -132,15 +153,20 @@ public class GameManager : MonoBehaviour {
         dic.Add("playerData", PlayerModel.instance.GetSaveData());
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/saveData1.txt");
+        FileStream file = File.Create(saveFileName);
         bf.Serialize(file, dic);
         file.Close();
     }
 
     public void LoadData()
     {
+        if (File.Exists(saveFileName) == false)
+        {
+            Debug.Log("save file don't exists");
+            return;
+        }
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file =  File.Open(Application.persistentDataPath + "/saveData1.txt", FileMode.Open);
+        FileStream file = File.Open(saveFileName, FileMode.Open);
         Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(file);
         file.Close();
 

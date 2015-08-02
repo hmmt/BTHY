@@ -11,6 +11,10 @@ public class MapEdge {
 
 	public bool activated;
 
+    // temp edge
+    public bool isTemporary = false;
+    public MapEdge baseEdge = null;
+
 	public MapEdge(MapNode node1, MapNode node2, string type)
 	{
 		this.node1 = node1;

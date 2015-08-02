@@ -51,19 +51,11 @@ public class CreatureModel : IObserver
 
     public CreatureState state = CreatureState.WAIT;
 
+    public float escapeAttackWait = 0;
+
     public CreatureBase script;
 
     public SkillTypeInfo specialSkill; // 이 환상체를 대상으로 할 수 있는 특수스킬
-
-    // path finding2
-    private MapNode currentNode;
-
-    private MapEdge currentEdge;
-    private int edgeDirection;
-    private float edgePosRate; // 0~1
-
-    private MapEdge[] pathList;
-    private int pathIndex;
 
 
     // 관찰관련 조건 변수 추가
@@ -77,6 +69,9 @@ public class CreatureModel : IObserver
 
     // graph
     private MapNode workspaceNode;
+
+    private MapNode roomNode;
+    MovableObjectNode movableNode;
 
     public Dictionary<string, object> GetSaveData()
     {
@@ -95,16 +90,6 @@ public class CreatureModel : IObserver
 
         return output;
     }
-    private static bool TryGetValue<T>(Dictionary<string, object> dic, string name, ref T field)
-    {
-        object output;
-        if (dic.TryGetValue(name, out output))
-        {
-            field = (T)output;
-            return true;
-        }
-        return false;
-    }
 
     /**
      * 환상체 데이터를 dictionary로부터 로드합니다.
@@ -113,20 +98,22 @@ public class CreatureModel : IObserver
      */
     public void LoadData(Dictionary<string, object> dic)
     {
-        TryGetValue(dic, "instanceId", ref instanceId);
+        GameUtil.TryGetValue(dic, "instanceId", ref instanceId);
 
-        TryGetValue(dic, "metadataId", ref metadataId);
-        TryGetValue(dic, "baseNodeId", ref baseNodeId);
+        GameUtil.TryGetValue(dic, "metadataId", ref metadataId);
+        GameUtil.TryGetValue(dic, "baseNodeId", ref baseNodeId);
 
-        TryGetValue(dic, "observeProgress", ref observeProgress);
+        GameUtil.TryGetValue(dic, "observeProgress", ref observeProgress);
 
         Vector2Serializer v2 = new Vector2Serializer();
-        TryGetValue(dic, "basePosition", ref v2);
+        GameUtil.TryGetValue(dic, "basePosition", ref v2);
         position = basePosition = v2.V2;
     }
 
     public CreatureModel(int instanceId)
     {
+        movableNode = new MovableObjectNode();
+
         this.instanceId = instanceId;
         narrationList = new List<string>();
     }
@@ -140,48 +127,29 @@ public class CreatureModel : IObserver
         return energyDummy + energyDummy * 0.6f * ((float)(observeProgress)/ 5);
     }
 
-    public Vector2 GetCurrentViewPosition()
-    {
-        Vector2 output = new Vector2();
-        if (currentNode != null)
-        {
-            Vector2 pos = currentNode.GetPosition();
-            output.x = pos.x;
-            output.y = pos.y;
-        }
-        else if (currentEdge != null)
-        {
-            MapNode node1 = currentEdge.node1;
-            MapNode node2 = currentEdge.node2;
-            Vector2 pos1 = node1.GetPosition();
-            Vector2 pos2 = node2.GetPosition();
-
-            if (edgeDirection == 1)
-            {
-                output.x = Mathf.Lerp(pos1.x, pos2.x, edgePosRate);
-                output.y = Mathf.Lerp(pos1.y, pos2.y, edgePosRate);
-            }
-            else
-            {
-                output.x = Mathf.Lerp(pos1.x, pos2.x, 1 - edgePosRate);
-                output.y = Mathf.Lerp(pos1.y, pos2.y, 1 - edgePosRate);
-            }
-        }
-        return output;
-    }
-
     private static int counter = 0;
 
-
-
-    public void SetNode(MapNode node)
+    public Vector2 GetCurrentViewPosition()
     {
-        currentNode = node;
+        return movableNode.GetCurrentViewPosition();
     }
 
-    public MapNode GetNode()
+    public void SetRoomNode(MapNode node)
     {
-        return currentNode;
+        roomNode = node;
+    }
+
+    public void SetCurrentNode(MapNode node)
+    {
+        movableNode.SetCurrentNode(node);
+    }
+    public MapNode GetCurrentNode()
+    {
+        return movableNode.GetCurrentNode();
+    }
+    public MapEdge GetCurrentEdge()
+    {
+        return movableNode.GetCurrentEdge();
     }
 
     public void SetWorkspaceNode(MapNode node)
@@ -206,9 +174,50 @@ public class CreatureModel : IObserver
 
     public void OnFixedUpdate()
     {
+        if (escapeAttackWait > 0)
+        {
+            escapeAttackWait -= Time.deltaTime;
+        }
         if (script != null)
         {
             script.OnFixedUpdate(this);
+        }
+
+        if (state == CreatureState.ESCAPE_RETURN)
+        {
+            if (movableNode.GetCurrentNode() == workspaceNode)
+            {
+                state = CreatureState.WAIT;
+            }
+            else
+            {
+                movableNode.MoveToNode(workspaceNode);
+            }
+        }
+        else if (state == CreatureState.ESCAPE)
+        {
+            OnEscapeUpdate();
+        }
+        movableNode.ProcessMoveNode(4);
+    }
+
+    public void OnEscapeUpdate()
+    {
+        if (escapeAttackWait > 0)
+            return;
+        if (movableNode.IsMoving() == false)
+        {
+            movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+        }
+        else
+        {
+            AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
+
+            if (detectedAgents.Length > 0)
+            {
+                movableNode.StopMoving();
+                AttackAgent.Create(detectedAgents[0], this);
+            }
         }
     }
 
@@ -286,6 +295,12 @@ public class CreatureModel : IObserver
         Notice.instance.Send("UpdateCreatureState_" + instanceId);
     }
 
+    public void StopEscapeAttack()
+    {
+        state = CreatureState.ESCAPE;
+        escapeAttackWait = 2;
+    }
+
     public bool GetPreferSkillBonus(string type, out float bonus)
     {
         foreach (SkillBonusInfo info in metaInfo.preferList)
@@ -329,6 +344,11 @@ public class CreatureModel : IObserver
     public string GetArea()
     {
         return workspaceNode.GetAreaName();
+    }
+
+    public void Escape()
+    {
+        state = CreatureState.ESCAPE;
     }
 
     public string GetObserveText()
