@@ -51,6 +51,25 @@ public class TraitTypeList
         return null;
     }
 
+    public TraitTypeInfo GetRandomLevelWorkTrait(int level)
+    {
+        int i = 0;
+
+        i = Random.Range(0, _list.Count);
+
+        if (_list[i].randomFlag != 1 && _list[i].traitFlag != 1 && _list[i].level != level)
+        {
+            while (true)
+            {
+                i = Random.Range(0, _list.Count);
+                if (_list[i].randomFlag == 1 && _list[i].traitFlag == 1 && _list[i].level == level)
+                    return _list[i];
+            }
+        }
+        return _list[i];
+
+    }
+
     public TraitTypeInfo GetRandomInitTrait()
     {
         int i = 0;

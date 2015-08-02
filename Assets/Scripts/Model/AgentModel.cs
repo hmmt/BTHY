@@ -39,6 +39,10 @@ public class AgentModel {
     public string reject;
     public int rejectBonus;
 
+    public int directBonus;
+    public int inDirectBonus;
+    public int blockBonus;
+
     public SkillTypeInfo directSkill;
     public SkillTypeInfo indirectSkill;
     public SkillTypeInfo blockSkill;
@@ -257,6 +261,10 @@ public class AgentModel {
         mental += addTrait.mental;
         movement += addTrait.moveSpeed;
         work += addTrait.workSpeed;
+
+        directBonus += (int)addTrait.directWork;
+        inDirectBonus += (int)addTrait.inDirectWork;
+        blockBonus += (int)addTrait.blockWork;
 
         if (maxHp <= 0)
         {

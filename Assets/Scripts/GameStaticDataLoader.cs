@@ -48,6 +48,12 @@ public class GameStaticDataLoader {
             model.moveSpeed = int.Parse(node.Attributes.GetNamedItem("moveSpeed").InnerText);
             model.workSpeed = int.Parse(node.Attributes.GetNamedItem("workSpeed").InnerText);
 
+            model.directWork = float.Parse(node.Attributes.GetNamedItem("directWork").InnerText);
+            model.inDirectWork = float.Parse(node.Attributes.GetNamedItem("inDirectWork").InnerText);
+            model.blockWork = float.Parse(node.Attributes.GetNamedItem("blockWork").InnerText);
+
+            model.traitFlag = int.Parse(node.Attributes.GetNamedItem("traitFlag").InnerText);
+
             model.description = node.Attributes.GetNamedItem("description").InnerText;
 
             traitTypeList.Add(model);

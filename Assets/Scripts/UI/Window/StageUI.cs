@@ -31,10 +31,13 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public Transform agentScrollTarget;
 
-
     private Dictionary<string, AreaButton> areaBtnDic;
     private bool opened;
     private UIType currentType;
+
+    public string currentSefriaUi = "1";
+    public UnityEngine.UI.Button openSefria;
+    public GameObject agentSlot;
 
     void Awake()
     {
@@ -67,7 +70,7 @@ public class StageUI : MonoBehaviour, IObserver {
             AreaButton btn = v.Value;
             UpdateButton(btn);
         }
-
+        agentSlot.gameObject.SetActive(false);
         ShowAgentList();
     }
 
@@ -83,11 +86,15 @@ public class StageUI : MonoBehaviour, IObserver {
             return;
         }
 
-        UpdateButton(btn);
+        //UpdateButton(btn);
     }
 
     private void UpdateButton(AreaButton btn)
     {
+
+        btn.on.gameObject.SetActive(true);
+        btn.off.gameObject.SetActive(false);
+        /*
         if (PlayerModel.instance.IsOpenedArea(btn.name))
         {
             btn.on.gameObject.SetActive(false);
@@ -97,12 +104,12 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             btn.on.gameObject.SetActive(true);
             btn.off.gameObject.SetActive(false);
-        }
+        }*/
     }
 
     public void OnClickAddAgent()
     {
-        if (EnergyModel.instance.GetLeftEnergy() >= agentCost)
+        if (EnergyModel.instance.GetLeftEnergy() >= agentCost && AgentManager.instance.agentCount >= AgentManager.instance.GetAgentList().Length)
         {
             EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - agentCost);
 
@@ -112,10 +119,11 @@ public class StageUI : MonoBehaviour, IObserver {
 
             AgentManager.instance.BuyAgent(selected);
 
+            StartStageUI.instance.ShowAgentCount();
             ShowAgentList();
         }
         else
-            Debug.Log("에너지가 모자라");
+            Debug.Log("에너지가 모자라거나 고용가능 직원수가 다찼어");
     }
 
     public void ShowAgentList()
@@ -141,9 +149,25 @@ public class StageUI : MonoBehaviour, IObserver {
             AgentModel copied = unit;
             ShowPromotionButton(copied, slotPanel.promotion);
 
+            slotPanel.addSefira.gameObject.SetActive(false);
+
+            if (copied.currentSefira != currentSefriaUi)
+                slotPanel.addSefira.gameObject.SetActive(true);
+
+            slotPanel.addSefira.onClick.AddListener(() => SetAgentSefriaButton(copied));
+
             slotPanel.nameText.text = unit.name;
             slotPanel.HPText.text = "HP : " + unit.hp + "/" + unit.maxHp;
             slotPanel.agentLevel.text = "직원등급 : "+unit.level;
+
+            if (copied.currentSefira == "1")
+                slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Malkuth_Ico");
+            else if(copied.currentSefira == "2")
+                slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Netzzach_Icon");
+            else if(copied.currentSefira == "3")
+                slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Hod_Icon");
+            else if(copied.currentSefira == "4")
+                slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Yesod_Icon");
 
             Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
             slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
@@ -155,20 +179,178 @@ public class StageUI : MonoBehaviour, IObserver {
         Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
         scrollRectSize.y = -posy + 100f;
         agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
+
+        StartStageUI.instance.ShowAgentCount();
     }
 
-    public void OnClickBuyArea(string areaName)
+    public void CancelSefiraAgent(AgentModel unit)
     {
-        if (EnergyModel.instance.GetLeftEnergy() >=areaCost)
+        if (unit.currentSefira.Equals("1"))
         {
-            EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - areaCost);
-            PlayerModel.instance.OpenArea(areaName);
+            for (int i = 0; i < SefiraAgentSlot.instance.MalkuthAgentList.Count; i++)
+            {
+                if (unit.instanceId == SefiraAgentSlot.instance.MalkuthAgentList[i].instanceId)
+                {
+                    SefiraAgentSlot.instance.MalkuthAgentList.RemoveAt(i);
+                    break;
+                }
+            }
         }
-        else
-            Debug.Log("에너지가 모자라");
-        //MapGraph.instance.
 
+        else if (unit.currentSefira.Equals("2"))
+        {
+            for (int i = 0; i < SefiraAgentSlot.instance.NezzachAgentList.Count; i++)
+            {
+                if (unit.instanceId == SefiraAgentSlot.instance.NezzachAgentList[i].instanceId)
+                {
+                    SefiraAgentSlot.instance.NezzachAgentList.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        else if (unit.currentSefira.Equals("3"))
+        {
+            for (int i = 0; i < SefiraAgentSlot.instance.HodAgentList.Count; i++)
+            {
+                if (unit.instanceId == SefiraAgentSlot.instance.HodAgentList[i].instanceId)
+                {
+                    SefiraAgentSlot.instance.HodAgentList.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        else if (unit.currentSefira.Equals("4"))
+        {
+            for (int i = 0; i < SefiraAgentSlot.instance.YesodAgentList.Count; i++)
+            {
+                if (unit.instanceId == SefiraAgentSlot.instance.YesodAgentList[i].instanceId)
+                {
+                    SefiraAgentSlot.instance.YesodAgentList.RemoveAt(i);
+                    break;
+                }
+            }
+        }
     }
+
+    public void SetAgentSefriaButton(AgentModel unit)
+    {      
+        bool agentExist = false;
+
+        CancelSefiraAgent(unit);
+
+        if(currentSefriaUi == "1")
+        {
+            for (int i = 0; i < SefiraAgentSlot.instance.MalkuthAgentList.Count; i++)
+            {
+                if (unit.instanceId == SefiraAgentSlot.instance.MalkuthAgentList[i].instanceId)
+                {
+                    agentExist = true;
+                }
+            }
+            if (!agentExist)
+            {
+                SefiraAgentSlot.instance.MalkuthAgentList.Add(unit);
+                unit.SetCurrentSefira("1");
+            }
+            else
+                Debug.Log("이미 추가한 직원");
+                
+        }
+
+        else if (currentSefriaUi == "2" && PlayerModel.instance.IsOpenedArea("2"))
+        {
+            for (int i = 0; i < SefiraAgentSlot.instance.NezzachAgentList.Count; i++)
+            {
+                if (unit.instanceId == SefiraAgentSlot.instance.NezzachAgentList[i].instanceId)
+                {
+                    agentExist = true;
+                }
+            }
+            if (!agentExist)
+            {
+                SefiraAgentSlot.instance.NezzachAgentList.Add(unit);
+                unit.SetCurrentSefira("2");
+            }
+            else
+                Debug.Log("이미 추가한 직원");
+        }
+
+        else if (currentSefriaUi == "3" && PlayerModel.instance.IsOpenedArea("3"))
+        {
+            for (int i = 0; i < SefiraAgentSlot.instance.HodAgentList.Count; i++)
+            {
+                if (unit.instanceId == SefiraAgentSlot.instance.HodAgentList[i].instanceId)
+                {
+                    agentExist = true;
+                }
+            }
+            if (!agentExist)
+            {
+                SefiraAgentSlot.instance.HodAgentList.Add(unit);
+                unit.SetCurrentSefira("3");
+            }
+            else
+                Debug.Log("이미 추가한 직원");
+        }
+
+        else if (currentSefriaUi == "4" && PlayerModel.instance.IsOpenedArea("4"))
+        {
+            for (int i = 0; i < SefiraAgentSlot.instance.YesodAgentList.Count; i++)
+            {
+                if (unit.instanceId == SefiraAgentSlot.instance.YesodAgentList[i].instanceId)
+                {
+                    agentExist = true;
+                }
+            }
+            if (!agentExist)
+            {
+                SefiraAgentSlot.instance.YesodAgentList.Add(unit);
+                unit.SetCurrentSefira("4");
+            }
+            else
+                Debug.Log("이미 추가한 직원");
+        }
+        SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
+        ShowAgentList();
+   }
+
+    public void SetCurrentSefria(string areaName)
+    {
+        currentSefriaUi = areaName;
+        SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
+        ShowAgentList();
+
+        if (PlayerModel.instance.IsOpenedArea(currentSefriaUi))
+        {
+            agentSlot.gameObject.SetActive(true);
+            openSefria.gameObject.SetActive(false);
+        }
+         else
+        {
+            openSefria.gameObject.SetActive(true);
+            agentSlot.gameObject.SetActive(false);
+        }
+    }
+
+    public void OnClickBuyArea()
+    {
+            if (EnergyModel.instance.GetLeftEnergy() >=areaCost)
+            {
+                EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - areaCost);
+                PlayerModel.instance.OpenArea(currentSefriaUi);
+
+                AgentManager.instance.agentCount += 5;
+                StartStageUI.instance.ShowAgentCount();
+
+                openSefria.gameObject.SetActive(false);
+                agentSlot.gameObject.SetActive(true);
+            }
+            else
+                Debug.Log("에너지가 모자라");
+       }
+
 
     //직원 승급 조건 및 버튼 활성화 
     public void ShowPromotionButton(AgentModel agent, UnityEngine.UI.Button button)
@@ -209,6 +391,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
                 TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetTraitWithLevel(level);
                 TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetTraitWithLevel(level);
+                TraitTypeInfo WorkTrait = TraitTypeList.instance.GetRandomLevelWorkTrait(level);
 
                 if (RandomTraitInfo1.id == RandomTraitInfo2.id)
                 {
@@ -222,9 +405,11 @@ public class StageUI : MonoBehaviour, IObserver {
 
                 agent.traitList.Add(RandomTraitInfo1);
                 agent.traitList.Add(RandomTraitInfo2);
+                agent.traitList.Add(WorkTrait);
 
                 agent.applyTrait(RandomTraitInfo1);
                 agent.applyTrait(RandomTraitInfo2);
+                agent.applyTrait(WorkTrait);
 
                 button.gameObject.SetActive(false);
                 ShowAgentList();

@@ -223,10 +223,26 @@ public class UseSkill : MonoBehaviour {
             bool agentUpdated = false;
             float workProb = 0.6f;
 
+            if (skillTypeInfo.Equals("direct"))
+            {
+                workProb += agent.directBonus;
+            }
+            else if(skillTypeInfo.Equals("indirect"))
+            {
+                workProb += agent.inDirectBonus;
+            }
+
+            else if (skillTypeInfo.Equals("block"))
+            {
+                workProb += agent.blockBonus;
+            }
+
             // agent prefer
+            /*
             if (agent.prefer == skillTypeInfo.type)
             {
                 workProb += agent.preferBonus;
+
             }
             else if (agent.reject == skillTypeInfo.type)
             {
@@ -234,7 +250,7 @@ public class UseSkill : MonoBehaviour {
             }
             else
             {
-            }
+            }*/
 
             // creature prefer
             float bonus = 0;

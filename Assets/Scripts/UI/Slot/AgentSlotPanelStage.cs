@@ -8,4 +8,7 @@ public class AgentSlotPanelStage : MonoBehaviour {
 
     public UnityEngine.UI.Button promotion;
     public UnityEngine.UI.Text agentLevel;
+
+    public UnityEngine.UI.Button addSefira;
+    public UnityEngine.UI.Image currentSefria;
 }

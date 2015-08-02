@@ -119,15 +119,21 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
         else if (targetUnit.model.sefiraNum == "3")
         {
+
+            frameRedRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Hod_Feel_Red");
+            frameYellowRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Hod_Feel_Yellow");
+            frameGreenRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Hod_Feel_Green");
+            workingOffRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Hod_Work_Off");
+            workingOnRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Hod_Work_On");
+        }
+
+        else if (targetUnit.model.sefiraNum == "4")
+        {
             frameRedRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Feel_Red");
             frameYellowRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Feel_Yellow");
             frameGreenRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Feel_Green");
             workingOffRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Work_Off");
             workingOnRenderer.sprite = Resources.Load<Sprite>("Sprites/IsolateRoom/Yessod_Work_On");
-        }
-
-        else if (targetUnit.model.sefiraNum == "4")
-        {
 
         }
     }

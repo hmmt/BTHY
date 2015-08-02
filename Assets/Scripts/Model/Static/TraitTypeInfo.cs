@@ -18,4 +18,10 @@ public class TraitTypeInfo {
     public int workSpeed;
 
     public string description;
+
+    public float directWork;
+    public float inDirectWork;
+    public float blockWork;
+
+    public int traitFlag;
 }

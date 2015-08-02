@@ -7,7 +7,7 @@ using System.Reflection;
 
 public class AgentManager {
 
-	private static AgentManager _instance;
+	public static AgentManager _instance;
 	
 	public static AgentManager instance
 	{
@@ -21,6 +21,8 @@ public class AgentManager {
 
     private int nextInstId = 1;
     private List<AgentModel> agentList;
+
+    public int agentCount = 5;
 	
     public AgentManager()
 	{
@@ -38,6 +40,9 @@ public class AgentManager {
         int traitMental = 0;
         int traitMoveSpeed = 0;
         int traitWorkSpeed = 0;
+        int traitDirect = 0;
+        int traitInDirect = 0;
+        int traitBlock = 0;
 
         AgentTypeInfo info = AgentTypeList.instance.GetData(typeId);
 
@@ -50,6 +55,7 @@ public class AgentManager {
 
         TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetRandomInitTrait();
         TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
+        TraitTypeInfo WorkTrait = TraitTypeList.instance.GetRandomLevelWorkTrait(1);
 
         if (RandomTraitInfo1.id == RandomTraitInfo2.id)
         {
@@ -63,6 +69,7 @@ public class AgentManager {
 
         unit.traitList.Add(RandomTraitInfo1);
         unit.traitList.Add(RandomTraitInfo2);
+        unit.traitList.Add(WorkTrait);
 
         for (int i = 0; i < unit.traitList.Count; i++)
         {
@@ -70,6 +77,10 @@ public class AgentManager {
             traitMental += unit.traitList[i].mental;
             traitMoveSpeed += unit.traitList[i].moveSpeed;
             traitWorkSpeed += unit.traitList[i].workSpeed;
+
+            traitDirect += (int)unit.traitList[i].directWork;
+            traitInDirect += (int)unit.traitList[i].inDirectWork;
+            traitBlock += (int)unit.traitList[i].blockWork;
 
             //unit.traitNameList.Add(unit.traitList[i].name);
         }
@@ -100,7 +111,6 @@ public class AgentManager {
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
 
         unit.panicType = info.panicType;
-
         /*
         Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
         unit.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));

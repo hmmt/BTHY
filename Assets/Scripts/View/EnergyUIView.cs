@@ -22,19 +22,6 @@ public class EnergyUIView : MonoBehaviour, IObserver {
 
 	private float chargeTick=0;
 
-    public static EnergyUIView instance
-    {
-
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new EnergyUIView();
-            }
-            return _instance;
-        }
-    }
-
     public void openSettings()
     {
         Debug.Log("UI버튼");
