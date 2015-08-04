@@ -21,6 +21,7 @@ public class AgentManager {
 
     private int nextInstId = 1;
     private List<AgentModel> agentList;
+    public List<AgentModel> agentListSpare;
 
     public int agentCount = 5;
 	
@@ -32,6 +33,7 @@ public class AgentManager {
     public void Init()
     {
         agentList = new List<AgentModel>();
+        agentListSpare = new List<AgentModel>();
     }
 
     public AgentModel AddAgentModel(long typeId)
@@ -116,12 +118,35 @@ public class AgentManager {
         unit.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
         */
 
-        Notice.instance.Observe(NoticeName.FixedUpdate, unit);
-        agentList.Add(unit);
-
-        Notice.instance.Send(NoticeName.AddAgent, unit);
+        unit.SetCurrentSefira("0");
+        unit.activated = false;
+        agentListSpare.Add(unit);
 
         return unit;
+    }
+
+    public void activateAgent(AgentModel unit, string sefira)
+    {
+        unit.activated = true;
+
+        unit.SetCurrentSefira(sefira);
+        agentListSpare.Remove(unit);
+
+        Notice.instance.Observe(NoticeName.FixedUpdate, unit);
+        agentList.Add(unit);
+        Notice.instance.Send(NoticeName.AddAgent, unit);
+    }
+
+    public void deactivateAgent(AgentModel unit)
+    {
+        unit.activated = false;
+
+        Notice.instance.Remove(NoticeName.FixedUpdate, unit);
+        agentList.Remove(unit);
+        Notice.instance.Send(NoticeName.RemoveAgent, unit);
+
+        agentListSpare.Add(unit);
+        unit.SetCurrentSefira("0");
     }
 
     public void RemoveAgent(AgentModel model)
@@ -157,7 +182,6 @@ public class AgentManager {
 
         float energy = EnergyModel.instance.GetEnergy();
         //int needEnergy = 1;
-
         return AgentManager.instance.AddAgentModel(id);
     }
 

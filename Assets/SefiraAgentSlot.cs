@@ -32,7 +32,6 @@ public class SefiraAgentSlot : MonoBehaviour {
         if (unit.currentSefira.Equals("1"))
         {
             MalkuthAgentList.RemoveAt(index);
-            Debug.Log("Count "+MalkuthAgentList.Count);
         }
 
         else if (unit.currentSefira.Equals("2"))
@@ -51,6 +50,7 @@ public class SefiraAgentSlot : MonoBehaviour {
             YesodAgentList.RemoveAt(index);
         }
 
+        AgentManager._instance.deactivateAgent(unit);
         ShowAgentSefira(StageUI.instance.currentSefriaUi);
     }
 

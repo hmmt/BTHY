@@ -22,7 +22,7 @@ public class StartStageUI : MonoBehaviour {
 
     public void ShowAgentCount()
     {
-        int length = AgentManager.instance.GetAgentList().Length;
+        int length = AgentManager.instance.GetAgentList().Length + AgentManager.instance.agentListSpare.Count;
         int count = AgentManager.instance.agentCount;
         AgentCountNum.text = length + " / " + count;
     }

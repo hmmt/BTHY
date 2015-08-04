@@ -58,6 +58,8 @@ public class AgentModel : IObserver
     // 현재 소속된 세피라
     public string currentSefira;
 
+    //활성화된 직원인가 체크
+    public bool activated;
 
 
     // 이하 save 되지 않는 데이터들
@@ -365,6 +367,7 @@ public class AgentModel : IObserver
         currentSefira = sefira;
         switch (currentSefira)
         {
+            case "0": imgsrc = "Agent/Malkuth/0"; break;
             case "1": imgsrc = "Agent/Malkuth/0"; break;
             case "2": imgsrc = "Agent/Nezzach/00"; break;
             case "3": imgsrc = "Agent/Hodd/00"; break;
