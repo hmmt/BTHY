@@ -187,6 +187,7 @@ public class PlayerModel {
                     randomIndex = Random.Range(0, CreatureTypeList.instance.GetList().Length);
                     i = 0;
                 }
+                Debug.Log("돈다돈다 "+i);
             }
 
             inGameCreatureList.Add(randomIndex);

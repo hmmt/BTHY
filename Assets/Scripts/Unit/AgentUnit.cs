@@ -14,6 +14,7 @@ public class AgentUnit : MonoBehaviour {
     public AgentSpeech showSpeech;
 
     public Animator agentAnimator;
+    public GameObject renderNode;
 
     public float oldPos;
     public float oldPosY;
@@ -23,6 +24,37 @@ public class AgentUnit : MonoBehaviour {
 
     private string oldSefira;
 
+    //각 직원 부위 스프라이트 결정 변수
+    public GameObject faceSprite;
+    public GameObject bodySprite;
+    public GameObject hairSprite;
+
+    void LateUpdate()
+    {
+        foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>())
+        {
+            if (renderer.sprite.name == "Face_A_00")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+            else if (renderer.sprite.name == "Face_A_01")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" +model. faceSpriteName + "_01");
+            else if (renderer.sprite.name == "Face_A_02")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_02");
+        }
+
+        foreach (var renderer in hairSprite.GetComponents<SpriteRenderer>())
+        {
+            if (renderer.sprite.name == "Hair_M_A_00")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+            else if (renderer.sprite.name == "Hair_M_A_01")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_01");
+            else if (renderer.sprite.name == "Hair_M_A_02")
+            {
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_02");
+                renderer.transform.localScale.Set(-1,1,1);
+            }
+        }
+    }
+
     void  Start()
     {
         agentAnimator.SetInteger("Sepira", 1);
@@ -31,7 +63,12 @@ public class AgentUnit : MonoBehaviour {
         oldPosY = transform.localPosition.y;
         oldSefira = model.currentSefira;
         agentName.text = model.name;
+
+        faceSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+        hairSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+        bodySprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Body/Body_" + model.bodySpriteName + "_S_00");
         //currentNode = MapGraph.instance.GetNodeById("1001002");
+
     }
 
 	private void UpdateDirection()
@@ -47,30 +84,34 @@ public class AgentUnit : MonoBehaviour {
 			Vector2 pos2 = node2.GetPosition();
 
 			if(edgeDirection == 1)
-			{
-				Transform anim = transform.Find("Anim");
+            {
+                Transform anim = renderNode.transform;
+
 				Vector3 scale = anim.localScale;
+
 				if(pos2.x - pos1.x > 0 && scale.x < 0)
 				{
-					scale.x = -scale.x;
+                    scale.x = -scale.x;
 				}
 				else if(pos2.x - pos1.x < 0 && scale.x > 0)
 				{
-					scale.x = -scale.x;
+                    scale.x = -scale.x;
 				}
-				anim.transform.localScale = scale;
+                anim.transform.localScale = scale;
 			}
 			else
 			{
-				Transform anim = transform.Find("Anim");
+                Transform anim = renderNode.transform;
+
 				Vector3 scale = anim.localScale;
+
 				if(pos2.x - pos1.x > 0 && scale.x > 0)
 				{
-					scale.x = -scale.x;
+                    scale.x  = -scale.x;
 				}
 				else if(pos2.x - pos1.x < 0 && scale.x < 0)
 				{
-					scale.x = -scale.x;
+                    scale.x = -scale.x;
 				}
 				anim.transform.localScale = scale;
 			}
@@ -114,6 +155,7 @@ public class AgentUnit : MonoBehaviour {
 	{
         if (oldSefira != model.currentSefira)
         {
+            Debug.Log("직원 복장 변경");
 
             agentAnimator.SetBool("Change", true);
 
@@ -150,10 +192,16 @@ public class AgentUnit : MonoBehaviour {
         if (oldPos != transform.localPosition.x)
         {
             agentAnimator.SetBool("AgentMove", true);
+            faceSprite.GetComponent<Animator>().SetBool("Move", true);
+            hairSprite.GetComponent<Animator>().SetBool("Move", true);
+            bodySprite.GetComponent<Animator>().SetBool("Move", true);
         }
         else
         {
             agentAnimator.SetBool("AgentMove", false);
+            faceSprite.GetComponent<Animator>().SetBool("Move", false);
+            hairSprite.GetComponent<Animator>().SetBool("Move", false);
+            bodySprite.GetComponent<Animator>().SetBool("Move", false);
         }
 
         if (oldPosY != transform.localPosition.y)

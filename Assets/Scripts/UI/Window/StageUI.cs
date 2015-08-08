@@ -184,8 +184,12 @@ public class StageUI : MonoBehaviour, IObserver {
             else if(copied.currentSefira == "4")
                 slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Yesod_Icon");
 
-            Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
-            slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+            Texture2D tex3 = Resources.Load<Texture2D>(unit.bodyImgSrc);
+            slotPanel.agentBodyIcon.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector3(0.5f, 0.5f, 0.5f));
+            Texture2D tex1 = Resources.Load<Texture2D>(unit.faceImgSrc);
+            slotPanel.agentFaceIcon.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector3(0.5f, 0.5f, -1f));
+            Texture2D tex2 = Resources.Load<Texture2D>(unit.hairImgSrc);
+            slotPanel.agentHairIcon.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector3(0.5f, 0.5f, -1f));
 
             posy -= 100f;
         }
@@ -225,9 +229,12 @@ public class StageUI : MonoBehaviour, IObserver {
             else if (copied.currentSefira == "4")
                 slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Yesod_Icon");
 
-            Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
-            slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
+            Texture2D tex3 = Resources.Load<Texture2D>(unit.bodyImgSrc);
+            slotPanel.agentBodyIcon.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector3(0.5f, 0.5f,0.5f));
+            Texture2D tex1 = Resources.Load<Texture2D>(unit.faceImgSrc);
+            slotPanel.agentFaceIcon.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector3(0.5f, 0.5f, -1f));
+            Texture2D tex2 = Resources.Load<Texture2D>(unit.hairImgSrc);
+            slotPanel.agentHairIcon.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector3(0.5f, 0.5f, -1f));
             posy -= 100f;
         }
 
@@ -389,6 +396,7 @@ public class StageUI : MonoBehaviour, IObserver {
                 Debug.Log("이미 추가한 직원");
         }
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
+        unit.AgentPortrait("body", null);
         ShowAgentList();
    }
 
