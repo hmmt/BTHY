@@ -47,7 +47,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
         Texture2D tex = Resources.Load<Texture2D>("Sprites/" + model.metaInfo.imgsrc);
         unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-        unit.spriteRenderer.gameObject.transform.localScale = new Vector3(150f / tex.width, 150f / tex.height, 1);
+        unit.spriteRenderer.gameObject.transform.localScale = new Vector3(200f / tex.width, 200f / tex.height, 1);
 
         GameObject creatureRoom = Prefab.LoadPrefab("IsolateRoom");
         creatureRoom.transform.SetParent(transform, false);
