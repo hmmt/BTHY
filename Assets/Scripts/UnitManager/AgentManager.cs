@@ -23,6 +23,10 @@ public class AgentManager {
     private List<AgentModel> agentList;
     public List<AgentModel> agentListSpare;
 
+    //실험 - 유닛 시체
+
+    public List<AgentModel> agentListDead;
+
     public int agentCount = 5;
 	
     public AgentManager()
@@ -34,6 +38,7 @@ public class AgentManager {
     {
         agentList = new List<AgentModel>();
         agentListSpare = new List<AgentModel>();
+        agentListDead = new List<AgentModel>();
     }
 
     public AgentModel AddAgentModel(long typeId)
@@ -187,8 +192,29 @@ public class AgentManager {
 
     public void RemoveAgent(AgentModel model)
     {
+        if (model.currentSefira == "1")
+        {
+            SefiraAgentSlot.instance.MalkuthAgentList.Remove(model);
+        }
+
+        else if (model.currentSefira == "2")
+        {
+            SefiraAgentSlot.instance.NezzachAgentList.Remove(model);
+        }
+
+        else  if (model.currentSefira == "3")
+        {
+            SefiraAgentSlot.instance.HodAgentList.Remove(model);
+        }
+
+        else if (model.currentSefira == "4")
+        {
+            SefiraAgentSlot.instance.YesodAgentList.Remove(model);
+        }
+
         Notice.instance.Remove(NoticeName.FixedUpdate, model);
         agentList.Remove(model);
+        //agentListDead.Add(model);
         Notice.instance.Send(NoticeName.RemoveAgent, model);
     }
 

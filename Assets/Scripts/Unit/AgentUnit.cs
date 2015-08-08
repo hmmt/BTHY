@@ -19,6 +19,7 @@ public class AgentUnit : MonoBehaviour {
     public float oldPos;
     public float oldPosY;
     public bool agentMove=false;
+    public bool agentDead = false;
 
     public TextMesh agentName;
 
@@ -26,7 +27,7 @@ public class AgentUnit : MonoBehaviour {
 
     //각 직원 부위 스프라이트 결정 변수
     public GameObject faceSprite;
-    public GameObject bodySprite;
+    public GameObject deadSprite;
     public GameObject hairSprite;
 
     void LateUpdate()
@@ -66,56 +67,66 @@ public class AgentUnit : MonoBehaviour {
 
         faceSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
         hairSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
-        bodySprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Body/Body_" + model.bodySpriteName + "_S_00");
-        //currentNode = MapGraph.instance.GetNodeById("1001002");
 
     }
+
+    /*
+    public void DeadAgent()
+    {
+        deadSprite.gameObject.SetActive(true);
+        faceSprite.gameObject.SetActive(false);
+        hairSprite.gameObject.SetActive(false);
+        agentAnimator.gameObject.SetActive(false);
+
+        deadSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Dead");
+        deadSprite.transform.Rotate(0f, -90f, 0f);
+    }*/
 
 	private void UpdateDirection()
 	{
         MapEdge currentEdge = model.GetCurrentEdge();
         int edgeDirection = model.GetEdgeDirection();
 
-		if(currentEdge != null)
-		{
-			MapNode node1 = currentEdge.node1;
-			MapNode node2 = currentEdge.node2;
-			Vector2 pos1 = node1.GetPosition();
-			Vector2 pos2 = node2.GetPosition();
-
-			if(edgeDirection == 1)
+            if (currentEdge != null)
             {
-                Transform anim = renderNode.transform;
+                MapNode node1 = currentEdge.node1;
+                MapNode node2 = currentEdge.node2;
+                Vector2 pos1 = node1.GetPosition();
+                Vector2 pos2 = node2.GetPosition();
 
-				Vector3 scale = anim.localScale;
+                if (edgeDirection == 1)
+                {
+                    Transform anim = renderNode.transform;
 
-				if(pos2.x - pos1.x > 0 && scale.x < 0)
-				{
-                    scale.x = -scale.x;
-				}
-				else if(pos2.x - pos1.x < 0 && scale.x > 0)
-				{
-                    scale.x = -scale.x;
-				}
-                anim.transform.localScale = scale;
-			}
-			else
-			{
-                Transform anim = renderNode.transform;
+                    Vector3 scale = anim.localScale;
 
-				Vector3 scale = anim.localScale;
+                    if (pos2.x - pos1.x > 0 && scale.x < 0)
+                    {
+                        scale.x = -scale.x;
+                    }
+                    else if (pos2.x - pos1.x < 0 && scale.x > 0)
+                    {
+                        scale.x = -scale.x;
+                    }
+                    anim.transform.localScale = scale;
+                }
+                else
+                {
+                    Transform anim = renderNode.transform;
 
-				if(pos2.x - pos1.x > 0 && scale.x > 0)
-				{
-                    scale.x  = -scale.x;
-				}
-				else if(pos2.x - pos1.x < 0 && scale.x < 0)
-				{
-                    scale.x = -scale.x;
-				}
-				anim.transform.localScale = scale;
-			}
-		}
+                    Vector3 scale = anim.localScale;
+
+                    if (pos2.x - pos1.x > 0 && scale.x > 0)
+                    {
+                        scale.x = -scale.x;
+                    }
+                    else if (pos2.x - pos1.x < 0 && scale.x < 0)
+                    {
+                        scale.x = -scale.x;
+                    }
+                    anim.transform.localScale = scale;
+                }
+            }
 	}
 
 	private bool visible = true;
@@ -194,14 +205,12 @@ public class AgentUnit : MonoBehaviour {
             agentAnimator.SetBool("AgentMove", true);
             faceSprite.GetComponent<Animator>().SetBool("Move", true);
             hairSprite.GetComponent<Animator>().SetBool("Move", true);
-            bodySprite.GetComponent<Animator>().SetBool("Move", true);
         }
         else
         {
             agentAnimator.SetBool("AgentMove", false);
             faceSprite.GetComponent<Animator>().SetBool("Move", false);
             hairSprite.GetComponent<Animator>().SetBool("Move", false);
-            bodySprite.GetComponent<Animator>().SetBool("Move", false);
         }
 
         if (oldPosY != transform.localPosition.y)

@@ -310,6 +310,11 @@ public class AgentModel : IObserver
                 MoveToCreture(target);
             }
         }
+
+        else if (state == AgentCmdState.DEAD)
+        {
+
+        }
         waitTimer -= Time.deltaTime;
     }
 
@@ -434,11 +439,16 @@ public class AgentModel : IObserver
     {
         string narration = this.name + " (이)가 사망했습니다.";
 
+        Debug.Log("사망");
+
         Notice.instance.Send("AddSystemLog", narration);
         Notice.instance.Send("AgentDie", this);
 
+        //this.state = AgentCmdState.DEAD;
+
         // temp?
         AgentManager.instance.RemoveAgent(this);
+        //AgentLayer.currentLayer.GetAgent(this.instanceId).DeadAgent();
     }
 
     public void OnNotice(string notice, params object[] param)

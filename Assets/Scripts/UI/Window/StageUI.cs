@@ -29,6 +29,8 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public AreaButton[] areaButtons;
 
+    public UnityEngine.UI.Image[] areaButtonImage;
+
     public Transform agentScrollTarget;
 
     private Dictionary<string, AreaButton> areaBtnDic;
@@ -65,11 +67,15 @@ public class StageUI : MonoBehaviour, IObserver {
     private void Init()
     {
         PlayerModel playerModel = PlayerModel.instance;
+        /*
         foreach (KeyValuePair<string, AreaButton> v in areaBtnDic)
         {
             AreaButton btn = v.Value;
             UpdateButton(btn);
-        }
+        }*/
+
+        UpdateSefiraButton("1");
+
         agentSlot.gameObject.SetActive(false);
         ShowAgentList();
     }
@@ -89,12 +95,43 @@ public class StageUI : MonoBehaviour, IObserver {
         //UpdateButton(btn);
     }
 
+    public void UpdateSefiraButton(string sefira)
+    {
+         int sefiraNum = int.Parse(sefira);
+        string sefiraName = "";
+
+        if(sefiraNum == 1)
+        {
+            sefiraName = "Malkuth";
+        }
+
+        else if(sefiraNum == 2)
+        {
+            sefiraName = "Nezzach";
+        }
+
+        else if(sefiraNum == 3)
+        {
+            sefiraName = "Hod";
+        }
+
+        else if(sefiraNum == 4)
+        {
+            sefiraName = "Yessod";
+        }
+
+        if(PlayerModel.instance.IsOpenedArea(sefira))
+         areaButtonImage[sefiraNum - 1].sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/"+sefiraName+"_On");
+        else
+            areaButtonImage[sefiraNum - 1].sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/" + sefiraName + "_Off");
+    }
+
     private void UpdateButton(AreaButton btn)
     {
 
         btn.on.gameObject.SetActive(true);
         btn.off.gameObject.SetActive(false);
-        /*
+        
         if (PlayerModel.instance.IsOpenedArea(btn.name))
         {
             btn.on.gameObject.SetActive(false);
@@ -104,7 +141,7 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             btn.on.gameObject.SetActive(true);
             btn.off.gameObject.SetActive(false);
-        }*/
+        }
     }
 
     public void OnClickAddAgent()
@@ -430,6 +467,8 @@ public class StageUI : MonoBehaviour, IObserver {
 
                 openSefria.gameObject.SetActive(false);
                 agentSlot.gameObject.SetActive(true);
+
+                UpdateSefiraButton(currentSefriaUi);
             }
             else
                 Debug.Log("에너지가 모자라");

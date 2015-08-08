@@ -13,6 +13,7 @@ public enum AgentCmdState
 {
 	IDLE, // no command
 	WORKING, // working command
-    CAPTURE // 
+    CAPTURE, // 
+    DEAD
 }
 
