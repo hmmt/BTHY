@@ -65,9 +65,84 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
         CloseWindow();
     }
 
-    public void OnSelectAgent(AgentModel agent)
+    public void addSefiraList(AgentModel agent)
     {
-        agent.SetCurrentSefira(targetSefiraName);
+        if (targetSefiraName == "1")
+        {
+            if (SefiraAgentSlot.instance.MalkuthAgentList.Count < 5)
+            {
+                SefiraAgentSlot.instance.MalkuthAgentList.Add(agent);
+                deleteSefiraList(agent);
+                agent.SetCurrentSefira(targetSefiraName);
+            }
+            else
+                Debug.Log("말쿠트 초과");
+        }
+
+        else if (targetSefiraName == "2")
+        {
+            if (SefiraAgentSlot.instance.NezzachAgentList.Count < 5)
+            {
+                SefiraAgentSlot.instance.NezzachAgentList.Add(agent);
+                deleteSefiraList(agent);
+                agent.SetCurrentSefira(targetSefiraName);
+            }
+            else
+                Debug.Log("네짜흐 초과");
+        }
+
+        else if (targetSefiraName == "3")
+        {
+            if (SefiraAgentSlot.instance.HodAgentList.Count < 5)
+            {
+                SefiraAgentSlot.instance.HodAgentList.Add(agent);
+                deleteSefiraList(agent);
+                agent.SetCurrentSefira(targetSefiraName);
+            }
+            else
+                Debug.Log("호드 초과");
+        }
+
+        else if (targetSefiraName == "4")
+        {
+            if (SefiraAgentSlot.instance.YesodAgentList.Count < 5)
+            {
+                SefiraAgentSlot.instance.YesodAgentList.Add(agent);
+                deleteSefiraList(agent);
+                agent.SetCurrentSefira(targetSefiraName);
+            }
+            else
+                Debug.Log("예소드 초과");
+        }
+    }
+
+    public void deleteSefiraList(AgentModel agent)
+    {
+        if (agent.currentSefira == "1")
+        {
+            SefiraAgentSlot.instance.MalkuthAgentList.Remove(agent);
+        }
+
+        else if (agent.currentSefira == "2")
+        {
+            SefiraAgentSlot.instance.NezzachAgentList.Remove(agent);
+        }
+
+        else if (agent.currentSefira == "3")
+        {
+            SefiraAgentSlot.instance.HodAgentList.Remove(agent);
+        }
+
+        else if (agent.currentSefira == "4")
+        {
+            SefiraAgentSlot.instance.YesodAgentList.Remove(agent);
+        }
+    }
+
+    public void OnSelectAgent(AgentModel agent)
+    {     
+        //agent.SetCurrentSefira(targetSefiraName);
+        addSefiraList(agent);
         ShowAgentList();
     }
 
@@ -99,8 +174,12 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
             AgentModel copied = unit;
             slotPanel.button.onClick.AddListener(() => OnSelectAgent(copied));
 
-            Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
-            slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+            Texture2D tex3 = Resources.Load<Texture2D>(unit.bodyImgSrc);
+            slotPanel.agentBody.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector3(0.5f, 0.5f, 0.5f));
+            Texture2D tex1 = Resources.Load<Texture2D>(unit.faceImgSrc);
+            slotPanel.agentFace.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector3(0.5f, 0.5f, -1f));
+            Texture2D tex2 = Resources.Load<Texture2D>(unit.hairImgSrc);
+            slotPanel.agentHair.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector3(0.5f, 0.5f, -1f));
 
             posy -= 100f;
         }

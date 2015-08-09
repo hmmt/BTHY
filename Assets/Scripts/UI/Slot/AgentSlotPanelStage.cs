@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class AgentSlotPanelStage : MonoBehaviour {
-    public UnityEngine.UI.Image agentIcon;
+    public UnityEngine.UI.Image agentHairIcon;
+    public UnityEngine.UI.Image agentFaceIcon;
+    public UnityEngine.UI.Image agentBodyIcon;
+
     public UnityEngine.UI.Text nameText;
     public UnityEngine.UI.Text HPText;
 

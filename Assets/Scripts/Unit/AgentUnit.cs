@@ -14,14 +14,47 @@ public class AgentUnit : MonoBehaviour {
     public AgentSpeech showSpeech;
 
     public Animator agentAnimator;
+    public GameObject renderNode;
 
     public float oldPos;
     public float oldPosY;
     public bool agentMove=false;
+    public bool agentDead = false;
 
     public TextMesh agentName;
 
     private string oldSefira;
+
+    //각 직원 부위 스프라이트 결정 변수
+    public GameObject faceSprite;
+    public GameObject deadSprite;
+    public GameObject hairSprite;
+
+    void LateUpdate()
+    {
+        foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>())
+        {
+            if (renderer.sprite.name == "Face_A_00")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+            else if (renderer.sprite.name == "Face_A_01")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" +model. faceSpriteName + "_01");
+            else if (renderer.sprite.name == "Face_A_02")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_02");
+        }
+
+        foreach (var renderer in hairSprite.GetComponents<SpriteRenderer>())
+        {
+            if (renderer.sprite.name == "Hair_M_A_00")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+            else if (renderer.sprite.name == "Hair_M_A_01")
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_01");
+            else if (renderer.sprite.name == "Hair_M_A_02")
+            {
+                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_02");
+                renderer.transform.localScale.Set(-1,1,1);
+            }
+        }
+    }
 
     void  Start()
     {
@@ -31,50 +64,69 @@ public class AgentUnit : MonoBehaviour {
         oldPosY = transform.localPosition.y;
         oldSefira = model.currentSefira;
         agentName.text = model.name;
-        //currentNode = MapGraph.instance.GetNodeById("1001002");
+
+        faceSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+        hairSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+
     }
+
+    /*
+    public void DeadAgent()
+    {
+        deadSprite.gameObject.SetActive(true);
+        faceSprite.gameObject.SetActive(false);
+        hairSprite.gameObject.SetActive(false);
+        agentAnimator.gameObject.SetActive(false);
+
+        deadSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Dead");
+        deadSprite.transform.Rotate(0f, -90f, 0f);
+    }*/
 
 	private void UpdateDirection()
 	{
         MapEdge currentEdge = model.GetCurrentEdge();
         int edgeDirection = model.GetEdgeDirection();
 
-		if(currentEdge != null)
-		{
-			MapNode node1 = currentEdge.node1;
-			MapNode node2 = currentEdge.node2;
-			Vector2 pos1 = node1.GetPosition();
-			Vector2 pos2 = node2.GetPosition();
+            if (currentEdge != null)
+            {
+                MapNode node1 = currentEdge.node1;
+                MapNode node2 = currentEdge.node2;
+                Vector2 pos1 = node1.GetPosition();
+                Vector2 pos2 = node2.GetPosition();
 
-			if(edgeDirection == 1)
-			{
-				Transform anim = transform.Find("Anim");
-				Vector3 scale = anim.localScale;
-				if(pos2.x - pos1.x > 0 && scale.x < 0)
-				{
-					scale.x = -scale.x;
-				}
-				else if(pos2.x - pos1.x < 0 && scale.x > 0)
-				{
-					scale.x = -scale.x;
-				}
-				anim.transform.localScale = scale;
-			}
-			else
-			{
-				Transform anim = transform.Find("Anim");
-				Vector3 scale = anim.localScale;
-				if(pos2.x - pos1.x > 0 && scale.x > 0)
-				{
-					scale.x = -scale.x;
-				}
-				else if(pos2.x - pos1.x < 0 && scale.x < 0)
-				{
-					scale.x = -scale.x;
-				}
-				anim.transform.localScale = scale;
-			}
-		}
+                if (edgeDirection == 1)
+                {
+                    Transform anim = renderNode.transform;
+
+                    Vector3 scale = anim.localScale;
+
+                    if (pos2.x - pos1.x > 0 && scale.x < 0)
+                    {
+                        scale.x = -scale.x;
+                    }
+                    else if (pos2.x - pos1.x < 0 && scale.x > 0)
+                    {
+                        scale.x = -scale.x;
+                    }
+                    anim.transform.localScale = scale;
+                }
+                else
+                {
+                    Transform anim = renderNode.transform;
+
+                    Vector3 scale = anim.localScale;
+
+                    if (pos2.x - pos1.x > 0 && scale.x > 0)
+                    {
+                        scale.x = -scale.x;
+                    }
+                    else if (pos2.x - pos1.x < 0 && scale.x < 0)
+                    {
+                        scale.x = -scale.x;
+                    }
+                    anim.transform.localScale = scale;
+                }
+            }
 	}
 
 	private bool visible = true;
@@ -114,6 +166,7 @@ public class AgentUnit : MonoBehaviour {
 	{
         if (oldSefira != model.currentSefira)
         {
+            Debug.Log("직원 복장 변경");
 
             agentAnimator.SetBool("Change", true);
 
@@ -150,10 +203,14 @@ public class AgentUnit : MonoBehaviour {
         if (oldPos != transform.localPosition.x)
         {
             agentAnimator.SetBool("AgentMove", true);
+            faceSprite.GetComponent<Animator>().SetBool("Move", true);
+            hairSprite.GetComponent<Animator>().SetBool("Move", true);
         }
         else
         {
             agentAnimator.SetBool("AgentMove", false);
+            faceSprite.GetComponent<Animator>().SetBool("Move", false);
+            hairSprite.GetComponent<Animator>().SetBool("Move", false);
         }
 
         if (oldPosY != transform.localPosition.y)

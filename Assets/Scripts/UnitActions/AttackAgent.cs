@@ -14,8 +14,16 @@ public class AttackAgent : MonoBehaviour {
 
         if (creatureDice > agentDice)
         {
-            agent.hp -= creature.metaInfo.physicsDmg;
-            agent.mental -= creature.metaInfo.mentalDmg;
+            if (agent.hp > 0)
+            {
+                agent.hp -= creature.metaInfo.physicsDmg;
+                agent.mental -= creature.metaInfo.mentalDmg;
+            }
+
+            else
+            {
+                agent.Die();
+            }
             Debug.Log("attack");
         }
         else

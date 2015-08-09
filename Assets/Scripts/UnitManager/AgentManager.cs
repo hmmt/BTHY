@@ -29,6 +29,10 @@ public class AgentManager {
     private List<AgentModel> agentList;
     public List<AgentModel> agentListSpare;
 
+    //실험 - 유닛 시체
+
+    public List<AgentModel> agentListDead;
+
     public int agentCount = 5;
 	
     public AgentManager()
@@ -40,6 +44,7 @@ public class AgentManager {
     {
         agentList = new List<AgentModel>();
         agentListSpare = new List<AgentModel>();
+        agentListDead = new List<AgentModel>();
     }
 
     public AgentModel AddAgentModel()
@@ -124,12 +129,48 @@ public class AgentManager {
         unit.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
         */
 
+        unit.faceSpriteName = setRandomSprite(3);
+        unit.hairSpriteName = setRandomSprite(3);
+        unit.bodySpriteName = setRandomSprite(1);
+
+        unit.AgentPortrait("hair",unit.hairSpriteName);
+        unit.AgentPortrait("face", unit.faceSpriteName);
+        unit.AgentPortrait("body", null);
+
         unit.SetCurrentSefira("0");
         unit.activated = false;
         agentListSpare.Add(unit);
 
         return unit;
     }
+
+
+    public string setRandomSprite(int count)
+    {
+        int num = Random.Range(0, count);
+
+        if (num == 0)
+        {
+            return "A";
+        }
+
+        else if (num == 1)
+        {
+            return "B";
+        }
+
+        else if (num == 2)
+        {
+            return "C";
+        }
+
+        else
+        {
+            Debug.Log("스프라이트 범위 넘어감");
+            return "";
+        }
+    }
+
 
     public void activateAgent(AgentModel unit, string sefira)
     {
@@ -157,8 +198,29 @@ public class AgentManager {
 
     public void RemoveAgent(AgentModel model)
     {
+        if (model.currentSefira == "1")
+        {
+            SefiraAgentSlot.instance.MalkuthAgentList.Remove(model);
+        }
+
+        else if (model.currentSefira == "2")
+        {
+            SefiraAgentSlot.instance.NezzachAgentList.Remove(model);
+        }
+
+        else  if (model.currentSefira == "3")
+        {
+            SefiraAgentSlot.instance.HodAgentList.Remove(model);
+        }
+
+        else if (model.currentSefira == "4")
+        {
+            SefiraAgentSlot.instance.YesodAgentList.Remove(model);
+        }
+
         Notice.instance.Remove(NoticeName.FixedUpdate, model);
         agentList.Remove(model);
+        //agentListDead.Add(model);
         Notice.instance.Send(NoticeName.RemoveAgent, model);
     }
 

@@ -60,6 +60,16 @@ public class AgentModel : IObserver
     //활성화된 직원인가 체크
     public bool activated;
 
+    // 스프라이트 고유 번호
+    public string faceSpriteName;
+    public string hairSpriteName;
+    public string bodySpriteName;
+
+    public string hairImgSrc;
+    public string faceImgSrc;
+    public string bodyImgSrc;
+
+
 
     // 이하 save 되지 않는 데이터들
 
@@ -84,6 +94,7 @@ public class AgentModel : IObserver
         traitList = new List<TraitTypeInfo>();
         this.instanceId = instanceId;
         //currentSefira = area;
+        currentSefira = "0";
         SetCurrentSefira(area);
         movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
     }
@@ -155,6 +166,31 @@ public class AgentModel : IObserver
         }
         return false;
     }
+
+    //랜덤으로 만들어진 직원 초상화 스프라이트 합쳐주는 함수
+
+    public void AgentPortrait(string parts, string key)
+    {
+        if (parts == "hair")
+        {
+            hairImgSrc = "Sprites/Agent/Hair/Hair_M_"+key+"_00";
+        }
+
+        else if (parts == "face")
+        {
+            faceImgSrc = "Sprites/Agent/Face/Face_" + key + "_00";
+        }
+
+        else if (parts == "body")
+        {
+            if(currentSefira == "0")
+                bodyImgSrc = "Sprites/Agent/Body/Body_1_S_00";
+            else
+            bodyImgSrc = "Sprites/Agent/Body/Body_" + currentSefira + "_S_00";
+        }
+
+    }
+
     public void LoadData(Dictionary<string, object> dic)
     {
         //BinaryFormatter bf = new BinaryFormatter();
@@ -267,8 +303,13 @@ public class AgentModel : IObserver
         {
             if (movableNode.GetCurrentEdge() == null && movableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
-                MoveToCreture(target);
+                MoveToCretureRoom(target);
             }
+        }
+
+        else if (state == AgentCmdState.DEAD)
+        {
+
         }
         waitTimer -= Time.deltaTime;
     }
@@ -316,10 +357,13 @@ public class AgentModel : IObserver
 
     public void MoveToCreture(CreatureModel target)
     {
-        //MoveToGlobalPos ((Vector2)target.transform.position);
-        //MoveToNode(target.GetNode());
+        movableNode.MoveToMovableNode(target.GetMovableNode());
+    }
+    public void MoveToCretureRoom(CreatureModel target)
+    {
         movableNode.MoveToNode(target.GetWorkspaceNode());
     }
+
     public void Attacked()
     {
         state = AgentCmdState.CAPTURE;
@@ -335,7 +379,7 @@ public class AgentModel : IObserver
     {
         state = AgentCmdState.WORKING;
         this.target = target;
-        MoveToCreture(target);
+        MoveToCretureRoom(target);
     }
     public void FinishWorking()
     {
@@ -400,11 +444,16 @@ public class AgentModel : IObserver
     {
         string narration = this.name + " (이)가 사망했습니다.";
 
+        Debug.Log("사망");
+
         Notice.instance.Send("AddSystemLog", narration);
         Notice.instance.Send("AgentDie", this);
 
+        //this.state = AgentCmdState.DEAD;
+
         // temp?
         AgentManager.instance.RemoveAgent(this);
+        //AgentLayer.currentLayer.GetAgent(this.instanceId).DeadAgent();
     }
 
     public void OnNotice(string notice, params object[] param)

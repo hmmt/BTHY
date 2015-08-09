@@ -20,8 +20,12 @@ public class PlayerController : MonoBehaviour {
     public Animator playerHair;
     public Animator playerFace;
     public Animator playerBody;
+
+    public GameObject face;
  
     public bool cameraWalk=false;
+
+    int k = 0;
 
 
 	// Use this for initialization
@@ -39,11 +43,46 @@ public class PlayerController : MonoBehaviour {
             player.transform.localPosition = new Vector3(-16.3f, 30.33f, 0);
         }
 	}
+    
+    void LateUpdate()
+    {
+        if (Input.GetKey(KeyCode.L))
+        {
+            foreach (var renderer in face.GetComponents<SpriteRenderer>())
+            {
+                Debug.Log("SpriteName "+k+": " + renderer.sprite.name);
+               // string spriteName = renderer.sprite.name;
+                if(renderer.sprite.name == "Face_A_00")
+                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_B_00");
+                else if(renderer.sprite.name == "Face_A_01")
+                     renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_B_01");
+                else if(renderer.sprite.name == "Face_A_02")
+                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_B_02");
+               
+            }
+        }
+    }
 
 	// Update is called once per frame
 	void Update () 
     {
        Rigidbody2D player = GetComponent<Rigidbody2D>();
+        /*
+       if (Input.GetKey(KeyCode.L))
+       {
+           foreach (var renderer in face.GetComponents<SpriteRenderer>())
+           {
+               Debug.Log("SpriteName " + k + ": " + renderer.sprite.name);
+               // string spriteName = renderer.sprite.name;
+               if (renderer.sprite.name == "Face_A_00")
+                   renderer.sprite = Resources.Load<Sprite>("Sprties/Agent/Face/Face_B_00");
+               else if (renderer.sprite.name == "Face_A_01")
+                   renderer.sprite = Resources.Load<Sprite>("Sprties/Agent/Face/Face_B_01");
+               else if (renderer.sprite.name == "Face_A_02")
+                   renderer.sprite = Resources.Load<Sprite>("Sprties/Agent/Face/Face_B_02");
+
+           }
+       }*/
 
 	    if(grounded && Input.GetKeyDown(KeyCode.Space))
         {

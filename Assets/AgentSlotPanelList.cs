@@ -3,7 +3,10 @@ using System.Collections;
 
 public class AgentSlotPanelList : MonoBehaviour {
 
-    public UnityEngine.UI.Image agentIcon;
+    public UnityEngine.UI.Image agentBody;
+    public UnityEngine.UI.Image agentHair;
+    public UnityEngine.UI.Image agentFace;
+    public UnityEngine.UI.Image panelImage;
     public UnityEngine.UI.Button agentInfoButton;
     public UnityEngine.UI.Text agentName;
     public UnityEngine.UI.Text agentHP;

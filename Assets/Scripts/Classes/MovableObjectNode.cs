@@ -2,6 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public class PathData
+{
+    public MapEdge[] pathList;
+    public float[] pathList_PosRate;
+
+    public int pathIndex;
+}
+
 public class MovableObjectNode {
 
     private MapNode currentNode;
@@ -14,6 +22,8 @@ public class MovableObjectNode {
 
     private MapEdge[] pathList;
     private int pathIndex;
+
+    private PathData pathData = new PathData();
 
     public Vector2 GetCurrentViewPosition()
     {
@@ -182,14 +192,10 @@ public class MovableObjectNode {
             MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
             MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
 
-            tempNode.isTemporary = true;
-            tempEdge1.isTemporary = true;
-            tempEdge2.isTemporary = true;
-
             tempNode.AddEdge(tempEdge1);
             tempNode.AddEdge(tempEdge2);
 
-            distance = GraphAstar.Distance(tempNode, other.currentNode, 3);
+            distance = GraphAstar.Distance(tempNode, other.currentNode, range);
         }
         else if (currentNode != null && other.currentNode == null && other.currentEdge != null)
         {
@@ -219,7 +225,7 @@ public class MovableObjectNode {
             other.currentEdge.node1.AddEdge(rightTempEdge1);
             other.currentEdge.node1.AddEdge(rightTempEdge2);
 
-            distance = GraphAstar.Distance(leftTempNode, rightTempNode, 3);
+            distance = GraphAstar.Distance(leftTempNode, rightTempNode, range);
 
             other.currentEdge.node1.RemoveEdge(rightTempEdge1);
             other.currentEdge.node1.RemoveEdge(rightTempEdge2);
@@ -232,6 +238,54 @@ public class MovableObjectNode {
         return distance != -1;
     }
 
+    public void MoveToMovableNode(MovableObjectNode targetNode)
+    {
+        if (targetNode.currentNode != null)
+        {
+            MoveToNode(targetNode.currentNode);
+            return;
+        }
+
+        if (currentNode != null)
+        {
+            MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), targetNode.currentEdge.node1.GetAreaName());
+            MapEdge tempEdge1 = new MapEdge(targetNode.currentEdge.node1, tempNode, targetNode.currentEdge.type);
+            MapEdge tempEdge2 = new MapEdge(targetNode.currentEdge.node2, tempNode, targetNode.currentEdge.type);
+
+            tempNode.isTemporary = true;
+            tempEdge1.isTemporary = true;
+            tempEdge1.baseEdge = targetNode.currentEdge;
+            tempEdge2.isTemporary = true;
+            tempEdge2.baseEdge = targetNode.currentEdge;
+
+            tempNode.AddEdge(tempEdge1);
+            tempNode.AddEdge(tempEdge2);
+
+            MapEdge[] searchedPath = GraphAstar.SearchPath(currentNode, tempNode);
+
+            pathList = searchedPath;
+            pathIndex = 0;
+            if (searchedPath.Length > 0)
+            {
+                MapEdge lastEdge = searchedPath[searchedPath.Length-1];
+                if (lastEdge.node1 == tempNode)
+                {
+                    searchedPath[searchedPath.Length - 1] = targetNode.currentEdge;
+                }
+                else
+                {
+                    searchedPath[searchedPath.Length - 1] = targetNode.currentEdge;
+                }
+            }
+        }
+        else if (currentEdge != null)
+        {
+            // temp
+            currentNode = currentEdge.node1;
+            currentEdge = null;
+            MoveToMovableNode(targetNode);
+        }
+    }
     public void MoveToNode(MapNode targetNode)
     {
         if (currentNode != null)
@@ -262,9 +316,18 @@ public class MovableObjectNode {
             pathIndex = 0;
             if (searchedPath.Length > 0)
             {
-                currentEdge = searchedPath[0];
-                edgePosRate = 0;
-                edgeDirection = 1;
+                if (searchedPath[0].node1 == currentEdge.node1)
+                {
+                    // direction이 0이었으면 방향이 반대이므로 rate를 뒤집는다.
+                    edgePosRate = (1-edgeDirection) - edgePosRate;
+                    edgeDirection = 1;
+                }
+                else
+                {
+                    // direction이 1이었으면 방향이 반대이므로 rate를 뒤집는다.
+                    edgePosRate = edgeDirection - edgePosRate;
+                    edgeDirection = 0;
+                }
             }
         }
         else

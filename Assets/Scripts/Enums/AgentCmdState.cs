@@ -14,6 +14,7 @@ public enum AgentCmdState
 	IDLE, // no command
 	WORKING, // working command
     CAPTURE, // 
-    ESCAPE_WORKING 
+    ESCAPE_WORKING,
+    DEAD
 }
 

@@ -146,7 +146,13 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		Texture2D tex = Resources.Load<Texture2D> ("Sprites/"+unit.imgsrc);
 		slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0,0,tex.width, tex.height), new Vector2(0.5f, 0.5f));
 
-		posy -= 100f;
+        Texture2D tex3 = Resources.Load<Texture2D>(unit.bodyImgSrc);
+        slotPanel.agentBody.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector3(0.5f, 0.5f, 0.5f));
+        Texture2D tex1 = Resources.Load<Texture2D>(unit.faceImgSrc);
+        slotPanel.agentFace.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector3(0.5f, 0.5f, -1f));
+        Texture2D tex2 = Resources.Load<Texture2D>(unit.hairImgSrc);
+        slotPanel.agentHair.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector3(0.5f, 0.5f, -1f));
+        posy -= 100f;
     }
 
     private void AddAgentSlotEscape(AgentModel unit, ref float posy)
