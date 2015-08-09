@@ -7,6 +7,12 @@ using System.Reflection;
 
 public class AgentManager {
 
+    public static string[] nameList
+        = {
+              "one",
+              "two"
+          };
+
 	public static AgentManager _instance;
 	
 	public static AgentManager instance
@@ -36,7 +42,7 @@ public class AgentManager {
         agentListSpare = new List<AgentModel>();
     }
 
-    public AgentModel AddAgentModel(long typeId)
+    public AgentModel AddAgentModel()
     {
         int traitHp = 0;
         int traitMental = 0;
@@ -46,7 +52,7 @@ public class AgentManager {
         int traitInDirect = 0;
         int traitBlock = 0;
 
-        AgentTypeInfo info = AgentTypeList.instance.GetData(typeId);
+        AgentTypeInfo info = AgentTypeList.instance.GetData(1);
 
         if (info == null)
         {
@@ -88,9 +94,9 @@ public class AgentManager {
         }
 
         //unit.metadata = info;
-        unit.metadataId = info.id;
 
-        unit.name = info.name;
+        //unit.name = info.name;
+        unit.name = GetRandomName();
 
         unit.maxHp = unit.hp = info.hp + traitHp;
         unit.maxMental = unit.mental = info.mental + traitMental;
@@ -174,15 +180,11 @@ public class AgentManager {
     }
 
 
-    public AgentModel BuyAgent(long id)
+    public AgentModel BuyAgent()
     {
-        AgentTypeInfo info = AgentTypeList.instance.GetData(id);
-
-        //info.
-
         float energy = EnergyModel.instance.GetEnergy();
         //int needEnergy = 1;
-        return AgentManager.instance.AddAgentModel(id);
+        return AgentManager.instance.AddAgentModel();
     }
 
     private static bool TryGetValue<T>(Dictionary<string, object> dic, string name, ref T field)
@@ -264,5 +266,10 @@ public class AgentManager {
             }
         }
         return output.ToArray();
+    }
+
+    private static string GetRandomName()
+    {
+        return nameList[Random.Range(0, nameList.Length)];
     }
 }

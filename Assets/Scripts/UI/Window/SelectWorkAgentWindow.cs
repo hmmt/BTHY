@@ -2,6 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum WorkType
+{
+    NORMAL,
+    ESACAPE
+}
+
 public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
 	public Transform agentScrollTarget;
@@ -9,14 +15,15 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
 	private int state1 = 0;
 
-	private CreatureUnit targetCreature = null;
-    private IsolateRoom targetRoom = null;
+    private WorkType workType;
+	private CreatureModel targetCreature = null;
+    private Transform attachedNode = null;
 
     List<AgentModel> selectedAgentList = new List<AgentModel>();
 
 	public static SelectWorkAgentWindow currentWindow = null;
 
-    public static SelectWorkAgentWindow CreateWindow(IsolateRoom room)
+    public static SelectWorkAgentWindow CreateWindow(CreatureModel creature, WorkType type)
     {
         if (currentWindow != null)
         {
@@ -26,31 +33,28 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
         SelectWorkAgentWindow inst = newObj.GetComponent<SelectWorkAgentWindow>();
         //inst.ShowSelectAgent (unit.gameObject);
-        inst.targetRoom = room;
-        inst.targetCreature = room.targetUnit;
+        inst.targetCreature = creature;
+
+        inst.workType = type;
+
+        if (type == WorkType.NORMAL)
+        {
+            CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
+
+            inst.attachedNode = unit.room.transform;
+        }
+        else if (type == WorkType.ESACAPE)
+        {   
+            CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
+
+            inst.attachedNode = unit.transform;
+        }
+
         inst.ShowAgentList();
 
         currentWindow = inst;
         return inst;
     }
-	
-	public static SelectWorkAgentWindow CreateWindow(CreatureUnit unit)
-	{
-		if(currentWindow != null)
-		{
-			currentWindow.CloseWindow();
-		}
-        GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
-		
-		SelectWorkAgentWindow inst = newObj.GetComponent<SelectWorkAgentWindow> ();
-		//inst.ShowSelectAgent (unit.gameObject);
-		inst.targetCreature = unit;
-		inst.ShowAgentList ();
-
-		currentWindow = inst;
-		
-		return inst;
-	}
 	
 	// Use this for initialization
 	void Awake () {
@@ -63,32 +67,21 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	
 	void FixedUpdate()
 	{
+        UpdateButton();
 		UpdatePosition ();
 	}
-	
+
+    private void UpdateButton()
+    {
+    }
+
 	private void UpdatePosition()
 	{
-		if(targetCreature != null && false)
-		{
-			/*
-			Vector3 targetPos = targetCreature.transform.position;
-			
-			Vector3 newPos = transform.position;
-			newPos.x = targetPos.x+offset.x;
-			newPos.y = targetPos.y+offset.y;
-			
-			transform.position = newPos;
-			*/
-
-			Vector3 targetPos = targetCreature.transform.position;
-			
-			anchor.position = Camera.main.WorldToScreenPoint(targetPos);
-		}
-        else if (targetRoom != null)
+        if (attachedNode != null)
         {
-            Vector3 targetPos = targetRoom.transform.position;
+            Vector3 targetPos = attachedNode.position;
 
-            anchor.position = Camera.main.WorldToScreenPoint(targetPos+new Vector3(0,-3,0));
+            anchor.position = Camera.main.WorldToScreenPoint(targetPos + new Vector3(0, -3, 0));
         }
 	}
 	
@@ -103,9 +96,88 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
     public void SelectAgentSkill(AgentModel agent, SkillTypeInfo skillInfo)
 	{
-		UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature.model);
+		UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
 		CloseWindow ();
 	}
+
+    public void SelectEscapeWorkAgent(AgentModel agent)
+    {
+        AgentCmdState agentState = agent.GetState();
+
+        if (agentState != AgentCmdState.IDLE)
+        {
+            Debug.Log("agent's state must be IDLE");
+            return;
+        }
+
+        WorkEscapedCreature.Create(agent, targetCreature);
+        CloseWindow();
+    }
+
+    private void AddAgentSlotWork(AgentModel unit, ref float posy)
+    {
+        GameObject slot = Prefab.LoadPrefab ("AgentSlotPanel");
+
+		slot.transform.SetParent (agentScrollTarget, false);
+
+		RectTransform tr = slot.GetComponent<RectTransform>();
+		tr.localPosition = new Vector3(0,posy,0);
+		AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
+
+        slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
+        slotPanel.skillButton2.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.indirectSkill.imgsrc);
+        slotPanel.skillButton3.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.blockSkill.imgsrc);
+
+        slotPanel.agentName.text = unit.name;
+        slotPanel.agentHealth.text = HealthCheck(unit);
+        slotPanel.agentMental.text = MentalCheck(unit);
+        slotPanel.agentLevel.text = ""+unit.level;
+
+        AgentModel copied = unit;
+		slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));
+		slotPanel.skillButton2.onClick.AddListener(()=>SelectAgentSkill(copied, copied.indirectSkill));
+		slotPanel.skillButton3.onClick.AddListener(()=>SelectAgentSkill(copied, copied.blockSkill));
+
+		if(targetCreature.specialSkill != null)
+            slotPanel.skillButton4.onClick.AddListener(() => SelectAgentSkill(copied, targetCreature.specialSkill));
+		else
+			slotPanel.skillButton4.gameObject.SetActive(false);
+
+		Texture2D tex = Resources.Load<Texture2D> ("Sprites/"+unit.imgsrc);
+		slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0,0,tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
+		posy -= 100f;
+    }
+
+    private void AddAgentSlotEscape(AgentModel unit, ref float posy)
+    {
+        GameObject slot = Prefab.LoadPrefab("AgentSlotPanel");
+
+        slot.transform.SetParent(agentScrollTarget, false);
+
+        RectTransform tr = slot.GetComponent<RectTransform>();
+        tr.localPosition = new Vector3(0, posy, 0);
+        AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
+
+        slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
+        slotPanel.skillButton2.gameObject.SetActive(false);
+        slotPanel.skillButton3.gameObject.SetActive(false);
+        slotPanel.skillButton4.gameObject.SetActive(false);
+
+        slotPanel.agentName.text = unit.name;
+        slotPanel.agentHealth.text = HealthCheck(unit);
+        slotPanel.agentMental.text = MentalCheck(unit);
+        slotPanel.agentLevel.text = "" + unit.level;
+
+        AgentModel copied = unit;
+        slotPanel.skillButton1.onClick.AddListener(() => SelectEscapeWorkAgent(copied));
+
+
+        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
+        slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
+        posy -= 100f;
+    }
 
 	public void ShowAgentList()
 	{
@@ -117,39 +189,14 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             if (unit.GetState() == AgentCmdState.WORKING)
                 continue;
 
-			GameObject slot = Prefab.LoadPrefab ("AgentSlotPanel");
-
-			slot.transform.SetParent (agentScrollTarget, false);
-
-			RectTransform tr = slot.GetComponent<RectTransform>();
-			tr.localPosition = new Vector3(0,posy,0);
-			//slot.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new UnityEngine.Events.UnityAction(System.
-			//slot.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(()=>CloseWindow());
-			AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
-
-            slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
-            slotPanel.skillButton2.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.indirectSkill.imgsrc);
-            slotPanel.skillButton3.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.blockSkill.imgsrc);
-
-            slotPanel.agentName.text = unit.name;
-            slotPanel.agentHealth.text = HealthCheck(unit);
-            slotPanel.agentMental.text = MentalCheck(unit);
-            slotPanel.agentLevel.text = ""+unit.level;
-
-            AgentModel copied = unit;
-			slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));
-			slotPanel.skillButton2.onClick.AddListener(()=>SelectAgentSkill(copied, copied.indirectSkill));
-			slotPanel.skillButton3.onClick.AddListener(()=>SelectAgentSkill(copied, copied.blockSkill));
-
-			if(targetCreature.model.specialSkill != null)
-                slotPanel.skillButton4.onClick.AddListener(() => SelectAgentSkill(copied, targetCreature.model.specialSkill));
-			else
-				slotPanel.skillButton4.gameObject.SetActive(false);
-
-			Texture2D tex = Resources.Load<Texture2D> ("Sprites/"+unit.imgsrc);
-			slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0,0,tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
-			posy -= 100f;
+            if (workType == WorkType.NORMAL)
+            {
+                AddAgentSlotWork(unit, ref posy);
+            }
+            else if (workType == WorkType.ESACAPE)
+            {
+                AddAgentSlotEscape(unit, ref posy);
+            }
 		}
 
         // scroll rect size

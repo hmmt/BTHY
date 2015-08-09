@@ -156,14 +156,11 @@ public class UseSkill : MonoBehaviour {
         }
 
 
-		//if(Vector2.Distance((Vector2)agent.transform.position, (Vector2)targetCreature.transform.position) < 1)
 		if(agent.GetCurrentNode() != null && agent.GetCurrentNode().GetId() == targetCreature.GetWorkspaceNode().GetId())
 		{
 			if(!faceCreature)
 			{
 				faceCreature = true;
-				//OutsideTextEffect.Create(targetCreature.room, "typo/01_matchGirl_out_typo", CreatureOutsideTextLayout.CENTER_BOTTOM);
-				//targetCreature.ShowNarrationText("start", agent.name);
                 targetCreature.ShowProcessNarrationText("start",agent.name);
                 targetCreatureView.PlaySound("enter");
 				targetCreature.script.OnEnterRoom(this);

@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour {
         if (PlayerModel.instance.GetDay() == 0)
         {
             PlayerModel.instance.OpenArea("1"); ;
-            AgentManager.instance.AddAgentModel(1);
+            AgentManager.instance.AddAgentModel();
         }
 
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())

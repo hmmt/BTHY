@@ -167,10 +167,14 @@ public class MovableObjectNode {
 
     public bool CheckInRange(MovableObjectNode other)
     {
+        return CheckInRange(other, 1);
+    }
+    public bool CheckInRange(MovableObjectNode other, float range)
+    {
         float distance = -1;
         if (currentNode != null && other.currentNode != null)
         {
-            distance = GraphAstar.Distance(currentNode, other.currentNode, 3);
+            distance = GraphAstar.Distance(currentNode, other.currentNode, range);
         }
         else if (currentNode == null && currentEdge != null && other.currentNode != null)
         {

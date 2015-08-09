@@ -7,7 +7,6 @@ public class PlayerModel {
 
     private HashSet<string> areaList;
     public HashSet<string> openedAreaList;
-    public List<long> openedAgentList;
 
     public Vector3 playerSpot;
       
@@ -40,13 +39,6 @@ public class PlayerModel {
     public void Init()
     {
         openedAreaList = new HashSet<string>();
-        openedAgentList = new List<long>();
-
-        // default
-        openedAgentList.Add(1);
-        openedAgentList.Add(2);
-        openedAgentList.Add(3);
-        openedAgentList.Add(4);
 
         day = 0;
     }
@@ -88,10 +80,6 @@ public class PlayerModel {
     public string[] GetOpenedAreaList()
     {
         return openedAreaList.ToArray();
-    }
-    public long[] GetAvailableAgentList()
-    {
-        return openedAgentList.ToArray();
     }
 
     private void UpdateArea(string added)

@@ -5,9 +5,6 @@ public class AttackAgent : MonoBehaviour {
     public AgentModel agent;
     public CreatureModel creature;
 
-    public int agentStack;
-    public int creatureStack;
-
     private float timer = 0.0f;
 
     private void proccess()
