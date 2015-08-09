@@ -20,19 +20,39 @@ public class WorkEscapedCreature : MonoBehaviour {
     
     private void proccess()
     {
-        int agentDice = Random.Range(1, 4);
-        int creatureDice = Random.Range(1, 5);
+        int agentDice = Random.Range(1, 4+1);
+        int creatureDice = Random.Range(1, 5+1);
+
+        creatureStack--;
 
         if (creatureDice < agentDice)
         {
+            /*
             Debug.Log("creature stack down");
             creatureStack--;
+            */
+
         }
         else
         {
+            /*
             Debug.Log("agent stack down");
             agentStack--;
+            */
         }
+
+        if (creatureStack <= 0)
+        {
+            Success();
+            return;
+        }
+    }
+
+    void Success()
+    {
+        agent.FinishWorking();
+        creature.ReturnEscape();
+        Destroy(gameObject);
     }
 
 

@@ -196,7 +196,10 @@ public class CreatureModel : IObserver
             }
             else
             {
-                movableNode.MoveToNode(workspaceNode);
+                if (movableNode.IsMoving() == false)
+                {
+                    movableNode.MoveToNode(workspaceNode);
+                }
             }
         }
         else if (state == CreatureState.ESCAPE)
@@ -316,6 +319,11 @@ public class CreatureModel : IObserver
     public void StartEscapeWork()
     {
         state = CreatureState.ESCAPE_WORK;
+    }
+
+    public void ReturnEscape()
+    {
+        state = CreatureState.ESCAPE_RETURN;
     }
 
     public bool GetPreferSkillBonus(string type, out float bonus)
