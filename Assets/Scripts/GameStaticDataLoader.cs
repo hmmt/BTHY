@@ -187,8 +187,6 @@ public class GameStaticDataLoader {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(creatureTextAsset.text);
 
-            Debug.Log("Loading ... " + src);
-
             XmlNodeList nodes = doc.SelectNodes("/creature/info");
 
             foreach (XmlNode node in nodes)

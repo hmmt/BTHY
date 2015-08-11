@@ -153,21 +153,13 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - agentCost);
 
-            long[] idList = PlayerModel.instance.GetAvailableAgentList();
-
-            long selected = idList[Random.Range(0, idList.Length)];
-
             //AgentModel newAgent = AgentManager.instance.BuyAgent(selected);
 
-            AgentManager.instance.BuyAgent(selected);
+            AgentManager.instance.BuyAgent();
 
             StartStageUI.instance.ShowAgentCount();
             ShowAgentList();
             SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
-
-            Debug.Log("Agent Count : " + AgentManager.instance.agentCount);
-            Debug.Log("Agent List : " + AgentManager.instance.GetAgentList().Length);
-            Debug.Log("Spare Agent List : " + AgentManager.instance.agentListSpare.Count);
 
 
         }

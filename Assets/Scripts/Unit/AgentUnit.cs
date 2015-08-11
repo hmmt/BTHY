@@ -30,6 +30,9 @@ public class AgentUnit : MonoBehaviour {
     public GameObject deadSprite;
     public GameObject hairSprite;
 
+    //직원 대사
+    string speach = "";
+
     void LateUpdate()
     {
         foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>())
@@ -225,6 +228,32 @@ public class AgentUnit : MonoBehaviour {
 
         oldPosY = transform.localPosition.y;
         oldPos = transform.localPosition.x;
+
+        int randLyricsTick = Random.Range(0, 1000);
+        if (model.GetState() == AgentCmdState.IDLE &&  randLyricsTick == 0 && model.mental >0)
+        {
+            int randLyricsStory = Random.Range(0, 10);
+            if (randLyricsStory < 8)
+            {
+                speach = AgentLyrics.instance.getLyricsByDay(PlayerModel.instance.GetDay());
+            }
+            else
+            {
+                speach = AgentLyrics.instance.getStoryLyrics();
+            }
+            Notice.instance.Send("AddPlayerLog", name + " : " + speach);
+            Notice.instance.Send("AddSystemLog", name + " : " + speach);
+            showSpeech.showSpeech(speach);
+        }
+
+        if(model.mental <= 0)
+        {
+            speach = AgentLyrics.instance.getPanicLyrics();
+            Notice.instance.Send("AddPlayerLog", name + " : " + speach);
+            Notice.instance.Send("AddSystemLog", name + " : " + speach);
+            showSpeech.showSpeech(speach);
+            Debug.Log("패닉대사 " + speach);
+        }
 	}
 
 	void Update()
@@ -258,6 +287,12 @@ public class AgentUnit : MonoBehaviour {
         if (CollectionWindow.currentWindow != null)
         CollectionWindow.currentWindow.CloseWindow();
 
+        speach = AgentLyrics.instance.getOnClickLyrics();
+        Notice.instance.Send("AddPlayerLog", name + " : " + speach);
+        Notice.instance.Send("AddSystemLog", name + " : " + speach);
+        showSpeech.showSpeech(speach);
+        Debug.Log("관리자한테 " + speach);
+
         // TODO : 최적화 필요
         agentWindow = GameObject.FindGameObjectWithTag("AnimAgentController");
 
@@ -282,4 +317,6 @@ public class AgentUnit : MonoBehaviour {
             TextAppearNormalEffect.Create(GetComponent<DestroyHandler>(), new Vector2(0, 0.5f), 4f, name + " : " + speech, Color.blue);
         }
     }
+
+
 }

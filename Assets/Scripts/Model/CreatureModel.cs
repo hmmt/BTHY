@@ -162,6 +162,11 @@ public class CreatureModel : IObserver
         return workspaceNode;
     }
 
+    public MovableObjectNode GetMovableNode()
+    {
+        return movableNode;
+    }
+
     public void UpdateFeeling()
     {
         if (Random.value < metaInfo.feelingDownProb)
@@ -191,12 +196,22 @@ public class CreatureModel : IObserver
             }
             else
             {
-                movableNode.MoveToNode(workspaceNode);
+                if (movableNode.IsMoving() == false)
+                {
+                    movableNode.MoveToNode(workspaceNode);
+                }
             }
         }
         else if (state == CreatureState.ESCAPE)
         {
             OnEscapeUpdate();
+        }
+        else if (state == CreatureState.WAIT)
+        {
+            if (feeling <= 0)
+            {
+                Escape();
+            }
         }
         movableNode.ProcessMoveNode(4);
     }
@@ -299,6 +314,16 @@ public class CreatureModel : IObserver
     {
         state = CreatureState.ESCAPE;
         escapeAttackWait = 2;
+    }
+
+    public void StartEscapeWork()
+    {
+        state = CreatureState.ESCAPE_WORK;
+    }
+
+    public void ReturnEscape()
+    {
+        state = CreatureState.ESCAPE_RETURN;
     }
 
     public bool GetPreferSkillBonus(string type, out float bonus)

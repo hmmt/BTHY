@@ -14,6 +14,7 @@ public enum CreatureState
     ESCAPE,
     ESCAPE_ATTACK,
     ESCAPE_RETURN,
+    ESCAPE_WORK,
 	WORKING,
     OBSERVE
 }

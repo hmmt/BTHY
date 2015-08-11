@@ -44,6 +44,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public Light2D Warning_Green4;
 
     public SpriteRenderer observeCatuionSprite;
+    public Animator observeRoom;
 
     public TextMesh creatureLevel;
     public TextMesh creatureName;
@@ -275,21 +276,23 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             {
                 workingOnRenderer.gameObject.SetActive(true);
                 workingOffRenderer.gameObject.SetActive(false);
-                observeCatuionSprite.gameObject.SetActive(false);
+                //observeCatuionSprite.gameObject.SetActive(false);
             }
 
             else if (targetUnit.model.state == CreatureState.OBSERVE)
             {
                 workingOnRenderer.gameObject.SetActive(true);
                 workingOffRenderer.gameObject.SetActive(false);
-                observeCatuionSprite.gameObject.SetActive(true);
+                observeRoom.SetBool("ObserveStart",true);
+               // observeCatuionSprite.gameObject.SetActive(true);
             }
 
             else
             {
                 workingOnRenderer.gameObject.SetActive(false);
                 workingOffRenderer.gameObject.SetActive(true);
-                observeCatuionSprite.gameObject.SetActive(false);
+                observeRoom.SetBool("ObserveStart", false);
+                //observeCatuionSprite.gameObject.SetActive(false);
             }
 		}
 	}

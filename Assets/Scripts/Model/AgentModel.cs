@@ -12,7 +12,6 @@ public class AgentModel : IObserver
 
     // 초기화 이외에는 사용하지 않고 있다.
     //public AgentTypeInfo metadata;
-    public long metadataId;
 
     public string name;
     public int hp;
@@ -114,7 +113,6 @@ public class AgentModel : IObserver
         output.Add("instanceId", instanceId);
         output.Add("currentSefira", currentSefira);
 
-        output.Add("metadataId", metadataId);
         output.Add("name", name);
         output.Add("hp", hp);
         //output.Add("traitList", 
@@ -198,8 +196,6 @@ public class AgentModel : IObserver
         //BinaryFormatter bf = new BinaryFormatter();
         //Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(stream);
         TryGetValue(dic, "instanceId", ref instanceId);
-
-        TryGetValue(dic, "metadataId", ref metadataId);
 
         TryGetValue(dic, "name", ref name);
         TryGetValue(dic, "hp", ref hp);
@@ -307,7 +303,7 @@ public class AgentModel : IObserver
         {
             if (movableNode.GetCurrentEdge() == null && movableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
-                MoveToCreture(target);
+                MoveToCretureRoom(target);
             }
         }
 
@@ -361,20 +357,29 @@ public class AgentModel : IObserver
 
     public void MoveToCreture(CreatureModel target)
     {
-        //MoveToGlobalPos ((Vector2)target.transform.position);
-        //MoveToNode(target.GetNode());
+        movableNode.MoveToMovableNode(target.GetMovableNode());
+    }
+    public void MoveToCretureRoom(CreatureModel target)
+    {
         movableNode.MoveToNode(target.GetWorkspaceNode());
     }
+
     public void Attacked()
     {
         state = AgentCmdState.CAPTURE;
         movableNode.StopMoving();
     }
+    public void WorkEscape(CreatureModel target)
+    {
+        state = AgentCmdState.ESCAPE_WORKING;
+        this.target = target;
+        MoveToCreture(target);
+    }
     public void Working(CreatureModel target)
     {
         state = AgentCmdState.WORKING;
         this.target = target;
-        MoveToCreture(target);
+        MoveToCretureRoom(target);
     }
     public void FinishWorking()
     {

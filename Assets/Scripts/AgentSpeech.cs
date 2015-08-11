@@ -7,14 +7,18 @@ public class AgentSpeech : MonoBehaviour {
 
     public void showSpeech(string speech)
     {
-        textDialogue.text = speech;
-
-        textDialogue.gameObject.SetActive(true);
-
-        TimerCallback.Create(4.0f, gameObject, delegate()
+        if (!textDialogue.gameObject.activeSelf)
         {
-            textDialogue.gameObject.SetActive(false);
-        });
+
+            textDialogue.text = speech;
+
+            textDialogue.gameObject.SetActive(true);
+
+            TimerCallback.Create(5.0f, gameObject, delegate()
+            {
+                textDialogue.gameObject.SetActive(false);
+            });
+        }
 
     }
 

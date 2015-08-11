@@ -64,10 +64,13 @@ public class CreatureUnit : MonoBehaviour {
         Debug.Log("크리쳐 상태 "+model.state);
 		if(model.state == CreatureState.WAIT)
 		{
-			//SelectWorkAgentWindow.CreateWindow(this);
-            SelectWorkAgentWindow.CreateWindow(room);
+			SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
 			//IsolateRoomStatus.CreateWindow(this);
 		}
+        else if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
+        {
+            SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+        }
 	}
 
     public void PointerEnter()
