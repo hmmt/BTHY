@@ -45,11 +45,16 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public SpriteRenderer observeCatuionSprite;
 
+    public TextMesh creatureLevel;
+    public TextMesh creatureName;
+
     public void Awake()
     {
         workLog = GameObject.FindGameObjectWithTag("AnimationController");
         //collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
+
     }
+
 
     public void onClickWorkLog()
     {
@@ -140,10 +145,14 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
 	public void UpdateStatus()
 	{
+
 		if(targetUnit != null)
 		{
             // 잠시 안 띄움
 			feelingText.text = targetUnit.model.feeling.ToString ();
+            creatureLevel.text = targetUnit.model.metaInfo.level;
+            creatureName.text = targetUnit.model.metaInfo.name;
+
             //feelingText.text = "";
             
             float feeling = targetUnit.model.feeling;
