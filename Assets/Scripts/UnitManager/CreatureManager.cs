@@ -26,6 +26,11 @@ public class CreatureManager {
 
 	private List<CreatureModel> creatureList;
 
+    public List<CreatureModel> MalkuthCreature = new List<CreatureModel>();
+    public List<CreatureModel> NezzachCreature = new List<CreatureModel>();
+    public List<CreatureModel> HodCreature = new List<CreatureModel>();
+    public List<CreatureModel> YessodCreature = new List<CreatureModel>();
+
 	
     private int nextInstId = 1;
 
@@ -43,7 +48,34 @@ public class CreatureManager {
 
         model.position = new Vector2(x, y);
 
+        AddCreatureInSepira(model, sefiraNum);
+
         RegisterCreature(model);
+    }
+
+    // 환상체 세피라에 배속
+    public void AddCreatureInSepira(CreatureModel creature, string sepira)
+    {
+        if (sepira == "1")
+        {
+            MalkuthCreature.Add(creature);
+        }
+
+        else if (sepira == "2")
+        {
+            NezzachCreature.Add(creature);
+        }
+
+        else if (sepira == "3")
+        {
+            HodCreature.Add(creature);
+        }
+
+        else if (sepira == "4")
+        {
+            YessodCreature.Add(creature);
+        }
+
     }
     
     /**
