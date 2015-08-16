@@ -114,7 +114,6 @@ public class MovableObjectNode {
     }
     public void SetCurrentNode(MapNode node)
     {
-        Debug.Log("call SetCurrentNode");
         pathList = null;
         currentNode = node;
         currentEdge = null;
@@ -240,7 +239,6 @@ public class MovableObjectNode {
 
     public void MoveToMovableNode(MovableObjectNode targetNode)
     {
-        Debug.Log("movable node");
         if (targetNode.currentNode != null)
         {
             MoveToNode(targetNode.currentNode);
@@ -291,7 +289,6 @@ public class MovableObjectNode {
     {
         if (currentNode != null)
         {
-			Debug.Log ("move to target node NODE");
             MapEdge[] searchedPath = GraphAstar.SearchPath(currentNode, targetNode);
 
             pathList = searchedPath;
@@ -299,7 +296,6 @@ public class MovableObjectNode {
         }
         else if (currentEdge != null)
         {
-			Debug.Log ("move to target node EDGE");
             MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
             MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
             MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
