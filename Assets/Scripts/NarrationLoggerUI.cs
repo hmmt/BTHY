@@ -95,7 +95,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
             RectTransform textLineRt = logTextLineObj.GetComponent<RectTransform>();
             Vector3 textLinePos = textLineRt.localPosition;
 
-            textLinePos.y = lastTextPosition + 20f;
+            textLinePos.y = lastTextPosition + 15f;
 
             textLineRt.localPosition = textLinePos;
         }

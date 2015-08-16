@@ -129,8 +129,8 @@ public class AgentManager {
         unit.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
         */
 
-        unit.faceSpriteName = setRandomSprite(3);
-        unit.hairSpriteName = setRandomSprite(3);
+        unit.faceSpriteName = setRandomSprite(8);
+        unit.hairSpriteName = setRandomSprite(9);
         unit.bodySpriteName = setRandomSprite(1);
 
         unit.AgentPortrait("hair",unit.hairSpriteName);
@@ -163,6 +163,41 @@ public class AgentManager {
         {
             return "C";
         }
+
+        else if (num == 3)
+        {
+            return "D";
+        }
+
+        else if (num == 4)
+        {
+            return "E";
+        }
+
+        else if (num == 5)
+        {
+            return "F";
+        }
+
+        else if (num == 6)
+        {
+            return "C";
+        }
+
+        else if (num ==7)
+        {
+            return "H";
+        }
+        else if (num == 8)
+        {
+            return "I";
+        }
+
+        else if (num == 9)
+        {
+            return "J";
+        }
+
 
         else
         {

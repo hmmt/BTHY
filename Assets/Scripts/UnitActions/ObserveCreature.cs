@@ -30,7 +30,7 @@ public class ObserveCreature : MonoBehaviour
         c.agentStack = c.agent.level;
         c.creatureStack = c.creature.metaInfo.stackLevel;
 
-
+       
         agent.Working(creature);
         creature.state = CreatureState.OBSERVE;
         Debug.Log("OBSERVE");

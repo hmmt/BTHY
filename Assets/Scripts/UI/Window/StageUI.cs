@@ -375,6 +375,7 @@ public class StageUI : MonoBehaviour, IObserver {
                 unit.SetCurrentSefira("2");
                 if (!unit.activated)
                 AgentManager.instance.activateAgent(unit, currentSefriaUi);
+                AgentLayer.currentLayer.GetAgent(unit.instanceId).agentAnimator.SetInteger("Sepira", 2);
             }
             else
                 Debug.Log("이미 추가한 직원");
@@ -426,6 +427,7 @@ public class StageUI : MonoBehaviour, IObserver {
         }
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
         unit.AgentPortrait("body", null);
+       // AgentLayer.currentLayer.GetAgent(unit.instanceId).ChangeAgentUniform();
         ShowAgentList();
    }
 

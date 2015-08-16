@@ -53,7 +53,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     {
         workLog = GameObject.FindGameObjectWithTag("AnimationController");
         //collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
-
+        observeRoom.SetBool("ObserveStart", false);
+        Debug.Log("격리실 : " + observeRoom.GetBool("ObserveStart"));
     }
 
 
@@ -276,6 +277,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             {
                 workingOnRenderer.gameObject.SetActive(true);
                 workingOffRenderer.gameObject.SetActive(false);
+                observeRoom.SetBool("ObserveStart", false);
+                observeRoom.SetInteger("ObserveProcess",0);
                 //observeCatuionSprite.gameObject.SetActive(false);
             }
 
@@ -284,6 +287,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                 workingOnRenderer.gameObject.SetActive(true);
                 workingOffRenderer.gameObject.SetActive(false);
                 observeRoom.SetBool("ObserveStart",true);
+                observeRoom.SetInteger("ObserveProcess", 1);
                // observeCatuionSprite.gameObject.SetActive(true);
             }
 
@@ -292,6 +296,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                 workingOnRenderer.gameObject.SetActive(false);
                 workingOffRenderer.gameObject.SetActive(true);
                 observeRoom.SetBool("ObserveStart", false);
+                observeRoom.SetInteger("ObserveProcess", 0);
                 //observeCatuionSprite.gameObject.SetActive(false);
             }
 		}

@@ -164,43 +164,48 @@ public class AgentUnit : MonoBehaviour {
 
 	// if map is destroyed....?
 
+    public void ChangeAgentUniform()
+    {
+        Debug.Log("직원 복장 변경");
+
+        agentAnimator.SetBool("Change", true);
+
+        Debug.Log(agentAnimator.GetBool("Change"));
+
+        if (model.currentSefira == "1")
+        {
+            agentAnimator.SetInteger("Sepira", 1);
+        }
+
+        else if (model.currentSefira == "2")
+        {
+            agentAnimator.SetInteger("Sepira", 2);
+        }
+
+        else if (model.currentSefira == "3")
+        {
+            agentAnimator.SetInteger("Sepira", 3);
+        }
+
+        else if (model.currentSefira == "4")
+        {
+            agentAnimator.SetInteger("Sepira", 4);
+        }
+
+        TimerCallback.Create(1, delegate()
+        {
+            if (agentAnimator.GetBool("Change"))
+                agentAnimator.SetBool("Change", false);
+        });
+        oldSefira = model.currentSefira;
+    }
+
 
 	void FixedUpdate()
 	{
         if (oldSefira != model.currentSefira)
         {
-            Debug.Log("직원 복장 변경");
-
-            agentAnimator.SetBool("Change", true);
-
-            Debug.Log(agentAnimator.GetBool("Change"));
-
-            if (model.currentSefira == "1")
-            {
-                agentAnimator.SetInteger("Sepira", 1);
-            }
-
-            else if (model.currentSefira == "2")
-            {
-                agentAnimator.SetInteger("Sepira", 2);
-            }
-
-             else if (model.currentSefira == "3")
-            {
-                agentAnimator.SetInteger("Sepira", 3);
-             }
-
-            else if (model.currentSefira == "4")
-            {
-                agentAnimator.SetInteger("Sepira", 4);
-            }
-
-            TimerCallback.Create(1, delegate()
-            {
-                if (agentAnimator.GetBool("Change"))
-                    agentAnimator.SetBool("Change", false);
-            });
-            oldSefira = model.currentSefira;
+            ChangeAgentUniform();
         }
 
         if (oldPos != transform.localPosition.x)
