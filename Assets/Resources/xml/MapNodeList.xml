@@ -1,125 +1,120 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <node_list>
-
-	<!--
-	<node id="100" x="-0.5" y="3" />
-	<node id="101" x="0.5" y="3" />
-	<node id="102" x="-0.5" y="2.5" />
-	<node id="103" x="0.5" y="2.5" />
-	<node id="2" x="-2" y="2.5" />
-	<node id="3" x="2" y="2.5" />
-	<node id="4" x="-2" y="-2.5" />
-	<node id="5" x="2" y="-2.5" />
-	<node id="6" x="-2" y="-3" />
-	<node id="7" x="2" y="-3" />
--->
 	<area name="1">
-		<node id="sefira-malkuth-1" x="-4" y="2.5" type="sefira"/>
-		<node id="sefira-malkuth-2" x="-3" y="2.5" type="sefira"/>
-		<node id="sefira-malkuth-3" x="-2" y="2.5" type="sefira"/>
-		<node id="sefira-malkuth-4" x="-1" y="2.5" type="sefira"/>
-		<node id="sefira-malkuth-5" x="0" y="2.5" type="sefira"/>
-		<node id="sefira-malkuth-6" x="1" y="2.5" type="sefira"/>
-		<node id="sefira-malkuth-7" x="2" y="2.5" type="sefira"/>
-		<node id="sefira-malkuth-8" x="3" y="2.5" type="sefira"/>
-		<node id="sefira-malkuth-9" x="4" y="2.5" type="sefira"/>
+		<node id="sefira-malkuth-1" x="-4" y="2" type="sefira"/>
+		<node id="sefira-malkuth-2" x="-3" y="2" type="sefira"/>
+		<node id="sefira-malkuth-3" x="-2" y="2" type="sefira"/>
+		<node id="sefira-malkuth-4" x="-1" y="2" type="sefira"/>
+		<node id="sefira-malkuth-5" x="0" y="2" type="sefira"/>
+		<node id="sefira-malkuth-6" x="1" y="2" type="sefira"/>
+		<node id="sefira-malkuth-7" x="2" y="2" type="sefira"/>
+		<node id="sefira-malkuth-8" x="3" y="2" type="sefira"/>
+		<node id="sefira-malkuth-9" x="4" y="2" type="sefira"/>
+
+		<node id="S-left-way1" x="-7" y="2"/>
+		<node id="S-left-way2" x="-9" y="2"/>
+		<node id="S-left-way3" x="-16" y="2"/>
+		<node id="S-left-way4" x="-20" y="2"/>
+		<node id="S-left-way5" x="-22" y="2"/>
+		<node id="S-left-way6" x="-24" y="2"/>
+		<node id="S-left-way7" x="-26" y="0"/>
 
 
-		<node id="1002001" x="-8" y="2.5" comment="문 입구"/>
-		<node id="1002002" x="-16" y="2.5"/>
+		<node id="S-right-way1" x="7" y="2"/>
+		<node id="S-right-way2" x="9" y="2"/>
+		<node id="S-right-way3" x="16" y="2"/>
+		<node id="S-right-way4" x="20" y="2"/>
+		<node id="S-right-way5" x="22" y="2"/>
+		<node id="S-right-way6" x="24" y="2"/>
+		<node id="S-right-way7" x="26" y="0"/>
 
-		<node id="1003002" x="-16" y="2" />
+		<node id="S-bottom-way1" x="0" y="-1"/>
+		<node id="S-bottom-way2" x="0" y="-9.5"/>
+		<node id="S-bottom-way3" x="0" y="-14"/>
 
-		<node id="1004001" x="-8" y="-1" comment="환상체 격리소"/>
-		<node id="1004002" x="-16" y="-1" comment="환상체 격리소"/>
+		<node id="S-bottom-way2-left1" x="-2.5" y="-9.5"/>
+		<node id="S-bottom-way2-left2" x="-10" y="-9.5"/>
 
-		<node id="1002101" x="8" y="2.5" />
-		<node id="1002102" x="16" y="2.5" />
-
-		<node id="1003101" x="8" y="2" />
-		<node id="1003102" x="16" y="2" />
-
-		<node id="1004101" x="8" y="-1" comment="몬스터"/>
-		<node id="1004102" x="16" y="-1" comment="몬스터"/>
-
-
-		<node id="1003111" x="0" y="-9" />
-
-		<node id="1003111-left-1" x="-4" y="-9" />
-		<node id="1003111-left-2" x="-8" y="-9" />
-
-		<node id="1003111-right-1" x="4" y="-9" />
-		<node id="1003111-right-2" x="8" y="-9" />
+		<node id="S-bottom-way2-right1" x="2.5" y="-9.5"/>
+		<node id="S-bottom-way2-right2" x="10" y="-9.5"/>
 	</area>
 
 	<area name="2">
+		<node id="sefira-netzach-1" x="-31" y="-22.5" type="sefira"/>
+		<node id="sefira-netzach-2" x="-30" y="-22.5" type="sefira"/>
+		<node id="sefira-netzach-3" x="-29" y="-22.5" type="sefira"/>
+		<node id="sefira-netzach-4" x="-28" y="-22.5" type="sefira"/>
+		<node id="sefira-netzach-5" x="-27" y="-22.5" type="sefira"/>
+		<node id="sefira-netzach-6" x="-26" y="-22.5" type="sefira"/>
+		<node id="sefira-netzach-7" x="-25" y="-22.5" type="sefira"/>
+		<node id="sefira-netzach-8" x="-24" y="-22.5" type="sefira"/>
+		<node id="sefira-netzach-9" x="-23" y="-22.5" type="sefira"/>
 
-		<node id="sefira-netzach-1" x="-34" y="-23" type="sefira"/>
-		<node id="sefira-netzach-2" x="-33" y="-23" type="sefira"/>
-		<node id="sefira-netzach-3" x="-32" y="-23" type="sefira"/>
-		<node id="sefira-netzach-4" x="-31" y="-23" type="sefira"/>
-		<node id="sefira-netzach-5" x="-30" y="-23" type="sefira"/>
-		<node id="sefira-netzach-6" x="-29" y="-23" type="sefira"/>
-		<node id="sefira-netzach-7" x="-28" y="-23" type="sefira"/>
-		<node id="sefira-netzach-8" x="-27" y="-23" type="sefira"/>
-		<node id="sefira-netzach-9" x="-26" y="-23" type="sefira"/>
+		<node id="N-top-up-way1" x="-27" y="-2.5"/>
+		<node id="N-top-up-way2" x="-29" y="-2.5"/>
+		<node id="N-top-up-way3" x="-36" y="-2.5"/>
 
-		<node id="N-way1-point1" x="-30" y="2.5"/>
+		<node id="N-top-down-way1" x="-27" y="-14.5"/>
+		<node id="N-top-down-way2" x="-29" y="-14.5"/>
+		<node id="N-top-down-way3" x="-36" y="-14.5"/>
 
-		<node id="N-way1-point2" x="-30" y="-4" />
-		<node id="N-way1-point3" x="-30" y="-14" />
-
-		<node id="N-way2-point1" x="-30" y="-26" />
-		<node id="N-way2-point2" x="-30" y="-36" />
-
-		<node id="N-center-way-point1" x="-18" y="-23" />
+		<node id="N-bottom-way1" x="-27" y="-25"/>
+		<node id="N-bottom-way2" x="-27" y="-32"/>
+		<node id="N-bottom-way2-left1" x="-30" y="-32"/>
+		<node id="N-bottom-way2-left2" x="-36" y="-32"/>
+		<node id="N-bottom-way2-right1" x="-24" y="-32"/>
+		<node id="N-bottom-way2-right2" x="-18" y="-32"/>
 
 	</area>
 
 <!--  -->
 	<area name="3">
 
-		<node id="sefira-hod-1" x="34" y="-23" type="sefira"/>
-		<node id="sefira-hod-2" x="33" y="-23" type="sefira"/>
-		<node id="sefira-hod-3" x="32" y="-23" type="sefira"/>
-		<node id="sefira-hod-4" x="31" y="-23" type="sefira"/>
-		<node id="sefira-hod-5" x="30" y="-23" type="sefira"/>
-		<node id="sefira-hod-6" x="29" y="-23" type="sefira"/>
-		<node id="sefira-hod-7" x="28" y="-23" type="sefira"/>
-		<node id="sefira-hod-8" x="27" y="-23" type="sefira"/>
-		<node id="sefira-hod-9" x="26" y="-23" type="sefira"/>
+		<node id="sefira-hod-1" x="31" y="-22.5" type="sefira"/>
+		<node id="sefira-hod-2" x="30" y="-22.5" type="sefira"/>
+		<node id="sefira-hod-3" x="29" y="-22.5" type="sefira"/>
+		<node id="sefira-hod-4" x="28" y="-22.5" type="sefira"/>
+		<node id="sefira-hod-5" x="27" y="-22.5" type="sefira"/>
+		<node id="sefira-hod-6" x="26" y="-22.5" type="sefira"/>
+		<node id="sefira-hod-7" x="25" y="-22.5" type="sefira"/>
+		<node id="sefira-hod-8" x="24" y="-22.5" type="sefira"/>
+		<node id="sefira-hod-9" x="23" y="-22.5" type="sefira"/>
 
-		<node id="H-way1-point1" x="30" y="2.5"/>
+		<node id="H-top-up-way1" x="27" y="-2.5"/>
+		<node id="H-top-up-way2" x="29" y="-2.5"/>
+		<node id="H-top-up-way3" x="36" y="-2.5"/>
 
-		<node id="H-way1-point2" x="30" y="-4" />
-		<node id="H-way1-point3" x="30" y="-14" />
+		<node id="H-top-down-way1" x="27" y="-14.5"/>
+		<node id="H-top-down-way2" x="29" y="-14.5"/>
+		<node id="H-top-down-way3" x="36" y="-14.5"/>
 
-		<node id="H-way2-point1" x="30" y="-26" />
-		<node id="H-way2-point2" x="30" y="-36" />
-
-		<node id="H-center-way-point1" x="18" y="-23" />
+		<node id="H-bottom-way1" x="27" y="-25"/>
+		<node id="H-bottom-way2" x="27" y="-32"/>
+		<node id="H-bottom-way2-left1" x="30" y="-32"/>
+		<node id="H-bottom-way2-left2" x="36" y="-32"/>
+		<node id="H-bottom-way2-right1" x="24" y="-32"/>
+		<node id="H-bottom-way2-right2" x="18" y="-32"/>
 	</area>
 
 	<area name="4">
-		<node id="sefira-tessod-1" x="-4" y="-23" type="sefira"/>
-		<node id="sefira-tessod-2" x="-3" y="-23" type="sefira"/>
-		<node id="sefira-tessod-3" x="-2" y="-23" type="sefira"/>
-		<node id="sefira-tessod-4" x="-1" y="-23" type="sefira"/>
-		<node id="sefira-tessod-5" x="0" y="-23" type="sefira"/>
-		<node id="sefira-tessod-6" x="1" y="-23" type="sefira"/>
-		<node id="sefira-tessod-7" x="2" y="-23" type="sefira"/>
-		<node id="sefira-tessod-8" x="3" y="-23" type="sefira"/>
-		<node id="sefira-tessod-9" x="4" y="-23" type="sefira"/>
+		<node id="sefira-tessod-1" x="-4" y="-22.5" type="sefira"/>
+		<node id="sefira-tessod-2" x="-3" y="-22.5" type="sefira"/>
+		<node id="sefira-tessod-3" x="-2" y="-22.5" type="sefira"/>
+		<node id="sefira-tessod-4" x="-1" y="-22.5" type="sefira"/>
+		<node id="sefira-tessod-5" x="0" y="-22.5" type="sefira"/>
+		<node id="sefira-tessod-6" x="1" y="-22.5" type="sefira"/>
+		<node id="sefira-tessod-7" x="2" y="-22.5" type="sefira"/>
+		<node id="sefira-tessod-8" x="3" y="-22.5" type="sefira"/>
+		<node id="sefira-tessod-9" x="4" y="-22.5" type="sefira"/>
 
-		<node id="tessod-left-point" x="-10" y="-23"/>
-		<node id="tessod-right-point" x="10" y="-23"/>
+		<node id="T-right-way1" x="7" y="-22.5"/>
+		<node id="T-right-way2" x="9" y="-22.5"/>
+		<node id="T-right-way3" x="18" y="-22.5"/>
+		<node id="T-right-way4" x="20" y="-22.5"/>
 
-		<node id="tessod-down-point" x="0" y="-37"/>		
+		<node id="T-left-way1" x="-7" y="-22.5"/>
+		<node id="T-left-way2" x="-9" y="-22.5"/>
+		<node id="T-left-way3" x="-18" y="-22.5"/>
+		<node id="T-left-way4" x="-20" y="-22.5"/>
 	</area>
-
-	<!--
-	<node id="1003112" x="0" y="-5" />
-
-	<node id="1004111" x="0" y="-7.5" />
--->
 </node_list>

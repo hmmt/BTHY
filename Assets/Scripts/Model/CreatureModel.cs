@@ -320,6 +320,10 @@ public class CreatureModel : IObserver
     {
         state = CreatureState.ESCAPE_WORK;
     }
+	public void StopEscapeWork()
+	{
+		state = CreatureState.ESCAPE;
+	}
 
     public void ReturnEscape()
     {

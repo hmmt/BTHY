@@ -96,36 +96,35 @@ public class PlayerModel {
 
         if (added == "1")
         {
-            CreatureManager.instance.AddCreature(RandomCreature(), "1002001", -8, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "1003002", -16, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "1004101", 8, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "1004102", 17, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "1003111-left-1", -10, -9, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "1003111-right-1", 10, -9, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "S-left-way2", -9, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "S-left-way3", -16, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "S-right-way2", 9, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "S-right-way3", 16, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "S-bottom-way2-left2", -14, -9.5f, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "S-bottom-way2-right2", 14, -9.5f, added);
         }
         else if (added == "2")
         {
             // Na??
-            CreatureManager.instance.AddCreature(RandomCreature(), "N-way1-point2", -25, -4, added); // 마법소녀
-            CreatureManager.instance.AddCreature(RandomCreature(), "N-way1-point3", -25, -14, added); // 보고 싶은 사신
-            CreatureManager.instance.AddCreature(RandomCreature(), "N-way2-point1", -25, -26, added); // 없는 책
-            CreatureManager.instance.AddCreature(RandomCreature(), "N-way2-point2", -25, -36, added); // 삐에로
+            CreatureManager.instance.AddCreature(RandomCreature(), "N-top-up-way3", -41, -2.5f, added); // 마법소녀
+            CreatureManager.instance.AddCreature(RandomCreature(), "N-top-down-way3", -41, -14.5f, added); // 보고 싶은 사신
+            CreatureManager.instance.AddCreature(RandomCreature(), "N-bottom-way2-left2", -41, -32, added); // 없는 책
+            CreatureManager.instance.AddCreature(RandomCreature(), "N-bottom-way2-right2", -13, -32, added); // 삐에로
         }
         else if (added == "3")
         {
-            CreatureManager.instance.AddCreature(RandomCreature(), "H-way1-point2", 25, -4, added); // 남자 초상화
-            CreatureManager.instance.AddCreature(RandomCreature(), "H-way1-point3", 25, -14, added); // 벽 여인
-            CreatureManager.instance.AddCreature(RandomCreature(), "H-way2-point1", 25, -26, added); // 잭이 없는 콩나무
-            CreatureManager.instance.AddCreature(RandomCreature(), "H-way2-point2", 25, -36, added); // (아무 것도 없는)
+            CreatureManager.instance.AddCreature(RandomCreature(), "H-top-up-way3", 41, -2.5f, added); // 남자 초상화
+            CreatureManager.instance.AddCreature(RandomCreature(), "H-top-down-way3", 41, -14.5f, added); // 벽 여인
+            CreatureManager.instance.AddCreature(RandomCreature(), "H-bottom-way2-left2", 41, -32, added); // 잭이 없는 콩나무
+            CreatureManager.instance.AddCreature(RandomCreature(), "H-bottom-way2-right2", 13, -32, added); // (아무 것도 없는)
         }
         else if (added == "4")
         {
-            CreatureManager.instance.AddCreature(RandomCreature(), "tessod-left-point", -10, -26, added); // 테레지아
-            CreatureManager.instance.AddCreature(RandomCreature(), "tessod-right-point", 10, -26, added); // 아무말 없는 수녀
+            CreatureManager.instance.AddCreature(RandomCreature(), "T-left-way2", -9, -27, added); // 테레지아
+            CreatureManager.instance.AddCreature(RandomCreature(), "T-left-way3", -18, -27, added); // 아무말 없는 수녀
 
-
-            CreatureManager.instance.AddCreature(RandomCreature(), "tessod-down-point", -6, -35, added); // 마법소녀
-            CreatureManager.instance.AddCreature(RandomCreature(), "tessod-down-point", 6, -35, added); // 마법소녀
+            CreatureManager.instance.AddCreature(RandomCreature(), "T-right-way2", 9, -27, added); // 마법소녀
+            CreatureManager.instance.AddCreature(RandomCreature(), "T-right-way3", 18, -27, added); // 마법소녀
         }
 
         //Notice.instance.Send(NoticeName.AreaOpenUpdate, added);

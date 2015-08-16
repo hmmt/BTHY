@@ -317,7 +317,7 @@ public class MovableObjectNode {
             {
                 if (searchedPath[0].node2 == currentEdge.node1)
                 {
-                    // direction이 0이었으면 방향이 반대이므로 rate를 뒤집는다.
+                    // direction이 1이었으면 방향이 반대이므로 rate를 뒤집는다.
 					if(edgeDirection == 1)
 					{
                     	edgePosRate = 1 - edgePosRate;
@@ -326,7 +326,7 @@ public class MovableObjectNode {
                 }
 				else // searchedPath[0].node2 == currentEdge.node2
                 {
-                    // direction이 1이었으면 방향이 반대이므로 rate를 뒤집는다.
+                    // direction이 0이었으면 방향이 반대이므로 rate를 뒤집는다.
 					if(edgeDirection == 0)
 					{
 						edgePosRate = 1 - edgePosRate;
