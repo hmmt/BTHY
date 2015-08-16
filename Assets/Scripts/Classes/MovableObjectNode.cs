@@ -11,7 +11,6 @@ public class PathData
 }
 
 public class MovableObjectNode {
-
     private MapNode currentNode;
 
     private MapEdge currentEdge;
@@ -115,6 +114,7 @@ public class MovableObjectNode {
     }
     public void SetCurrentNode(MapNode node)
     {
+        Debug.Log("call SetCurrentNode");
         pathList = null;
         currentNode = node;
         currentEdge = null;
@@ -240,6 +240,7 @@ public class MovableObjectNode {
 
     public void MoveToMovableNode(MovableObjectNode targetNode)
     {
+        Debug.Log("movable node");
         if (targetNode.currentNode != null)
         {
             MoveToNode(targetNode.currentNode);
@@ -290,6 +291,7 @@ public class MovableObjectNode {
     {
         if (currentNode != null)
         {
+			Debug.Log ("move to target node NODE");
             MapEdge[] searchedPath = GraphAstar.SearchPath(currentNode, targetNode);
 
             pathList = searchedPath;
@@ -297,6 +299,7 @@ public class MovableObjectNode {
         }
         else if (currentEdge != null)
         {
+			Debug.Log ("move to target node EDGE");
             MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
             MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
             MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
@@ -316,18 +319,25 @@ public class MovableObjectNode {
             pathIndex = 0;
             if (searchedPath.Length > 0)
             {
-                if (searchedPath[0].node1 == currentEdge.node1)
+                if (searchedPath[0].node2 == currentEdge.node1)
                 {
                     // direction이 0이었으면 방향이 반대이므로 rate를 뒤집는다.
-                    edgePosRate = (1-edgeDirection) - edgePosRate;
-                    edgeDirection = 1;
+					if(edgeDirection == 1)
+					{
+                    	edgePosRate = 1 - edgePosRate;
+                    	edgeDirection = 0;
+					}
                 }
-                else
+				else // searchedPath[0].node2 == currentEdge.node2
                 {
                     // direction이 1이었으면 방향이 반대이므로 rate를 뒤집는다.
-                    edgePosRate = edgeDirection - edgePosRate;
-                    edgeDirection = 0;
+					if(edgeDirection == 0)
+					{
+						edgePosRate = 1 - edgePosRate;
+                    	edgeDirection = 1;
+					}
                 }
+				searchedPath[0] = currentEdge;
             }
         }
         else
