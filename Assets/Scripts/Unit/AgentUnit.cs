@@ -30,6 +30,8 @@ public class AgentUnit : MonoBehaviour {
     public GameObject deadSprite;
     public GameObject hairSprite;
 
+    public UnityEngine.UI.Text speachText;
+
     //직원 대사
     string speach = "";
 
@@ -249,7 +251,7 @@ public class AgentUnit : MonoBehaviour {
         oldPos = transform.localPosition.x;
 
         int randLyricsTick = Random.Range(0, 1000);
-        if (model.GetState() == AgentCmdState.IDLE &&  randLyricsTick == 0 && model.mental >0)
+        if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 && !speachText.IsActive())
         {
             int randLyricsStory = Random.Range(0, 10);
             if (randLyricsStory < 8)
@@ -265,7 +267,7 @@ public class AgentUnit : MonoBehaviour {
             showSpeech.showSpeech(speach);
         }
 
-        if(model.mental <= 0)
+        if (model.mental <= 0 && !speachText.IsActive())
         {
             speach = AgentLyrics.instance.getPanicLyrics();
             Notice.instance.Send("AddPlayerLog", name + " : " + speach);
