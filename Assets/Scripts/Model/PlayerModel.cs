@@ -15,6 +15,7 @@ public class PlayerModel {
     // 지금까지 등장한 환상체 인덱스 기록하는 배열
     public List<int> inGameCreatureList= new List<int>();
 
+
     private static PlayerModel _instance;
     public static PlayerModel instance
     {

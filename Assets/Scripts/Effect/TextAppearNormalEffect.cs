@@ -123,6 +123,14 @@ public class TextAppearNormalEffect : MonoBehaviour {
 		return effect;
 	}
 
+    public bool IsSpeechOn()
+    {
+        if (textUI.IsActive())
+            return true;
+        else
+            return false;
+    }
+
 	public void OnRemoveTarget()
 	{
 		Destroy (gameObject);

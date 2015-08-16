@@ -64,6 +64,7 @@ public class AgentModel : IObserver
     public string faceSpriteName;
     public string hairSpriteName;
     public string bodySpriteName;
+    public string panicSpriteName;
 
     public string hairImgSrc;
     public string faceImgSrc;

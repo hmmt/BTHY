@@ -310,6 +310,11 @@ public class CreatureModel : IObserver
         Notice.instance.Send("UpdateCreatureState_" + instanceId);
     }
 
+    public void DangerFeeling()
+    {
+        Debug.Log("세피라에 직원 없다ㅏㅏ" + instanceId);
+    }
+
     public void StopEscapeAttack()
     {
         state = CreatureState.ESCAPE;

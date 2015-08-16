@@ -132,6 +132,7 @@ public class AgentManager {
         unit.faceSpriteName = setRandomSprite(8);
         unit.hairSpriteName = setRandomSprite(9);
         unit.bodySpriteName = setRandomSprite(1);
+        unit.panicSpriteName = setRandomSprite(3);
 
         unit.AgentPortrait("hair",unit.hairSpriteName);
         unit.AgentPortrait("face", unit.faceSpriteName);

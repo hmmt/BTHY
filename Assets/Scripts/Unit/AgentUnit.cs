@@ -30,6 +30,8 @@ public class AgentUnit : MonoBehaviour {
     public GameObject deadSprite;
     public GameObject hairSprite;
 
+    public UnityEngine.UI.Text speachText;
+
     //직원 대사
     string speach = "";
 
@@ -37,12 +39,26 @@ public class AgentUnit : MonoBehaviour {
     {
         foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>())
         {
-            if (renderer.sprite.name == "Face_A_00")
-                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
-            else if (renderer.sprite.name == "Face_A_01")
-                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" +model. faceSpriteName + "_01");
-            else if (renderer.sprite.name == "Face_A_02")
-                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_02");
+            if (model.mental > 0)
+            {
+                if (renderer.sprite.name == "Face_A_00")
+                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+                else if (renderer.sprite.name == "Face_A_01")
+                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_01");
+                else if (renderer.sprite.name == "Face_A_02")
+                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_02");
+            }
+
+            else
+            {
+                if (renderer.sprite.name == "Face_A_00")
+                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_00");
+                else if (renderer.sprite.name == "Face_A_01")
+                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_01");
+                else if (renderer.sprite.name == "Face_A_02")
+                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_02");
+
+            }
         }
 
         foreach (var renderer in hairSprite.GetComponents<SpriteRenderer>())
@@ -235,7 +251,7 @@ public class AgentUnit : MonoBehaviour {
         oldPos = transform.localPosition.x;
 
         int randLyricsTick = Random.Range(0, 1000);
-        if (model.GetState() == AgentCmdState.IDLE &&  randLyricsTick == 0 && model.mental >0)
+        if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 && !speachText.IsActive())
         {
             int randLyricsStory = Random.Range(0, 10);
             if (randLyricsStory < 8)
@@ -251,7 +267,7 @@ public class AgentUnit : MonoBehaviour {
             showSpeech.showSpeech(speach);
         }
 
-        if(model.mental <= 0)
+        if (model.mental <= 0 && !speachText.IsActive())
         {
             speach = AgentLyrics.instance.getPanicLyrics();
             Notice.instance.Send("AddPlayerLog", name + " : " + speach);
