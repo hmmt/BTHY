@@ -40,6 +40,54 @@ public class CreatureUnit : MonoBehaviour {
            }
            viewPosition = model.GetCurrentViewPosition();
        }
+       transform.localPosition = viewPosition;
+   }
+
+   private void UpdateDirection()
+   {
+       MapEdge currentEdge = model.GetCurrentEdge();
+       int edgeDirection = model.GetMovableNode().GetEdgeDirection();
+
+       if (currentEdge != null)
+       {
+           MapNode node1 = currentEdge.node1;
+           MapNode node2 = currentEdge.node2;
+           Vector2 pos1 = node1.GetPosition();
+           Vector2 pos2 = node2.GetPosition();
+
+           if (edgeDirection == 1)
+           {
+               Transform anim = creatureAnimator.transform;
+
+               Vector3 scale = anim.localScale;
+
+               if (pos2.x - pos1.x > 0 && scale.x < 0)
+               {
+                   scale.x = -scale.x;
+               }
+               else if (pos2.x - pos1.x < 0 && scale.x > 0)
+               {
+                   scale.x = -scale.x;
+               }
+               anim.transform.localScale = scale;
+           }
+           else
+           {
+               Transform anim = creatureAnimator.transform;
+
+               Vector3 scale = anim.localScale;
+
+               if (pos2.x - pos1.x > 0 && scale.x > 0)
+               {
+                   scale.x = -scale.x;
+               }
+               else if (pos2.x - pos1.x < 0 && scale.x < 0)
+               {
+                   scale.x = -scale.x;
+               }
+               anim.transform.localScale = scale;
+           }
+       }
    }
 
 	void FixedUpdate()
@@ -49,11 +97,17 @@ public class CreatureUnit : MonoBehaviour {
 
     void Update()
     {
-        transform.localPosition = viewPosition;
-
         if (script != null)
         {
             script.Update();
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (script != null)
+        {
+            script.LateUpdate();
         }
     }
 

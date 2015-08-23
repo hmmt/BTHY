@@ -10,7 +10,15 @@ public class CreatureAnimBase {
         this.unit = unit;
     }
 
+    public virtual void Init()
+    {
+    }
     public virtual void Update()
+    {
+
+    }
+
+    public virtual void LateUpdate()
     {
 
     }

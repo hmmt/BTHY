@@ -11,6 +11,7 @@ public class NullCreature : CreatureBase {
 
     private void ChangeBody()
     {
+        return;
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
         Texture2D tex = Resources.Load<Texture2D>("Sprites/" + transImage);
         unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
@@ -18,6 +19,7 @@ public class NullCreature : CreatureBase {
     }
     private void ChangeNormal()
     {
+        return;
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
         Texture2D tex = Resources.Load<Texture2D>("Sprites/" + model.metaInfo.imgsrc);
         unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
@@ -44,7 +46,7 @@ public class NullCreature : CreatureBase {
             }
         }
 
-        if (creature.feeling <= 0)
+        //if (creature.feeling <= 0)
         {
             creature.Escape();
         }

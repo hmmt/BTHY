@@ -51,6 +51,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
             if (unit.script != null)
             {
                 unit.script.SetCreatureUnit(unit);
+                unit.script.Init();
             }
         }
 
