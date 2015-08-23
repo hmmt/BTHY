@@ -8,9 +8,9 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 	
 	//private int boxHeight = 200;
 
-	private float boxPosition = 200;
+	private float boxPosition = 55;
 
-	private float lastTextPosition = -300;
+	private float lastTextPosition = -370;
 	private float lastTextHeight = 0;
 
     private float diff = 15f;
@@ -50,23 +50,20 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 		RectTransform rt = logBoard.GetComponent<RectTransform> ();
 		//rt.sizeDelta = new Vector2(rt.sizeDelta.x, boxHeight + (textChildren.Length - 1) * textHeight);
 
-		Vector3 pos = rt.localPosition;
-		//pos.y = boxHeight+(textChildren.Length-1) * textHeight;
-		boxPosition += textHeight;
+        Vector3 pos = rt.anchoredPosition;
+		boxPosition += textHeight * rt.localScale.y;
 		pos.y = boxPosition;
-		rt.localPosition = pos;
+        rt.anchoredPosition = pos;
 
 		rt.sizeDelta = new Vector2(rt.sizeDelta.x, boxPosition);
-		
-		
-		rt = textUI.GetComponent<RectTransform> ();
-		pos = rt.localPosition;
-		// pos.y = -180-(textChildren.Length-1) * textHeight;
-		//pos.y = -boxPosition + 20;
+
+
+        RectTransform uirt = textUI.GetComponent<RectTransform>();
+        pos = uirt.localPosition;
 		lastTextPosition -= lastTextHeight;
 		pos.y = lastTextPosition;
-		rt.localPosition = pos;
-		rt.sizeDelta = new Vector2 (rt.sizeDelta.x, textHeight);
+        uirt.localPosition = pos;
+        uirt.sizeDelta = new Vector2(uirt.sizeDelta.x, textHeight);
 
 		lastTextHeight = textHeight;
 

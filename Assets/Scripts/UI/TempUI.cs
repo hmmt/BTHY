@@ -18,6 +18,7 @@ public class TempUI : MonoBehaviour {
     public void Save()
     {
         GameManager.currentGameManager.SaveData();
+        //Notice.instance.Send("AddSystemLog", "test");
     }
 
     public void Load()

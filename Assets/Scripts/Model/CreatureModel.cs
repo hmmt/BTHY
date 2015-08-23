@@ -208,10 +208,12 @@ public class CreatureModel : IObserver
         }
         else if (state == CreatureState.WAIT)
         {
+            /*
             if (feeling <= 0)
             {
                 Escape();
             }
+            */
         }
         movableNode.ProcessMoveNode(4);
     }

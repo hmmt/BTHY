@@ -6,22 +6,65 @@ public class MagicalGirl : CreatureBase {
     // 기분상태에 따라 마취약 투여가 가능해야 함.
 
     private bool isDark = false;
+    private static string darkImage = "Unit/creature/magicalGirl_trans";
 
-    // 역변
-    //public override void OnFeelingUpdate(CreatureUnit creature)
-    public override void OnFixedUpdate(CreatureModel creature)
+    private static int darkCondition = 25;
+
+    public override CreatureAttackInfo GetAttackInfo(UseSkill skill)
     {
-        if (creature.feeling <= 50)
+        if (model.feeling <= darkCondition)
         {
-            if(isDark == false)
-                Debug.Log("MagicalGirl.. darkness");
-            isDark = true;
+            if (skill.skillTypeInfo.id == 0)
+            {
+            }
+            return base.GetAttackInfo(skill);
         }
         else
         {
-            if(isDark == true)
+            return base.GetAttackInfo(skill);
+        }
+    }
+    private void ChangeDark(CreatureModel creature)
+    {
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
+        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + darkImage);
+        unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        unit.spriteRenderer.gameObject.transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    private void ChangeNormal(CreatureModel creature)
+    {
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
+        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + creature.metaInfo.imgsrc);
+        unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        unit.spriteRenderer.gameObject.transform.localScale = new Vector3(200f / tex.width, 200f / tex.height, 1);
+    }
+
+    // 역변
+    public override void OnFixedUpdate(CreatureModel creature)
+    {
+        if (creature.feeling <= darkCondition)
+        {
+            if (isDark == false)
+            {
+                Debug.Log("MagicalGirl.. darkness");
+                isDark = true;
+                ChangeDark(creature);
+            }
+        }
+        else
+        {
+            if (isDark == true)
+            {
                 Debug.Log("MagicalGirl.. status ok");
-            isDark = false;
+                isDark = false;
+                ChangeNormal(creature);
+            }
+        }
+
+        if (creature.feeling <= 0)
+        {
+            creature.Escape();
         }
     }
 
