@@ -382,9 +382,16 @@ public class CreatureModel : IObserver
         return workspaceNode.GetAreaName();
     }
 
+    /**
+     * 환상체가 wait 상태일 때만 탈출됩니다.
+     * 
+     */
     public void Escape()
     {
-        state = CreatureState.ESCAPE;
+        if (state == CreatureState.WAIT)
+        {
+            state = CreatureState.ESCAPE;
+        }
     }
 
     public string GetObserveText()

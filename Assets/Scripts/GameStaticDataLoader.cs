@@ -214,6 +214,11 @@ public class GameStaticDataLoader {
 
                 model.script = node.Attributes.GetNamedItem("script").InnerText;
 
+                if (node.Attributes.GetNamedItem("animatorScript") != null)
+                {
+                    model.animatorScript = node.Attributes.GetNamedItem("animatorScript").InnerText;
+                }
+
                 XmlNode feelingNode = node.SelectSingleNode("feeling");
                 model.feelingMax = int.Parse(feelingNode.Attributes.GetNamedItem("max").InnerText);
                 model.feelingDownProb = float.Parse(feelingNode.Attributes.GetNamedItem("downProb").InnerText);

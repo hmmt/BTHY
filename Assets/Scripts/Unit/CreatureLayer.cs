@@ -45,6 +45,15 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
         unit.model = model;
 
+        if (model.metaInfo.animatorScript != null)
+        {
+            unit.script = (CreatureAnimBase)System.Activator.CreateInstance(System.Type.GetType(model.metaInfo.animatorScript));
+            if (unit.script != null)
+            {
+                unit.script.SetCreatureUnit(unit);
+            }
+        }
+
         Texture2D tex = Resources.Load<Texture2D>("Sprites/" + model.metaInfo.imgsrc);
         unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
         unit.spriteRenderer.gameObject.transform.localScale = new Vector3(200f / tex.width, 200f / tex.height, 1);
