@@ -1,7 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public class CreatureAttackInfo
+{
+    public float physicsProb;
+    public float mentalProb;
+    public int physicsDmg;
+    public int mentalDmg;
+
+    public CreatureAttackInfo() { }
+    public CreatureAttackInfo(float physicsProb, float mentalProb, int physicsDmg, int mentalDmg)
+    {
+        this.physicsProb = physicsProb;
+        this.mentalProb = mentalProb;
+        this.physicsDmg = physicsDmg;
+        this.mentalDmg = mentalDmg;
+    }
+}
+
 public class CreatureBase {
+
+    protected CreatureModel model;
+
+    public void SetModel(CreatureModel model)
+    {
+        this.model = model;
+    }
 
     public virtual void OnFixedUpdate(CreatureModel creature)
 	{
@@ -33,6 +57,7 @@ public class CreatureBase {
     {
     }
 
+    // UseSkill의 ProccessWorkTick 이 실행될 때
 	public virtual void OnSkillTickUpdate(UseSkill skill)
 	{
 
@@ -50,4 +75,14 @@ public class CreatureBase {
 	{
 		
 	}
+
+    public virtual CreatureAttackInfo GetAttackInfo(UseSkill skill)
+    {
+        return new CreatureAttackInfo(
+            model.metaInfo.physicsProb,
+            model.metaInfo.mentalProb,
+            model.metaInfo.physicsDmg,
+            model.metaInfo.mentalDmg
+            );
+    }
 }

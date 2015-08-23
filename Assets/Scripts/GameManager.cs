@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour {
 
 		GetComponent<RootTimer> ().AddTimer ("EnergyTimer", 5);
 		Notice.instance.Observe ("EnergyTimer", EnergyModel.instance);
-		GetComponent<RootTimer> ().AddTimer ("CreatureFeelingUpdateTimer", 10);
+		GetComponent<RootTimer> ().AddTimer ("CreatureFeelingUpdateTimer", 2);
 
         int day = PlayerModel.instance.GetDay();
         stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);

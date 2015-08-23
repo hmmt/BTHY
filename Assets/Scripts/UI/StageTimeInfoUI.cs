@@ -4,11 +4,15 @@ using System.Collections;
 public class StageTimeInfoUI : MonoBehaviour, IObserver {
 
     private bool init = false;
+    private float limitTime;
     private float goalTime;
     private GameManager gameManager;
 
     public UnityEngine.UI.Text timerText;
     public UnityEngine.UI.Text dayText;
+
+    public GameObject clockMinute;
+    public GameObject clockHour;
 
 	void Start ()
     {
@@ -24,6 +28,21 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
         Notice.instance.Remove(NoticeName.UpdateDay, this);
     }
 
+    void Update()
+    {
+        if (limitTime <= 0)
+        {
+            return;
+        }
+        float elapsedTime = limitTime - (goalTime - Time.time);
+
+        float minuteRate = (elapsedTime - ((int)elapsedTime / 10 * 10)) / 10.0f;
+
+        clockMinute.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, -minuteRate * 360));
+
+        float hourRate = ((int)elapsedTime / 10) / (limitTime / 10.0f);
+        clockHour.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, -hourRate * 360));
+    }
     IEnumerator UpdateTimer()
     {
         while (true)
@@ -50,6 +69,7 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
     {
         init = true;
         goalTime = Time.time + goal;
+        limitTime = goal;
         this.gameManager = gameManager;
         StartCoroutine(UpdateTimer());
     }

@@ -106,6 +106,8 @@ public class CreatureManager {
         model.basePosition = new Vector2(x, y);
         Debug.Log(typeInfo.script);
         model.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
+        if(model.script != null)
+            model.script.SetModel(model);
         model.baseNodeId = nodeId;
 
         MapNode entryNode = MapGraph.instance.GetNodeById(nodeId);

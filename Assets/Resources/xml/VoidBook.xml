@@ -134,7 +134,7 @@
 		</observe>
 
 		<img src="Unit/creature/voidBook" x="-1" y="-1"/>
-		<room src="creature_room1"/>
+		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/frame/MagicalGirl_frame"/>
 
 		<graph>

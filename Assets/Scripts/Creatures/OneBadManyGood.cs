@@ -8,7 +8,7 @@ public class OneBadManyGood : CreatureBase {
     // temporary
     public override void OnSkillFailWorkTick(UseSkill skill)
     {
-        if(skill.skillId == 40001 )
+        if (skill.skillTypeInfo.id == 40001)
         {
             ActivateSkill(skill);
         }

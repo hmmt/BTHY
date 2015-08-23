@@ -5,7 +5,7 @@ public class HappyTeddy  : CreatureBase {
 
 	public override void OnSkillStart(UseSkill skill)
 	{
-		if(skill.skillId == 40002) // 
+		if(skill.skillTypeInfo.id == 40002) // 
 		{
 			if(skill.targetCreature.feeling <= 50)
 			{
@@ -19,7 +19,7 @@ public class HappyTeddy  : CreatureBase {
 
     public override void OnSkillTickUpdate(UseSkill skill)
 	{
-		if(skill.skillId == 40002)
+        if (skill.skillTypeInfo.id == 40002)
 		{
             //if(skill.targetCreature.feeling <= 50)
             {

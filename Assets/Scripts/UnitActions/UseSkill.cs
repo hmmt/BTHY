@@ -10,9 +10,9 @@ public class UseSkill : MonoBehaviour {
 	public int currentWork;
 	public int updateTick = 5;
 	public int workCount;
-	public long skillId;
-	public SkillTypeInfo skillTypeInfo;
 
+    // skill info
+	public SkillTypeInfo skillTypeInfo;
 
 	public ProgressBar progressBar;
     public AgentModel agent;
@@ -23,6 +23,12 @@ public class UseSkill : MonoBehaviour {
     public IsolateRoom room;
 
 	private bool alreadyHit = false;
+
+    /***
+     * 현재 작업이 진행중인지 확인하는 변수.
+     * 타이포 등에 의해서 작업이 일시정지되어 false가 될 수도 있다.
+     * 
+     ***/ 
 	private bool workPlaying = true;
 
 	private bool faceCreature = false;
@@ -43,54 +49,14 @@ public class UseSkill : MonoBehaviour {
             Release();
         }
     }
-
 	public void FixedUpdate()
 	{
-		if(!narrationPart1 && currentWork >= (goalWork)/5.0f)
-		{
-			targetCreature.ShowNarrationText("mid1", agent.name);
-			narrationPart1 = true;
-		}
-		else if(!narrationPart2 && currentWork >= (2*goalWork)/5.0f)
-		{
-			targetCreature.ShowNarrationText("mid2", agent.name);
-			narrationPart2 = true;
-		}
-		else if(!narrationPart3 && currentWork >= (3*goalWork)/5.0f)
-		{
-			targetCreature.ShowNarrationText("mid3", agent.name);
-			narrationPart3 = true;
-		}
-		else if(!narrationPart4 && currentWork >= (4*goalWork)/5.0f)
-		{
-			targetCreature.ShowNarrationText("mid4", agent.name);
-			narrationPart4 = true;
-		}
+        ProcessWorkNarration();
 
-		if(elapsedWorkingTime >= updateTick * (workCount+1))
-		{
-			workCount++;
-			if(agent.work + currentWork > goalWork)
-			{
-				ProcessWorkTick(goalWork - currentWork);
-				currentWork = goalWork;
-			}
-			else
-			{
-				ProcessWorkTick(agent.work);
-				currentWork += agent.work;
-			}
-			progressBar.SetRate(currentWork/(float)goalWork);
-		}
+        ProgressWork();
+		
         if(currentWork >= goalWork && !readyToFinish)
 		{
-			/*
-			if(currentWork < goalWork)
-			{
-				ProcessWorkTick(goalWork - currentWork);
-				currentWork = goalWork;
-			}
-			*/
 			string speech;
 			if(agent.speechTable.TryGetValue ("work_complete", out speech))
 			{
@@ -111,48 +77,7 @@ public class UseSkill : MonoBehaviour {
         {
             FinshWork();
 
-            agent.expSuccess++;
-
-            string traitNarration;
-
-            if (agent.expMentalDamage > 100)
-            {
-                int i = Random.Range(0, 6);
-                if (i == 3)
-                {
-                    agent.traitList.Add(traitList.GetTraitWithId(10011));
-                    agent.applyTrait(traitList.GetTraitWithId(10011));
-                    traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10011).name + " 특성을 획득하였습니다.";
-                    Notice.instance.Send("AddSystemLog", traitNarration);
-                }
-            }
-
-            if (agent.expHpDamage > 5)
-            {
-                int i = Random.Range(0, 6);
-                if (i == 3)
-                {
-                    agent.traitList.Add(traitList.GetTraitWithId(10010));
-                    agent.applyTrait(traitList.GetTraitWithId(10010));
-                    traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10010).name + " 특성을 획득하였습니다.";
-                    Notice.instance.Send("AddSystemLog", traitNarration);
-                }
-            }
-
-            if (agent.expSuccess > 5)
-            {
-                int i = Random.Range(0, 6);
-                if (i == 3)
-                {
-                    agent.traitList.Add(traitList.GetTraitWithId(10013));
-                    agent.applyTrait(traitList.GetTraitWithId(10013));
-                    traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10013).name + " 특성을 획득하였습니다.";
-                    Notice.instance.Send("AddSystemLog", traitNarration);
-                }
-            }
-
-			string narration = agent.name+"( 이)가 "+skillTypeInfo.name+" 작업을 완료하였습니다.";
-			Notice.instance.Send("AddSystemLog", narration);
+            ProcessTraitExp();
         }
 
 
@@ -171,6 +96,94 @@ public class UseSkill : MonoBehaviour {
 			}
 		}
 	}
+
+    private void ProcessWorkNarration()
+    {
+        if (!narrationPart1 && currentWork >= (goalWork) / 5.0f)
+        {
+            targetCreature.ShowNarrationText("mid1", agent.name);
+            narrationPart1 = true;
+        }
+        else if (!narrationPart2 && currentWork >= (2 * goalWork) / 5.0f)
+        {
+            targetCreature.ShowNarrationText("mid2", agent.name);
+            narrationPart2 = true;
+        }
+        else if (!narrationPart3 && currentWork >= (3 * goalWork) / 5.0f)
+        {
+            targetCreature.ShowNarrationText("mid3", agent.name);
+            narrationPart3 = true;
+        }
+        else if (!narrationPart4 && currentWork >= (4 * goalWork) / 5.0f)
+        {
+            targetCreature.ShowNarrationText("mid4", agent.name);
+            narrationPart4 = true;
+        }
+    }
+
+    private void ProgressWork()
+    {
+        if (elapsedWorkingTime >= updateTick * (workCount + 1))
+        {
+            workCount++;
+            if (agent.work + currentWork > goalWork)
+            {
+                ProcessWorkTick(goalWork - currentWork);
+                currentWork = goalWork;
+            }
+            else
+            {
+                ProcessWorkTick(agent.work);
+                currentWork += agent.work;
+            }
+            progressBar.SetRate(currentWork / (float)goalWork);
+        }
+    }
+    private void ProcessTraitExp()
+    {
+        agent.expSuccess++;
+
+        string traitNarration;
+
+        if (agent.expMentalDamage > 100)
+        {
+            int i = Random.Range(0, 6);
+            if (i == 3)
+            {
+                agent.traitList.Add(traitList.GetTraitWithId(10011));
+                agent.applyTrait(traitList.GetTraitWithId(10011));
+                traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10011).name + " 특성을 획득하였습니다.";
+                Notice.instance.Send("AddSystemLog", traitNarration);
+            }
+        }
+
+        if (agent.expHpDamage > 5)
+        {
+            int i = Random.Range(0, 6);
+            if (i == 3)
+            {
+                agent.traitList.Add(traitList.GetTraitWithId(10010));
+                agent.applyTrait(traitList.GetTraitWithId(10010));
+                traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10010).name + " 특성을 획득하였습니다.";
+                Notice.instance.Send("AddSystemLog", traitNarration);
+            }
+        }
+
+        if (agent.expSuccess > 5)
+        {
+            int i = Random.Range(0, 6);
+            if (i == 3)
+            {
+                agent.traitList.Add(traitList.GetTraitWithId(10013));
+                agent.applyTrait(traitList.GetTraitWithId(10013));
+                traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10013).name + " 특성을 획득하였습니다.";
+                Notice.instance.Send("AddSystemLog", traitNarration);
+            }
+        }
+
+        string narration = agent.name + "( 이)가 " + skillTypeInfo.name + " 작업을 완료하였습니다.";
+        Notice.instance.Send("AddSystemLog", narration);
+    }
 
 	public void PauseWorking()
 	{
@@ -209,8 +222,6 @@ public class UseSkill : MonoBehaviour {
 
 	private void ProcessWorkTick(int workValue)
 	{
-		//EnergyModel.instance.AddEnergy()
-
         targetCreature.script.OnSkillTickUpdate(this);
 
         // 
@@ -220,34 +231,33 @@ public class UseSkill : MonoBehaviour {
             bool agentUpdated = false;
             float workProb = 0.6f;
 
-            if (skillTypeInfo.Equals("direct"))
+            float physicsProb = targetCreature.metaInfo.physicsProb;
+            float mentalProb = targetCreature.metaInfo.mentalProb;
+            int physicsDmg = targetCreature.metaInfo.physicsDmg;
+            int mentalDmg = targetCreature.metaInfo.mentalDmg;
+
+            if (targetCreature.script != null)
+            {
+                CreatureAttackInfo attackInfo = targetCreature.script.GetAttackInfo(this);
+
+                physicsProb = attackInfo.physicsProb;
+                mentalProb = attackInfo.mentalProb;
+                physicsDmg = attackInfo.physicsDmg;
+                mentalDmg = attackInfo.mentalDmg;
+            }
+
+            if (skillTypeInfo.type == "direct")
             {
                 workProb += agent.directBonus;
             }
-            else if(skillTypeInfo.Equals("indirect"))
+            else if(skillTypeInfo.type == "indirect")
             {
                 workProb += agent.inDirectBonus;
             }
-
-            else if (skillTypeInfo.Equals("block"))
+            else if (skillTypeInfo.type == "block")
             {
                 workProb += agent.blockBonus;
             }
-
-            // agent prefer
-            /*
-            if (agent.prefer == skillTypeInfo.type)
-            {
-                workProb += agent.preferBonus;
-
-            }
-            else if (agent.reject == skillTypeInfo.type)
-            {
-                workProb += agent.rejectBonus;
-            }
-            else
-            {
-            }*/
 
             // creature prefer
             float bonus = 0;
@@ -303,8 +313,8 @@ public class UseSkill : MonoBehaviour {
                     }
                     workValue = -workValue;
 
-                    bool physicsAtk = Random.value < targetCreature.metaInfo.physicsProb;
-                    bool mentalAtk = Random.value < targetCreature.metaInfo.mentalProb;
+                    bool physicsAtk = Random.value < physicsProb;
+                    bool mentalAtk = Random.value < mentalProb;
 
                     if (physicsAtk || mentalAtk)
                     {
@@ -317,8 +327,8 @@ public class UseSkill : MonoBehaviour {
                         //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp",true);
                        // Debug.Log("직원 애니메이터 1불 : "+agent.agentAttackedAnimator.GetComponent<Animator>().GetBool("attackUP"));
 
-                        agent.hp -= targetCreature.metaInfo.physicsDmg;
-                        agent.expHpDamage += targetCreature.metaInfo.physicsDmg;
+                        agent.hp -= physicsDmg;
+                        agent.expHpDamage += physicsDmg;
         
                         agentUpdated = true;
 
@@ -471,7 +481,6 @@ public class UseSkill : MonoBehaviour {
         inst.targetCreatureView = creatureView;
 
 		inst.skillTypeInfo = skillInfo;
-		inst.skillId = skillInfo.id;
 
 		creature.state = CreatureState.WORKING;
 
