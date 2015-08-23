@@ -49,6 +49,7 @@ public class CreatureTypeInfo
     public string framesrc;
 
 	public string script;
+    public string animatorScript;
 
 	public Dictionary<string, string> typoTable;
 	public Dictionary<string, string> narrationTable;

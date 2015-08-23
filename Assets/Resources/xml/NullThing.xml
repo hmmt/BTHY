@@ -20,7 +20,9 @@
 
 		observeLevel="5"
 
-		script="MagicalGirl"
+		script="NullCreature"
+		animatorScript="CreatureAnimNull"
+
 		>
 		<feeling max="200" downProb="0.25" downValue="1">
 			<section feelingValue="100" state="good" energy="0.4"/>
@@ -152,7 +154,7 @@
 			</observe_sub>
 		</observe>
 
-		<img src="Unit/creature/NullThing" x="-1" y="-1"/>
+		<img src="Agent/Hodd/00" x="-1" y="-1"/>
 
 		<img src="Unit/creature/Null" x="-1" y="-1"/>
 		<room src="Unit/creature/isolate_room"/>

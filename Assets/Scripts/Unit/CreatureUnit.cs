@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 
 public class CreatureUnit : MonoBehaviour {
+    
 
     public CreatureModel model;
 
     public IsolateRoom room;
     public SpriteRenderer spriteRenderer;
 
-   Vector2 oldScale;
+    // 아직 안 씀
+    public Animator creatureAnimator;
+    public CreatureAnimBase script;
 
-   private bool visible = true;
+    Vector2 oldScale;
+
+    private Vector3 viewPosition;
+    private bool visible = true;
 
    private void UpdateViewPosition()
    {
@@ -23,7 +29,7 @@ public class CreatureUnit : MonoBehaviour {
                visible = false;
                Vector3 newPosition = model.GetCurrentViewPosition();
                newPosition.z = 100000f;
-               transform.localPosition = newPosition;
+               viewPosition = newPosition;
            }
        }
        else
@@ -32,7 +38,7 @@ public class CreatureUnit : MonoBehaviour {
            {
                visible = true;
            }
-           transform.localPosition = model.GetCurrentViewPosition();
+           viewPosition = model.GetCurrentViewPosition();
        }
    }
 
@@ -40,6 +46,16 @@ public class CreatureUnit : MonoBehaviour {
 	{
 		UpdateViewPosition();
 	}
+
+    void Update()
+    {
+        transform.localPosition = viewPosition;
+
+        if (script != null)
+        {
+            script.Update();
+        }
+    }
 
     /**
      * 환상체가 삭제되면 격리소도 삭제
