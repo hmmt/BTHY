@@ -23,7 +23,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	private float lastTextPosition = -200;
 	private float lastTextHeight = 0;
 
-    private float diff = 15f;
+    private float diff = 20f;
 
     private bool addedText = false;
 	
@@ -74,10 +74,10 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 		
 		
 		rt = textUI.GetComponent<RectTransform> ();
-		pos = rt.localPosition;
+        pos = rt.localPosition;
 		// pos.y = -180-(textChildren.Length-1) * textHeight;
 		//pos.y = -boxPosition + 20;
-		lastTextPosition -= lastTextHeight;
+		lastTextPosition -= lastTextHeight*rt.localScale.y;
 		pos.y = lastTextPosition;
 		rt.localPosition = pos;
 		rt.sizeDelta = new Vector2 (rt.sizeDelta.x, textHeight);
@@ -95,7 +95,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
             RectTransform textLineRt = logTextLineObj.GetComponent<RectTransform>();
             Vector3 textLinePos = textLineRt.localPosition;
 
-            textLinePos.y = lastTextPosition + 15f;
+            textLinePos.y = lastTextPosition + 10f;
 
             textLineRt.localPosition = textLinePos;
         }
@@ -140,7 +140,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
         lastTextPosition = -200;
         lastTextHeight = 0;
 
-        diff = 15f;
+        diff = 20f;
 
         addedText = false;
     }
