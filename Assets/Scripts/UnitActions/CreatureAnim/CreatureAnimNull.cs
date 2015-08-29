@@ -13,7 +13,8 @@ public class CreatureAnimNull : CreatureAnimBase {
     }
     public override void LateUpdate()
     {
-        unit.creatureAnimator.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        //unit.creatureAnimator.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        unit.SetScaleFactor(0.5f, 0.5f, 0.5f);
         if (unit.model.state == CreatureState.ESCAPE_ATTACK)
         {
             if (unit.creatureAnimator.GetInteger("AnimCon") == 2)

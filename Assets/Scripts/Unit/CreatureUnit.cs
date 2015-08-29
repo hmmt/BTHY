@@ -13,10 +13,15 @@ public class CreatureUnit : MonoBehaviour {
     public Animator creatureAnimator;
     public CreatureAnimBase script;
 
+    private Vector3 directionScaleFactor = new Vector3(1f, 1f, 1f);
+    private Vector3 scaleFactor = new Vector3(1f, 1f, 1f);
+
     Vector2 oldScale;
 
     private Vector3 viewPosition;
     private bool visible = true;
+
+    private bool mousePointEnter = false;
 
    private void UpdateViewPosition()
    {
@@ -59,9 +64,8 @@ public class CreatureUnit : MonoBehaviour {
 
            if (edgeDirection == 1)
            {
-               Transform anim = creatureAnimator.transform;
+               Vector3 scale = directionScaleFactor;
 
-               Vector3 scale = anim.localScale;
 
                if (pos2.x - pos1.x > 0 && scale.x < 0)
                {
@@ -71,13 +75,11 @@ public class CreatureUnit : MonoBehaviour {
                {
                    scale.x = -scale.x;
                }
-               anim.transform.localScale = scale;
+               directionScaleFactor = scale;
            }
            else
            {
-               Transform anim = creatureAnimator.transform;
-
-               Vector3 scale = anim.localScale;
+               Vector3 scale = directionScaleFactor;
 
                if (pos2.x - pos1.x > 0 && scale.x > 0)
                {
@@ -87,15 +89,30 @@ public class CreatureUnit : MonoBehaviour {
                {
                    scale.x = -scale.x;
                }
-               anim.transform.localScale = scale;
+               directionScaleFactor = scale;
            }
        }
         */
    }
 
-	void FixedUpdate()
+   private void UpdateScale()
+   {
+       Vector3 mouseScale = new Vector3(1, 1, 1);
+       if (mousePointEnter)
+       {
+           mouseScale = new Vector3(1.2f, 1.2f, 1.2f);
+       }
+
+       creatureAnimator.transform.localScale = new Vector3(
+           directionScaleFactor.x * scaleFactor.x * mouseScale.x,
+           directionScaleFactor.y * scaleFactor.y * mouseScale.y,
+           directionScaleFactor.z * scaleFactor.z * mouseScale.z
+           );
+   }
+    void FixedUpdate()
 	{
 		UpdateViewPosition();
+        UpdateDirection();
 	}
 
     void Update()
@@ -112,6 +129,18 @@ public class CreatureUnit : MonoBehaviour {
         {
             script.LateUpdate();
         }
+
+        UpdateScale();
+    }
+
+    public Vector3 GetScaleFactor()
+    {
+        return scaleFactor;
+    }
+
+    public void SetScaleFactor(float x, float y, float z)
+    {
+        scaleFactor = new Vector3(x, y, z);
     }
 
     /**
@@ -148,12 +177,11 @@ public class CreatureUnit : MonoBehaviour {
 
     public void PointerEnter()
     {
-        oldScale = spriteRenderer.gameObject.transform.localScale;
-        spriteRenderer.gameObject.transform.localScale = new Vector2(oldScale.x*1.2f, oldScale.y*1.2f);
+        mousePointEnter = true;
     }
 
     public void PointerOut()
     {
-        spriteRenderer.gameObject.transform.localScale = oldScale;
+        mousePointEnter = false;
     }
 }
