@@ -48,8 +48,7 @@ public class TypoEffect : MonoBehaviour {
 
         TypoEffect effect = newEffect.GetComponent<TypoEffect>();
 
-        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + typoKey);
-        effect.GetComponent<SpriteRenderer>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        effect.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/" + typoKey);
 
         effect.startTime = start;
 		effect.goalTime = time;

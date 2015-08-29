@@ -174,12 +174,9 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
             AgentModel copied = unit;
             slotPanel.button.onClick.AddListener(() => OnSelectAgent(copied));
 
-            Texture2D tex3 = Resources.Load<Texture2D>(unit.bodyImgSrc);
-            slotPanel.agentBody.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector3(0.5f, 0.5f, 0.5f));
-            Texture2D tex1 = Resources.Load<Texture2D>(unit.faceImgSrc);
-            slotPanel.agentFace.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector3(0.5f, 0.5f, -1f));
-            Texture2D tex2 = Resources.Load<Texture2D>(unit.hairImgSrc);
-            slotPanel.agentHair.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector3(0.5f, 0.5f, -1f));
+            slotPanel.agentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
+            slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
+            slotPanel.agentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
 
             posy -= 100f;
         }

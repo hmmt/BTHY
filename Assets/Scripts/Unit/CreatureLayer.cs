@@ -37,6 +37,10 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
     public void AddCreature(CreatureModel model)
     {
+        float st, t1, t2, t3; // for performance test
+
+        st = Time.realtimeSinceStartup;
+
         GameObject newCreature = Prefab.LoadPrefab("Creature1");
 
         CreatureUnit unit = newCreature.GetComponent<CreatureUnit>();
@@ -55,21 +59,26 @@ public class CreatureLayer : MonoBehaviour, IObserver {
             }
         }
 
-        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + model.metaInfo.imgsrc);
-        unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-        //unit.spriteRenderer.gameObject.transform.localScale = new Vector3(200f / tex.width, 200f / tex.height, 1);
+        t1 = Time.realtimeSinceStartup;
+
+        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.imgsrc);
+        Texture2D tex = unit.spriteRenderer.sprite.texture;
         unit.SetScaleFactor(200f / tex.width, 200f / tex.height, 1);
+
+
+
+        t2 = Time.realtimeSinceStartup;
 
         GameObject creatureRoom = Prefab.LoadPrefab("IsolateRoom");
         creatureRoom.transform.SetParent(transform, false);
         IsolateRoom room = creatureRoom.GetComponent<IsolateRoom>();
-        tex = Resources.Load<Texture2D>("Sprites/" + model.metaInfo.roomsrc);
 
-        room.roomSpriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.roomsrc);
         room.targetUnit = unit;
+
+        t3 = Time.realtimeSinceStartup;
         /*
-        tex = Resources.Load<Texture2D>("Sprites/" + model.metaInfo.framesrc);
-        room.frameSpriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        room.frameSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.framesrc);
         */
         room.Init();
 
@@ -80,6 +89,9 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
         creatureList.Add(unit);
         creatureDic.Add(model.instanceId, unit);
+
+        //Debug.Log(model.metaInfo.name);
+        //Debug.Log(""+ (t1 - st) + ", " + (t2 - t1) + ", " + (t3 - t2));
     }
 
     public CreatureUnit GetCreature(long id)

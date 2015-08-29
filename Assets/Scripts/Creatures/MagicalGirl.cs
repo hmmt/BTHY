@@ -27,16 +27,16 @@ public class MagicalGirl : CreatureBase {
     private void ChangeDark(CreatureModel creature)
     {
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
-        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + darkImage);
-        unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + darkImage);
         unit.spriteRenderer.gameObject.transform.localScale = new Vector3(1, 1, 1);
     }
 
     private void ChangeNormal(CreatureModel creature)
     {
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
-        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + creature.metaInfo.imgsrc);
-        unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
+        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + creature.metaInfo.imgsrc);
+        Texture2D tex = unit.spriteRenderer.sprite.texture;
         unit.spriteRenderer.gameObject.transform.localScale = new Vector3(200f / tex.width, 200f / tex.height, 1);
     }
 

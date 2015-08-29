@@ -12,15 +12,14 @@ public class NullCreature : CreatureBase {
     private void ChangeBody()
     {
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
-        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + transImage);
-        unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + transImage);
         unit.spriteRenderer.gameObject.transform.localScale = new Vector3(1, 1, 1);
     }
     private void ChangeNormal()
     {
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
-        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + model.metaInfo.imgsrc);
-        unit.spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.imgsrc);
+        Texture2D tex = unit.spriteRenderer.sprite.texture;
         unit.spriteRenderer.gameObject.transform.localScale = new Vector3(200f / tex.width, 200f / tex.height, 1);
     }
 

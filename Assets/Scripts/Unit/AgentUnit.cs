@@ -45,21 +45,21 @@ public class AgentUnit : MonoBehaviour {
             if (model.mental > 0)
             {
                 if (renderer.sprite.name == "Face_A_00")
-                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
                 else if (renderer.sprite.name == "Face_A_01")
-                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_01");
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_01");
                 else if (renderer.sprite.name == "Face_A_02")
-                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_02");
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_02");
             }
 
             else
             {
                 if (renderer.sprite.name == "Face_A_00")
-                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_00");
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_00");
                 else if (renderer.sprite.name == "Face_A_01")
-                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_01");
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_01");
                 else if (renderer.sprite.name == "Face_A_02")
-                    renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_02");
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_02");
 
             }
         }
@@ -67,12 +67,12 @@ public class AgentUnit : MonoBehaviour {
         foreach (var renderer in hairSprite.GetComponents<SpriteRenderer>())
         {
             if (renderer.sprite.name == "Hair_M_A_00")
-                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
             else if (renderer.sprite.name == "Hair_M_A_01")
-                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_01");
+                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_01");
             else if (renderer.sprite.name == "Hair_M_A_02")
             {
-                renderer.sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_02");
+                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_02");
                 renderer.transform.localScale.Set(-1,1,1);
             }
         }
@@ -87,8 +87,8 @@ public class AgentUnit : MonoBehaviour {
         oldSefira = model.currentSefira;
         agentName.text = model.name;
 
-        faceSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
-        hairSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+        faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+        hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
 
     }
 

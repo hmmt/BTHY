@@ -124,14 +124,14 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		tr.localPosition = new Vector3(0,posy,0);
 		AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
 
-        slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
-        slotPanel.skillButton2.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.indirectSkill.imgsrc);
-        slotPanel.skillButton3.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.blockSkill.imgsrc);
+        slotPanel.skillButton1.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.directSkill.imgsrc);
+        slotPanel.skillButton2.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.indirectSkill.imgsrc);
+        slotPanel.skillButton3.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.blockSkill.imgsrc);
 
         slotPanel.agentName.text = unit.name;
         slotPanel.agentHealth.text = HealthCheck(unit);
         slotPanel.agentMental.text = MentalCheck(unit);
-        slotPanel.agentLevel.text = ""+unit.level;
+        slotPanel.agentLevel.text = "등급 : "+unit.level;
 
         AgentModel copied = unit;
 		slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));
@@ -143,15 +143,11 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		else
 			slotPanel.skillButton4.gameObject.SetActive(false);
 
-		Texture2D tex = Resources.Load<Texture2D> ("Sprites/"+unit.imgsrc);
-		slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0,0,tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        slotPanel.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
 
-        Texture2D tex3 = Resources.Load<Texture2D>(unit.bodyImgSrc);
-        slotPanel.agentBody.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector3(0.5f, 0.5f, 0.5f));
-        Texture2D tex1 = Resources.Load<Texture2D>(unit.faceImgSrc);
-        slotPanel.agentFace.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector3(0.5f, 0.5f, -1f));
-        Texture2D tex2 = Resources.Load<Texture2D>(unit.hairImgSrc);
-        slotPanel.agentHair.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector3(0.5f, 0.5f, -1f));
+        slotPanel.agentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
+        slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
+        slotPanel.agentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
         posy -= 100f;
     }
 
@@ -165,7 +161,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         tr.localPosition = new Vector3(0, posy, 0);
         AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
 
-        slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
+        slotPanel.skillButton1.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.directSkill.imgsrc);
         slotPanel.skillButton2.gameObject.SetActive(false);
         slotPanel.skillButton3.gameObject.SetActive(false);
         slotPanel.skillButton4.gameObject.SetActive(false);
@@ -173,14 +169,13 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         slotPanel.agentName.text = unit.name;
         slotPanel.agentHealth.text = HealthCheck(unit);
         slotPanel.agentMental.text = MentalCheck(unit);
-        slotPanel.agentLevel.text = "" + unit.level;
+        slotPanel.agentLevel.text = "등급 : " + unit.level;
 
         AgentModel copied = unit;
         slotPanel.skillButton1.onClick.AddListener(() => SelectEscapeWorkAgent(copied));
 
 
-        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
-        slotPanel.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        slotPanel.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
 
         posy -= 100f;
     }
@@ -195,42 +190,6 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             if (unit.GetState() == AgentCmdState.WORKING)
                 continue;
 
-			GameObject slot = Prefab.LoadPrefab ("AgentSlotPanel");
-
-			slot.transform.SetParent (agentScrollTarget, false);
-
-			RectTransform tr = slot.GetComponent<RectTransform>();
-			tr.localPosition = new Vector3(0,posy,0);
-			//slot.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(new UnityEngine.Events.UnityAction(System.
-			//slot.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(()=>CloseWindow());
-			AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
-
-            slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
-            slotPanel.skillButton2.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.indirectSkill.imgsrc);
-            slotPanel.skillButton3.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.blockSkill.imgsrc);
-
-            slotPanel.agentName.text = unit.name;
-            slotPanel.agentHealth.text = HealthCheck(unit);
-            slotPanel.agentMental.text = MentalCheck(unit);
-            slotPanel.agentLevel.text = "등급 : "+unit.level;
-
-            AgentModel copied = unit;
-			slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));
-			slotPanel.skillButton2.onClick.AddListener(()=>SelectAgentSkill(copied, copied.indirectSkill));
-			slotPanel.skillButton3.onClick.AddListener(()=>SelectAgentSkill(copied, copied.blockSkill));
-
-			if(targetCreature.specialSkill != null)
-                slotPanel.skillButton4.onClick.AddListener(() => SelectAgentSkill(copied, targetCreature.specialSkill));
-			else
-				slotPanel.skillButton4.gameObject.SetActive(false);
-
-            Texture2D tex3 = Resources.Load<Texture2D>(unit.bodyImgSrc);
-            slotPanel.agentBody.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector3(0.5f, 0.5f, 0.5f));
-            Texture2D tex1 = Resources.Load<Texture2D>(unit.faceImgSrc);
-            slotPanel.agentFace.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector3(0.5f, 0.5f, -1f));
-            Texture2D tex2 = Resources.Load<Texture2D>(unit.hairImgSrc);
-            slotPanel.agentHair.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector3(0.5f, 0.5f, -1f)); 
-            posy -= 100f;
             if (workType == WorkType.NORMAL)
             {
                 AddAgentSlotWork(unit, ref posy);
