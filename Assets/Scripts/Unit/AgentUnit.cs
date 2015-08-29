@@ -250,7 +250,7 @@ public class AgentUnit : MonoBehaviour {
         oldPosY = transform.localPosition.y;
         oldPos = transform.localPosition.x;
 
-        int randLyricsTick = Random.Range(0, 1000);
+        int randLyricsTick = Random.Range(0, 3000);
         if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 && !speachText.IsActive())
         {
             int randLyricsStory = Random.Range(0, 10);

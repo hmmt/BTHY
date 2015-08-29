@@ -59,12 +59,12 @@ public class AgentLyrics : MonoBehaviour {
 
                 else if (randFlag == 7)
                 {
-                    lyrics = "누가 관리자 불러와서 신고식 같은거 했으면 좋겠다. \n우리가 얼마나 뼈빠지게 고생하는지 좀 알려주고 싶어.";
+                    lyrics = "누가 관리자 불러와서 신고식 같은거 했으면 좋겠다.";
                 }
 
                 else if (randFlag == 8)
                 {
-                    lyrics = "관리자가 되면 자리에 앉아서 버튼만 누르면 되는 거 아냐? \n그런 놈보다 우리 같이 몸 쓰면서 일하는 불쌍한 노동자들을 우대해야지.";
+                    lyrics = "관리자가 되면 자리에 앉아서 버튼만 누르면 되는 거 아냐? ";
                 }
 
                 else if (randFlag == 9)
@@ -93,12 +93,12 @@ public class AgentLyrics : MonoBehaviour {
 
             else if (randFlag == 3)
             {
-                lyrics = "하마터면 오늘 인생 마감할 뻔했어. \n테디베어 그 놈이 기분이 좋지 않다는 걸 까맣게 잊고 있었지 뭐야.";
+                lyrics = "하마터면 오늘 인생 마감할 뻔했어. ";
             }
 
             else if (randFlag == 4)
             {
-                lyrics = "관찰일지 쓰는 거 귀찮아 죽겠다.\n그냥 대충 지어서 내도 눈치 못 채지 않을까?";
+                lyrics = "관찰일지 쓰는 거 귀찮아 죽겠다.";
             }
 
             else if (randFlag == 5)
@@ -108,7 +108,7 @@ public class AgentLyrics : MonoBehaviour {
 
             else if (randFlag == 6)
             {
-                lyrics = "위험하고, 수상하고, 어렵다는 점만 빼면 우리 회사도 그렇게 나쁘진 않지. 월급은 높은 편이니까.";
+                lyrics = "위험하고, 수상하다는 점만 빼면 우리 회사도 그렇게 나쁘진 않지. \n월급은 높은 편이니까.";
             }
 
             else if (randFlag == 7)
@@ -127,25 +127,25 @@ public class AgentLyrics : MonoBehaviour {
             }
             else if (randFlag == 10)
             {
-                lyrics = "이런 날씨에는 데이트나 해야 되는데 이런 재미없는 일이나 하고 있으니..";
+                lyrics = "이런 날씨에는 데이트나 해야 되는데 ";
             }
 
             else if (randFlag == 11)
             {
-                lyrics = "생각 같아선 언제라도 회사 때려치고 싶다. 집에 가족이 네 명이나 있는 게 아니라면. ";
+                lyrics = "생각 같아선 언제라도 회사 때려치고 싶다. ";
             }
             else if (randFlag == 12)
             {
-                lyrics = "관리자만 1인 엘리베이터를 탄다는 소문이 사실일까? 우리는 몇 십명이서 부대껴가며 엘리베이터를 타는 데 말이야. ";
+                lyrics = "관리자만 1인 엘리베이터를 탄다는 소문이 사실일까? ";
             }
 
             else if (randFlag == 13)
             {
-                lyrics = "그래도 새로 온 관리자 말이야, 아예 멍청이는 아닌 가봐. 그럭저럭 회사가 굴러가는 걸 보니 말이야.";
+                lyrics = "그래도 새로 온 관리자 말이야, 아예 멍청이는 아닌 가봐. ";
             }
             else if (randFlag == 14)
             {
-                lyrics = "에너지 생산량이 늘었다는 데 우리 월급이나 올려줬으면 좋겠다.";
+                lyrics = "생산량이 늘었다는 데 우리 월급이나 올려줬으면 좋겠다.";
             }
             else if (randFlag == 15)
             {
@@ -173,19 +173,19 @@ public class AgentLyrics : MonoBehaviour {
             }
             else if (randFlag == 21)
             {
-                lyrics = "10분 지각한 거 가지고 상사가 엄청 혼내지 뭐야. 자기는 엊그제 20분 지각했으면서.";
+                lyrics = "10분 지각한 거 가지고 상사가 엄청 혼내지 뭐야.\n 자기는 엊그제 20분 지각했으면서.";
             }
             else if (randFlag == 22)
             {
-                lyrics = "우리 부서에 새로 들어온 신입사원, 군기가 빠졌어. 커피 같은 건 알아서 타와야지.";
+                lyrics = "우리 부서에 새로 들어온 신입사원, 군기가 빠졌어. \n커피 같은 건 알아서 타와야지.";
             }
             else if (randFlag == 23)
             {
-                lyrics = "자재관리 부서만큼은 별로 들어가고 싶지 않은데. 제일 고생한다고 들었거든..";
+                lyrics = "자재관리 부서만큼은 별로 들어가고 싶지 않은데. \n제일 고생한다고 들었거든..";
             }
             else if (randFlag == 24)
             {
-                lyrics = "옛날에 상사가 항상 하던 말이 있었지. 매뉴얼 대로만 따르면, 목숨에는 아무런 지장이 없을 거라고. 그게 다 헛소리라는 건 누구나 다 아는 사실이지.";
+                lyrics = "옛날에 상사가 항상 하던 말이 있었지. \n매뉴얼 대로만 따르면, 목숨에는 아무런 지장이 없을 거라고.";
             }
             else if (randFlag == 25)
             {
@@ -193,7 +193,7 @@ public class AgentLyrics : MonoBehaviour {
             }
             else if (randFlag == 26)
             {
-                lyrics = "근데 이 환상체들 정말 안전한 거 맞아? 아무리 봐도 그렇겐 보이지 않는단 말이지.";
+                lyrics = "근데 이 환상체들 정말 안전한 거 맞아? \n아무리 봐도 그렇겐 보이지 않는단 말이지.";
             }
             else if (randFlag == 27)
             {
@@ -210,7 +210,7 @@ public class AgentLyrics : MonoBehaviour {
             }
             else if (randFlag == 30)
             {
-                lyrics = "아무리 이 회사 창립 때부터 근무하던 베테랑 직원이라도 관리 직전엔 긴장을 감출 수는 없을 거야.";
+                lyrics = "베테랑 직원이라도 \n관리 직전엔 긴장을 감출 수는 없을 거야.";
             }
             break;
 
