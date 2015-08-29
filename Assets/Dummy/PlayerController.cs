@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour {
         Rigidbody2D player = GetComponent<Rigidbody2D>();
         oldPos = transform.localPosition.x;
 
+        Camera.main.transform.localPosition = new Vector3(Camera.main.transform.localPosition.x, player.transform.localPosition.y + 4f, Camera.main.transform.localPosition.z);
+
         Debug.Log(PlayerModel.instance.playerSpot.x + " " + PlayerModel.instance.playerSpot.y);
 
         if (PlayerModel.instance.GetDay() != 0)
@@ -67,22 +69,6 @@ public class PlayerController : MonoBehaviour {
 	void Update () 
     {
        Rigidbody2D player = GetComponent<Rigidbody2D>();
-        /*
-       if (Input.GetKey(KeyCode.L))
-       {
-           foreach (var renderer in face.GetComponents<SpriteRenderer>())
-           {
-               Debug.Log("SpriteName " + k + ": " + renderer.sprite.name);
-               // string spriteName = renderer.sprite.name;
-               if (renderer.sprite.name == "Face_A_00")
-                   renderer.sprite = Resources.Load<Sprite>("Sprties/Agent/Face/Face_B_00");
-               else if (renderer.sprite.name == "Face_A_01")
-                   renderer.sprite = Resources.Load<Sprite>("Sprties/Agent/Face/Face_B_01");
-               else if (renderer.sprite.name == "Face_A_02")
-                   renderer.sprite = Resources.Load<Sprite>("Sprties/Agent/Face/Face_B_02");
-
-           }
-       }*/
 
 	    if(grounded && Input.GetKeyDown(KeyCode.Space))
         {
@@ -118,10 +104,11 @@ public class PlayerController : MonoBehaviour {
         }
 
         oldPos = transform.localPosition.x;
-
-        if (!cameraWalk)
+        // !PlatformerCamera.introWalk
+        if ( false)
         {
-            Camera.main.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y + 3.5f, Camera.main.transform.localPosition.z);
+            if(!cameraWalk)
+            Camera.main.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y + 4f, Camera.main.transform.localPosition.z);
         }
   	}
 

@@ -45,6 +45,8 @@ public class CreatureUnit : MonoBehaviour {
 
    private void UpdateDirection()
    {
+
+       /*
        MapEdge currentEdge = model.GetCurrentEdge();
        int edgeDirection = model.GetMovableNode().GetEdgeDirection();
 
@@ -88,6 +90,7 @@ public class CreatureUnit : MonoBehaviour {
                anim.transform.localScale = scale;
            }
        }
+        */
    }
 
 	void FixedUpdate()

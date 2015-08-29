@@ -10,6 +10,8 @@ public class PlatformerCamera : MonoBehaviour
 
     public GameObject escapeButton;
 
+    public static bool introWalk = true;
+
     bool paused = false;
 
     void Update()
@@ -32,62 +34,91 @@ public class PlatformerCamera : MonoBehaviour
         }
     }
 
+    public void introCameraWalk()
+    {
+        Vector3 newPos = Camera.main.transform.localPosition;
+        if (newPos.x <= -55.6)
+        {
+            newPos.x += 0.5f;
+            Camera.main.transform.localPosition = newPos;
+        }
+        else
+        {
+            //Time.deltaTime
+            Camera.main.orthographicSize -= 0.1f;
+            newPos.x += 0.1f;
+            Camera.main.transform.localPosition = newPos;
+            Debug.Log("사이즈 : " + Camera.main.orthographicSize);
+            if (Camera.main.orthographicSize <= 10)
+            {
+                if (Camera.main.transform.localPosition.x >= -27.7f)
+                {
+                    introWalk = false;
+                }
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         //float a = Camera.main.aspect * Camera.main.orthographicSize;
         Vector3 pos = Input.mousePosition;
 
-
-
-        if (Input.GetKey(KeyCode.P))
+        if (introWalk)
         {
-            Application.LoadLevel("Menu");
+            introCameraWalk();
         }
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else
         {
-            Vector3 newPos = Camera.main.transform.localPosition;
-            newPos.x -= 0.1f;
-            Camera.main.transform.localPosition = newPos;
-        }
+
+            if (Input.GetKey(KeyCode.P))
+            {
+                Application.LoadLevel("Menu");
+            }
+
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                Vector3 newPos = Camera.main.transform.localPosition;
+                newPos.x -= 0.1f;
+                Camera.main.transform.localPosition = newPos;
+            }
 
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            Vector3 newPos = Camera.main.transform.localPosition;
-            newPos.x += 0.1f;
-            Camera.main.transform.localPosition = newPos;
-        }
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                Vector3 newPos = Camera.main.transform.localPosition;
+                newPos.x += 0.1f;
+                Camera.main.transform.localPosition = newPos;
+            }
 
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        {
-            Vector3 newPos = Camera.main.transform.localPosition;
-            newPos.y -= 0.1f;
-            Camera.main.transform.localPosition = newPos;
-        }
-
-
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        {
-            Vector3 newPos = Camera.main.transform.localPosition;
-            newPos.y += 0.1f;
-            Camera.main.transform.localPosition = newPos;
-        }
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
-            lightCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
-            frontCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
-            //Camera.allCameras. = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-            Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
-             lightCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
-        frontCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
-        }
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                Vector3 newPos = Camera.main.transform.localPosition;
+                newPos.y -= 0.1f;
+                Camera.main.transform.localPosition = newPos;
+            }
 
 
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            {
+                Vector3 newPos = Camera.main.transform.localPosition;
+                newPos.y += 0.1f;
+                Camera.main.transform.localPosition = newPos;
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
+                lightCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
+                frontCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
+             }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
+                 lightCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
+            frontCamera.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f, 1.5f, 16.5f);
+            }
+    }
 
     public void cameraZoomOut(float zoomOut)
     {

@@ -26,6 +26,8 @@ public class GlobalFunction : MonoBehaviour {
         Debug.Log("Quit");
         Application.Quit();
     }
+
+
 	
 	// Update is called once per frame
 	void FixedUpdate () {
