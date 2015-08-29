@@ -205,13 +205,13 @@ public class StageUI : MonoBehaviour, IObserver {
             if (copied.currentSefira == "0")
                 slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/None_Icon");
             else if (copied.currentSefira == "1")
-                slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Malkuth_Ico");
+                slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Malkuth_Icon");
             else if(copied.currentSefira == "2")
                 slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Netzzach_Icon");
             else if(copied.currentSefira == "3")
                 slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Hod_Icon");
             else if(copied.currentSefira == "4")
-                slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Yesod_Icon");
+                slotPanel.currentSefria.sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/Yessod_Icon");
 
             Texture2D tex3 = Resources.Load<Texture2D>(unit.bodyImgSrc);
             slotPanel.agentBodyIcon.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector3(0.5f, 0.5f, 0.5f));
