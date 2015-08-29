@@ -7,10 +7,13 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
     private List<AgentUnit> agentList;
 
+    private int zCount;
+
     void Awake()
     {
         currentLayer = this;
         agentList = new List<AgentUnit>();
+        zCount = 0;
     }
 
     void OnEnable()
@@ -38,7 +41,7 @@ public class AgentLayer : MonoBehaviour, IObserver {
     public void AddAgent(AgentModel model)
     {
         GameObject newUnit = Prefab.LoadPrefab("unit");
-        newUnit.transform.SetParent(transform);
+        newUnit.transform.SetParent(transform, false);
         AgentUnit unit = newUnit.GetComponent<AgentUnit>();
 
         unit.GetComponent<SpriteRenderer>().sprite = null;
@@ -47,6 +50,16 @@ public class AgentLayer : MonoBehaviour, IObserver {
         unit.SetMaxHP(model.maxHp);
 
         agentList.Add(unit);
+
+        // set Z value
+        unit.zValue = -zCount;
+
+        // 다른 유닛의 Z값 범위를 침범하지 않도록 z스케일을 낮춘다.
+        Vector3 unitScale = unit.transform.localScale;
+        unitScale.z = 0.001f;
+        unit.transform.localScale = unitScale;
+
+        zCount = (zCount + 1) % 1000;
     }
 
     public void RemoveAgent(AgentModel model)
