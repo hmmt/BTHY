@@ -104,7 +104,7 @@ public class CreatureManager {
         model.metaInfo = typeInfo;
         model.specialSkill = typeInfo.specialSkill;
         model.basePosition = new Vector2(x, y);
-        Debug.Log(typeInfo.script);
+        //Debug.Log(typeInfo.script);
         model.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
         if(model.script != null)
             model.script.SetModel(model);

@@ -56,8 +56,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 		inst.target = unit;
 		inst.UpdateCreatureStatus ();
 
-        Texture2D tex = Resources.Load<Texture2D>("Sprites/" + unit.imgsrc);
-        inst.agentIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+        inst.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
 
 		currentWindow = inst;
 
