@@ -138,10 +138,18 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		slotPanel.skillButton2.onClick.AddListener(()=>SelectAgentSkill(copied, copied.indirectSkill));
 		slotPanel.skillButton3.onClick.AddListener(()=>SelectAgentSkill(copied, copied.blockSkill));
 
-		if(targetCreature.specialSkill != null)
+        // special skill
+        if (targetCreature.specialSkill != null)
+        {
+            slotPanel.skillButton4.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + targetCreature.specialSkill.imgsrc);
             slotPanel.skillButton4.onClick.AddListener(() => SelectAgentSkill(copied, targetCreature.specialSkill));
-		else
-			slotPanel.skillButton4.gameObject.SetActive(false);
+        }
+        else
+        {
+            slotPanel.skillButton4.image.sprite = ResourceCache.instance.GetSprite("Sprites/UI/skill/Work_disable");
+            slotPanel.skillButton4.enabled = false;
+        }
+
 
         slotPanel.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
 
