@@ -19,6 +19,7 @@ public class ResourceCache {
     }
 
     private Dictionary<string, Texture2D> textureCache;
+    private Dictionary<string, Sprite> spriteCache;
 
 
     public ResourceCache()
@@ -28,6 +29,7 @@ public class ResourceCache {
     private void Init()
     {
         textureCache = new Dictionary<string, Texture2D>();
+        spriteCache = new Dictionary<string, Sprite>();
     }
 
     public Texture2D GetTexture(string name)
@@ -43,11 +45,29 @@ public class ResourceCache {
 
     public Sprite GetSprite(string name)
     {
-        Sprite output = Resources.Load<Sprite>(name);
+
+        Sprite output;
+
+        if (spriteCache.TryGetValue(name, out output))
+        {
+            return output;
+        }
         if (output == null)
         {
             Debug.Log("ERROR : " + name);
         }
         return output;
+    }
+
+    public void PreLoadSprite(string name)
+    {
+        Sprite loaded = Resources.Load<Sprite>(name);
+        if (loaded == null)
+        {
+            Debug.Log("LOAD FAIL ERROR : " + name);
+            return;
+        }
+
+        spriteCache.Add(name, loaded);
     }
 }
