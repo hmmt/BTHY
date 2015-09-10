@@ -46,6 +46,8 @@ public class ResourceCache {
     public Sprite GetSprite(string name)
     {
 
+        Sprite loaded = Resources.Load<Sprite>(name);
+        return loaded;
         Sprite output;
 
         if (spriteCache.TryGetValue(name, out output))
