@@ -3,20 +3,16 @@ using System.Collections;
 using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler {
-    public GameObject item {
-        get {
-            if (transform.childCount > 0) {
-                return transform.GetChild(0).gameObject;
-            }
-            return null;
-        }
-    }
-
-
+    public StageUI StageUI;
+    
     public void OnDrop(PointerEventData eventData)
     {
-        if (!item) {
-            DragScript.itemDragged.transform.SetParent(transform);
-        }
+        //Debug.Log("Found");
+        //Debug.Log(DragScript.srcObj);
+        StageUI.SetAgentSefriaButton(DragScript.srcObj);
+        Destroy(DragScript.itemDragged);
+        //DragScript.itemDragged.transform.SetParent(transform);
+       //  DragScript.itemDragged
+        
     }
 }

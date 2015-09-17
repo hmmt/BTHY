@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EnergyModel : IObserver {
-
+    
 	private static EnergyModel _instance = null;
 
 	public static EnergyModel instance

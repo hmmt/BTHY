@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class AgentSlotPanelStage : MonoBehaviour {
+    public AgentModel model;
     public UnityEngine.UI.Image agentHairIcon;
     public UnityEngine.UI.Image agentFaceIcon;
     public UnityEngine.UI.Image agentBodyIcon;
