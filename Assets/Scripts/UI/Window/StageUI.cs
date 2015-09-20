@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class AreaButton
@@ -189,13 +190,13 @@ public class StageUI : MonoBehaviour, IObserver {
             GameObject slot = Prefab.LoadPrefab("Slot/AgentSlotPanelStage");
 
             slot.transform.SetParent(agentScrollTarget, false);
-
+            
             RectTransform tr = slot.GetComponent<RectTransform>();
             tr.localPosition = new Vector3(0, posy, 0);
             AgentSlotPanelStage slotPanel = slot.GetComponent<AgentSlotPanelStage>();
             AgentModel copied = unit;
             
-            Debug.Log(unit);
+
             ShowPromotionButton(copied, slotPanel.promotion);
             
             slotPanel.addSefira.gameObject.SetActive(false);

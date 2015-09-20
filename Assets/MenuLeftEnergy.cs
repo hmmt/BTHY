@@ -12,7 +12,7 @@ public class MenuLeftEnergy : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         slider.minValue = 0;
-        Debug.Log(slider.minValue + " " + slider.maxValue);
+        Debug.Log("Energy value_min max :"+slider.minValue + " " + slider.maxValue);
 	}
 
     public void SetSlider(float value)
