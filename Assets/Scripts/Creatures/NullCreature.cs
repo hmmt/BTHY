@@ -48,4 +48,17 @@ public class NullCreature : CreatureBase {
             creature.Escape();
         }
     }
+
+    public override SkillTypeInfo GetSpecialSkill()
+    {
+        if (changed)
+        {
+            // 임시
+            return SkillTypeList.instance.GetData(400010);
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

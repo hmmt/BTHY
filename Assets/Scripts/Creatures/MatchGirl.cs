@@ -42,8 +42,8 @@ public class MatchGirl  : CreatureBase {
 
                 float damage = randomTable[Random.Range(0, randomTable.Length)];
 
-                skill.agent.hp = (int)(skill.agent.hp * (1 - damage));
-                skill.agent.mental = (int)(skill.agent.mental * (1 - damage));
+                skill.agent.TakePhysicalDamage(skill.agent.hp - (int)(skill.agent.hp * (1 - damage)));
+                skill.agent.TakeMentalDamage(skill.agent.mental - (int)(skill.agent.mental * (1 - damage)));
 
                 SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability_damage", skill.targetCreatureView.transform.position);
 

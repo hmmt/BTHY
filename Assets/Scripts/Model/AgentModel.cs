@@ -138,7 +138,7 @@ public class AgentModel : IObserver
         output.Add("preferBonus", preferBonus);
         output.Add("reject", reject);
         output.Add("rejectBonus", rejectBonus);
-
+    
         output.Add("directSkillId", directSkill.id);
         output.Add("indirectSkillId", indirectSkill.id);
         output.Add("blockSkillId", blockSkill.id);
@@ -284,6 +284,37 @@ public class AgentModel : IObserver
         }
     }
 
+    public void UpdateSKill(string skillType)
+    {
+        SkillTypeInfo newSkill = null;
+
+        if (skillType == "direct")
+        {
+            newSkill = SkillTypeList.instance.GetNextSkill(directSkill);
+            if (newSkill == null)
+                return;
+            directSkill = newSkill;
+        }
+        else if (skillType == "indirect")
+        {
+            newSkill = SkillTypeList.instance.GetNextSkill(indirectSkill);
+            if (newSkill == null)
+                return;
+            indirectSkill = newSkill;
+        }
+        else if (skillType == "block")
+        {
+            newSkill = SkillTypeList.instance.GetNextSkill(blockSkill);
+            if (newSkill == null)
+                return;
+            blockSkill = newSkill;
+        }
+        else
+        {
+            return;
+        }
+    }
+
     private void ProcessAction()
     {
         if (currentPanicAction != null)
@@ -365,6 +396,11 @@ public class AgentModel : IObserver
         movableNode.MoveToNode(target.GetWorkspaceNode());
     }
 
+    public bool isDead()
+    {
+        return hp <= 0;
+    }
+
     public void Attacked()
     {
         state = AgentCmdState.CAPTURE;
@@ -391,12 +427,21 @@ public class AgentModel : IObserver
     {
         Debug.Log(name + " takes PHYSICAL dmg " + damage);
         hp -= damage;
+
+        if (hp <= 0)
+        {
+            Die();
+        }
     }
 
     public void TakeMentalDamage(int damage)
     {
         Debug.Log(name + " takes MENTAL dmg " + damage);
         mental -= damage;
+
+        if (mental <= 0)
+        {
+        }
     }
 
     public bool HasTrait(long id)
@@ -450,12 +495,14 @@ public class AgentModel : IObserver
         Notice.instance.Send("AddSystemLog", narration);
         Notice.instance.Send("AgentDie", this);
 
-        //this.state = AgentCmdState.DEAD;
+        this.hp = 0;
+        this.state = AgentCmdState.DEAD;
 
-        // temp?
-        AgentManager.instance.RemoveAgent(this);
+        //AgentManager.instance.RemoveAgent(this);
         //AgentLayer.currentLayer.GetAgent(this.instanceId).DeadAgent();
     }
+
+
 
     public void OnNotice(string notice, params object[] param)
     {

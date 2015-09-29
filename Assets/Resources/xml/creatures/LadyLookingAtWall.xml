@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<creature>
+	<info id="20003"
+		name="벽을 보고 있는 여인"
+		codeId="?????"
+		level="TETH"
+		stackLevel="2"
+
+		attackType="RED"
+		intelligence="대화 가능, 소통 불가"
+		
+		horrorProb="0.5"
+		horrorDmg="-10"
+		
+		physicsProb="0.3"
+		physicsDmg="3"
+		
+		mentalProb="0"
+		mentalDmg="10" cmt3="-10~30으로 되어 잇음"
+
+		observeLevel="5"
+
+		script="LadyLookingAtWall"
+		>
+		<feeling max="300" downProb="0.4" downValue="1">
+			<section feelingValue="200" state="good" energy="3"/>
+			<section feelingValue="100" state="normal" energy="1"/>
+			<section feelingValue="0" state="bad" energy="-1"/>
+		</feeling>
+
+		<preferSkill type="indirect" bonus="0.3"/>
+		<rejectSkill type="direct" bonus="-0.3"/>
+
+		<desc>
+			"empty"
+		</desc>
+
+		<observe>
+		</observe>
+
+		<img src="Unit/creature/WallWoman" x="-1" y="-1"/>
+		<room src="Unit/creature/isolate_room"/>
+		<frame src="Unit/creature/frame/LadyLookingAtWall_frame"/>
+
+		<graph>
+			<node id="creature" x="-1.6" y="-1" type="creature"/>
+			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
+			<node id="door"  x="2" y="-1" type="entry"/>
+			<edge node1="workspace" node2="door" type="road" />
+			<edge node1="creature" node2="workspace" type="road" />
+		</graph>
+	</info>
+</creature>

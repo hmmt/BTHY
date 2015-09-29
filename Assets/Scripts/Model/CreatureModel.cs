@@ -55,15 +55,12 @@ public class CreatureModel : IObserver
 
     public CreatureBase script;
 
-    public SkillTypeInfo specialSkill; // 이 환상체를 대상으로 할 수 있는 특수스킬
-
-
     // 관찰관련 조건 변수 추가
     public float genEnergyCount=0;
     public int workCount=0;
     public int observeCondition = 0;
 
-    // 세피라 변수
+    // 세피라 변수 (TODO: 변수명 이상함)
     public string sefiraNum;
 
 

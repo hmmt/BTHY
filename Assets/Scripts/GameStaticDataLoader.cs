@@ -83,6 +83,16 @@ public class GameStaticDataLoader {
 			model.amount = int.Parse(node.Attributes.GetNamedItem("amount").InnerText);
 
             model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
+
+            List<long> nextSkillList = new List<long>();
+            XmlNodeList nextSkills = node.SelectNodes("nextSkill");
+            foreach(XmlNode nextSkillNode in nextSkills)
+            {
+                long nextSkillId = long.Parse(nextSkillNode.InnerText);
+                nextSkillList.Add(nextSkillId);
+            }
+
+            model.nextSkillIdList = nextSkillList.ToArray();
 			
 			skillTypeList.Add(model);
 		}
@@ -182,7 +192,7 @@ public class GameStaticDataLoader {
         {
             string src = pathInfoNode.Attributes.GetNamedItem("src").InnerText;
 
-            TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/"+src);
+            TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/"+src);
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(creatureTextAsset.text);
@@ -223,12 +233,6 @@ public class GameStaticDataLoader {
                 model.feelingMax = int.Parse(feelingNode.Attributes.GetNamedItem("max").InnerText);
                 model.feelingDownProb = float.Parse(feelingNode.Attributes.GetNamedItem("downProb").InnerText);
                 model.feelingDownValue = float.Parse(feelingNode.Attributes.GetNamedItem("downValue").InnerText);
-
-                XmlNode skillAttr = node.Attributes.GetNamedItem("specialSkillId");
-                if (skillAttr != null)
-                {
-                    model.specialSkill = SkillTypeList.instance.GetData(long.Parse(skillAttr.InnerText));
-                }
 
                 List<float> energyItems = new List<float>();
                 XmlNodeList genEnergies = feelingNode.SelectNodes("section");

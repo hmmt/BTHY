@@ -10,4 +10,6 @@ public class SkillTypeInfo {
 	public int amount;
 
     public string imgsrc;
+
+    public long[] nextSkillIdList;
 }

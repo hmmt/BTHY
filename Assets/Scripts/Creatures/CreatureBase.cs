@@ -85,4 +85,10 @@ public class CreatureBase {
             model.metaInfo.mentalDmg
             );
     }
+
+
+    public virtual SkillTypeInfo GetSpecialSkill()
+    {
+        return null;
+    }
 }

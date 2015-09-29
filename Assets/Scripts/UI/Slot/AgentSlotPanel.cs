@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class AgentSlotPanel : MonoBehaviour {
+    [HideInInspector]
+    public AgentModel targetAgent;
 	public UnityEngine.UI.Image agentIcon;
     public UnityEngine.UI.Image agentBody;
     public UnityEngine.UI.Image agentHair;

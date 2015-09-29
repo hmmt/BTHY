@@ -327,7 +327,7 @@ public class UseSkill : MonoBehaviour {
                         //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp",true);
                        // Debug.Log("직원 애니메이터 1불 : "+agent.agentAttackedAnimator.GetComponent<Animator>().GetBool("attackUP"));
 
-                        agent.hp -= physicsDmg;
+                        agent.TakePhysicalDamage(physicsDmg);
                         agent.expHpDamage += physicsDmg;
         
                         agentUpdated = true;

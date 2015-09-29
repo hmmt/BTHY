@@ -45,9 +45,6 @@ public class ResourceCache {
 
     public Sprite GetSprite(string name)
     {
-
-        Sprite loaded = Resources.Load<Sprite>(name);
-        return loaded;
         Sprite output;
 
         if (spriteCache.TryGetValue(name, out output))
@@ -56,7 +53,13 @@ public class ResourceCache {
         }
         if (output == null)
         {
-            Debug.Log("ERROR : " + name);
+            output = Resources.Load<Sprite>(name);
+            if (output == null)
+            {
+                Debug.Log("LOAD FAIL ERROR : " + name);
+                return null;
+            }
+            spriteCache.Add(name, output);
         }
         return output;
     }

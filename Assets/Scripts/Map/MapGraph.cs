@@ -108,6 +108,8 @@ public class MapGraph
 
     public void LoadMap()
     {
+        int groupCount = 1;
+
         if (loaded)
             return;
         TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
@@ -127,24 +129,37 @@ public class MapGraph
             List<MapNode> sefiraNodes = new List<MapNode>();
             string areaName = areaNode.Attributes.GetNamedItem("name").InnerText;
 
-            foreach (XmlNode node in areaNode.ChildNodes)
+            foreach (XmlNode nodeGroup in areaNode.ChildNodes)
             {
-                string id = node.Attributes.GetNamedItem("id").InnerText;
-                float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);
-                float y = float.Parse(node.Attributes.GetNamedItem("y").InnerText);
-
-                XmlNode typeNode = node.Attributes.GetNamedItem("type");
-
-                MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName);
-                newMapNode.activate = false;
-                nodeDic.Add(id, newMapNode);
-
-                if (typeNode != null && typeNode.InnerText == "sefira")
+                if (nodeGroup.Name == "node_group")
                 {
-                    sefiraNodes.Add(newMapNode);
-                }
+                    string groupName = "group@" + groupCount;
+                    groupCount++;
 
-                nodesInArea.Add(newMapNode);
+                    foreach (XmlNode node in nodeGroup.ChildNodes)
+                    {
+                        string id = node.Attributes.GetNamedItem("id").InnerText;
+                        float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);
+                        float y = float.Parse(node.Attributes.GetNamedItem("y").InnerText);
+
+                        XmlNode typeNode = node.Attributes.GetNamedItem("type");
+
+                        MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName, groupName);
+                        newMapNode.activate = false;
+                        nodeDic.Add(id, newMapNode);
+
+                        if (typeNode != null && typeNode.InnerText == "sefira")
+                        {
+                            sefiraNodes.Add(newMapNode);
+                        }
+
+                        nodesInArea.Add(newMapNode);
+                    }
+                }
+                else
+                {
+                    Debug.Log("this is not node_group");
+                }
             }
 
             nodeAreaDic.Add(areaName, nodesInArea);
