@@ -3,10 +3,10 @@
 	<agent
 		id="1"
 		name="Default"
-		hp="4"
+		hp="5"
 		mental="100"
-		movement="4"
-		work="4"
+		movement="5"
+		work="5"
 		level="1"
 		gender="Female"
 		workDays="1"
