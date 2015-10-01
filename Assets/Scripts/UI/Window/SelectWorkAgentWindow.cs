@@ -19,7 +19,13 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	private CreatureModel targetCreature = null;
     private Transform attachedNode = null;
 
+    private SkillTypeInfo specialSkill = null;
+
     List<AgentModel> selectedAgentList = new List<AgentModel>();
+
+    private List<AgentSlotPanel> agentPanelList = new List<AgentSlotPanel>();
+
+
 
 	public static SelectWorkAgentWindow currentWindow = null;
 
@@ -73,6 +79,23 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
     private void UpdateButton()
     {
+        if (workType == WorkType.NORMAL)
+        {
+            UpdateSpecialSkillButton();
+        }
+    }
+
+    private void UpdateSpecialSkillButton()
+    {
+        if (targetCreature.script != null &&
+            specialSkill != targetCreature.script.GetSpecialSkill())
+        {
+            specialSkill = targetCreature.script.GetSpecialSkill();
+            foreach (AgentSlotPanel panel in agentPanelList)
+            {
+                SetSkillButton(panel.skillButton4, panel.targetAgent, specialSkill);
+            }
+        }
     }
 
 	private void UpdatePosition()
@@ -114,6 +137,22 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         CloseWindow();
     }
 
+    private void SetSkillButton(UnityEngine.UI.Button button, AgentModel agent, SkillTypeInfo skillInfo)
+    {
+        if (skillInfo != null)
+        {
+            button.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + skillInfo.imgsrc);
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(() => SelectAgentSkill(agent, skillInfo));
+            button.enabled = true;
+        }
+        else
+        {
+            button.image.sprite = ResourceCache.instance.GetSprite("Sprites/UI/skill/Work_disable");
+            button.enabled = false;
+        }
+    }
+
     private void AddAgentSlotWork(AgentModel unit, ref float posy)
     {
         GameObject slot = Prefab.LoadPrefab ("AgentSlotPanel");
@@ -124,31 +163,20 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		tr.localPosition = new Vector3(0,posy,0);
 		AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
 
-        slotPanel.skillButton1.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.directSkill.imgsrc);
-        slotPanel.skillButton2.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.indirectSkill.imgsrc);
-        slotPanel.skillButton3.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.blockSkill.imgsrc);
-
+        slotPanel.targetAgent = unit;
         slotPanel.agentName.text = unit.name;
         slotPanel.agentHealth.text = HealthCheck(unit);
         slotPanel.agentMental.text = MentalCheck(unit);
         slotPanel.agentLevel.text = "등급 : "+unit.level;
 
-        AgentModel copied = unit;
-		slotPanel.skillButton1.onClick.AddListener(()=>SelectAgentSkill(copied, copied.directSkill));
-		slotPanel.skillButton2.onClick.AddListener(()=>SelectAgentSkill(copied, copied.indirectSkill));
-		slotPanel.skillButton3.onClick.AddListener(()=>SelectAgentSkill(copied, copied.blockSkill));
+        SetSkillButton(slotPanel.skillButton1, unit, unit.directSkill);
+        SetSkillButton(slotPanel.skillButton2, unit, unit.indirectSkill);
+        SetSkillButton(slotPanel.skillButton3, unit, unit.blockSkill);
 
-        // special skill
-        if (targetCreature.specialSkill != null)
-        {
-            slotPanel.skillButton4.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + targetCreature.specialSkill.imgsrc);
-            slotPanel.skillButton4.onClick.AddListener(() => SelectAgentSkill(copied, targetCreature.specialSkill));
-        }
+        if(targetCreature.script != null)
+            SetSkillButton(slotPanel.skillButton4, unit, targetCreature.script.GetSpecialSkill());
         else
-        {
-            slotPanel.skillButton4.image.sprite = ResourceCache.instance.GetSprite("Sprites/UI/skill/Work_disable");
-            slotPanel.skillButton4.enabled = false;
-        }
+            SetSkillButton(slotPanel.skillButton4, unit, null);
 
 
         slotPanel.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
@@ -157,6 +185,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
         slotPanel.agentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
         posy -= 100f;
+
+        agentPanelList.Add(slotPanel);
     }
 
     private void AddAgentSlotEscape(AgentModel unit, ref float posy)
@@ -169,6 +199,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         tr.localPosition = new Vector3(0, posy, 0);
         AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
 
+        slotPanel.targetAgent = unit;
         slotPanel.skillButton1.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.directSkill.imgsrc);
         slotPanel.skillButton2.gameObject.SetActive(false);
         slotPanel.skillButton3.gameObject.SetActive(false);
@@ -186,17 +217,29 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         slotPanel.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
 
         posy -= 100f;
+
+        agentPanelList.Add(slotPanel);
     }
 
 	public void ShowAgentList()
 	{
         AgentModel[] agents = AgentManager.instance.GetAgentList();
 
+        if (workType == WorkType.NORMAL && targetCreature.script != null)
+        {
+            specialSkill = targetCreature.script.GetSpecialSkill();
+        }
+
 		float posy = 0;
         foreach (AgentModel unit in agents)
 		{
             if (unit.GetState() == AgentCmdState.WORKING)
                 continue;
+
+            if (unit.currentSefira != targetCreature.sefiraNum)
+            {
+                continue;
+            }
 
             if (workType == WorkType.NORMAL)
             {
@@ -216,7 +259,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		UpdatePosition ();
 	}
 
-	
+	// 지금 안 씀
 	public void OnClickSlot(GameObject slotObject)
 	{
 		AgentSlot agentSlot = slotObject.GetComponent<AgentSlot> ();

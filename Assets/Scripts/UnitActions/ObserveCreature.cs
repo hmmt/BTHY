@@ -53,8 +53,8 @@ public class ObserveCreature : MonoBehaviour
         if (agentStack <= 0)
         {
             Debug.Log("관찰실패");
-            agent.hp -= creature.metaInfo.physicsDmg;
-            agent.mental -= creature.metaInfo.mentalDmg;
+            agent.TakePhysicalDamage(creature.metaInfo.physicsDmg);
+            agent.TakeMentalDamage(creature.metaInfo.mentalDmg);
             agent.FinishWorking();
             creature.state = CreatureState.WAIT;
             Notice.instance.Send("UpdateCreatureState_" + creature.instanceId);
@@ -111,8 +111,6 @@ public class ObserveCreature : MonoBehaviour
             }
 
             creature.ShowNarrationText("dead", agent.name);
-            //FinshWork();
-            agent.Die();
             string narration = this.name + " (이)가 사망하여 안타깝게도 관찰 작업에 실패하였습니다.";
             Notice.instance.Send("AddSystemLog", narration);
         }

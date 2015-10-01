@@ -16,13 +16,13 @@ public class CreatureAttackBase : MonoBehaviour {
         {
             if (agent.hp > 0)
             {
-                agent.hp -= creature.metaInfo.physicsDmg;
-                agent.mental -= creature.metaInfo.mentalDmg;
+                agent.TakePhysicalDamage(creature.metaInfo.physicsDmg);
+                agent.TakeMentalDamage(creature.metaInfo.mentalDmg);
             }
 
-            else
+            if(agent.isDead())
             {
-                agent.Die();
+                Finish();
             }
             Debug.Log("attack");
         }

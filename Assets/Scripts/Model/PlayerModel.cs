@@ -97,7 +97,7 @@ public class PlayerModel {
 
         if (added == "1")
         {
-            CreatureManager.instance.AddCreature(RandomCreature(), "S-left-way2", -9.6f, -1, added);
+            CreatureManager.instance.AddCreature(30003, "S-left-way2", -9.6f, -1, added);
             CreatureManager.instance.AddCreature(RandomCreature(), "S-left-way3", -17.2f, -1, added);
             CreatureManager.instance.AddCreature(RandomCreature(), "S-right-way2", 9.6f, -1, added);
             CreatureManager.instance.AddCreature(RandomCreature(), "S-right-way3", 17.2f, -1, added);

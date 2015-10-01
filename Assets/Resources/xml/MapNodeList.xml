@@ -1,120 +1,164 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <node_list>
 	<area name="1">
-		<node id="sefira-malkuth-1" x="-4" y="2" type="sefira"/>
-		<node id="sefira-malkuth-2" x="-3" y="2" type="sefira"/>
-		<node id="sefira-malkuth-3" x="-2" y="2" type="sefira"/>
-		<node id="sefira-malkuth-4" x="-1" y="2" type="sefira"/>
-		<node id="sefira-malkuth-5" x="0" y="2" type="sefira"/>
-		<node id="sefira-malkuth-6" x="1" y="2" type="sefira"/>
-		<node id="sefira-malkuth-7" x="2" y="2" type="sefira"/>
-		<node id="sefira-malkuth-8" x="3" y="2" type="sefira"/>
-		<node id="sefira-malkuth-9" x="4" y="2" type="sefira"/>
 
-		<node id="S-left-way1" x="-7" y="2"/>
-		<node id="S-left-way2" x="-9" y="2"/>
-		<node id="S-left-way3" x="-16" y="2"/>
-		<node id="S-left-way4" x="-20" y="2"/>
-		<node id="S-left-way5" x="-22" y="2"/>
-		<node id="S-left-way6" x="-24" y="2"/>
-		<node id="S-left-way7" x="-26" y="0"/>
+		<node_group>
+			<node id="sefira-malkuth-1" x="-4" y="2" type="sefira"/>
+			<node id="sefira-malkuth-2" x="-3" y="2" type="sefira"/>
+			<node id="sefira-malkuth-3" x="-2" y="2" type="sefira"/>
+			<node id="sefira-malkuth-4" x="-1" y="2" type="sefira"/>
+			<node id="sefira-malkuth-5" x="0" y="2" type="sefira"/>
+			<node id="sefira-malkuth-6" x="1" y="2" type="sefira"/>
+			<node id="sefira-malkuth-7" x="2" y="2" type="sefira"/>
+			<node id="sefira-malkuth-8" x="3" y="2" type="sefira"/>
+			<node id="sefira-malkuth-9" x="4" y="2" type="sefira"/>
+		</node_group>
+
+		<node_group>
+			<node id="S-left-way1" x="-7" y="2"/>
+			<node id="S-left-way2" x="-9" y="2"/>
+			<node id="S-left-way3" x="-16" y="2"/>
+			<node id="S-left-way4" x="-20" y="2"/>
+			<node id="S-left-way5" x="-22" y="2"/>
+			<node id="S-left-way6" x="-24" y="2"/>
+			<node id="S-left-way7" x="-26" y="0"/>
+		</node_group>
 
 
-		<node id="S-right-way1" x="7" y="2"/>
-		<node id="S-right-way2" x="9" y="2"/>
-		<node id="S-right-way3" x="16" y="2"/>
-		<node id="S-right-way4" x="20" y="2"/>
-		<node id="S-right-way5" x="22" y="2"/>
-		<node id="S-right-way6" x="24" y="2"/>
-		<node id="S-right-way7" x="26" y="0"/>
+		<node_group>
+			<node id="S-right-way1" x="7" y="2"/>
+			<node id="S-right-way2" x="9" y="2"/>
+			<node id="S-right-way3" x="16" y="2"/>
+			<node id="S-right-way4" x="20" y="2"/>
+			<node id="S-right-way5" x="22" y="2"/>
+			<node id="S-right-way6" x="24" y="2"/>
+			<node id="S-right-way7" x="26" y="0"/>
+		</node_group>
 
-		<node id="S-bottom-way1" x="0" y="-1"/>
-		<node id="S-bottom-way2" x="0" y="-9.5"/>
-		<node id="S-bottom-way3" x="0" y="-14"/>
+		<node_group>
+			<node id="S-bottom-way1" x="0" y="-1"/>
+			<node id="S-bottom-way2" x="0" y="-9.5"/>
+			<node id="S-bottom-way3" x="0" y="-14"/>
+		</node_group>
 
-		<node id="S-bottom-way2-left1" x="-2.5" y="-9.5"/>
-		<node id="S-bottom-way2-left2" x="-10" y="-9.5"/>
+		<node_group>
+			<node id="S-bottom-way2-left1" x="-2.5" y="-9.5"/>
+			<node id="S-bottom-way2-left2" x="-10" y="-9.5"/>
+		</node_group>
 
-		<node id="S-bottom-way2-right1" x="2.5" y="-9.5"/>
-		<node id="S-bottom-way2-right2" x="10" y="-9.5"/>
+		<node_group>
+			<node id="S-bottom-way2-right1" x="2.5" y="-9.5"/>
+			<node id="S-bottom-way2-right2" x="10" y="-9.5"/>
+		</node_group>
 	</area>
 
 	<area name="2">
-		<node id="sefira-netzach-1" x="-31" y="-22.5" type="sefira"/>
-		<node id="sefira-netzach-2" x="-30" y="-22.5" type="sefira"/>
-		<node id="sefira-netzach-3" x="-29" y="-22.5" type="sefira"/>
-		<node id="sefira-netzach-4" x="-28" y="-22.5" type="sefira"/>
-		<node id="sefira-netzach-5" x="-27" y="-22.5" type="sefira"/>
-		<node id="sefira-netzach-6" x="-26" y="-22.5" type="sefira"/>
-		<node id="sefira-netzach-7" x="-25" y="-22.5" type="sefira"/>
-		<node id="sefira-netzach-8" x="-24" y="-22.5" type="sefira"/>
-		<node id="sefira-netzach-9" x="-23" y="-22.5" type="sefira"/>
+		<node_group>
+			<node id="sefira-netzach-1" x="-31" y="-22.5" type="sefira"/>
+			<node id="sefira-netzach-2" x="-30" y="-22.5" type="sefira"/>
+			<node id="sefira-netzach-3" x="-29" y="-22.5" type="sefira"/>
+			<node id="sefira-netzach-4" x="-28" y="-22.5" type="sefira"/>
+			<node id="sefira-netzach-5" x="-27" y="-22.5" type="sefira"/>
+			<node id="sefira-netzach-6" x="-26" y="-22.5" type="sefira"/>
+			<node id="sefira-netzach-7" x="-25" y="-22.5" type="sefira"/>
+			<node id="sefira-netzach-8" x="-24" y="-22.5" type="sefira"/>
+			<node id="sefira-netzach-9" x="-23" y="-22.5" type="sefira"/>
+		</node_group>
 
-		<node id="N-top-up-way1" x="-27" y="-2.5"/>
-		<node id="N-top-up-way2" x="-29" y="-2.5"/>
-		<node id="N-top-up-way3" x="-36" y="-2.5"/>
+		<node_group>
+			<node id="N-top-up-way1" x="-27" y="-2.5"/>
+			<node id="N-top-up-way2" x="-29" y="-2.5"/>
+			<node id="N-top-up-way3" x="-36" y="-2.5"/>
+		</node_group>
 
-		<node id="N-top-down-way1" x="-27" y="-14.5"/>
-		<node id="N-top-down-way2" x="-29" y="-14.5"/>
-		<node id="N-top-down-way3" x="-36" y="-14.5"/>
+		<node_group>
+			<node id="N-top-down-way1" x="-27" y="-14.5"/>
+			<node id="N-top-down-way2" x="-29" y="-14.5"/>
+			<node id="N-top-down-way3" x="-36" y="-14.5"/>
+		</node_group>
 
-		<node id="N-bottom-way1" x="-27" y="-25"/>
-		<node id="N-bottom-way2" x="-27" y="-32"/>
-		<node id="N-bottom-way2-left1" x="-30" y="-32"/>
-		<node id="N-bottom-way2-left2" x="-36" y="-32"/>
-		<node id="N-bottom-way2-right1" x="-24" y="-32"/>
-		<node id="N-bottom-way2-right2" x="-18" y="-32"/>
+		<node_group>
+			<node id="N-bottom-way1" x="-27" y="-25"/>
+			<node id="N-bottom-way2" x="-27" y="-32"/>
+		</node_group>
+
+		<node_group>
+			<node id="N-bottom-way2-left1" x="-30" y="-32"/>
+			<node id="N-bottom-way2-left2" x="-36" y="-32"/>
+		</node_group>
+
+		<node_group>
+			<node id="N-bottom-way2-right1" x="-24" y="-32"/>
+			<node id="N-bottom-way2-right2" x="-18" y="-32"/>
+		</node_group>
 
 	</area>
 
 <!--  -->
 	<area name="3">
+		<node_group>
+			<node id="sefira-hod-1" x="31" y="-22.5" type="sefira"/>
+			<node id="sefira-hod-2" x="30" y="-22.5" type="sefira"/>
+			<node id="sefira-hod-3" x="29" y="-22.5" type="sefira"/>
+			<node id="sefira-hod-4" x="28" y="-22.5" type="sefira"/>
+			<node id="sefira-hod-5" x="27" y="-22.5" type="sefira"/>
+			<node id="sefira-hod-6" x="26" y="-22.5" type="sefira"/>
+			<node id="sefira-hod-7" x="25" y="-22.5" type="sefira"/>
+			<node id="sefira-hod-8" x="24" y="-22.5" type="sefira"/>
+			<node id="sefira-hod-9" x="23" y="-22.5" type="sefira"/>
+		</node_group>
 
-		<node id="sefira-hod-1" x="31" y="-22.5" type="sefira"/>
-		<node id="sefira-hod-2" x="30" y="-22.5" type="sefira"/>
-		<node id="sefira-hod-3" x="29" y="-22.5" type="sefira"/>
-		<node id="sefira-hod-4" x="28" y="-22.5" type="sefira"/>
-		<node id="sefira-hod-5" x="27" y="-22.5" type="sefira"/>
-		<node id="sefira-hod-6" x="26" y="-22.5" type="sefira"/>
-		<node id="sefira-hod-7" x="25" y="-22.5" type="sefira"/>
-		<node id="sefira-hod-8" x="24" y="-22.5" type="sefira"/>
-		<node id="sefira-hod-9" x="23" y="-22.5" type="sefira"/>
+		<node_group>
+			<node id="H-top-up-way1" x="27" y="-2.5"/>
+			<node id="H-top-up-way2" x="29" y="-2.5"/>
+			<node id="H-top-up-way3" x="36" y="-2.5"/>
+		</node_group>
 
-		<node id="H-top-up-way1" x="27" y="-2.5"/>
-		<node id="H-top-up-way2" x="29" y="-2.5"/>
-		<node id="H-top-up-way3" x="36" y="-2.5"/>
+		<node_group>
+			<node id="H-top-down-way1" x="27" y="-14.5"/>
+			<node id="H-top-down-way2" x="29" y="-14.5"/>
+			<node id="H-top-down-way3" x="36" y="-14.5"/>
+		</node_group>
 
-		<node id="H-top-down-way1" x="27" y="-14.5"/>
-		<node id="H-top-down-way2" x="29" y="-14.5"/>
-		<node id="H-top-down-way3" x="36" y="-14.5"/>
-
-		<node id="H-bottom-way1" x="27" y="-25"/>
-		<node id="H-bottom-way2" x="27" y="-32"/>
-		<node id="H-bottom-way2-left1" x="30" y="-32"/>
-		<node id="H-bottom-way2-left2" x="36" y="-32"/>
-		<node id="H-bottom-way2-right1" x="24" y="-32"/>
-		<node id="H-bottom-way2-right2" x="18" y="-32"/>
+		<node_group>
+			<node id="H-bottom-way1" x="27" y="-25"/>
+			<node id="H-bottom-way2" x="27" y="-32"/>
+		</node_group>
+		<node_group>
+			<node id="H-bottom-way2-left1" x="30" y="-32"/>
+			<node id="H-bottom-way2-left2" x="36" y="-32"/>
+		</node_group>
+		<node_group>
+			<node id="H-bottom-way2-right1" x="24" y="-32"/>
+			<node id="H-bottom-way2-right2" x="18" y="-32"/>
+		</node_group>
 	</area>
 
 	<area name="4">
-		<node id="sefira-tessod-1" x="-4" y="-22.5" type="sefira"/>
-		<node id="sefira-tessod-2" x="-3" y="-22.5" type="sefira"/>
-		<node id="sefira-tessod-3" x="-2" y="-22.5" type="sefira"/>
-		<node id="sefira-tessod-4" x="-1" y="-22.5" type="sefira"/>
-		<node id="sefira-tessod-5" x="0" y="-22.5" type="sefira"/>
-		<node id="sefira-tessod-6" x="1" y="-22.5" type="sefira"/>
-		<node id="sefira-tessod-7" x="2" y="-22.5" type="sefira"/>
-		<node id="sefira-tessod-8" x="3" y="-22.5" type="sefira"/>
-		<node id="sefira-tessod-9" x="4" y="-22.5" type="sefira"/>
+		<node_group>
+			<node id="sefira-tessod-1" x="-4" y="-22.5" type="sefira"/>
+			<node id="sefira-tessod-2" x="-3" y="-22.5" type="sefira"/>
+			<node id="sefira-tessod-3" x="-2" y="-22.5" type="sefira"/>
+			<node id="sefira-tessod-4" x="-1" y="-22.5" type="sefira"/>
+			<node id="sefira-tessod-5" x="0" y="-22.5" type="sefira"/>
+			<node id="sefira-tessod-6" x="1" y="-22.5" type="sefira"/>
+			<node id="sefira-tessod-7" x="2" y="-22.5" type="sefira"/>
+			<node id="sefira-tessod-8" x="3" y="-22.5" type="sefira"/>
+			<node id="sefira-tessod-9" x="4" y="-22.5" type="sefira"/>
+		</node_group>
 
-		<node id="T-right-way1" x="7" y="-22.5"/>
-		<node id="T-right-way2" x="9" y="-22.5"/>
-		<node id="T-right-way3" x="18" y="-22.5"/>
-		<node id="T-right-way4" x="20" y="-22.5"/>
+		<node_group>
+			<node id="T-right-way1" x="7" y="-22.5"/>
+			<node id="T-right-way2" x="9" y="-22.5"/>
+			<node id="T-right-way3" x="18" y="-22.5"/>
+			<node id="T-right-way4" x="20" y="-22.5"/>
+		</node_group>
 
-		<node id="T-left-way1" x="-7" y="-22.5"/>
-		<node id="T-left-way2" x="-9" y="-22.5"/>
-		<node id="T-left-way3" x="-18" y="-22.5"/>
-		<node id="T-left-way4" x="-20" y="-22.5"/>
+		<node_group>
+			<node id="T-left-way1" x="-7" y="-22.5"/>
+			<node id="T-left-way2" x="-9" y="-22.5"/>
+			<node id="T-left-way3" x="-18" y="-22.5"/>
+			<node id="T-left-way4" x="-20" y="-22.5"/>
+		</node_group>
 	</area>
 </node_list>

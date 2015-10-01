@@ -625,8 +625,6 @@
 		mentalProb="0.7"
 		mentalDmg="40"
 
-		specialSkillId="40001"
-
 		script="OneBadManyGood"
 		>
 		<feeling max="300" downProb="0.1" downValue="4">

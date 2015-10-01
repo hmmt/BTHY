@@ -49,4 +49,17 @@ public class SkillTypeList
 		}
 		return null;
 	}
+
+
+    public SkillTypeInfo GetNextSkill(SkillTypeInfo typeInfo)
+    {
+        if (typeInfo.nextSkillIdList.Length == 0)
+        {
+            return null;
+        }
+
+        SkillTypeInfo skill = GetData(typeInfo.nextSkillIdList[0]);
+
+        return skill;
+    }
 }

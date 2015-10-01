@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class AreaButton
@@ -73,7 +75,9 @@ public class StageUI : MonoBehaviour, IObserver {
             AreaButton btn = v.Value;
             UpdateButton(btn);
         }*/
-
+        GameObject sliderPanel = GameObject.FindWithTag("EnergyPanel");
+        float MaxValueForEnergy = EnergyModel.instance.GetLeftEnergy();
+        sliderPanel.GetComponent<MenuLeftEnergy>().SetSlider(MaxValueForEnergy);
         UpdateSefiraButton("1");
 
         agentSlot.gameObject.SetActive(false);
@@ -178,19 +182,23 @@ public class StageUI : MonoBehaviour, IObserver {
         }
 
         float posy = 0;
+
+        
+
         foreach (AgentModel unit in agents)
         {
             GameObject slot = Prefab.LoadPrefab("Slot/AgentSlotPanelStage");
 
             slot.transform.SetParent(agentScrollTarget, false);
-
+            
             RectTransform tr = slot.GetComponent<RectTransform>();
             tr.localPosition = new Vector3(0, posy, 0);
             AgentSlotPanelStage slotPanel = slot.GetComponent<AgentSlotPanelStage>();
-
             AgentModel copied = unit;
-            ShowPromotionButton(copied, slotPanel.promotion);
+            
 
+            ShowPromotionButton(copied, slotPanel.promotion);
+            
             slotPanel.addSefira.gameObject.SetActive(false);
 
             if (copied.currentSefira != currentSefriaUi)
@@ -216,8 +224,8 @@ public class StageUI : MonoBehaviour, IObserver {
             slotPanel.agentBodyIcon.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
             slotPanel.agentFaceIcon.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
             slotPanel.agentHairIcon.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
-
-            posy -= 100f;
+            slotPanel.model = unit;
+            posy -= 120f;
         }
 
         foreach (AgentModel unit in spareAgents)
@@ -258,7 +266,8 @@ public class StageUI : MonoBehaviour, IObserver {
             slotPanel.agentBodyIcon.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
             slotPanel.agentFaceIcon.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
             slotPanel.agentHairIcon.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
-            posy -= 100f;
+            slotPanel.model = unit;
+            posy -= 120f;
         }
 
         // scroll rect size
@@ -271,7 +280,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public void CancelSefiraAgent(AgentModel unit)
     {
-
+        
         if (unit.currentSefira.Equals("1"))
         {
             for (int i = 0; i < SefiraAgentSlot.instance.MalkuthAgentList.Count; i++)
@@ -326,7 +335,7 @@ public class StageUI : MonoBehaviour, IObserver {
     public void SetAgentSefriaButton(AgentModel unit)
     {      
         bool agentExist = false;
-
+       // Debug.Log(unit);
         CancelSefiraAgent(unit);
 
         if (currentSefriaUi == "1" )

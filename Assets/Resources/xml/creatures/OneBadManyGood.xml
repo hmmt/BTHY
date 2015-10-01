@@ -20,8 +20,6 @@
 		script="OneBadManyGood"
 
 		observeLevel="5"
-
-		specialSkillId="40001"
 		>
 		<feeling max="400" downProb="0.1" downValue="3.3">
 			<section feelingValue="400" state="good" energy="0.6"/>

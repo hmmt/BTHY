@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// 지금 안 씀
 public class AgentSlot : MonoBehaviour {
 	public interface IReceiver
 	{

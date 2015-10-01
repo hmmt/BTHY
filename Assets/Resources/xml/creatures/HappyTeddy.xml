@@ -20,9 +20,6 @@
 		script="HappyTeddy"
 
 		observeLevel="5"
-
-
-		specialSkillId="40002"		
 		>
 		<feeling max="200" downProb="0.4" downValue="5">
 			<section feelingValue="50" state="good" energy="2.8"/>

@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour {
 
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
-            agent.ReturnToSefira();
+            agent.ReturnToSefira(); 
         }
 
 
