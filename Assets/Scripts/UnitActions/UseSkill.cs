@@ -150,7 +150,6 @@ public class UseSkill : MonoBehaviour {
             int i = Random.Range(0, 6);
             if (i == 3)
             {
-                agent.traitList.Add(traitList.GetTraitWithId(10011));
                 agent.applyTrait(traitList.GetTraitWithId(10011));
                 traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10011).name + " 특성을 획득하였습니다.";
                 Notice.instance.Send("AddSystemLog", traitNarration);
@@ -162,7 +161,6 @@ public class UseSkill : MonoBehaviour {
             int i = Random.Range(0, 6);
             if (i == 3)
             {
-                agent.traitList.Add(traitList.GetTraitWithId(10010));
                 agent.applyTrait(traitList.GetTraitWithId(10010));
                 traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10010).name + " 특성을 획득하였습니다.";
                 Notice.instance.Send("AddSystemLog", traitNarration);
@@ -174,7 +172,6 @@ public class UseSkill : MonoBehaviour {
             int i = Random.Range(0, 6);
             if (i == 3)
             {
-                agent.traitList.Add(traitList.GetTraitWithId(10013));
                 agent.applyTrait(traitList.GetTraitWithId(10013));
                 traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10013).name + " 특성을 획득하였습니다.";
                 Notice.instance.Send("AddSystemLog", traitNarration);
@@ -395,7 +392,6 @@ public class UseSkill : MonoBehaviour {
                 int i = Random.Range(0, 6);
                 if (i == 3)
                 {
-                    agent.traitList.Add(traitList.GetTraitWithId(10012));
                     agent.applyTrait(traitList.GetTraitWithId(10012));
                     traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10012).name + " 특성을 획득하였습니다.";
                     Notice.instance.Send("AddSystemLog", traitNarration);
@@ -407,7 +403,6 @@ public class UseSkill : MonoBehaviour {
                 int i = Random.Range(0, 6);
                 if (i == 3)
                 {
-                    agent.traitList.Add(traitList.GetTraitWithId(10014));
                     agent.applyTrait(traitList.GetTraitWithId(10014));
                     traitNarration = agent.name + "( 이)가 " + traitList.GetTraitWithId(10014).name + " 특성을 획득하였습니다.";
                     Notice.instance.Send("AddSystemLog", traitNarration);

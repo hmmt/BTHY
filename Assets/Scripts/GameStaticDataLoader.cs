@@ -84,6 +84,102 @@ public class GameStaticDataLoader {
 
             model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
 
+            XmlNodeList bonusType= node.SelectNodes("bonus");
+            foreach (XmlNode bonusNode in bonusType)
+            {
+                if (bonusNode.Attributes.GetNamedItem("type").InnerText == "D")
+                {
+                    if (node.SelectSingleNode("amount") != null)
+                        model.amountBonusD = int.Parse(node.SelectSingleNode("amount").InnerText);
+                    else
+                        model.amountBonusD = 1;
+
+                    if (node.SelectSingleNode("feeling") != null)
+                        model.feelingBonusD = int.Parse(node.SelectSingleNode("feeling").InnerText);
+                    else
+                        model.feelingBonusD = 1;
+
+                    if (node.SelectSingleNode("mentalReduce") != null)
+                        model.mentalReduceD = int.Parse(node.SelectSingleNode("mentalReduce").InnerText);
+                    else
+                        model.mentalReduceD = 0;
+
+                    if (node.SelectSingleNode("mentalTick") != null)
+                        model.mentalTickD = int.Parse(node.SelectSingleNode("mentalTick").InnerText);
+                    else
+                        model.mentalTickD = 0;
+                }
+
+                else if (bonusNode.Attributes.GetNamedItem("type").InnerText == "I")
+                {
+                    if (node.SelectSingleNode("amount") != null)
+                        model.amountBonusI = int.Parse(node.SelectSingleNode("amount").InnerText);
+                    else
+                        model.amountBonusI = 1;
+
+                    if (node.SelectSingleNode("feeling") != null)
+                        model.feelingBonusI = int.Parse(node.SelectSingleNode("feeling").InnerText);
+                    else
+                        model.feelingBonusI = 1;
+
+                    if (node.SelectSingleNode("mentalReduce") != null)
+                        model.mentalReduceI = int.Parse(node.SelectSingleNode("mentalReduce").InnerText);
+                    else
+                        model.mentalReduceI = 0;
+
+                    if (node.SelectSingleNode("mentalTick") != null)
+                        model.mentalTickI = int.Parse(node.SelectSingleNode("mentalTick").InnerText);
+                    else
+                        model.mentalTickI = 0;
+                }
+
+                else if (bonusNode.Attributes.GetNamedItem("type").InnerText == "S")
+                {
+                    if (node.SelectSingleNode("amount") != null)
+                        model.amountBonusS = int.Parse(node.SelectSingleNode("amount").InnerText);
+                    else
+                        model.amountBonusS = 1;
+
+                    if (node.SelectSingleNode("feeling") != null)
+                        model.feelingBonusS = int.Parse(node.SelectSingleNode("feeling").InnerText);
+                    else
+                        model.feelingBonusS = 1;
+
+                    if (node.SelectSingleNode("mentalReduce") != null)
+                        model.mentalReduceS = int.Parse(node.SelectSingleNode("mentalReduce").InnerText);
+                    else
+                        model.mentalReduceS = 0;
+
+                    if (node.SelectSingleNode("mentalTick") != null)
+                        model.mentalTickS = int.Parse(node.SelectSingleNode("mentalTick").InnerText);
+                    else
+                        model.mentalTickS = 0;
+                }
+
+                else if (bonusNode.Attributes.GetNamedItem("type").InnerText == "C")
+                {
+                    if (node.SelectSingleNode("amount") != null)
+                        model.amountBonusC = int.Parse(node.SelectSingleNode("amount").InnerText);
+                    else
+                        model.amountBonusC = 1;
+
+                    if (node.SelectSingleNode("feeling") != null)
+                        model.feelingBonusC = int.Parse(node.SelectSingleNode("feeling").InnerText);
+                    else
+                        model.feelingBonusC = 1;
+
+                    if (node.SelectSingleNode("mentalReduce") != null)
+                        model.mentalReduceC = int.Parse(node.SelectSingleNode("mentalReduce").InnerText);
+                    else
+                        model.mentalReduceC = 0;
+
+                    if (node.SelectSingleNode("mentalTick") != null)
+                        model.mentalTickC = int.Parse(node.SelectSingleNode("mentalTick").InnerText);
+                    else
+                        model.mentalTickC = 0;
+                }
+            }
+
             List<long> nextSkillList = new List<long>();
             XmlNodeList nextSkills = node.SelectNodes("nextSkill");
             foreach(XmlNode nextSkillNode in nextSkills)

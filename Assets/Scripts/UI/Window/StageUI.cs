@@ -523,9 +523,6 @@ public class StageUI : MonoBehaviour, IObserver {
                     }
                 }
 
-                agent.traitList.Add(RandomTraitInfo1);
-                agent.traitList.Add(RandomTraitInfo2);
-                agent.traitList.Add(WorkTrait);
 
                 agent.applyTrait(RandomTraitInfo1);
                 agent.applyTrait(RandomTraitInfo2);
@@ -561,8 +558,6 @@ public class StageUI : MonoBehaviour, IObserver {
                     }
                 }
 
-                agent.traitList.Add(RandomTraitInfo1);
-                agent.traitList.Add(RandomTraitInfo2);
 
                 agent.applyTrait(RandomTraitInfo1);
                 agent.applyTrait(RandomTraitInfo2);
