@@ -53,6 +53,13 @@ public class AgentModel : IObserver
     public int inDirectBonus;
     public int blockBonus;
 
+    public int agentLifeValue;
+
+    public int internalTrait=0;
+    public int externalTrait=0;
+    public int thinkTrait=0;
+    public int emotionalTrait=0;
+
     public SkillTypeInfo directSkill;
     public SkillTypeInfo indirectSkill;
     public SkillTypeInfo blockSkill;
@@ -258,14 +265,99 @@ public class AgentModel : IObserver
         movableNode.ProcessMoveNode(movement);
     }
 
+    public void checkAgentLifeValue(TraitTypeInfo addTrait)
+    {
+        if (addTrait.discType == 1)
+        {
+            externalTrait++;
+        }
+
+        else if (addTrait.discType == 2)
+        {
+            internalTrait++;
+        }
+
+        else if (addTrait.discType == 3)
+        {
+            thinkTrait++;
+        }
+
+        else if (addTrait.discType == 4)
+        {
+            emotionalTrait++;
+        }
+
+        int externalFlag = 0;
+        int thinkFlag = 0;
+
+        if(externalTrait > internalTrait)
+        {
+            externalFlag = 1;
+        }
+
+        else if(externalTrait < internalTrait)
+        {
+            externalFlag = 0;
+        }
+
+        else
+        {
+            if (Random.Range(0, 1) == 1)
+            {
+                externalFlag = 1;
+            }
+            else
+            {
+                externalFlag = 0;
+            }
+        }
+
+        if (thinkTrait > emotionalTrait)
+        {
+            thinkFlag = 1;
+        }
+
+        else if (thinkTrait < emotionalTrait)
+        {
+            thinkFlag = 0;
+        }
+
+        else
+        {
+            if (Random.Range(0, 1) == 1)
+            {
+                thinkFlag = 1;
+            }
+            else
+            {
+                thinkFlag = 0;
+            }
+        }
+
+        if(externalFlag == 1 && thinkFlag == 1)
+        {
+            agentLifeValue = 1; // 합리주의자
+        }
+
+        else if(externalFlag == 1 && thinkFlag == 0)
+        {
+            agentLifeValue = 2; // 낙천주의자
+        }
+
+        else if (externalFlag == 0 && thinkFlag == 1)
+        {
+            agentLifeValue = 3; // 원칙주의자
+        }
+
+        else if (externalFlag == 0 && thinkFlag == 0)
+        {
+            agentLifeValue = 4; // 평화주의자
+        }
+
+    }
+
     public void applyTrait(TraitTypeInfo addTrait)
     {
-        Debug.Log("이름"+name);
-        Debug.Log("체력" + defaultMaxHp);
-        Debug.Log("멘탈" + defaultMaxMental);
-        Debug.Log("이동속도" + defaultMovement);
-        Debug.Log("작업속도" + defaultWork);
-
 
         traitList.Add(addTrait);
 
@@ -274,18 +366,16 @@ public class AgentModel : IObserver
         traitmovement = 0;
         traitWork = 0;
 
-        for(int i=0; i<traitList.Count; i++)
+        if (addTrait.discType != 0) 
+            checkAgentLifeValue(addTrait);
+
+        for (int i=0; i<traitList.Count; i++)
         {
             traitMaxHp += traitList[i].hp;
             traitMaxmental += traitList[i].mental;
             traitmovement += traitList[i].moveSpeed;
             traitWork += traitList[i].workSpeed;
-
-            Debug.Log("특성 이름" + traitList[i].name);
-            Debug.Log("특성 체력" + traitList[i].hp);
-            Debug.Log("특성 멘탈" + traitList[i].mental);
-            Debug.Log("특성 이동속도" + traitList[i].moveSpeed);
-            Debug.Log("특성 작업속도" + traitList[i].workSpeed);
+            
         }
 
         maxHp = defaultMaxHp + traitMaxHp;
@@ -321,12 +411,6 @@ public class AgentModel : IObserver
         {
             work = 1;
         }
-
-
-        Debug.Log("변경후 체력" + maxHp);
-        Debug.Log("변경후 멘탈" + maxMental);
-        Debug.Log("변경후 속도" + movement);
-        Debug.Log("변경후 작업속도" + work);
     }
 
     public void UpdateSKill(string skillType)

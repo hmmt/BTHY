@@ -52,7 +52,7 @@ public class GameStaticDataLoader {
             model.inDirectWork = float.Parse(node.Attributes.GetNamedItem("inDirectWork").InnerText);
             model.blockWork = float.Parse(node.Attributes.GetNamedItem("blockWork").InnerText);
 
-            model.traitFlag = int.Parse(node.Attributes.GetNamedItem("traitFlag").InnerText);
+            model.discType = int.Parse(node.Attributes.GetNamedItem("discType").InnerText);
 
             model.description = node.Attributes.GetNamedItem("description").InnerText;
 

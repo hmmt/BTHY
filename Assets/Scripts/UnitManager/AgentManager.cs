@@ -59,20 +59,9 @@ public class AgentManager {
 
         AgentModel unit = new AgentModel(nextInstId++, "1");
 
-        TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetRandomInitTrait();
-        TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
-        TraitTypeInfo WorkTrait = TraitTypeList.instance.GetRandomLevelWorkTrait(1);
-
-        if (RandomTraitInfo1.id == RandomTraitInfo2.id)
-        {
-            while (true)
-            {
-                RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
-                if (RandomTraitInfo1.id != RandomTraitInfo2.id)
-                    break;
-            }
-        }
-
+        TraitTypeInfo RandomEiTrait = TraitTypeList.instance.GetRandomEiTrait(1);
+        TraitTypeInfo RandomNfTrait = TraitTypeList.instance.GetRandomNfTrait(1);
+        TraitTypeInfo RandomNormalTrait = TraitTypeList.instance.GetRandomInitTrait();
 
 
         unit.name = GetRandomName();
@@ -115,9 +104,13 @@ public class AgentManager {
         unit.activated = false;
         agentListSpare.Add(unit);
 
-        unit.applyTrait(RandomTraitInfo1);
-        unit.applyTrait(RandomTraitInfo2);
-        unit.applyTrait(WorkTrait);
+        unit.applyTrait(RandomEiTrait);
+        unit.applyTrait(RandomNfTrait);
+        unit.applyTrait(RandomNormalTrait);
+
+        Debug.Log("EI Trait "+RandomEiTrait.name);
+        Debug.Log("Nf Trait " + RandomNfTrait.name);
+        Debug.Log("가치관 " + unit.agentLifeValue);
 
         return unit;
     }
