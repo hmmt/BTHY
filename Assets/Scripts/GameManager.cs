@@ -11,31 +11,47 @@ public enum GameState
     PAUSE
 }
 
-public class GameManager : MonoBehaviour {
+public enum GameSceneState
+{
+    STORY,
+    MAINGAME
+}
+
+public class GameManager : MonoBehaviour
+{
 
     private string saveFileName;
     private static GameManager _currentGameManager;
 
-	private CurrentUIState currentUIState;
+    private CurrentUIState currentUIState;
 
+    // game mode object
+    public GameObject gameStateScreen;
     public StageTimeInfoUI stageTimeInfoUI;
     public StageUI stageUI;
+
+    // story mode object
+    public StoryScene storyScene;
+
+    // loading mode object
+    public LoadingScreenState loadingScreenState;
+
 
     public BriefingInfo briefingText;
     public GameState state;
 
     public static GameManager currentGameManager
     {
-        get { return _currentGameManager; } 
+        get { return _currentGameManager; }
     }
 
-	void Awake()
-	{
+    void Awake()
+    {
         state = GameState.PAUSE;
 
         saveFileName = Application.persistentDataPath + "/saveData1.txt";
 
-		Screen.fullScreen = true;
+        Screen.fullScreen = true;
         _currentGameManager = this;
 
         Camera.main.orthographicSize += 5;
@@ -45,10 +61,10 @@ public class GameManager : MonoBehaviour {
         MapGraph.instance.LoadMap();
         GameStaticDataLoader.LoadStaticData();
         //EnergyModel.instance.Init();
-	}
+    }
 
-	void Start()
-	{
+    void Start()
+    {
         AgentLayer.currentLayer.Init();
         CreatureLayer.currentLayer.Init();
 
@@ -60,39 +76,63 @@ public class GameManager : MonoBehaviour {
 
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
-            agent.ReturnToSefira(); 
+            agent.ReturnToSefira();
         }
 
+        //StartStage();
+        OpenStoryScene("start");
+        /*
+        gameStateScreen.SetActive(false);
+        storyScene.gameObject.SetActive(false);
+        loadingScreenState.StartLoading();
+        */
+    }
 
-		//StartGame ();
+    public void OpenStoryScene(string storyName)
+    {
+        if (storyName == "start")
+        {
+            loadingScreenState.gameObject.SetActive(false);
+            gameStateScreen.SetActive(false);
+            storyScene.gameObject.SetActive(true);
+            storyScene.LoadStory(storyName);
+        }
+    }
+
+    public void StartStage()
+    {
+        loadingScreenState.gameObject.SetActive(false);
+        storyScene.gameObject.SetActive(false);
+        gameStateScreen.SetActive(true);
         stageUI.Open(StageUI.UIType.START_STAGE);
-	}
+        // StartGame();
+    }
 
-	// start managing isolate
-	public void StartGame()
-	{
+    // start managing isolate
+    public void StartGame()
+    {
         state = GameState.PLAYING;
         briefingText.SetNarrationByDay();
 
-		currentUIState = CurrentUIState.DEFAULT;
+        currentUIState = CurrentUIState.DEFAULT;
 
-		GetComponent<RootTimer> ().AddTimer ("EnergyTimer", 5);
-		Notice.instance.Observe ("EnergyTimer", EnergyModel.instance);
-		GetComponent<RootTimer> ().AddTimer ("CreatureFeelingUpdateTimer", 10);
+        GetComponent<RootTimer>().AddTimer("EnergyTimer", 5);
+        Notice.instance.Observe("EnergyTimer", EnergyModel.instance);
+        GetComponent<RootTimer>().AddTimer("CreatureFeelingUpdateTimer", 10);
 
         int day = PlayerModel.instance.GetDay();
         stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
-	}
+    }
 
-	public void EndGame()
-	{
+    public void EndGame()
+    {
         state = GameState.PAUSE;
         Debug.Log("EndGame");
-        EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy()+EnergyModel.instance.GetStageLeftEnergy());
+        EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy() + EnergyModel.instance.GetStageLeftEnergy());
 
-        GetComponent<RootTimer> ().RemoveTimer ("EnergyTimer");
+        GetComponent<RootTimer>().RemoveTimer("EnergyTimer");
         GetComponent<RootTimer>().RemoveTimer("CreatureFeelingUpdateTimer");
-	}
+    }
 
     void FixedUpdate()
     {
@@ -109,14 +149,16 @@ public class GameManager : MonoBehaviour {
         int day = PlayerModel.instance.GetDay();
         float needEnergy = StageTypeInfo.instnace.GetEnergyNeed(day);
         float energy = EnergyModel.instance.GetEnergy();
-        
-        if(energy >= needEnergy)
+
+        if (energy >= needEnergy)
         {
             stageUI.Open(StageUI.UIType.END_STAGE);
             briefingText.SetNarrationByDay();
         }
         else
         {
+            //storyScene.LoadStory("start");
+            OpenStoryScene("start");
             Debug.Log("Game Over..");
         }
     }
@@ -125,19 +167,20 @@ public class GameManager : MonoBehaviour {
     {
         int day = PlayerModel.instance.GetDay();
         PlayerModel.instance.SetDay(day + 1);
-        //stageUI.Open(StageUI.UIType.START_STAGE);
         EnergyModel.instance.Init();
-        Application.LoadLevel("Menu");
+
+        //stageUI.Open(StageUI.UIType.START_STAGE);
+        //Application.LoadLevel("Menu");
     }
 
-	public void SetCurrentUIState(CurrentUIState state)
-	{
-		currentUIState = state;
-	}
-	public CurrentUIState GetCurrentUIState()
-	{
-		return currentUIState;
-	}
+    public void SetCurrentUIState(CurrentUIState state)
+    {
+        currentUIState = state;
+    }
+    public CurrentUIState GetCurrentUIState()
+    {
+        return currentUIState;
+    }
 
     public void Quit()
     {

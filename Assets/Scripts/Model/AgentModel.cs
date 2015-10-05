@@ -15,6 +15,7 @@ public class AgentModel : IObserver
 
     public string name;
     public int hp;
+    public int mental;
 
     public List<TraitTypeInfo> traitList;
 
@@ -27,12 +28,21 @@ public class AgentModel : IObserver
     public int expHpDamage = 0;
     public int expMentalDamage = 0;
 
+    public int defaultMaxHp;
+    public int traitMaxHp;
     public int maxHp;
-    public int maxMental;
 
-    public int mental;
-    public int movement;
-    public int work;
+    public int defaultMaxMental;
+    public int traitMaxmental;
+    public int maxMental; //
+
+    public int defaultMovement;
+    public int traitmovement;
+    public int movement; //
+
+    public int defaultWork;
+    public int traitWork;
+    public int work; //
 
     public string prefer;
     public int preferBonus;
@@ -250,12 +260,41 @@ public class AgentModel : IObserver
 
     public void applyTrait(TraitTypeInfo addTrait)
     {
-        maxHp += addTrait.hp;
+        Debug.Log("이름"+name);
+        Debug.Log("체력" + defaultMaxHp);
+        Debug.Log("멘탈" + defaultMaxMental);
+        Debug.Log("이동속도" + defaultMovement);
+        Debug.Log("작업속도" + defaultWork);
+
+
+        traitList.Add(addTrait);
+
+        traitMaxHp = 0;
+        traitMaxmental = 0;
+        traitmovement = 0;
+        traitWork = 0;
+
+        for(int i=0; i<traitList.Count; i++)
+        {
+            traitMaxHp += traitList[i].hp;
+            traitMaxmental += traitList[i].mental;
+            traitmovement += traitList[i].moveSpeed;
+            traitWork += traitList[i].workSpeed;
+
+            Debug.Log("특성 이름" + traitList[i].name);
+            Debug.Log("특성 체력" + traitList[i].hp);
+            Debug.Log("특성 멘탈" + traitList[i].mental);
+            Debug.Log("특성 이동속도" + traitList[i].moveSpeed);
+            Debug.Log("특성 작업속도" + traitList[i].workSpeed);
+        }
+
+        maxHp = defaultMaxHp + traitMaxHp;
+        maxMental = defaultMaxMental + traitMaxmental;
+        movement = defaultMovement + traitmovement;
+        work = defaultWork + traitWork;
+
         hp += addTrait.hp;
-        maxMental += addTrait.mental;
         mental += addTrait.mental;
-        movement += addTrait.moveSpeed;
-        work += addTrait.workSpeed;
 
         directBonus += (int)addTrait.directWork;
         inDirectBonus += (int)addTrait.inDirectWork;
@@ -282,6 +321,12 @@ public class AgentModel : IObserver
         {
             work = 1;
         }
+
+
+        Debug.Log("변경후 체력" + maxHp);
+        Debug.Log("변경후 멘탈" + maxMental);
+        Debug.Log("변경후 속도" + movement);
+        Debug.Log("변경후 작업속도" + work);
     }
 
     public void UpdateSKill(string skillType)
