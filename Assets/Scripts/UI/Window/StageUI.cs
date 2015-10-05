@@ -280,54 +280,6 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public void CancelSefiraAgent(AgentModel unit)
     {
-        
-        if (unit.currentSefira.Equals("1"))
-        {
-            for (int i = 0; i < SefiraAgentSlot.instance.MalkuthAgentList.Count; i++)
-            {
-                if (unit.instanceId == SefiraAgentSlot.instance.MalkuthAgentList[i].instanceId)
-                {
-                    SefiraAgentSlot.instance.MalkuthAgentList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-
-        else if (unit.currentSefira.Equals("2"))
-        {
-            for (int i = 0; i < SefiraAgentSlot.instance.NezzachAgentList.Count; i++)
-            {
-                if (unit.instanceId == SefiraAgentSlot.instance.NezzachAgentList[i].instanceId)
-                {
-                    SefiraAgentSlot.instance.NezzachAgentList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-
-        else if (unit.currentSefira.Equals("3"))
-        {
-            for (int i = 0; i < SefiraAgentSlot.instance.HodAgentList.Count; i++)
-            {
-                if (unit.instanceId == SefiraAgentSlot.instance.HodAgentList[i].instanceId)
-                {
-                    SefiraAgentSlot.instance.HodAgentList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-
-        else if (unit.currentSefira.Equals("4"))
-        {
-            for (int i = 0; i < SefiraAgentSlot.instance.YesodAgentList.Count; i++)
-            {
-                if (unit.instanceId == SefiraAgentSlot.instance.YesodAgentList[i].instanceId)
-                {
-                    SefiraAgentSlot.instance.YesodAgentList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
         if(unit.activated)
             AgentManager.instance.deactivateAgent(unit);
     }
@@ -340,17 +292,16 @@ public class StageUI : MonoBehaviour, IObserver {
 
         if (currentSefriaUi == "1" )
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.MalkuthAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.MalkuthAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.malkuthAgentList[i].instanceId)
                 {
                     agentExist = true;
                     break;
                 }
             }
-            if (!agentExist && SefiraAgentSlot.instance.MalkuthAgentList.Count < 5)
+            if (!agentExist && AgentManager.instance.malkuthAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.MalkuthAgentList.Add(unit);
                 unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
                 unit.SetCurrentSefira("1");
                 if (!unit.activated)
@@ -363,17 +314,16 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (currentSefriaUi == "2" && PlayerModel.instance.IsOpenedArea("2"))
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.NezzachAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.nezzachAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.NezzachAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.nezzachAgentList[i].instanceId)
                 {
                     agentExist = true;
                     break;
                 }
             }
-            if (!agentExist && SefiraAgentSlot.instance.NezzachAgentList.Count < 5)
+            if (!agentExist && AgentManager.instance.nezzachAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.NezzachAgentList.Add(unit);
                 unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("2"));
                 unit.SetCurrentSefira("2");
                 if (!unit.activated)
@@ -386,17 +336,16 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (currentSefriaUi == "3" && PlayerModel.instance.IsOpenedArea("3")  )
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.HodAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.hodAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.HodAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.hodAgentList[i].instanceId)
                 {
                     agentExist = true;
                     break;
                 }
             }
-            if (!agentExist && SefiraAgentSlot.instance.HodAgentList.Count < 5)
+            if (!agentExist && AgentManager.instance.hodAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.HodAgentList.Add(unit);
                 unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("3"));
                 unit.SetCurrentSefira("3");
                 if (!unit.activated)
@@ -408,18 +357,17 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (currentSefriaUi == "4" && PlayerModel.instance.IsOpenedArea("4"))
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.YesodAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.yesodAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.YesodAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.yesodAgentList[i].instanceId)
                 {
                     agentExist = true;
                     break;
                 }
             }
 
-            if (!agentExist && SefiraAgentSlot.instance.YesodAgentList.Count < 5)
+            if (!agentExist && AgentManager.instance.yesodAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.YesodAgentList.Add(unit);
                 unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
                 unit.SetCurrentSefira("4");
                 if(!unit.activated)
@@ -523,9 +471,6 @@ public class StageUI : MonoBehaviour, IObserver {
                     }
                 }
 
-                agent.traitList.Add(RandomTraitInfo1);
-                agent.traitList.Add(RandomTraitInfo2);
-                agent.traitList.Add(WorkTrait);
 
                 agent.applyTrait(RandomTraitInfo1);
                 agent.applyTrait(RandomTraitInfo2);
@@ -561,8 +506,6 @@ public class StageUI : MonoBehaviour, IObserver {
                     }
                 }
 
-                agent.traitList.Add(RandomTraitInfo1);
-                agent.traitList.Add(RandomTraitInfo2);
 
                 agent.applyTrait(RandomTraitInfo1);
                 agent.applyTrait(RandomTraitInfo2);

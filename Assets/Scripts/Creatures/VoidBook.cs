@@ -23,7 +23,6 @@ public class VoidBook : CreatureBase {
 
         if (skill.agent.HasTrait(traitId) == false)
         {
-            skill.agent.traitList.Add(TraitTypeList.instance.GetTraitWithId(traitId));
             skill.agent.applyTrait(TraitTypeList.instance.GetTraitWithId(traitId));
         }
 

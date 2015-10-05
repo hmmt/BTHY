@@ -84,12 +84,13 @@ public class AgentUnit : MonoBehaviour {
         agentAnimator.SetBool("Change", false);
         oldPos = transform.localPosition.x;
         oldPosY = transform.localPosition.y;
-        oldSefira = model.currentSefira;
+        oldSefira = "1";
         agentName.text = model.name;
 
         faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
         hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
 
+        ChangeAgentUniform();
     }
 
     /*

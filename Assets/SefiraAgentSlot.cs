@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class SefiraAgentSlot : MonoBehaviour {
-
+    /*
     public  List<AgentModel> MalkuthAgentList = new List<AgentModel>();
     public  List<AgentModel> HodAgentList = new List<AgentModel>();
     public  List<AgentModel> NezzachAgentList = new List<AgentModel>();
     public  List<AgentModel> YesodAgentList = new List<AgentModel>();
-
+    */
     public SetAgentSefira[] slot = new SetAgentSefira[5];
 
     public  string currentSefira;
@@ -24,11 +24,13 @@ public class SefiraAgentSlot : MonoBehaviour {
     }
     void Awake()
     {
+        Debug.Log(gameObject);
         _instance = this;
     }
 
     public void CancelSefiraAgent(AgentModel unit, int index)
     {
+        /*
         if (unit.currentSefira.Equals("1"))
         {
             MalkuthAgentList.RemoveAt(index);
@@ -49,6 +51,7 @@ public class SefiraAgentSlot : MonoBehaviour {
         {
             YesodAgentList.RemoveAt(index);
         }
+        */
 
         AgentManager._instance.deactivateAgent(unit);
         ShowAgentSefira(StageUI.instance.currentSefriaUi);
@@ -59,7 +62,7 @@ public class SefiraAgentSlot : MonoBehaviour {
         if (sefria == "1")
         {
 
-            for (int i = 4; i >= MalkuthAgentList.Count; i--)
+            for (int i = 4; i >= AgentManager.instance.malkuthAgentList.Count; i--)
             {
                 slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
                 slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
@@ -69,28 +72,30 @@ public class SefiraAgentSlot : MonoBehaviour {
                 slot[i].cancelButton.gameObject.SetActive(false);
               }
 
-            for (int i = 0; i < MalkuthAgentList.Count; i++ )
+            for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
             {
+                Debug.Log("Malcute");
                 int copied = i;
+                AgentModel agentModel = AgentManager.instance.malkuthAgentList[i];
 
-                MalkuthAgentList[i].AgentPortrait("body", null);
+                agentModel.AgentPortrait("body", null);
 
-                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(MalkuthAgentList[i].bodyImgSrc);
-                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(MalkuthAgentList[i].faceImgSrc);
-                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(MalkuthAgentList[i].hairImgSrc);
+                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(agentModel.bodyImgSrc);
+                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(agentModel.faceImgSrc);
+                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(agentModel.hairImgSrc);
 
-               slot[i].agentLevel.text = "" + MalkuthAgentList[i].level;
-               slot[i].agentName.text = ""+MalkuthAgentList[i].name;
-               slot[i].cancelButton.gameObject.SetActive(true);
-               slot[i].cancelButton.onClick.RemoveAllListeners();
-               slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(MalkuthAgentList[copied], copied));
+                slot[i].agentLevel.text = "" + agentModel.level;
+                slot[i].agentName.text = "" + agentModel.name;
+                slot[i].cancelButton.gameObject.SetActive(true);
+                slot[i].cancelButton.onClick.RemoveAllListeners();
+                slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(agentModel, copied));
             }
         }
 
         else if (sefria == "2")
         {
 
-            for (int i = 4; i >= NezzachAgentList.Count; i--)
+            for (int i = 4; i >= AgentManager.instance.nezzachAgentList.Count; i--)
             {
                 slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
                 slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
@@ -101,57 +106,29 @@ public class SefiraAgentSlot : MonoBehaviour {
                 slot[i].cancelButton.gameObject.SetActive(false);
             }
 
-            for (int i = 0; i < NezzachAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.nezzachAgentList.Count; i++)
             {
                 int copied = i;
+                AgentModel agentModel = AgentManager.instance.nezzachAgentList[i];
 
-                NezzachAgentList[i].AgentPortrait("body", null);
+                agentModel.AgentPortrait("body", null);
 
-                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(NezzachAgentList[i].bodyImgSrc);
-                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(NezzachAgentList[i].faceImgSrc);
-                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(NezzachAgentList[i].hairImgSrc);
+                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(agentModel.bodyImgSrc);
+                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(agentModel.faceImgSrc);
+                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(agentModel.hairImgSrc);
 
-                slot[i].agentLevel.text = "" + NezzachAgentList[i].level;
-                slot[i].agentName.text = "" + NezzachAgentList[i].name;
+                slot[i].agentLevel.text = "" + agentModel.level;
+                slot[i].agentName.text = "" + agentModel.name;
                 slot[i].cancelButton.gameObject.SetActive(true);
                 slot[i].cancelButton.onClick.RemoveAllListeners();
-                slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(NezzachAgentList[copied], copied));
+                slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(agentModel, copied));
             }
          }
 
         else if (sefria == "3")
         {
 
-            for (int i = 4; i >= HodAgentList.Count; i--)
-            {
-                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
-                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
-                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
-              slot[i].agentLevel.text = "없음";
-                slot[i].agentName.text = "없음";
-                slot[i].cancelButton.gameObject.SetActive(false);
-            }
-
-            for (int i = 0; i < HodAgentList.Count; i++)
-            {
-                int copied = i;
-                HodAgentList[i].AgentPortrait("body", null);
-
-                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(HodAgentList[i].bodyImgSrc);
-                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(HodAgentList[i].faceImgSrc);
-                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(HodAgentList[i].hairImgSrc);
-
-                slot[i].agentLevel.text = "" + HodAgentList[i].level;
-                slot[i].agentName.text = "" + HodAgentList[i].name;
-                slot[i].cancelButton.gameObject.SetActive(true);
-                slot[i].cancelButton.onClick.RemoveAllListeners();
-                slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(HodAgentList[copied], copied));
-            }
-          }
-
-        else if (sefria == "4")
-        {
-            for (int i = 4; i >= YesodAgentList.Count; i--)
+            for (int i = 4; i >= AgentManager.instance.hodAgentList.Count; i--)
             {
                 slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
                 slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
@@ -161,21 +138,53 @@ public class SefiraAgentSlot : MonoBehaviour {
                 slot[i].cancelButton.gameObject.SetActive(false);
             }
 
-            for (int i = 0; i < YesodAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.hodAgentList.Count; i++)
             {
                 int copied = i;
+                AgentModel agentModel = AgentManager.instance.hodAgentList[i];
 
-                YesodAgentList[i].AgentPortrait("body", null);
+                agentModel.AgentPortrait("body", null);
 
-                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(YesodAgentList[i].bodyImgSrc);
-                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(YesodAgentList[i].faceImgSrc);
-                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(YesodAgentList[i].hairImgSrc);
+                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(agentModel.bodyImgSrc);
+                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(agentModel.faceImgSrc);
+                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(agentModel.hairImgSrc);
 
-                slot[i].agentLevel.text = "" + YesodAgentList[i].level;
-                slot[i].agentName.text = "" + YesodAgentList[i].name;
+                slot[i].agentLevel.text = "" + agentModel.level;
+                slot[i].agentName.text = "" + agentModel.name;
                 slot[i].cancelButton.gameObject.SetActive(true);
                 slot[i].cancelButton.onClick.RemoveAllListeners();
-                slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(YesodAgentList[copied], copied));
+                slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(agentModel, copied));
+            }
+          }
+
+        else if (sefria == "4")
+        {
+            for (int i = 4; i >= AgentManager.instance.yesodAgentList.Count; i--)
+            {
+                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
+                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
+                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
+                slot[i].agentLevel.text = "없음";
+                slot[i].agentName.text = "없음";
+                slot[i].cancelButton.gameObject.SetActive(false);
+            }
+
+            for (int i = 0; i < AgentManager.instance.yesodAgentList.Count; i++)
+            {
+                int copied = i;
+                AgentModel agentModel = AgentManager.instance.yesodAgentList[i];
+
+                agentModel.AgentPortrait("body", null);
+
+                slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(agentModel.bodyImgSrc);
+                slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(agentModel.faceImgSrc);
+                slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(agentModel.hairImgSrc);
+
+                slot[i].agentLevel.text = "" + agentModel.level;
+                slot[i].agentName.text = "" + agentModel.name;
+                slot[i].cancelButton.gameObject.SetActive(true);
+                slot[i].cancelButton.onClick.RemoveAllListeners();
+                slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(agentModel, copied));
             }
           }
     }

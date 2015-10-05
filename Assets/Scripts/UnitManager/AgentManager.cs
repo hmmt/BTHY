@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Reflection;
 
-public class AgentManager {
+public class AgentManager : IObserver {
 
     public static string[] nameList
         = {
@@ -28,6 +28,10 @@ public class AgentManager {
     private int nextInstId = 1;
     private List<AgentModel> agentList;
     public List<AgentModel> agentListSpare;
+    public List<AgentModel> malkuthAgentList;
+    public List<AgentModel> hodAgentList;
+    public List<AgentModel> nezzachAgentList;
+    public List<AgentModel> yesodAgentList;
 
     //실험 - 유닛 시체
 
@@ -45,17 +49,17 @@ public class AgentManager {
         agentList = new List<AgentModel>();
         agentListSpare = new List<AgentModel>();
         agentListDead = new List<AgentModel>();
+
+        malkuthAgentList = new List<AgentModel>();
+        hodAgentList = new List<AgentModel>();
+        nezzachAgentList = new List<AgentModel>();
+        yesodAgentList = new List<AgentModel>();
+
+        Notice.instance.Observe(NoticeName.ChangeAgentSefira, this);
     }
 
     public AgentModel AddAgentModel()
     {
-        int traitHp = 0;
-        int traitMental = 0;
-        int traitMoveSpeed = 0;
-        int traitWorkSpeed = 0;
-        int traitDirect = 0;
-        int traitInDirect = 0;
-        int traitBlock = 0;
 
         AgentTypeInfo info = AgentTypeList.instance.GetData(1);
 
@@ -80,33 +84,14 @@ public class AgentManager {
             }
         }
 
-        unit.traitList.Add(RandomTraitInfo1);
-        unit.traitList.Add(RandomTraitInfo2);
-        unit.traitList.Add(WorkTrait);
 
-        for (int i = 0; i < unit.traitList.Count; i++)
-        {
-            traitHp += unit.traitList[i].hp;
-            traitMental += unit.traitList[i].mental;
-            traitMoveSpeed += unit.traitList[i].moveSpeed;
-            traitWorkSpeed += unit.traitList[i].workSpeed;
 
-            traitDirect += (int)unit.traitList[i].directWork;
-            traitInDirect += (int)unit.traitList[i].inDirectWork;
-            traitBlock += (int)unit.traitList[i].blockWork;
-
-            //unit.traitNameList.Add(unit.traitList[i].name);
-        }
-
-        //unit.metadata = info;
-
-        //unit.name = info.name;
         unit.name = GetRandomName();
 
-        unit.maxHp = unit.hp = info.hp + traitHp;
-        unit.maxMental = unit.mental = info.mental + traitMental;
-        unit.movement = info.movement + traitMoveSpeed;
-        unit.work = info.work + traitWorkSpeed;
+        unit.defaultMaxHp = unit.hp = info.hp;
+        unit.defaultMaxMental = unit.mental = info.mental;
+        unit.defaultMovement = info.movement;
+        unit.defaultWork = info.work;
 
         unit.gender = info.gender;
         unit.level = info.level;
@@ -140,6 +125,10 @@ public class AgentManager {
         unit.SetCurrentSefira("0");
         unit.activated = false;
         agentListSpare.Add(unit);
+
+        unit.applyTrait(RandomTraitInfo1);
+        unit.applyTrait(RandomTraitInfo2);
+        unit.applyTrait(WorkTrait);
 
         return unit;
     }
@@ -235,22 +224,22 @@ public class AgentManager {
     {
         if (model.currentSefira == "1")
         {
-            SefiraAgentSlot.instance.MalkuthAgentList.Remove(model);
+            malkuthAgentList.Remove(model);
         }
 
         else if (model.currentSefira == "2")
         {
-            SefiraAgentSlot.instance.NezzachAgentList.Remove(model);
+            nezzachAgentList.Remove(model);
         }
 
         else  if (model.currentSefira == "3")
         {
-            SefiraAgentSlot.instance.HodAgentList.Remove(model);
+            hodAgentList.Remove(model);
         }
 
         else if (model.currentSefira == "4")
         {
-            SefiraAgentSlot.instance.YesodAgentList.Remove(model);
+            yesodAgentList.Remove(model);
         }
 
         Notice.instance.Remove(NoticeName.FixedUpdate, model);
@@ -368,5 +357,51 @@ public class AgentManager {
     private static string GetRandomName()
     {
         return nameList[Random.Range(0, nameList.Length)];
+    }
+
+    private void OnChangeAgentSefira(AgentModel agentModel, string oldSefira)
+    {
+        switch (oldSefira)
+        {
+        case "1":
+            malkuthAgentList.Remove(agentModel);
+            break;
+        case "2":
+            nezzachAgentList.Remove(agentModel);
+            break;
+        case "3":
+            hodAgentList.Remove(agentModel);
+            break;
+        case "4":
+            yesodAgentList.Remove(agentModel);
+            break;
+        }
+
+        switch (agentModel.currentSefira)
+        {
+        case "1":
+            malkuthAgentList.Add(agentModel);
+            break;
+        case "2":
+            nezzachAgentList.Add(agentModel);
+            break;
+        case "3":
+            hodAgentList.Add(agentModel);
+            break;
+        case "4":
+            yesodAgentList.Add(agentModel);
+            break;
+        }
+    }
+
+    public void OnNotice(string notice, params object[] param)
+    {
+        if (notice == NoticeName.ChangeAgentSefira)
+        {
+            AgentModel agent = (AgentModel)param[0];
+            string oldSefira = (string)param[1];
+            OnChangeAgentSefira(agent, oldSefira);
+            Notice.instance.Send(NoticeName.ChangeAgentSefira_Late);
+        }
     }
 }

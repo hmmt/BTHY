@@ -41,7 +41,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
         st = Time.realtimeSinceStartup;
 
-        GameObject newCreature = Prefab.LoadPrefab("Creature1");
+        GameObject newCreature = ResourceCache.instance.LoadPrefab("Creature1");
 
         CreatureUnit unit = newCreature.GetComponent<CreatureUnit>();
 
@@ -69,7 +69,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
         t2 = Time.realtimeSinceStartup;
 
-        GameObject creatureRoom = Prefab.LoadPrefab("IsolateRoom");
+        GameObject creatureRoom = ResourceCache.instance.LoadPrefab("IsolateRoom");
         creatureRoom.transform.SetParent(transform, false);
         IsolateRoom room = creatureRoom.GetComponent<IsolateRoom>();
 
@@ -91,7 +91,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         creatureDic.Add(model.instanceId, unit);
 
         //Debug.Log(model.metaInfo.name);
-        //Debug.Log(""+ (t1 - st) + ", " + (t2 - t1) + ", " + (t3 - t2));
+        Debug.Log(""+ (t1 - st) + ", " + (t2 - t1) + ", " + (t3 - t2));
     }
 
     public CreatureUnit GetCreature(long id)

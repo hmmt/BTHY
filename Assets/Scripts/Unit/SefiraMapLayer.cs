@@ -38,6 +38,14 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         }
     }
 
+    private void UpdateSefiraStateView()
+    {
+        // 나중에
+    }
+    private void OnUpdateSefiraState()
+    {
+    }
+
     public void OnNotice(string notice, params object[] param)
     {
         if (notice == NoticeName.AreaOpenUpdate)

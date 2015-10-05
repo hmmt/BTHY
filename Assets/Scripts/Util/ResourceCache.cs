@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class ResourceCache {
@@ -20,6 +21,17 @@ public class ResourceCache {
 
     private Dictionary<string, Texture2D> textureCache;
     private Dictionary<string, Sprite> spriteCache;
+    private Dictionary<string, GameObject> prefabCache;
+
+    private int loadingCount = 0;
+
+    public bool isLoadingDone
+    {
+        get
+        {
+            return loadingCount <= 0;
+        }
+    }
 
 
     public ResourceCache()
@@ -30,6 +42,7 @@ public class ResourceCache {
     {
         textureCache = new Dictionary<string, Texture2D>();
         spriteCache = new Dictionary<string, Sprite>();
+        prefabCache = new Dictionary<string, GameObject>();
     }
 
     public Texture2D GetTexture(string name)
@@ -51,19 +64,18 @@ public class ResourceCache {
         {
             return output;
         }
+        output = Resources.Load<Sprite>(name);
         if (output == null)
         {
-            output = Resources.Load<Sprite>(name);
-            if (output == null)
-            {
-                Debug.Log("LOAD FAIL ERROR : " + name);
-                return null;
-            }
-            spriteCache.Add(name, output);
+            Debug.Log("LOAD FAIL ERROR : " + name);
+            return null;
         }
+
+        InsertSpriteCache(name, output);
+
         return output;
     }
-
+    /*
     public void PreLoadSprite(string name)
     {
         Sprite loaded = Resources.Load<Sprite>(name);
@@ -74,5 +86,62 @@ public class ResourceCache {
         }
 
         spriteCache.Add(name, loaded);
+    }
+    */
+    public void InsertSpriteCache(string name, Sprite sprite)
+    {
+        if(!spriteCache.ContainsKey(name))
+            spriteCache.Add(name, sprite);
+    }
+
+    public IEnumerator LoadSprites(string[] spriteNameList, Callback finishCallback)
+    {
+        yield return new WaitForFixedUpdate();
+        loadingCount++;
+        foreach (string name in spriteNameList)
+        {
+            if (spriteCache.ContainsKey(name))
+                continue;
+            //Debug.Log("start >> " + name);
+            ResourceRequest resourceRequest = Resources.LoadAsync(name);
+            while (!resourceRequest.isDone)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+            //Debug.Log("load >> " + name);
+            Sprite sprite = resourceRequest.asset as Sprite;
+            if(sprite != null)
+                InsertSpriteCache(name, sprite);
+            
+            /*
+            Debug.Log("load >> " + name);
+            Sprite sprite = Resources.Load<Sprite>(name);
+            if (sprite != null)
+                InsertSpriteCache(name, sprite);
+            yield return new WaitForFixedUpdate();
+            */
+        }
+        loadingCount--;
+        if (finishCallback != null)
+        {
+            finishCallback();
+        }
+    }
+
+    public GameObject LoadPrefab(string name)
+    {
+        GameObject output;
+        string path = "Prefabs/" + name;
+
+        if (prefabCache.TryGetValue(name, out output))
+        {
+            return GameObject.Instantiate(output) as GameObject;
+        }
+        
+        output = Resources.Load<GameObject>(path);
+
+        prefabCache.Add(name, output);
+
+        return GameObject.Instantiate(output) as GameObject;
     }
 }

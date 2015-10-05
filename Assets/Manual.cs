@@ -10,8 +10,9 @@ public class Manual : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Awake () {
-
+	//void Awake () {
+    void Start()
+    {
         currentIndex = 0;
         manualMove.SetBool("manualOut", true);
 

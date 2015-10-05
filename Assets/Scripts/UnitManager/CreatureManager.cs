@@ -3,7 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
-public class CreatureManager {
+public enum SefiraState
+{
+    NORMAL,
+    NOT_ENOUGH_AGENT
+}
+
+public class CreatureManager : IObserver{
 
 	private static CreatureManager _instance;
 
@@ -30,6 +36,11 @@ public class CreatureManager {
     public List<CreatureModel> NezzachCreature = new List<CreatureModel>();
     public List<CreatureModel> HodCreature = new List<CreatureModel>();
     public List<CreatureModel> YessodCreature = new List<CreatureModel>();
+
+    public SefiraState malkuthState = SefiraState.NORMAL;
+    public SefiraState nezzachState = SefiraState.NORMAL;
+    public SefiraState hodState = SefiraState.NORMAL;
+    public SefiraState yessodState = SefiraState.NORMAL;
 
 	
     private int nextInstId = 1;
@@ -180,6 +191,8 @@ public class CreatureManager {
 	public void Init()
 	{
 		creatureList = new List<CreatureModel> ();
+
+        Notice.instance.Observe(NoticeName.ChangeAgentSefira_Late, this);
 	}
 
 	public CreatureModel[] GetCreatureList()
@@ -250,5 +263,49 @@ public class CreatureManager {
 
             RegisterCreature(model);
         }
+    }
+
+    private void OnChangeAgentSefira()
+    {
+        if (AgentManager.instance.malkuthAgentList.Count == 0)
+        {
+            malkuthState = SefiraState.NOT_ENOUGH_AGENT;
+        }
+        else
+        {
+            malkuthState = SefiraState.NORMAL;
+        }
+
+        if (AgentManager.instance.nezzachAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("2"))
+        {
+            nezzachState = SefiraState.NOT_ENOUGH_AGENT;
+        }
+        else
+        {
+            nezzachState = SefiraState.NORMAL;
+        }
+
+        if (AgentManager.instance.hodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("3"))
+        {
+            hodState = SefiraState.NOT_ENOUGH_AGENT;
+        }
+        else
+        {
+            hodState = SefiraState.NORMAL;
+        }
+
+        if (AgentManager.instance.yesodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("4"))
+        {
+            yessodState = SefiraState.NOT_ENOUGH_AGENT;
+        }
+        else
+        {
+            yessodState = SefiraState.NORMAL;
+        }
+    }
+
+    public void OnNotice(string notice, params object[] param)
+    {
+
     }
 }
