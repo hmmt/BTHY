@@ -280,6 +280,54 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public void CancelSefiraAgent(AgentModel unit)
     {
+        
+        if (unit.currentSefira.Equals("1"))
+        {
+            for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
+            {
+                if (unit.instanceId == AgentManager.instance.malkuthAgentList[i].instanceId)
+                {
+                    AgentManager.instance.malkuthAgentList.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        else if (unit.currentSefira.Equals("2"))
+        {
+            for (int i = 0; i < AgentManager.instance.nezzachAgentList.Count; i++)
+            {
+                if (unit.instanceId == AgentManager.instance.nezzachAgentList[i].instanceId)
+                {
+                    AgentManager.instance.nezzachAgentList.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        else if (unit.currentSefira.Equals("3"))
+        {
+            for (int i = 0; i < AgentManager.instance.hodAgentList.Count; i++)
+            {
+                if (unit.instanceId == AgentManager.instance.hodAgentList[i].instanceId)
+                {
+                    AgentManager.instance.hodAgentList.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        else if (unit.currentSefira.Equals("4"))
+        {
+            for (int i = 0; i < AgentManager.instance.yesodAgentList.Count; i++)
+            {
+                if (unit.instanceId == AgentManager.instance.yesodAgentList[i].instanceId)
+                {
+                    AgentManager.instance.yesodAgentList.RemoveAt(i);
+                    break;
+                }
+            }
+        }
         if(unit.activated)
             AgentManager.instance.deactivateAgent(unit);
     }
@@ -459,7 +507,17 @@ public class StageUI : MonoBehaviour, IObserver {
 
                 TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetTraitWithLevel(level);
                 TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetTraitWithLevel(level);
-                TraitTypeInfo WorkTrait = TraitTypeList.instance.GetRandomLevelWorkTrait(level);
+                TraitTypeInfo RandomLifeValueTrait;
+
+                if (Random.Range(0,1) ==0)
+                {
+                     RandomLifeValueTrait = TraitTypeList.instance.GetRandomEiTrait(level);
+                }
+
+                else
+                {
+                     RandomLifeValueTrait = TraitTypeList.instance.GetRandomNfTrait(level);
+                }
 
                 if (RandomTraitInfo1.id == RandomTraitInfo2.id)
                 {
@@ -471,14 +529,14 @@ public class StageUI : MonoBehaviour, IObserver {
                     }
                 }
 
-
                 agent.applyTrait(RandomTraitInfo1);
                 agent.applyTrait(RandomTraitInfo2);
-                agent.applyTrait(WorkTrait);
+                agent.applyTrait(RandomLifeValueTrait);
 
                 button.gameObject.SetActive(false);
                 ShowAgentList();
             }
+
 
             else
             {

@@ -24,4 +24,6 @@ public class TraitTypeInfo {
     public float blockWork;
 
     public int traitFlag;
+
+    public int discType;
 }

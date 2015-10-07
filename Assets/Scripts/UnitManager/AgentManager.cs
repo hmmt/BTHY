@@ -70,20 +70,9 @@ public class AgentManager : IObserver {
 
         AgentModel unit = new AgentModel(nextInstId++, "1");
 
-        TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetRandomInitTrait();
-        TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
-        TraitTypeInfo WorkTrait = TraitTypeList.instance.GetRandomLevelWorkTrait(1);
-
-        if (RandomTraitInfo1.id == RandomTraitInfo2.id)
-        {
-            while (true)
-            {
-                RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
-                if (RandomTraitInfo1.id != RandomTraitInfo2.id)
-                    break;
-            }
-        }
-
+        TraitTypeInfo RandomEiTrait = TraitTypeList.instance.GetRandomEiTrait(1);
+        TraitTypeInfo RandomNfTrait = TraitTypeList.instance.GetRandomNfTrait(1);
+        TraitTypeInfo RandomNormalTrait = TraitTypeList.instance.GetRandomInitTrait();
 
 
         unit.name = GetRandomName();
@@ -126,9 +115,13 @@ public class AgentManager : IObserver {
         unit.activated = false;
         agentListSpare.Add(unit);
 
-        unit.applyTrait(RandomTraitInfo1);
-        unit.applyTrait(RandomTraitInfo2);
-        unit.applyTrait(WorkTrait);
+        unit.applyTrait(RandomEiTrait);
+        unit.applyTrait(RandomNfTrait);
+        unit.applyTrait(RandomNormalTrait);
+
+        Debug.Log("EI Trait "+RandomEiTrait.name);
+        Debug.Log("Nf Trait " + RandomNfTrait.name);
+        Debug.Log("가치관 " + unit.agentLifeValue);
 
         return unit;
     }
@@ -232,7 +225,7 @@ public class AgentManager : IObserver {
             nezzachAgentList.Remove(model);
         }
 
-        else  if (model.currentSefira == "3")
+        else if (model.currentSefira == "3")
         {
             hodAgentList.Remove(model);
         }
@@ -363,34 +356,34 @@ public class AgentManager : IObserver {
     {
         switch (oldSefira)
         {
-        case "1":
-            malkuthAgentList.Remove(agentModel);
-            break;
-        case "2":
-            nezzachAgentList.Remove(agentModel);
-            break;
-        case "3":
-            hodAgentList.Remove(agentModel);
-            break;
-        case "4":
-            yesodAgentList.Remove(agentModel);
-            break;
+            case "1":
+                malkuthAgentList.Remove(agentModel);
+                break;
+            case "2":
+                nezzachAgentList.Remove(agentModel);
+                break;
+            case "3":
+                hodAgentList.Remove(agentModel);
+                break;
+            case "4":
+                yesodAgentList.Remove(agentModel);
+                break;
         }
 
         switch (agentModel.currentSefira)
         {
-        case "1":
-            malkuthAgentList.Add(agentModel);
-            break;
-        case "2":
-            nezzachAgentList.Add(agentModel);
-            break;
-        case "3":
-            hodAgentList.Add(agentModel);
-            break;
-        case "4":
-            yesodAgentList.Add(agentModel);
-            break;
+            case "1":
+                malkuthAgentList.Add(agentModel);
+                break;
+            case "2":
+                nezzachAgentList.Add(agentModel);
+                break;
+            case "3":
+                hodAgentList.Add(agentModel);
+                break;
+            case "4":
+                yesodAgentList.Add(agentModel);
+                break;
         }
     }
 

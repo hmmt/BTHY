@@ -3,13 +3,13 @@ using System.Collections;
 
 public class UseSkill : MonoBehaviour {
 
-    private int totalTickNum;
-    private float tickInterval;
-    private float totalWork;
-    private float curWork;
-    private float workSpeed;
-    private float workProgress;
-    private float totalFeeling;
+    public int totalTickNum;
+    public float tickInterval;
+    public float totalWork;
+    public float curWork;
+    public float workSpeed;
+    public float workProgress;
+    public float totalFeeling;
 
     private int workCount;
 
@@ -23,6 +23,9 @@ public class UseSkill : MonoBehaviour {
     public CreatureModel targetCreature;
     public CreatureUnit targetCreatureView;
     public IsolateRoom room;
+
+    private int mentalReduce; // 작업 후 정신력 감소량
+    private int mentalTick; // 틱 당 정신력 변화량
 
     private bool alreadyHit = false;
 
@@ -57,7 +60,7 @@ public class UseSkill : MonoBehaviour {
         totalTickNum = tickNum;
         totalWork = work;
         workSpeed = speed;
-        tickInterval = totalWork / totalTickNum;
+        totalFeeling = feeling;
 
         int maxHP = 0;
         int maxMental = 0;
@@ -72,10 +75,35 @@ public class UseSkill : MonoBehaviour {
         }
 
         // 성향에 따른 보너스
-        /*
-        switch(agent.)
+        switch (agent.agentLifeValue)
         {
-        }*/
+        case 1:
+            totalWork *= skill.amountBonusD;
+            totalFeeling *= skill.feelingBonusD;
+            mentalReduce = skill.mentalReduceD;
+            mentalTick = skill.mentalTickD;
+            break;
+        case 2:
+            totalWork *= skill.amountBonusI;
+            totalFeeling  *= skill.feelingBonusI;
+            mentalReduce = skill.mentalReduceI;
+            mentalTick = skill.mentalTickI;
+            break;
+        case 3:
+            totalWork *= skill.amountBonusC;
+            totalFeeling *= skill.feelingBonusC;
+            mentalReduce = skill.mentalReduceC;
+            mentalTick = skill.mentalTickC;
+            break;
+        case 4:
+            totalWork *= skill.amountBonusS;
+            totalFeeling *= skill.feelingBonusS;
+            mentalReduce = skill.mentalReduceS;
+            mentalTick = skill.mentalTickS;
+            break;
+        }
+
+        tickInterval = totalWork / totalTickNum;
     }
     public void FixedUpdate()
     {
@@ -368,12 +396,21 @@ public class UseSkill : MonoBehaviour {
                     }
                     if (mentalAtk)
                     {
-                        agent.mental -= targetCreature.metaInfo.mentalDmg;
+                        agent.TakeMentalDamage(targetCreature.metaInfo.mentalDmg);
                         agent.expMentalDamage += targetCreature.metaInfo.mentalDmg;
 
                         agentUpdated = true;
                     }
                 }
+            }
+
+            if (mentalTick > 0)
+            {
+                agent.RecoverMental(mentalTick);
+            }
+            else if (mentalTick < 0)
+            {
+                agent.TakeMentalDamage(mentalTick);
             }
 
             targetCreature.AddFeeling(workValue);

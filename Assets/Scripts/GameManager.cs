@@ -79,8 +79,8 @@ public class GameManager : MonoBehaviour
             agent.ReturnToSefira();
         }
 
-        //StartStage();
-        OpenStoryScene("start");
+        StartStage();
+        //OpenStoryScene("start");
         /*
         gameStateScreen.SetActive(false);
         storyScene.gameObject.SetActive(false);
@@ -101,9 +101,11 @@ public class GameManager : MonoBehaviour
 
     public void StartStage()
     {
+        /*
         loadingScreenState.gameObject.SetActive(false);
         storyScene.gameObject.SetActive(false);
         gameStateScreen.SetActive(true);
+        */
         stageUI.Open(StageUI.UIType.START_STAGE);
         // StartGame();
     }
