@@ -89,6 +89,7 @@ public class SefiraAgentSlot : MonoBehaviour {
                 slot[i].cancelButton.gameObject.SetActive(true);
                 slot[i].cancelButton.onClick.RemoveAllListeners();
                 slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(agentModel, copied));
+                // slot[i].cancelButton.onClick.AddListener(() => Debug.Log("tta"));
             }
         }
 

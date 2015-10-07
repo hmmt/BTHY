@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class MenuLeftEnergy : MonoBehaviour {
     public Slider slider;
-    public Slider both1, both2;
     public bool bothmode;
     public float oldvalue;
     //public UnityEngine.UI.Text menuLeftEnergyNum;
@@ -12,14 +11,12 @@ public class MenuLeftEnergy : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         slider.minValue = 0;
-        Debug.Log("Energy value_min max :"+slider.minValue + " " + slider.maxValue);
+       // Debug.Log("Energy value_min max :"+slider.minValue + " " + slider.maxValue);
 	}
 
     public void SetSlider(float value)
     {
         if (bothmode) {
-            both1.maxValue = both2.maxValue = value/2;
-            both1.value = both2.value = value / 2;
             oldvalue = value/2;
             return;
         }
@@ -27,7 +24,6 @@ public class MenuLeftEnergy : MonoBehaviour {
         slider.maxValue = value;
         oldvalue = value;
         slider.value = value;
-        Debug.Log(slider.minValue + " " + slider.maxValue);
     }
 	
 	// Update is called once per frame
@@ -38,9 +34,6 @@ public class MenuLeftEnergy : MonoBehaviour {
         if (!bothmode)
         {
             slider.value = EnergyModel.instance.GetLeftEnergy();
-        }
-        else { 
-            both1.value = both2.value = EnergyModel.instance.GetLeftEnergy()/2;
         }
         /*oldvalue = EnergyModel.instance.GetLeftEnergy();
         if (!oldvalue.Equals(slider.value)) {

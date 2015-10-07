@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler{
+public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler /*,IPointerClickHandler*/{
     public static GameObject itemDragged;
     public static AgentModel srcObj;
     Vector3 startPos;
@@ -45,10 +45,18 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         Destroy(itemDragged);
 
     }
-
+    /*
     public void OnPointerEnter(PointerEventData eventData)
     {
         GameObject infoslot = GameObject.FindWithTag("InfoSlotPanel");
         infoslot.GetComponent<InfoSlotScript>().SelectedAgent(gameObject);
     }
+    */
+    /*
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        GameObject infoslot = GameObject.FindWithTag("InfoSlotPanel");
+        infoslot.GetComponent<InfoSlotScript>().SelectedAgent(gameObject);
+    }
+    */
 }

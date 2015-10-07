@@ -87,7 +87,8 @@ public class AgentModel : IObserver
     public string faceImgSrc;
     public string bodyImgSrc;
 
-
+    public Sprite[] StatusSprites = new Sprite[4];
+    public Sprite[] WorklistSprites = new Sprite[3];
 
     // 이하 save 되지 않는 데이터들
 
@@ -448,6 +449,35 @@ public class AgentModel : IObserver
         }
     }
 
+    public void promoteSkill(int skillClass)
+    {
+        int randomSkillFlag;
+
+        if (skillClass == 1)
+        {
+            randomSkillFlag = Random.Range(0, 2);
+
+            directSkill = SkillTypeList.instance.GetData(directSkill.nextSkillIdList[randomSkillFlag]);
+        }
+
+        else if (skillClass == 2)
+        {
+            randomSkillFlag = Random.Range(0, 2);
+
+            indirectSkill = SkillTypeList.instance.GetData(indirectSkill.nextSkillIdList[randomSkillFlag]);
+
+        }
+
+        else if (skillClass == 3)
+        {
+            randomSkillFlag = Random.Range(0, 2);
+
+            blockSkill = SkillTypeList.instance.GetData(blockSkill.nextSkillIdList[randomSkillFlag]);
+
+        }
+
+    }
+
     private void ProcessAction()
     {
         if (currentPanicAction != null)
@@ -643,12 +673,10 @@ public class AgentModel : IObserver
 
         this.hp = 0;
         this.state = AgentCmdState.DEAD;
-
+        
         //AgentManager.instance.RemoveAgent(this);
         //AgentLayer.currentLayer.GetAgent(this.instanceId).DeadAgent();
     }
-
-
 
     public void OnNotice(string notice, params object[] param)
     {

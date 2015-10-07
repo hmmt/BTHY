@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UseSkill : MonoBehaviour {
+public class UseSkill : MonoBehaviour
+{
 
     public int totalTickNum;
     public float tickInterval;
@@ -11,7 +12,11 @@ public class UseSkill : MonoBehaviour {
     public float workProgress;
     public float totalFeeling;
 
-    private int workCount;
+    public int goalWork;
+    public float elapsedWorkingTime;
+    public int currentWork;
+    public int updateTick = 5;
+    public int workCount;
 
     // skill info
     public SkillTypeInfo skillTypeInfo;
@@ -54,6 +59,7 @@ public class UseSkill : MonoBehaviour {
             Release();
         }
     }
+
     public void Init(SkillTypeInfo skill, AgentModel agent, int tickNum, int work, float speed, float feeling)
     {
         workCount = 0;
@@ -105,6 +111,7 @@ public class UseSkill : MonoBehaviour {
 
         tickInterval = totalWork / totalTickNum;
     }
+
     public void FixedUpdate()
     {
         ProcessWorkNarration();
