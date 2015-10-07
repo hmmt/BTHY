@@ -13,7 +13,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
     public static NarrationLoggerUI instantNarrationLog;
 
     public GameObject logBoard;
-
+    public TextListScript script;
     private int logSize = 0;
 	
 	//private int boxHeight = 200;
@@ -105,11 +105,14 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	
 	public void OnNotice(string notice, params object[] param)
 	{
+        script = gameObject.GetComponent<TextListScript>();
         if ("AddNarrationLog" == notice && targetCreature == (CreatureModel)param[1])
 		{
-			AddText (" "+(string)param[0]);
+
+            script.MakeText(" " + (string)param[0]);
             newInputCreature = (CreatureModel)param[1];
 		}
+        script.SortList();
 	}
 
     //리스트를 받아와서 기존에 있는걸 clear시키고 받아온 리스트들의 로그를 출력한다.

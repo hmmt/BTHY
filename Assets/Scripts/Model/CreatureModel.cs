@@ -32,6 +32,7 @@ public class CreatureModel : IObserver
 
     // 메타데이터
     public CreatureTypeInfo metaInfo;
+    
     public long metadataId; // metaInfo.id
 
     public Vector2 basePosition;
@@ -75,7 +76,7 @@ public class CreatureModel : IObserver
         Dictionary<string, object> output = new Dictionary<string, object>();
 
         output.Add("instanceId", instanceId);
-
+        
         output.Add("metadataId", metadataId);
         output.Add("baseNodeId", baseNodeId);
 

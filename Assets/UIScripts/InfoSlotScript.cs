@@ -19,6 +19,7 @@ public class SpriteList {
 
 //Lists of worker's stats info e.g. Hp Max & average
 public class ValueInfo {
+    public int[] stats = new int[4];
     public int hp;
     public int mental;
     public int workSpeed;
@@ -29,6 +30,10 @@ public class ValueInfo {
         this.mental = mental;
         this.workSpeed = workspeed;
         this.movementSpeed = movement;
+        this.stats[0] = hp;
+        this.stats[1] = mental;
+        this.stats[2] = workspeed;
+        this.stats[3] = movement;
     }
 }
 
@@ -50,20 +55,20 @@ public class InfoSlotScript : MonoBehaviour {
         foreach (GameObject temp in description) {
             temp.SetActive(false);            
         }
-        selected = null;
+        //selected = null;
 
         foreach (Image temp in InfoImageList)
         {
-            temp.gameObject.SetActive(false);
+            temp.gameObject.SetActive(true);
         }
 
         foreach (Image temp in WorkImageList)
         {
-            temp.gameObject.SetActive(false);
+            temp.gameObject.SetActive(true);
         }
-        
+        SelectedAgent();
 	}
-
+    
     public void OnPointerEnter(GameObject target) {
         foreach (GameObject temp in description) {
             if (temp.Equals(target))
@@ -74,35 +79,15 @@ public class InfoSlotScript : MonoBehaviour {
                 temp.SetActive(false);
             }
         }
+        
     }
 
-    public void SelectedAgent(GameObject target) {
-        this.selected = target;
-        //Debug.Log(selected);
-        //start transition for Descriptions
-        foreach (Image temp in InfoImageList)
-        {
-            temp.gameObject.SetActive(true);
-        }
-        foreach (Image temp in WorkImageList)
-        {
-            temp.gameObject.SetActive(true);
-        }
+    public void SelectedAgent() {
 
-        AgentSlotPanelStage script = target.GetComponent<AgentSlotPanelStage>();
-        CharacterSlot.GetComponent<InfoCharacterScript>().setSlot(script);
-
+        AgentSlotScript script = selected.GetComponent<AgentSlotScript>();
+        //CharacterSlot.GetComponent<InfoCharacterScript>().setSlot(script);
         ValueInfo level = calcLevel(script.model);
-
-        InfoImageList[0].GetComponent<Image>().sprite = list.health.list[level.hp];
-        InfoImageList[1].GetComponent<Image>().sprite = list.Mental.list[level.mental];
-        InfoImageList[2].GetComponent<Image>().sprite = list.workSpeed.list[level.workSpeed];
-        InfoImageList[3].GetComponent<Image>().sprite = list.movementSpeed.list[level.movementSpeed];
-
-        WorkImageList[0].GetComponent<Image>().sprite = list.workList.list[0];
-        WorkImageList[1].GetComponent<Image>().sprite = list.workList.list[1];
-        WorkImageList[2].GetComponent<Image>().sprite = list.workList.list[2];
-
+        SetSprite(level, script.model);
         if (parent.transform.childCount > 0) {
             int i = parent.transform.childCount;
             for (int j = 0; j < i; j++) {
@@ -115,6 +100,30 @@ public class InfoSlotScript : MonoBehaviour {
             temp.GetComponentInChildren<Text>().text = t.name;
             temp.transform.SetParent(parent.transform);
             temp.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+
+        foreach (Image temp in InfoImageList)
+        {
+            temp.gameObject.SetActive(true);
+        }
+        foreach (Image temp in WorkImageList)
+        {
+            temp.gameObject.SetActive(true);
+        }
+    }
+
+    public void SetSprite(ValueInfo level, AgentModel model) {
+        string loc = "UIResource/Icons/";
+        for(int i = 0; i< InfoImageList.Length; i++){
+            string fullpath = loc + i + level.stats[i];
+            
+            InfoImageList[i].GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(fullpath);
+            model.StatusSprites[i] = InfoImageList[i].GetComponent<Image>().sprite;
+        }
+        for (int i = 0; i < WorkImageList.Length; i++) { 
+            string fullpath = loc + "Work_" + i;
+            WorkImageList[i].GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(fullpath);
+            model.WorklistSprites[i] = WorkImageList[i].GetComponent<Image>().sprite;
         }
     }
 

@@ -1,43 +1,191 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <skills>
-	<skill id="10001" type="direct" tier="1" name="먹이주기" amount="30" imgsrc="UI/skill/Work_Feed"/>
-	<skill id="10002" type="direct" tier="1" name="인신공양" amount="40" imgsrc="UI/skill/Work_Commu"/> 
-	
-	<skill id="20001" type="indirect" tier="1" name="청소하기" amount="30" imgsrc="UI/skill/Work_Clean"/> 
-	<skill id="20002" type="indirect" tier="1" name="이야기하기" amount="20" imgsrc="UI/skill/Work_Commu"/> 
-	
-	<skill id="30001" type="block" tier="1" name="제압하기" amount="30" imgsrc="UI/skill/Work_Supression"/>
-
-	<skill id="40001" type="unique" tier="1" name="고해하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
-	<skill id="40002" type="unique" tier="1" name="포옹하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
-
-
-	<skill id="101001" type="direct" tier="1" name="먹이주기" amount="30" imgsrc="UI/skill/Work_Feed">
-		<nextSkill>101011</nextSkill>
-		<nextSkill>101012</nextSkill>
-	</skill>
-	<skill id="101011" type="direct" tier="2" name="인신공양" amount="40" imgsrc="UI/skill/Work_Commu"/>
-	
-	<skill id="101012" type="direct" tier="2" name="영양공급" amount="40" imgsrc="UI/skill/Work_Commu"/>
-	
-
-	<skill id="200001" type="indirect" tier="1" name="간접-1티어" amount="30" imgsrc="UI/skill/Work_Clean"> 
-		<nextSkill>200011</nextSkill>
-		<nextSkill>200012</nextSkill>
-	</skill>
-	<skill id="200011" type="indirect" tier="2" name="간접-2티어1" amount="20" imgsrc="UI/skill/Work_Commu"/> 
-	<skill id="200012" type="indirect" tier="2" name="간접-2티어2" amount="20" imgsrc="UI/skill/Work_Commu"/> 
-	
-	<skill id="300001" type="block" tier="1" name="차단-1티어" amount="30" imgsrc="UI/skill/Work_Supression">
-		<nextSkill>300011</nextSkill>
-		<nextSkill>300012</nextSkill>
-	</skill>
-	<skill id="300011" type="block" tier="1" name="차단-2티어1" amount="30" imgsrc="UI/skill/Work_Supression"/>
-	<skill id="300012" type="block" tier="1" name="차단-2티어2" amount="30" imgsrc="UI/skill/Work_Supression"/>
-
-	<skill id="400001" type="unique" tier="1" name="고해하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
-	<skill id="400002" type="unique" tier="1" name="포옹하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
-
-	<skill id="400010" type="unique" tier="1" name="(아무것도없는)전용스킬" amount="30" imgsrc="UI/skill/Work_Commu"/>
-	
+  <skill id="10001" type="direct" tier="1" name="배식" amount="20" feeling="15" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+    </bonus>
+    <bonus type="I">
+      <amount>0.8</amount>
+    </bonus>
+    <bonus type="S">
+      <amount>0.7</amount>
+    </bonus>
+    <bonus type="C">
+    </bonus>
+    <nextSkill>10002</nextSkill>
+    <nextSkill>10003</nextSkill>
+    <nextSkill>10004</nextSkill>
+  </skill>
+  <skill id="10002" type="direct" tier="2" name="영양튜브" amount="29" feeling="27" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <amount>0.8</amount>
+      <feeling>0.8</feeling>
+    </bonus>
+    <bonus type="I">
+      <feeling>0.8</feeling>
+    </bonus>
+    <bonus type="S">
+    </bonus>
+    <bonus type="C">
+    </bonus>
+  </skill>
+  <skill id="10003" type="direct" tier="2" name="인신공양" amount="26" feeling="19" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <amount>0.8</amount>
+    </bonus>
+    <bonus type="I">
+      <amount>1.2</amount>
+      <mentalReduce>-15</mentalReduce>
+    </bonus>
+    <bonus type="S">
+      <amount>1.5</amount>
+      <mentalReduce>-20</mentalReduce>
+    </bonus>
+    <bonus type="C">
+      <mentalReduce>-10</mentalReduce>
+    </bonus>
+  </skill>
+  <skill id="10004" type="direct" tier="2" name="치료" amount="33" feeling="23" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <amount>0.8</amount>
+      <feeling>0.8</feeling>
+    </bonus>
+    <bonus type="I">
+      <amount>1.2</amount>
+    </bonus>
+    <bonus type="S">
+      <amount>1.3</amount>
+      <feeling>0.8</feeling>
+    </bonus>
+    <bonus type="C">
+      <amount>0.7</amount>
+      <feeling>1.4</feeling>
+    </bonus>
+  </skill>
+  <skill id="20001" type="indirect" tier="1" name="시설청소" amount="15" feeling="10" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <mentalReduce>-5</mentalReduce>
+    </bonus>
+    <bonus type="I">
+    </bonus>
+    <bonus type="S">
+      <amount>1.2</amount>
+      <feeling>0.8</feeling>
+    </bonus>
+    <bonus type="C">
+      <amount>0.8</amount>
+      <feeling>1.2</feeling>
+    </bonus>
+    <nextSkill>20002</nextSkill>
+    <nextSkill>20003</nextSkill>
+    <nextSkill>20004</nextSkill>
+  </skill>
+  <skill id="20002" type="indirect" tier="2" name="대화" amount="22" feeling="22" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <amount>0.8</amount>
+      <feeling>0.8</feeling>
+    </bonus>
+    <bonus type="I">
+      <feeling>1.2</feeling>
+      <mentalTick>3</mentalTick>
+    </bonus>
+    <bonus type="S">
+      <feeling>1.2</feeling>
+      <mentalTick>3</mentalTick>
+    </bonus>
+    <bonus type="C">
+      <amount>1.5</amount>
+      <mentalTick>-1</mentalTick>
+    </bonus>
+  </skill>
+  <skill id="20003" type="indirect" tier="2" name="세척" amount="24" feeling="18" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <mentalReduce>-15</mentalReduce>
+    </bonus>
+    <bonus type="I">
+    </bonus>
+    <bonus type="S">
+    </bonus>
+    <bonus type="C">
+      <amount>1.2</amount>
+      <feeling>0.7</feeling>
+    </bonus>
+  </skill>
+  <skill id="20004" type="indirect" tier="2" name="격리실 소독" amount="27" feeling="15" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <mentalReduce>10</mentalReduce>
+    </bonus>
+    <bonus type="I">
+    </bonus>
+    <bonus type="S">
+      <amount>1.2</amount>
+    </bonus>
+    <bonus type="C">
+      <amount>0.8</amount>
+      <feeling>1.4</feeling>
+    </bonus>
+  </skill>
+  <skill id="30001" type="block" tier="1" name="제압" amount="10" feeling="-10" bonusEnergy="5" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <amount>0.8</amount>
+      <mentalTick>3</mentalTick>
+    </bonus>
+    <bonus type="I">
+      <mentalTick>-3</mentalTick>
+    </bonus>
+    <bonus type="S">
+      <mentalTick>-3</mentalTick>
+    </bonus>
+    <bonus type="C">
+    </bonus>
+    <nextSkill>30002</nextSkill>
+    <nextSkill>30003</nextSkill>
+    <nextSkill>30004</nextSkill>
+  </skill>
+  <skill id="30002" type="block" tier="2" name="마취" amount="17" feeling="-14" bonusEnergy="13" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+    </bonus>
+    <bonus type="I">
+      <mentalReduce>-15</mentalReduce>
+    </bonus>
+    <bonus type="S">
+      <mentalReduce>-18</mentalReduce>
+    </bonus>
+    <bonus type="C">
+      <amount>0.8</amount>
+    </bonus>
+  </skill>
+  <skill id="30003" type="block" tier="2" name="속박" amount="20" feeling="-17" bonusEnergy="10" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+    </bonus>
+    <bonus type="I">
+      <amount>1.2</amount>
+      <mentalReduce>-12</mentalReduce>
+    </bonus>
+    <bonus type="S">
+      <amount>1.5</amount>
+      <mentalReduce>-15</mentalReduce>
+    </bonus>
+    <bonus type="C">
+      <amount>0.7</amount>
+      <mentalReduce>-5</mentalReduce>
+    </bonus>
+  </skill>
+  <skill id="30004" type="block" tier="2" name="타격" amount="13" feeling="-20" bonusEnergy="20" imgsrc="UI/skill/Work_Feed">
+    <bonus type="D">
+      <amount>1.2</amount>
+      <mentalTick>1</mentalTick>
+    </bonus>
+    <bonus type="I">
+      <mentalTick>-5</mentalTick>
+    </bonus>
+    <bonus type="S">
+      <mentalTick>-8</mentalTick>
+    </bonus>
+    <bonus type="C">
+      <mentalReduce>-15</mentalReduce>
+    </bonus>
+  </skill>
+  <skill id="400001" type="unique" tier="1" name="고해하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
+  <skill id="400002" type="unique" tier="1" name="포옹하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
+  <skill id="400010" type="unique" tier="1" name="(아무것도없는)전용스킬" amount="30" imgsrc="UI/skill/Work_Commu"/>
 </skills>

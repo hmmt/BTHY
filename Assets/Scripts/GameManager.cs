@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
 	public void StartGame()
 	{
         state = GameState.PLAYING;
-        briefingText.SetNarrationByDay();
+        //briefingText.SetNarrationByDay();
 
 		currentUIState = CurrentUIState.DEFAULT;
 

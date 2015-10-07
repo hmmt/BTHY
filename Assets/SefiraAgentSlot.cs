@@ -83,7 +83,10 @@ public class SefiraAgentSlot : MonoBehaviour {
                slot[i].agentName.text = ""+MalkuthAgentList[i].name;
                slot[i].cancelButton.gameObject.SetActive(true);
                slot[i].cancelButton.onClick.RemoveAllListeners();
-               slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(MalkuthAgentList[copied], copied));
+               //slot[i].cancelButton.onClick.AddListener
+               //slot[i].cancelButton.OnPointerClick(() => Debug.Log());
+               slot[i].cancelButton.onClick.AddListener(() => Debug.Log("tta"));
+               //CancelSefiraAgent(MalkuthAgentList[copied], copied)
             }
         }
 

@@ -1,20 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
+[System.Serializable]
+public class AgentIcons {
+    public Image[] statuslist;
+    public Image[] worklist;
+}
 
 public class AgentStatusWindow : MonoBehaviour, IObserver {
-	public UnityEngine.UI.Text NameText;
-	public UnityEngine.UI.Text HPText;
-	public UnityEngine.UI.Text MentalText;
-	public UnityEngine.UI.Text LevelText;
-	public UnityEngine.UI.Text GenderText;
-	public UnityEngine.UI.Text WorkDayText;
+	public Text NameText;
+	public Text HPText;
+	public Text MentalText;
+	public Text LevelText;
+	public Text GenderText;
+	public Text WorkDayText;
 
-    public UnityEngine.UI.Text TraitText;
+    public Text TraitText;
 
     public Transform traitScrollTarget;
 
-	public UnityEngine.UI.Image agentIcon;
+	public Image AgentFace;
+    public Image AgentHair;
+    public Image AgentBody;
+
+    public AgentIcons icons;
 
 	[HideInInspector]
 	public static AgentStatusWindow currentWindow = null;
@@ -55,9 +66,10 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
 		inst.target = unit;
 		inst.UpdateCreatureStatus ();
-
-        inst.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
-
+        inst.AgentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
+        inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
+        inst.AgentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
+        
 		currentWindow = inst;
 
 		return inst;
@@ -104,7 +116,15 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 		GenderText.text = ""+target.gender;
 		WorkDayText.text = ""+target.workDays;
 
+        for (int i = 0; i < icons.statuslist.Length; i++) {
+            icons.statuslist[i].sprite = target.StatusSprites[i];
+        }
+        for (int i = 0; i < icons.worklist.Length; i++)
+        {
+            icons.worklist[i].sprite = target.WorklistSprites[i];
+        }
         ShowTraitList();
+        ShowTrait();    
 	}
 
     public void ShowTraitList()
@@ -121,7 +141,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
             GameObject traitSlot = Prefab.LoadPrefab("TraitText");
             Debug.Log(traitSlot.GetComponent<RectTransform>().localPosition);
             traitSlot.transform.SetParent(traitScrollTarget, false);
-
+             
             Debug.Log(traitSlot.GetComponent<RectTransform>().localPosition);
             
             RectTransform tr = traitSlot.GetComponent<RectTransform>();
@@ -134,8 +154,19 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
             posY -= 55f;
         }
     }
-	
-	public void OnClickClose()
+
+    public void ShowTrait() {
+        TraitListScript script = transform.GetComponent<TraitListScript>();
+        script.DeleteAll();
+
+        for (int i = 0; i < target.traitList.Count; i++) {
+            script.MakeTrait(target.traitList[i].name);
+        }
+
+        script.SortTrait();
+    }
+
+    public void OnClickClose()
 	{
 		CloseWindow ();
 	}
