@@ -698,7 +698,17 @@ public class StageUI : MonoBehaviour, IObserver {
 
                 TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetTraitWithLevel(level);
                 TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetTraitWithLevel(level);
-                TraitTypeInfo WorkTrait = TraitTypeList.instance.GetRandomLevelWorkTrait(level);
+                TraitTypeInfo RandomLifeValueTrait;
+
+                if (Random.Range(0,1) ==0)
+                {
+                     RandomLifeValueTrait = TraitTypeList.instance.GetRandomEiTrait(level);
+                }
+
+                else
+                {
+                     RandomLifeValueTrait = TraitTypeList.instance.GetRandomNfTrait(level);
+                }
 
                 if (RandomTraitInfo1.id == RandomTraitInfo2.id)
                 {
@@ -710,17 +720,14 @@ public class StageUI : MonoBehaviour, IObserver {
                     }
                 }
 
-                agent.traitList.Add(RandomTraitInfo1);
-                agent.traitList.Add(RandomTraitInfo2);
-                agent.traitList.Add(WorkTrait);
-
                 agent.applyTrait(RandomTraitInfo1);
                 agent.applyTrait(RandomTraitInfo2);
-                agent.applyTrait(WorkTrait);
+                agent.applyTrait(RandomLifeValueTrait);
 
                 button.gameObject.SetActive(false);
                 ShowAgentList();
             }
+
 
             else
             {
@@ -748,8 +755,6 @@ public class StageUI : MonoBehaviour, IObserver {
                     }
                 }
 
-                agent.traitList.Add(RandomTraitInfo1);
-                agent.traitList.Add(RandomTraitInfo2);
 
                 agent.applyTrait(RandomTraitInfo1);
                 agent.applyTrait(RandomTraitInfo2);

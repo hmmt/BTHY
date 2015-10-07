@@ -49,13 +49,6 @@ public class AgentManager {
 
     public AgentModel AddAgentModel()
     {
-        int traitHp = 0;
-        int traitMental = 0;
-        int traitMoveSpeed = 0;
-        int traitWorkSpeed = 0;
-        int traitDirect = 0;
-        int traitInDirect = 0;
-        int traitBlock = 0;
 
         AgentTypeInfo info = AgentTypeList.instance.GetData(1);
 
@@ -66,47 +59,17 @@ public class AgentManager {
 
         AgentModel unit = new AgentModel(nextInstId++, "1");
 
-        TraitTypeInfo RandomTraitInfo1 = TraitTypeList.instance.GetRandomInitTrait();
-        TraitTypeInfo RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
-        TraitTypeInfo WorkTrait = TraitTypeList.instance.GetRandomLevelWorkTrait(1);
+        TraitTypeInfo RandomEiTrait = TraitTypeList.instance.GetRandomEiTrait(1);
+        TraitTypeInfo RandomNfTrait = TraitTypeList.instance.GetRandomNfTrait(1);
+        TraitTypeInfo RandomNormalTrait = TraitTypeList.instance.GetRandomInitTrait();
 
-        if (RandomTraitInfo1.id == RandomTraitInfo2.id)
-        {
-            while (true)
-            {
-                RandomTraitInfo2 = TraitTypeList.instance.GetRandomInitTrait();
-                if (RandomTraitInfo1.id != RandomTraitInfo2.id)
-                    break;
-            }
-        }
 
-        unit.traitList.Add(RandomTraitInfo1);
-        unit.traitList.Add(RandomTraitInfo2);
-        unit.traitList.Add(WorkTrait);
-
-        for (int i = 0; i < unit.traitList.Count; i++)
-        {
-            traitHp += unit.traitList[i].hp;
-            traitMental += unit.traitList[i].mental;
-            traitMoveSpeed += unit.traitList[i].moveSpeed;
-            traitWorkSpeed += unit.traitList[i].workSpeed;
-
-            traitDirect += (int)unit.traitList[i].directWork;
-            traitInDirect += (int)unit.traitList[i].inDirectWork;
-            traitBlock += (int)unit.traitList[i].blockWork;
-
-            //unit.traitNameList.Add(unit.traitList[i].name);
-        }
-
-        //unit.metadata = info;
-
-        //unit.name = info.name;
         unit.name = GetRandomName();
 
-        unit.maxHp = unit.hp = info.hp + traitHp;
-        unit.maxMental = unit.mental = info.mental + traitMental;
-        unit.movement = info.movement + traitMoveSpeed;
-        unit.work = info.work + traitWorkSpeed;
+        unit.defaultMaxHp = unit.hp = info.hp;
+        unit.defaultMaxMental = unit.mental = info.mental;
+        unit.defaultMovement = info.movement;
+        unit.defaultWork = info.work;
 
         unit.gender = info.gender;
         unit.level = info.level;
@@ -140,6 +103,14 @@ public class AgentManager {
         unit.SetCurrentSefira("0");
         unit.activated = false;
         agentListSpare.Add(unit);
+
+        unit.applyTrait(RandomEiTrait);
+        unit.applyTrait(RandomNfTrait);
+        unit.applyTrait(RandomNormalTrait);
+
+        Debug.Log("EI Trait "+RandomEiTrait.name);
+        Debug.Log("Nf Trait " + RandomNfTrait.name);
+        Debug.Log("가치관 " + unit.agentLifeValue);
 
         return unit;
     }

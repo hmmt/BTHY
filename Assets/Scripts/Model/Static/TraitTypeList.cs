@@ -51,61 +51,65 @@ public class TraitTypeList
         return null;
     }
 
-    public TraitTypeInfo GetRandomLevelWorkTrait(int level)
+
+    public TraitTypeInfo GetRandomEiTrait(int level)
     {
         int i = 0;
 
-        i = Random.Range(0, _list.Count);
+                while (true)
+                {
+                    i = Random.Range(0, _list.Count);
 
-        if (_list[i].randomFlag != 1 && _list[i].traitFlag != 1 && _list[i].level != level)
-        {
+                    if (_list[i].randomFlag == 1 && _list[i].level == level)
+                        if (_list[i].discType == 1 || _list[i].discType == 2)
+                        {
+                            return _list[i];
+                        }
+                }
+
+    }
+
+    public TraitTypeInfo GetRandomNfTrait(int level)
+    {
+        int i = 0;
+        
             while (true)
             {
                 i = Random.Range(0, _list.Count);
-                if (_list[i].randomFlag == 1 && _list[i].traitFlag == 1 && _list[i].level == level)
-                    return _list[i];
+                    if (_list[i].randomFlag == 1 && _list[i].level == level)
+                        if (_list[i].discType == 3 || _list[i].discType == 4)
+                        {
+                            return _list[i];
+                        }
             }
-        }
-        return _list[i];
-
     }
 
     public TraitTypeInfo GetRandomInitTrait()
     {
         int i = 0;
-
-        i = Random.Range(0, _list.Count);
-
-        if (_list[i].randomFlag != 1 && _list[i].level != 1)
-        {
+        
             while (true)
             {
                 i = Random.Range(0, _list.Count);
-                if (_list[i].randomFlag == 1 && _list[i].level == 1)
+                if (_list[i].randomFlag == 1 && _list[i].discType==0 && _list[i].level == 1)
+                {
                     return _list[i];
+                }
+                    
             }
-        }
-
-        return _list[i];
     }
 
     public TraitTypeInfo GetTraitWithLevel(int traitLevel)
     {
         int i = 0;
-
-        i = Random.Range(0, _list.Count);
-
-        if (_list[i].randomFlag != 1 && _list[i].level != traitLevel)
-        {
             while (true)
             {
                 i = Random.Range(0, _list.Count);
                 if (_list[i].randomFlag == 1 && _list[i].level == traitLevel)
+                {
                     return _list[i];
+                }                    
             }
-        }
-
-        return _list[i];
     }
 
     public TraitTypeInfo GetTraitWithId(long id)

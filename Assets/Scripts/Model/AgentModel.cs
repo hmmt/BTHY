@@ -15,6 +15,7 @@ public class AgentModel : IObserver
 
     public string name;
     public int hp;
+    public int mental;
 
     public List<TraitTypeInfo> traitList;
 
@@ -27,12 +28,21 @@ public class AgentModel : IObserver
     public int expHpDamage = 0;
     public int expMentalDamage = 0;
 
+    public int defaultMaxHp;
+    public int traitMaxHp;
     public int maxHp;
-    public int maxMental;
 
-    public int mental;
-    public int movement;
-    public int work;
+    public int defaultMaxMental;
+    public int traitMaxmental;
+    public int maxMental; //
+
+    public int defaultMovement;
+    public int traitmovement;
+    public int movement; //
+
+    public int defaultWork;
+    public int traitWork;
+    public int work; //
 
     public string prefer;
     public int preferBonus;
@@ -42,6 +52,13 @@ public class AgentModel : IObserver
     public int directBonus;
     public int inDirectBonus;
     public int blockBonus;
+
+    public int agentLifeValue;
+
+    public int internalTrait=0;
+    public int externalTrait=0;
+    public int thinkTrait=0;
+    public int emotionalTrait=0;
 
     public SkillTypeInfo directSkill;
     public SkillTypeInfo indirectSkill;
@@ -249,14 +266,126 @@ public class AgentModel : IObserver
         movableNode.ProcessMoveNode(movement);
     }
 
+    public void checkAgentLifeValue(TraitTypeInfo addTrait)
+    {
+        if (addTrait.discType == 1)
+        {
+            externalTrait++;
+        }
+
+        else if (addTrait.discType == 2)
+        {
+            internalTrait++;
+        }
+
+        else if (addTrait.discType == 3)
+        {
+            thinkTrait++;
+        }
+
+        else if (addTrait.discType == 4)
+        {
+            emotionalTrait++;
+        }
+
+        int externalFlag = 0;
+        int thinkFlag = 0;
+
+        if(externalTrait > internalTrait)
+        {
+            externalFlag = 1;
+        }
+
+        else if(externalTrait < internalTrait)
+        {
+            externalFlag = 0;
+        }
+
+        else
+        {
+            if (Random.Range(0, 1) == 1)
+            {
+                externalFlag = 1;
+            }
+            else
+            {
+                externalFlag = 0;
+            }
+        }
+
+        if (thinkTrait > emotionalTrait)
+        {
+            thinkFlag = 1;
+        }
+
+        else if (thinkTrait < emotionalTrait)
+        {
+            thinkFlag = 0;
+        }
+
+        else
+        {
+            if (Random.Range(0, 1) == 1)
+            {
+                thinkFlag = 1;
+            }
+            else
+            {
+                thinkFlag = 0;
+            }
+        }
+
+        if(externalFlag == 1 && thinkFlag == 1)
+        {
+            agentLifeValue = 1; // 합리주의자
+        }
+
+        else if(externalFlag == 1 && thinkFlag == 0)
+        {
+            agentLifeValue = 2; // 낙천주의자
+        }
+
+        else if (externalFlag == 0 && thinkFlag == 1)
+        {
+            agentLifeValue = 3; // 원칙주의자
+        }
+
+        else if (externalFlag == 0 && thinkFlag == 0)
+        {
+            agentLifeValue = 4; // 평화주의자
+        }
+
+    }
+
     public void applyTrait(TraitTypeInfo addTrait)
     {
-        maxHp += addTrait.hp;
+
+        traitList.Add(addTrait);
+
+        traitMaxHp = 0;
+        traitMaxmental = 0;
+        traitmovement = 0;
+        traitWork = 0;
+
+        if (addTrait.discType != 0) 
+            checkAgentLifeValue(addTrait);
+
+        for (int i=0; i<traitList.Count; i++)
+        {
+            traitMaxHp += traitList[i].hp;
+            traitMaxmental += traitList[i].mental;
+            traitmovement += traitList[i].moveSpeed;
+            traitWork += traitList[i].workSpeed;
+            
+        }
+
+        maxHp = defaultMaxHp + traitMaxHp;
+        maxMental = defaultMaxMental + traitMaxmental;
+        movement = defaultMovement + traitmovement;
+        traitWork = defaultWork + traitWork;
+
         hp += addTrait.hp;
-        maxMental += addTrait.mental;
         mental += addTrait.mental;
-        movement += addTrait.moveSpeed;
-        work += addTrait.workSpeed;
 
         directBonus += (int)addTrait.directWork;
         inDirectBonus += (int)addTrait.inDirectWork;
