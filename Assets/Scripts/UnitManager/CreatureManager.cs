@@ -37,10 +37,10 @@ public class CreatureManager : IObserver{
     public List<CreatureModel> HodCreature = new List<CreatureModel>();
     public List<CreatureModel> YessodCreature = new List<CreatureModel>();
 
-    public SefiraState malkuthState = SefiraState.NORMAL;
-    public SefiraState nezzachState = SefiraState.NORMAL;
-    public SefiraState hodState = SefiraState.NORMAL;
-    public SefiraState yessodState = SefiraState.NORMAL;
+    public SefiraState malkuthState = SefiraState.NOT_ENOUGH_AGENT;
+    public SefiraState nezzachState = SefiraState.NOT_ENOUGH_AGENT;
+    public SefiraState hodState = SefiraState.NOT_ENOUGH_AGENT;
+    public SefiraState yessodState = SefiraState.NOT_ENOUGH_AGENT;
 
 	
     private int nextInstId = 1;
@@ -276,7 +276,7 @@ public class CreatureManager : IObserver{
             malkuthState = SefiraState.NORMAL;
         }
 
-        if (AgentManager.instance.nezzachAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("2"))
+        if (AgentManager.instance.nezzachAgentList.Count == 0)
         {
             nezzachState = SefiraState.NOT_ENOUGH_AGENT;
         }
@@ -285,7 +285,7 @@ public class CreatureManager : IObserver{
             nezzachState = SefiraState.NORMAL;
         }
 
-        if (AgentManager.instance.hodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("3"))
+        if (AgentManager.instance.hodAgentList.Count == 0)
         {
             hodState = SefiraState.NOT_ENOUGH_AGENT;
         }
@@ -294,7 +294,7 @@ public class CreatureManager : IObserver{
             hodState = SefiraState.NORMAL;
         }
 
-        if (AgentManager.instance.yesodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("4"))
+        if (AgentManager.instance.yesodAgentList.Count == 0)
         {
             yessodState = SefiraState.NOT_ENOUGH_AGENT;
         }
@@ -306,6 +306,9 @@ public class CreatureManager : IObserver{
 
     public void OnNotice(string notice, params object[] param)
     {
-
+        if (notice == NoticeName.ChangeAgentSefira_Late)
+        {
+            OnChangeAgentSefira();
+        }
     }
 }
