@@ -413,7 +413,36 @@ public class AgentModel : IObserver
         }
     }
 
-    public void UpdateSKill(string skillType)
+    public void promoteSkill(int skillClass)
+    {
+        int randomSkillFlag;
+
+        if(skillClass == 1)
+        {
+            randomSkillFlag = Random.Range(0,2);
+
+            directSkill = SkillTypeList.instance.GetData(directSkill.nextSkillIdList[randomSkillFlag]);  
+        }
+
+        else if(skillClass == 2)
+        {
+            randomSkillFlag = Random.Range(0, 2);
+
+            indirectSkill = SkillTypeList.instance.GetData(indirectSkill.nextSkillIdList[randomSkillFlag]);
+
+        }
+
+        else if(skillClass == 3)
+        {
+            randomSkillFlag = Random.Range(0, 2);
+
+            blockSkill = SkillTypeList.instance.GetData(blockSkill.nextSkillIdList[randomSkillFlag]);
+
+        }
+
+    }
+
+    public void UpdateSkill(string skillType)
     {
         SkillTypeInfo newSkill = null;
 

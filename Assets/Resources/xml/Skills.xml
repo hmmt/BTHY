@@ -66,7 +66,7 @@
 		</bonus>
 	</skill>
 
-	<skill id="20001" type="indirect" tier="1" name="시설청소" amount="15" feeling="10" imgsrc="UI/skill/Work_Feed">
+	<skill id="20001" type="indirect" tier="1" name="시설청소" amount="15" feeling="10" imgsrc="UI/skill/Work_Clean">
 		<bonus type="D">
 			<mentalReduce>-5</mentalReduce>
 		</bonus>
@@ -134,7 +134,7 @@
 		</bonus>
 	</skill>
 
-	<skill id="30001" type="block" tier="1" name="제압" amount="10" feeling="-10" bonusEnergy="5" imgsrc="UI/skill/Work_Feed">
+	<skill id="30001" type="block" tier="1" name="제압" amount="10" feeling="-10" bonusEnergy="5" imgsrc="UI/skill/Work_Supression">
 		<bonus type="D">
 			<amount>0.8</amount>
 			<mentalTick>3</mentalTick>
