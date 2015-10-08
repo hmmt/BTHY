@@ -6,7 +6,7 @@
 		hp="5"
 		mental="100"
 		movement="5"
-		work="5"
+		work="1"
 		level="1"
 		gender="Female"
 		workDays="1"

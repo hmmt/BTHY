@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class SystemLoggerUI : MonoBehaviour, IObserver {
 	public GameObject logBoard;
 	
-	//private int boxHeight = 200;
-
 	private float boxPosition = 55;
 
 	private float lastTextPosition = -370;
@@ -41,10 +39,6 @@ public class SystemLoggerUI : MonoBehaviour, IObserver {
 
 		//float textHeight = textUI.GetComponent<RectTransform> ().sizeDelta.y;
         float textHeight = textUI.preferredHeight + diff;
-
-		//Debug.Log(textHeight);
-        
-		
 		Text[] textChildren = logBoard.GetComponentsInChildren<Text> ();
 		
 		RectTransform rt = logBoard.GetComponent<RectTransform> ();

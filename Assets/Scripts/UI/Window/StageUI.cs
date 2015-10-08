@@ -43,6 +43,14 @@ public class StageUI : MonoBehaviour, IObserver {
     public UnityEngine.UI.Button openSefria;
     public GameObject agentSlot;
 
+    public RectTransform AddButton;
+
+    public int extended = -1;
+
+
+    public int setState;
+
+
     void Awake()
     {
         _instance = this;
@@ -55,6 +63,7 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             areaBtnDic.Add(btn.name, btn);
         }
+        
     }
 
     void OnEnable()
@@ -171,6 +180,172 @@ public class StageUI : MonoBehaviour, IObserver {
             Debug.Log("에너지가 모자라거나 고용가능 직원수가 다찼어");
     }
 
+    private GameObject[] setList(AgentModel[] models) {
+        GameObject[] list= new GameObject[models.Length];
+        int i = 0;
+        foreach (AgentModel unit in models)
+        {
+            GameObject slot = Prefab.LoadPrefab("Slot/SlotPanel");
+            slot.SetActive(true);
+
+            slot.transform.SetParent(agentScrollTarget, false);
+            list[i] = slot;
+            
+            AgentSlotScript slotPanel = slot.GetComponent<AgentSlotScript>();
+            AgentModel copied = unit;
+            
+            //ShowPromotionButton(copied, slotPanel.attr1.Promotion);
+            
+            slotPanel.attr1.Add.gameObject.SetActive(false);
+
+            if (copied.currentSefira != currentSefriaUi)
+                slotPanel.attr1.Add.gameObject.SetActive(true);
+
+            slotPanel.attr1.Add.onClick.AddListener(() => SetAgentSefriaButton(copied));
+            slotPanel.display = new AgentGetAttributes();
+            slotPanel.display.name = unit.name;
+            slotPanel.display.hp = "HP : " + unit.hp + "/" + unit.maxHp;
+            slotPanel.display.level = "직원등급 : " + unit.level;
+            
+
+            switch (copied.currentSefira)
+            {
+                case "0":
+                    slotPanel.display.sefira = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/None_Icon");
+                    break;
+                case "1":
+                    slotPanel.display.sefira = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Malkuth_Icon");
+                    break;
+                case "2":
+                    slotPanel.display.sefira = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Netzzach_Icon");
+                    break;
+                case "3":
+                    slotPanel.display.sefira = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Hod_Icon");
+                    break;
+                case "4":
+                    slotPanel.display.sefira = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Yessod_Icon");
+                    break;
+                default:
+                    slotPanel.display.sefira = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/None_Icon");
+                    break;
+            }
+
+            slotPanel.display.hair = ResourceCache.instance.GetSprite(unit.hairImgSrc);
+            slotPanel.display.face = ResourceCache.instance.GetSprite(unit.faceImgSrc);
+            slotPanel.display.body = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
+            slotPanel.display.model = unit;
+            slotPanel.model = unit;
+            slotPanel.DisplayItems();
+            slotPanel.ShowPromotionButton(copied);
+            i++;
+        }
+        return list;
+    }
+    
+    public void SetExtendedList(int i, int state) {
+        this.setState = state;
+        this.extended = i;
+    }
+
+    public int getExtendedList() {
+        return this.extended;
+    }
+
+    public void ShowAgentList()
+    {
+        AgentModel[] agents = AgentManager.instance.GetAgentList();
+        AgentModel[] spareAgents = AgentManager.instance.agentListSpare.ToArray();
+        GameObject[] sub1 = new GameObject[agents.Length];
+        GameObject[] sub2 = new GameObject[spareAgents.Length];
+        GameObject[] total = new GameObject[agents.Length + spareAgents.Length];
+        foreach (Transform child in agentScrollTarget.transform)
+        {
+            Destroy(child.gameObject);
+            
+        }
+        
+        sub1 = setList(agents);
+        sub2 = setList(spareAgents);
+        for (int i = 0; i < agents.Length; i++) {
+            total[i] = sub1[i];
+        }
+        for (int i = 0; i < spareAgents.Length; i++)
+        {
+            total[i + agents.Length] = sub2[i];
+        }
+
+        
+        int count = 0;
+        foreach (GameObject child in total) {
+            child.GetComponent<AgentSlotScript>().index = count;
+            count++;
+        }
+        
+        float posy = 0.0f;
+        int cnt = 0;
+        
+        foreach (GameObject child in total)
+        {
+            float size;
+
+            RectTransform tr = child.GetComponent<RectTransform>();
+            
+            AgentSlotScript script = child.GetComponent<AgentSlotScript>();
+
+            if (extended == cnt)
+            {
+                switch (setState) { 
+                    case 0:
+                        script.smallstate = true;
+                        script.bigstate = false;
+                        script.promotionState = false;
+                        break;
+                    case 1:
+                        script.smallstate = true;
+                        script.bigstate = true;
+                        script.promotionState = false;
+                        break;
+                    case 2:
+                        script.smallstate = false;
+                        script.bigstate = false;
+                        script.promotionState = true;
+                        break;
+                }
+                script.state = true;
+            }
+            else
+            {
+                script.smallstate = true;
+                script.bigstate = false;
+                script.promotionState = false;
+                script.state = false;
+               
+            }
+            size = script.GetSize();
+            float normalSize = 0.15f;
+            Vector2 max = new Vector2(0.96f, 1f - posy);
+            Vector2 min = new Vector2(0.0f, 1f - posy - normalSize);
+           
+            tr.anchorMin = min;
+            tr.anchorMax = max;
+
+            tr.offsetMax = Vector2.zero;
+            tr.offsetMin = Vector2.zero;
+            posy += size;
+            cnt++;
+        }
+        
+        AddButton = GameObject.FindWithTag("AddAgentButton").GetComponent<RectTransform>();
+        AddButton.anchorMax = new Vector2(0.96f, 1f - posy);
+        AddButton.anchorMin = new Vector2(0f, 1f - (posy + 0.15f));
+        // scroll rect size
+        Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
+        scrollRectSize.y = 0.0f;
+        agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
+        
+        StartStageUI.instance.ShowAgentCount();
+    }
+    /*
     public void ShowAgentList()
     {
         AgentModel[] agents = AgentManager.instance.GetAgentList();
@@ -182,7 +357,7 @@ public class StageUI : MonoBehaviour, IObserver {
         }
 
         float posy = 0;
-
+        float std = 0.15f;
         
 
         foreach (AgentModel unit in agents)
@@ -192,7 +367,9 @@ public class StageUI : MonoBehaviour, IObserver {
             slot.transform.SetParent(agentScrollTarget, false);
             
             RectTransform tr = slot.GetComponent<RectTransform>();
-            tr.localPosition = new Vector3(0, posy, 0);
+            //tr.localPosition = new Vector3(0, posy, 0);
+            tr.anchorMax = new Vector2(1f, 1f - posy);
+            tr.anchorMin = new Vector2(0f, 1f - (posy + std) );
             AgentSlotPanelStage slotPanel = slot.GetComponent<AgentSlotPanelStage>();
             AgentModel copied = unit;
             
@@ -225,7 +402,7 @@ public class StageUI : MonoBehaviour, IObserver {
             slotPanel.agentFaceIcon.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
             slotPanel.agentHairIcon.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
             slotPanel.model = unit;
-            posy -= 120f;
+            posy += std;
         }
 
         foreach (AgentModel unit in spareAgents)
@@ -235,7 +412,9 @@ public class StageUI : MonoBehaviour, IObserver {
             slot.transform.SetParent(agentScrollTarget, false);
 
             RectTransform tr = slot.GetComponent<RectTransform>();
-            tr.localPosition = new Vector3(0, posy, 0);
+            //tr.localPosition = new Vector3(0, posy, 0);
+            tr.anchorMax = new Vector2(1f, 1f - posy);
+            tr.anchorMin = new Vector2(0f, 1f - (posy + std));
             AgentSlotPanelStage slotPanel = slot.GetComponent<AgentSlotPanelStage>();
 
             AgentModel copied = unit;
@@ -267,27 +446,28 @@ public class StageUI : MonoBehaviour, IObserver {
             slotPanel.agentFaceIcon.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
             slotPanel.agentHairIcon.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
             slotPanel.model = unit;
-            posy -= 120f;
+            posy += std;
         }
-
+        AddButton.anchorMax = new Vector2(1f, 1f - posy);
+        AddButton.anchorMin = new Vector2(0f, 1f - (posy + std));;
         // scroll rect size
         Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
-        scrollRectSize.y = -posy + 100f;
+        scrollRectSize.y = -std + 0.15f;
         agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
 
         StartStageUI.instance.ShowAgentCount();
     }
-
+    */
     public void CancelSefiraAgent(AgentModel unit)
     {
-        
+        Debug.Log("delete");
         if (unit.currentSefira.Equals("1"))
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.MalkuthAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.MalkuthAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.malkuthAgentList[i].instanceId)
                 {
-                    SefiraAgentSlot.instance.MalkuthAgentList.RemoveAt(i);
+                    AgentManager.instance.malkuthAgentList.RemoveAt(i);
                     break;
                 }
             }
@@ -295,11 +475,11 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (unit.currentSefira.Equals("2"))
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.NezzachAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.nezzachAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.NezzachAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.nezzachAgentList[i].instanceId)
                 {
-                    SefiraAgentSlot.instance.NezzachAgentList.RemoveAt(i);
+                    AgentManager.instance.nezzachAgentList.RemoveAt(i);
                     break;
                 }
             }
@@ -307,11 +487,11 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (unit.currentSefira.Equals("3"))
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.HodAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.hodAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.HodAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.hodAgentList[i].instanceId)
                 {
-                    SefiraAgentSlot.instance.HodAgentList.RemoveAt(i);
+                    AgentManager.instance.hodAgentList.RemoveAt(i);
                     break;
                 }
             }
@@ -319,15 +499,17 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (unit.currentSefira.Equals("4"))
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.YesodAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.yesodAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.YesodAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.yesodAgentList[i].instanceId)
                 {
-                    SefiraAgentSlot.instance.YesodAgentList.RemoveAt(i);
+                    AgentManager.instance.yesodAgentList.RemoveAt(i);
                     break;
                 }
             }
         }
+        ShowAgentList();
+
         if(unit.activated)
             AgentManager.instance.deactivateAgent(unit);
     }
@@ -340,17 +522,16 @@ public class StageUI : MonoBehaviour, IObserver {
 
         if (currentSefriaUi == "1" )
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.MalkuthAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.MalkuthAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.malkuthAgentList[i].instanceId)
                 {
                     agentExist = true;
                     break;
                 }
             }
-            if (!agentExist && SefiraAgentSlot.instance.MalkuthAgentList.Count < 5)
+            if (!agentExist && AgentManager.instance.malkuthAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.MalkuthAgentList.Add(unit);
                 unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
                 unit.SetCurrentSefira("1");
                 if (!unit.activated)
@@ -363,17 +544,16 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (currentSefriaUi == "2" && PlayerModel.instance.IsOpenedArea("2"))
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.NezzachAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.nezzachAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.NezzachAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.nezzachAgentList[i].instanceId)
                 {
                     agentExist = true;
                     break;
                 }
             }
-            if (!agentExist && SefiraAgentSlot.instance.NezzachAgentList.Count < 5)
+            if (!agentExist && AgentManager.instance.nezzachAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.NezzachAgentList.Add(unit);
                 unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("2"));
                 unit.SetCurrentSefira("2");
                 if (!unit.activated)
@@ -386,17 +566,16 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (currentSefriaUi == "3" && PlayerModel.instance.IsOpenedArea("3")  )
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.HodAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.hodAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.HodAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.hodAgentList[i].instanceId)
                 {
                     agentExist = true;
                     break;
                 }
             }
-            if (!agentExist && SefiraAgentSlot.instance.HodAgentList.Count < 5)
+            if (!agentExist && AgentManager.instance.hodAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.HodAgentList.Add(unit);
                 unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("3"));
                 unit.SetCurrentSefira("3");
                 if (!unit.activated)
@@ -408,18 +587,17 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if (currentSefriaUi == "4" && PlayerModel.instance.IsOpenedArea("4"))
         {
-            for (int i = 0; i < SefiraAgentSlot.instance.YesodAgentList.Count; i++)
+            for (int i = 0; i < AgentManager.instance.yesodAgentList.Count; i++)
             {
-                if (unit.instanceId == SefiraAgentSlot.instance.YesodAgentList[i].instanceId)
+                if (unit.instanceId == AgentManager.instance.yesodAgentList[i].instanceId)
                 {
                     agentExist = true;
                     break;
                 }
             }
 
-            if (!agentExist && SefiraAgentSlot.instance.YesodAgentList.Count < 5)
+            if (!agentExist && AgentManager.instance.yesodAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.YesodAgentList.Add(unit);
                 unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
                 unit.SetCurrentSefira("4");
                 if(!unit.activated)
@@ -470,7 +648,7 @@ public class StageUI : MonoBehaviour, IObserver {
             else
                 Debug.Log("에너지가 모자라");
        }
-
+    /*
 
     //직원 승급 조건 및 버튼 활성화 
     public void ShowPromotionButton(AgentModel agent, UnityEngine.UI.Button button)
@@ -479,14 +657,14 @@ public class StageUI : MonoBehaviour, IObserver {
         if (agent.expSuccess < 2 && agent.expSuccess >= 0 && agent.level == 1)
         {
             button.gameObject.SetActive(true);
-            button.GetComponentInChildren<UnityEngine.UI.Text>().text = "승급 비용 2";
-            button.onClick.AddListener(() => PromotionAgent(agent,1,button));
+            //button.GetComponentInChildren<UnityEngine.UI.Text>().text = "승급 비용 2";
+            button.onClick.AddListener(() => PromotionAgent(agent, 1, button));
         }
 
         else if (agent.expSuccess < 3 && agent.expSuccess >= 2 && agent.level == 2)
         {
             button.gameObject.SetActive(true);
-            button.GetComponentInChildren<UnityEngine.UI.Text>().text = "승급 비용 5";
+            //button.GetComponentInChildren<UnityEngine.UI.Text>().text = "승급 비용 5";
             button.onClick.AddListener(() => PromotionAgent(agent, 2, button));
         }
 
@@ -494,6 +672,11 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             button.gameObject.SetActive(false);
         }
+    }
+    */
+    public void ChangePromotionPanel(AgentModel agent, int i ,UnityEngine.UI.Button button) {
+        
+        PromotionAgent(agent, i, button);
     }
 
     public void PromotionAgent(AgentModel agent, int level, UnityEngine.UI.Button button)
@@ -624,7 +807,7 @@ public class StageUI : MonoBehaviour, IObserver {
             endStageUi.gameObject.SetActive(true);
 
         Init();
-            //canvas.gameObject.SetActive(true);
+            //.gameObject.SetActive(true);
 
     }
 

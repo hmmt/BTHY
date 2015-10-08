@@ -69,10 +69,8 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
     {
         if (targetSefiraName == "1")
         {
-            if (SefiraAgentSlot.instance.MalkuthAgentList.Count < 5)
+            if (AgentManager.instance.malkuthAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.MalkuthAgentList.Add(agent);
-                deleteSefiraList(agent);
                 agent.SetCurrentSefira(targetSefiraName);
             }
             else
@@ -81,10 +79,8 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
         else if (targetSefiraName == "2")
         {
-            if (SefiraAgentSlot.instance.NezzachAgentList.Count < 5)
+            if (AgentManager.instance.nezzachAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.NezzachAgentList.Add(agent);
-                deleteSefiraList(agent);
                 agent.SetCurrentSefira(targetSefiraName);
             }
             else
@@ -93,10 +89,8 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
         else if (targetSefiraName == "3")
         {
-            if (SefiraAgentSlot.instance.HodAgentList.Count < 5)
+            if (AgentManager.instance.hodAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.HodAgentList.Add(agent);
-                deleteSefiraList(agent);
                 agent.SetCurrentSefira(targetSefiraName);
             }
             else
@@ -105,37 +99,12 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
         else if (targetSefiraName == "4")
         {
-            if (SefiraAgentSlot.instance.YesodAgentList.Count < 5)
+            if (AgentManager.instance.yesodAgentList.Count < 5)
             {
-                SefiraAgentSlot.instance.YesodAgentList.Add(agent);
-                deleteSefiraList(agent);
                 agent.SetCurrentSefira(targetSefiraName);
             }
             else
                 Debug.Log("예소드 초과");
-        }
-    }
-
-    public void deleteSefiraList(AgentModel agent)
-    {
-        if (agent.currentSefira == "1")
-        {
-            SefiraAgentSlot.instance.MalkuthAgentList.Remove(agent);
-        }
-
-        else if (agent.currentSefira == "2")
-        {
-            SefiraAgentSlot.instance.NezzachAgentList.Remove(agent);
-        }
-
-        else if (agent.currentSefira == "3")
-        {
-            SefiraAgentSlot.instance.HodAgentList.Remove(agent);
-        }
-
-        else if (agent.currentSefira == "4")
-        {
-            SefiraAgentSlot.instance.YesodAgentList.Remove(agent);
         }
     }
 

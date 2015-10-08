@@ -84,12 +84,13 @@ public class AgentUnit : MonoBehaviour {
         agentAnimator.SetBool("Change", false);
         oldPos = transform.localPosition.x;
         oldPosY = transform.localPosition.y;
-        oldSefira = model.currentSefira;
+        oldSefira = "1";
         agentName.text = model.name;
 
         faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
         hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
 
+        ChangeAgentUniform();
     }
 
     /*
@@ -298,12 +299,30 @@ public class AgentUnit : MonoBehaviour {
 
 	public void SetCurrentHP(int hp)
 	{
-		GetComponentInChildren<AgentHPBar> ().SetCurrentHP (hp);
+        if (PlayerModel.instance.IsOpenedArea("Yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            GetComponentInChildren<AgentHPBar>().gameObject.SetActive(true);
+            GetComponentInChildren<AgentHPBar>().SetCurrentHP(hp);
+        }
+
+        else
+        {
+                GetComponentInChildren<AgentHPBar>().gameObject.SetActive(false);
+        }
 	}
 
 	public void UpdateMentalView()
 	{
-		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)model.mental / (float)model.maxMental);
+        if (PlayerModel.instance.IsOpenedArea("Yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            GetComponentInChildren<MentalViewer>().gameObject.SetActive(true);
+            GetComponentInChildren<MentalViewer>().SetMentalRate((float)model.mental / (float)model.maxMental);
+        }
+        else
+        {
+                GetComponentInChildren<MentalViewer>().gameObject.SetActive(false);
+           
+        }
 	}
 
 	public void OpenStatusWindow()

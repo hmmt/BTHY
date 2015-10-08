@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Reflection;
 
-public class AgentManager {
+public class AgentManager : IObserver {
 
     public static string[] nameList
         = {
@@ -28,6 +28,10 @@ public class AgentManager {
     private int nextInstId = 1;
     private List<AgentModel> agentList;
     public List<AgentModel> agentListSpare;
+    public List<AgentModel> malkuthAgentList;
+    public List<AgentModel> hodAgentList;
+    public List<AgentModel> nezzachAgentList;
+    public List<AgentModel> yesodAgentList;
 
     //실험 - 유닛 시체
 
@@ -45,6 +49,13 @@ public class AgentManager {
         agentList = new List<AgentModel>();
         agentListSpare = new List<AgentModel>();
         agentListDead = new List<AgentModel>();
+
+        malkuthAgentList = new List<AgentModel>();
+        hodAgentList = new List<AgentModel>();
+        nezzachAgentList = new List<AgentModel>();
+        yesodAgentList = new List<AgentModel>();
+
+        Notice.instance.Observe(NoticeName.ChangeAgentSefira, this);
     }
 
     public AgentModel AddAgentModel()
@@ -206,22 +217,22 @@ public class AgentManager {
     {
         if (model.currentSefira == "1")
         {
-            SefiraAgentSlot.instance.MalkuthAgentList.Remove(model);
+            malkuthAgentList.Remove(model);
         }
 
         else if (model.currentSefira == "2")
         {
-            SefiraAgentSlot.instance.NezzachAgentList.Remove(model);
+            nezzachAgentList.Remove(model);
         }
 
-        else  if (model.currentSefira == "3")
+        else if (model.currentSefira == "3")
         {
-            SefiraAgentSlot.instance.HodAgentList.Remove(model);
+            hodAgentList.Remove(model);
         }
 
         else if (model.currentSefira == "4")
         {
-            SefiraAgentSlot.instance.YesodAgentList.Remove(model);
+            yesodAgentList.Remove(model);
         }
 
         Notice.instance.Remove(NoticeName.FixedUpdate, model);
@@ -339,5 +350,51 @@ public class AgentManager {
     private static string GetRandomName()
     {
         return nameList[Random.Range(0, nameList.Length)];
+    }
+
+    private void OnChangeAgentSefira(AgentModel agentModel, string oldSefira)
+    {
+        switch (oldSefira)
+        {
+            case "1":
+                malkuthAgentList.Remove(agentModel);
+                break;
+            case "2":
+                nezzachAgentList.Remove(agentModel);
+                break;
+            case "3":
+                hodAgentList.Remove(agentModel);
+                break;
+            case "4":
+                yesodAgentList.Remove(agentModel);
+                break;
+        }
+
+        switch (agentModel.currentSefira)
+        {
+            case "1":
+                malkuthAgentList.Add(agentModel);
+                break;
+            case "2":
+                nezzachAgentList.Add(agentModel);
+                break;
+            case "3":
+                hodAgentList.Add(agentModel);
+                break;
+            case "4":
+                yesodAgentList.Add(agentModel);
+                break;
+        }
+    }
+
+    public void OnNotice(string notice, params object[] param)
+    {
+        if (notice == NoticeName.ChangeAgentSefira)
+        {
+            AgentModel agent = (AgentModel)param[0];
+            string oldSefira = (string)param[1];
+            OnChangeAgentSefira(agent, oldSefira);
+            Notice.instance.Send(NoticeName.ChangeAgentSefira_Late);
+        }
     }
 }

@@ -13,23 +13,23 @@ public class SkillTypeInfo {
 
     public string bonusType;
 
-    public int amountBonusD;
-    public int feelingBonusD;
+    public float amountBonusD;
+    public float feelingBonusD;
     public int mentalReduceD;
     public int mentalTickD;
 
-    public int amountBonusI;
-    public int feelingBonusI;
+    public float amountBonusI;
+    public float feelingBonusI;
     public int mentalReduceI;
     public int mentalTickI;
 
-    public int amountBonusS;
-    public int feelingBonusS;
+    public float amountBonusS;
+    public float feelingBonusS;
     public int mentalReduceS;
     public int mentalTickS;
 
-    public int amountBonusC;
-    public int feelingBonusC;
+    public float amountBonusC;
+    public float feelingBonusC;
     public int mentalReduceC;
     public int mentalTickC;
 

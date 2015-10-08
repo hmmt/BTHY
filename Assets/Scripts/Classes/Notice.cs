@@ -22,6 +22,8 @@ public class NoticeName
     public static string AddAgent = "AddAgent";
     public static string RemoveAgent = "RemoveAgent";
     public static string InitAgent = "InitAgent";
+    public static string ChangeAgentSefira = "ChangeAgentSefira";
+    public static string ChangeAgentSefira_Late = "ChangeAgentSefira_Late";
 
     public static string AddCreature = "AddCreature";
     public static string UpdateCreatureRes = "UpdateCreatureRes"; // 환상체의 이미지 변경. 지금은 안 씀.

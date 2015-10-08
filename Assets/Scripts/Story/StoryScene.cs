@@ -51,9 +51,7 @@ public class StoryScene : MonoBehaviour {
     {
         state = StoryState.NONE;
 
-        storyNodeObject.SetActive(false);
-
-
-        GameManager.currentGameManager.StartGame();
+        //GameManager.currentGameManager.StartGame();
+        GameManager.currentGameManager.StartStage();
     }
 }

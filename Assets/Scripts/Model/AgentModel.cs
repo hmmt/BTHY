@@ -87,7 +87,8 @@ public class AgentModel : IObserver
     public string faceImgSrc;
     public string bodyImgSrc;
 
-
+    public Sprite[] StatusSprites = new Sprite[4];
+    public Sprite[] WorklistSprites = new Sprite[3];
 
     // 이하 save 되지 않는 데이터들
 
@@ -358,7 +359,6 @@ public class AgentModel : IObserver
 
     public void applyTrait(TraitTypeInfo addTrait)
     {
-
         traitList.Add(addTrait);
 
         traitMaxHp = 0;
@@ -375,13 +375,12 @@ public class AgentModel : IObserver
             traitMaxmental += traitList[i].mental;
             traitmovement += traitList[i].moveSpeed;
             traitWork += traitList[i].workSpeed;
-            
         }
 
         maxHp = defaultMaxHp + traitMaxHp;
         maxMental = defaultMaxMental + traitMaxmental;
         movement = defaultMovement + traitmovement;
-        traitWork = defaultWork + traitWork;
+        work = defaultWork + traitWork;
 
         hp += addTrait.hp;
         mental += addTrait.mental;
@@ -411,6 +410,12 @@ public class AgentModel : IObserver
         {
             work = 1;
         }
+
+
+        Debug.Log("변경후 체력" + maxHp);
+        Debug.Log("변경후 멘탈" + maxMental);
+        Debug.Log("변경후 속도" + movement);
+        Debug.Log("변경후 작업속도" + work);
     }
 
     public void promoteSkill(int skillClass)
@@ -473,6 +478,7 @@ public class AgentModel : IObserver
         }
     }
 
+  
     private void ProcessAction()
     {
         if (currentPanicAction != null)
@@ -602,6 +608,17 @@ public class AgentModel : IObserver
         }
     }
 
+    public void RecoverHP(int amount)
+    {
+        hp += amount;
+        hp = hp > maxHp ? maxHp : hp;
+    }
+    public void RecoverMental(int amount)
+    {
+        mental += amount;
+        mental = mental > maxMental ? maxMental : mental;
+    }
+
     public bool HasTrait(long id)
     {
         foreach (TraitTypeInfo info in traitList)
@@ -614,6 +631,7 @@ public class AgentModel : IObserver
 
     public void SetCurrentSefira(string sefira)
     {
+        string old = currentSefira;
         currentSefira = sefira;
         switch (currentSefira)
         {
@@ -624,6 +642,7 @@ public class AgentModel : IObserver
             case "4": imgsrc = "Agent/Yessod/00"; break;
         }
         waitTimer = 0;
+        Notice.instance.Send(NoticeName.ChangeAgentSefira, this, old);
     }
 
     public void Panic()
@@ -655,12 +674,10 @@ public class AgentModel : IObserver
 
         this.hp = 0;
         this.state = AgentCmdState.DEAD;
-
+        
         //AgentManager.instance.RemoveAgent(this);
         //AgentLayer.currentLayer.GetAgent(this.instanceId).DeadAgent();
     }
-
-
 
     public void OnNotice(string notice, params object[] param)
     {

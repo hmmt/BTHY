@@ -15,7 +15,7 @@ public class SepiraLayer : MonoBehaviour{
 
     void FixedUpdate()
     {
-        if (SefiraAgentSlot.instance.MalkuthAgentList.Count < 2)
+        if (AgentManager.instance.malkuthAgentList.Count < 2)
         {
             MalkuthSkillActive();
             Debug.Log("말쿠트 비었음");
@@ -25,31 +25,27 @@ public class SepiraLayer : MonoBehaviour{
             }
         }
 
-        if (SefiraAgentSlot.instance.NezzachAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("2"))
+        if (AgentManager.instance.nezzachAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("2"))
         {
             NezzachSkillActive();
             Debug.Log("네짜흐 비었음");
             foreach (CreatureModel unit in CreatureManager.instance.NezzachCreature)
             {
-
                 unit.DangerFeeling();
-
             }
         }
 
-        if (SefiraAgentSlot.instance.HodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("3"))
+        if (AgentManager.instance.hodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("3"))
         {
             HodSkillActive();
             Debug.Log("호드 비었음");
             foreach (CreatureModel unit in CreatureManager.instance.HodCreature)
             {
-
                 unit.DangerFeeling();
-
             }
         }
 
-        if (SefiraAgentSlot.instance.YesodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("4"))
+        if (AgentManager.instance.yesodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("4"))
         {
             Debug.Log("예소드 비었음");
             YessodSkillActive();

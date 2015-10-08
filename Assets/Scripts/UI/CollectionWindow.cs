@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CollectionWindow : MonoBehaviour {
 
@@ -7,22 +8,24 @@ public class CollectionWindow : MonoBehaviour {
     public GameObject backgroundDefault;
     public GameObject backgroundDiary;
 
-    public UnityEngine.UI.Text descText;
-    public UnityEngine.UI.Text observeText;
+    public Text descText;
+    public Text observeText;
 
-    //public UnityEngine.UI.Text observeSubText;
+    //public UI.Text observeSubText;
 
-	public UnityEngine.UI.Text code;
-	public UnityEngine.UI.Text name;
-	public UnityEngine.UI.Text dangerLevel;
-	public UnityEngine.UI.Text attackType;
-	public UnityEngine.UI.Text intLevel;
-    public UnityEngine.UI.Text observePercent;
-
-	public UnityEngine.UI.Image profImage;
-
-
-
+	public Text code;
+	public Text name;
+    public Text nickname;
+	public Text dangerLevel;
+	public Text attackType;
+	public Text intLevel;
+    public Text observePercent;
+    public Text DangerRank;//same with dangerLevel
+	public Image profImage;
+    public RectTransform descList;
+    public GameObject description;
+    public TextListScript listScirpt;
+    
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
 
@@ -58,7 +61,7 @@ public class CollectionWindow : MonoBehaviour {
     {
         GameObject wndObject;
         CollectionWindow wnd;
-
+        
         if (currentWindow != null)
         {
             wndObject = currentWindow.gameObject;
@@ -68,7 +71,10 @@ public class CollectionWindow : MonoBehaviour {
         {
             wndObject = Prefab.LoadPrefab("CollectionWindow");
         }
-            wnd = wndObject.GetComponent<CollectionWindow>();
+        wnd = wndObject.GetComponent<CollectionWindow>();
+
+        wnd.listScirpt = wnd.descList.GetComponent<TextListScript>();
+        wnd.listScirpt.DeleteAll();
 
         wnd.creature = creature;
 
@@ -81,13 +87,23 @@ public class CollectionWindow : MonoBehaviour {
 		wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
 		wnd.dangerLevel.text = creature.metaInfo.level.ToString();
         wnd.observePercent.text = (float)creature.observeProgress / creature.metaInfo.observeLevel * 100+"%";
-
+        wnd.nickname.text = wnd.name.text;
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
-
+        wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
         wnd.UpdateBg("default");
 
+        string descTextfull = creature.metaInfo.desc;
+        char[] determine = {'*'};
+        string[] descary = descTextfull.Split(determine);
+        
+        foreach (string str in descary) {
+            if (str.Equals(" ") || str.Equals("")) continue;
+            wnd.listScirpt.MakeText(str);
+        }
+        wnd.listScirpt.SortList();
         currentWindow = wnd;
     }
+
 
     public CreatureModel GetCreature()
     {

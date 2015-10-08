@@ -22,15 +22,15 @@ public class InfoCharacterScript : MonoBehaviour {
 	        
 	}
 
-    public void setSlot(AgentSlotPanelStage target) {
+    public void setSlot(AgentSlotScript target) {
         GameObject image;
         if (portrait != null)
         {
             Destroy(portrait);
             portrait = null;
         }
-        name.text = target.model.name;
-        grade.text = target.model.level + "등급";
+        name.text = target.display.name;
+        grade.text = target.display.level;
         image = Instantiate(target.gameObject.GetComponent<DragScript>().moveImage);
         portrait = image;
         image.transform.SetParent(transform);
