@@ -374,7 +374,7 @@ public class CreatureManager : IObserver{
         else
         {
             hodState = SefiraState.NORMAL;
-            creatureStateWorse("Hod");
+            creatureStateNormal("Hod");
         }
 
         if (AgentManager.instance.yesodAgentList.Count == 0)
@@ -385,7 +385,7 @@ public class CreatureManager : IObserver{
         else
         {
             yessodState = SefiraState.NORMAL;
-            creatureStateWorse("Yessod");
+            creatureStateNormal("Yessod");
         }
     }
 
