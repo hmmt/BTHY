@@ -75,7 +75,19 @@ public class EnergyModel : IObserver {
 			int feelingTick = unit.metaInfo.feelingMax / unit.metaInfo.genEnergy.Length;
 			addedEnergy = unit.metaInfo.genEnergy[Mathf.Clamp((int)(unit.feeling)/feelingTick, 0, unit.metaInfo.genEnergy.Length-1)];
             */
-            addedEnergy = unit.GetEnergyTick();
+            if(unit.sefiraEmpty)
+            {
+                addedEnergy = (unit.GetEnergyTick()) / 2;
+                if(addedEnergy < 0)
+                {
+                    addedEnergy = addedEnergy * 2;
+                }
+            }
+            else
+            {
+                addedEnergy = unit.GetEnergyTick();
+            }
+
 			AddEnergy(addedEnergy);
             unit.genEnergyCount += addedEnergy;
 			if(addedEnergy > 0)

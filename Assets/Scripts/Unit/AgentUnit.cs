@@ -34,6 +34,7 @@ public class AgentUnit : MonoBehaviour {
 
     // layer에서 z값 순서 정하기 위한 값.
     public float zValue;
+  
 
     //직원 대사
     string speach = "";
@@ -305,7 +306,7 @@ public class AgentUnit : MonoBehaviour {
             GetComponentInChildren<AgentHPBar>().SetCurrentHP(hp);
         }
 
-        else
+        else if (!GetComponentInChildren<AgentHPBar>().gameObject.activeInHierarchy)
         {
                 GetComponentInChildren<AgentHPBar>().gameObject.SetActive(false);
         }
@@ -318,7 +319,7 @@ public class AgentUnit : MonoBehaviour {
             GetComponentInChildren<MentalViewer>().gameObject.SetActive(true);
             GetComponentInChildren<MentalViewer>().SetMentalRate((float)model.mental / (float)model.maxMental);
         }
-        else
+        else if (!GetComponentInChildren<MentalViewer>().gameObject.activeInHierarchy)
         {
                 GetComponentInChildren<MentalViewer>().gameObject.SetActive(false);
            

@@ -271,65 +271,75 @@ public class CreatureManager : IObserver{
             RegisterCreature(model);
         }
     }
-    /*
-    public void ActiveSefiraSkill()
+
+    public void creatureStateWorse(string sepiraName)
     {
-        if (PlayerModel.instance.IsOpenedArea("Malkuth"))
-        { 
-            if (malkuthState == SefiraState.NORMAL)
-            {
-
-            }
-
-            else if (malkuthState == SefiraState.NOT_ENOUGH_AGENT)
-            {
-
-            }
-        }
-
-        if (PlayerModel.instance.IsOpenedArea("Nezzach"))
+        if(sepiraName == "Malkuth")
         {
-            if (nezzachState == SefiraState.NORMAL)
+            foreach(CreatureModel creature in MalkuthCreature)
             {
-
-            }
-
-            else if (nezzachState == SefiraState.NOT_ENOUGH_AGENT)
-            {
-
+                creature.sefiraEmpty = true;
             }
         }
 
-        if (PlayerModel.instance.IsOpenedArea("Hod"))
+        else if(sepiraName == "Nezzach")
         {
-            if (hodState == SefiraState.NORMAL)
+            foreach (CreatureModel creature in NezzachCreature)
             {
-
-            }
-
-            else if (hodState == SefiraState.NOT_ENOUGH_AGENT)
-            {
-
+                creature.sefiraEmpty = true;
             }
         }
 
-        if (PlayerModel.instance.IsOpenedArea("Yessod"))
+        else if (sepiraName == "Yessod")
         {
-            if (yessodState == SefiraState.NORMAL)
+            foreach (CreatureModel creature in YessodCreature)
             {
-
-            }
-
-            else if (yessodState == SefiraState.NOT_ENOUGH_AGENT)
-            {
-
+                creature.sefiraEmpty = true;
             }
         }
-    }*/
 
-    public void YessodSkillActive(bool onOff)
+        else if (sepiraName == "Hod")
+        {
+            foreach (CreatureModel creature in HodCreature)
+            {
+                creature.sefiraEmpty = true;
+            }
+        }
+    }
+
+    public void creatureStateNormal(string sepiraName)
     {
+        if (sepiraName == "Malkuth")
+        {
+            foreach (CreatureModel creature in MalkuthCreature)
+            {
+                creature.sefiraEmpty = false;
+            }
+        }
 
+        else if (sepiraName == "Nezzach")
+        {
+            foreach (CreatureModel creature in NezzachCreature)
+            {
+                creature.sefiraEmpty = false;
+            }
+        }
+
+        else if (sepiraName == "Yessod")
+        {
+            foreach (CreatureModel creature in YessodCreature)
+            {
+                creature.sefiraEmpty = false;
+            }
+        }
+
+        else if (sepiraName == "Hod")
+        {
+            foreach (CreatureModel creature in HodCreature)
+            {
+                creature.sefiraEmpty = false;
+            }
+        }
     }
 
     private void OnChangeAgentSefira()
@@ -337,40 +347,46 @@ public class CreatureManager : IObserver{
         if (AgentManager.instance.malkuthAgentList.Count == 0)
         {
             malkuthState = SefiraState.NOT_ENOUGH_AGENT;
+            creatureStateWorse("Malkuth");
         }
         else
         {
             malkuthState = SefiraState.NORMAL;
+            creatureStateNormal("Malkuth");
         }
 
         if (AgentManager.instance.nezzachAgentList.Count == 0)
         {
             nezzachState = SefiraState.NOT_ENOUGH_AGENT;
+            creatureStateWorse("Nezzach");
         }
         else
         {
             nezzachState = SefiraState.NORMAL;
+            creatureStateNormal("Nezzach");
         }
 
         if (AgentManager.instance.hodAgentList.Count == 0)
         {
             hodState = SefiraState.NOT_ENOUGH_AGENT;
+            creatureStateWorse("Hod");
         }
         else
         {
             hodState = SefiraState.NORMAL;
+            creatureStateWorse("Hod");
         }
 
         if (AgentManager.instance.yesodAgentList.Count == 0)
         {
             yessodState = SefiraState.NOT_ENOUGH_AGENT;
+            creatureStateWorse("Yessod");
         }
         else
         {
             yessodState = SefiraState.NORMAL;
+            creatureStateWorse("Yessod");
         }
-
-        //ActiveSefiraSkill();
     }
 
     public void OnNotice(string notice, params object[] param)

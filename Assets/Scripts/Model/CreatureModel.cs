@@ -64,6 +64,9 @@ public class CreatureModel : IObserver
     // 세피라 변수 (TODO: 변수명 이상함)
     public string sefiraNum;
 
+    // 세피라에 직원 없을 시 발동됨
+    public bool sefiraEmpty=false;
+
 
     // graph
     private MapNode workspaceNode;
