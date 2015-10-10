@@ -411,11 +411,12 @@ public class AgentModel : IObserver
             work = 1;
         }
 
-
+        /*
         Debug.Log("변경후 체력" + maxHp);
         Debug.Log("변경후 멘탈" + maxMental);
         Debug.Log("변경후 속도" + movement);
         Debug.Log("변경후 작업속도" + work);
+         */
     }
 
     public void UpdateSKill(string skillType)
@@ -684,5 +685,25 @@ public class AgentModel : IObserver
         {
             OnFixedUpdate();
         }
+    }
+
+    public string LifeStyle() {
+        string temp = null;
+        switch (agentLifeValue) { 
+            case 1:
+                temp = "합리주의자";
+                break;
+            case 2:
+                temp = "낙천주의자";
+                break;
+            case 3:
+                temp = "원칙주의자";
+                break;
+            case 4:
+                temp = "평화주의자";
+                break;
+        }
+
+        return temp;
     }
 }

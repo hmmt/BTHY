@@ -91,7 +91,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         creatureDic.Add(model.instanceId, unit);
 
         //Debug.Log(model.metaInfo.name);
-        Debug.Log(""+ (t1 - st) + ", " + (t2 - t1) + ", " + (t3 - t2));
+        //Debug.Log(""+ (t1 - st) + ", " + (t2 - t1) + ", " + (t3 - t2));
     }
 
     public CreatureUnit GetCreature(long id)

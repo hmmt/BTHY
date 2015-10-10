@@ -2,12 +2,13 @@
 using System.Collections;
 using UnityEngine.UI;
 
+
 public class CollectionWindow : MonoBehaviour {
 
     private CreatureModel creature;
     public GameObject backgroundDefault;
     public GameObject backgroundDiary;
-
+    public Text[] low;
     public Text descText;
     public Text observeText;
 
@@ -91,6 +92,8 @@ public class CollectionWindow : MonoBehaviour {
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
         wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
         wnd.UpdateBg("default");
+        
+        
 
         string descTextfull = creature.metaInfo.desc;
         char[] determine = {'*'};
@@ -98,9 +101,9 @@ public class CollectionWindow : MonoBehaviour {
         
         foreach (string str in descary) {
             if (str.Equals(" ") || str.Equals("")) continue;
-            wnd.listScirpt.MakeText(str);
+            wnd.listScirpt.MakeTextWithBg(str);
         }
-        wnd.listScirpt.SortList();
+        wnd.listScirpt.SortBgList();
         currentWindow = wnd;
     }
 

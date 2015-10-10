@@ -8,7 +8,7 @@ public class TraitListScript : MonoBehaviour {
     public RectTransform parent;
     public List<RectTransform> child;
     public int count;
-    public float initialSize;
+    public float initialPos;
     public float size;
     private float Ysize;
 
@@ -18,6 +18,14 @@ public class TraitListScript : MonoBehaviour {
         GameObject traitPanel = Instantiate(traitObject);
         GameObject textPanel = traitPanel.transform.GetChild(0).GetChild(0).gameObject;
         textPanel.GetComponent<Text>().text = text;
+
+        if ((child.Count % 2) == 0)
+        {
+            traitPanel.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/AgentInformation/TraitBright"); ;
+        }
+        else {
+            traitPanel.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/AgentInformation/TraitDark");
+        }
 
         textPanel.SetActive(true);
         traitPanel.transform.SetParent(parent, false);
@@ -37,10 +45,9 @@ public class TraitListScript : MonoBehaviour {
 
             RectTransform rt = child[i];
             Text t = child[i].GetComponent<Text>();
-            float next = size;
-            rt.localPosition = new Vector3(0.0f, initialSize - posy, 0.0f);
+            rt.localPosition = new Vector3(0.0f, initialPos - posy, 0.0f);
             Debug.Log("trait pos:" + rt.localPosition);
-            posy += next;
+            posy += size;
         }
     }
 

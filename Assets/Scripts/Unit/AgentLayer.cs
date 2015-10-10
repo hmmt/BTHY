@@ -47,7 +47,7 @@ public class AgentLayer : MonoBehaviour, IObserver {
         unit.GetComponent<SpriteRenderer>().sprite = null;
         unit.model = model;
 
-        unit.SetMaxHP(model.maxHp);
+        //unit.SetMaxHP(model.maxHp);
 
         agentList.Add(unit);
 

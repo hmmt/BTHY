@@ -11,14 +11,10 @@ public class AgentIcons {
 
 public class AgentStatusWindow : MonoBehaviour, IObserver {
 	public Text NameText;
-	public Text HPText;
-	public Text MentalText;
 	public Text LevelText;
-	public Text GenderText;
-	public Text WorkDayText;
-
+    
     public Text TraitText;
-
+    public Text AgentLifeStyle;
     public Transform traitScrollTarget;
 
 	public Image AgentFace;
@@ -110,11 +106,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	public void UpdateCreatureStatus()
 	{
 		NameText.text =  ""+target.name;
-		HPText.text =  ""+target.hp;
-		MentalText.text = ""+target.mental;
 		LevelText.text = ""+target.level;
-		GenderText.text = ""+target.gender;
-		WorkDayText.text = ""+target.workDays;
 
         for (int i = 0; i < icons.statuslist.Length; i++) {
             icons.statuslist[i].sprite = target.StatusSprites[i];
@@ -123,7 +115,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         {
             icons.worklist[i].sprite = target.WorklistSprites[i];
         }
-        ShowTraitList();
+
+        //ShowTraitList();
         ShowTrait();    
 	}
 
@@ -162,7 +155,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         for (int i = 0; i < target.traitList.Count; i++) {
             script.MakeTrait(target.traitList[i].name);
         }
-
+        AgentLifeStyle.text = target.LifeStyle();
         script.SortTrait();
     }
 

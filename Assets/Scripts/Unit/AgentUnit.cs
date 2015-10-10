@@ -1,6 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
+[System.Serializable]
+public class AgentUnitUI {
+    public Slider hp;
+    public RectTransform workIcon;
+    public bool Activated = false;
+
+    public void initUI() {
+        hp.gameObject.SetActive(false);
+        workIcon.gameObject.SetActive(false);
+    }
+
+    public void activateUI(AgentModel model) {
+        hp.gameObject.SetActive(true);
+        workIcon.gameObject.SetActive(true);
+
+        hp.maxValue = model.maxHp;
+        hp.value = model.hp;
+    }
+
+    //0번 : 검은색(붕괴 시 아이콘), 1번 : 멀쩡한 상태 아이콘
+    //1번의 alpha값을 수정하는 것을 통해 효과
+    public void setUIValue(AgentModel model) {
+        if (!Activated) return;
+        Color c = workIcon.GetChild(1).GetComponent<Image>().color;
+        c.a = (float)model.mental / model.maxMental;
+        workIcon.GetChild(1).GetComponent<Image>().color = c;
+
+        hp.value = model.hp;
+    }
+   
+}
 
 public class AgentUnit : MonoBehaviour {
 
@@ -31,6 +64,8 @@ public class AgentUnit : MonoBehaviour {
     public GameObject hairSprite;
 
     public UnityEngine.UI.Text speachText;
+
+    public AgentUnitUI ui;
 
     // layer에서 z값 순서 정하기 위한 값.
     public float zValue;
@@ -90,6 +125,7 @@ public class AgentUnit : MonoBehaviour {
         faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
         hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
 
+        ui.initUI();
         ChangeAgentUniform();
     }
 
@@ -281,17 +317,27 @@ public class AgentUnit : MonoBehaviour {
             showSpeech.showSpeech(speach);
             Debug.Log("패닉대사 " + speach);
         }
+        ui.setUIValue(model);
 	}
 
 	void Update()
 	{
 		UpdateViewPosition();
 		UpdateDirection();
-		SetCurrentHP (model.hp);
-		UpdateMentalView ();
+		///SetCurrentHP (model.hp);
+		//UpdateMentalView ();
 
+
+
+        if (Input.GetKeyDown(KeyCode.G)) {
+            model.mental -= 10;
+           // Debug.Log("최대치" + model.maxMental + "현재" + model.mental + "알파" + mentalImage.color.a);
+        }
+        if (Input.GetKeyDown(KeyCode.H)) {
+            model.hp -= 1;
+        }
 	}
-
+    /*
 	public void SetMaxHP(int maxHP)
 	{
 		GetComponentInChildren<AgentHPBar> ().SetMaxHP (maxHP);
@@ -301,7 +347,7 @@ public class AgentUnit : MonoBehaviour {
 	{
 		GetComponentInChildren<AgentHPBar> ().SetCurrentHP (hp);
 	}
-
+    */
 	public void UpdateMentalView()
 	{
 		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)model.mental / (float)model.maxMental);
@@ -318,7 +364,7 @@ public class AgentUnit : MonoBehaviour {
         Notice.instance.Send("AddPlayerLog", name + " : " + speach);
         Notice.instance.Send("AddSystemLog", name + " : " + speach);
         showSpeech.showSpeech(speach);
-        Debug.Log("관리자한테 " + speach);
+        Debug.Log("관리자에게 " + speach);
 
         // TODO : 최적화 필요
         agentWindow = GameObject.FindGameObjectWithTag("AnimAgentController");

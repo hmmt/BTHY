@@ -40,10 +40,11 @@ public class StageUI : MonoBehaviour, IObserver {
     private UIType currentType;
 
     public string currentSefriaUi = "1";
-    public UnityEngine.UI.Button openSefria;
+    public UnityEngine.UI.Button OpenSefira;
     public GameObject agentSlot;
 
     public RectTransform AddButton;
+    public RectTransform openText;
 
     public int extended = -1;
 
@@ -57,7 +58,8 @@ public class StageUI : MonoBehaviour, IObserver {
 
         agentCost = 1;
         areaCost = 10;
-
+        OpenSefira.gameObject.SetActive(false);
+        openText.gameObject.SetActive(false);
         areaBtnDic = new Dictionary<string, AreaButton>();
         foreach (AreaButton btn in areaButtons)
         {
@@ -460,7 +462,6 @@ public class StageUI : MonoBehaviour, IObserver {
     */
     public void CancelSefiraAgent(AgentModel unit)
     {
-        Debug.Log("delete");
         if (unit.currentSefira.Equals("1"))
         {
             for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
@@ -614,19 +615,32 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public void SetCurrentSefria(string areaName)
     {
+
         currentSefriaUi = areaName;
+
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
+        openText.gameObject.SetActive(false);   
         ShowAgentList();
+        if(areaName.Equals("0")){
+            agentSlot.gameObject.SetActive(false);
+            OpenSefira.gameObject.SetActive(false);
+            
+            return;
+        }
+
 
         if (PlayerModel.instance.IsOpenedArea(currentSefriaUi))
         {
             agentSlot.gameObject.SetActive(true);
-            openSefria.gameObject.SetActive(false);
+            OpenSefira.gameObject.SetActive(false);
+            openText.gameObject.SetActive(false);
         }
          else
         {
-            openSefria.gameObject.SetActive(true);
+            OpenSefira.gameObject.SetActive(true);
             agentSlot.gameObject.SetActive(false);
+            openText.gameObject.SetActive(true);
+            openText.GetChild(0).GetComponent<Text>().text = areaCost + "";
         }
     }
 
@@ -640,7 +654,7 @@ public class StageUI : MonoBehaviour, IObserver {
                 AgentManager.instance.agentCount += 5;
                 StartStageUI.instance.ShowAgentCount();
 
-                openSefria.gameObject.SetActive(false);
+                OpenSefira.gameObject.SetActive(false);
                 agentSlot.gameObject.SetActive(true);
 
                 UpdateSefiraButton(currentSefriaUi);
