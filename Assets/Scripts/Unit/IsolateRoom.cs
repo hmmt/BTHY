@@ -366,6 +366,12 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             roomFogRenderer.color = color;
         }
 
+        else if(_targetUnit.model.sefiraEmpty)
+        {
+            color.a = 0.9f;
+            roomFogRenderer.color = color;
+        }
+
         else
         {
             color.a = (1 - 0.2f * _targetUnit.model.observeProgress)*0.75f;

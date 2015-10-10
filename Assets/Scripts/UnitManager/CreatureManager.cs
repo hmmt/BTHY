@@ -37,10 +37,10 @@ public class CreatureManager : IObserver{
     public List<CreatureModel> HodCreature = new List<CreatureModel>();
     public List<CreatureModel> YessodCreature = new List<CreatureModel>();
 
-    public SefiraState malkuthState = SefiraState.NORMAL;
-    public SefiraState nezzachState = SefiraState.NORMAL;
-    public SefiraState hodState = SefiraState.NORMAL;
-    public SefiraState yessodState = SefiraState.NORMAL;
+    public SefiraState malkuthState = SefiraState.NOT_ENOUGH_AGENT;
+    public SefiraState nezzachState = SefiraState.NOT_ENOUGH_AGENT;
+    public SefiraState hodState = SefiraState.NOT_ENOUGH_AGENT;
+    public SefiraState yessodState = SefiraState.NOT_ENOUGH_AGENT;
 
 	
     private int nextInstId = 1;
@@ -88,6 +88,13 @@ public class CreatureManager : IObserver{
         }
 
     }
+
+    public void Update()
+    {
+        OnChangeAgentSefira();
+    }
+
+
     
     /**
      * 환상체를 리스트에 추가합니다.
@@ -265,47 +272,128 @@ public class CreatureManager : IObserver{
         }
     }
 
+    public void creatureStateWorse(string sepiraName)
+    {
+        if(sepiraName == "Malkuth")
+        {
+            foreach(CreatureModel creature in MalkuthCreature)
+            {
+                creature.sefiraEmpty = true;
+            }
+        }
+
+        else if(sepiraName == "Nezzach")
+        {
+            foreach (CreatureModel creature in NezzachCreature)
+            {
+                creature.sefiraEmpty = true;
+            }
+        }
+
+        else if (sepiraName == "Yessod")
+        {
+            foreach (CreatureModel creature in YessodCreature)
+            {
+                creature.sefiraEmpty = true;
+            }
+        }
+
+        else if (sepiraName == "Hod")
+        {
+            foreach (CreatureModel creature in HodCreature)
+            {
+                creature.sefiraEmpty = true;
+            }
+        }
+    }
+
+    public void creatureStateNormal(string sepiraName)
+    {
+        if (sepiraName == "Malkuth")
+        {
+            foreach (CreatureModel creature in MalkuthCreature)
+            {
+                creature.sefiraEmpty = false;
+            }
+        }
+
+        else if (sepiraName == "Nezzach")
+        {
+            foreach (CreatureModel creature in NezzachCreature)
+            {
+                creature.sefiraEmpty = false;
+            }
+        }
+
+        else if (sepiraName == "Yessod")
+        {
+            foreach (CreatureModel creature in YessodCreature)
+            {
+                creature.sefiraEmpty = false;
+            }
+        }
+
+        else if (sepiraName == "Hod")
+        {
+            foreach (CreatureModel creature in HodCreature)
+            {
+                creature.sefiraEmpty = false;
+            }
+        }
+    }
+
     private void OnChangeAgentSefira()
     {
         if (AgentManager.instance.malkuthAgentList.Count == 0)
         {
             malkuthState = SefiraState.NOT_ENOUGH_AGENT;
+            creatureStateWorse("Malkuth");
         }
         else
         {
             malkuthState = SefiraState.NORMAL;
+            creatureStateNormal("Malkuth");
         }
 
-        if (AgentManager.instance.nezzachAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("2"))
+        if (AgentManager.instance.nezzachAgentList.Count == 0)
         {
             nezzachState = SefiraState.NOT_ENOUGH_AGENT;
+            creatureStateWorse("Nezzach");
         }
         else
         {
             nezzachState = SefiraState.NORMAL;
+            creatureStateNormal("Nezzach");
         }
 
-        if (AgentManager.instance.hodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("3"))
+        if (AgentManager.instance.hodAgentList.Count == 0)
         {
             hodState = SefiraState.NOT_ENOUGH_AGENT;
+            creatureStateWorse("Hod");
         }
         else
         {
             hodState = SefiraState.NORMAL;
+            creatureStateNormal("Hod");
         }
 
-        if (AgentManager.instance.yesodAgentList.Count == 0 && PlayerModel.instance.IsOpenedArea("4"))
+        if (AgentManager.instance.yesodAgentList.Count == 0)
         {
             yessodState = SefiraState.NOT_ENOUGH_AGENT;
+            creatureStateWorse("Yessod");
         }
         else
         {
             yessodState = SefiraState.NORMAL;
+            creatureStateNormal("Yessod");
         }
     }
 
     public void OnNotice(string notice, params object[] param)
     {
-
+        if (notice == NoticeName.ChangeAgentSefira_Late)
+        {
+            OnChangeAgentSefira();
+        }
     }
 }

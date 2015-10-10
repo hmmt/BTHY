@@ -69,6 +69,7 @@ public class AgentUnit : MonoBehaviour {
 
     // layer에서 z값 순서 정하기 위한 값.
     public float zValue;
+  
 
     //직원 대사
     string speach = "";
@@ -345,12 +346,30 @@ public class AgentUnit : MonoBehaviour {
 
 	public void SetCurrentHP(int hp)
 	{
-		GetComponentInChildren<AgentHPBar> ().SetCurrentHP (hp);
+        if (PlayerModel.instance.IsOpenedArea("Yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            GetComponentInChildren<AgentHPBar>().gameObject.SetActive(true);
+            GetComponentInChildren<AgentHPBar>().SetCurrentHP(hp);
+        }
+
+        else if (!GetComponentInChildren<AgentHPBar>().gameObject.activeInHierarchy)
+        {
+                GetComponentInChildren<AgentHPBar>().gameObject.SetActive(false);
+        }
 	}
     */
 	public void UpdateMentalView()
 	{
-		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)model.mental / (float)model.maxMental);
+        if (PlayerModel.instance.IsOpenedArea("Yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            GetComponentInChildren<MentalViewer>().gameObject.SetActive(true);
+            GetComponentInChildren<MentalViewer>().SetMentalRate((float)model.mental / (float)model.maxMental);
+        }
+        else if (!GetComponentInChildren<MentalViewer>().gameObject.activeInHierarchy)
+        {
+                GetComponentInChildren<MentalViewer>().gameObject.SetActive(false);
+           
+        }
 	}
 
 	public void OpenStatusWindow()
