@@ -342,7 +342,7 @@ public class StageUI : MonoBehaviour, IObserver {
         AddButton.anchorMin = new Vector2(0f, 1f - (posy + 0.15f));
         // scroll rect size
         Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
-        scrollRectSize.y = 0.0f;
+        scrollRectSize.y = -posy;
         agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
         
         StartStageUI.instance.ShowAgentCount();

@@ -112,10 +112,10 @@ public class AgentSlotScript : MonoBehaviour {
         {
             
         }*/
-        Debug.Log(smallstate+""+bigstate+""+promotionState);
+       // Debug.Log(smallstate+""+bigstate+""+promotionState);
 
         
-        Debug.Log(small.activeInHierarchy + " " + extend.activeInHierarchy + " " + promote.activeInHierarchy);
+        //Debug.Log(small.activeInHierarchy + " " + extend.activeInHierarchy + " " + promote.activeInHierarchy);
         StageUI.instance.ShowAgentList();
        
     }

@@ -110,6 +110,15 @@ public class InfoSlotScript : MonoBehaviour {
         {
             temp.gameObject.SetActive(true);
         }
+        TextListScript listScript = transform.GetComponent<TextListScript>();
+
+        listScript.DeleteAll();
+
+        foreach (TraitTypeInfo t in script.model.traitList) {
+            string desc = t.name + " ";
+            listScript.MakeTextWithBg(desc);
+        }
+        listScript.SortBgList();
     }
 
     public void SetSprite(ValueInfo level, AgentModel model) {

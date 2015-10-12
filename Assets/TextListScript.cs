@@ -54,7 +54,6 @@ public class TextListScript : MonoBehaviour{
         float posy = 0.0f;
 
         initialPos = List.rect.height / 2;
-        Debug.Log("InitialPos: " + initialPos);
         for (int i = 0; i < child.Count; i++)
         {
             RectTransform rt = child[i];

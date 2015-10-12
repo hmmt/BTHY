@@ -35,6 +35,53 @@ public class AgentList : MonoBehaviour {
     }
     */
 
+    public void ShowAgentListD() {
+        AgentModel[] agents = AgentManager.instance.GetAgentList();
+        foreach (Transform child in agentScrollTarget.transform) {
+            Destroy(child.gameObject);
+        }
+
+        GameObject[] list = new GameObject[agents.Length];
+        int i = 0;
+
+        foreach (AgentModel unit in agents) {
+            GameObject slot = Prefab.LoadPrefab("Slot/ListPanel");
+            slot.SetActive(true);
+            slot.transform.SetParent(agentScrollTarget, false);
+            list[i] = slot;
+
+            AgentSlotPanelList slotPanel = slot.GetComponent<AgentSlotPanelList>();
+            slotPanel.panelImage.sprite = ResourceCache.instance.GetSprite("Sprites/UI/SystemUI/AgentListPanel");
+            slotPanel.agentName.text = unit.name;
+            slotPanel.agentHP.text = HealthCheck(unit);
+            slotPanel.agentMental.text = MentalCheck(unit);
+            slotPanel.agentLevel.text = "직원 등급" + unit.level;
+            slotPanel.agentSefria.text = SefiraCheck(unit);
+
+            AgentModel copied = unit;
+            slotPanel.agentInfoButton.onClick.AddListener(() => AgentStatusOpen(copied));
+            slotPanel.agentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
+            slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
+            slotPanel.agentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
+        }
+        float posy = 0.0f;
+        foreach (GameObject child in list) {
+            float size;
+            RectTransform rt = child.GetComponent<RectTransform>();
+            size = 0.15f;
+            Vector2 max = new Vector2(0.96f, 1f- posy);
+            Vector2 min = new Vector2(0.0f, 1f - posy - size);
+            rt.anchorMin = min;
+            rt.anchorMax = max;
+            rt.offsetMax = Vector2.zero;
+            rt.offsetMin = Vector2.zero;
+            posy += size;
+        }
+        Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
+        scrollRectSize.y = -posy;
+        agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
+    }
+
     // Use this for initialization
     public void ShowAgentList()
     {
@@ -46,6 +93,7 @@ public class AgentList : MonoBehaviour {
         }
 
         float posy = 0;
+
         foreach (AgentModel unit in agents)
         {
 
@@ -98,7 +146,7 @@ public class AgentList : MonoBehaviour {
         else
         {
             slideAnim.SetBool("Slide", true);
-            ShowAgentList();
+            //ShowAgentListD();
         }
 
     }

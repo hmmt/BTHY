@@ -17,7 +17,7 @@ public class AgentUnitUI {
     public void activateUI(AgentModel model) {
         hp.gameObject.SetActive(true);
         workIcon.gameObject.SetActive(true);
-
+        this.Activated = true;
         hp.maxValue = model.maxHp;
         hp.value = model.hp;
     }
@@ -28,8 +28,8 @@ public class AgentUnitUI {
         if (!Activated) return;
         Color c = workIcon.GetChild(1).GetComponent<Image>().color;
         c.a = (float)model.mental / model.maxMental;
+        Debug.Log("alpha: " +c.a);
         workIcon.GetChild(1).GetComponent<Image>().color = c;
-
         hp.value = model.hp;
     }
    
@@ -69,7 +69,8 @@ public class AgentUnit : MonoBehaviour {
 
     // layer에서 z값 순서 정하기 위한 값.
     public float zValue;
-  
+
+    private bool uiOpened = false;
 
     //직원 대사
     string speach = "";
@@ -125,8 +126,16 @@ public class AgentUnit : MonoBehaviour {
 
         faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
         hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
-
+        
         ui.initUI();
+        if (PlayerModel.instance.IsOpenedArea("yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            uiOpened = true;
+        }
+
+        if (uiOpened) {
+            ui.activateUI(model);
+        }
         ChangeAgentUniform();
     }
 
@@ -327,9 +336,23 @@ public class AgentUnit : MonoBehaviour {
 		UpdateDirection();
 		///SetCurrentHP (model.hp);
 		//UpdateMentalView ();
+        if (PlayerModel.instance.IsOpenedArea("4") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            uiOpened = true;
+        }
+        else uiOpened = false;
 
+        if (uiOpened)
+        {
+            ui.activateUI(model);
+        }
+        else {
+            ui.initUI();
+        }
 
-
+        if (Input.GetKey(KeyCode.T)){
+            Debug.Log("check"+PlayerModel.instance.IsOpenedArea("4") + " " +CreatureManager.instance.yessodState);
+        }
         if (Input.GetKeyDown(KeyCode.G)) {
             model.mental -= 10;
            // Debug.Log("최대치" + model.maxMental + "현재" + model.mental + "알파" + mentalImage.color.a);
