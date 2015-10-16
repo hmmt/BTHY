@@ -28,7 +28,7 @@ public class AgentUnitUI {
         if (!Activated) return;
         Color c = workIcon.GetChild(1).GetComponent<Image>().color;
         c.a = (float)model.mental / model.maxMental;
-        Debug.Log("alpha: " +c.a);
+
         workIcon.GetChild(1).GetComponent<Image>().color = c;
         hp.value = model.hp;
     }
@@ -54,7 +54,7 @@ public class AgentUnit : MonoBehaviour {
     public bool agentMove=false;
     public bool agentDead = false;
 
-    public TextMesh agentName;
+    public Text agentName;
 
     private string oldSefira;
 
@@ -234,11 +234,8 @@ public class AgentUnit : MonoBehaviour {
 
     public void ChangeAgentUniform()
     {
-        Debug.Log("직원 복장 변경");
-
         agentAnimator.SetBool("Change", true);
 
-        Debug.Log(agentAnimator.GetBool("Change"));
 
         if (model.currentSefira == "1")
         {

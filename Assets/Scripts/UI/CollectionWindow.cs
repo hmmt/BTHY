@@ -91,7 +91,7 @@ public class CollectionWindow : MonoBehaviour {
         wnd.nickname.text = wnd.name.text;
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
         wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
-        wnd.UpdateBg("default");
+       // wnd.UpdateBg("default");
         
         
 

@@ -325,7 +325,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
         
         if (collection.GetComponent<Animator>().GetBool("isTrue"))
         {
-            Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
+            //Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
             collection.GetComponent<Animator>().SetBool("isTrue", false);
         }
         else if (oldCreature == _targetUnit.model)

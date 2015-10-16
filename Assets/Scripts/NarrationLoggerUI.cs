@@ -13,7 +13,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
     public static NarrationLoggerUI instantNarrationLog;
 
     public GameObject logBoard;
-    public TextListScript script;
+    public LogListScript script;
     private int logSize = 0;
 	
 	//private int boxHeight = 200;
@@ -105,7 +105,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	
 	public void OnNotice(string notice, params object[] param)
 	{
-        script = gameObject.GetComponent<TextListScript>();
+        script = gameObject.GetComponent<LogListScript>();
         if ("AddNarrationLog" == notice && targetCreature == (CreatureModel)param[1])
 		{
 
@@ -119,16 +119,18 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
     public void setLogList(CreatureModel focusCreature)
     {
         newInputCreature = focusCreature;
-
+        script = gameObject.GetComponent<LogListScript>();
         if (oldInputCreature != newInputCreature)
         {
-            logClear();
+            //logClear();
+            script.DeleteAll();
             foreach(string narrationLog in newInputCreature.narrationList)
             {
-                AddText(""+narrationLog);
+                script.MakeTextWithBg(""+narrationLog);
             }
             oldInputCreature = newInputCreature;
         }
+        script.SortBgList();
     }
 
     public void logClear()

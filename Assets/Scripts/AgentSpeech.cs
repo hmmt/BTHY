@@ -1,36 +1,61 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class AgentSpeech : MonoBehaviour {
+    public RectTransform rt;
+    private Text speechText;
+    private TextAnchor standard;
+    private string copy;
+    private int size;
 
-    public TextMesh textDialogue;
+    public void Start() {
+        speechText = rt.GetChild(0).GetComponent<Text>();
+        size = speechText.fontSize;
+        standard = speechText.alignment;
+    }
+
+    public void FixedUpdate() {
+        if (rt.gameObject.activeSelf ) {
+            if (Camera.main.orthographicSize < 8)
+            {
+                speechText.alignment = standard;
+                speechText.fontSize = size;
+                SetSpeech(copy);
+            }
+            else
+            {
+                speechText.alignment = TextAnchor.MiddleCenter;
+                speechText.fontSize = size * 2;
+                SetSpeech(". . .");
+            }
+        }
+    }
+
+    private void SetSpeech(string text) {
+        speechText.text = text;
+        float h = speechText.preferredHeight;
+        rt.sizeDelta = new Vector2(rt.sizeDelta.x, h + 10f);
+    }
 
     public void showSpeech(string speech)
     {
-        if (!textDialogue.gameObject.activeSelf)
-        {
+        copy = speech;
+        if (!rt.gameObject.activeSelf) {
+            SetSpeech(speech);
 
-            textDialogue.text = speech;
-
-            textDialogue.gameObject.SetActive(true);
-
-            TimerCallback.Create(5.0f, gameObject, delegate()
+            rt.gameObject.SetActive(true);
+            TimerCallback.Create(5.0f, rt.gameObject, delegate()
             {
-                textDialogue.gameObject.SetActive(false);
+                rt.gameObject.SetActive(false);
             });
-        }
 
+        }
     }
 
     public void turnOnDoingSkillIcon(bool turnOn)
     {
-        textDialogue.gameObject.SetActive(turnOn);
+        rt.gameObject.SetActive(turnOn);
     }
 }
 
-/*
- * 
- *         string speech;
-        agent.speechTable.TryGetValue("work_start", out speech);
-        agent.showSpeech.showSpeech(speech);
- * */

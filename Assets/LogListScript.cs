@@ -8,9 +8,10 @@ public class LogListScript : MonoBehaviour, IObserver {
     public RectTransform List;
     public List<RectTransform> child;
 
+    public bool narration = false;
     public float initialPos;
     public float initialX;
-
+    public float spacing;
 
     void OnEnable()
     {
@@ -25,13 +26,17 @@ public class LogListScript : MonoBehaviour, IObserver {
     public void OnNotice(string notice, params object[] param)
     {
 
-        if ("AddSystemLog" == notice)
+        if ("AddSystemLog" == notice && !narration)
         {
             MakeTextWithBg(" " + (string)param[0]);
             initialX = List.rect.width / 2;
         }
 
         SortBgList();
+    }
+
+    public void pEnter() {
+        Debug.Log(List.rect.height);
     }
     
     public void MakeTextWithBg(string text)
@@ -55,7 +60,7 @@ public class LogListScript : MonoBehaviour, IObserver {
         addText.SetActive(true);//might not be needed
         addText.transform.SetParent(List, false);
         float h = addText.transform.GetChild(0).GetComponent<Text>().preferredHeight;
-        rt.sizeDelta = new Vector2(List.rect.width, h);
+        rt.sizeDelta = new Vector2(List.rect.width, h + spacing);
 
         AddComponents(rt);
         child.Add(rt);
@@ -69,19 +74,26 @@ public class LogListScript : MonoBehaviour, IObserver {
     public void SortBgList()
     {
         float posy = 0.0f;
-
-        initialPos = List.rect.height / 2;
-        Debug.Log("InitialPos: " + initialPos);
+        float posx;
+        posx = List.rect.width / 2;
+       // initialPos = List.rect.height / 2;
+        //Debug.Log("InitialPos: " + initialPos);
         for (int i = 0; i < child.Count; i++)
         {
             RectTransform rt = child[i];
             
-            float locY = - (rt.rect.height/2 + posy);
-            //rt.localPosition = Vector3.zero;
-            rt.localPosition = new Vector3(initialX, locY, 0.0f);
-            posy += rt.rect.height;
+            //float locY = - (rt.rect.height/2 + posy);  
+            float size = rt.rect.height;
+           
+            rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y);
+            rt.localPosition = new Vector3(posx, posy, 0.0f);
+            posy -= (size);
            
         }
+        Vector2 rectSize = List.sizeDelta;
+        rectSize.y = -posy;
+        List.sizeDelta = rectSize;
+        
     }
 
     public void DeleteAll()

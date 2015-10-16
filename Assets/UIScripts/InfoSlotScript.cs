@@ -35,6 +35,10 @@ public class ValueInfo {
         this.stats[2] = workspeed;
         this.stats[3] = movement;
     }
+
+    public static ValueInfo getAverage() {
+        return new ValueInfo(5, 100, 5, 5);
+    }
 }
 
 public class InfoSlotScript : MonoBehaviour {
@@ -66,7 +70,7 @@ public class InfoSlotScript : MonoBehaviour {
         {
             temp.gameObject.SetActive(true);
         }
-        SelectedAgent();
+        
 	}
     
     public void OnPointerEnter(GameObject target) {
@@ -82,12 +86,10 @@ public class InfoSlotScript : MonoBehaviour {
         
     }
 
-    public void SelectedAgent() {
-
-        AgentSlotScript script = selected.GetComponent<AgentSlotScript>();
+    public void SelectedAgent(AgentSlotScript script)
+    {
         //CharacterSlot.GetComponent<InfoCharacterScript>().setSlot(script);
-        ValueInfo level = calcLevel(script.model);
-        SetSprite(level, script.model);
+        SetSprite(script.model);
         if (parent.transform.childCount > 0) {
             int i = parent.transform.childCount;
             for (int j = 0; j < i; j++) {
@@ -121,44 +123,14 @@ public class InfoSlotScript : MonoBehaviour {
         listScript.SortBgList();
     }
 
-    public void SetSprite(ValueInfo level, AgentModel model) {
-        string loc = "UIResource/Icons/";
+    public void SetSprite(AgentModel model) {
         for(int i = 0; i< InfoImageList.Length; i++){
-            string fullpath = loc + i + level.stats[i];
-            
-            InfoImageList[i].GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(fullpath);
-            model.StatusSprites[i] = InfoImageList[i].GetComponent<Image>().sprite;
+            InfoImageList[i].GetComponent<Image>().sprite = model.StatusSprites[i];
         }
         for (int i = 0; i < WorkImageList.Length; i++) { 
-            string fullpath = loc + "Work_" + i;
-            WorkImageList[i].GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(fullpath);
-            model.WorklistSprites[i] = WorkImageList[i].GetComponent<Image>().sprite;
+            WorkImageList[i].GetComponent<Image>().sprite = model.WorklistSprites[i];
         }
     }
 
-    private ValueInfo calcLevel(AgentModel model) {
-        int a, b, c, d;
-        ValueInfo level;
-
-        a = calc(model.hp, average.hp);
-        b = calc(model.mental, average.mental);
-        c = calc(model.work, average.workSpeed);
-        d = calc(model.movement, average.movementSpeed);
-
-        level = new ValueInfo(a, b, c, d);
-        return level;
-    }
-
-    private int calc(int value, int standard)
-    {
-        if (value < standard)
-        {
-            return 0;
-        }
-        else if (value >= standard && value < 2 * standard)
-        {
-            return 1;
-        }
-        else return 2;
-    }
+    
 }

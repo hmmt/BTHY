@@ -14,7 +14,7 @@ public class TraitListScript : MonoBehaviour {
 
     public void MakeTrait(string text)
     {
-        Debug.Log(traitObject.transform.GetChild(0) + " " + traitObject.transform.GetChild(0).GetChild(0));
+        //Debug.Log(traitObject.transform.GetChild(0) + " " + traitObject.transform.GetChild(0).GetChild(0));
         GameObject traitPanel = Instantiate(traitObject);
         GameObject textPanel = traitPanel.transform.GetChild(0).GetChild(0).gameObject;
         textPanel.GetComponent<Text>().text = text;
@@ -46,7 +46,7 @@ public class TraitListScript : MonoBehaviour {
             RectTransform rt = child[i];
             Text t = child[i].GetComponent<Text>();
             rt.localPosition = new Vector3(0.0f, initialPos - posy, 0.0f);
-            Debug.Log("trait pos:" + rt.localPosition);
+            //Debug.Log("trait pos:" + rt.localPosition);
             posy += size;
         }
     }

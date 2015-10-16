@@ -121,6 +121,8 @@ public class AgentModel : IObserver
     private bool visible = true;
     private float oldZ;
 
+    private ValueInfo levelSetting;
+
     ////
 
     private float waitTimer = 0;
@@ -706,5 +708,44 @@ public class AgentModel : IObserver
         }
 
         return temp;
+    }
+
+    public void calcLevel() {
+        int healthPoint, mentalPoint, workPoint, speedPoint;
+        ValueInfo average = ValueInfo.getAverage();
+        healthPoint = calc(hp, average.hp);
+        mentalPoint = calc(mental, average.mental);
+        workPoint = calc(work, average.workSpeed);
+        speedPoint = calc(movement, average.movementSpeed);
+
+        levelSetting = new ValueInfo(healthPoint, mentalPoint, workPoint, speedPoint);
+        setSprite();
+    }
+
+    public int calc(int value, int standard)
+    {
+        if (value < standard)
+        {
+            return 0;
+        }
+        else if (value >= standard && value < 2 * standard)
+        {
+            return 1;
+        }
+        else return 2;
+    }
+
+    public void setSprite() {
+        string loc = "UIResource/Icons/";
+        
+        for (int i = 0; i < StatusSprites.Length; i++) {
+            string fullpath = loc + i + levelSetting.stats[i];
+            StatusSprites[i] = ResourceCache.instance.GetSprite(fullpath);
+        }
+
+        for (int i = 0; i < WorklistSprites.Length; i++) {
+            string fullpath = loc + "Work_" + i;
+            WorklistSprites[i] = ResourceCache.instance.GetSprite(fullpath);
+        }
     }
 }
