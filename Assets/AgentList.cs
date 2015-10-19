@@ -85,6 +85,7 @@ public class AgentList : MonoBehaviour {
             slotPanel.skill[1].sprite = copied.WorklistSprites[1];
             slotPanel.skill[2].sprite = copied.WorklistSprites[2];
             slotPanel.InitSefia();
+            slotPanel.model = copied;
             i++;
             
         }

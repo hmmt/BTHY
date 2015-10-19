@@ -8,11 +8,16 @@ public class AgentSpeech : MonoBehaviour {
     private TextAnchor standard;
     private string copy;
     private int size;
+    private Vector2 init_size;
+    private Vector2 mini_size;
 
     public void Start() {
+        //rt = transform.GetComponent<RectTransform>();
         speechText = rt.GetChild(0).GetComponent<Text>();
         size = speechText.fontSize;
         standard = speechText.alignment;
+        init_size = rt.sizeDelta;
+        mini_size = new Vector2(rt.sizeDelta.x / 2, rt.sizeDelta.y);
     }
 
     public void FixedUpdate() {
@@ -22,12 +27,14 @@ public class AgentSpeech : MonoBehaviour {
                 speechText.alignment = standard;
                 speechText.fontSize = size;
                 SetSpeech(copy);
+                rt.sizeDelta = init_size;
             }
             else
             {
                 speechText.alignment = TextAnchor.MiddleCenter;
-                speechText.fontSize = size * 2;
+                speechText.fontSize = size * 3;
                 SetSpeech(". . .");
+                rt.sizeDelta = mini_size;
             }
         }
     }

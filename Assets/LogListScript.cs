@@ -6,12 +6,20 @@ using UnityEngine.UI;
 public class LogListScript : MonoBehaviour, IObserver {
     public GameObject LogText;
     public RectTransform List;
+    public RectTransform criteria;
     public List<RectTransform> child;
 
     public bool narration = false;
     public float initialPos;
     public float initialX;
     public float spacing;
+    public float initialY;
+    private float scrollInitial;
+
+    public void Start() {
+        initialY = criteria.rect.height;
+        scrollInitial = List.localPosition.y;
+    }
 
     void OnEnable()
     {
@@ -64,6 +72,8 @@ public class LogListScript : MonoBehaviour, IObserver {
 
         AddComponents(rt);
         child.Add(rt);
+
+        
     }
 
     public void AddComponents(RectTransform add)
@@ -91,9 +101,17 @@ public class LogListScript : MonoBehaviour, IObserver {
            
         }
         Vector2 rectSize = List.sizeDelta;
-        rectSize.y = -posy;
+        rectSize.y = -posy - initialY;
+        //Debug.Log("posy"+ posy);
         List.sizeDelta = rectSize;
+
+        float move = List.rect.height;
+        if (move > initialY) {
+            float heightformove = move - initialY;
+            List.localPosition = new Vector3(List.localPosition.x, scrollInitial+ heightformove, 0.0f);
         
+        }
+
     }
 
     public void DeleteAll()

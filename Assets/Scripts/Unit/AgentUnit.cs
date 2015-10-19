@@ -311,16 +311,16 @@ public class AgentUnit : MonoBehaviour {
             {
                 speach = AgentLyrics.instance.getStoryLyrics();
             }
-            Notice.instance.Send("AddPlayerLog", name + " : " + speach);
-            Notice.instance.Send("AddSystemLog", name + " : " + speach);
+            Notice.instance.Send("AddPlayerLog", model.name + " : " + speach);
+            Notice.instance.Send("AddSystemLog", model.name + " : " + speach);
             showSpeech.showSpeech(speach);
         }
 
         if (model.mental <= 0 && !speachText.IsActive())
         {
             speach = AgentLyrics.instance.getPanicLyrics();
-            Notice.instance.Send("AddPlayerLog", name + " : " + speach);
-            Notice.instance.Send("AddSystemLog", name + " : " + speach);
+            Notice.instance.Send("AddPlayerLog", model.name + " : " + speach);
+            Notice.instance.Send("AddSystemLog", model.name + " : " + speach);
             showSpeech.showSpeech(speach);
             Debug.Log("패닉대사 " + speach);
         }
@@ -400,10 +400,11 @@ public class AgentUnit : MonoBehaviour {
         CollectionWindow.currentWindow.CloseWindow();
 
         speach = AgentLyrics.instance.getOnClickLyrics();
-        Notice.instance.Send("AddPlayerLog", name + " : " + speach);
-        Notice.instance.Send("AddSystemLog", name + " : " + speach);
+        Notice.instance.Send("AddPlayerLog", model.name + " : " + speach);
+        Notice.instance.Send("AddSystemLog", model.name + " : " + speach);
         showSpeech.showSpeech(speach);
         Debug.Log("관리자에게 " + speach);
+        
 
         // TODO : 최적화 필요
         agentWindow = GameObject.FindGameObjectWithTag("AnimAgentController");

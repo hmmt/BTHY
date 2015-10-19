@@ -14,6 +14,7 @@ public class TextListScript : MonoBehaviour{
     private float Ysize;
     public float initialPos;
     public float spacing;
+    public int fontSize;
 
     public void MakeTextWithBg(string text) {
         GameObject addText = Instantiate(makeObject);
@@ -27,7 +28,16 @@ public class TextListScript : MonoBehaviour{
         {
             addText.transform.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
         }
-                
+
+        if (fontSize == 0)
+        {
+            fontSize = addText.transform.GetChild(0).GetComponent<Text>().fontSize;
+        }
+        else {
+            addText.transform.GetChild(0).GetComponent<Text>().fontSize = fontSize ;
+        }
+
+
         addText.transform.GetChild(0).GetComponent<Text>().text = text;
         
         addText.SetActive(true);//might not be needed

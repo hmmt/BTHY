@@ -286,22 +286,22 @@ public class StageUI : MonoBehaviour, IObserver {
         int cnt = 0;
         foreach (GameObject child in total)
         {
-            child.GetComponent<AgentSlotScript>().index = cnt;
-            if (cnt % 2 == 0)
-            {
-                child.GetComponent<AgentSlotScript>().PanelImage.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Semi");
-            }
-            else
-            {
-                child.GetComponent<AgentSlotScript>().PanelImage.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
-            }
+            
         
             RectTransform tr = child.GetComponent<RectTransform>();
             AgentSlotScript script = child.GetComponent<AgentSlotScript>();
+
+            script.index = cnt;
+            if (cnt % 2 == 0)
+            {
+                script.PanelImage.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Semi");
+            }
+            else
+            {
+                script.PanelImage.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
+            }
+
             float size;
-
-            
-
            
             if (extended == cnt)
             {

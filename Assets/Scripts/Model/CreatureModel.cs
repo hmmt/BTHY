@@ -315,7 +315,7 @@ public class CreatureModel : IObserver
 
     public void DangerFeeling()
     {
-        Debug.Log("세피라에 직원 없다ㅏㅏ" + instanceId);
+        Debug.Log("세피라에 직원 없다" + instanceId);
     }
 
     public void StopEscapeAttack()
@@ -454,13 +454,11 @@ public class CreatureModel : IObserver
             Debug.Log("관찰 컨디션 2단계로 갱신");
             observeCondition = 2;
         }
-
         else if (workCount <10 && workCount >= 7 && genEnergyCount <100 &&genEnergyCount >= 40 && observeCondition == 2)
         {
             Debug.Log("관찰 컨디션 3단계로 갱신");
             observeCondition = 3;
         }
-
         else if (workCount >= 10 && genEnergyCount >= 100 && observeCondition == 3)
         {
             Debug.Log("관찰 컨디션 4단계로 갱신");
@@ -468,7 +466,7 @@ public class CreatureModel : IObserver
         }
         else
         {
-            Debug.Log("환상체 관찰조건 쪽 코드가 이상함");
+            //Debug.Log("Not sufficient");
         }
 
         if (observeCondition >= observeProgress + 1)

@@ -62,6 +62,60 @@ public class AgentListPanelScript : MonoBehaviour {
         script.extended = index;        
         script.ShowAgentListD();
     }
-    
+
+    public void SetSefira(string sefira) {
+        AgentList script = GameObject.FindWithTag("SefiraAgentListPanel").GetComponent<AgentList>();
+        string current = model.currentSefira;
+
+        if (sefira.Equals(current))
+        {
+            Debug.Log("같은 부서");
+        }
+        else {
+            if (sefira == "1")
+            {
+                if (AgentManager.instance.malkuthAgentList.Count < 5)
+                {
+                    model.SetCurrentSefira(sefira);
+                }
+                else
+                    Debug.Log("말쿠트 초과");
+            }
+
+            else if (sefira == "2")
+            {
+                if (AgentManager.instance.nezzachAgentList.Count < 5)
+                {
+                    model.SetCurrentSefira(sefira);
+                }
+                else
+                    Debug.Log("네짜흐 초과");
+            }
+
+            else if (sefira == "3")
+            {
+                if (AgentManager.instance.hodAgentList.Count < 5)
+                {
+                    model.SetCurrentSefira(sefira);
+                }
+                else
+                    Debug.Log("호드 초과");
+            }
+
+            else if (sefira == "4")
+            {
+                if (AgentManager.instance.yesodAgentList.Count < 5)
+                {
+                    model.SetCurrentSefira(sefira);
+                }
+                else
+                    Debug.Log("예소드 초과");
+            }
+            
+        }
+
+        script.extended = -1;
+        script.ShowAgentListD();
+    }
 
 }

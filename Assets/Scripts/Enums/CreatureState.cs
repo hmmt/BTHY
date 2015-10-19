@@ -18,4 +18,3 @@ public enum CreatureState
 	WORKING,
     OBSERVE
 }
-

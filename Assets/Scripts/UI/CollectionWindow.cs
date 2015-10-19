@@ -24,8 +24,11 @@ public class CollectionWindow : MonoBehaviour {
     public Text DangerRank;//same with dangerLevel
 	public Image profImage;
     public RectTransform descList;
-    public GameObject description;
+    public RectTransform observeList;
+
     public TextListScript listScirpt;
+    public TextListScript observeScript;
+    public RectTransform observeButton;
     
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
@@ -62,7 +65,7 @@ public class CollectionWindow : MonoBehaviour {
     {
         GameObject wndObject;
         CollectionWindow wnd;
-        
+       
         if (currentWindow != null)
         {
             wndObject = currentWindow.gameObject;
@@ -75,6 +78,7 @@ public class CollectionWindow : MonoBehaviour {
         wnd = wndObject.GetComponent<CollectionWindow>();
 
         wnd.listScirpt = wnd.descList.GetComponent<TextListScript>();
+        wnd.observeScript = wnd.observeList.GetComponent<TextListScript>();
         wnd.listScirpt.DeleteAll();
 
         wnd.creature = creature;
@@ -92,7 +96,7 @@ public class CollectionWindow : MonoBehaviour {
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
         wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
        // wnd.UpdateBg("default");
-        
+        //wnd.observeButton.gameObject.SetActive(false);
         
 
         string descTextfull = creature.metaInfo.desc;
@@ -105,8 +109,16 @@ public class CollectionWindow : MonoBehaviour {
         }
         wnd.listScirpt.SortBgList();
         currentWindow = wnd;
+        
+        wnd.SetObserveText();
     }
 
+    public void SetObserveText() {
+        string output = currentWindow.creature.GetObserveText();
+        currentWindow.observeScript.DeleteAll();
+        currentWindow.observeScript.MakeTextWithBg(output);
+        currentWindow.observeScript.SortBgList();
+    }
 
     public CreatureModel GetCreature()
     {
@@ -119,5 +131,23 @@ public class CollectionWindow : MonoBehaviour {
         GameObject.FindGameObjectWithTag("AnimCollectionController")
             .GetComponent<Animator>().SetBool("isTrue", true);
         //Destroy(gameObject);
+    }
+
+    public void setObserveButton(bool mode) {
+        currentWindow.observeButton.gameObject.SetActive(mode);
+    }
+
+    public void FixedUpdate() {
+        bool state;
+        if (currentWindow.creature.state == CreatureState.WAIT)
+        {
+            state = true;
+        }
+        else {
+            state = false;
+        }
+
+
+        currentWindow.observeButton.gameObject.SetActive((creature.NoticeDoObserve() && state));
     }
 }
