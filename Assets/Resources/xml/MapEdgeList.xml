@@ -6,145 +6,173 @@
 	- door
 -->
 <edge_list>
+  
 	<edge node1="sefira-malkuth-1" node2="sefira-malkuth-2" type="road" />
-	<edge node1="sefira-malkuth-2" node2="sefira-malkuth-3" type="road" />
-	<edge node1="sefira-malkuth-3" node2="sefira-malkuth-4" type="road" />
-	<edge node1="sefira-malkuth-4" node2="sefira-malkuth-5" type="road" />
-	<edge node1="sefira-malkuth-5" node2="sefira-malkuth-6" type="road" />
-	<edge node1="sefira-malkuth-6" node2="sefira-malkuth-7" type="road" />
-	<edge node1="sefira-malkuth-7" node2="sefira-malkuth-8" type="road" />
-	<edge node1="sefira-malkuth-8" node2="sefira-malkuth-9" type="road" />
+  <edge node1="sefira-malkuth-2" node2="sefira-malkuth-3" type="road" />
+  <edge node1="sefira-malkuth-3" node2="sefira-malkuth-4" type="road" />
+  <edge node1="sefira-malkuth-4" node2="sefira-malkuth-5" type="road" />
+  <edge node1="sefira-malkuth-5" node2="sefira-malkuth-6" type="road" />
+  <edge node1="sefira-malkuth-6" node2="sefira-malkuth-7" type="road" />
+  <edge node1="sefira-malkuth-7" node2="sefira-malkuth-8" type="road" />
+  <edge node1="sefira-malkuth-8" node2="sefira-malkuth-9" type="road" />
+  
+  <edge node1="center-way1" node2="center-way2" type="road" />
+  
+  <edge node1="malkuth-0-1" node2="malkuth-0-2" type="road" />  
+  <edge node1="malkuth-0-2" node2="malkuth-0-3" type="road" />
+  <edge node1="malkuth-0-3" node2="malkuth-0-4" type="road" />
+  <edge node1="malkuth-0-4" node2="malkuth-0-5" type="road" />
+  <edge node1="malkuth-0-5" node2="malkuth-0-6" type="road" />
+
+  <edge node1="malkuth-1-1" node2="malkuth-1-2" type="road" />
+  <edge node1="malkuth-1-2" node2="malkuth-1-3" type="road" />
+  <edge node1="malkuth-1-3" node2="malkuth-1-4" type="road" />
+  <edge node1="malkuth-1-4" node2="malkuth-1-5" type="road" />
+  <edge node1="malkuth-1-5" node2="malkuth-1-6" type="road" />
+
+  <edge node1="right-upper-way1" node2="right-upper-way2" type="road" />
+  <edge node1="right-upper-way2" node2="right-upper-way3" type="road" />
+  <edge node1="right-upper-way3" node2="right-upper-way4" type="road" />
+
+  <edge node1="left-upper-way1" node2="left-upper-way2" type="road" />
+  <edge node1="left-upper-way2" node2="left-upper-way3" type="road" />
+  <edge node1="left-upper-way3" node2="left-upper-way4" type="road" />
+  
+  
+  <edge node1="right-way4" node2="right-way5" type="road" />
+  <edge node1="right-down-way1" node2="right-down-way2" type="road" />
+  <edge node1="right-down-way2" node2="right-down-way3" type="road" />
+  <edge node1="malkuth-2-1" node2="malkuth-2-2" type="road" />
+  <edge node1="malkuth-2-2" node2="malkuth-2-3" type="road" />
+
+  <edge node1="left-way4" node2="left-way5" type="road" />
+  <edge node1="left-down-way1" node2="left-down-way2" type="road" />
+  <edge node1="left-down-way2" node2="left-down-way3" type="road" />
+  <edge node1="malkuth-3-1" node2="malkuth-3-2" type="road" />
+  <edge node1="malkuth-3-2" node2="malkuth-3-3" type="road" />
+  
+
+  <edge node1="sefira-malkuth-5" node2="center-way1" type="door"/>
+  <edge node1="sefira-malkuth-9" node2="malkuth-0-1" type="door"/>
+  <edge node1="sefira-malkuth-9" node2="right-upper-way1" type="door"/>
+  <edge node1="sefira-malkuth-1" node2="malkuth-1-1" type="door"/>
+  <edge node1="sefira-malkuth-1" node2="left-upper-way1" type="door"/>
+  <edge node1="center-way2" node2="right-down-way1" type="door"/>
+  <edge node1="center-way2" node2="left-down-way1" type="door"/>
+  <edge node1="right-down-way3" node2="malkuth-2-1" type="door"/>
+  <edge node1="left-down-way3" node2="malkuth-3-1" type="door"/>
+  <edge node1="malkuth-2-3" node2="right-way5" type="door"/>
+  <edge node1="malkuth-3-3" node2="left-way5" type="door"/>
+
+  <edge node1="malkuth-0-6" node2="right-way1" type="door"/>
+  <edge node1="right-way1" node2="right-way2" type="road"/>
+  <edge node1="right-way2" node2="right-way3" type="road"/>
+  <edge node1="right-way3" node2="right-way4" type="door"/>
+
+  <edge node1="malkuth-1-6" node2="left-way1" type="door"/>
+  <edge node1="left-way1" node2="left-way2" type="road"/>
+  <edge node1="left-way2" node2="left-way3" type="road"/>
+  <edge node1="left-way3" node2="left-way4" type="door"/>
+
+  <!-- malkuth - netzach -->
+  <edge node1="left-way5" node2="N-top-up-way1" type="door" />
+
+  <!-- netzach -->
+  <edge node1="sefira-netzach-1" node2="sefira-netzach-2" type="road" />
+  <edge node1="sefira-netzach-2" node2="sefira-netzach-3" type="road" />
+  <edge node1="sefira-netzach-3" node2="sefira-netzach-4" type="road" />
+  <edge node1="sefira-netzach-4" node2="sefira-netzach-5" type="road" />
+  <edge node1="sefira-netzach-5" node2="sefira-netzach-6" type="road" />
+  <edge node1="sefira-netzach-6" node2="sefira-netzach-7" type="road" />
+  <edge node1="sefira-netzach-7" node2="sefira-netzach-8" type="road" />
+  <edge node1="sefira-netzach-8" node2="sefira-netzach-9" type="road" />
+
+  <edge node1="sefira-netzach-5" node2="N-top-down-way1" type="door" />
+
+  <edge node1="N-top-up-way1" node2="N-top-up-way2" type="road" />
+  <edge node1="N-top-up-way2" node2="N-top-up-way3" type="road" />
+
+  <edge node1="N-top-up-way1" node2="N-top-down-way1" type="door" />
+
+  <edge node1="N-top-down-way1" node2="N-top-down-way2" type="road" />
+  <edge node1="N-top-down-way2" node2="N-top-down-way3" type="road" />
 
 
-	<edge node1="sefira-malkuth-1" node2="S-left-way1" type="door" />
-	
-	<edge node1="S-left-way1" node2="S-left-way2" type="road" />
-	<edge node1="S-left-way2" node2="S-left-way3" type="road" />
-	<edge node1="S-left-way3" node2="S-left-way4" type="road" />
-	<edge node1="S-left-way4" node2="S-left-way5" type="road" />
-	<edge node1="S-left-way5" node2="S-left-way6" type="road" />
-	<edge node1="S-left-way6" node2="S-left-way7" type="road" />
+  <edge node1="sefira-netzach-5" node2="N-bottom-way1" type="door" />
 
-	<edge node1="sefira-malkuth-9" node2="S-right-way1" type="door" />
+  <edge node1="N-bottom-way1" node2="N-bottom-way2" type="road" />
 
-	<edge node1="S-right-way1" node2="S-right-way2" type="road" />
-	<edge node1="S-right-way2" node2="S-right-way3" type="road" />
-	<edge node1="S-right-way3" node2="S-right-way4" type="road" />
-	<edge node1="S-right-way4" node2="S-right-way5" type="road" />
-	<edge node1="S-right-way5" node2="S-right-way6" type="road" />
-	<edge node1="S-right-way6" node2="S-right-way7" type="road" />
+  <edge node1="N-bottom-way2" node2="N-bottom-way2-left1" type="door" />
+  <edge node1="N-bottom-way2-left1" node2="N-bottom-way2-left2" type="road" />
 
-	<edge node1="sefira-malkuth-5" node2="S-bottom-way1" type="door" />
-
-	<edge node1="S-bottom-way1" node2="S-bottom-way2" type="road" />
-	<edge node1="S-bottom-way2" node2="S-bottom-way3" type="road" />
-
-	<edge node1="S-bottom-way2" node2="S-bottom-way2-left1" type="door" />
-	<edge node1="S-bottom-way2-left1" node2="S-bottom-way2-left2" type="road" />
-
-	<edge node1="S-bottom-way2" node2="S-bottom-way2-right1" type="door" />
-	<edge node1="S-bottom-way2-right1" node2="S-bottom-way2-right2" type="road" />
-
-<!-- malkuth - netzach -->
-	<edge node1="S-left-way7" node2="N-top-up-way1" type="door" />
-
-<!-- netzach -->
-	<edge node1="sefira-netzach-1" node2="sefira-netzach-2" type="road" />
-	<edge node1="sefira-netzach-2" node2="sefira-netzach-3" type="road" />
-	<edge node1="sefira-netzach-3" node2="sefira-netzach-4" type="road" />
-	<edge node1="sefira-netzach-4" node2="sefira-netzach-5" type="road" />
-	<edge node1="sefira-netzach-5" node2="sefira-netzach-6" type="road" />
-	<edge node1="sefira-netzach-6" node2="sefira-netzach-7" type="road" />
-	<edge node1="sefira-netzach-7" node2="sefira-netzach-8" type="road" />
-	<edge node1="sefira-netzach-8" node2="sefira-netzach-9" type="road" />
-
-	<edge node1="sefira-netzach-5" node2="N-top-down-way1" type="door" />
-
-	<edge node1="N-top-up-way1" node2="N-top-up-way2" type="road" />
-	<edge node1="N-top-up-way2" node2="N-top-up-way3" type="road" />
-
-	<edge node1="N-top-up-way1" node2="N-top-down-way1" type="door" />
-
-	<edge node1="N-top-down-way1" node2="N-top-down-way2" type="road" />
-	<edge node1="N-top-down-way2" node2="N-top-down-way3" type="road" />
+  <edge node1="N-bottom-way2" node2="N-bottom-way2-right1" type="door" />
+  <edge node1="N-bottom-way2-right1" node2="N-bottom-way2-right2" type="road" />
 
 
-	<edge node1="sefira-netzach-5" node2="N-bottom-way1" type="door" />
+  <!-- malkuth - hod -->
+  <edge node1="right-way5" node2="H-top-up-way1" type="door" />
 
-	<edge node1="N-bottom-way1" node2="N-bottom-way2" type="road" />
+  <!-- hod -->
+  <edge node1="sefira-hod-1" node2="sefira-hod-2" type="road" />
+  <edge node1="sefira-hod-2" node2="sefira-hod-3" type="road" />
+  <edge node1="sefira-hod-3" node2="sefira-hod-4" type="road" />
+  <edge node1="sefira-hod-4" node2="sefira-hod-5" type="road" />
+  <edge node1="sefira-hod-5" node2="sefira-hod-6" type="road" />
+  <edge node1="sefira-hod-6" node2="sefira-hod-7" type="road" />
+  <edge node1="sefira-hod-7" node2="sefira-hod-8" type="road" />
+  <edge node1="sefira-hod-8" node2="sefira-hod-9" type="road" />
 
-	<edge node1="N-bottom-way2" node2="N-bottom-way2-left1" type="door" />
-	<edge node1="N-bottom-way2-left1" node2="N-bottom-way2-left2" type="road" />
+  <edge node1="sefira-hod-5" node2="H-top-down-way1" type="door" />
 
-	<edge node1="N-bottom-way2" node2="N-bottom-way2-right1" type="door" />
-	<edge node1="N-bottom-way2-right1" node2="N-bottom-way2-right2" type="road" />
+  <edge node1="H-top-up-way1" node2="H-top-up-way2" type="road" />
+  <edge node1="H-top-up-way2" node2="H-top-up-way3" type="road" />
 
+  <edge node1="H-top-up-way1" node2="H-top-down-way1" type="door" />
 
-<!-- malkuth - hod -->
-	<edge node1="S-right-way7" node2="H-top-up-way1" type="door" />
-
-<!-- hod -->
-	<edge node1="sefira-hod-1" node2="sefira-hod-2" type="road" />
-	<edge node1="sefira-hod-2" node2="sefira-hod-3" type="road" />
-	<edge node1="sefira-hod-3" node2="sefira-hod-4" type="road" />
-	<edge node1="sefira-hod-4" node2="sefira-hod-5" type="road" />
-	<edge node1="sefira-hod-5" node2="sefira-hod-6" type="road" />
-	<edge node1="sefira-hod-6" node2="sefira-hod-7" type="road" />
-	<edge node1="sefira-hod-7" node2="sefira-hod-8" type="road" />
-	<edge node1="sefira-hod-8" node2="sefira-hod-9" type="road" />
-
-	<edge node1="sefira-hod-5" node2="H-top-down-way1" type="door" />
-
-	<edge node1="H-top-up-way1" node2="H-top-up-way2" type="road" />
-	<edge node1="H-top-up-way2" node2="H-top-up-way3" type="road" />
-
-	<edge node1="H-top-up-way1" node2="H-top-down-way1" type="door" />
-
-	<edge node1="H-top-down-way1" node2="H-top-down-way2" type="road" />
-	<edge node1="H-top-down-way2" node2="H-top-down-way3" type="road" />
+  <edge node1="H-top-down-way1" node2="H-top-down-way2" type="road" />
+  <edge node1="H-top-down-way2" node2="H-top-down-way3" type="road" />
 
 
-	<edge node1="sefira-hod-5" node2="H-bottom-way1" type="door" />
+  <edge node1="sefira-hod-5" node2="H-bottom-way1" type="door" />
 
-	<edge node1="H-bottom-way1" node2="H-bottom-way2" type="road" />
+  <edge node1="H-bottom-way1" node2="H-bottom-way2" type="road" />
 
-	<edge node1="H-bottom-way2" node2="H-bottom-way2-left1" type="door" />
-	<edge node1="H-bottom-way2-left1" node2="H-bottom-way2-left2" type="road" />
+  <edge node1="H-bottom-way2" node2="H-bottom-way2-left1" type="door" />
+  <edge node1="H-bottom-way2-left1" node2="H-bottom-way2-left2" type="road" />
 
-	<edge node1="H-bottom-way2" node2="H-bottom-way2-right1" type="door" />
-	<edge node1="H-bottom-way2-right1" node2="H-bottom-way2-right2" type="road" />
-
-	
-
-<!-- malkuth - tessod -->
-
-	<edge node1="S-bottom-way3" node2="sefira-tessod-5" type="door" />
-<!-- netzach - tessod -->
-	<edge node1="sefira-netzach-9" node2="T-left-way4" type="door" />
-<!-- hod - tessod -->
-	<edge node1="sefira-hod-9" node2="T-right-way4" type="door" />
-<!-- tessod -->
-
-	<edge node1="sefira-tessod-1" node2="sefira-tessod-2" type="road" />
-	<edge node1="sefira-tessod-2" node2="sefira-tessod-3" type="road" />
-	<edge node1="sefira-tessod-3" node2="sefira-tessod-4" type="road" />
-	<edge node1="sefira-tessod-4" node2="sefira-tessod-5" type="road" />
-	<edge node1="sefira-tessod-5" node2="sefira-tessod-6" type="road" />
-	<edge node1="sefira-tessod-6" node2="sefira-tessod-7" type="road" />
-	<edge node1="sefira-tessod-7" node2="sefira-tessod-8" type="road" />
-	<edge node1="sefira-tessod-8" node2="sefira-tessod-9" type="road" />
-
-	<edge node1="sefira-tessod-9" node2="T-right-way1" type="door" />
-
-	<edge node1="T-right-way1" node2="T-right-way2" type="road" />
-	<edge node1="T-right-way2" node2="T-right-way3" type="road" />
-	<edge node1="T-right-way3" node2="T-right-way4" type="road" />
-
-	<edge node1="sefira-tessod-1" node2="T-left-way1" type="door" />
-
-	<edge node1="T-left-way1" node2="T-left-way2" type="road" />
-	<edge node1="T-left-way2" node2="T-left-way3" type="road" />
-	<edge node1="T-left-way3" node2="T-left-way4" type="road" />
+  <edge node1="H-bottom-way2" node2="H-bottom-way2-right1" type="door" />
+  <edge node1="H-bottom-way2-right1" node2="H-bottom-way2-right2" type="road" />
 
 
+
+  <!-- malkuth - tessod -->
+
+  <edge node1="center-way2" node2="sefira-tessod-5" type="door" />
+  <!-- netzach - tessod -->
+  <edge node1="sefira-netzach-9" node2="T-left-way4" type="door" />
+  <!-- hod - tessod -->
+  <edge node1="sefira-hod-9" node2="T-right-way4" type="door" />
+  <!-- tessod -->
+
+  <edge node1="sefira-tessod-1" node2="sefira-tessod-2" type="road" />
+  <edge node1="sefira-tessod-2" node2="sefira-tessod-3" type="road" />
+  <edge node1="sefira-tessod-3" node2="sefira-tessod-4" type="road" />
+  <edge node1="sefira-tessod-4" node2="sefira-tessod-5" type="road" />
+  <edge node1="sefira-tessod-5" node2="sefira-tessod-6" type="road" />
+  <edge node1="sefira-tessod-6" node2="sefira-tessod-7" type="road" />
+  <edge node1="sefira-tessod-7" node2="sefira-tessod-8" type="road" />
+  <edge node1="sefira-tessod-8" node2="sefira-tessod-9" type="road" />
+
+  <edge node1="sefira-tessod-9" node2="T-right-way1" type="door" />
+
+  <edge node1="T-right-way1" node2="T-right-way2" type="road" />
+  <edge node1="T-right-way2" node2="T-right-way3" type="road" />
+  <edge node1="T-right-way3" node2="T-right-way4" type="road" />
+
+  <edge node1="sefira-tessod-1" node2="T-left-way1" type="door" />
+
+  <edge node1="T-left-way1" node2="T-left-way2" type="road" />
+  <edge node1="T-left-way2" node2="T-left-way3" type="road" />
+  <edge node1="T-left-way3" node2="T-left-way4" type="road" />
+  
 </edge_list>

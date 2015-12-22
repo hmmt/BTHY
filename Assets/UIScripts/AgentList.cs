@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class AgentList : MonoBehaviour {
+
+    public bool isOpened = false;
 
     public Transform agentScrollTarget;
     public Transform anchor;
     public Animator slideAnim;
+    public GameObject extend;
 
     private int state1 = 0;
 
@@ -14,7 +18,9 @@ public class AgentList : MonoBehaviour {
 
     public static AgentList currentWindow = null;
     public int extended = -1;
-    
+    private int oldExt;
+    public CollectionListScript otherWindow;
+    private Sprite[] sefiraImage = new Sprite[10];
     /*
     public static AgentList CreateWindow()
     {
@@ -36,10 +42,19 @@ public class AgentList : MonoBehaviour {
     }
     */
 
+    public void Start() {
+        sefiraImage[0] = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Malkuth_Icon");
+        sefiraImage[1] = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Netzzach_Icon");
+        sefiraImage[2] = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Hod_Icon");
+        sefiraImage[3] = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Yessod_Icon");
+        extend.gameObject.SetActive(false);
+    }
+
     public void ShowAgentListD() {
         AgentModel[] agents = AgentManager.instance.GetAgentList();
 
         foreach (Transform child in agentScrollTarget.transform) {
+            if (child.tag == "AgentButtonPanel") continue;
             Destroy(child.gameObject);
         }
 
@@ -48,6 +63,7 @@ public class AgentList : MonoBehaviour {
 
         foreach (AgentModel unit in agents) {
             GameObject slot = Prefab.LoadPrefab("Slot/AgentListPanelObject");
+            Sprite sefiraSprite;
             slot.SetActive(true);
             slot.transform.SetParent(agentScrollTarget, false);
             list[i] = slot;
@@ -65,17 +81,16 @@ public class AgentList : MonoBehaviour {
             slotPanel.Level.text = unit.level + "등급";
 
             slotPanel.setIndex(i);
+            /*
             if (i == extended)
             {
-                slotPanel.Change(true);
                 AgentModel oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
                 AgentStatusWindow.CreateWindow(unit);
                 if (CollectionWindow.currentWindow != null)
                     CollectionWindow.currentWindow.CloseWindow();
             }
             else {
-                slotPanel.Change(false);
-            }
+            }*/
             AgentModel copied = unit;
            // slotPanel.agentInfoButton.onClick.AddListener(() => AgentStatusOpen(copied));
             slotPanel.body.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
@@ -84,31 +99,70 @@ public class AgentList : MonoBehaviour {
             slotPanel.skill[0].sprite = copied.WorklistSprites[0];
             slotPanel.skill[1].sprite = copied.WorklistSprites[1];
             slotPanel.skill[2].sprite = copied.WorklistSprites[2];
-            slotPanel.InitSefia();
+
+            switch (copied.currentSefira) { 
+                case "1":
+                    sefiraSprite = sefiraImage[0];
+                    break;
+                case "2":
+                    sefiraSprite = sefiraImage[1];
+                    break;
+                case "3":
+                    sefiraSprite = sefiraImage[2];
+                    break;
+                case "4":
+                    sefiraSprite = sefiraImage[3];
+                    break;
+                default:
+                    sefiraSprite = sefiraImage[0];
+                    break;                    
+            }
+            slotPanel.Sefira.sprite = sefiraSprite;
             slotPanel.model = copied;
+            if (i == extended) {
+                extend.GetComponent<SefiraButtonScript>().SetScript(slotPanel);
+            }
             i++;
             
         }
+        if (extended == oldExt) {
+            extended = -1;
+        }
 
+        if (extended == -1)
+        {
+            extend.gameObject.SetActive(false);
+        }
+        else {
+            extend.gameObject.SetActive(true);
+            extend.GetComponent<SefiraButtonScript>().InitButton();
+           
+        }
 
         float posy = 0.0f;
         foreach (GameObject child in list) {
             float size;
             RectTransform rt = child.GetComponent<RectTransform>();
-            if (rt.GetComponent<AgentListPanelScript>().state == true)
-            {
-                size = rt.rect.height * 2;
-            }
-            else
-                size = rt.rect.height;
+
+            size = rt.rect.height;
 
             rt.localPosition = new Vector3(0.0f, posy, 0);
             posy -= size;
+
+            if (rt.GetComponent<AgentListPanelScript>().index == extended) {
+                RectTransform extendRect = extend.GetComponent<RectTransform>();
+                float tempsize = extendRect.rect.height;
+                extendRect.localPosition = new Vector3(0.0f, posy, 0.0f);
+                
+                posy -= tempsize;
+            }
         }
 
         Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
         scrollRectSize.y = -posy;
         agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
+
+        oldExt = extended;
     }
     /*
     // Use this for initialization
@@ -169,12 +223,18 @@ public class AgentList : MonoBehaviour {
     {
         if (slideAnim.GetBool("Slide"))
         {
+            isOpened = false;
             slideAnim.SetBool("Slide", false);
         }
 
         else
         {
+            isOpened = true;
             slideAnim.SetBool("Slide", true);
+            if (otherWindow.isOpened) {
+                otherWindow.isOpened = false;
+                otherWindow.slideAnim.SetBool("Slide", false);
+            }
             ShowAgentListD();
         }
 

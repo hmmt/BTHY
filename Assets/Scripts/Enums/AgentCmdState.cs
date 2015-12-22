@@ -18,3 +18,13 @@ public enum AgentCmdState
     DEAD
 }
 
+public enum OfficerCmdState { 
+    IDLE,
+    MEMO,
+    CHAT,
+    DOCUMENT,
+    WORKING,
+    PANIC,
+    RETURN,
+    DEAD
+}

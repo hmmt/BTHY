@@ -20,7 +20,9 @@ public class NoticeName
     public static string UpdateDay = "UpdateDay";
 
     public static string AddAgent = "AddAgent";
+    public static string AddOfficer = "AddOfficer";
     public static string RemoveAgent = "RemoveAgent";
+    public static string RemoveOfficer = "RemoveOfficer";
     public static string InitAgent = "InitAgent";
     public static string ChangeAgentSefira = "ChangeAgentSefira";
     public static string ChangeAgentSefira_Late = "ChangeAgentSefira_Late";

@@ -30,32 +30,11 @@ public class SefiraAgentSlot : MonoBehaviour {
 
     public void CancelSefiraAgent(AgentModel unit, int index)
     {
-        /*
-        if (unit.currentSefira.Equals("1"))
-        {
-            MalkuthAgentList.RemoveAt(index);
-        }
-
-        else if (unit.currentSefira.Equals("2"))
-        {
-            NezzachAgentList.RemoveAt(index);
-        }
-
-        else if (unit.currentSefira.Equals("3"))
-        {
-
-            HodAgentList.RemoveAt(index);
-        }
-
-        else if (unit.currentSefira.Equals("4"))
-        {
-            YesodAgentList.RemoveAt(index);
-        }
-        */
-
+        ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
         AgentManager._instance.deactivateAgent(unit);
         ShowAgentSefira(StageUI.instance.currentSefriaUi);
-        StageUI.instance.ShowAgentList();
+        script.SetChange();
+        
     }
 
     public  void ShowAgentSefira(string sefria)

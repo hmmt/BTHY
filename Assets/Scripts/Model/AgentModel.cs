@@ -86,14 +86,14 @@ public class AgentModel : IObserver
     public string hairImgSrc;
     public string faceImgSrc;
     public string bodyImgSrc;
-
-    public Sprite[] StatusSprites = new Sprite[4];
-    public Sprite[] WorklistSprites = new Sprite[3];
-
+    
     // 이하 save 되지 않는 데이터들
 
     private AgentCmdState state = AgentCmdState.IDLE;
 
+
+    public Sprite[] StatusSprites = new Sprite[4];
+    public Sprite[] WorklistSprites = new Sprite[3];
     /*
      * state; MOVE, WORKING
      * 이동하거나 작업할 때 대상 환상체
@@ -174,7 +174,7 @@ public class AgentModel : IObserver
         return stream.ToArray();
         */
 
-        return output;
+        return output; 
     }
 
     private static bool TryGetValue<T>(Dictionary<string, object> dic, string name, ref T field)
@@ -638,12 +638,27 @@ public class AgentModel : IObserver
         currentSefira = sefira;
         switch (currentSefira)
         {
-            case "0": imgsrc = "Agent/Malkuth/0"; break;
-            case "1": imgsrc = "Agent/Malkuth/0"; break;
-            case "2": imgsrc = "Agent/Nezzach/00"; break;
-            case "3": imgsrc = "Agent/Hodd/00"; break;
-            case "4": imgsrc = "Agent/Yessod/00"; break;
+            case "0":
+                imgsrc = "Agent/Malkuth/0";
+                break;
+            case "1": 
+                imgsrc = "Agent/Malkuth/0"; 
+                break;
+            case "2": 
+                imgsrc = "Agent/Nezzach/00";
+                break;
+            case "3": 
+                imgsrc = "Agent/Hodd/00"; 
+                break;
+            case "4": 
+                imgsrc = "Agent/Yessod/00"; 
+                break;
         }
+        if (currentSefira == "0")
+            bodyImgSrc = "Sprites/Agent/Body/Body_1_S_00";
+        else
+            bodyImgSrc = "Sprites/Agent/Body/Body_" + currentSefira + "_S_00";
+
         waitTimer = 0;
         Notice.instance.Send(NoticeName.ChangeAgentSefira, this, old);
     }
@@ -748,4 +763,100 @@ public class AgentModel : IObserver
             WorklistSprites[i] = ResourceCache.instance.GetSprite(fullpath);
         }
     }
+
+    public static int CompareByName(AgentModel x, AgentModel y) {
+        if (x == null || y == null) {
+            Debug.Log("Errror in comparison by name");
+            return 0;
+        }
+        if (x.name == null)
+        {
+            if (y.name == null) return 0;
+            else return -1;
+        }
+        else {
+            if (y.name == null) return 1;
+            else {
+                return x.name.CompareTo(y.name);
+            }
+        }
+    }
+
+    public static int CompareByID(AgentModel x, AgentModel y)
+    {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by sefira");
+            return 0;
+        }
+
+        
+        return x.instanceId.CompareTo(y.instanceId);
+    }
+
+    public static int CompareBySefira(AgentModel x, AgentModel y) {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by sefira");
+            return 0;
+        }
+        int xInt, yInt;
+
+        xInt = int.Parse(x.currentSefira);
+        yInt = int.Parse(y.currentSefira);
+
+        return xInt.CompareTo(yInt);
+    }
+
+    public static int CompareByLevel(AgentModel x, AgentModel y) {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by level");
+            return 0;
+        }
+        int xInt, yInt;
+
+        xInt = x.level;
+        yInt = y.level;
+
+        return xInt.CompareTo(yInt);
+    }
+
+    public static int CompareByLifestyle(AgentModel x, AgentModel y) {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by LifeStyle");
+            return 0;
+        }
+
+        return x.agentLifeValue.CompareTo(y.agentLifeValue);
+    }
+
+    public Sprite getCurrentSefiraSprite() {
+        Sprite s = null;
+
+        switch (currentSefira) {
+            case "0":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/None_Icon");
+                break;
+            case "1":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Malkuth_Icon");
+                break;
+            case "2":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Netzzach_Icon");
+                break;
+            case "3":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Hod_Icon");
+                break;
+            case "4":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Yessod_Icon");
+                break;
+            default:
+                 s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/None_Icon");
+                break;
+        }
+
+        return s;
+    }
+
 }

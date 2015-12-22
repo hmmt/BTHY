@@ -5,6 +5,7 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
     public Transform agentScrollTarget;
     public Transform anchor;
+    public AgentList listScript;
 
     private int state1 = 0;
 
@@ -38,12 +39,13 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
+        listScript = GameObject.FindWithTag("SefiraAgentListPanel").GetComponent<AgentList>();
         UpdatePosition();
     }
 
     void FixedUpdate()
     {
-        UpdatePosition();
+        //UpdatePosition();
     }
 
     private void UpdatePosition()
@@ -106,6 +108,7 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
             else
                 Debug.Log("예소드 초과");
         }
+        listScript.ShowAgentListD();
     }
 
     public void OnSelectAgent(AgentModel agent)

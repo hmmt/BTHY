@@ -9,24 +9,26 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     Vector3 startPos;
     public GameObject moveImage;
     public float scaleRate;
-    Transform tempParent;
     Transform startParent;
     
 
    // public Transform briefForParent;//parent설정을 위한 오브젝트 
 
     void Start() {
-        
+        if (scaleRate < 0.0f) {
+            scaleRate = 1.0f;
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        
-        startParent = transform.parent.parent.parent;
-        tempParent = GameObject.FindGameObjectWithTag("DummyPanel").transform;
+        startParent = transform.parent.parent.parent.parent;
         itemDragged = (GameObject)Instantiate(moveImage);
-        srcObj = gameObject.GetComponent<AgentSlotPanelStage>().model;
-
+        srcObj = gameObject.transform.parent.GetComponent<AgentSlotScript>().model;
+        Debug.Log(srcObj);
+        itemDragged.transform.GetChild(0).GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(srcObj.bodyImgSrc);
+        itemDragged.transform.GetChild(1).GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(srcObj.hairImgSrc);
+        itemDragged.transform.GetChild(2).GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(srcObj.faceImgSrc);
         itemDragged.transform.localScale *= scaleRate;
         itemDragged.transform.SetParent(startParent);
         startPos = transform.position;
@@ -43,20 +45,6 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         itemDragged.GetComponent<CanvasGroup>().blocksRaycasts = true;
         Destroy(itemDragged);
-
     }
-    /*
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        GameObject infoslot = GameObject.FindWithTag("InfoSlotPanel");
-        infoslot.GetComponent<InfoSlotScript>().SelectedAgent(gameObject);
-    }
-    */
-    /*
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        GameObject infoslot = GameObject.FindWithTag("InfoSlotPanel");
-        infoslot.GetComponent<InfoSlotScript>().SelectedAgent(gameObject);
-    }
-    */
+    
 }

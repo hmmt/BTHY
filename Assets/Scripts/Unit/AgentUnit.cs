@@ -63,7 +63,7 @@ public class AgentUnit : MonoBehaviour {
     public GameObject deadSprite;
     public GameObject hairSprite;
 
-    public UnityEngine.UI.Text speachText;
+    public UnityEngine.UI.Text speechText;
 
     public AgentUnitUI ui;
 
@@ -73,7 +73,7 @@ public class AgentUnit : MonoBehaviour {
     private bool uiOpened = false;
 
     //직원 대사
-    string speach = "";
+    string speech = "";
 
     void LateUpdate()
     {
@@ -300,29 +300,30 @@ public class AgentUnit : MonoBehaviour {
         oldPos = transform.localPosition.x;
 
         int randLyricsTick = Random.Range(0, 3000);
-        if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 && !speachText.IsActive())
+        //&& !speechText.IsActive()제거
+        if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 )
         {
             int randLyricsStory = Random.Range(0, 10);
             if (randLyricsStory < 8)
             {
-                speach = AgentLyrics.instance.getLyricsByDay(PlayerModel.instance.GetDay());
+                speech = AgentLyrics.instance.getLyricsByDay(PlayerModel.instance.GetDay());
             }
             else
             {
-                speach = AgentLyrics.instance.getStoryLyrics();
+                speech = AgentLyrics.instance.getStoryLyrics();
             }
-            Notice.instance.Send("AddPlayerLog", model.name + " : " + speach);
-            Notice.instance.Send("AddSystemLog", model.name + " : " + speach);
-            showSpeech.showSpeech(speach);
+            Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+            Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+            showSpeech.showSpeech(speech);
         }
 
-        if (model.mental <= 0 && !speachText.IsActive())
+        if (model.mental <= 0 && !speechText.IsActive())
         {
-            speach = AgentLyrics.instance.getPanicLyrics();
-            Notice.instance.Send("AddPlayerLog", model.name + " : " + speach);
-            Notice.instance.Send("AddSystemLog", model.name + " : " + speach);
-            showSpeech.showSpeech(speach);
-            Debug.Log("패닉대사 " + speach);
+            speech = AgentLyrics.instance.getPanicLyrics();
+            Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+            Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+            showSpeech.showSpeech(speech);
+            Debug.Log("패닉대사 " + speech);
         }
         ui.setUIValue(model);
 	}
@@ -399,11 +400,11 @@ public class AgentUnit : MonoBehaviour {
         if (CollectionWindow.currentWindow != null)
         CollectionWindow.currentWindow.CloseWindow();
 
-        speach = AgentLyrics.instance.getOnClickLyrics();
-        Notice.instance.Send("AddPlayerLog", model.name + " : " + speach);
-        Notice.instance.Send("AddSystemLog", model.name + " : " + speach);
-        showSpeech.showSpeech(speach);
-        Debug.Log("관리자에게 " + speach);
+        speech = AgentLyrics.instance.getOnClickLyrics();
+        Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+        Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+        showSpeech.showSpeech(speech);
+        Debug.Log("관리자에게 " + speech);
         
 
         // TODO : 최적화 필요

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+
 using UnityEngine.EventSystems;
 
 [System.Serializable]
@@ -14,7 +15,7 @@ public class AreaButton
 public class StageUI : MonoBehaviour, IObserver {
 
     public enum UIType {START_STAGE, END_STAGE};
-
+    
     public int agentCost;
     public int areaCost;
 
@@ -48,14 +49,15 @@ public class StageUI : MonoBehaviour, IObserver {
     public RectTransform openText;
     public RectTransform agentInformation;
     public RectTransform infoSlot;
+
+    public AgentListScript listScript;
+
     private float scrollSizeScale;
     private float initialYPos;
     private float scrollInitialY;
-    private List<GameObject> agent_sefira;
-    private List<GameObject> agent_none;
 
     public int extended = -1;
-
+    private int sortMode = 0;
 
     public bool setState = false;//확장정보창의 존재 유무
 
@@ -96,9 +98,9 @@ public class StageUI : MonoBehaviour, IObserver {
         GameObject sliderPanel = GameObject.FindWithTag("EnergyPanel");
         float MaxValueForEnergy = EnergyModel.instance.GetLeftEnergy();
         sliderPanel.GetComponent<MenuLeftEnergy>().SetSlider(MaxValueForEnergy);
+        currentSefriaUi = "0";
         UpdateSefiraButton("1");
 
-        
         scrollSizeScale = agentScrollTarget.GetComponent<RectTransform>().rect.height;
         
         initialYPos = scrollSizeScale / 2;
@@ -106,7 +108,8 @@ public class StageUI : MonoBehaviour, IObserver {
         
         agentInformation.gameObject.SetActive(false);
         agentSlot.gameObject.SetActive(false);
-        ShowAgentList();
+        listScript.ShowAgentListWithChange();
+        //ShowAgentList();
     }
 
     public void OnUpdateOpenedArea(string name)
@@ -189,27 +192,21 @@ public class StageUI : MonoBehaviour, IObserver {
             StartStageUI.instance.ShowAgentCount();
            
             SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
-            ShowAgentList();
+            listScript.ShowAgentList();
+            //ShowAgentList();
+            /*
             float standard = agentListforScroll.GetComponent<RectTransform>().rect.height;
             float move = agentScrollTarget.GetComponent<RectTransform>().rect.height;
             if (move > standard)
             {
                 float heightformove = move - standard;
-                Debug.Log(heightformove);
                 agentScrollTarget.localPosition = new Vector3(agentScrollTarget.localPosition.x,
                                                              scrollInitialY + heightformove, 0.0f);
             }
-
+            */
         }
         else
             Debug.Log("에너지가 모자라거나 고용가능 직원수가 다찼어");
-    }
-
-    public void ShowListWithoutDelete() {
-        //만약 확장된 패널이 있을 경우
-        
-        
-
     }
 
     private GameObject[] setList(AgentModel[] models) {
@@ -241,11 +238,13 @@ public class StageUI : MonoBehaviour, IObserver {
         }
         return list;
     }
+
     public void CloseInformation() {
         this.setState = false;
         this.extended = -1;
         agentInformation.gameObject.SetActive(false);
-        ShowAgentList();
+        listScript.ShowAgentList();
+        //ShowAgentList();
     }
 
     public void SetExtendedList(bool state, int index) {
@@ -256,7 +255,7 @@ public class StageUI : MonoBehaviour, IObserver {
     public int getExtendedList() {
         return this.extended;
     }
-    
+    /*
     public void ShowAgentList()
     {
         AgentModel[] agents = AgentManager.instance.GetAgentList();
@@ -264,11 +263,11 @@ public class StageUI : MonoBehaviour, IObserver {
         GameObject[] sub1 = new GameObject[agents.Length];
         GameObject[] sub2 = new GameObject[spareAgents.Length];
         GameObject[] total = new GameObject[agents.Length + spareAgents.Length];
+        Debug.Log("Called");
         foreach (Transform child in agentScrollTarget.transform)
         {
             if (child.tag == "AddAgentButton") continue;
             Destroy(child.gameObject);
-            
         }
         
         sub1 = setList(agents);
@@ -281,13 +280,93 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             total[i + agents.Length] = sub2[i];
         }
-       
-        float posy = 0.0f;
+
+
+       // posy = SortAgentList(posy, total, sortMode);
+        float posy = SortAgentList(total, 0, 0);
+        AddButton = GameObject.FindWithTag("AddAgentButton").GetComponent<RectTransform>();
+        AddButton.localPosition = new Vector3(0f,posy, 0f);
+        posy -= AddButton.GetComponent<RectTransform>().rect.height;
+
+        Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
+        scrollRectSize.y = -posy;
+        agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
+
+        StartStageUI.instance.ShowAgentCount();
+    }
+     */
+    /*
+        직원들을 정렬한다
+     * total = 전체 직원들 오브젝트가 들어가있는 리스트
+     * mode = 정렬 모드를 선택 (0 = 기본 정렬모드: 즉, 생성 순서대로 저장됨
+     *                          1 = 이름
+     *                          2 = 등급
+     *                          3 = 부서
+     *                          4 = 가치관)
+     *                          가치관의 순서는 1:합리주의
+     *                                          2:낙천주의
+     *                                          3:원칙주의
+     *                                          4:평화주의
+     * order = 정렬 순서 (오름차순 = 0, 내림차순 = 1) 
+     */
+    /*
+    public float SortAgentList( GameObject[] total, int mode, int order) {
+        float temp = 0.0f;
+        GameObject[] list = new GameObject[total.Length];
         int cnt = 0;
+        float posy = 0.0f;
+        string.Compare("adasf", "adfag");
+        switch (mode) { 
+            case 0:
+                if (order == 0)
+                {
+                    for (int i = 0; i < total.Length; i++)
+                    {
+                        list[i] = total[i];
+                    }
+                }
+                else {
+                    for (int i = 0; i < total.Length; i++)
+                    {
+                        list[i] = total[total.Length - i - 1 ];//역순으로 정렬
+                    }
+                }
+                break;
+            case 1:
+
+                if (order == 0)
+                {
+                    List<GameObject> sortList = new List<GameObject>();
+                    List<AgentModel> modelList = new List<AgentModel>();
+                    foreach (GameObject child in total) {
+                        sortList.Add(child);
+                        AgentModel model = child.GetComponent<AgentSlotScript>().model;
+                        modelList.Add(model);
+                    }
+
+                    modelList.Sort(AgentModel.CompareByName);
+                    foreach (GameObject child in total) { 
+                        
+                    }
+                    
+                    
+                }
+                else { 
+                    
+                }
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+        }
+        
+
         foreach (GameObject child in total)
         {
-            
-        
             RectTransform tr = child.GetComponent<RectTransform>();
             AgentSlotScript script = child.GetComponent<AgentSlotScript>();
 
@@ -302,15 +381,6 @@ public class StageUI : MonoBehaviour, IObserver {
             }
 
             float size;
-           
-            if (extended == cnt)
-            {
-
-            }
-            else { 
-                //초기화 상태로 진입
-            }
-
             tr.localPosition = new Vector3(0.0f, posy, 0);
             script.model.calcLevel();
             if (this.extended == cnt)
@@ -323,37 +393,27 @@ public class StageUI : MonoBehaviour, IObserver {
                 }
                 else
                 {
-                    
+
                     agentInformation.gameObject.SetActive(false);
                 }
                 size = script.GetSize() * 3;
-                agentInformation.localPosition = new Vector3(0.0f, posy - tr.rect.height*2, 0);
+                agentInformation.localPosition = new Vector3(0.0f, posy - tr.rect.height * 2, 0);
             }
             else
                 size = script.GetSize();
 
             posy -= size;
-            
+
             cnt++;
         }
-        
-        AddButton = GameObject.FindWithTag("AddAgentButton").GetComponent<RectTransform>();
-        AddButton.localPosition = new Vector3(0f,posy, 0f);
-        posy -= AddButton.GetComponent<RectTransform>().rect.height;
 
-        Vector2 scrollRectSize = agentScrollTarget.GetComponent<RectTransform>().sizeDelta;
-        scrollRectSize.y = -posy;
-        agentScrollTarget.GetComponent<RectTransform>().sizeDelta = scrollRectSize;
-
-        StartStageUI.instance.ShowAgentCount();
+        temp = posy;
+        return temp;
     }
-
-    public void ShowAgentListLight() { 
-    
-    }
-
+    */
     public void CancelSefiraAgent(AgentModel unit)
     {
+
         if (unit.currentSefira.Equals("1"))
         {
             for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
@@ -401,8 +461,6 @@ public class StageUI : MonoBehaviour, IObserver {
                 }
             }
         }
-        ShowAgentList();
-
         if(unit.activated)
             AgentManager.instance.deactivateAgent(unit);
     }
@@ -410,7 +468,6 @@ public class StageUI : MonoBehaviour, IObserver {
     public void SetAgentSefriaButton(AgentModel unit)
     {      
         bool agentExist = false;
-       // Debug.Log(unit);
         CancelSefiraAgent(unit);
 
         if (currentSefriaUi == "1" )
@@ -502,7 +559,8 @@ public class StageUI : MonoBehaviour, IObserver {
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
         unit.AgentPortrait("body", null);
        // AgentLayer.currentLayer.GetAgent(unit.instanceId).ChangeAgentUniform();
-        ShowAgentList();
+        //ShowAgentList();
+        
    }
 
     public void SetCurrentSefria(string areaName)
@@ -512,7 +570,8 @@ public class StageUI : MonoBehaviour, IObserver {
 
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
         openText.gameObject.SetActive(false);   
-        ShowAgentList();
+        //ShowAgentList();
+        listScript.ShowAgentListWithChange();
         if(areaName.Equals("0")){
             agentSlot.gameObject.SetActive(false);
             OpenSefira.gameObject.SetActive(false);
@@ -550,6 +609,7 @@ public class StageUI : MonoBehaviour, IObserver {
                 agentSlot.gameObject.SetActive(true);
 
                 UpdateSefiraButton(currentSefriaUi);
+                listScript.ShowAgentListWithChange();
             }
             else
                 Debug.Log("에너지가 모자라");
@@ -580,10 +640,6 @@ public class StageUI : MonoBehaviour, IObserver {
         }
     }
     */
-    public void ChangePromotionPanel(AgentModel agent, int i ,UnityEngine.UI.Button button) {
-        
-        PromotionAgent(agent, i, button);
-    }
 
     public void PromotionAgent(AgentModel agent, int level, UnityEngine.UI.Button button)
     {
@@ -627,10 +683,9 @@ public class StageUI : MonoBehaviour, IObserver {
                 agent.applyTrait(RandomLifeValueTrait);
 
                 button.gameObject.SetActive(false);
-                ShowAgentList();
+                //ShowAgentList();
+                listScript.findListSlotScript(agent).SetChange();
             }
-
-
             else
             {
                 Debug.Log("코스트 부족");
@@ -662,7 +717,8 @@ public class StageUI : MonoBehaviour, IObserver {
                 agent.applyTrait(RandomTraitInfo2);
 
                 button.gameObject.SetActive(false);
-                ShowAgentList();
+                //ShowAgentList();
+                listScript.findListSlotScript(agent).SetChange();
             }
 
             else
@@ -677,13 +733,12 @@ public class StageUI : MonoBehaviour, IObserver {
         }
     }
 
-
     // ok btn
     public void Close()
     {
         opened = false;
         //canvas.gameObject.SetActive(false);
-
+        
         if (currentType == UIType.START_STAGE)
         {
             commonStageUi.gameObject.SetActive(false);
@@ -696,6 +751,9 @@ public class StageUI : MonoBehaviour, IObserver {
             //endStageUi.gameObject.SetActive(false);
             GameManager.currentGameManager.ExitStage();
         }
+
+        SefiaOpenedCheck.SetSefira();
+
     }
 
     public void Open(UIType uiType)

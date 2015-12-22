@@ -11,7 +11,6 @@ public class MapNode {
     private string groupName;
 	private List<MapEdge> edges;
 	private Vector2 pos;
-
     public bool isTemporary = false;
 
     public bool activate
@@ -20,14 +19,12 @@ public class MapNode {
         set { _activate = value; }
     }
 
-
     public MapNode(string id, Vector2 pos, string areaName)
     {
         this.id = id;
         this.pos = pos;
         this.areaName = areaName;
         this.groupName = "NoName";
-
         _activate = true;
         edges = new List<MapEdge>();
     }
@@ -42,7 +39,6 @@ public class MapNode {
         _activate = true;
 		edges = new List<MapEdge>();
 	}
-
 
 	public void AddEdge(MapEdge edge)
 	{

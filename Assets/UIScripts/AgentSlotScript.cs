@@ -13,7 +13,7 @@ public class AgentAttributes {
     public Text Level;
     public Button Promotion;
     public Button Add;
-    public Image current;
+    public Image current;//Current Sefira
 }
 
 [System.Serializable]
@@ -47,6 +47,7 @@ public class AgentSlotScript : MonoBehaviour {
     public AgentAttributes attr1;
     public AgentGetAttributes display;
     public Image PanelImage;
+
     public void Start() {
         small.SetActive(true);
         promote.SetActive(false);
@@ -63,8 +64,9 @@ public class AgentSlotScript : MonoBehaviour {
 
     public void setValues() {
         attr1.Name.text = model.name;
-        attr1.HP.text = "HP : " + model.hp + "/" + model.maxHp;
+        
         attr1.Level.text = "" + model.level;
+        attr1.HP.text = model.LifeStyle();
         switch (model.currentSefira)
         {
             case "0":
@@ -147,7 +149,7 @@ public class AgentSlotScript : MonoBehaviour {
     public void OnExtention() {
         StageUI.instance.SetExtendedList(true, index);
         smallstate = false;
-        StageUI.instance.ShowAgentList();
+        //StageUI.instance.ShowAgentList();
     }
 
     public void OnPromoteClick(int skill) {

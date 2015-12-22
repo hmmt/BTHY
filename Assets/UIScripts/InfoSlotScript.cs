@@ -86,10 +86,10 @@ public class InfoSlotScript : MonoBehaviour {
         
     }
 
-    public void SelectedAgent(AgentSlotScript script)
+    public void SelectedAgent(AgentModel model)
     {
         //CharacterSlot.GetComponent<InfoCharacterScript>().setSlot(script);
-        SetSprite(script.model);
+        SetSprite(model);
         if (parent.transform.childCount > 0) {
             int i = parent.transform.childCount;
             for (int j = 0; j < i; j++) {
@@ -97,7 +97,7 @@ public class InfoSlotScript : MonoBehaviour {
             }
         }
 
-        foreach (TraitTypeInfo t in script.model.traitList) {
+        foreach (TraitTypeInfo t in model.traitList) {
             GameObject temp = Instantiate(text);
             temp.GetComponentInChildren<Text>().text = t.name;
             temp.transform.SetParent(parent.transform);
@@ -116,7 +116,7 @@ public class InfoSlotScript : MonoBehaviour {
 
         listScript.DeleteAll();
 
-        foreach (TraitTypeInfo t in script.model.traitList) {
+        foreach (TraitTypeInfo t in model.traitList) {
             string desc = t.name + " ";
             listScript.MakeTextWithBg(desc);
         }

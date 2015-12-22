@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BriefingInfo : MonoBehaviour {
 
@@ -35,14 +36,18 @@ public class BriefingInfo : MonoBehaviour {
         //Briefing.text = tmpBriefing;
         AreaName.text = area;
         SefiraBrief.text = tmpBriefing;
-        if (!cancel && Input.GetMouseButton(1)) {
-            cancel = !cancel;
+        if (!cancel && Input.GetMouseButtonDown(1)) {
+            Debug.Log("클릭");
+            cancel = !cancel;//우클릭 시 초기화 되어야할텐데;
+            
         }
         
 	}
 
-    public void CancelSelected() {
+    public void CancelSelected(BaseEventData eventData) {
         if (!cancel) return;
+        PointerEventData data = eventData as PointerEventData;
+        if (data.button != PointerEventData.InputButton.Right) return;
         setActive(false);
         StageUI.instance.SetCurrentSefria("0");
     }

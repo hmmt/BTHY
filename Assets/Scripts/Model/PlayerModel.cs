@@ -50,6 +50,9 @@ public class PlayerModel {
         {
             openedAreaList.Add(area);
             UpdateArea(area);
+            SefiraManager.instance.getSefira(area).initCreatureArray(
+                ref SefiraManager.instance.getSefira(area).creatureList,
+                ref SefiraManager.instance.getSefira(area).idleList);
         }
     }
 
@@ -97,12 +100,13 @@ public class PlayerModel {
 
         if (added == "1")
         {
-            CreatureManager.instance.AddCreature(RandomCreature(), "S-left-way2", -9.6f, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "S-left-way3", -17.2f, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "S-right-way2", 9.6f, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "S-right-way3", 17.2f, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "S-bottom-way2-left2", -14, -8.5f, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "S-bottom-way2-right2", 14, -8.5f, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "left-upper-way2", -9.6f, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "left-upper-way3", -17.2f, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "right-upper-way2", 9.6f, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "right-upper-way3", 17.2f, -1, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "left-down-way2", -14, -8.5f, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "right-down-way2", 14, -8.5f, added);
+
         }
         else if (added == "2")
         {
@@ -127,7 +131,7 @@ public class PlayerModel {
             CreatureManager.instance.AddCreature(RandomCreature(), "T-right-way2", 9.6f, -26, added); // 마법소녀
             CreatureManager.instance.AddCreature(RandomCreature(), "T-right-way3", 17.2f, -26, added); // 마법소녀
         }
-
+        
         //Notice.instance.Send(NoticeName.AreaOpenUpdate, added);
     }
 

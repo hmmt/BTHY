@@ -67,16 +67,33 @@ public class GameManager : MonoBehaviour
     {
         AgentLayer.currentLayer.Init();
         CreatureLayer.currentLayer.Init();
-
+        OfficerLayer.currentLayer.Init();
         if (PlayerModel.instance.GetDay() == 0)
         {
             PlayerModel.instance.OpenArea("1"); ;
             AgentManager.instance.AddAgentModel();
+            
         }
+
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
 
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
             agent.ReturnToSefira();
+        }
+
+        foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList()) {
+            officer.ReturnToSefira();
         }
 
         StartStage();
@@ -194,6 +211,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> dic = new Dictionary<string, object>();
 
         dic.Add("agents", AgentManager.instance.GetSaveData());
+        dic.Add("officers", OfficeManager.instance.GetSaveData());
         dic.Add("creatures", CreatureManager.instance.GetSaveData());
         dic.Add("playerData", PlayerModel.instance.GetSaveData());
 
@@ -216,13 +234,15 @@ public class GameManager : MonoBehaviour
         file.Close();
 
         Dictionary<string, object> agents = null, creatures = null, playerData = null;
-
+        Dictionary<string, object> officers = null;
         GameUtil.TryGetValue(dic, "agents", ref agents);
+        GameUtil.TryGetValue(dic, "officers", ref officers);
         GameUtil.TryGetValue(dic, "creatures", ref creatures);
         GameUtil.TryGetValue(dic, "playerData", ref playerData);
 
         PlayerModel.instance.LoadData(playerData);
         AgentManager.instance.LoadData(agents);
+        OfficeManager.instance.LoadData(officers);
         CreatureManager.instance.LoadData(creatures);
     }
 }

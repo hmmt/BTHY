@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class CollectionWindow : MonoBehaviour {
 
     private CreatureModel creature;
-    public GameObject backgroundDefault;
-    public GameObject backgroundDiary;
     public Text[] low;
     public Text descText;
     public Text observeText;
@@ -33,19 +31,6 @@ public class CollectionWindow : MonoBehaviour {
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
 
-    public void UpdateBg(string type)
-    {
-        if (type == "diary")
-        {
-            backgroundDefault.SetActive(false);
-            backgroundDiary.SetActive(true);
-        }
-        else
-        {
-            backgroundDefault.SetActive(true);
-            backgroundDiary.SetActive(false);
-        }
-    }
 
     public void onClickObserveButton()
     {
@@ -82,14 +67,15 @@ public class CollectionWindow : MonoBehaviour {
         wnd.listScirpt.DeleteAll();
 
         wnd.creature = creature;
-
+        /*
         wnd.descText.text = creature.metaInfo.desc;
         wnd.observeText.text = creature.GetObserveText();
+        */
 
 		wnd.name.text = creature.metaInfo.name;
 		wnd.code.text = creature.metaInfo.codeId;
 		wnd.attackType.text = creature.metaInfo.attackType;
-		wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
+		//wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
 		wnd.dangerLevel.text = creature.metaInfo.level.ToString();
         wnd.observePercent.text = (float)creature.observeProgress / creature.metaInfo.observeLevel * 100+"%";
         wnd.nickname.text = wnd.name.text;
@@ -149,5 +135,10 @@ public class CollectionWindow : MonoBehaviour {
 
 
         currentWindow.observeButton.gameObject.SetActive((creature.NoticeDoObserve() && state));
+    }
+
+    public void OnClickPortrait() {
+        Vector2 pos = currentWindow.creature.position;
+        Camera.main.transform.position = new Vector3(pos.x, pos.y, -20f);
     }
 }

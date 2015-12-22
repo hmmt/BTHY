@@ -11,10 +11,10 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
         }
     }
 
-    private bool debugOn = false;
+    private bool debugOn = true;
     private bool init = false;
 
-    private float defaultZ = -0.01f;
+    private float defaultZ = -10;
 
     void Awake()
     {
@@ -63,10 +63,14 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
         {
             // 게임 뷰에 위치 표시
             GameObject edgeLine = Prefab.LoadPrefab("EdgeLine");
+            
             edgeLine.transform.SetParent(gameObject.transform, false);
             edgeLine.transform.localPosition = new Vector3(0, 0, 0);
             edgeLine.GetComponent<LineRenderer>().SetPosition(0, new Vector3(e.node1.GetPosition().x, e.node1.GetPosition().y, defaultZ));
             edgeLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(e.node2.GetPosition().x, e.node2.GetPosition().y, defaultZ));
+            if (e.type == "door") {
+                edgeLine.GetComponent<LineRenderer>().SetColors(Color.green, Color.green);
+            }
         }
 
         init = true;

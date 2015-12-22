@@ -12,10 +12,10 @@ public class AgentIcons {
 public class AgentStatusWindow : MonoBehaviour, IObserver {
 	public Text NameText;
 	public Text LevelText;
-    
+    public Text DepartMent;
     public Text TraitText;
     public Text AgentLifeStyle;
-    public Transform traitScrollTarget;
+    //public Transform traitScrollTarget;
 
 	public Image AgentFace;
     public Image AgentHair;
@@ -102,12 +102,35 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	{
 		
 	}
+
+    public string GetSefiraName(string sefira) {
+        string temp = "";
+        switch (sefira) { 
+            case "1":
+                temp = "지휘감시팀";
+                break;
+            case "2":
+                temp = "비상계획팀";
+                break;
+            case "3":
+                temp = "자재관리팀";
+                break;
+            case "4":
+                temp = "솔루션계획팀";
+                break;
+            default:
+                temp = "";
+                break;
+        
+        }
+        return temp;
+    }
 	
 	public void UpdateCreatureStatus()
 	{
+        DepartMent.text = "" + GetSefiraName( target.currentSefira);
 		NameText.text =  ""+target.name;
-		LevelText.text = ""+target.level;
-
+		LevelText.text = ""+target.level + "등급";
         for (int i = 0; i < icons.statuslist.Length; i++) {
             icons.statuslist[i].sprite = target.StatusSprites[i];
         }
@@ -119,7 +142,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         //ShowTraitList();
         ShowTrait();    
 	}
-
+    /*
     public void ShowTraitList()
     {
 
@@ -147,7 +170,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
             posY -= 55f;
         }
     }
-
+    */
     public void ShowTrait() {
         TraitListScript script = transform.GetComponent<TraitListScript>();
         script.DeleteAll();
@@ -176,4 +199,10 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	{
 		Debug.Log ("33");
 	}
+
+    public void OnClickPortrait() {
+        Vector2 pos = currentWindow._target.GetCurrentViewPosition();
+        Camera.main.transform.position = new Vector3( pos.x, pos.y, -20f);        
+    }
+
 }

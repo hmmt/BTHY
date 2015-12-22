@@ -62,6 +62,8 @@ public class CreatureManager : IObserver{
         AddCreatureInSepira(model, sefiraNum);
 
         RegisterCreature(model);
+
+       
     }
 
     // 환상체 세피라에 배속
@@ -70,6 +72,7 @@ public class CreatureManager : IObserver{
         if (sepira == "1")
         {
             MalkuthCreature.Add(creature);
+            
         }
 
         else if (sepira == "2")
@@ -86,7 +89,32 @@ public class CreatureManager : IObserver{
         {
             YessodCreature.Add(creature);
         }
+        //Debug.Log(SefiraManager.instance.getSefira(sepira).creatureList.Count);
+        
+    }
 
+    public List<CreatureModel> GetSelectedList(string sefira) {
+        if (sefira == "1")
+        {
+            return MalkuthCreature;
+        }
+
+        else if (sefira == "2")
+        {
+            return NezzachCreature;
+        }
+
+        else if (sefira == "3")
+        {
+            return HodCreature;
+        }
+
+        else if (sefira == "4")
+        {
+            return YessodCreature;
+        }
+        else
+            return null;
     }
 
     public void Update()
@@ -198,7 +226,7 @@ public class CreatureManager : IObserver{
 	public void Init()
 	{
 		creatureList = new List<CreatureModel> ();
-
+        
         Notice.instance.Observe(NoticeName.ChangeAgentSefira_Late, this);
 	}
 
