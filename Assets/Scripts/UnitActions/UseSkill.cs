@@ -522,7 +522,7 @@ public class UseSkill : ActionClassBase
         agent.Working(creature);
         //creature.ShowNarrationText("start", agent.name);
 
-        inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.work, skillInfo.amount); // 임시
+        inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.workSpeed, skillInfo.amount); // 임시
         
         inst.agent = agent;
         inst.agentView = agentView;

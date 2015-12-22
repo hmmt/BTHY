@@ -39,7 +39,7 @@ public class PanicSuicideExecutor : PanicAction
         else
         {
             targetAgent.TakePhysicalDamage(1);
-            Debug.Log("TrySuicide : Ã¼·Â decrease by 1");
+            Debug.Log("TrySuicide : Ã¼ï¿½ï¿½ decrease by 1");
 
             if (targetAgent.isDead())
             {

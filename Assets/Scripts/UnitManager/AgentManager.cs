@@ -107,9 +107,9 @@ public class AgentManager : IObserver {
         unit.bodySpriteName = setRandomSprite(1);
         unit.panicSpriteName = setRandomSprite(3);
 
-        unit.AgentPortrait("hair",unit.hairSpriteName);
-        unit.AgentPortrait("face", unit.faceSpriteName);
-        unit.AgentPortrait("body", null);
+        unit.GetPortrait("hair",unit.hairSpriteName);
+        unit.GetPortrait("face", unit.faceSpriteName);
+        unit.GetPortrait("body", null);
 
         unit.SetCurrentSefira("0");
         unit.activated = false;

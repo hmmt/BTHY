@@ -79,7 +79,7 @@ public class WorkEscapedCreature : ActionClassBase {
             }
             else if (waitTimer <= 0)
             {
-                agent.MoveToCreture(creature);
+                agent.MoveToCreature(creature);
                 waitTimer = 1f + Random.value;
             }
             waitTimer -= Time.deltaTime;

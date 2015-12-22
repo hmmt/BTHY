@@ -557,7 +557,7 @@ public class StageUI : MonoBehaviour, IObserver {
                 Debug.Log("이미 추가한 직원");
         }
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
-        unit.AgentPortrait("body", null);
+        unit.GetPortrait("body", null);
        // AgentLayer.currentLayer.GetAgent(unit.instanceId).ChangeAgentUniform();
         //ShowAgentList();
         

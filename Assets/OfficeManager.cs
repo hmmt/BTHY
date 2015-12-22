@@ -86,9 +86,9 @@ public class OfficeManager : IObserver {
         unit.bodySpriteName = SetRandomSprite(1);
         unit.panicSpriteName = SetRandomSprite(3);
 
-        unit.OfficerPortrait("hair", unit.hairSpriteName);
-        unit.OfficerPortrait("face", unit.faceSpriteName);
-        unit.OfficerPortrait("body", null);
+        unit.GetPortrait("hair", unit.hairSpriteName);
+        unit.GetPortrait("face", unit.faceSpriteName);
+        unit.GetPortrait("body", null);
 
         unit.activated = false;
         officeList.Add(unit);

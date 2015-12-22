@@ -7,6 +7,7 @@ public class Sefira {
     public string name;
     public int index;
     public string indexString;
+
     public Sprite sefiraSprite;
     public bool activated = false;
     public int departmentNum;
@@ -26,6 +27,12 @@ public class Sefira {
         officerList = new List<OfficerModel>();
         workingList = new List<int>();
         idleList = new List<int>();
+    }
+
+    public void initCreatureArray() {
+        this.creatureList = CreatureManager.instance.GetSelectedList(this.indexString);
+
+
     }
 
     public void initCreatureArray(ref List<CreatureModel> list, ref List<int> idle){
@@ -107,8 +114,8 @@ public class SefiraManager : MonoBehaviour {
         }
     }
 
-    public static int sefiraIndexMax = 4;
-    private static Sefira[] refSefira;
+    public int sefiraIndexMax = 4;
+    private Sefira[] refSefira;
     public List<Sefira> sefiraList;
     
     private SefiraManager() {
@@ -117,7 +124,7 @@ public class SefiraManager : MonoBehaviour {
     }
 
     private void Init() {
-        this.sefiraList = new List<Sefira>();
+        sefiraList = new List<Sefira>();
         refSefira = new Sefira[11];
         refSefira[0] = new Sefira(SefiraName.Malkut, 1, "1");
         refSefira[1] = new Sefira(SefiraName.Yesod, 2, "2");
@@ -151,7 +158,7 @@ public class SefiraManager : MonoBehaviour {
         }
         return null;
     }
-
+     
     public Sefira getSefira(string str) {
         foreach (Sefira s in sefiraList) {
             if (s.indexString.Equals(str) || s.name.Equals(str))

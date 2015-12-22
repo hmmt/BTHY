@@ -87,7 +87,7 @@ public class SefiraAgentSlot : MonoBehaviour {
             int copied = i;
             AgentModel agentModel = model[i];
 
-            agentModel.AgentPortrait("body", null);
+            agentModel.GetPortrait("body", null);
 
             slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(agentModel.bodyImgSrc);
             slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(agentModel.faceImgSrc);

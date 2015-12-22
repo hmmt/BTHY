@@ -58,7 +58,7 @@ public class OfficerLayer : MonoBehaviour, IObserver {
     }
 
     public void RemoveOfficer(OfficerModel model) {
-        OfficerUnit unit = GetOfficer(model.instanceID);
+        OfficerUnit unit = GetOfficer(model.instanceId);
         officerList.Remove(unit);
         Destroy(unit.gameObject);
     }
@@ -73,7 +73,7 @@ public class OfficerLayer : MonoBehaviour, IObserver {
 
     public OfficerUnit GetOfficer(long id) {
         foreach (OfficerUnit officer in officerList) {
-            if (officer.model.instanceID == id) {
+            if (officer.model.instanceId == id) {
                 return officer;
             }
         }
