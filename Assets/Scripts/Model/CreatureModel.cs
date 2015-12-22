@@ -38,7 +38,7 @@ public class CreatureModel : IObserver
     public Vector2 basePosition;
     public Vector2 position;
 
-    public string baseNodeId;
+    public string entryNodeId;
 
     //환상체 도감 완성도
     public int observeProgress = 0;
@@ -55,6 +55,8 @@ public class CreatureModel : IObserver
     public float escapeAttackWait = 0;
 
     public CreatureBase script;
+
+    public MovableObjectNode lookAtTarget;
 
     // 관찰관련 조건 변수 추가
     public float genEnergyCount=0;
@@ -81,7 +83,7 @@ public class CreatureModel : IObserver
         output.Add("instanceId", instanceId);
         
         output.Add("metadataId", metadataId);
-        output.Add("baseNodeId", baseNodeId);
+        output.Add("entryNodeId", entryNodeId);
 
         output.Add("observeProgress", observeProgress);
 
@@ -102,7 +104,7 @@ public class CreatureModel : IObserver
         GameUtil.TryGetValue(dic, "instanceId", ref instanceId);
 
         GameUtil.TryGetValue(dic, "metadataId", ref metadataId);
-        GameUtil.TryGetValue(dic, "baseNodeId", ref baseNodeId);
+        GameUtil.TryGetValue(dic, "entryNodeId", ref entryNodeId);
 
         GameUtil.TryGetValue(dic, "observeProgress", ref observeProgress);
 
@@ -119,18 +121,60 @@ public class CreatureModel : IObserver
         narrationList = new List<string>();
     }
 
+    public CreatureFeelingState GetFeelingState()
+    {
+        CreatureFeelingState feelingState = CreatureFeelingState.BAD;
+        float sectionMax = 0;
+
+        foreach (FeelingSectionInfo info in metaInfo.feelingSectionInfo)
+        {
+            if (sectionMax <= info.section && feeling >= info.section)
+            {
+                sectionMax = info.section;
+                feelingState = info.feelingState;
+            }
+        }
+
+        return feelingState;
+    }
+
+    public FeelingSectionInfo GetCurrentFeelingSectionInfo()
+    {
+        FeelingSectionInfo output = metaInfo.feelingSectionInfo[0];
+        float sectionMax = 0;
+
+        foreach (FeelingSectionInfo info in metaInfo.feelingSectionInfo)
+        {
+            if (sectionMax <= info.section && feeling >= info.section)
+            {
+                sectionMax = info.section;
+                output = info;
+            }
+        }
+
+        return output;
+    }
+
     public float GetEnergyTick()
     {
-        int feelingTick = metaInfo.feelingMax / metaInfo.genEnergy.Length;
-        
-        float energyDummy = metaInfo.genEnergy[Mathf.Clamp((int)(feeling) / feelingTick, 0, metaInfo.genEnergy.Length - 1)];
+        float energyDummy = 0;
+        float sectionMax = 0;
 
-        return energyDummy + energyDummy * 0.6f * ((float)(observeProgress)/ 5);
+        foreach (FeelingSectionInfo info in metaInfo.feelingSectionInfo)
+        {
+            if (sectionMax <= info.section && feeling >= info.section)
+            {
+                energyDummy = info.energyGenValue;
+                sectionMax = info.section;
+            }
+        }
+
+        return energyDummy + energyDummy * 0.6f * ((float)(observeProgress) / 5);
     }
 
     private static int counter = 0;
 
-    public Vector2 GetCurrentViewPosition()
+    public Vector3 GetCurrentViewPosition()
     {
         return movableNode.GetCurrentViewPosition();
     }
@@ -161,6 +205,11 @@ public class CreatureModel : IObserver
     public MapNode GetWorkspaceNode()
     {
         return workspaceNode;
+    }
+
+    public MapNode GetEntryNode()
+    {
+        return MapGraph.instance.GetNodeById(entryNodeId);
     }
 
     public MovableObjectNode GetMovableNode()
@@ -229,13 +278,14 @@ public class CreatureModel : IObserver
         }
         else
         {
+            /*
             AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
 
             if (detectedAgents.Length > 0)
             {
                 movableNode.StopMoving();
                 AttackAgent.Create(detectedAgents[0], this);
-            }
+            }*/
         }
     }
 
@@ -338,13 +388,14 @@ public class CreatureModel : IObserver
         state = CreatureState.ESCAPE_RETURN;
     }
 
-    public bool GetPreferSkillBonus(string type, out float bonus)
+    public bool GetPreferSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
     {
-        foreach (SkillBonusInfo info in metaInfo.preferList)
+        FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
+        foreach (SkillBonusInfo bonusInfo in info.preferList)
         {
-            if (info.skillType == type)
+            if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
             {
-                bonus = info.bonus;
+                bonus = bonusInfo.bonus;
                 return true;
             }
         }
@@ -352,13 +403,14 @@ public class CreatureModel : IObserver
         return false;
     }
 
-    public bool GetRejectSkillBonus(string type, out float bonus)
+    public bool GetRejectSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
     {
-        foreach (SkillBonusInfo info in metaInfo.rejectList)
+        FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
+        foreach (SkillBonusInfo bonusInfo in info.rejectList)
         {
-            if (info.skillType == type)
+            if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
             {
-                bonus = info.bonus;
+                bonus = -bonusInfo.bonus;
                 return true;
             }
         }
@@ -366,16 +418,16 @@ public class CreatureModel : IObserver
         return false;
     }
 
-    public bool IsPreferSkill(string type)
+    public bool IsPreferSkill(SkillTypeInfo skillTypeInfo)
     {
         float bonus;
-        return GetPreferSkillBonus(type, out bonus);
+        return GetPreferSkillBonus(skillTypeInfo, out bonus);
     }
 
-    public bool IsRejectSkill(string type)
+    public bool IsRejectSkill(SkillTypeInfo skillTypeInfo)
     {
         float bonus;
-        return GetRejectSkillBonus(type, out bonus);
+        return GetRejectSkillBonus(skillTypeInfo, out bonus);
     }
 
     public string GetArea()

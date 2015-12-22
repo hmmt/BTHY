@@ -6,17 +6,7 @@
 		level="ALEPH"
 		stackLevel="2"
 
-		attackType="WHITE / RED"
 		intelligence="대화 불가"
-		
-		horrorProb="0.9"
-		horrorDmg="-10"
-		
-		physicsProb="0"
-		physicsDmg="0" 
-		
-		mentalProb="0.4"
-		mentalDmg="0"
 
 		observeLevel="5"
 

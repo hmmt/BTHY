@@ -1,37 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="10002"
-		name="늙은여인"
 		codeId="F-01-035-R"
-		level="TETH"
 		stackLevel="2"
-		attackType="WHITE"
 		intelligence="대화 가능"
-		
-		horrorProb="0"
-		horrorDmg="0"
-		
-		physicsProb="0"
-		physicsDmg="0"
-		
-		mentalProb="0.33"
-		mentalDmg="20"
 
 		observeLevel="5"
-
-
+        
 		script="OldLady"
 		>
-		<feeling max="300" downProb="0.4" downValue="5">
-			<section feelingValue="200" state="good" energy="1.6"/>
-			<section feelingValue="100" state="normal" energy="0.6"/>
-			<section feelingValue="0" state="bad" energy="-0.7"/>
-		</feeling>
-		
-		<preferSkill type="indirect" bonus="0.25"/>
-		<preferSkill type="direct" bonus="0.35"/>
-		<rejectSkill type="block" bonus="-0.34"/>
-
+    
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 
 		<narration action="move">

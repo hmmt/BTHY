@@ -5,12 +5,17 @@ public class PanicSuicideExecutor : PanicAction
 {
 	private AgentModel targetAgent;
 
-	private float cooldown;
-
-	private int endurance; // 버틸 수 있는 양
-
+	private float cooldown = 5;
 
 	private float elapsedTime;
+
+    private int shield;
+
+    public PanicSuicideExecutor(AgentModel target, int shield)
+    {
+        targetAgent = target;
+        this.shield = shield;
+    }
 
 	public void Execute()
 	{
@@ -26,18 +31,20 @@ public class PanicSuicideExecutor : PanicAction
 
 	private void TrySuicide()
 	{
-		//
-		if(Random.value < 0.25)
-		{
-			if(endurance > 0)
-			{
-				endurance--;
-			}
-			else
-			{
-				// suicide;
-				targetAgent.Die();
-			}
-		}
+        if (shield > 0)
+        {
+            shield--;
+            Debug.Log("TrySuicide : stamina decrease by 1");
+        }
+        else
+        {
+            targetAgent.TakePhysicalDamage(1);
+            Debug.Log("TrySuicide : ü�� decrease by 1");
+
+            if (targetAgent.isDead())
+            {
+
+            }
+        }
 	}
 }

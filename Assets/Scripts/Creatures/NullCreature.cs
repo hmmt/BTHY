@@ -46,7 +46,7 @@ public class NullCreature : CreatureBase {
         if (creature.feeling <= 0)
         {
             creature.Escape();
-        }
+        }   
     }
 
     public override SkillTypeInfo GetSpecialSkill()

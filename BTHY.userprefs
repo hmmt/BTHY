@@ -1,6 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\AgentMake\Assets\Puppet2D\Scripts\Puppet2D_GlobalControl.cs">
+    <Files>
+      <File FileName="..\AgentMake\Assets\Puppet2D\Scripts\Puppet2D_IKHandle.cs" Line="1" Column="1" />
+      <File FileName="..\AgentMake\Assets\Puppet2D\Scripts\Puppet2D_GlobalControl.cs" Line="18" Column="1" />
+      <File FileName="Assets\Puppet2D\Scripts\Editor\Puppet2D_Editor.cs" Line="1211" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

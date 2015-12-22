@@ -50,6 +50,18 @@ public class SkillTypeList
 		return null;
 	}
 
+    public SkillTypeInfo GetDataByName(string name)
+    {
+        foreach (SkillTypeInfo info in _list)
+        {
+            if (info.name == name)
+            {
+                return info;
+            }
+        }
+        return null;
+    }
+
 
     public SkillTypeInfo GetNextSkill(SkillTypeInfo typeInfo)
     {

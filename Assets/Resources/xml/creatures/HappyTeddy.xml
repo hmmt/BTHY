@@ -1,35 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="10003"
-		name="행복한 테디"
 		codeId="F-01-035-R"
-		level="HE"
 		stackLevel="3"
-		attackType="RED"
 		intelligence="대화 불가"
-		
-		horrorProb="0.1"
-		horrorDmg="-10"
-		
-		physicsProb="0.28"
-		physicsDmg="1"
-		
-		mentalProb="0"
-		mentalDmg="0"
 
 		script="HappyTeddy"
 
 		observeLevel="5"
 		>
-		<feeling max="200" downProb="0.4" downValue="5">
-			<section feelingValue="50" state="good" energy="2.8"/>
-			<section feelingValue="0" state="bad" energy="-1.6"/>
-		</feeling>
-		
-
-		<rejectSkill type="direct" bonus="-0.1"/>
-		<rejectSkill type="block" bonus="-0.3"/>
-
+    
 		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 
 		<narration action="move">

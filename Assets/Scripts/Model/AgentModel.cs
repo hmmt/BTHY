@@ -98,7 +98,13 @@ public class AgentModel : IObserver
      * state; MOVE, WORKING
      * 이동하거나 작업할 때 대상 환상체
      */
-    public CreatureModel target; 
+    public CreatureModel target;
+
+    /// <summary>
+    /// 특정 행동의 대상 직원
+    /// (SUPPRESS)
+    /// </summary>
+    public AgentModel targetAgent;
 
     // panic action을 실행하는 클래스
     private PanicAction currentPanicAction;
@@ -486,14 +492,15 @@ public class AgentModel : IObserver
     {
         if (currentPanicAction != null)
         {
-            currentPanicAction.Execute();
+            if (state != AgentCmdState.PANIC_SUPPRESS_TARGET)
+                currentPanicAction.Execute();
         }
         else if (state == AgentCmdState.IDLE)
         {
             if (waitTimer <= 0)
             {
 
-                movableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
+                movableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira), Random.value);
 
                 waitTimer = 1.5f + Random.value;
             }
@@ -503,6 +510,18 @@ public class AgentModel : IObserver
             if (movableNode.GetCurrentEdge() == null && movableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
                 MoveToCretureRoom(target);
+            }
+        }
+        else if (state == AgentCmdState.ESCAPE_WORKING)
+        {
+            // WorkEscapedCreature에서 실행
+        }
+        else if (state == AgentCmdState.SUPPRESS_WORKING)
+        {
+            if (!movableNode.CheckInRange(targetAgent.movableNode) && waitTimer <= 0)
+            {
+                movableNode.MoveToMovableNode(targetAgent.movableNode);
+                waitTimer = 1.5f + Random.value;
             }
         }
 
@@ -518,7 +537,7 @@ public class AgentModel : IObserver
     {
         return movableNode;
     }
-    public Vector2 GetCurrentViewPosition()
+    public Vector3 GetCurrentViewPosition()
     {
         return movableNode.GetCurrentViewPosition();
     }
@@ -540,10 +559,6 @@ public class AgentModel : IObserver
         return movableNode.GetEdgeDirection();
     }
 
-    public AgentCmdState GetState()
-    {
-        return state;
-    }
     public void ReturnToSefira()
     {
         SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
@@ -568,28 +583,103 @@ public class AgentModel : IObserver
         return hp <= 0;
     }
 
-    public void Attacked()
+    /**
+     * state 관련 함수들
+     **/
+    public AgentCmdState GetState()
     {
-        state = AgentCmdState.CAPTURE;
+        return state;
+    }
+
+    public void AttackedByCreature()
+    {
+        state = AgentCmdState.CAPTURE_BY_CREATURE;
         movableNode.StopMoving();
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void WorkEscape(CreatureModel target)
     {
         state = AgentCmdState.ESCAPE_WORKING;
         this.target = target;
-        MoveToCreture(target);
+        //MoveToCreture(target);
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void Working(CreatureModel target)
     {
         state = AgentCmdState.WORKING;
         this.target = target;
         MoveToCretureRoom(target);
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    public void ReturnCreature()
+    {
+        state = AgentCmdState.RETURN_CREATURE;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void FinishWorking()
     {
         state = AgentCmdState.IDLE;
         this.target = null;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
+    public void UpdateStateIdle()
+    {
+        state = AgentCmdState.IDLE;
+        this.target = null;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    /// <summary>
+    /// 다른 직원을 공격합니다.
+    /// 현재 살인상태인 경우에만 사용해야 합니다.
+    /// AttackAgentByAgent.cs 에서 사용합니다.
+    /// </summary>
+    public void StartPanicAttackAgent()
+    {
+        state = AgentCmdState.PANIC_VIOLENCE;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    /// <summary>
+    /// 다른 직원을 공격하던 것을 중지합니다.
+    /// AttackAgentByAgent.cs 에서 사용합니다.
+    /// </summary>
+    public void StopPanicAttackAgent()
+    {
+        state = AgentCmdState.IDLE;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    public void StopSuppress()
+    {
+        state = AgentCmdState.IDLE;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+
+    public void OpenIsolateRoom()
+    {
+        state = AgentCmdState.OPEN_ROOM;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    public void StartSuppressAgent(AgentModel targetAgent)
+    {
+        state = AgentCmdState.SUPPRESS_WORKING;
+        this.targetAgent = targetAgent;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    public void PanicSuppressed()
+    {
+        state = AgentCmdState.PANIC_SUPPRESS_TARGET;
+        movableNode.StopMoving();
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    // state 관련 함수들 end
+
     public void TakePhysicalDamage(int damage)
     {
         Debug.Log(name + " takes PHYSICAL dmg " + damage);
@@ -679,6 +769,36 @@ public class AgentModel : IObserver
             Notice.instance.Send("AddSystemLog", narration);
         }
          * */
+        currentPanicAction = new PanicReady(this);
+    }
+    public void PanicReadyComplete()
+    {
+        // currentPanicAction = new PanicSuicideExecutor(this, 5);
+        //currentPanicAction = new PanicViolence(this);
+        //currentPanicAction = new PanicOpenRoom(this);
+        currentPanicAction = new PanicRoaming(this);
+        // 바꿔야 함
+        /*
+        switch (agentLifeValue)
+        {
+            case 1:
+                currentPanicAction = new PanicRoaming(this);
+                break;
+            case 2:
+                currentPanicAction = new PanicSuicideExecutor(this);
+                break;
+            case 3:
+                currentPanicAction = new PanicViolence(this);
+                break;
+            case 4:
+                break;
+        }
+        */
+    }
+
+    public void StopPanic()
+    {
+        currentPanicAction = null;
     }
 
     public void Die()

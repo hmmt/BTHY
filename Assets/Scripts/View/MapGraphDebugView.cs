@@ -56,7 +56,7 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
             GameObject nodePoint = Prefab.LoadPrefab("NodePoint");
 
             nodePoint.transform.SetParent(gameObject.transform, false);
-            nodePoint.transform.localPosition = new Vector3(node.GetPosition().x, node.GetPosition().y, defaultZ);
+            nodePoint.transform.localPosition = new Vector3(node.GetPosition().x, node.GetPosition().y, defaultZ + node.GetPosition().z);
         }
 
         foreach (MapEdge e in edges)
@@ -66,8 +66,8 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
             
             edgeLine.transform.SetParent(gameObject.transform, false);
             edgeLine.transform.localPosition = new Vector3(0, 0, 0);
-            edgeLine.GetComponent<LineRenderer>().SetPosition(0, new Vector3(e.node1.GetPosition().x, e.node1.GetPosition().y, defaultZ));
-            edgeLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(e.node2.GetPosition().x, e.node2.GetPosition().y, defaultZ));
+            edgeLine.GetComponent<LineRenderer>().SetPosition(0, new Vector3(e.node1.GetPosition().x, e.node1.GetPosition().y, defaultZ + e.node1.GetPosition().z));
+            edgeLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(e.node2.GetPosition().x, e.node2.GetPosition().y, defaultZ + e.node2.GetPosition().z));
             if (e.type == "door") {
                 edgeLine.GetComponent<LineRenderer>().SetColors(Color.green, Color.green);
             }

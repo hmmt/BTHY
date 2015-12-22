@@ -3,21 +3,19 @@ using System.Collections;
 
 public class PanicRoaming : PanicAction {
 
-	private AgentUnit targetAgent;
+    private AgentModel targetAgent;
 
-	public PanicRoaming(AgentUnit target)
+    public PanicRoaming(AgentModel target)
 	{
 		targetAgent = target;
 	}
 
 	public void Execute()
 	{
-		/*
-		if(targetAgent.isMoving() == false)
-		{
-			Vector2 roamingPoint = CreatureRoom.instance.GetRandomRoamingPoint();
-			targetAgent.MoveToTilePos((int)roamingPoint.x, (int)roamingPoint.y);
-		}
-		*/
+        if (targetAgent.GetMovableNode().IsMoving() == false)
+        {
+            //MapNode roamingPoint = MapGraph.instance.GetRoamingPoint();
+            //targetAgent.MoveToNode(roamingPoint.GetId());
+        }
 	}
 }

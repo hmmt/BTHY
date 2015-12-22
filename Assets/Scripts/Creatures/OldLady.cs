@@ -7,7 +7,17 @@ public class OldLady : CreatureBase {
 
     public override void OnSkillGoalComplete(UseSkill skill)
     {
-        ActivateSkill(skill);
+        //ActivatSkill(skill);
+    }
+
+    public override void OnSkillTickUpdate(UseSkill skill)
+    {
+        float prob = 0.8f;
+
+        if (Random.Range(0, 100) < prob * 100)
+        {
+            ActivateSkill(skill);
+        }
     }
 
     public void ActivateSkill(UseSkill skill)
@@ -54,9 +64,21 @@ public class OldLady : CreatureBase {
             });
         }
         TimerCallback.Create(7.2f, delegate() {
-            skill.targetCreature.ShowNarrationText("special_ability6", skill.agent.name);
-            //skill.agent.mental -= skillDamage;
-            skill.agent.TakeMentalDamage(skillDamage);
+            model.ShowNarrationText("special_ability6", skill.agent.name);
+            //skill.agent.TakeMentalDamage(skillDamage);
+            CreatureFeelingState feelingState = model.GetFeelingState();
+            if (feelingState == CreatureFeelingState.BAD)
+            {
+                skill.agent.TakeMentalDamage(30);
+            }
+            else if (feelingState == CreatureFeelingState.NORM)
+            {
+                skill.agent.TakeMentalDamage(20);
+            }
+            else if (feelingState == CreatureFeelingState.GOOD)
+            {
+                skill.agent.TakeMentalDamage(10);
+            }
         });
     }
 

@@ -3,6 +3,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+public class PathResult
+{
+    public MapEdge[] pathEdges;
+    public int[] edgeDirections;
+    public float[] zValues;
+
+    public PathResult(MapEdge[] pathEdges, int[] edgeDirections)
+    {
+        this.pathEdges = pathEdges;
+        this.edgeDirections = edgeDirections;
+        zValues = new float[pathEdges.Length];
+        for (int i = 0; i < zValues.Length; i++)
+        {
+            zValues[i] = 0;
+        }
+    }
+
+    public PathResult(MapEdge[] pathEdges, int[] edgeDirections, float[] zValues)
+    {
+        this.pathEdges = pathEdges;
+        this.edgeDirections = edgeDirections;
+        this.zValues = zValues;
+    }
+}
+
 public class GraphAstar {
 	
 	public class PathScore : IComparable<PathScore>
@@ -46,7 +71,7 @@ public class GraphAstar {
 
 
 	// point를 노드 뿐만 아니라 edge의 중간도 지정할 수 있도록 바꿔야 함.
-	public static MapEdge[] SearchPath(MapNode startPoint, MapNode endPoint)
+	public static PathResult SearchPath(MapNode startPoint, MapNode endPoint)
 	{
 		PriorityQueue<PathScore> opendset = new PriorityQueue<PathScore> ();
 		HashSet<MapNode> closedset = new HashSet<MapNode> ();
@@ -67,7 +92,8 @@ public class GraphAstar {
 			
 			if(cur.node == endPoint)
 			{
-				System.Collections.ArrayList outputDirs = new System.Collections.ArrayList();
+				System.Collections.ArrayList outputEdges = new System.Collections.ArrayList();
+                System.Collections.ArrayList outputDirs = new System.Collections.ArrayList();
 				MapNode pathNode = cur.node;
 				
 				while(true)
@@ -80,11 +106,19 @@ public class GraphAstar {
 					MapEdge edge = value.edge;
 					pathNode = edge.ConnectedNode(pathNode);
 					//Debug.Log("path : ["+edge.node1.GetId() +", "+ edge.node2.GetId() +"]");
-					outputDirs.Add(edge);
+                    outputEdges.Add(edge);
+                    if (edge.node1 == pathNode)
+                        outputDirs.Add(1);
+                    else
+                        outputDirs.Add(0);
 				}
-				
-				outputDirs.Reverse();
-				return (MapEdge[])outputDirs.ToArray(typeof(MapEdge));
+
+                outputEdges.Reverse();
+                outputDirs.Reverse();
+                return new PathResult(
+                    (MapEdge[])outputEdges.ToArray(typeof(MapEdge)),
+                    (int[])outputDirs.ToArray(typeof(int))
+                    );
 			}
 			
 			// Debug.Log("visit : ["+cur.x+", "+cur.y+"]");
@@ -124,7 +158,7 @@ public class GraphAstar {
 			}
 		}
 		
-		return new MapEdge[]{};
+		return new PathResult(new MapEdge[]{}, new int[]{});
 	}
 
     /*
