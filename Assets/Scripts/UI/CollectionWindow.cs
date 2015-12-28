@@ -2,12 +2,11 @@
 using System.Collections;
 using UnityEngine.UI;
 
+
 public class CollectionWindow : MonoBehaviour {
 
     private CreatureModel creature;
-    public GameObject backgroundDefault;
-    public GameObject backgroundDiary;
-
+    public Text[] low;
     public Text descText;
     public Text observeText;
 
@@ -23,25 +22,15 @@ public class CollectionWindow : MonoBehaviour {
     public Text DangerRank;//same with dangerLevel
 	public Image profImage;
     public RectTransform descList;
-    public GameObject description;
+    public RectTransform observeList;
+
     public TextListScript listScirpt;
+    public TextListScript observeScript;
+    public RectTransform observeButton;
     
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
 
-    public void UpdateBg(string type)
-    {
-        if (type == "diary")
-        {
-            backgroundDefault.SetActive(false);
-            backgroundDiary.SetActive(true);
-        }
-        else
-        {
-            backgroundDefault.SetActive(true);
-            backgroundDiary.SetActive(false);
-        }
-    }
 
     public void onClickObserveButton()
     {
@@ -61,7 +50,7 @@ public class CollectionWindow : MonoBehaviour {
     {
         GameObject wndObject;
         CollectionWindow wnd;
-        
+       
         if (currentWindow != null)
         {
             wndObject = currentWindow.gameObject;
@@ -74,23 +63,27 @@ public class CollectionWindow : MonoBehaviour {
         wnd = wndObject.GetComponent<CollectionWindow>();
 
         wnd.listScirpt = wnd.descList.GetComponent<TextListScript>();
+        wnd.observeScript = wnd.observeList.GetComponent<TextListScript>();
         wnd.listScirpt.DeleteAll();
 
         wnd.creature = creature;
-
+        /*
         wnd.descText.text = creature.metaInfo.desc;
         wnd.observeText.text = creature.GetObserveText();
+        */
 
 		wnd.name.text = creature.metaInfo.name;
 		wnd.code.text = creature.metaInfo.codeId;
 		wnd.attackType.text = creature.metaInfo.attackType;
-		wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
+		//wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
 		wnd.dangerLevel.text = creature.metaInfo.level.ToString();
         wnd.observePercent.text = (float)creature.observeProgress / creature.metaInfo.observeLevel * 100+"%";
         wnd.nickname.text = wnd.name.text;
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
         wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
-        wnd.UpdateBg("default");
+       // wnd.UpdateBg("default");
+        //wnd.observeButton.gameObject.SetActive(false);
+        
 
         string descTextfull = creature.metaInfo.desc;
         char[] determine = {'*'};
@@ -98,12 +91,20 @@ public class CollectionWindow : MonoBehaviour {
         
         foreach (string str in descary) {
             if (str.Equals(" ") || str.Equals("")) continue;
-            wnd.listScirpt.MakeText(str);
+            wnd.listScirpt.MakeTextWithBg(str);
         }
-        wnd.listScirpt.SortList();
+        wnd.listScirpt.SortBgList();
         currentWindow = wnd;
+        
+        wnd.SetObserveText();
     }
 
+    public void SetObserveText() {
+        string output = currentWindow.creature.GetObserveText();
+        currentWindow.observeScript.DeleteAll();
+        currentWindow.observeScript.MakeTextWithBg(output);
+        currentWindow.observeScript.SortBgList();
+    }
 
     public CreatureModel GetCreature()
     {
@@ -116,5 +117,28 @@ public class CollectionWindow : MonoBehaviour {
         GameObject.FindGameObjectWithTag("AnimCollectionController")
             .GetComponent<Animator>().SetBool("isTrue", true);
         //Destroy(gameObject);
+    }
+
+    public void setObserveButton(bool mode) {
+        currentWindow.observeButton.gameObject.SetActive(mode);
+    }
+
+    public void FixedUpdate() {
+        bool state;
+        if (currentWindow.creature.state == CreatureState.WAIT)
+        {
+            state = true;
+        }
+        else {
+            state = false;
+        }
+
+
+        currentWindow.observeButton.gameObject.SetActive((creature.NoticeDoObserve() && state));
+    }
+
+    public void OnClickPortrait() {
+        Vector2 pos = currentWindow.creature.position;
+        Camera.main.transform.position = new Vector3(pos.x, pos.y, -20f);
     }
 }

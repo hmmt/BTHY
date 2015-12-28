@@ -3,6 +3,16 @@ using System.Collections;
 
 public class HappyTeddy  : CreatureBase {
 
+    private bool b = false;
+    public override void  OnFixedUpdate(CreatureModel creature)
+    {
+        /*if (!b)
+        {
+            model.Escape();
+            b = true;
+        }*/
+    }
+
 	public override void OnSkillStart(UseSkill skill)
 	{
 		if(skill.skillTypeInfo.id == 40002) // 
@@ -19,17 +29,25 @@ public class HappyTeddy  : CreatureBase {
 
     public override void OnSkillTickUpdate(UseSkill skill)
 	{
-        if (skill.skillTypeInfo.id == 40002)
-		{
-            //if(skill.targetCreature.feeling <= 50)
-            {
-                if(Random.value <= 0.45)
-                {
-                    //skill.agent.hp -= 1; // temp
-                    ActivateSkill(skill);
-                }
-            }
-		}
+        bool isSpecialSkill = skill.skillTypeInfo.id == 40002;
+        float prob = 0;
+        int feelingUp = 0;
+
+        CreatureFeelingState feelingState = model.GetFeelingState();
+        if (feelingState == CreatureFeelingState.BAD)
+        {
+            prob = isSpecialSkill ? 0.4f : 0.9f;
+            feelingUp = 50;
+        }
+        else
+        {
+            prob = isSpecialSkill ? 0.1f : 0.3f;
+            feelingUp = 100;
+        }
+        if (Random.Range(0,100) < prob*100)
+        {
+            ActivateSkill(skill, feelingUp);
+        }
 	}
 
     // temporary
@@ -38,7 +56,7 @@ public class HappyTeddy  : CreatureBase {
         //ActivateSkill(skill);
     }
 
-    public void ActivateSkill(UseSkill skill)
+    public void ActivateSkill(UseSkill skill, int feelingUp)
     {
         // show effect
 
@@ -66,7 +84,8 @@ public class HappyTeddy  : CreatureBase {
 		SoundEffectPlayer.PlayOnce("creature/happy_teddy/happyTeddy_Ability_Special", skill.targetCreatureView.transform.position);
 
         TimerCallback.Create(4.0f, delegate() {
-            skill.agent.TakePhysicalDamage(1); // temporary value
+            skill.agent.TakePhysicalDamage(Mathf.Max(skill.agent.maxHp / 3, 1));
+            model.AddFeeling(feelingUp);
         });
     }
 
@@ -87,5 +106,10 @@ public class HappyTeddy  : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+    }
+
+    public override SkillTypeInfo GetSpecialSkill()
+    {
+        return SkillTypeList.instance.GetData(400002);
     }
 }

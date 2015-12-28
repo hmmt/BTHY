@@ -157,120 +157,70 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
             //feelingText.text = "";
             
-            float feeling = targetUnit.model.feeling;
+            CreatureFeelingState feelingState = targetUnit.model.GetFeelingState();
 
-            int length = targetUnit.model.metaInfo.genEnergy.Length;
-
-            if (length >= 3)
+            if (feelingState == CreatureFeelingState.GOOD)
             {
-                if (feeling > targetUnit.model.metaInfo.feelingMax * 2 / 3)
-                {
-                    Warning1.gameObject.SetActive(false);
-                    Warning2.gameObject.SetActive(false);
-                    Warning3.gameObject.SetActive(false);
-                    Warning4.gameObject.SetActive(false);
+                Warning1.gameObject.SetActive(false);
+                Warning2.gameObject.SetActive(false);
+                Warning3.gameObject.SetActive(false);
+                Warning4.gameObject.SetActive(false);
 
-                    Warning_Yellow1.gameObject.SetActive(false);
-                    Warning_Yellow2.gameObject.SetActive(false);
-                    Warning_Yellow3.gameObject.SetActive(false);
-                    Warning_Yellow4.gameObject.SetActive(false);
+                Warning_Yellow1.gameObject.SetActive(false);
+                Warning_Yellow2.gameObject.SetActive(false);
+                Warning_Yellow3.gameObject.SetActive(false);
+                Warning_Yellow4.gameObject.SetActive(false);
 
-                    Warning_Green1.gameObject.SetActive(true);
-                    Warning_Green2.gameObject.SetActive(true);
-                    Warning_Green3.gameObject.SetActive(true);
-                    Warning_Green4.gameObject.SetActive(true);
+                Warning_Green1.gameObject.SetActive(true);
+                Warning_Green2.gameObject.SetActive(true);
+                Warning_Green3.gameObject.SetActive(true);
+                Warning_Green4.gameObject.SetActive(true);
 
-                    frameRedRenderer.gameObject.SetActive(false);
-                    frameYellowRenderer.gameObject.SetActive(false);
-                    frameGreenRenderer.gameObject.SetActive(true);
-                }
-                else if (feeling > targetUnit.model.metaInfo.feelingMax / 3)
-                {
-                    Warning1.gameObject.SetActive(false);
-                    Warning2.gameObject.SetActive(false);
-                    Warning3.gameObject.SetActive(false);
-                    Warning4.gameObject.SetActive(false);
-
-                    Warning_Yellow1.gameObject.SetActive(true);
-                    Warning_Yellow2.gameObject.SetActive(true);
-                    Warning_Yellow3.gameObject.SetActive(true);
-                    Warning_Yellow4.gameObject.SetActive(true);
-
-                    Warning_Green1.gameObject.SetActive(false);
-                    Warning_Green2.gameObject.SetActive(false);
-                    Warning_Green3.gameObject.SetActive(false);
-                    Warning_Green4.gameObject.SetActive(false);
-
-                    frameRedRenderer.gameObject.SetActive(false);
-                    frameYellowRenderer.gameObject.SetActive(true);
-                    frameGreenRenderer.gameObject.SetActive(false);
-                }
-                else
-                {
-                    Warning1.gameObject.SetActive(true);
-                    Warning2.gameObject.SetActive(true);
-                    Warning3.gameObject.SetActive(true);
-                    Warning4.gameObject.SetActive(true);
-
-                    Warning_Yellow1.gameObject.SetActive(false);
-                    Warning_Yellow2.gameObject.SetActive(false);
-                    Warning_Yellow3.gameObject.SetActive(false);
-                    Warning_Yellow4.gameObject.SetActive(false);
-
-                    Warning_Green1.gameObject.SetActive(false);
-                    Warning_Green2.gameObject.SetActive(false);
-                    Warning_Green3.gameObject.SetActive(false);
-                    Warning_Green4.gameObject.SetActive(false);
-
-                    frameRedRenderer.gameObject.SetActive(true);
-                    frameYellowRenderer.gameObject.SetActive(false);
-                    frameGreenRenderer.gameObject.SetActive(false);
-                }
+                frameRedRenderer.gameObject.SetActive(false);
+                frameYellowRenderer.gameObject.SetActive(false);
+                frameGreenRenderer.gameObject.SetActive(true);
             }
-            else if (length <= 2)
+            else if (feelingState == CreatureFeelingState.NORM)
             {
-                if (feeling > targetUnit.model.metaInfo.feelingMax / 2)
-                {
-                    Warning1.gameObject.SetActive(false);
-                    Warning2.gameObject.SetActive(false);
-                    Warning3.gameObject.SetActive(false);
-                    Warning4.gameObject.SetActive(false);
+                Warning1.gameObject.SetActive(false);
+                Warning2.gameObject.SetActive(false);
+                Warning3.gameObject.SetActive(false);
+                Warning4.gameObject.SetActive(false);
 
-                    Warning_Yellow1.gameObject.SetActive(false);
-                    Warning_Yellow2.gameObject.SetActive(false);
-                    Warning_Yellow3.gameObject.SetActive(false);
-                    Warning_Yellow4.gameObject.SetActive(false);
+                Warning_Yellow1.gameObject.SetActive(true);
+                Warning_Yellow2.gameObject.SetActive(true);
+                Warning_Yellow3.gameObject.SetActive(true);
+                Warning_Yellow4.gameObject.SetActive(true);
 
-                    Warning_Green1.gameObject.SetActive(true);
-                    Warning_Green2.gameObject.SetActive(true);
-                    Warning_Green3.gameObject.SetActive(true);
-                    Warning_Green4.gameObject.SetActive(true);
+                Warning_Green1.gameObject.SetActive(false);
+                Warning_Green2.gameObject.SetActive(false);
+                Warning_Green3.gameObject.SetActive(false);
+                Warning_Green4.gameObject.SetActive(false);
 
-                    frameRedRenderer.gameObject.SetActive(false);
-                    frameYellowRenderer.gameObject.SetActive(false);
-                    frameGreenRenderer.gameObject.SetActive(true);
-                }
-                else
-                {
-                    Warning1.gameObject.SetActive(true);
-                    Warning2.gameObject.SetActive(true);
-                    Warning3.gameObject.SetActive(true);
-                    Warning4.gameObject.SetActive(true);
+                frameRedRenderer.gameObject.SetActive(false);
+                frameYellowRenderer.gameObject.SetActive(true);
+                frameGreenRenderer.gameObject.SetActive(false);
+            }
+            else
+            {
+                Warning1.gameObject.SetActive(true);
+                Warning2.gameObject.SetActive(true);
+                Warning3.gameObject.SetActive(true);
+                Warning4.gameObject.SetActive(true);
 
-                    Warning_Yellow1.gameObject.SetActive(false);
-                    Warning_Yellow2.gameObject.SetActive(false);
-                    Warning_Yellow3.gameObject.SetActive(false);
-                    Warning_Yellow4.gameObject.SetActive(false);
+                Warning_Yellow1.gameObject.SetActive(false);
+                Warning_Yellow2.gameObject.SetActive(false);
+                Warning_Yellow3.gameObject.SetActive(false);
+                Warning_Yellow4.gameObject.SetActive(false);
 
-                    Warning_Green1.gameObject.SetActive(false);
-                    Warning_Green2.gameObject.SetActive(false);
-                    Warning_Green3.gameObject.SetActive(false);
-                    Warning_Green4.gameObject.SetActive(false);
+                Warning_Green1.gameObject.SetActive(false);
+                Warning_Green2.gameObject.SetActive(false);
+                Warning_Green3.gameObject.SetActive(false);
+                Warning_Green4.gameObject.SetActive(false);
 
-                    frameRedRenderer.gameObject.SetActive(true);
-                    frameYellowRenderer.gameObject.SetActive(false);
-                    frameGreenRenderer.gameObject.SetActive(false);
-                }
+                frameRedRenderer.gameObject.SetActive(true);
+                frameYellowRenderer.gameObject.SetActive(false);
+                frameGreenRenderer.gameObject.SetActive(false);
             }
 
             if (targetUnit.model.state == CreatureState.WORKING)
@@ -286,9 +236,9 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             {
                 workingOnRenderer.gameObject.SetActive(true);
                 workingOffRenderer.gameObject.SetActive(false);
-                observeRoom.SetBool("ObserveStart",true);
+                observeRoom.SetBool("ObserveStart", true);
                 observeRoom.SetInteger("ObserveProcess", 1);
-               // observeCatuionSprite.gameObject.SetActive(true);
+                // observeCatuionSprite.gameObject.SetActive(true);
             }
 
             else
@@ -325,12 +275,12 @@ public class IsolateRoom : MonoBehaviour, IObserver {
         
         if (collection.GetComponent<Animator>().GetBool("isTrue"))
         {
-            Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
+            //Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
             collection.GetComponent<Animator>().SetBool("isTrue", false);
         }
         else if (oldCreature == _targetUnit.model)
         {
-            Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
+            //Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
             collection.GetComponent<Animator>().SetBool("isTrue", true);
         }
     }

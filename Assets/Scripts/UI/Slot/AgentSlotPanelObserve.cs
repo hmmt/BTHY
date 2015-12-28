@@ -7,5 +7,6 @@ public class AgentSlotPanelObserve : MonoBehaviour {
     public UnityEngine.UI.Image agentHair;
     public UnityEngine.UI.Image agentFace;
     public UnityEngine.UI.Button skillButton1;
+    public UnityEngine.UI.Image bg;
 
 }

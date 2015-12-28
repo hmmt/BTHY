@@ -1,6 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
+[System.Serializable]
+public class AgentUnitUI {
+    public Slider hp;
+    public RectTransform workIcon;
+    public bool Activated = false;
+
+    public void initUI() {
+        hp.gameObject.SetActive(false);
+        workIcon.gameObject.SetActive(false);
+    }
+
+    public void activateUI(AgentModel model) {
+        hp.gameObject.SetActive(true);
+        workIcon.gameObject.SetActive(true);
+        this.Activated = true;
+        hp.maxValue = model.maxHp;
+        hp.value = model.hp;
+    }
+
+    //0번 : 검은색(붕괴 시 아이콘), 1번 : 멀쩡한 상태 아이콘
+    //1번의 alpha값을 수정하는 것을 통해 효과
+    public void setUIValue(AgentModel model) {
+        if (!Activated) return;
+        Color c = workIcon.GetChild(1).GetComponent<Image>().color;
+        c.a = (float)model.mental / model.maxMental;
+
+        workIcon.GetChild(1).GetComponent<Image>().color = c;
+        hp.value = model.hp;
+    }
+   
+}
 
 public class AgentUnit : MonoBehaviour {
 
@@ -21,7 +54,7 @@ public class AgentUnit : MonoBehaviour {
     public bool agentMove=false;
     public bool agentDead = false;
 
-    public TextMesh agentName;
+    public Text agentName;
 
     private string oldSefira;
 
@@ -30,14 +63,17 @@ public class AgentUnit : MonoBehaviour {
     public GameObject deadSprite;
     public GameObject hairSprite;
 
-    public UnityEngine.UI.Text speachText;
+    public UnityEngine.UI.Text speechText;
+
+    public AgentUnitUI ui;
 
     // layer에서 z값 순서 정하기 위한 값.
     public float zValue;
-  
+
+    private bool uiOpened = false;
 
     //직원 대사
-    string speach = "";
+    string speech = "";
 
     void LateUpdate()
     {
@@ -90,7 +126,16 @@ public class AgentUnit : MonoBehaviour {
 
         faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
         hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+        
+        ui.initUI();
+        if (PlayerModel.instance.IsOpenedArea("yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            uiOpened = true;
+        }
 
+        if (uiOpened) {
+            ui.activateUI(model);
+        }
         ChangeAgentUniform();
     }
 
@@ -189,11 +234,8 @@ public class AgentUnit : MonoBehaviour {
 
     public void ChangeAgentUniform()
     {
-        Debug.Log("직원 복장 변경");
-
         agentAnimator.SetBool("Change", true);
 
-        Debug.Log(agentAnimator.GetBool("Change"));
 
         if (model.currentSefira == "1")
         {
@@ -258,41 +300,66 @@ public class AgentUnit : MonoBehaviour {
         oldPos = transform.localPosition.x;
 
         int randLyricsTick = Random.Range(0, 3000);
-        if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 && !speachText.IsActive())
+        //&& !speechText.IsActive()제거
+        if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 )
         {
             int randLyricsStory = Random.Range(0, 10);
             if (randLyricsStory < 8)
             {
-                speach = AgentLyrics.instance.getLyricsByDay(PlayerModel.instance.GetDay());
+                speech = AgentLyrics.instance.getLyricsByDay(PlayerModel.instance.GetDay());
             }
             else
             {
-                speach = AgentLyrics.instance.getStoryLyrics();
+                speech = AgentLyrics.instance.getStoryLyrics();
             }
-            Notice.instance.Send("AddPlayerLog", name + " : " + speach);
-            Notice.instance.Send("AddSystemLog", name + " : " + speach);
-            showSpeech.showSpeech(speach);
+            Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+            Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+            showSpeech.showSpeech(speech);
         }
 
-        if (model.mental <= 0 && !speachText.IsActive())
+        if (model.mental <= 0 && !speechText.IsActive())
         {
-            speach = AgentLyrics.instance.getPanicLyrics();
-            Notice.instance.Send("AddPlayerLog", name + " : " + speach);
-            Notice.instance.Send("AddSystemLog", name + " : " + speach);
-            showSpeech.showSpeech(speach);
-            Debug.Log("패닉대사 " + speach);
+            speech = AgentLyrics.instance.getPanicLyrics();
+            Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+            Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+            showSpeech.showSpeech(speech);
+            Debug.Log("패닉대사 " + speech);
         }
+        ui.setUIValue(model);
 	}
 
 	void Update()
 	{
 		UpdateViewPosition();
 		UpdateDirection();
-		SetCurrentHP (model.hp);
-		UpdateMentalView ();
+		///SetCurrentHP (model.hp);
+		//UpdateMentalView ();
+        if (PlayerModel.instance.IsOpenedArea("4") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            uiOpened = true;
+        }
+        else uiOpened = false;
 
+        if (uiOpened)
+        {
+            ui.activateUI(model);
+        }
+        else {
+            ui.initUI();
+        }
+
+        if (Input.GetKey(KeyCode.T)){
+            Debug.Log("check"+PlayerModel.instance.IsOpenedArea("4") + " " +CreatureManager.instance.yessodState);
+        }
+        if (Input.GetKeyDown(KeyCode.G)) {
+            model.mental -= 10;
+           // Debug.Log("최대치" + model.maxMental + "현재" + model.mental + "알파" + mentalImage.color.a);
+        }
+        if (Input.GetKeyDown(KeyCode.H)) {
+            model.hp -= 1;
+        }
 	}
-
+    /*
 	public void SetMaxHP(int maxHP)
 	{
 		GetComponentInChildren<AgentHPBar> ().SetMaxHP (maxHP);
@@ -311,7 +378,7 @@ public class AgentUnit : MonoBehaviour {
                 GetComponentInChildren<AgentHPBar>().gameObject.SetActive(false);
         }
 	}
-
+    */
 	public void UpdateMentalView()
 	{
         if (PlayerModel.instance.IsOpenedArea("Yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
@@ -333,11 +400,12 @@ public class AgentUnit : MonoBehaviour {
         if (CollectionWindow.currentWindow != null)
         CollectionWindow.currentWindow.CloseWindow();
 
-        speach = AgentLyrics.instance.getOnClickLyrics();
-        Notice.instance.Send("AddPlayerLog", name + " : " + speach);
-        Notice.instance.Send("AddSystemLog", name + " : " + speach);
-        showSpeech.showSpeech(speach);
-        Debug.Log("관리자한테 " + speach);
+        speech = AgentLyrics.instance.getOnClickLyrics();
+        Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+        Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+        showSpeech.showSpeech(speech);
+        Debug.Log("관리자에게 " + speech);
+        
 
         // TODO : 최적화 필요
         agentWindow = GameObject.FindGameObjectWithTag("AnimAgentController");

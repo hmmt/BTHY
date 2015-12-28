@@ -16,6 +16,6 @@ public class BackgroundTouchArea : MonoBehaviour {
             CollectionWindow.currentWindow.CloseWindow();
 
         if (SelectSefiraAgentWindow.currentWindow != null)
-            SelectSefiraAgentWindow.currentWindow.CloseWindow();
+             SelectSefiraAgentWindow.currentWindow.CloseWindow();
 	}
 }

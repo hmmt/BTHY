@@ -8,6 +8,7 @@ public class CreatureUnit : MonoBehaviour {
 
     public IsolateRoom room;
     public SpriteRenderer spriteRenderer;
+    public SpriteRenderer returnSpriteRenderer;
 
     // 아직 안 씀
     public Animator creatureAnimator;
@@ -50,49 +51,65 @@ public class CreatureUnit : MonoBehaviour {
 
    private void UpdateDirection()
    {
-
-       /*
        MapEdge currentEdge = model.GetCurrentEdge();
        int edgeDirection = model.GetMovableNode().GetEdgeDirection();
 
-       if (currentEdge != null)
+       if (model.lookAtTarget != null)
        {
-           MapNode node1 = currentEdge.node1;
-           MapNode node2 = currentEdge.node2;
-           Vector2 pos1 = node1.GetPosition();
-           Vector2 pos2 = node2.GetPosition();
+           Vector2 myPosition = model.GetCurrentViewPosition();
+           Vector2 targetPosition = model.lookAtTarget.GetCurrentViewPosition();
+           Vector3 scale = directionScaleFactor;
 
-           if (edgeDirection == 1)
+           if (myPosition.x > targetPosition.x && scale.x > 0)
            {
-               Vector3 scale = directionScaleFactor;
-
-
-               if (pos2.x - pos1.x > 0 && scale.x < 0)
-               {
-                   scale.x = -scale.x;
-               }
-               else if (pos2.x - pos1.x < 0 && scale.x > 0)
-               {
-                   scale.x = -scale.x;
-               }
-               directionScaleFactor = scale;
+               scale.x = -scale.x;
            }
-           else
+           else if (myPosition.x < targetPosition.x && scale.x < 0)
            {
-               Vector3 scale = directionScaleFactor;
+               scale.x = -scale.x;
+           }
 
-               if (pos2.x - pos1.x > 0 && scale.x > 0)
+           directionScaleFactor = scale;
+       }
+       else
+       {
+           if (currentEdge != null)
+           {
+               MapNode node1 = currentEdge.node1;
+               MapNode node2 = currentEdge.node2;
+               Vector2 pos1 = node1.GetPosition();
+               Vector2 pos2 = node2.GetPosition();
+
+               if (edgeDirection == 1)
                {
-                   scale.x = -scale.x;
+                   Vector3 scale = directionScaleFactor;
+
+                   if (pos2.x - pos1.x > 0 && scale.x < 0)
+                   {
+                       scale.x = -scale.x;
+                   }
+                   else if (pos2.x - pos1.x < 0 && scale.x > 0)
+                   {
+                       scale.x = -scale.x;
+                   }
+                   directionScaleFactor = scale;
                }
-               else if (pos2.x - pos1.x < 0 && scale.x < 0)
+               else
                {
-                   scale.x = -scale.x;
+                   Vector3 scale = directionScaleFactor;
+
+                   if (pos2.x - pos1.x > 0 && scale.x > 0)
+                   {
+                       scale.x = -scale.x;
+                   }
+                   else if (pos2.x - pos1.x < 0 && scale.x < 0)
+                   {
+                       scale.x = -scale.x;
+                   }
+                   directionScaleFactor = scale;
                }
-               directionScaleFactor = scale;
            }
        }
-        */
    }
 
    private void UpdateScale()
@@ -115,11 +132,18 @@ public class CreatureUnit : MonoBehaviour {
         UpdateDirection();
 	}
 
+    private CreatureState oldState = CreatureState.WAIT;
     void Update()
     {
         if (script != null)
         {
             script.Update();
+        }
+
+        if (oldState != model.state)
+        {
+            OnChangeState();
+            oldState = model.state;
         }
     }
 
@@ -131,6 +155,34 @@ public class CreatureUnit : MonoBehaviour {
         }
 
         UpdateScale();
+    }
+
+    void Start()
+    {
+        if (model.state == CreatureState.ESCAPE_RETURN)
+        {
+            spriteRenderer.gameObject.SetActive(false);
+            returnSpriteRenderer.gameObject.SetActive(true);
+        }
+        else
+        {
+            spriteRenderer.gameObject.SetActive(true);
+            returnSpriteRenderer.gameObject.SetActive(false);
+        }
+    }
+
+    void OnChangeState()
+    {
+        if (model.state == CreatureState.ESCAPE_RETURN)
+        {
+            spriteRenderer.gameObject.SetActive(false);
+            returnSpriteRenderer.gameObject.SetActive(true);
+        }
+        else if (model.state != CreatureState.ESCAPE_RETURN && oldState == CreatureState.ESCAPE_RETURN)
+        {
+            spriteRenderer.gameObject.SetActive(true);
+            returnSpriteRenderer.gameObject.SetActive(false);
+        }
     }
 
     public Vector3 GetScaleFactor()

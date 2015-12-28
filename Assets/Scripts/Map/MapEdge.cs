@@ -21,7 +21,7 @@ public class MapEdge {
 		this.node2 = node2;
 		this.type = type;
 
-		this.cost = Vector2.Distance(node1.GetPosition(), node2.GetPosition());
+		this.cost = Vector3.Distance(node1.GetPosition(), node2.GetPosition());
 	}
 
 	public MapEdge(MapNode node1, MapNode node2, string type, float cost)

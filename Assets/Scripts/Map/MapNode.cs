@@ -10,9 +10,13 @@ public class MapNode {
     private string areaName;
     private string groupName;
 	private List<MapEdge> edges;
-	private Vector2 pos;
+    private List<MapNode> zNodes;
+	private Vector3 pos;
 
     public bool isTemporary = false;
+    public bool isZBase = false;
+
+    public MapSefiraArea area; // 소속된 area
 
     public bool activate
     {
@@ -20,8 +24,7 @@ public class MapNode {
         set { _activate = value; }
     }
 
-
-    public MapNode(string id, Vector2 pos, string areaName)
+    public MapNode(string id, Vector3 pos, string areaName)
     {
         this.id = id;
         this.pos = pos;
@@ -30,9 +33,10 @@ public class MapNode {
 
         _activate = true;
         edges = new List<MapEdge>();
+        zNodes = new List<MapNode>();
     }
 
-    public MapNode(string id, Vector2 pos, string areaName, string groupName)
+    public MapNode(string id, Vector3 pos, string areaName, string groupName)
 	{
 		this.id = id;
 		this.pos = pos;
@@ -41,8 +45,18 @@ public class MapNode {
 
         _activate = true;
 		edges = new List<MapEdge>();
+        zNodes = new List<MapNode>();
 	}
 
+    public void AddZNode(MapNode node)
+    {
+        zNodes.Add(node);
+    }
+
+    public MapNode[] GetZNodes()
+    {
+        return zNodes.ToArray();
+    }
 
 	public void AddEdge(MapEdge edge)
 	{
@@ -54,7 +68,7 @@ public class MapNode {
         edges.Remove(edge);
     }
 
-	public Vector2 GetPosition()
+	public Vector3 GetPosition()
 	{
 		return pos;
 	}
@@ -78,4 +92,16 @@ public class MapNode {
 	{
 		return edges.ToArray ();
 	}
+
+    public MapEdge GetEdgeByNode(MapNode node)
+    {
+        if (node == this)
+            return null;
+        foreach (MapEdge edge in edges)
+        {
+            if (edge.node1 == node || edge.node2 == node)
+                return edge;
+        }
+        return null;
+    }
 }

@@ -1,25 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <creature_list>
-	<creature src="Matchgirl" />
-	<creature src="OldLady" />
-	<creature src="HappyTeddy" />
-	<creature src="Fetus" />
-	<creature src="RedShoes" />
-	<creature src="OneBadManyGood" />
+  <creature name="Matchgirl" src="Matchgirl">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+	<creature name="OldLady" src="OldLady">
+    <stat>OldLady_stat</stat>
+  </creature>
+	<creature name="HappyTeddy" src="HappyTeddy">
+    <stat>test</stat>
+  </creature>
+	<creature name="Fetus" src="Fetus">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+	<creature name="RedShoes" src="RedShoes">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="OneBadManyGood" src="OneBadManyGood">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
 
-	<creature src="Reaper" />
-	<creature src="SmilePierrot" />
-	<creature src="MagicalGirl" />
-	<creature src="VoidBook" />
+	<creature name="Reaper" src="Reaper">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="SmilePierrot" src="SmilePierrot">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="MagicalGirl" src="MagicalGirl">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+	<creature name="VoidBook" src="VoidBook">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
 
-	<creature src="AnonymousManPortrait" />
-	<creature src="LadyLookingAtWall" />
-	<creature src="JackLessTree" />
-	<creature src="NullThing" />
+	<creature name="AnonymousManPortrait" src="AnonymousManPortrait">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="LadyLookingAtWall" src="LadyLookingAtWall">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="JackLessTree" src="JackLessTree">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+	<creature name="NullThing" src="NullThing">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
 
-	<creature src="SilentGirl" />
-	<creature src="Theresia" />
-	<creature src="SilentGirl" />
-	<creature src="Theresia" />
+  <creature name="SilentGirl" src="SilentGirl">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="Theresia" src="Theresia">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  
+  <creature name="SilentGirl" src="SilentGirl">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="Theresia" src="Theresia">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
 
 </creature_list>

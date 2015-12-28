@@ -10,6 +10,15 @@ public class MagicalGirl : CreatureBase {
 
     private static int darkCondition = 25;
 
+    private GameObject transParticle;
+
+    public override void OnInit()
+    {
+        base.OnInit();
+
+
+    }
+
     public override CreatureAttackInfo GetAttackInfo(UseSkill skill)
     {
         if (model.feeling <= darkCondition)

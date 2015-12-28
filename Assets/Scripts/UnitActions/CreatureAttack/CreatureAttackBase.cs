@@ -61,7 +61,7 @@ public class CreatureAttackBase : MonoBehaviour {
         c.agent = agent;
         c.creature = creature;
 
-        agent.Attacked();
+        agent.AttackedByCreature();
         creature.state = CreatureState.ESCAPE_ATTACK;
 
         return c;

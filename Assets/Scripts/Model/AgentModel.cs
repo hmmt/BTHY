@@ -5,21 +5,14 @@ using System.IO;
 
 
 // 직원 데이터
-public class AgentModel : IObserver
+public class AgentModel : WorkerModel
 {
-
-    public int instanceId;
 
     // 초기화 이외에는 사용하지 않고 있다.
     //public AgentTypeInfo metadata;
 
-    public string name;
-    public int hp;
-    public int mental;
-
     public List<TraitTypeInfo> traitList;
 
-    public string gender;
     public int level;
     public int workDays;
 
@@ -30,19 +23,16 @@ public class AgentModel : IObserver
 
     public int defaultMaxHp;
     public int traitMaxHp;
-    public int maxHp;
 
     public int defaultMaxMental;
     public int traitMaxmental;
-    public int maxMental; //
 
     public int defaultMovement;
     public int traitmovement;
-    public int movement; //
 
     public int defaultWork;
     public int traitWork;
-    public int work; //
+    public int workSpeed; //
 
     public string prefer;
     public int preferBonus;
@@ -64,79 +54,50 @@ public class AgentModel : IObserver
     public SkillTypeInfo indirectSkill;
     public SkillTypeInfo blockSkill;
 
-    public string imgsrc;
-
-    public Dictionary<string, string> speechTable = new Dictionary<string, string>();
-
-    public string panicType;
     //
-
-    // 현재 소속된 세피라
-    public string currentSefira;
 
     //활성화된 직원인가 체크
     public bool activated;
 
-    // 스프라이트 고유 번호
-    public string faceSpriteName;
-    public string hairSpriteName;
-    public string bodySpriteName;
-    public string panicSpriteName;
+    // 이하 save 되지 않는 데이터들
 
-    public string hairImgSrc;
-    public string faceImgSrc;
-    public string bodyImgSrc;
+    private ValueInfo levelSetting;
+    private AgentCmdState state = AgentCmdState.IDLE;
 
     public Sprite[] StatusSprites = new Sprite[4];
     public Sprite[] WorklistSprites = new Sprite[3];
-
-    // 이하 save 되지 않는 데이터들
-
-    private AgentCmdState state = AgentCmdState.IDLE;
-
     /*
      * state; MOVE, WORKING
      * 이동하거나 작업할 때 대상 환상체
      */
-    public CreatureModel target; 
+
+    /// <summary>
+    /// 특정 행동의 대상 직원
+    /// (SUPPRESS)
+    /// </summary>
 
     // panic action을 실행하는 클래스
-    private PanicAction currentPanicAction;
 
     // path finding2
-    MovableObjectNode movableNode;
 
-    public AgentModel(int instanceId, string area)
+    public AgentModel(int id, string area)
     {
-        movableNode = new MovableObjectNode();
+        MovableNode = new MovableObjectNode();
 
         traitList = new List<TraitTypeInfo>();
-        this.instanceId = instanceId;
+        instanceId = id;
         //currentSefira = area;
         currentSefira = "0";
         SetCurrentSefira(area);
-        movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
+        MovableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
     }
 
-    private bool visible = true;
-    private float oldZ;
-
-    ////
-
-    private float waitTimer = 0;
-
-    public Dictionary<string, object> GetSaveData()
+    public override Dictionary<string, object> GetSaveData()
     {
-        Dictionary<string, object> output = new Dictionary<string, object>();
-
-        output.Add("instanceId", instanceId);
-        output.Add("currentSefira", currentSefira);
-
-        output.Add("name", name);
-        output.Add("hp", hp);
+        Dictionary<string, object> output = base.GetSaveData();
+        
         //output.Add("traitList", 
 
-        output.Add("gender", gender);
         output.Add("level", level);
         output.Add("workDays", workDays);
 
@@ -144,13 +105,6 @@ public class AgentModel : IObserver
         output.Add("expSuccess", expSuccess);
         output.Add("expHpDamage", expHpDamage);
         output.Add("expMentalDamage", expMentalDamage);
-
-        output.Add("maxHp", maxHp);
-        output.Add("maxMental", maxMental);
-
-        output.Add("mental", mental);
-        output.Add("movement", movement);
-        output.Add("work", work);
 
         output.Add("prefer", prefer);
         output.Add("preferBonus", preferBonus);
@@ -161,10 +115,6 @@ public class AgentModel : IObserver
         output.Add("indirectSkillId", indirectSkill.id);
         output.Add("blockSkillId", blockSkill.id);
 
-        output.Add("imgsrc", imgsrc);
-        output.Add("speechTable", speechTable);
-        output.Add("panicType", panicType);
-        
         /*
         BinaryFormatter bf = new BinaryFormatter();
         MemoryStream stream = new MemoryStream();
@@ -172,55 +122,17 @@ public class AgentModel : IObserver
         return stream.ToArray();
         */
 
-        return output;
+        return output; 
     }
 
-    private static bool TryGetValue<T>(Dictionary<string, object> dic, string name, ref T field)
-    {
-        object output;
-        if (dic.TryGetValue(name, out output))
-        {
-            field = (T)output;
-            return true;
-        }
-        return false;
-    }
-
-    //랜덤으로 만들어진 직원 초상화 스프라이트 합쳐주는 함수
-
-    public void AgentPortrait(string parts, string key)
-    {
-        if (parts == "hair")
-        {
-            hairImgSrc = "Sprites/Agent/Hair/Hair_M_"+key+"_00";
-        }
-
-        else if (parts == "face")
-        {
-            faceImgSrc = "Sprites/Agent/Face/Face_" + key + "_00";
-        }
-
-        else if (parts == "body")
-        {
-            if(currentSefira == "0")
-                bodyImgSrc = "Sprites/Agent/Body/Body_1_S_00";
-            else
-            bodyImgSrc = "Sprites/Agent/Body/Body_" + currentSefira + "_S_00";
-        }
-
-    }
-
-    public void LoadData(Dictionary<string, object> dic)
+    public override void LoadData(Dictionary<string, object> dic)
     {
         //BinaryFormatter bf = new BinaryFormatter();
         //Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(stream);
-        TryGetValue(dic, "instanceId", ref instanceId);
+        base.LoadData(dic);
 
-        TryGetValue(dic, "name", ref name);
-        TryGetValue(dic, "hp", ref hp);
         //output.Add("traitList", 
 
-        TryGetValue(dic, "gender", ref gender);
         TryGetValue(dic, "level", ref level);
         TryGetValue(dic, "workDays", ref workDays);
 
@@ -228,13 +140,6 @@ public class AgentModel : IObserver
         TryGetValue(dic, "expSuccess", ref expSuccess);
         TryGetValue(dic, "expHpDamage", ref expHpDamage);
         TryGetValue(dic, "expMentalDamage", ref expMentalDamage);
-
-        TryGetValue(dic, "maxHp", ref maxHp);
-        TryGetValue(dic, "maxMental", ref maxMental);
-
-        TryGetValue(dic, "mental", ref mental);
-        TryGetValue(dic, "movement", ref movement);
-        TryGetValue(dic, "work", ref work);
 
         TryGetValue(dic, "prefer", ref prefer);
         TryGetValue(dic, "preferBonus", ref preferBonus);
@@ -250,20 +155,14 @@ public class AgentModel : IObserver
         id = 0;
         TryGetValue(dic, "blockSkillId", ref id);
         blockSkill = SkillTypeList.instance.GetData(id);
-
-        TryGetValue(dic, "imgsrc", ref imgsrc);
-        TryGetValue(dic, "speechTable", ref speechTable);
-        TryGetValue(dic, "panicType", ref panicType);
-
-        TryGetValue(dic, "currentSefira", ref currentSefira);
     }
 
     // notice로 호출됨
-    public void OnFixedUpdate()
+    public override void OnFixedUpdate()
     {
         ProcessAction();
 
-        movableNode.ProcessMoveNode(movement);
+        MovableNode.ProcessMoveNode(movement);
     }
 
     public void checkAgentLifeValue(TraitTypeInfo addTrait)
@@ -380,7 +279,7 @@ public class AgentModel : IObserver
         maxHp = defaultMaxHp + traitMaxHp;
         maxMental = defaultMaxMental + traitMaxmental;
         movement = defaultMovement + traitmovement;
-        work = defaultWork + traitWork;
+        workSpeed = defaultWork + traitWork;
 
         hp += addTrait.hp;
         mental += addTrait.mental;
@@ -406,16 +305,17 @@ public class AgentModel : IObserver
             movement = 1;
         }
 
-        if(work <= 0)
+        if(workSpeed <= 0)
         {
-            work = 1;
+            workSpeed = 1;
         }
 
-
+        /*
         Debug.Log("변경후 체력" + maxHp);
         Debug.Log("변경후 멘탈" + maxMental);
         Debug.Log("변경후 속도" + movement);
-        Debug.Log("변경후 작업속도" + work);
+        Debug.Log("변경후 작업속도" + workSpeed);
+         */
     }
 
     public void promoteSkill(int skillClass)
@@ -478,28 +378,40 @@ public class AgentModel : IObserver
         }
     }
 
-  
-    private void ProcessAction()
+    public override void ProcessAction()
     {
-        if (currentPanicAction != null)
+        if (CurrentPanicAction != null)
         {
-            currentPanicAction.Execute();
+            if (state != AgentCmdState.PANIC_SUPPRESS_TARGET)
+                CurrentPanicAction.Execute();
         }
         else if (state == AgentCmdState.IDLE)
         {
             if (waitTimer <= 0)
             {
 
-                movableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
+                MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira), Random.value);
 
                 waitTimer = 1.5f + Random.value;
             }
         }
         else if (state == AgentCmdState.WORKING)
         {
-            if (movableNode.GetCurrentEdge() == null && movableNode.GetCurrentNode() != target.GetWorkspaceNode())
+            if (MovableNode.GetCurrentEdge() == null && MovableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
-                MoveToCretureRoom(target);
+                MoveToCreatureRoom(target);
+            }
+        }
+        else if (state == AgentCmdState.ESCAPE_WORKING)
+        {
+            // WorkEscapedCreature에서 실행
+        }
+        else if (state == AgentCmdState.SUPPRESS_WORKING)
+        {
+            if (!MovableNode.CheckInRange(targetWorker.MovableNode) && waitTimer <= 0)
+            {
+                MovableNode.MoveToMovableNode(targetWorker.MovableNode);
+                waitTimer = 1.5f + Random.value;
             }
         }
 
@@ -511,113 +423,103 @@ public class AgentModel : IObserver
     }
 
 
-    public MovableObjectNode GetMovableNode()
-    {
-        return movableNode;
-    }
-    public Vector2 GetCurrentViewPosition()
-    {
-        return movableNode.GetCurrentViewPosition();
-    }
-    // edge 위에 있을 때도 통합할 수 있는 타입 필요
-    public MapNode GetCurrentNode()
-    {
-        return movableNode.GetCurrentNode();
-    }
-    public void SetCurrentNode(MapNode node)
-    {
-        movableNode.SetCurrentNode(node);
-    }
-    public MapEdge GetCurrentEdge()
-    {
-        return movableNode.GetCurrentEdge();
-    }
-    public int GetEdgeDirection()
-    {
-        return movableNode.GetEdgeDirection();
-    }
-
+    /**
+     * state 관련 함수들
+     **/
     public AgentCmdState GetState()
     {
         return state;
     }
-    public void ReturnToSefira()
-    {
-        SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
-    }
 
-    public void MoveToNode(string targetNodeId)
+    public void AttackedByCreature()
     {
-        movableNode.MoveToNode(MapGraph.instance.GetNodeById(targetNodeId));
-    }
-
-    public void MoveToCreture(CreatureModel target)
-    {
-        movableNode.MoveToMovableNode(target.GetMovableNode());
-    }
-    public void MoveToCretureRoom(CreatureModel target)
-    {
-        movableNode.MoveToNode(target.GetWorkspaceNode());
-    }
-
-    public bool isDead()
-    {
-        return hp <= 0;
-    }
-
-    public void Attacked()
-    {
-        state = AgentCmdState.CAPTURE;
-        movableNode.StopMoving();
+        state = AgentCmdState.CAPTURE_BY_CREATURE;
+        MovableNode.StopMoving();
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void WorkEscape(CreatureModel target)
     {
         state = AgentCmdState.ESCAPE_WORKING;
         this.target = target;
-        MoveToCreture(target);
+        //MoveToCreture(target);
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void Working(CreatureModel target)
     {
         state = AgentCmdState.WORKING;
         this.target = target;
-        MoveToCretureRoom(target);
+        base.MoveToCreatureRoom(target);
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    public void ReturnCreature()
+    {
+        state = AgentCmdState.RETURN_CREATURE;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void FinishWorking()
     {
         state = AgentCmdState.IDLE;
         this.target = null;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
-    public void TakePhysicalDamage(int damage)
+    public void UpdateStateIdle()
     {
-        Debug.Log(name + " takes PHYSICAL dmg " + damage);
-        hp -= damage;
-
-        if (hp <= 0)
-        {
-            Die();
-        }
+        state = AgentCmdState.IDLE;
+        this.target = null;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
-    public void TakeMentalDamage(int damage)
+    /// <summary>
+    /// 다른 직원을 공격합니다.
+    /// 현재 살인상태인 경우에만 사용해야 합니다.
+    /// AttackAgentByAgent.cs 에서 사용합니다.
+    /// </summary>
+    public void StartPanicAttackAgent()
     {
-        Debug.Log(name + " takes MENTAL dmg " + damage);
-        mental -= damage;
-
-        if (mental <= 0)
-        {
-        }
+        state = AgentCmdState.PANIC_VIOLENCE;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
-    public void RecoverHP(int amount)
+    /// <summary>
+    /// 다른 직원을 공격하던 것을 중지합니다.
+    /// AttackAgentByAgent.cs 에서 사용합니다.
+    /// </summary>
+    public void StopPanicAttackAgent()
     {
-        hp += amount;
-        hp = hp > maxHp ? maxHp : hp;
+        state = AgentCmdState.IDLE;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
-    public void RecoverMental(int amount)
+
+    public void StopSuppress()
     {
-        mental += amount;
-        mental = mental > maxMental ? maxMental : mental;
+        state = AgentCmdState.IDLE;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
+
+
+    public void OpenIsolateRoom()
+    {
+        state = AgentCmdState.OPEN_ROOM;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    public void StartSuppressAgent(AgentModel targetWorker)
+    {
+        state = AgentCmdState.SUPPRESS_WORKING;
+        this.targetWorker = targetWorker;
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    public void PanicSuppressed()
+    {
+        state = AgentCmdState.PANIC_SUPPRESS_TARGET;
+        MovableNode.StopMoving();
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    // state 관련 함수들 end
+
 
     public bool HasTrait(long id)
     {
@@ -635,12 +537,27 @@ public class AgentModel : IObserver
         currentSefira = sefira;
         switch (currentSefira)
         {
-            case "0": imgsrc = "Agent/Malkuth/0"; break;
-            case "1": imgsrc = "Agent/Malkuth/0"; break;
-            case "2": imgsrc = "Agent/Nezzach/00"; break;
-            case "3": imgsrc = "Agent/Hodd/00"; break;
-            case "4": imgsrc = "Agent/Yessod/00"; break;
+            case "0":
+                imgsrc = "Agent/Malkuth/0";
+                break;
+            case "1": 
+                imgsrc = "Agent/Malkuth/0"; 
+                break;
+            case "2": 
+                imgsrc = "Agent/Nezzach/00";
+                break;
+            case "3": 
+                imgsrc = "Agent/Hodd/00"; 
+                break;
+            case "4": 
+                imgsrc = "Agent/Yessod/00"; 
+                break;
         }
+        if (currentSefira == "0")
+            bodyImgSrc = "Sprites/Agent/Body/Body_1_S_00";
+        else
+            bodyImgSrc = "Sprites/Agent/Body/Body_" + currentSefira + "_S_00";
+
         waitTimer = 0;
         Notice.instance.Send(NoticeName.ChangeAgentSefira, this, old);
     }
@@ -650,17 +567,47 @@ public class AgentModel : IObserver
         /*
         if (panicType == "default")
         {
-            currentPanicAction = new PanicDefaultAction();
+            CurrentPanicAction = new PanicDefaultAction();
             string narration = this.name + " (이)가 공황에 빠져 우두커니 서있습니다.";
             Notice.instance.Send("AddSystemLog", narration);
         }
         else if (panicType == "roaming")
         {
-            currentPanicAction = new PanicRoaming(this);
+            CurrentPanicAction' = new PanicRoaming(this);
             string narration = this.name + " (이)가 공황에 빠져 방향을 잃고 배회합니다.";
             Notice.instance.Send("AddSystemLog", narration);
         }
          * */
+        CurrentPanicAction = new PanicReady(this);
+    }
+    public void PanicReadyComplete()
+    {
+        // CurrentPanicAction'' = new PanicSuicideExecutor(this, 5);
+        //CurrentPanicAction = new PanicViolence(this);
+        //CurrentPanicAction = new PanicOpenRoom(this);
+        CurrentPanicAction = new PanicRoaming(this);
+        // 바꿔야 함
+        /*
+        switch (agentLifeValue)
+        {
+            case 1:
+                CurrentPanicAction = new PanicRoaming(this);
+                break;
+            case 2:
+                CurrentPanicAction = new PanicSuicideExecutor(this);
+                break;
+            case 3:
+                CurrentPanicAction = new PanicViolence(this);
+                break;
+            case 4:
+                break;
+        }
+        */
+    }
+
+    public void StopPanic()
+    {
+        CurrentPanicAction = null;
     }
 
     public void Die()
@@ -679,11 +626,158 @@ public class AgentModel : IObserver
         //AgentLayer.currentLayer.GetAgent(this.instanceId).DeadAgent();
     }
 
-    public void OnNotice(string notice, params object[] param)
+    public string LifeStyle() {
+        string temp = null;
+        switch (agentLifeValue) { 
+            case 1:
+                temp = "합리주의자";
+                break;
+            case 2:
+                temp = "낙천주의자";
+                break;
+            case 3:
+                temp = "원칙주의자";
+                break;
+            case 4:
+                temp = "평화주의자";
+                break;
+        }
+
+        return temp;
+    }
+
+    public void calcLevel() {
+        int healthPoint, mentalPoint, workPoint, speedPoint;
+        ValueInfo average = ValueInfo.getAverage();
+        healthPoint = calc(hp, average.hp);
+        mentalPoint = calc(mental, average.mental);
+        workPoint = calc(workSpeed, average.workSpeed);
+        speedPoint = calc(movement, average.movementSpeed);
+
+        levelSetting = new ValueInfo(healthPoint, mentalPoint, workPoint, speedPoint);
+        setSprite();
+    }
+
+    public int calc(int value, int standard)
     {
-        if (notice == NoticeName.FixedUpdate)
+        if (value < standard)
         {
-            OnFixedUpdate();
+            return 0;
+        }
+        else if (value >= standard && value < 2 * standard)
+        {
+            return 1;
+        }
+        else return 2;
+    }
+
+    public void setSprite() {
+        string loc = "UIResource/Icons/";
+        
+        for (int i = 0; i < StatusSprites.Length; i++) {
+            string fullpath = loc + i + levelSetting.stats[i];
+            StatusSprites[i] = ResourceCache.instance.GetSprite(fullpath);
+        }
+
+        for (int i = 0; i < WorklistSprites.Length; i++) {
+            string fullpath = loc + "Work_" + i;
+            WorklistSprites[i] = ResourceCache.instance.GetSprite(fullpath);
         }
     }
+
+    public static int CompareByName(AgentModel x, AgentModel y) {
+        if (x == null || y == null) {
+            Debug.Log("Errror in comparison by name");
+            return 0;
+        }
+        if (x.name == null)
+        {
+            if (y.name == null) return 0;
+            else return -1;
+        }
+        else {
+            if (y.name == null) return 1;
+            else {
+                return x.name.CompareTo(y.name);
+            }
+        }
+    }
+
+    public static int CompareByID(AgentModel x, AgentModel y)
+    {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by sefira");
+            return 0;
+        }
+
+        
+        return x.instanceId.CompareTo(y.instanceId);
+    }
+
+    public static int CompareBySefira(AgentModel x, AgentModel y) {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by sefira");
+            return 0;
+        }
+        int xInt, yInt;
+
+        xInt = int.Parse(x.currentSefira);
+        yInt = int.Parse(y.currentSefira);
+
+        return xInt.CompareTo(yInt);
+    }
+
+    public static int CompareByLevel(AgentModel x, AgentModel y) {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by level");
+            return 0;
+        }
+        int xInt, yInt;
+
+        xInt = x.level;
+        yInt = y.level;
+
+        return xInt.CompareTo(yInt);
+    }
+
+    public static int CompareByLifestyle(AgentModel x, AgentModel y) {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by LifeStyle");
+            return 0;
+        }
+
+        return x.agentLifeValue.CompareTo(y.agentLifeValue);
+    }
+
+    public Sprite getCurrentSefiraSprite() {
+        Sprite s = null;
+
+        switch (currentSefira) {
+            case "0":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/None_Icon");
+                break;
+            case "1":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Malkuth_Icon");
+                break;
+            case "2":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Netzzach_Icon");
+                break;
+            case "3":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Hod_Icon");
+                break;
+            case "4":
+                s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Yessod_Icon");
+                break;
+            default:
+                 s = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/None_Icon");
+                break;
+        }
+
+        return s;
+    }
+
 }

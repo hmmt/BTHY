@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Reflection;
 
+
 public class AgentManager : IObserver {
 
     public static string[] nameList
@@ -54,7 +55,6 @@ public class AgentManager : IObserver {
         hodAgentList = new List<AgentModel>();
         nezzachAgentList = new List<AgentModel>();
         yesodAgentList = new List<AgentModel>();
-
         Notice.instance.Observe(NoticeName.ChangeAgentSefira, this);
     }
 
@@ -62,7 +62,7 @@ public class AgentManager : IObserver {
     {
 
         AgentTypeInfo info = AgentTypeList.instance.GetData(1);
-
+        
         if (info == null)
         {
             return null;
@@ -107,9 +107,9 @@ public class AgentManager : IObserver {
         unit.bodySpriteName = setRandomSprite(1);
         unit.panicSpriteName = setRandomSprite(3);
 
-        unit.AgentPortrait("hair",unit.hairSpriteName);
-        unit.AgentPortrait("face", unit.faceSpriteName);
-        unit.AgentPortrait("body", null);
+        unit.GetPortrait("hair",unit.hairSpriteName);
+        unit.GetPortrait("face", unit.faceSpriteName);
+        unit.GetPortrait("body", null);
 
         unit.SetCurrentSefira("0");
         unit.activated = false;
@@ -118,14 +118,15 @@ public class AgentManager : IObserver {
         unit.applyTrait(RandomEiTrait);
         unit.applyTrait(RandomNfTrait);
         unit.applyTrait(RandomNormalTrait);
-
+        AgentListScript.instance.SetAgentList(unit);
+        /*
         Debug.Log("EI Trait "+RandomEiTrait.name);
         Debug.Log("Nf Trait " + RandomNfTrait.name);
         Debug.Log("가치관 " + unit.agentLifeValue);
+        */
 
         return unit;
     }
-
 
     public string setRandomSprite(int count)
     {
@@ -187,7 +188,6 @@ public class AgentManager : IObserver {
             return "";
         }
     }
-
 
     public void activateAgent(AgentModel unit, string sefira)
     {
@@ -342,6 +342,7 @@ public class AgentManager : IObserver {
             if (node.CheckInRange(agent.GetMovableNode()))
             {
                 output.Add(agent);
+                
             }
         }
         return output.ToArray();

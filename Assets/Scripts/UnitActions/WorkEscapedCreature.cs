@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WorkEscapedCreature : MonoBehaviour {
+public class WorkEscapedCreature : ActionClassBase {
     private enum WorkState
     {
         MOVING,
@@ -17,9 +17,12 @@ public class WorkEscapedCreature : MonoBehaviour {
     public int creatureStack;
 
     private float timer = 0.0f;
+    private float waitTimer = 0;
     
     private void proccess()
     {
+        Success();
+        return;
         int agentDice = Random.Range(1, 4+1);
         int creatureDice = Random.Range(1, 5+1 + 10);
 
@@ -50,7 +53,9 @@ public class WorkEscapedCreature : MonoBehaviour {
     void Success()
     {
         agent.FinishWorking();
-        creature.ReturnEscape();
+        //creature.ReturnEscape();
+
+        ReturnCreatureAction.Create(agent, creature);
         Destroy(gameObject);
     }
 
@@ -72,6 +77,12 @@ public class WorkEscapedCreature : MonoBehaviour {
 
                 creature.StartEscapeWork();
             }
+            else if (waitTimer <= 0)
+            {
+                agent.MoveToCreature(creature);
+                waitTimer = 1f + Random.value;
+            }
+            waitTimer -= Time.deltaTime;
         }
         else if (state == WorkState.WORKING)
         {

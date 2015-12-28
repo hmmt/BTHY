@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UseSkill : MonoBehaviour
+public class UseSkill : ActionClassBase
 {
 
     public int totalTickNum;
@@ -315,12 +315,12 @@ public class UseSkill : MonoBehaviour
 
             // creature prefer
             float bonus = 0;
-            if (targetCreature.GetPreferSkillBonus(skillTypeInfo.type, out bonus))
+            if (targetCreature.GetPreferSkillBonus(skillTypeInfo, out bonus))
             {
                 // prob up
                 workProb += bonus;
             }
-            else if (targetCreature.GetRejectSkillBonus(skillTypeInfo.type, out bonus))
+            else if (targetCreature.GetRejectSkillBonus(skillTypeInfo, out bonus))
             {
                 // prob down
                 workProb += bonus;
@@ -341,11 +341,11 @@ public class UseSkill : MonoBehaviour
 
             if (success)
             {
-                if (targetCreature.IsPreferSkill(skillTypeInfo.type))
+                if (targetCreature.IsPreferSkill(skillTypeInfo))
                 {
                     workValue = (int)(workValue * 1.5);
                 }
-                else if (targetCreature.IsRejectSkill(skillTypeInfo.type))
+                else if (targetCreature.IsRejectSkill(skillTypeInfo))
                 {
                     workValue = (int)(workValue * 0.5);
                 }
@@ -357,11 +357,11 @@ public class UseSkill : MonoBehaviour
                 // when changed in SkillFailWorkTick
                 if (workPlaying)
                 {
-                    if (targetCreature.IsPreferSkill(skillTypeInfo.type))
+                    if (targetCreature.IsPreferSkill(skillTypeInfo))
                     {
                         workValue = (int)(workValue * 0.5);
                     }
-                    else if (targetCreature.IsRejectSkill(skillTypeInfo.type))
+                    else if (targetCreature.IsRejectSkill(skillTypeInfo))
                     {
                         workValue = (int)(workValue * 1.5);
                     }
@@ -522,7 +522,7 @@ public class UseSkill : MonoBehaviour
         agent.Working(creature);
         //creature.ShowNarrationText("start", agent.name);
 
-        inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.work, skillInfo.amount); // 임시
+        inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.workSpeed, skillInfo.amount); // 임시
         
         inst.agent = agent;
         inst.agentView = agentView;

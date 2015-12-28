@@ -62,6 +62,8 @@ public class CreatureManager : IObserver{
         AddCreatureInSepira(model, sefiraNum);
 
         RegisterCreature(model);
+
+       
     }
 
     // 환상체 세피라에 배속
@@ -70,6 +72,7 @@ public class CreatureManager : IObserver{
         if (sepira == "1")
         {
             MalkuthCreature.Add(creature);
+            
         }
 
         else if (sepira == "2")
@@ -86,7 +89,32 @@ public class CreatureManager : IObserver{
         {
             YessodCreature.Add(creature);
         }
+        //Debug.Log(SefiraManager.instance.getSefira(sepira).creatureList.Count);
+        
+    }
 
+    public List<CreatureModel> GetSelectedList(string sefira) {
+        if (sefira == "1")
+        {
+            return MalkuthCreature;
+        }
+
+        else if (sefira == "2")
+        {
+            return NezzachCreature;
+        }
+
+        else if (sefira == "3")
+        {
+            return HodCreature;
+        }
+
+        else if (sefira == "4")
+        {
+            return YessodCreature;
+        }
+        else
+            return null;
     }
 
     public void Update()
@@ -125,7 +153,7 @@ public class CreatureManager : IObserver{
         model.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
         if(model.script != null)
             model.script.SetModel(model);
-        model.baseNodeId = nodeId;
+        model.entryNodeId = nodeId;
 
         MapNode entryNode = MapGraph.instance.GetNodeById(nodeId);
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
@@ -193,12 +221,15 @@ public class CreatureManager : IObserver{
             node1.AddEdge(edge);
             node2.AddEdge(edge);
         }
+
+        if (model.script != null)
+            model.script.OnInit();
     }
 
 	public void Init()
 	{
 		creatureList = new List<CreatureModel> ();
-
+        
         Notice.instance.Observe(NoticeName.ChangeAgentSefira_Late, this);
 	}
 
@@ -266,7 +297,7 @@ public class CreatureManager : IObserver{
             CreatureModel model = new CreatureModel(creatureId);
             model.LoadData(data);
 
-            BuildCreatureModel(model, model.metadataId, model.baseNodeId, model.basePosition.x, model.basePosition.y);
+            BuildCreatureModel(model, model.metadataId, model.entryNodeId, model.basePosition.x, model.basePosition.y);
 
             RegisterCreature(model);
         }

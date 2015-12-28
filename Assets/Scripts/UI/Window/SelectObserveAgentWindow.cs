@@ -55,21 +55,29 @@ public class SelectObserveAgentWindow : MonoBehaviour
         AgentModel[] agents = AgentManager.instance.GetAgentList();
 
         float posy = 0;
+        int cnt = 0;
         foreach (AgentModel unit in agents)
         {
             if (unit.GetState() == AgentCmdState.WORKING)
                 continue;
 
             GameObject slot = Prefab.LoadPrefab("AgentSlotPanelObserve");
-
+           
             slot.transform.SetParent(agentScrollTarget, false);
 
             RectTransform tr = slot.GetComponent<RectTransform>();
-            tr.localPosition = new Vector3(0, posy, 0);
+            tr.localPosition = new Vector3(0, tr.rect.y /2 + posy, 0);
 
             AgentSlotPanelObserve slotPanel = slot.GetComponent<AgentSlotPanelObserve>();
             slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
 
+            if (cnt % 2 == 0)
+            {
+                slotPanel.bg.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Semi");
+            }
+            else {
+                slotPanel.bg.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
+            }
 
             AgentModel copied = unit;
             slotPanel.skillButton1.onClick.AddListener(() => SelectAgentSkill(copied));
@@ -79,10 +87,17 @@ public class SelectObserveAgentWindow : MonoBehaviour
             slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
             slotPanel.agentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
 
-            Debug.Log(tr.localPosition);
+            //Debug.Log(tr.localPosition);
 
-            posy -= 50f;
+            posy -= tr.rect.height;
+            cnt++;
         }
+
+        RectTransform scrollTarget = agentScrollTarget.GetComponent<RectTransform>();
+        Vector2 delta = scrollTarget.sizeDelta;
+        delta = new Vector2(delta.x, -posy);
+        scrollTarget.sizeDelta = delta;
+
     }
     public void CloseWindow()
     {

@@ -3,12 +3,55 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
+public enum CreatureFeelingState
+{
+    GOOD,
+    NORM,
+    BAD
+}
+public enum SkillBonusAttr
+{
+    CATEGORY_TYPE,
+    CATEGORY_ID
+}
 [System.Serializable]
 public class SkillBonusInfo
 {
+    public SkillBonusAttr attr;
+
     public string skillType;
+    public long skillId;
     public float bonus;
 }
+
+[System.Serializable]
+public class EnergyGenInfo
+{
+    public int section;
+    public float genValue;
+
+    public EnergyGenInfo(int section, float genValue)
+    {
+        this.section = section;
+        this.genValue = genValue;
+    }
+
+    public static int SectionSortComparison(EnergyGenInfo a, EnergyGenInfo b)
+    {
+        return a.section - b.section;
+    }
+}
+
+[System.Serializable]
+public class FeelingSectionInfo
+{
+    public int section;
+    public float energyGenValue;
+    public CreatureFeelingState feelingState;
+    public SkillBonusInfo[] preferList;
+    public SkillBonusInfo[] rejectList;
+}
+
 [System.Serializable]
 public class CreatureTypeInfo
 {
@@ -36,17 +79,15 @@ public class CreatureTypeInfo
 	public float feelingDownProb;
 	public float feelingDownValue;
 
-	public SkillTypeInfo specialSkill;
+	//public SkillTypeInfo specialSkill;
 
-	public float[] genEnergy;
-			
-    public SkillBonusInfo[] preferList;
-
-    public SkillBonusInfo[] rejectList;
+    public FeelingSectionInfo[] feelingSectionInfo;
 
 	public string imgsrc;
     public string roomsrc;
     public string framesrc;
+
+    public string roomReturnSrc; // 제압당한 환상체 돌아가는 이미지
 
 	public string script;
     public string animatorScript;

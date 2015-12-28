@@ -37,11 +37,8 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
     public void AddCreature(CreatureModel model)
     {
-        float st, t1, t2, t3; // for performance test
-
-        st = Time.realtimeSinceStartup;
-
-        GameObject newCreature = ResourceCache.instance.LoadPrefab("Creature1");
+        //GameObject newCreature = ResourceCache.instance.LoadPrefab("Creature1");
+        GameObject newCreature = ResourceCache.instance.LoadPrefab("Unit/CreatureBase");
 
         CreatureUnit unit = newCreature.GetComponent<CreatureUnit>();
 
@@ -59,15 +56,14 @@ public class CreatureLayer : MonoBehaviour, IObserver {
             }
         }
 
-        t1 = Time.realtimeSinceStartup;
-
         unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.imgsrc);
         Texture2D tex = unit.spriteRenderer.sprite.texture;
         unit.SetScaleFactor(200f / tex.width, 200f / tex.height, 1);
 
-
-
-        t2 = Time.realtimeSinceStartup;
+        if (model.metaInfo.roomReturnSrc != "")
+        {
+            unit.returnSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.roomReturnSrc);
+        }
 
         GameObject creatureRoom = ResourceCache.instance.LoadPrefab("IsolateRoom");
         creatureRoom.transform.SetParent(transform, false);
@@ -76,7 +72,6 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.roomsrc);
         room.targetUnit = unit;
 
-        t3 = Time.realtimeSinceStartup;
         /*
         room.frameSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.framesrc);
         */
@@ -89,9 +84,6 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
         creatureList.Add(unit);
         creatureDic.Add(model.instanceId, unit);
-
-        //Debug.Log(model.metaInfo.name);
-        Debug.Log(""+ (t1 - st) + ", " + (t2 - t1) + ", " + (t3 - t2));
     }
 
     public CreatureUnit GetCreature(long id)

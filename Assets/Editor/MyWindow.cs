@@ -21,7 +21,7 @@ public class MyWindow : EditorWindow
     void Update()
     {
         elapsed += Time.deltaTime;
-        if (elapsed > 1)
+        if (elapsed > 0.05f)
         {
             Repaint();
             elapsed = 0;
@@ -36,12 +36,15 @@ public class MyWindow : EditorWindow
         {
             EditorGUILayout.BeginVertical();
             GUILayout.Label("name : " + agent.name, EditorStyles.boldLabel);
+            GUILayout.Label("state : " + agent.GetState());
             GUILayout.Label("lifeValue : " + agent.agentLifeValue);
             GUILayout.Label("HP : " + agent.hp);
             GUILayout.Label("mental : " + agent.mental);
             GUILayout.Label("direct skill: " + agent.directSkill.id);
             GUILayout.Label("indirect skill: " + agent.indirectSkill.id);
             GUILayout.Label("block skill: " + agent.blockSkill.id);
+            GUILayout.Label("current Z value: " + agent.GetMovableNode().currentZValue);
+            GUILayout.Label("target  Z value: " + agent.GetMovableNode().targetZValue);
             
             EditorGUILayout.EndVertical();
         }

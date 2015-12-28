@@ -11,10 +11,31 @@ using System;
 
 public enum AgentCmdState
 {
-	IDLE, // no command
-	WORKING, // working command
-    CAPTURE, // 
+    IDLE, // no command
+    WORKING, // working command
+    CAPTURE_BY_CREATURE, // 환상체에게 공격당함
+    CAPTURE_BY_AGENT, // 직원에게 공격당함
+
+    PANIC_SUPPRESS_TARGET, // 제압당하는 중
+
     ESCAPE_WORKING,
+    SUPPRESS_WORKING, // 제압중
+    OPEN_ROOM,
+
+    RETURN_CREATURE, // 환상체 돌려보내는 중
+
+    PANIC_VIOLENCE, // 직원 공격 중
+    RUN_AWAY, // 도망중
     DEAD
 }
 
+public enum OfficerCmdState { 
+    IDLE,
+    MEMO,
+    CHAT,
+    DOCUMENT,
+    WORKING,
+    PANIC,
+    RETURN,
+    DEAD
+}
