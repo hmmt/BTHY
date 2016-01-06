@@ -18,6 +18,9 @@ public class GameStaticDataLoader {
 
         if(TraitTypeList.instance.loaded == false)
             loader.LoadTraitData();
+
+        if (PassageObjectTypeList.instance.loaded == false)
+            loader.LoadPassageData();
 	}
 
     public void LoadTraitData()
@@ -586,6 +589,31 @@ public class GameStaticDataLoader {
         }
 
         return output;
+    }
+
+    public void LoadPassageData()
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/PassageList");
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        XmlNodeList nodes = doc.SelectNodes("/passage_list/passage");
+
+        List<PassageObjectTypeInfo> passsageTypeList = new List<PassageObjectTypeInfo>();
+
+        foreach (XmlNode node in nodes)
+        {
+            PassageObjectTypeInfo typeInfo = new PassageObjectTypeInfo();
+
+            typeInfo.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+
+            typeInfo.prefabSrc = node.SelectSingleNode("src").InnerText;
+
+            passsageTypeList.Add(typeInfo);
+        }
+
+        PassageObjectTypeList.instance.Init(passsageTypeList.ToArray());
     }
 
     public void LoadCreatureResourceData()

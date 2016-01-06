@@ -41,6 +41,10 @@ public class NoticeName
 
     // PassageObject
     public static string AddPassageObject = "AddPassageObject";
+    public static string UpdatePassageObject = "UpdatePassageObject";
+    public static string AddMapObject = "AddMapObject";
+    public static string ClosePassageDoor = "ClosePassageDoor";
+    public static string OpenPassageDoor = "OpenPassageDoor";
 
     public static string MakeName(string noticeName, params string[] param)
     {

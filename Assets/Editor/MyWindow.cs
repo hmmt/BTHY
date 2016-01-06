@@ -43,10 +43,25 @@ public class MyWindow : EditorWindow
             GUILayout.Label("direct skill: " + agent.directSkill.id);
             GUILayout.Label("indirect skill: " + agent.indirectSkill.id);
             GUILayout.Label("block skill: " + agent.blockSkill.id);
-            GUILayout.Label("current Z value: " + agent.GetMovableNode().currentZValue);
-            GUILayout.Label("target  Z value: " + agent.GetMovableNode().targetZValue);
             
             EditorGUILayout.EndVertical();
+        }
+        foreach (PassageObjectModel passage in MapGraph.instance.GetPassageObjectList())
+        {
+            if (passage.IsClosable())
+            {
+                EditorGUILayout.BeginVertical();
+                GUILayout.Label("name : " + passage.GetId());
+                if (GUILayout.Button("Open"))
+                {
+                    passage.OpenPassage();
+                }
+                if (GUILayout.Button("Close"))
+                {
+                    passage.ClosePassage();
+                }
+                EditorGUILayout.EndVertical();
+            }
         }
         /*
         myString = EditorGUILayout.TextField("Text Field", myString);

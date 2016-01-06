@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<passage_list>
+  <passage id="1">
+    <src>Map/Passage/PassageLong</src>
+  </passage>
+  <passage id="2">
+    <src>Map/Passage/PassageShort</src>
+  </passage>
+  <passage id="3">
+    <src>Map/Passage/PassageElevator</src>
+  </passage>
+  <passage id="4">
+    <src>Map/Passage/PassageElevatorLong</src>
+  </passage>
+</passage_list>
