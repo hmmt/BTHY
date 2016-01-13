@@ -7,7 +7,8 @@ public class SefiraButtons {
     
 }
 
-public class CollectionListScript : MonoBehaviour {
+public class CollectionListScript : MonoBehaviour, ICollectionWindow
+{
     public bool isOpened = false;
     public Transform scrollTarget;
     public Transform anchor;
@@ -30,7 +31,8 @@ public class CollectionListScript : MonoBehaviour {
     public static CollectionListScript currentWindow = null;
     public int extended = -1;
 
-    public void Start() {
+    public void Start()
+    {
         startPos = PanelBg.GetComponent<RectTransform>();
 
         sefiraImage[0] = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/Malkuth_Icon");
@@ -43,14 +45,16 @@ public class CollectionListScript : MonoBehaviour {
     {
         SetCurrentList();
 
-        foreach (Transform child in scrollTarget.transform) {
+        foreach (Transform child in scrollTarget.transform)
+        {
             Destroy(child.gameObject);
         }
 
         GameObject[] list = new GameObject[creatureList.Count];
 
         int cnt = 0;
-        foreach (CreatureModel unit in creatureList) {
+        foreach (CreatureModel unit in creatureList)
+        {
             GameObject slot = Prefab.LoadPrefab("Slot/CollectionListPanelObject");
             slot.SetActive(true);
             slot.transform.SetParent(scrollTarget, false);
@@ -68,13 +72,14 @@ public class CollectionListScript : MonoBehaviour {
                 slotPanel.PanelImage.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
             }
             CreatureModel copied = unit;
-           
+
             slotPanel.SetPanel(copied);
             cnt++;
         }
 
         float posy = 0.0f;
-        foreach (GameObject child in list) {
+        foreach (GameObject child in list)
+        {
             //float size;
             RectTransform rt = child.GetComponent<RectTransform>();
 
@@ -95,7 +100,8 @@ public class CollectionListScript : MonoBehaviour {
         */
 
 
-    public void SetCurrentList() {
+    public void SetCurrentList()
+    {
         creatureList = CreatureManager.instance.GetSelectedList(currentSefira);
 
         switch (currentSefira)
@@ -121,21 +127,25 @@ public class CollectionListScript : MonoBehaviour {
     }
 
     //called by button or etc. Setting Current Sefira and It will be called other method
-    public void SetCurrentSefira(string sefira) {
+    public void SetCurrentSefira(string sefira)
+    {
         this.currentSefira = sefira;
         SetCurrentList();
     }
 
-    public void CollectionListAnimButton() {
+    public void CollectionListAnimButton()
+    {
         if (slideAnim.GetBool("Slide"))
         {
             isOpened = false;
             slideAnim.SetBool("Slide", false);
         }
-        else {
+        else
+        {
             isOpened = true;
             slideAnim.SetBool("Slide", true);
-            if (otherWindow.isOpened) {
+            if (otherWindow.isOpened)
+            {
                 otherWindow.isOpened = false;
                 otherWindow.slideAnim.SetBool("Slide", false);
             }
@@ -143,7 +153,8 @@ public class CollectionListScript : MonoBehaviour {
         }
     }
 
-    public void SelectSefira() {
+    public void SelectSefira()
+    {
         if (selectSefiraEnabled) return;
         selectSefiraEnabled = true;
         SefiraList.gameObject.SetActive(true);
@@ -154,7 +165,8 @@ public class CollectionListScript : MonoBehaviour {
         ShowCollectionList();
     }
 
-    public void CloseSelectWindow(string sefira) {
+    public void CloseSelectWindow(string sefira)
+    {
         if (!selectSefiraEnabled) return;
         selectSefiraEnabled = false;
         SefiraList.gameObject.SetActive(false);
@@ -166,7 +178,19 @@ public class CollectionListScript : MonoBehaviour {
         ShowCollectionList();
     }
 
-    public void OverlaySefira(string sefira) {
+    public void CloseSelectWindow()
+    {
+        if (!selectSefiraEnabled) return;
+        selectSefiraEnabled = false;
+        SefiraList.gameObject.SetActive(false);
+        Vector2 s_delta = new Vector2(PanelBg.GetComponent<RectTransform>().sizeDelta.x, PanelBg.GetComponent<RectTransform>().sizeDelta.y + SefiraList.GetComponent<RectTransform>().rect.height);
+        PanelBg.GetComponent<RectTransform>().sizeDelta = s_delta;
+        ShowCollectionList();
+
+    }
+
+    public void OverlaySefira(string sefira)
+    {
         switch (sefira)
         {
             case "1":
@@ -186,5 +210,16 @@ public class CollectionListScript : MonoBehaviour {
                 SefiraIcon.sprite = sefiraImage[3];
                 break;
         }
+    }
+    
+    void ICollectionWindow.Open()
+    {
+        isOpened = true;
+        ShowCollectionList();
+    }
+
+    void ICollectionWindow.Close()
+    {
+        isOpened = false;
     }
 }

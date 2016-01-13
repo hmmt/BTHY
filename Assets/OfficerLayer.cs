@@ -32,8 +32,8 @@ public class OfficerLayer : MonoBehaviour, IObserver {
         
         ClearOfficer();
         foreach (OfficerModel model in OfficeManager.instance.GetOfficerList()) {
-            Debug.Log("in layer" + model.name);
-            //AddOfficer(model);
+            //Debug.Log("in layer" + model.name);
+            AddOfficer(model);
         }
     }
 
@@ -85,8 +85,8 @@ public class OfficerLayer : MonoBehaviour, IObserver {
     {
         if (notice == NoticeName.AddOfficer) {
             foreach (object obj in param) {
-                Debug.Log("make?");
-                //AddOfficer((OfficerModel)obj);
+                //Debug.Log("make?");
+                AddOfficer((OfficerModel)obj);
             }
         }
         else if (notice == NoticeName.RemoveOfficer){

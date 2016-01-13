@@ -30,6 +30,13 @@ public class GameStaticDataLoader {
         XmlNodeList nodes = doc.SelectNodes("/traits/trait");
 
         List<TraitTypeInfo> traitTypeList = new List<TraitTypeInfo>();
+        List<TraitTypeInfo> NFList = new List<TraitTypeInfo>();
+        List<TraitTypeInfo> EIList = new List<TraitTypeInfo>();
+        List<TraitTypeInfo>[] levelList = new List<TraitTypeInfo>[5];
+
+        for (int i = 0; i < 5; i++) {
+            levelList[i] = new List<TraitTypeInfo>();
+        }
 
         foreach (XmlNode node in nodes)
         {
@@ -55,9 +62,26 @@ public class GameStaticDataLoader {
 
             model.description = node.Attributes.GetNamedItem("description").InnerText;
 
+            if (model.randomFlag == 1) {
+                levelList[model.level - 1].Add(model);
+                switch (model.discType) { 
+                    case 1:
+                    case 2:
+                        EIList.Add(model);
+                        break;
+                    case 3:
+                    case 4:
+                        NFList.Add(model);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
             traitTypeList.Add(model);
         }
-        TraitTypeList.instance.Init(traitTypeList.ToArray());
+        TraitTypeList.instance.Init(traitTypeList.ToArray(), EIList.ToArray(), NFList.ToArray(), levelList);
+
     }
 
 	public void LoadSKillData()
@@ -80,7 +104,8 @@ public class GameStaticDataLoader {
 			model.name = node.Attributes.GetNamedItem("name").InnerText;
 			model.type = node.Attributes.GetNamedItem("type").InnerText;
 			model.amount = int.Parse(node.Attributes.GetNamedItem("amount").InnerText);
-
+            model.description = node.Attributes.GetNamedItem("desc").InnerText;
+            
             model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
 
             XmlNodeList bonusType= node.SelectNodes("bonus");

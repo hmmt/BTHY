@@ -50,6 +50,8 @@ public class AgentModel : WorkerModel
     public int thinkTrait=0;
     public int emotionalTrait=0;
 
+    public AgentHistory history;
+
     public SkillTypeInfo directSkill;
     public SkillTypeInfo indirectSkill;
     public SkillTypeInfo blockSkill;
@@ -90,14 +92,16 @@ public class AgentModel : WorkerModel
         currentSefira = "0";
         SetCurrentSefira(area);
         MovableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
+        history = new AgentHistory();
+        
     }
 
     public override Dictionary<string, object> GetSaveData()
     {
         Dictionary<string, object> output = base.GetSaveData();
-        
+        output = history.GetSaveData(output);
         //output.Add("traitList", 
-
+        
         output.Add("level", level);
         output.Add("workDays", workDays);
 
@@ -132,7 +136,7 @@ public class AgentModel : WorkerModel
         base.LoadData(dic);
 
         //output.Add("traitList", 
-
+        history.LoadData(dic);
         TryGetValue(dic, "level", ref level);
         TryGetValue(dic, "workDays", ref workDays);
 
@@ -321,7 +325,6 @@ public class AgentModel : WorkerModel
     public void promoteSkill(int skillClass)
     {
         int randomSkillFlag;
-
         if(skillClass == 1)
         {
             randomSkillFlag = Random.Range(0,2);
@@ -580,7 +583,8 @@ public class AgentModel : WorkerModel
          * */
         CurrentPanicAction = new PanicReady(this);
     }
-    public void PanicReadyComplete()
+    
+    public override void PanicReadyComplete()
     {
         // CurrentPanicAction'' = new PanicSuicideExecutor(this, 5);
         //CurrentPanicAction = new PanicViolence(this);
@@ -603,8 +607,9 @@ public class AgentModel : WorkerModel
                 break;
         }
         */
+    
     }
-
+    
     public void StopPanic()
     {
         CurrentPanicAction = null;
@@ -685,24 +690,6 @@ public class AgentModel : WorkerModel
         }
     }
 
-    public static int CompareByName(AgentModel x, AgentModel y) {
-        if (x == null || y == null) {
-            Debug.Log("Errror in comparison by name");
-            return 0;
-        }
-        if (x.name == null)
-        {
-            if (y.name == null) return 0;
-            else return -1;
-        }
-        else {
-            if (y.name == null) return 1;
-            else {
-                return x.name.CompareTo(y.name);
-            }
-        }
-    }
-
     public static int CompareByID(AgentModel x, AgentModel y)
     {
         if (x == null || y == null)
@@ -710,7 +697,6 @@ public class AgentModel : WorkerModel
             Debug.Log("Errror in comparison by sefira");
             return 0;
         }
-
         
         return x.instanceId.CompareTo(y.instanceId);
     }

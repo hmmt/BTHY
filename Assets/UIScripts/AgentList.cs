@@ -3,7 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class AgentList : MonoBehaviour {
+public interface ICollectionWindow {
+    void Open();
+    void Close();
+}
+
+public class AgentList : MonoBehaviour, ICollectionWindow {
 
     public bool isOpened = false;
 
@@ -80,6 +85,7 @@ public class AgentList : MonoBehaviour {
             slotPanel.Name.text = unit.name;
             slotPanel.Level.text = unit.level + "등급";
 
+            slotPanel.Mental.text = unit.mental + "/" + unit.maxMental;
             slotPanel.setIndex(i);
             /*
             if (i == extended)
@@ -226,7 +232,6 @@ public class AgentList : MonoBehaviour {
             isOpened = false;
             slideAnim.SetBool("Slide", false);
         }
-
         else
         {
             isOpened = true;
@@ -237,8 +242,9 @@ public class AgentList : MonoBehaviour {
             }
             ShowAgentListD();
         }
-
     }
+
+
 
     public string MentalCheck(AgentModel unit)
     {
@@ -317,5 +323,16 @@ public class AgentList : MonoBehaviour {
 
 
 
+    }
+    
+    public void Open()
+    {
+        isOpened = true;
+        ShowAgentListD();
+    }
+
+    public void Close()
+    {
+        isOpened = false;
     }
 }

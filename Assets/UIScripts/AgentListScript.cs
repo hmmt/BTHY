@@ -24,9 +24,10 @@ public class AgentListScript : MonoBehaviour {
     private int lastIndex = 0;
     private float extendSize = 0.0f;
     private AgentExtendedScript infoScript;
+    private ListSlotScript infoDisplayedAgent;
 
-    private List<GameObject> agentList = new List<GameObject>();
-    private List<AgentModel> modelList = new List<AgentModel>();
+    private static List<GameObject> agentList = new List<GameObject>();
+    private static List<AgentModel> modelList = new List<AgentModel>();
 
     private int extendedIndex = -1;
     public bool extended = false;
@@ -37,36 +38,70 @@ public class AgentListScript : MonoBehaviour {
         promoteScript = PromotionPanel.GetComponent<PromotionPanelScript>();
         infoScript = infoPanel.GetComponent<AgentExtendedScript>();
 
+
         initialPosy = agentScrollTarget.localPosition.y;
         agentListforScroll = (RectTransform)Instantiate(agentScrollTarget);
         mode = 0;
         order = 0;
     }
-
-    public void Init() {
-        foreach (RectTransform rt in agentScrollTarget) {
-            Destroy(rt.gameObject);
+    /*
+    public void Start()
+    {
+        Debug.Log(StageUI.instance.getCurrnetType());
+        addbutton.gameObject.SetActive(false);
+        if (StageUI.instance.getCurrnetType().Equals(StageUI.UIType.START_STAGE))
+        {
+            addbutton.gameObject.SetActive(true);
         }
-        agentScrollTarget.sizeDelta = agentListforScroll.sizeDelta;
-        ShowAgentList();
     }
 
+    public void OnDisable()
+    {
+
+    }
+    */
+    public void Init() {
+        Debug.Log("Initializing Agent List");
+        
+        foreach (RectTransform rt in agentScrollTarget) {
+            if(rt.tag.Equals("AgentListSlot"))  Destroy(rt.gameObject);
+        }
+        agentList.Clear();
+        foreach (AgentModel mo in modelList)
+        {
+            Debug.Log(mo.name);
+            SetExistAgentList(mo);
+        }
+        //agentScrollTarget.sizeDelta = agentListforScroll.sizeDelta;
+        ShowAgentList();
+    }
+    
     public void SetExtended(ListSlotScript script) {
         if (extended) {
             extendedScript.state = false;
         }
+        this.infoDisplayedAgent = script;
         extended = true;
         extendedIndex = script.index;
         extendedScript = script;
+        extendedScript.state = true;
         extendSize = script.GetHeight() * 2;
         infoPanel.gameObject.SetActive(true);
         infoScript.SetValue(script.getModel());
         infoPanel.localPosition = new Vector3(infoPanel.localPosition.x,
                                              -script.GetHeight() * (extendedIndex + 1), 0.0f);
         ShowAgentList();
+        agentScrollTarget.localPosition = new Vector3(agentScrollTarget.localPosition.x,
+                                                      script.GetHeight() * script.index,
+                                                      0.0f);
+    }
+
+    public void SetExtended() {
+        this.SetExtended(infoDisplayedAgent);
     }
 
     public void SetExtendedDisabled() {
+        this.infoDisplayedAgent = null;
         extendSize = 0.0f;
         extended = false;
         extendedIndex = -1;
@@ -233,7 +268,7 @@ public class AgentListScript : MonoBehaviour {
             cumulative += additional;
         }
 
-        if (cumulative + addbutton.rect.height > agentListforScroll.rect.height)
+        if (cumulative + addbutton.rect.height > agentListforScroll.rect.height)    
         {
             agentScrollTarget.sizeDelta = new Vector2(agentScrollTarget.sizeDelta.x, cumulative + addbutton.rect.height);
         }
@@ -252,6 +287,11 @@ public class AgentListScript : MonoBehaviour {
                                                             initialPosy + heightForMove, 0.0f);
         }
 
+    }
+
+    private void setScrollPos(float posy) {
+        agentScrollTarget.localPosition = new Vector3(agentScrollTarget.localPosition.x,
+                                                        posy, 0.0f);
     }
 
     public void ChangeOrder(int order) {
@@ -277,6 +317,7 @@ public class AgentListScript : MonoBehaviour {
         if (this.mode == mode) {
             InversteList(modelList);
             ShowAgentList();
+            setScrollPos();
             return ;
         }
         this.mode = mode;
@@ -299,6 +340,7 @@ public class AgentListScript : MonoBehaviour {
         }
         
         ShowAgentList();
+        setScrollPos();
     }
 
     private void InversteList(List<AgentModel> list) {
@@ -342,16 +384,31 @@ public class AgentListScript : MonoBehaviour {
         //script.ui.allocate.onClick.AddListener(() => StageUI.instance.SetAgentSefriaButton(am));
     }
 
+    private void SetExistAgentList(AgentModel am) {
+        GameObject inst = Instantiate(SlotObject);
+        RectTransform instTr = inst.GetComponent<RectTransform>();
+        ListSlotScript script = inst.GetComponent<ListSlotScript>();
+        script.Init(am);
+        inst.transform.SetParent(agentScrollTarget);
+        inst.transform.localScale = Vector3.one;
+        agentList.Add(inst);
+        script.ui.allocate.onClick.AddListener(() => script.OnAllocateClick());
+    }
+
     public void ActivatePromotionPanel(ListSlotScript script) {
         promoteScript.Deactivate();
         GameObject target = findObjectSlot(script);
+        Vector3 pos = target.transform.localPosition;
         promoteScript.SetTarget(target);
         promoteScript.UpdatePanel(script);
         target.gameObject.SetActive(false);
         PromotionPanel.gameObject.SetActive(true);
-        float posy = script.GetHeight() * script.index;
-        PromotionPanel.localPosition = new Vector3(0.0f, -posy, 0.0f);
+        PromotionPanel.localPosition = pos;
         
+    }
+
+    public void SetAddbuttonState(bool b) {
+        this.addbutton.gameObject.SetActive(b);
     }
 
 }

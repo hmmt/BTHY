@@ -30,6 +30,7 @@ public enum AgentCmdState
 }
 
 public enum OfficerCmdState { 
+    START,
     IDLE,
     MEMO,
     CHAT,

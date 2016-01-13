@@ -18,6 +18,4 @@ public class AgentExtendedScript : MonoBehaviour {
         info.SelectedAgent(model);
     }
 
-
-	
 }

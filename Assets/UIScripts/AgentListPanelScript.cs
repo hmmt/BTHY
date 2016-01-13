@@ -18,6 +18,7 @@ public class AgentListPanelScript : MonoBehaviour {
     public Image[] skill;
     //public Button[] SefiraList;
     public int index;
+    public Text Mental;
     AgentList script;
 
     public void Start() {
@@ -28,7 +29,7 @@ public class AgentListPanelScript : MonoBehaviour {
     {
         index = i;
     }
-
+    
     public void ListIndex() {
         script.extended = index;
         script.ShowAgentListD();

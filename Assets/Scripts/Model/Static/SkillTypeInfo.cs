@@ -7,6 +7,8 @@ public class SkillTypeInfo {
 	public string name;
 	public string type;
 
+    public string description;
+
 	public int amount;
 
     public string imgsrc;

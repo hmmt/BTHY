@@ -8,7 +8,7 @@ public class MapEdge {
 	public float cost;
 
 	public string type;
-
+    public string name;
 	public bool activated;
 
     // temp edge
@@ -20,6 +20,7 @@ public class MapEdge {
 		this.node1 = node1;
 		this.node2 = node2;
 		this.type = type;
+
 
 		this.cost = Vector3.Distance(node1.GetPosition(), node2.GetPosition());
 	}

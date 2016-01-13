@@ -22,6 +22,7 @@ public class ResourceCache {
     private Dictionary<string, Texture2D> textureCache;
     private Dictionary<string, Sprite> spriteCache;
     private Dictionary<string, GameObject> prefabCache;
+    private Dictionary<string, Sprite[]> multipleSpriteCache;
 
     private int loadingCount = 0;
 
@@ -43,6 +44,7 @@ public class ResourceCache {
         textureCache = new Dictionary<string, Texture2D>();
         spriteCache = new Dictionary<string, Sprite>();
         prefabCache = new Dictionary<string, GameObject>();
+        multipleSpriteCache = new Dictionary<string, Sprite[]>();
     }
 
     public Texture2D GetTexture(string name)
@@ -75,6 +77,24 @@ public class ResourceCache {
 
         return output;
     }
+
+    public Sprite[] GetMultipleSprite(string name) {
+        Sprite[] output;
+        if (multipleSpriteCache.TryGetValue(name, out output)) {
+            return output;
+        }
+        output = Resources.LoadAll<Sprite>(name);
+        if (output == null) {
+            Debug.Log("LOAD FAIL ERROR : " + name);
+            return null;
+        }
+
+        InsertSpriteCache(name, output[0]);
+
+        return output;
+
+    }
+
     /*
     public void PreLoadSprite(string name)
     {
@@ -92,6 +112,11 @@ public class ResourceCache {
     {
         if(!spriteCache.ContainsKey(name))
             spriteCache.Add(name, sprite);
+    }
+
+    public void InsertSpriteCache(string name, Sprite[] sprite) {
+        if (!multipleSpriteCache.ContainsKey(name))
+            multipleSpriteCache.Add(name, sprite);
     }
 
     public IEnumerator LoadSprites(string[] spriteNameList, Callback finishCallback)

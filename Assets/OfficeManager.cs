@@ -63,7 +63,6 @@ public class OfficeManager : IObserver {
     public OfficerModel CreateOfficerModel(string sefira)
     {
         AgentTypeInfo info = AgentTypeList.instance.GetData(1);
-
         if (info == null) {
             return null;
         }
@@ -111,7 +110,10 @@ public class OfficeManager : IObserver {
                 break;
         }
         Debug.Log("created" + unit.name);
-        OfficerLayer.currentLayer.AddOfficer(unit);
+        //OfficerLayer.currentLayer.AddOfficer(unit);
+
+        SefiraManager.instance.getSefira(sefira).AddUnit(unit);
+
         ActivateOfficer(unit);
         return unit;
     }

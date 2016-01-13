@@ -22,7 +22,6 @@ public class MapGraph
     private Dictionary<string, List<MapNode>> sefiraNodesTable;
     private Dictionary<string, List<MapNode>> additionalSefiraTable;
     private Dictionary<string, List<List<MapNode>>> deptNodeTable;
-    
 
     private Dictionary<string, List<MapNode>> nodeAreaTable;
 
@@ -80,6 +79,16 @@ public class MapGraph
 
         return new MapNode[]{ };
     }
+
+    public MapNode[] GetAreaNodes(string area)
+    {
+        List<MapNode> output;
+        if (nodeAreaTable.TryGetValue(area, out output)) {
+            return output.ToArray();
+        }
+        return new MapNode[] { };
+    }
+
 
     public MapNode[] GetAdditionalSefira(string area) {
         List<MapNode> output;
@@ -197,7 +206,6 @@ public class MapGraph
                     Debug.Log("this is not node_group");
                 }
             }
-
             nodeAreaDic.Add(areaName, nodesInArea);
             sefiraNodesDic.Add(areaName, sefiraNodes);
             additionalSefiraDic.Add(areaName, additionalSefira);
@@ -254,7 +262,7 @@ public class MapGraph
         additionalSefiraTable = additionalSefiraDic;
 
         loaded = true;
-
+        
         Notice.instance.Send(NoticeName.LoadMapGraphComplete);
     }
 

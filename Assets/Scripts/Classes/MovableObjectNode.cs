@@ -178,8 +178,6 @@ public class MovableObjectNode {
         }
     }
 
-
-
     public bool Equal(MovableObjectNode src)
     {
         if (currentEdge == src.currentEdge && edgePosRate == src.edgePosRate && edgeDirection == src.edgeDirection)

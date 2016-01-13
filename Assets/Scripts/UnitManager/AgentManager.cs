@@ -70,8 +70,8 @@ public class AgentManager : IObserver {
 
         AgentModel unit = new AgentModel(nextInstId++, "1");
 
-        TraitTypeInfo RandomEiTrait = TraitTypeList.instance.GetRandomEiTrait(1);
-        TraitTypeInfo RandomNfTrait = TraitTypeList.instance.GetRandomNfTrait(1);
+        TraitTypeInfo RandomEiTrait = TraitTypeList.instance.GetRandomEITrait(unit.traitList);
+        TraitTypeInfo RandomNfTrait = TraitTypeList.instance.GetRandomNFTrait(unit.traitList);
         TraitTypeInfo RandomNormalTrait = TraitTypeList.instance.GetRandomInitTrait();
 
 

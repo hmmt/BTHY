@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour
         AgentLayer.currentLayer.Init();
         CreatureLayer.currentLayer.Init();
         OfficerLayer.currentLayer.Init();
+        AgentListScript.instance.Init();
+
         if (PlayerModel.instance.GetDay() == 0)
         {
             PlayerModel.instance.OpenArea("1"); ;
@@ -75,7 +77,8 @@ public class GameManager : MonoBehaviour
             
         }
 
-        OfficeManager.instance.CreateOfficerModel("1");
+        //OfficeManager.instance.CreateOfficerModel("1");
+        /*
         OfficeManager.instance.CreateOfficerModel("1");
         OfficeManager.instance.CreateOfficerModel("1");
         OfficeManager.instance.CreateOfficerModel("1");
@@ -86,16 +89,18 @@ public class GameManager : MonoBehaviour
 
         OfficeManager.instance.CreateOfficerModel("1");
         OfficeManager.instance.CreateOfficerModel("1");
-
+        */
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
             agent.ReturnToSefira();
         }
 
+        //SefiraManager.instance.getSefira("1").AssignOfficerDept();
+        /*
         foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList()) {
             officer.ReturnToSefira();
         }
-
+        */
         StartStage();
         //OpenStoryScene("start");
         /*
@@ -141,6 +146,10 @@ public class GameManager : MonoBehaviour
 
         int day = PlayerModel.instance.GetDay();
         stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
+
+        foreach (OfficerModel om in OfficeManager.instance.GetOfficerList()) {
+            StartCoroutine(om.StartAction());
+        }
     }
 
     public void EndGame()
@@ -148,7 +157,8 @@ public class GameManager : MonoBehaviour
         state = GameState.PAUSE;
         Debug.Log("EndGame");
         EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy() + EnergyModel.instance.GetStageLeftEnergy());
-
+        //직원계산파트 필요
+        
         GetComponent<RootTimer>().RemoveTimer("EnergyTimer");
         GetComponent<RootTimer>().RemoveTimer("CreatureFeelingUpdateTimer");
     }
@@ -172,7 +182,8 @@ public class GameManager : MonoBehaviour
         if (energy >= needEnergy)
         {
             stageUI.Open(StageUI.UIType.END_STAGE);
-            briefingText.SetNarrationByDay();
+            EndStage.instance.init(AgentManager.instance.GetAgentList()[0]);
+            //briefingText.SetNarrationByDay();
         }
         else
         {

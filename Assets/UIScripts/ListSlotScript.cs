@@ -107,7 +107,6 @@ public class ListSlotScript : MonoBehaviour {
     
     public void Init(AgentModel model) {
         SetModel(model);
-
         
         ui.SetData(model);
         ui.SetAttributes();

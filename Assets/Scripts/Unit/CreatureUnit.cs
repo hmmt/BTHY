@@ -215,17 +215,21 @@ public class CreatureUnit : MonoBehaviour {
 
 	public void OnClicked()
 	{
-        Debug.Log("크리쳐 상태 "+model.state);
-		if(model.state == CreatureState.WAIT)
-		{
-			SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
-			//IsolateRoomStatus.CreateWindow(this);
-		}
+        room.OnClickedCreatureRoom();
+	}
+
+    public void OnClick() {
+        Debug.Log("크리쳐 상태 " + model.state);
+        if (model.state == CreatureState.WAIT)
+        {
+            SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
+            //IsolateRoomStatus.CreateWindow(this);
+        }
         else if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
         {
             SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
         }
-	}
+    }
 
     public void PointerEnter()
     {

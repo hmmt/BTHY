@@ -19,6 +19,7 @@ public class CollectionPanelScript : MonoBehaviour {
         Portrait.sprite = Resources.Load<Sprite>("Sprites/" + model.metaInfo.imgsrc);
         
         name.text = model.metaInfo.name;
+        
         grade.text = model.metaInfo.attackType + " / " + model.metaInfo.level;
         SetObservation(model);
         

@@ -13,7 +13,7 @@ public class AreaButton
 }
 
 public class StageUI : MonoBehaviour, IObserver {
-
+    
     public enum UIType {START_STAGE, END_STAGE};
     
     public int agentCost;
@@ -24,7 +24,7 @@ public class StageUI : MonoBehaviour, IObserver {
     {
         get { return _instance; }
     }
-    public Canvas canvas;
+    //public Canvas canvas;
 
     public GameObject startStageUi;
     public GameObject endStageUi;
@@ -32,17 +32,18 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public AreaButton[] areaButtons;
 
-    public UnityEngine.UI.Image[] areaButtonImage;
+    public Image[] areaButtonImage;
 
     public Transform agentScrollTarget;
     public Transform agentListforScroll;
 
     private Dictionary<string, AreaButton> areaBtnDic;
+
     private bool opened;
     private UIType currentType;
 
     public string currentSefriaUi = "1";
-    public UnityEngine.UI.Button OpenSefira;
+    public Button OpenSefira;
     public GameObject agentSlot;
 
     public RectTransform AddButton;
@@ -57,30 +58,37 @@ public class StageUI : MonoBehaviour, IObserver {
     private float scrollInitialY;
 
     public int extended = -1;
-    private int sortMode = 0;
+    //private int sortMode = 0;
 
     public bool setState = false;//확장정보창의 존재 유무
+    private bool nextScene = false;
 
+    public int[] levelCost;
 
     void Awake()
     {
         _instance = this;
-
+        
         agentCost = 1;
         areaCost = 10;
         OpenSefira.gameObject.SetActive(false);
         openText.gameObject.SetActive(false);
         areaBtnDic = new Dictionary<string, AreaButton>();
+        nextScene = false;
         foreach (AreaButton btn in areaButtons)
         {
             areaBtnDic.Add(btn.name, btn);
         }
+        scrollSizeScale = agentScrollTarget.GetComponent<RectTransform>().rect.height;
+        initialYPos = scrollSizeScale / 2;
+        scrollInitialY = agentScrollTarget.localPosition.y;
     }
 
     void OnEnable()
     {
         Notice.instance.Observe(NoticeName.AreaOpenUpdate, this);
     }
+
     void OnDisable()
     {
         Notice.instance.Remove(NoticeName.AreaOpenUpdate, this);
@@ -95,20 +103,23 @@ public class StageUI : MonoBehaviour, IObserver {
             AreaButton btn = v.Value;
             UpdateButton(btn);
         }*/
-        GameObject sliderPanel = GameObject.FindWithTag("EnergyPanel");
-        float MaxValueForEnergy = EnergyModel.instance.GetLeftEnergy();
-        sliderPanel.GetComponent<MenuLeftEnergy>().SetSlider(MaxValueForEnergy);
-        currentSefriaUi = "0";
-        UpdateSefiraButton("1");
 
-        scrollSizeScale = agentScrollTarget.GetComponent<RectTransform>().rect.height;
-        
-        initialYPos = scrollSizeScale / 2;
-        scrollInitialY = agentScrollTarget.localPosition.y;
-        
-        agentInformation.gameObject.SetActive(false);
-        agentSlot.gameObject.SetActive(false);
-        listScript.ShowAgentListWithChange();
+        if (currentType == UIType.START_STAGE)
+        {
+            GameObject sliderPanel = GameObject.FindWithTag("EnergyPanel");
+            float MaxValueForEnergy = EnergyModel.instance.GetLeftEnergy();
+            sliderPanel.GetComponent<MenuLeftEnergy>().SetSlider(MaxValueForEnergy);
+            currentSefriaUi = "0";
+            UpdateSefiraButton("1");
+            
+            agentInformation.gameObject.SetActive(false);
+            agentSlot.gameObject.SetActive(false);
+            listScript.SetAddbuttonState(true);
+            listScript.ShowAgentListWithChange();
+        }
+        else if (currentType == UIType.END_STAGE) {
+            listScript.SetAddbuttonState(false);
+        }
         //ShowAgentList();
     }
 
@@ -646,7 +657,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
         int level2Cost = 2;
         int level3Cost = 5;
-
+        Debug.Log("이거부름");
         if (level == 1)
         {
             if (EnergyModel.instance.GetLeftEnergy() >= level2Cost)
@@ -662,7 +673,6 @@ public class StageUI : MonoBehaviour, IObserver {
                 {
                      RandomLifeValueTrait = TraitTypeList.instance.GetRandomEiTrait(level);
                 }
-
                 else
                 {
                      RandomLifeValueTrait = TraitTypeList.instance.GetRandomNfTrait(level);
@@ -685,6 +695,9 @@ public class StageUI : MonoBehaviour, IObserver {
                 button.gameObject.SetActive(false);
                 //ShowAgentList();
                 listScript.findListSlotScript(agent).SetChange();
+                if (listScript.extended) {
+                    listScript.SetExtended();
+                }
             }
             else
             {
@@ -733,23 +746,53 @@ public class StageUI : MonoBehaviour, IObserver {
         }
     }
 
+    public void PromoteAgent(AgentModel agent , Button button) {
+        int index = agent.level - 1;
+        if (EnergyModel.instance.GetLeftEnergy() < levelCost[index])
+        {
+            Debug.Log("Not enough energy");
+            return;
+        }
+        else { 
+            EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - levelCost[index]);
+        }
+
+        TraitTypeInfo[] addList = TraitTypeList.instance.GetTrait(agent);
+
+        agent.level = agent.level + 1;
+        foreach (TraitTypeInfo t in addList) {
+            agent.applyTrait(t);
+        }
+        agent.calcLevel();
+        button.gameObject.SetActive(false);
+        ListSlotScript listSlot = listScript.findListSlotScript(agent);
+        listSlot.SetChange();
+       
+        if (listScript.extended)
+        {
+            listScript.SetExtended();
+        }
+        if (agent.level < 5) button.gameObject.SetActive(true);
+    }
+
     // ok btn
     public void Close()
     {
         opened = false;
         //canvas.gameObject.SetActive(false);
-        
+
+        commonStageUi.gameObject.SetActive(false);
         if (currentType == UIType.START_STAGE)
         {
-            commonStageUi.gameObject.SetActive(false);
             startStageUi.gameObject.SetActive(false);
+            
             GameManager.currentGameManager.StartGame();
         }
         else if (currentType == UIType.END_STAGE)
         {
-            //commonStageUi.gameObject.SetActive(false);
-            //endStageUi.gameObject.SetActive(false);
+            endStageUi.gameObject.SetActive(false);
             GameManager.currentGameManager.ExitStage();
+            OnExitScene();
         }
 
         SefiaOpenedCheck.SetSefira();
@@ -765,14 +808,17 @@ public class StageUI : MonoBehaviour, IObserver {
         Debug.Log(currentType);
 
         if (currentType == UIType.START_STAGE)
+        {
             startStageUi.gameObject.SetActive(true);
 
+        }
         else if (currentType == UIType.END_STAGE)
+        {
             endStageUi.gameObject.SetActive(true);
-
-        Init();
+        }
             //.gameObject.SetActive(true);
-
+        Init();
+        
     }
 
 
@@ -787,5 +833,73 @@ public class StageUI : MonoBehaviour, IObserver {
     public UIType getCurrnetType()
     {
         return currentType;
+    }
+
+    public void OnExitScene() {
+        if (nextScene) return;
+        nextScene = true;
+        //StartCoroutine(StoryScneLoader());
+        //StoryScneLoader();
+        End();
+    }
+
+    System.Collections.IEnumerator End() {
+        Debug.Log("끝");
+        //GameManager.currentGameManager.ExitStage();
+        AsyncOperation async = Application.LoadLevelAsync("StorySceneTemp");
+
+
+        return null;
+    }
+}
+
+namespace UISpace
+{
+    
+    public class StartUIManager
+    {
+        private static StartUIManager _instance = null;
+        public static StartUIManager instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new StartUIManager();
+                }
+
+                return _instance;
+            }
+        }
+
+    }
+
+    public class EndUIManager
+    {
+        private static EndUIManager _instance = null;
+        public static EndUIManager instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new EndUIManager();
+                return _instance;
+            }
+        }
+    }
+
+    public class CommonUIManager
+    {
+        private static CommonUIManager _instance = null;
+        public static CommonUIManager instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new CommonUIManager();
+                return _instance;
+            }
+        }
+
     }
 }

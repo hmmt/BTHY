@@ -84,7 +84,8 @@ public class PromotionPanelScript : MonoBehaviour {
     public void OnConfirm() {
         if (selectedSkill == -1) return;
         this.model.promoteSkill(this.selectedSkill);
-        StageUI.instance.PromotionAgent(this.model, model.level, script.ui.promotion);
+        //StageUI.instance.PromotionAgent(this.model, model.level, script.ui.promotion);
+        StageUI.instance.PromoteAgent(this.model, script.ui.promotion);
         targetObject.SetActive(true);
         Deactivate();
     }

@@ -263,16 +263,21 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void OnClick()
     {
-        CreatureModel oldCreature = (CollectionWindow.currentWindow != null )? CollectionWindow.currentWindow.GetCreature() : null;
+        targetUnit.OnClick();
+        
+    }
+
+    public void OnClickedCreatureRoom() {
+        CreatureModel oldCreature = (CollectionWindow.currentWindow != null) ? CollectionWindow.currentWindow.GetCreature() : null;
         if (SelectWorkAgentWindow.currentWindow != null)
-        SelectWorkAgentWindow.currentWindow.CloseWindow();
+            SelectWorkAgentWindow.currentWindow.CloseWindow();
         CollectionWindow.Create(_targetUnit.model);
 
 
         // TODO : 최적화 필요
         collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
 
-        
+
         if (collection.GetComponent<Animator>().GetBool("isTrue"))
         {
             //Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
