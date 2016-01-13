@@ -18,12 +18,19 @@ public class MapGraph
         }
     }
 
+    // 모든 노드
     private Dictionary<string, MapNode> graphNodes;
-    private Dictionary<string, List<MapNode>> sefiraNodesTable;
+    
+    // 세피라 휴식 공간 노드
+    private Dictionary<string, List<MapNode>> sefiraCoreNodesTable;
     private Dictionary<string, List<MapNode>> additionalSefiraTable;
     private Dictionary<string, List<List<MapNode>>> deptNodeTable;
 
-    private Dictionary<string, List<MapNode>> nodeAreaTable;
+    // 세피라 영역 노드
+    private Dictionary<string, MapSefiraArea> mapAreaTable;
+
+    // 통로
+    private Dictionary<string, PassageObjectModel> passageTable;
 
     private List<MapEdge> edges;
 
@@ -72,23 +79,13 @@ public class MapGraph
     {
         List<MapNode> output;
 
-        if (sefiraNodesTable.TryGetValue(area, out output))
+        if (sefiraCoreNodesTable.TryGetValue(area, out output))
         {
             return output.ToArray();
         }
 
         return new MapNode[]{ };
     }
-
-    public MapNode[] GetAreaNodes(string area)
-    {
-        List<MapNode> output;
-        if (nodeAreaTable.TryGetValue(area, out output)) {
-            return output.ToArray();
-        }
-        return new MapNode[] { };
-    }
-
 
     public MapNode[] GetAdditionalSefira(string area) {
         List<MapNode> output;
@@ -100,39 +97,28 @@ public class MapGraph
 
     public void ActivateArea(string name)
     {
-        List<MapNode> nodeList;
-        if (nodeAreaTable.TryGetValue(name, out nodeList))
+        MapSefiraArea sefira;
+        if (mapAreaTable.TryGetValue(name, out sefira))
         {
-            foreach (MapNode node in nodeList)
-            {
-                node.activate = true;
-            }
-            Notice.instance.Send(NoticeName.AreaOpenUpdate, name);
+            sefira.ActivateArea();
         }
+        
     }
 
     public void DeactivateArea(string name)
     {
-        List<MapNode> nodeList;
-        if (nodeAreaTable.TryGetValue(name, out nodeList))
+        MapSefiraArea sefira;
+        if (mapAreaTable.TryGetValue(name, out sefira))
         {
-            foreach (MapNode node in nodeList)
-            {
-                node.activate = false;
-            }
-            Notice.instance.Send(NoticeName.AreaUpdate, name, false);
+            sefira.DeactivateArea();
         }
     }
 
     public void InitActivates()
     {
-        foreach (KeyValuePair<string, List<MapNode>> pair in nodeAreaTable)
+        foreach (MapSefiraArea sefira in mapAreaTable.Values)
         {
-            foreach (MapNode node in pair.Value)
-            {
-                node.activate = false;
-            }
-            Notice.instance.Send(NoticeName.AreaUpdate, pair.Key, false);
+            sefira.InitActivates();
         }
     }
 
@@ -151,15 +137,18 @@ public class MapGraph
 
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
         Dictionary<string, List<MapNode>> sefiraNodesDic = new Dictionary<string, List<MapNode>>();
-        Dictionary<string, List<MapNode>> nodeAreaDic = new Dictionary<string, List<MapNode>>();
         Dictionary<string, List<MapNode>> additionalSefiraDic = new Dictionary<string, List<MapNode>>();
+
+        Dictionary<string, MapSefiraArea> mapAreaDic = new Dictionary<string, MapSefiraArea>();
+        Dictionary<string, PassageObjectModel> passageDic = new Dictionary<string, PassageObjectModel>();
 
         foreach (XmlNode areaNode in areaNodes)
         {
-            List<MapNode> nodesInArea = new List<MapNode>();
+            MapSefiraArea mapArea = new MapSefiraArea();
             List<MapNode> sefiraNodes = new List<MapNode>();
             List<MapNode> additionalSefira = new List<MapNode>();
             string areaName = areaNode.Attributes.GetNamedItem("name").InnerText;
+            mapArea.sefiraName = areaName;
             
             int max = int.Parse(areaNode.Attributes.GetNamedItem("sub").InnerText);
             Sefira sefira = SefiraManager.instance.getSefira(areaName);
@@ -171,6 +160,22 @@ public class MapGraph
                 {
                     string groupName = "group@" + groupCount;
                     groupCount++;
+
+                    XmlAttributeCollection attrs = nodeGroup.Attributes;
+                    XmlNode passageTypeIdNode = attrs.GetNamedItem("typeId");
+                    XmlNode passageXNode = attrs.GetNamedItem("x");
+                    XmlNode passageYNode = attrs.GetNamedItem("y");
+                    PassageObjectModel passage = null;
+                    if (passageTypeIdNode != null)
+                    {
+                        long passageTypeId = long.Parse(passageTypeIdNode.InnerText);
+                        float x = 0, y = 0;
+                        if (passageXNode != null) x = float.Parse(passageXNode.InnerText);
+                        if (passageYNode != null) y = float.Parse(passageYNode.InnerText);
+                        passage = new PassageObjectModel(groupName, areaName, PassageObjectTypeList.instance.GetData(passageTypeId));
+                        passage.position = new Vector3(x, y, 0);
+                    }
+                    
                     
                     foreach (XmlNode node in nodeGroup.ChildNodes)
                     {
@@ -180,7 +185,7 @@ public class MapGraph
                         
                         XmlNode typeNode = node.Attributes.GetNamedItem("type");
 
-                        MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName, groupName);
+                        MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName, passage);
                        
                         newMapNode.activate = false;
 
@@ -197,16 +202,30 @@ public class MapGraph
                             int index = int.Parse(totalString[1]);
                             sefira.departmentList[index].Add(newMapNode);
                         }
-                        
-                        nodesInArea.Add(newMapNode);
+
+                        XmlNodeList optionList = node.SelectNodes("option");
+                        foreach (XmlNode optionNode in optionList)
+                        {
+                            if (optionNode.InnerText == "closable")
+                            {
+                                newMapNode.SetClosable(true);
+                            }
+                        }
+
+                        if(passage != null)
+                            passage.AddNode(newMapNode);
+                        mapArea.AddNode(newMapNode);
                     }
+                    if (passage != null)
+                        passageDic.Add(groupName, passage);
                 }
                 else
                 {
                     Debug.Log("this is not node_group");
                 }
             }
-            nodeAreaDic.Add(areaName, nodesInArea);
+
+            mapAreaDic.Add(areaName, mapArea);
             sefiraNodesDic.Add(areaName, sefiraNodes);
             additionalSefiraDic.Add(areaName, additionalSefira);
         }
@@ -257,13 +276,39 @@ public class MapGraph
         graphNodes = nodeDic;
         edges = edgeList;
 
-        nodeAreaTable = nodeAreaDic;
-        sefiraNodesTable = sefiraNodesDic;
+        mapAreaTable = mapAreaDic;
+        sefiraCoreNodesTable = sefiraNodesDic;
         additionalSefiraTable = additionalSefiraDic;
 
-        loaded = true;
+        passageTable = passageDic;
+
+        // temp
+        foreach (KeyValuePair<string, PassageObjectModel> kv in passageTable)
+        {
+            //RegisterPassageObject(kv.Value);
+            Notice.instance.Send(NoticeName.AddPassageObject, kv.Value);
+        }
         
+        ///
+
+        loaded = true;
+
         Notice.instance.Send(NoticeName.LoadMapGraphComplete);
+    }
+    /*
+    public void AddPassageObject(string id, long metadataId)
+    {
+        PassageObjectTypeInfo typeinfo = PassageObjectTypeList.instance.GetData(metadataId);
+
+        PassageObjectModel model = new PassageObjectModel(id, typeinfo);
+        RegisterPassageObject(model);
+
+    }*/
+    public void RegisterPassageObject(PassageObjectModel model)
+    {
+        passageTable.Add(model.GetId(), model);
+
+        Notice.instance.Send(NoticeName.AddPassageObject, model);
     }
 
     public MapNode[] GetGraphNodes()
@@ -280,5 +325,10 @@ public class MapGraph
     public MapEdge[] GetGraphEdges()
     {
         return edges.ToArray();
+    }
+
+    public PassageObjectModel[] GetPassageObjectList()
+    {
+        return new List<PassageObjectModel>(passageTable.Values).ToArray();
     }
 }

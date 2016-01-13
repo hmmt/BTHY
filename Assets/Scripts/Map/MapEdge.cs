@@ -50,4 +50,16 @@ public class MapEdge {
 		}
 		return null;
 	}
+
+    public MapNode GetGoalNode(int direction)
+    {
+        if (direction == 1)
+        {
+            return node2;
+        }
+        else
+        {
+            return node1;
+        }
+    }
 }
