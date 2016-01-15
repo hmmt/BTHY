@@ -10,7 +10,7 @@ public class PanicWander : PanicAction {
     public PanicWander(WorkerModel target) {
         worker = target;
         movementSpeed = target.movement;//may be changed to double
-        sefiraNode = MapGraph.instance.GetAreaNodes(target.currentSefira);
+        sefiraNode = MapGraph.instance.GetSefiraNodes(target.currentSefira);
     }
     
     public MapNode GetRandomNodeByRandom() {

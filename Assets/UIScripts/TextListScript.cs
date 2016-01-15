@@ -18,6 +18,13 @@ public class TextListScript : MonoBehaviour{
     public float initialPos;
     public float spacing;
     public int fontSize;
+    private Color bright, dark;
+    public Sprite BS, DS;
+
+    public void Start() {
+        dark = new Color(230, 209, 179);
+        bright = new Color(249, 240, 226);
+    }
 
     public void MakeTextWithBg(string text) {
         GameObject addText = Instantiate(makeObject);
@@ -85,11 +92,11 @@ public class TextListScript : MonoBehaviour{
         
         if ((child.Count % 2) == 0)
         {
-            addObject.transform.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Semi"); ;
+            addObject.transform.GetComponent<Image>().sprite = BS;
         }
         else
         {
-            addObject.transform.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
+            addObject.transform.GetComponent<Image>().sprite = DS;
         }
 
         Text addText = addObject.transform.GetChild(0).GetComponent<Text>();

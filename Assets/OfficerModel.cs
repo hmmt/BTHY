@@ -84,7 +84,7 @@ public class OfficerModel : WorkerModel {
                         state = OfficerCmdState.IDLE;
                         break;
                     }
-                    MoveToCreatureRoom(this.target);
+                    this.MoveToCreatureRoom(this.target);
                     this.isMoving = true;
                     waitTimer = 90f;
                     break;
@@ -237,6 +237,10 @@ public class OfficerModel : WorkerModel {
     {
 
         MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetDepartNodeByRandom(deptNum).GetId());
+    }
+
+    public override void MoveToCreatureRoom(CreatureModel target) {
+        MovableNode.MoveToNode(target.GetEntryNode());
     }
 
     public override void PanicReadyComplete()

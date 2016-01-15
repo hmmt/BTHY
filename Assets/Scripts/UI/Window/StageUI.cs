@@ -29,6 +29,7 @@ public class StageUI : MonoBehaviour, IObserver {
     public GameObject startStageUi;
     public GameObject endStageUi;
     public GameObject commonStageUi;
+    public Image CommonBg;
 
     public AreaButton[] areaButtons;
 
@@ -782,6 +783,7 @@ public class StageUI : MonoBehaviour, IObserver {
         //canvas.gameObject.SetActive(false);
 
         commonStageUi.gameObject.SetActive(false);
+        CommonBg.gameObject.SetActive(false);
         if (currentType == UIType.START_STAGE)
         {
             startStageUi.gameObject.SetActive(false);
@@ -804,6 +806,7 @@ public class StageUI : MonoBehaviour, IObserver {
         opened = true;
         currentType = uiType;
         commonStageUi.gameObject.SetActive(true);
+        CommonBg.gameObject.SetActive(true);
 
         Debug.Log(currentType);
 
@@ -845,6 +848,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
     System.Collections.IEnumerator End() {
         Debug.Log("끝");
+        
         //GameManager.currentGameManager.ExitStage();
         AsyncOperation async = Application.LoadLevelAsync("StorySceneTemp");
 

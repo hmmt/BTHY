@@ -87,13 +87,20 @@ public class AgentListScript : MonoBehaviour {
         extendedScript.state = true;
         extendSize = script.GetHeight() * 2;
         infoPanel.gameObject.SetActive(true);
+        
         infoScript.SetValue(script.getModel());
         infoPanel.localPosition = new Vector3(infoPanel.localPosition.x,
                                              -script.GetHeight() * (extendedIndex + 1), 0.0f);
         ShowAgentList();
+        /*
         agentScrollTarget.localPosition = new Vector3(agentScrollTarget.localPosition.x,
                                                       script.GetHeight() * script.index,
                                                       0.0f);
+        */
+    }
+
+    private void SetExtendLast() {
+        infoPanel.transform.SetAsLastSibling();
     }
 
     public void SetExtended() {
@@ -151,7 +158,7 @@ public class AgentListScript : MonoBehaviour {
             RectTransform rt = slot.GetComponent<RectTransform>();
             ListSlotScript script = slot.GetComponent<ListSlotScript>();
 
-            rt.localPosition = new Vector3(0.0f, -posy, 0.0f);
+            rt.localPosition = new Vector3(agentListforScroll.localPosition.x, -posy, 0.0f);
             script.getModel().calcLevel();
             posy += script.GetHeight();
             if (script.Equals(extendedScript)) {
@@ -159,6 +166,7 @@ public class AgentListScript : MonoBehaviour {
                 posy += extendSize;
             }
         }
+        
         if (posy + addbutton.rect.height > agentListforScroll.rect.height)
         {
             agentScrollTarget.sizeDelta = new Vector2(agentScrollTarget.sizeDelta.x, posy + addbutton.rect.height);
@@ -166,7 +174,8 @@ public class AgentListScript : MonoBehaviour {
         addbutton.localPosition = new Vector3(0.0f, -posy, 0.0f);
 
 
-        setScrollPos();
+        //setScrollPos();
+        SetExtendLast();
     }
     /*
     public void ShowAgentList() {
@@ -250,7 +259,7 @@ public class AgentListScript : MonoBehaviour {
             if (extended)
             {
                 if (index.Equals(extendedIndex)) {
-                    Debug.Log("Found");
+                    //Debug.Log("Found");
                     found = true;
                     
                 }else if (found)
@@ -258,7 +267,8 @@ public class AgentListScript : MonoBehaviour {
                     posy += script.GetHeight() *2;
                 }
             }
-            rt.localPosition = new Vector3(0.0f, -posy, 0.0f);
+            //rt.localPosition = new Vector3(0.0f, -posy, 0.0f);
+            rt.localPosition = new Vector3(agentListforScroll.localPosition.x, -posy, 0.0f);
             script.getModel().calcLevel();
             childIndex++;
         }
@@ -267,14 +277,15 @@ public class AgentListScript : MonoBehaviour {
             additional = extendedScript.GetHeight() * 2;
             cumulative += additional;
         }
-
+        
         if (cumulative + addbutton.rect.height > agentListforScroll.rect.height)    
         {
             agentScrollTarget.sizeDelta = new Vector2(agentScrollTarget.sizeDelta.x, cumulative + addbutton.rect.height);
         }
         addbutton.localPosition = new Vector3(0.0f, -cumulative, 0.0f);
 
-        setScrollPos();
+        //setScrollPos();
+        SetExtendLast();
     }
 
     private void setScrollPos() {
@@ -283,15 +294,15 @@ public class AgentListScript : MonoBehaviour {
         std = agentListforScroll.rect.height;
         if (move > std) {
             float heightForMove = move - std;
-            agentScrollTarget.localPosition = new Vector3(agentScrollTarget.localPosition.x,
-                                                            initialPosy + heightForMove, 0.0f);
+            agentScrollTarget.anchoredPosition = new Vector2(agentScrollTarget.anchoredPosition.x,
+                                                            initialPosy + heightForMove);
         }
 
     }
 
     private void setScrollPos(float posy) {
-        agentScrollTarget.localPosition = new Vector3(agentScrollTarget.localPosition.x,
-                                                        posy, 0.0f);
+        agentScrollTarget.anchoredPosition = new Vector2(agentScrollTarget.anchoredPosition.x,
+                                                        posy);
     }
 
     public void ChangeOrder(int order) {

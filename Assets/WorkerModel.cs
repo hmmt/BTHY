@@ -221,7 +221,7 @@ public class WorkerModel: IObserver {
 
     public virtual void MoveToCreatureRoom(CreatureModel target)
     {
-        movableNode.MoveToNode(target.GetEntryNode());
+        movableNode.MoveToNode(target.GetWorkspaceNode());
     }
 
     public virtual bool isDead()

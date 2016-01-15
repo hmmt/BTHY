@@ -156,6 +156,17 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.PAUSE;
         Debug.Log("EndGame");
+        if (AgentStatusWindow.currentWindow != null)
+            AgentStatusWindow.currentWindow.CloseWindow();
+
+        if (SelectWorkAgentWindow.currentWindow != null)
+            SelectWorkAgentWindow.currentWindow.CloseWindow();
+
+        if (CollectionWindow.currentWindow != null)
+            CollectionWindow.currentWindow.CloseWindow();
+
+        if (SelectSefiraAgentWindow.currentWindow != null)
+            SelectSefiraAgentWindow.currentWindow.CloseWindow();
         EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy() + EnergyModel.instance.GetStageLeftEnergy());
         //직원계산파트 필요
         

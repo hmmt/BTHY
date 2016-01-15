@@ -7,7 +7,7 @@ public class StoryTempScript : MonoBehaviour {
     public Text day;
     public Text time;
     public Text energy;
-
+    public AudioSource src;
     private bool nextLoading = false;
 
     void Awake()
@@ -17,19 +17,27 @@ public class StoryTempScript : MonoBehaviour {
         int timenum = StageTypeInfo.instnace.GetStageGoalTime(daynum);
         float energynum = StageTypeInfo.instnace.GetEnergyNeed(daynum);
 
-        day.text = "day: " + daynum;
-        time.text = "time: " + timenum;
-        energy.text = "energy: " + (int)energynum;
+        day.text = "근무일 " + daynum;
+        time.text = "제한시간 " + timenum;
+        energy.text = "모아야 하는 에너지 " + (int)energynum;
     }
 
     public void OnButtonClick() {
         if (nextLoading) return;
+        src.PlayOneShot(src.clip);
         nextLoading = true;
         LoadStartScene();
+        
     }
 
     IEnumerator LoadStartScene() {
         Debug.Log("스토리끝 메인으로 넘어간다");
+        Day1Script tempscript = this.GetComponent<Day1Script>();
+        if (tempscript.selected == false)
+        {
+            tempscript.selected = true;
+            tempscript.script.SysMake("대화 종료");
+        }
         AsyncOperation async = Application.LoadLevelAsync("Main");
 
         return null;

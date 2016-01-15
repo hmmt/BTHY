@@ -74,6 +74,7 @@ public class Sefira
 
         for (int j = 0; j < max; j++)
         {
+            if (departmentNum == 0) departmentNum = 1;
             officerList[j].deptNum = (dept++) % departmentNum;
         }
     }
@@ -84,7 +85,7 @@ public class Sefira
         {
             foreach (MapNode mn in list)
             {
-                Debug.Log(mn.GetGroupName());
+                //Debug.Log(mn.GetGroupName());
             }
             Debug.Log(" ");
         }

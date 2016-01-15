@@ -35,4 +35,10 @@ public class AgentListPanelScript : MonoBehaviour {
         script.ShowAgentListD();
     }
 
+    public void OpenWindow() {
+        AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.model.instanceId);
+        unit.OpenStatusWindow();
+        
+    }
+
 }

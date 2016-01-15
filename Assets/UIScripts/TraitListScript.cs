@@ -12,12 +12,7 @@ public class TraitListScript : MonoBehaviour {
     public float initialPos;
     public float size;
     private float Ysize;
-    private Sprite[] bgImage = new Sprite[2];
-
-    public void Awake() {
-        bgImage[0] = ResourceCache.instance.GetSprite("UIResource/AgentInformation/TraitBright");
-        bgImage[1] = ResourceCache.instance.GetSprite("UIResource/AgentInformation/TraitDark");
-    }
+    public Sprite[] bgImage = new Sprite[2];
 
     public void MakeTrait(string text)
     {

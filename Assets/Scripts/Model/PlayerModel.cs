@@ -104,10 +104,10 @@ public class PlayerModel {
 
         if (added == "1")
         {
-            CreatureManager.instance.AddCreature(RandomCreature(), "left-upper-way2", -8f, -2.5f, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "left-upper-way3", -15f, -2.5f, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "right-upper-way2", 8f, -2.5f, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "right-upper-way3", 15f, -2.5f, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "left-upper-way2", -8f, -3f, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "left-upper-way3", -15f, -3f, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "right-upper-way2", 8f, -3f, added);
+            CreatureManager.instance.AddCreature(RandomCreature(), "right-upper-way3", 15f, -3f, added);
             CreatureManager.instance.AddCreature(RandomCreature(), "left-down-way2", -6, -10f, added);
             CreatureManager.instance.AddCreature(RandomCreature(), "right-down-way2", 6, -10f, added);
 

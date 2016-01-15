@@ -16,6 +16,7 @@ public class AgentList : MonoBehaviour, ICollectionWindow {
     public Transform anchor;
     public Animator slideAnim;
     public GameObject extend;
+    public GameObject slotItem;
 
     private int state1 = 0;
 
@@ -67,21 +68,21 @@ public class AgentList : MonoBehaviour, ICollectionWindow {
         int i = 0;
 
         foreach (AgentModel unit in agents) {
-            GameObject slot = Prefab.LoadPrefab("Slot/AgentListPanelObject");
+            GameObject slot = Instantiate(slotItem);
             Sprite sefiraSprite;
             slot.SetActive(true);
             slot.transform.SetParent(agentScrollTarget, false);
             list[i] = slot;
 
             AgentListPanelScript slotPanel = slot.GetComponent<AgentListPanelScript>();
-
+            /*
             if (i % 2 == 0)
             {
                 slotPanel.panelImage.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Semi");
             }
             else {
                 slotPanel.panelImage.sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
-            }
+            }*/
             slotPanel.Name.text = unit.name;
             slotPanel.Level.text = unit.level + "등급";
 
