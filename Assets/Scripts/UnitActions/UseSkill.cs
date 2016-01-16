@@ -153,11 +153,18 @@ public class UseSkill : ActionClassBase
                 targetCreatureView.PlaySound("enter");
                 targetCreature.script.OnEnterRoom(this);
             }
-            if (workPlaying)
-            {
-                workProgress += Time.deltaTime * workSpeed;
-            }
         }
+
+        if (workPlaying && IsWorkingState())
+        {
+            workProgress += Time.deltaTime * workSpeed;
+        }
+    }
+    public bool IsWorkingState()
+    {
+        if (agent.GetCurrentCommandType() == AgentCmdType.MANAGE_CREATURE)
+            return true;
+        return false;
     }
     private void ProgressWork()
     {

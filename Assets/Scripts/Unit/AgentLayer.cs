@@ -40,7 +40,8 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
     public void AddAgent(AgentModel model)
     {
-        GameObject newUnit = Prefab.LoadPrefab("unit");
+        //GameObject newUnit = Prefab.LoadPrefab("unit");
+        GameObject newUnit = Prefab.LoadPrefab("Agent/AgentUnit");
         newUnit.transform.SetParent(transform, false);
         AgentUnit unit = newUnit.GetComponent<AgentUnit>();
 

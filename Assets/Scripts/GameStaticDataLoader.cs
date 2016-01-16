@@ -448,11 +448,11 @@ public class GameStaticDataLoader {
             model.mentalDmg = int.Parse(node.Attributes.GetNamedItem("mentalDmg").InnerText);
             */
             model.script = node.Attributes.GetNamedItem("script").InnerText;
-
+            /*
             if (node.Attributes.GetNamedItem("animatorScript") != null)
             {
                 model.animatorScript = node.Attributes.GetNamedItem("animatorScript").InnerText;
-            }
+            }*/
             /*
             XmlNode feelingNode = node.SelectSingleNode("feeling");
             model.feelingMax = int.Parse(feelingNode.Attributes.GetNamedItem("max").InnerText);
@@ -499,11 +499,17 @@ public class GameStaticDataLoader {
             */
 
             XmlNode imgNode = node.SelectSingleNode("img");
-            model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
+            if(imgNode != null)
+                model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
             XmlNode roomNode = node.SelectSingleNode("room");
             model.roomsrc = roomNode.Attributes.GetNamedItem("src").InnerText;
             XmlNode frameNode = node.SelectSingleNode("frame");
             model.framesrc = frameNode.Attributes.GetNamedItem("src").InnerText;
+            XmlNode animNode = node.SelectSingleNode("anim");
+            if (animNode != null)
+            {
+                model.animSrc = animNode.Attributes.GetNamedItem("prefab").InnerText;
+            }
 
             XmlNode roomReturnSrcNode = node.SelectSingleNode("returnImg");
             if (roomReturnSrcNode != null)
@@ -609,10 +615,11 @@ public class GameStaticDataLoader {
 
         //model.script = node.Attributes.GetNamedItem("script").InnerText;
 
+        /*
         if (node.Attributes.GetNamedItem("animatorScript") != null)
         {
             model.animatorScript = node.Attributes.GetNamedItem("animatorScript").InnerText;
-        }
+        }*/
 
         model.feelingMax = int.Parse(node.SelectSingleNode("feelingMax").InnerText, System.Globalization.NumberStyles.Any);
         model.feelingDownProb = float.Parse(node.SelectSingleNode("feelingDownProb").InnerText);

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <creature>
 	<stat>
-		<name>마법소녀</name>
+		<name>성냥팔이</name>
 		<level>He</level>
 		<attackType>Red</attackType>
 		<horrorProb>0.4</horrorProb>
@@ -16,6 +16,20 @@
 		<feelingMax>100.0</feelingMax>
 		<feelingDownProb>0.33</feelingDownProb>
 		<feelingDownValue>3.8</feelingDownValue>
+
+    <energySectionGood>50</energySectionGood>
+    <energySectionNorm>x</energySectionNorm>
+
+    <energyGenGood>27.0</energyGenGood>
+    <energyGenNorm>x</energyGenNorm>
+    <energyGenBad>-19.0</energyGenBad>
+
+    <preferSkiilsGood>대화,세척,포옹하기</preferSkiilsGood>
+    <preferValuesGood>15,8,25</preferValuesGood>
+    <rejectSkiilsGood>직접,차단</rejectSkiilsGood>
+    <rejectValuesGood>15,30</rejectValuesGood>
+    
+    
 		<energyGenGood>30.0</energyGenGood>
 		<energyGenNorm>15.0</energyGenNorm>
 		<energyGenBad>-30.0</energyGenBad>

@@ -2,8 +2,10 @@
 <node_list>
 	<area name="1" sub="4">
     
-		<node_group>
-			<node id="sefira-malkuth-1" x="-4" y="1" type="sefira"/>
+		<node_group typeId="5">
+      <node id="sefira-malkuth-1" x="-4" y="1">
+        <door>DoorLeft</door>
+      </node>
 			<node id="sefira-malkuth-2" x="-3" y="1" type="sefira"/>
 			<node id="sefira-malkuth-3" x="-2" y="1" type="sefira"/>
 			<node id="sefira-malkuth-4" x="-1" y="1" type="sefira"/>
@@ -11,7 +13,9 @@
 			<node id="sefira-malkuth-6" x="1" y="1" type="sefira"/>
 			<node id="sefira-malkuth-7" x="2" y="1" type="sefira"/>
 			<node id="sefira-malkuth-8" x="3" y="1" type="sefira"/>
-			<node id="sefira-malkuth-9" x="4" y="1" type="sefira"/>
+			<node id="sefira-malkuth-9" x="4" y="1">
+        <door>DoorRight</door>
+      </node>
 		</node_group>
 
     <node_group typeId="3" x="0" y="-8">
@@ -72,9 +76,7 @@
       <node id="left-upper-way3" x="-14.5" y="1"/>
       <node id="left-upper-way4" x="-17" y="1"/>
 
-      <node id="left-upper-way2-door" x="-9.5" y="1.5">
-        <door>prefabname</door>
-      </node>
+      <node id="left-upper-way2-door" x="-9.5" y="1.5"/>
     </node_group>
 
     <node_group typeId="4" x="-21" y="-7">

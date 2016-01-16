@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Text.RegularExpressions;
 
-public class MapGraph
+public class MapGraph : IObserver
 {
     private static MapGraph _instance;
     public static MapGraph instance
@@ -204,12 +204,25 @@ public class MapGraph
                         }
 
                         XmlNodeList optionList = node.SelectNodes("option");
+                        int doorCount = 1;
                         foreach (XmlNode optionNode in optionList)
                         {
                             if (optionNode.InnerText == "closable")
                             {
-                                newMapNode.SetClosable(true);
+                                //newMapNode.SetClosable(true);
                             }
+                        }
+                        XmlNode doorNode = node.SelectSingleNode("door");
+                        if (doorNode != null)
+                        {
+                            string doorId = passage.GetId() + "@" + doorCount;
+                            newMapNode.SetClosable(true);
+                            DoorObjectModel door = new DoorObjectModel(doorId, doorNode.InnerText, passage, newMapNode);
+                            door.position = new Vector3(newMapNode.GetPosition().x,
+                                newMapNode.GetPosition().y, -0.01f);
+                            passage.AddDoor(door);
+                            newMapNode.SetDoor(door);
+                            door.Close();
                         }
 
                         if(passage != null)
@@ -281,18 +294,13 @@ public class MapGraph
         additionalSefiraTable = additionalSefiraDic;
 
         passageTable = passageDic;
-
-        // temp
-        foreach (KeyValuePair<string, PassageObjectModel> kv in passageTable)
-        {
-            //RegisterPassageObject(kv.Value);
-            Notice.instance.Send(NoticeName.AddPassageObject, kv.Value);
-        }
         
         ///
 
         loaded = true;
 
+        // Awake에서 호출되는데 괜찮나?
+        Notice.instance.Observe(NoticeName.FixedUpdate, this);
         Notice.instance.Send(NoticeName.LoadMapGraphComplete);
     }
     /*
@@ -330,5 +338,22 @@ public class MapGraph
     public PassageObjectModel[] GetPassageObjectList()
     {
         return new List<PassageObjectModel>(passageTable.Values).ToArray();
+    }
+
+
+    private void FixedUpdate()
+    {
+        foreach (PassageObjectModel passage in passageTable.Values)
+        {
+            passage.FixedUpdate();
+        }
+    }
+
+    public void OnNotice(string name, params object[] param)
+    {
+        if (name == NoticeName.FixedUpdate)
+        {
+            FixedUpdate();
+        }
     }
 }

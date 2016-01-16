@@ -83,14 +83,15 @@ public class CreatureTypeInfo
 
     public FeelingSectionInfo[] feelingSectionInfo;
 
-	public string imgsrc;
+	public string imgsrc = "";
     public string roomsrc;
     public string framesrc;
+    public string animSrc =""; // 
 
     public string roomReturnSrc; // 제압당한 환상체 돌아가는 이미지
 
 	public string script;
-    public string animatorScript;
+    //public string animatorScript;
 
 	public Dictionary<string, string> typoTable;
 	public Dictionary<string, string> narrationTable;

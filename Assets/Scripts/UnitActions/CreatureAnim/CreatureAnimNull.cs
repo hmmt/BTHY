@@ -5,14 +5,17 @@ public class CreatureAnimNull : CreatureAnimBase {
 
     public override void Init()
     {
+        /*
         RuntimeAnimatorController ctrl = Resources.Load<RuntimeAnimatorController>("NullAnimator");
 
         Animator anim = unit.creatureAnimator;
         anim.runtimeAnimatorController = ctrl;
         //anim.gameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.5f);
+        */
     }
     public override void LateUpdate()
     {
+        /*
         //unit.creatureAnimator.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         unit.SetScaleFactor(0.5f, 0.5f, 0.5f);
         if (unit.model.state == CreatureState.ESCAPE_ATTACK)
@@ -33,7 +36,7 @@ public class CreatureAnimNull : CreatureAnimBase {
                 unit.creatureAnimator.transform.localPosition = new Vector3(0, 0.3f, 0);
             unit.creatureAnimator.SetInteger("AnimCon", 0);
         }
-
+        */
         
     }
 }

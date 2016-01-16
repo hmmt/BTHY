@@ -17,6 +17,7 @@ public class OfficerUnit : MonoBehaviour {
 
     public GameObject puppetNode;
     public Animator puppetAnim;
+    public AgentAnim animTarget;
 
     public float oldPos;
     public float oldPosY;
@@ -61,6 +62,9 @@ public class OfficerUnit : MonoBehaviour {
     void Start() {
         officerAnimator.SetInteger("Sepira", 1);
         officerAnimator.SetBool("Change", false);
+
+        if(animTarget != null)
+            animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
         
         oldPos = transform.localPosition.x;
         oldPosY = transform.localPosition.y;
