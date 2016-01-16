@@ -5,12 +5,21 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 public class ConversationScript : MonoBehaviour {
+    [System.Serializable]
+    public class TextObjectPanel {
+        public GameObject textObject;
+        public float posX;
+    }
     public RectTransform list;
     public RectTransform selectList;
     public RectTransform maximumSize;
     public GameObject Left;
+    //public TextObjectPanel Left;
     public GameObject Right;
+    //public TextObjectPanel Right;
     public GameObject Select;
+    //public TextObjectPanel Select;
+
     public GameObject Sysmessage;
     
     public int cnt = 0;
@@ -22,7 +31,7 @@ public class ConversationScript : MonoBehaviour {
     private float startPosy;
     private float startHeight;
     private float posy = 0.0f;
-    public Day1Script dayScript;
+    
 
     public void Start() {
         if (spacing < 1.0f) {
@@ -73,7 +82,7 @@ public class ConversationScript : MonoBehaviour {
     }
 
     public void OnSelect(int index) {
-        dayScript.OnSelect(index + 1);
+        ConversationUnit.instance.OnSelect(index + 1);
     }
 
     public void ClearSelect() {
@@ -121,6 +130,7 @@ public class ConversationScript : MonoBehaviour {
         SetList(rect, posX);
     }
 
+    
     public void SetList(RectTransform rect) {
 
         rect.SetParent(list.transform);

@@ -21,6 +21,12 @@ public class GameStaticDataLoader {
 
         if (PassageObjectTypeList.instance.loaded == false)
             loader.LoadPassageData();
+
+        if (SystemMessageManager.instance.isLoaded() == false)
+            loader.LoadSystemMessage();
+
+        if (ConversationManager.instance.isLoaded() == false)
+            loader.LoadDayScript();
 	}
 
     public void LoadTraitData()
@@ -85,6 +91,104 @@ public class GameStaticDataLoader {
         }
         TraitTypeList.instance.Init(traitTypeList.ToArray(), EIList.ToArray(), NFList.ToArray(), levelList);
 
+    }
+
+    public void LoadSystemMessage() {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Sysmessage");
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+        
+        XmlNodeList messageNodes = doc.SelectNodes("system/message");
+        XmlNodeList keywordNodes = doc.SelectNodes("system/keyword");
+        List<SystemMessage> messageList = new List<SystemMessage>();
+        List<KeywordMessage> keywordList = new List<KeywordMessage>();
+
+        foreach (XmlNode node in messageNodes)
+        {
+            SystemMessage model = new SystemMessage();
+            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            model.name = node.Attributes.GetNamedItem("name").InnerText;
+            messageList.Add(model);
+        }
+
+        foreach (XmlNode node in keywordNodes)
+        {
+            KeywordMessage model = new KeywordMessage();
+            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            model.name = node.Attributes.GetNamedItem("name").InnerText;
+            model.desc = node.Attributes.GetNamedItem("desc").InnerText;
+            keywordList.Add(model);
+        }
+
+        SystemMessageManager.instance.Init(messageList.ToArray(), keywordList.ToArray());
+    }
+
+    public void LoadDayScript()
+    {
+        //LoadSystemMessage();
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Day");
+        List<ConversationModel> list = new List<ConversationModel>();
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        XmlNodeList nodes = doc.SelectNodes("script/day");
+        foreach (XmlNode node in nodes) {
+            ConversationModel model = new ConversationModel();
+            model.date = int.Parse(node.Attributes.GetNamedItem("date").InnerText);
+
+            XmlNodeList descList = node.SelectNodes("desc");
+            foreach (XmlNode dNode in descList) {
+                ConversationModel.Description description = new ConversationModel.Description();
+                description.id = long.Parse(dNode.Attributes.GetNamedItem("id").InnerText);
+                description.speaker = short.Parse(dNode.Attributes.GetNamedItem("speaker").InnerText);
+                description.selectId = long.Parse(dNode.Attributes.GetNamedItem("select").InnerText);
+                description.tempdesc = dNode.InnerText.Trim();
+                description.loadText();
+                XmlNodeList sys = dNode.SelectNodes("sys");
+                if (sys != null) {
+                    foreach (XmlNode s in sys)
+                    {
+                        int type = int.Parse(s.Attributes.GetNamedItem("call").InnerText);
+                        SystemMessage sm = null;
+                        switch (type) { 
+                            case 1:
+                                sm = SystemMessageManager.instance.GetSysMessage(1);
+                                break;
+                            case 2:
+                                int target = int.Parse(s.Attributes.GetNamedItem("target").InnerText);
+                                sm = SystemMessageManager.instance.GetKeyword(target);
+                                break;
+                            default:
+                                Debug.Log("worng system type in Desc +" + description.id);
+                                break;
+                        }
+                        description.sys.Add(sm);
+                    }
+                }
+                model.descList.Add(description);
+            }
+
+            XmlNodeList selectList = node.SelectNodes("select");
+            foreach (XmlNode sNode in selectList) {
+                ConversationModel.Select select = new ConversationModel.Select();
+                select.id = long.Parse(sNode.Attributes.GetNamedItem("id").InnerText);   
+
+                XmlNodeList innerNodes = sNode.SelectNodes("node");
+                foreach (XmlNode selectNode in innerNodes) {
+                    ConversationModel.Select.SelectNode unit = new ConversationModel.Select.SelectNode();
+                    unit.id = long.Parse(selectNode.Attributes.GetNamedItem("id").InnerText);
+                    unit.desc = selectNode.Attributes.GetNamedItem("desc").InnerText;
+                    unit.descId = long.Parse(selectNode.Attributes.GetNamedItem("target").InnerText);
+                    unit.favor = int.Parse(selectNode.Attributes.GetNamedItem("favor").InnerText);
+
+                    select.list.Add(unit);
+                }
+
+                model.selectList.Add(select);
+            }
+            list.Add(model);
+        }
+        ConversationManager.instance.Init(list.ToArray());
     }
 
 	public void LoadSKillData()
@@ -648,4 +752,5 @@ public class GameStaticDataLoader {
     public void LoadCreatureTextData()
     {
     }
+
 }

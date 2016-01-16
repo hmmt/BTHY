@@ -32,11 +32,11 @@ public class StoryTempScript : MonoBehaviour {
 
     IEnumerator LoadStartScene() {
         Debug.Log("스토리끝 메인으로 넘어간다");
-        Day1Script tempscript = this.GetComponent<Day1Script>();
-        if (tempscript.selected == false)
+        
+        if (ConversationUnit.instance.selected == false)
         {
-            tempscript.selected = true;
-            tempscript.script.SysMake("대화 종료");
+            ConversationUnit.instance.selected = true;
+            ConversationUnit.instance.InturreptEnd();
         }
         AsyncOperation async = Application.LoadLevelAsync("Main");
 
