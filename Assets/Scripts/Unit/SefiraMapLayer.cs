@@ -106,6 +106,8 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
     void OnEnable()
     {
+        Notice.instance.Observe(NoticeName.LoadMapGraphComplete, this);
+
         Notice.instance.Observe(NoticeName.AddMapObject, this);
         Notice.instance.Observe(NoticeName.AddPassageObject, this);
         Notice.instance.Observe(NoticeName.AreaOpenUpdate, this);
@@ -116,6 +118,8 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
     void OnDisable()
     {
+        Notice.instance.Remove(NoticeName.LoadMapGraphComplete, this);
+
         Notice.instance.Remove(NoticeName.AreaOpenUpdate, this);
         Notice.instance.Remove(NoticeName.AddMapObject, this);
         Notice.instance.Remove(NoticeName.AddPassageObject, this);
@@ -156,6 +160,18 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         }
     }
 
+    private void AddPassageDoor(PassageObjectModel model, DoorObjectModel doorModel)
+    {
+        foreach (SefiraObject sefira in sefiras)
+        {
+            if (sefira.sefiraName == model.GetSefiraName())
+            {
+                sefira.AddPassageDoor(model, doorModel);
+                break;
+            }
+        }
+    }
+
     private void AddMapObject(MapObjectModel model)
     {
         foreach (SefiraObject sefira in sefiras)
@@ -167,35 +183,54 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
             }
         }
     }
-
-    private void ClosePassage(PassageObjectModel model)
+    /*
+    private void ClosePassage(PassageObjectModel model, DoorObjectModel doorModel)
     {
         Debug.Log("SefiraMapLayer -> CALL ClosePassage");
         foreach (SefiraObject sefira in sefiras)
         {
             if (sefira.sefiraName == model.GetSefiraName())
             {
-                sefira.ClosePassage(model);
+                sefira.ClosePassage(model, doorModel);
                 break;
             }
         }
     }
 
-    private void OpenPassage(PassageObjectModel model)
+    private void OpenPassage(PassageObjectModel model, DoorObjectModel doorModel)
     {
         foreach (SefiraObject sefira in sefiras)
         {
             if (sefira.sefiraName == model.GetSefiraName())
             {
-                sefira.OpenPassage(model);
+                sefira.OpenPassage(model, doorModel);
                 break;
+            }
+        }
+    }
+    */
+    private void OnLoadMapGraph()
+    {
+        foreach (PassageObjectModel passage in MapGraph.instance.GetPassageObjectList())
+        {
+            foreach (SefiraObject sefira in sefiras)
+            {
+                if (sefira.sefiraName == passage.GetSefiraName())
+                {
+                    sefira.InitPassageObject(passage);
+                    break;
+                }
             }
         }
     }
 
     public void OnNotice(string notice, params object[] param)
     {
-        if (notice == NoticeName.AreaOpenUpdate)
+        if (notice == NoticeName.LoadMapGraphComplete)
+        {
+            OnLoadMapGraph();
+        }
+        else if (notice == NoticeName.AreaOpenUpdate)
         {
             SetSefiraActive((string)param[0], true);
         }
@@ -212,13 +247,13 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         {
             AddMapObject((MapObjectModel)param[0]);
         }
-        else if (notice == NoticeName.ClosePassageDoor)
+        /*else if (notice == NoticeName.ClosePassageDoor)
         {
-            ClosePassage((PassageObjectModel)param[0]);
+            ClosePassage((PassageObjectModel)param[0], (DoorObjectModel)param[1]);
         }
         else if (notice == NoticeName.OpenPassageDoor)
         {
-            OpenPassage((PassageObjectModel)param[0]);
-        }
+            OpenPassage((PassageObjectModel)param[0], (DoorObjectModel)param[1]);
+        }*/
     }
 }

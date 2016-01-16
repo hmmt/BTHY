@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class WorkerModel: IObserver {
+public class WorkerModel: ObjectModelBase, IObserver {
     public int instanceId;
     
     public string name;
@@ -261,6 +261,7 @@ public class WorkerModel: IObserver {
     }
 
     public virtual void TakePhysicalDamage(int damage) {
+        Debug.Log("TakePhysicalDamage : " + damage);
         hp -= damage;
         if (hp <= 0) { 
             //dead

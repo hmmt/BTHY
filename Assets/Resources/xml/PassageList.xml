@@ -12,4 +12,7 @@
   <passage id="4">
     <src>Map/Passage/PassageElevatorLong</src>
   </passage>
+  <passage id="5">
+    <src>Map/Passage/PassageMalcuteRoom</src>
+  </passage>
 </passage_list>

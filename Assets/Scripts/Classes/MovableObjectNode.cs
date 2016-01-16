@@ -123,6 +123,20 @@ public class MovableObjectNode {
      */
     public void ProcessMoveNode(int movement)
     {
+        // 문에 대한 처리
+        if (currentNode != null)
+        {
+            if (currentNode.GetDoor() != null)
+                currentNode.GetDoor().OnObjectPassed();
+        }
+        else if (currentEdge != null)
+        {
+            if (currentEdge.node1.GetDoor() != null)
+                currentEdge.node1.GetDoor().OnObjectPassed();
+
+            if (currentEdge.node2.GetDoor() != null)
+                currentEdge.node2.GetDoor().OnObjectPassed();
+        }
         //if (pathInfo != null)
         if(state == MovableState.MOVE)
         {
@@ -145,9 +159,13 @@ public class MovableObjectNode {
                     {
                         if (nextGoalNode.GetDoor() != null)
                         {
-                            //if (model.CanOpenDoor())
+                            // null 체크는 임시. 나중에 model이 무조건 null이 아니게 변경 예정.
+                            if (model != null)
                             {
-                                //InteractWithDoor()
+                                if (model.CanOpenDoor())
+                                {
+                                    InteractWithDoor(nextGoalNode.GetDoor());
+                                }
                             }
                         }
                         else

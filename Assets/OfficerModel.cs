@@ -19,10 +19,14 @@ public class OfficerModel : WorkerModel {
     public OfficerModel chatTarget;
     private OfficerCmdState state = OfficerCmdState.START;
 
+    private AgentCommandQueue commandQueue;
+
     public OfficerModel(int id, string area) {
+        commandQueue = new AgentCommandQueue(this);
+
         instanceId = id;
         currentSefira = sefira = area;
-        MovableNode = new MovableObjectNode();
+        MovableNode = new MovableObjectNode(this);
         MovableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         recoveryRate = 2;
         elapsedTime = 0.0f;
@@ -61,6 +65,8 @@ public class OfficerModel : WorkerModel {
 
     public override void ProcessAction()
     {
+        commandQueue.Execute(this);
+
         if (CurrentPanicAction != null)
         {
             CurrentPanicAction.Execute();
@@ -265,4 +271,11 @@ public class OfficerModel : WorkerModel {
         }
     }
 
+    public override void InteractWithDoor(DoorObjectModel door)
+    {
+        base.InteractWithDoor(door);
+
+        if(commandQueue.GetCurrentCmd() == null)
+        commandQueue.AddFirst(AgentCommand.MakeOpenDoor(door));
+    }
 }

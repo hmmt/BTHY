@@ -43,6 +43,7 @@ public class NoticeName
     public static string AddPassageObject = "AddPassageObject";
     public static string UpdatePassageObject = "UpdatePassageObject";
     public static string AddMapObject = "AddMapObject";
+
     public static string ClosePassageDoor = "ClosePassageDoor";
     public static string OpenPassageDoor = "OpenPassageDoor";
 

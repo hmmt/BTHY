@@ -20,7 +20,6 @@
 
 		observeLevel="5"
 
-
 		script="MatchGirl"
 		>
 		<feeling max="300" downProb="0.2" downValue="7.3">
@@ -156,13 +155,16 @@
 			</observe_sub>
 		</observe>
 
-		<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>
+    <anim prefab="Unit/CreatureAnimator/MatchGirl" x="-1" y="-2"/>
+    
+		<!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
+    <img src="Unit/dummy" x="-1" y="-1"/>
 		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/01_matchGirl_frame"/>
 
 		<graph>
 			<node id="creature" x="-1.6" y="-1" type="creature"/>
-			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
+			<node id="workspace" x="0.0" y="-1" type="workspace"/>
 			<node id="door"  x="2" y="-1" type="entry"/>
 			<edge node1="workspace" node2="door" type="road" />
 			<edge node1="creature" node2="workspace" type="road" />

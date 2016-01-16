@@ -45,7 +45,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         unit.transform.SetParent(transform, false);
 
         unit.model = model;
-
+        /*
         if (model.metaInfo.animatorScript != null)
         {
             unit.script = (CreatureAnimBase)System.Activator.CreateInstance(System.Type.GetType(model.metaInfo.animatorScript));
@@ -55,17 +55,29 @@ public class CreatureLayer : MonoBehaviour, IObserver {
                 unit.script.Init();
             }
         }
+        */
 
-        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.imgsrc);
-        Texture2D tex = unit.spriteRenderer.sprite.texture;
-        unit.SetScaleFactor(200f / tex.width, 200f / tex.height, 1);
+        if (model.metaInfo.animSrc != "")
+        {
+            GameObject animatorObject = Prefab.LoadPrefab(model.metaInfo.animSrc);
+            unit.animTarget = animatorObject.GetComponent<CreatureAnimScript>();
+            animatorObject.transform.SetParent(unit.transform, false);
+        }
+
+        // 나중에 animator들로 다 교체
+        //if (model.metaInfo.imgsrc != "")
+        {
+            unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.imgsrc);
+            Texture2D tex = unit.spriteRenderer.sprite.texture;
+            unit.SetScaleFactor(200f / tex.width, 200f / tex.height, 1);
+        }
 
         if (model.metaInfo.roomReturnSrc != "")
         {
             unit.returnSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.roomReturnSrc);
         }
 
-        GameObject creatureRoom = ResourceCache.instance.LoadPrefab("IsolateRoom");
+        GameObject creatureRoom = Prefab.LoadPrefab("IsolateRoom");
         creatureRoom.transform.SetParent(transform, false);
         IsolateRoom room = creatureRoom.GetComponent<IsolateRoom>();
 

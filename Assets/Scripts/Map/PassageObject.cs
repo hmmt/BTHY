@@ -9,18 +9,14 @@ public class PassageObject : MonoBehaviour {
     public Transform[] mapObjectPoint;
 
     public GameObject fogObject;
-    public PassageDoor door;
+    private List<PassageDoor> doorList;
 
+    void Awake()
+    {
+        doorList = new List<PassageDoor>();
+    }
 	// Use this for initialization
 	void Start () {
-        if (model.IsClosed())
-        {
-            CloseDoor();
-        }
-        else
-        {
-            OpenDoor();
-        }
 	}
 	
 	// Update is called once per frame
@@ -56,26 +52,23 @@ public class PassageObject : MonoBehaviour {
 
         //mapObj.transform.SetParent(mapObjectParent, false);
     }
-
-    public void OpenDoor()
+    /*
+    public void OpenDoor(DoorObjectModel doorModel)
     {
-        if (door != null)
+        foreach(PassageDoor door in doorList)
         {
-            door.OpenDoor();
+            if(door.model.GetId() == doorModel.GetId())
+                door.OpenDoor();
         }
     }
 
-    public void CloseDoor()
+    public void CloseDoor(DoorObjectModel doorModel)
     {
-        Debug.Log("PassageObject -> CALL CloseDoor");
-        if (door != null)
+        foreach (PassageDoor door in doorList)
         {
-            door.CloseDoor();
+            if (door.model.GetId() == doorModel.GetId())
+                door.CloseDoor();
         }
     }
-
-    public void OnClick()
-    {
-
-    }
+    */
 }

@@ -65,6 +65,7 @@ public class AgentModel : WorkerModel
 
     private ValueInfo levelSetting;
     private AgentCmdState state = AgentCmdState.IDLE;
+    private AgentCommandQueue commandQueue;
 
     public Sprite[] StatusSprites = new Sprite[4];
     public Sprite[] WorklistSprites = new Sprite[3];
@@ -84,7 +85,8 @@ public class AgentModel : WorkerModel
 
     public AgentModel(int id, string area)
     {
-        MovableNode = new MovableObjectNode();
+        MovableNode = new MovableObjectNode(this);
+        commandQueue = new AgentCommandQueue(this);
 
         traitList = new List<TraitTypeInfo>();
         instanceId = id;
@@ -164,6 +166,8 @@ public class AgentModel : WorkerModel
     // notice로 호출됨
     public override void OnFixedUpdate()
     {
+        if (isDead())
+            return;
         ProcessAction();
 
         MovableNode.ProcessMoveNode(movement);
@@ -383,6 +387,8 @@ public class AgentModel : WorkerModel
 
     public override void ProcessAction()
     {
+        commandQueue.Execute(this);
+
         if (CurrentPanicAction != null)
         {
             if (state != AgentCmdState.PANIC_SUPPRESS_TARGET)
@@ -392,9 +398,8 @@ public class AgentModel : WorkerModel
         {
             if (waitTimer <= 0)
             {
-
-                MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira), Random.value);
-
+                //MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
+                commandQueue.SetAgentCommand(AgentCommand.MakeMove(MapGraph.instance.GetSepiraNodeByRandom(currentSefira)));
                 waitTimer = 1.5f + Random.value;
             }
         }
@@ -402,7 +407,8 @@ public class AgentModel : WorkerModel
         {
             if (MovableNode.GetCurrentEdge() == null && MovableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
-                MoveToCreatureRoom(target);
+                //MoveToCreatureRoom(target);
+                //commandQueue.SetAgentCommand(AgentCommand.MakeMove(target.GetWorkspaceNode()));
             }
         }
         else if (state == AgentCmdState.ESCAPE_WORKING)
@@ -434,44 +440,63 @@ public class AgentModel : WorkerModel
         return state;
     }
 
+    public AgentCmdType GetCurrentCommandType()
+    {
+        AgentCommand cmd = commandQueue.GetCurrentCmd();
+        if (cmd == null)
+            return AgentCmdType.NONE;
+        return cmd.type;
+    }
+
     public void AttackedByCreature()
     {
         state = AgentCmdState.CAPTURE_BY_CREATURE;
+        commandQueue.SetAgentCommand(AgentCommand.MakeCaptureByCreatue());
         MovableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void WorkEscape(CreatureModel target)
     {
         state = AgentCmdState.ESCAPE_WORKING;
+        commandQueue.SetAgentCommand(AgentCommand.MakeEscapeWorking(target));
         this.target = target;
         //MoveToCreture(target);
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
+    //public void Working(CreatureModel target, UseSkill action)
     public void Working(CreatureModel target)
     {
         state = AgentCmdState.WORKING;
+        commandQueue.Clear();
+        commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
+        commandQueue.AddLast(AgentCommand.MakeWorking(target));
         this.target = target;
-        base.MoveToCreatureRoom(target);
+        //base.MoveToCreatureRoom(target);
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     public void ReturnCreature()
     {
         state = AgentCmdState.RETURN_CREATURE;
+        commandQueue.SetAgentCommand(AgentCommand.MakeReturnCreature());
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void FinishWorking()
     {
         state = AgentCmdState.IDLE;
+        commandQueue.Clear();
         this.target = null;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void UpdateStateIdle()
     {
         state = AgentCmdState.IDLE;
+        commandQueue.Clear();
         this.target = null;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
+
+    // 패닉 관련  start
 
     /// <summary>
     /// 다른 직원을 공격합니다.
@@ -480,8 +505,9 @@ public class AgentModel : WorkerModel
     /// </summary>
     public void StartPanicAttackAgent()
     {
-        state = AgentCmdState.PANIC_VIOLENCE;
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+        //state = AgentCmdState.PANIC_VIOLENCE;
+
+        //Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     /// <summary>
@@ -491,12 +517,14 @@ public class AgentModel : WorkerModel
     public void StopPanicAttackAgent()
     {
         state = AgentCmdState.IDLE;
+        commandQueue.Clear();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     public void StopSuppress()
     {
         state = AgentCmdState.IDLE;
+        commandQueue.Clear();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
@@ -504,24 +532,35 @@ public class AgentModel : WorkerModel
     public void OpenIsolateRoom()
     {
         state = AgentCmdState.OPEN_ROOM;
+        commandQueue.SetAgentCommand(AgentCommand.MakeOpenRoom());
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     public void StartSuppressAgent(AgentModel targetWorker)
     {
         state = AgentCmdState.SUPPRESS_WORKING;
+        commandQueue.SetAgentCommand(AgentCommand.MakeSuppressWorking(targetWorker));
         this.targetWorker = targetWorker;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     public void PanicSuppressed()
     {
-        state = AgentCmdState.PANIC_SUPPRESS_TARGET;
+        //state = AgentCmdState.PANIC_SUPPRESS_TARGET;
         MovableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
+    // panic 관련 end
+
     // state 관련 함수들 end
+
+    public override void InteractWithDoor(DoorObjectModel door)
+    {
+        base.InteractWithDoor(door);
+
+        commandQueue.AddFirst(AgentCommand.MakeOpenDoor(door));
+    }
 
 
     public bool HasTrait(long id)
@@ -625,7 +664,7 @@ public class AgentModel : WorkerModel
         Notice.instance.Send("AgentDie", this);
 
         this.hp = 0;
-        this.state = AgentCmdState.DEAD;
+        //this.state = AgentCmdState.DEAD;
         
         //AgentManager.instance.RemoveAgent(this);
         //AgentLayer.currentLayer.GetAgent(this.instanceId).DeadAgent();

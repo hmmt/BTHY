@@ -52,6 +52,8 @@ public class AgentUnit : MonoBehaviour {
     public GameObject puppetNode;
     public Animator puppetAnim;
 
+    public AgentAnim animTarget;
+
     public float oldPos;
     public float oldPosY;
     public bool agentMove=false;
@@ -256,6 +258,17 @@ public class AgentUnit : MonoBehaviour {
 
     public void ChangeAgentUniform()
     {
+        if (animTarget != null)
+        {
+            if (model.currentSefira == "1")
+            {
+                animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentM1"));
+            }
+            else
+            {
+                animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
+            }
+        }
         //agentAnimator.SetBool("Change", true);
 
         puppetAnim.SetBool("Change", true);
@@ -309,6 +322,7 @@ public class AgentUnit : MonoBehaviour {
            // faceSprite.GetComponent<Animator>().SetBool("Move", true);
            // hairSprite.GetComponent<Animator>().SetBool("Move", true);
 
+            animTarget.SetSpeed(model.movement / 4.0f);
             puppetAnim.SetBool("Move", true);
         }
         else
@@ -317,6 +331,7 @@ public class AgentUnit : MonoBehaviour {
          //   faceSprite.GetComponent<Animator>().SetBool("Move", false);
           //  hairSprite.GetComponent<Animator>().SetBool("Move", false);
 
+            animTarget.SetSpeed(1);
             puppetAnim.SetBool("Move", false);
         }
         /*
@@ -465,6 +480,7 @@ public class AgentUnit : MonoBehaviour {
             TextAppearNormalEffect.Create(GetComponent<DestroyHandler>(), new Vector2(0, 0.5f), 4f, name + " : " + speech, Color.blue);
         }
     }
+
 
 
 }

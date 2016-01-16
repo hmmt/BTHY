@@ -6,6 +6,8 @@ public class OfficerLayer : MonoBehaviour, IObserver {
 
     public static OfficerLayer currentLayer { private set; get; }
     public GameObject target;
+
+    public Sprite[] hairList;
     private List<OfficerUnit> officerList;
 
     private int zCount;
@@ -54,6 +56,11 @@ public class OfficerLayer : MonoBehaviour, IObserver {
         unit.transform.localScale = unitScale;
 
         zCount = (zCount+ 1)% 1000;
+
+
+        // 바뀔 수 있음
+        if(hairList.Length > 0)
+            unit.animTarget.SetHair(hairList[Random.Range(0, hairList.Length)]);
 
     }
 
