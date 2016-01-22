@@ -18,6 +18,7 @@ public class OfficerModel : WorkerModel {
     public bool chatWaiting = false;
     public OfficerModel chatTarget;
     private OfficerCmdState state = OfficerCmdState.START;
+    private OfficerUnit _unit;
 
     private AgentCommandQueue commandQueue;
 
@@ -38,19 +39,20 @@ public class OfficerModel : WorkerModel {
         //make something in OfficeModel.ProcessAction() likewise ProcessAction
         //MovableNode.ProcessMoveNode(movement);
         elapsedTime += Time.deltaTime;
+        if (isDead()) return;
+
         ProcessAction();
 
         if (elapsedTime > recoveryTerm)
         {
             elapsedTime = 0.0f;
-
             if (IsInSefira()) {
                 //Debug.Log("안에있음");
                 RecoverMental(recoveryRate * 2);
             }
             else RecoverMental(recoveryRate);
-            
         }
+
         if (state == OfficerCmdState.DOCUMENT){
             MovableNode.ProcessMoveNode(movement / 2);
         }
@@ -59,7 +61,7 @@ public class OfficerModel : WorkerModel {
     }
 
     public IEnumerator<WaitForSeconds> StartAction() {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
         this.state = OfficerCmdState.IDLE;
     }
 
@@ -74,7 +76,8 @@ public class OfficerModel : WorkerModel {
         else if (state == OfficerCmdState.IDLE && waitTimer <= 0 && !isMoving)
         {
             //make next status
-            int randState = UnityEngine.Random.Range(0, 5);
+            //int randState = UnityEngine.Random.Range(0, 5);
+            int randState = 1;
             switch (randState) { 
                 case 0:
                     state = OfficerCmdState.IDLE;
@@ -82,7 +85,7 @@ public class OfficerModel : WorkerModel {
                     waitTimer = 1.5f + 5 * UnityEngine.Random.value;
                     break;
                 case 1:
-                    state = OfficerCmdState.MEMO;
+                    state = OfficerCmdState.MEMO_MOVE;
                     this.target = SefiraManager.instance.getSefira(currentSefira).GetIdleCreature();
                     if (this.target == null) {
                         //Debug.Log("메모할 곳 없음");
@@ -128,7 +131,7 @@ public class OfficerModel : WorkerModel {
                     waitTimer = 90f;
                     //MovableNode.MoveToNode(MapGraph.instance.GetSefiraDeptNodes(currentSefira));
                     MovableNode.MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetOtherDepartNode(deptNum));
-                    
+                    _unit.puppetAnim.SetBool("Document", true);
                     this.isMoving = true;
                     break;
                 case 4:
@@ -165,21 +168,25 @@ public class OfficerModel : WorkerModel {
             if (!MovableNode.IsMoving() && isMoving) {
                 isMoving = false;
                 waitTimer = 5f;
+                _unit.puppetAnim.SetBool("Document", false);
             }
             else if (!isMoving && waitTimer <= 0) {
                 ReturnToSefiraFromWork();
                 state = OfficerCmdState.RETURN;
-                isMoving = true;   
+                isMoving = true;
             }
         }
-        else if (state == OfficerCmdState.MEMO)
+        else if (state == OfficerCmdState.MEMO_MOVE || state == OfficerCmdState.MEMO_STAY)
         {
             if (!MovableNode.IsMoving() && isMoving) {
                 isMoving = false;
                 waitTimer = 10f;//can affected by Work Speed
+                _unit.puppetAnim.SetBool("Memo", true);
+                state = OfficerCmdState.MEMO_STAY;
             }
             else if(!isMoving && waitTimer <= 0){
                 ReturnToSefiraFromWork();
+                _unit.puppetAnim.SetBool("Memo", false);
                 SefiraManager.instance.getSefira(currentSefira).EndCreatureWork(target);
                 this.target = null;
                 state = OfficerCmdState.RETURN;
@@ -277,5 +284,9 @@ public class OfficerModel : WorkerModel {
 
         if(commandQueue.GetCurrentCmd() == null)
         commandQueue.AddFirst(AgentCommand.MakeOpenDoor(door));
+    }
+
+    public void SetUnit(OfficerUnit unit) {
+        this._unit = unit;
     }
 }

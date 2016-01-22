@@ -57,7 +57,6 @@ public class OfficerLayer : MonoBehaviour, IObserver {
 
         zCount = (zCount+ 1)% 1000;
 
-
         // 바뀔 수 있음
         if(hairList.Length > 0)
             unit.animTarget.SetHair(hairList[Random.Range(0, hairList.Length)]);

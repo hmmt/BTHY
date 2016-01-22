@@ -5,14 +5,20 @@ using System.Collections.Generic;
 public class ConversationModel
 {
     public class Description {
+
         public long id;
         public long selectId;
         public short speaker;
         public static bool isloaded = false;
+        public bool innerText = false;
         public string tempdesc;
 
         public List<string> desc;
         public List<SystemMessage> sys = new List<SystemMessage>();
+
+        public Description() {
+            isloaded = false;
+        }
 
         public void loadText()
         {
@@ -20,6 +26,11 @@ public class ConversationModel
             isloaded = true;
             desc = new List<string>(TextConverter.GetTextFromFormatProcessText(tempdesc));
             
+        }
+
+        public void loadInnerText()
+        {
+
         }
 
         public string[] GetDescList() {
@@ -59,6 +70,11 @@ public class ConversationModel
     public int date;
     public List<Description> descList = new List<Description>();
     public List<Select> selectList = new List<Select>();
+
+    public void InitDescList(Description[] ary) {
+        descList = new List<Description>(ary);
+        //로드 검사
+    }
 
     public Description GetDescByID(long id) {
         Description output = null;
@@ -118,16 +134,19 @@ public class ConversationManager {
             Debug.Log("no loaded");
             return null;
         }
-        return list[0];
-        /*
         int daynum = PlayerModel.instance.GetDay();
+        daynum--;
+        Debug.Log("오늘은 " + (daynum+1) + "일");
+        if (daynum < 0) {
+            daynum = 0;
+        }
         if (daynum > list.Count){
             Debug.Log("no script for date " + daynum);
-            return list[0];
+            daynum = 0;
         }
         output = list[daynum];
 
         return output;
-         */
+        
     }
 }

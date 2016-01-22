@@ -199,7 +199,9 @@ public class GameManager : MonoBehaviour
         else
         {
             //storyScene.LoadStory("start");
-            OpenStoryScene("start");
+            //OpenStoryScene("start");
+            stageUI.Open(StageUI.UIType.END_STAGE);
+            EndStage.instance.init(AgentManager.instance.GetAgentList()[0]);
             Debug.Log("Game Over..");
         }
     }

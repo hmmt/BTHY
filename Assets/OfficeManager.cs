@@ -109,7 +109,7 @@ public class OfficeManager : IObserver {
                 malkuthList.Add(unit);
                 break;
         }
-        Debug.Log("created" + unit.name);
+        //Debug.Log("created" + unit.name);
         //OfficerLayer.currentLayer.AddOfficer(unit);
 
         SefiraManager.instance.getSefira(sefira).AddUnit(unit);

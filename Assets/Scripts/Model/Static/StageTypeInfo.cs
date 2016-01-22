@@ -17,7 +17,7 @@ public class StageTypeInfo  {
 
     public int GetStageGoalTime(int day)
     {
-        return 200;
+        return 300;
     }
 
     public float GetEnergyNeed(int day)

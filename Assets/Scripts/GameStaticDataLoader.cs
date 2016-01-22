@@ -123,6 +123,46 @@ public class GameStaticDataLoader {
         SystemMessageManager.instance.Init(messageList.ToArray(), keywordList.ToArray());
     }
 
+    private ConversationModel.Description[] LoadDesc(XmlNodeList descList) {
+        List<ConversationModel.Description> output = new List<ConversationModel.Description>();
+        foreach (XmlNode dNode in descList)
+        {
+            ConversationModel.Description description = new ConversationModel.Description();
+            description.id = long.Parse(dNode.Attributes.GetNamedItem("id").InnerText);
+            description.speaker = short.Parse(dNode.Attributes.GetNamedItem("speaker").InnerText);
+            description.selectId = long.Parse(dNode.Attributes.GetNamedItem("select").InnerText);
+            description.tempdesc = dNode.InnerText.Trim();
+            //Debug.Log(description.tempdesc);
+            description.loadText();
+            
+            XmlNodeList sys = dNode.SelectNodes("sys");
+            if (sys.Count != 0)
+            {
+                foreach (XmlNode s in sys)
+                {
+                    int type = int.Parse(s.Attributes.GetNamedItem("call").InnerText);
+                    SystemMessage sm = null;
+                    switch (type)
+                    {
+                        case 1:
+                            sm = SystemMessageManager.instance.GetSysMessage(1);
+                            break;
+                        case 2:
+                            int target = int.Parse(s.Attributes.GetNamedItem("target").InnerText);
+                            sm = SystemMessageManager.instance.GetKeyword(target);
+                            break;
+                        default:
+                            Debug.Log("worng system type in Desc +" + description.id);
+                            break;
+                    }
+                    description.sys.Add(sm);
+                }
+            }
+            output.Add(description);
+        }
+        return output.ToArray();
+    }
+
     public void LoadDayScript()
     {
         //LoadSystemMessage();
@@ -137,36 +177,7 @@ public class GameStaticDataLoader {
             model.date = int.Parse(node.Attributes.GetNamedItem("date").InnerText);
 
             XmlNodeList descList = node.SelectNodes("desc");
-            foreach (XmlNode dNode in descList) {
-                ConversationModel.Description description = new ConversationModel.Description();
-                description.id = long.Parse(dNode.Attributes.GetNamedItem("id").InnerText);
-                description.speaker = short.Parse(dNode.Attributes.GetNamedItem("speaker").InnerText);
-                description.selectId = long.Parse(dNode.Attributes.GetNamedItem("select").InnerText);
-                description.tempdesc = dNode.InnerText.Trim();
-                description.loadText();
-                XmlNodeList sys = dNode.SelectNodes("sys");
-                if (sys != null) {
-                    foreach (XmlNode s in sys)
-                    {
-                        int type = int.Parse(s.Attributes.GetNamedItem("call").InnerText);
-                        SystemMessage sm = null;
-                        switch (type) { 
-                            case 1:
-                                sm = SystemMessageManager.instance.GetSysMessage(1);
-                                break;
-                            case 2:
-                                int target = int.Parse(s.Attributes.GetNamedItem("target").InnerText);
-                                sm = SystemMessageManager.instance.GetKeyword(target);
-                                break;
-                            default:
-                                Debug.Log("worng system type in Desc +" + description.id);
-                                break;
-                        }
-                        description.sys.Add(sm);
-                    }
-                }
-                model.descList.Add(description);
-            }
+            model.InitDescList(LoadDesc(descList));
 
             XmlNodeList selectList = node.SelectNodes("select");
             foreach (XmlNode sNode in selectList) {

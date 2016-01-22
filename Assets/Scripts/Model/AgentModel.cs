@@ -62,7 +62,6 @@ public class AgentModel : WorkerModel
     public bool activated;
 
     // 이하 save 되지 않는 데이터들
-
     private ValueInfo levelSetting;
     private AgentCmdState state = AgentCmdState.IDLE;
     private AgentCommandQueue commandQueue;

@@ -52,7 +52,7 @@ public class ConversationUnit : MonoBehaviour {
         if (desc.sys.Count > 0) {
             foreach (SystemMessage s in desc.sys) {
                 if (s.GetType().Equals(SysMessageType.Keyword)) {
-                    script.SysMake(SystemSymbol + ((KeywordMessage)s).GetMessage());
+                    script.SysMake(SystemSymbol + ((KeywordMessage)s).GetMessage() + " " + SystemMessageManager.instance.GetSysMessage(2).GetMessage());
                     continue;
                 }
                 script.SysMake(SystemSymbol + s.GetMessage());
@@ -61,7 +61,7 @@ public class ConversationUnit : MonoBehaviour {
     }
 
     public void InturreptEnd() {
-        script.SysMake(SystemSymbol + SystemMessageManager.instance.GetSysMessage(0).GetMessage());
+        script.SysMake(SystemSymbol + SystemMessageManager.instance.GetSysMessage(1).GetMessage());
     }
 
     void Change() {
@@ -106,13 +106,21 @@ public class ConversationUnit : MonoBehaviour {
             else return;
         }
         string str = queue.Dequeue();
-        if (speaker.Equals(0))
+        short sp = speaker;
+
+        int subindex = str.IndexOf("#");
+        string sub1, sub2;
+        if (subindex != -1)
         {
-            script.LeftMake(str);
+            sub1 = str.Substring(0, subindex);
+            sub2 = str.Substring(subindex + 1);
+            if (!short.TryParse(sub2, out sp)) {
+                sp = speaker;
+            }
+            str = sub1;
         }
-        else {
-            script.RightMake(str);
-        }
+
+        script.MakeTextByID(speaker , str);
         pop.PlayOneShot(pop.clip);
     }
 
@@ -121,7 +129,7 @@ public class ConversationUnit : MonoBehaviour {
         string str = selectList[i - 1];
         string sub = str.Substring(3);
         pop.PlayOneShot(pop.clip);
-        script.RightMake(sub);
+        script.MakeTextByID(SpeakerID.PLAYER, sub);
         script.ClearSelect();
         selectList.Clear();
         selected = false;

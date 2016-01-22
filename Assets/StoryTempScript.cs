@@ -12,6 +12,7 @@ public class StoryTempScript : MonoBehaviour {
 
     void Awake()
     {
+        
         int daynum = PlayerModel.instance.GetDay();
 
         int timenum = StageTypeInfo.instnace.GetStageGoalTime(daynum);

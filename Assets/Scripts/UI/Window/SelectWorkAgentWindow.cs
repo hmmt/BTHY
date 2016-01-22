@@ -24,6 +24,9 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
     List<AgentModel> selectedAgentList = new List<AgentModel>();
 
     private List<AgentSlotPanel> agentPanelList = new List<AgentSlotPanel>();
+    //public?
+    private WorkInventory inventory;
+    private WorkListScript workListScript;
 
 
 
@@ -42,7 +45,9 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         inst.targetCreature = creature;
 
         inst.workType = type;
-
+        inst.inventory = inst.GetComponent<WorkInventory>();
+        inst.workListScript = inst.GetComponent<WorkListScript>();
+        inst.workListScript.Init();
         if (type == WorkType.NORMAL)
         {
             CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);

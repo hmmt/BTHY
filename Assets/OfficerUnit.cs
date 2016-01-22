@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class OfficerUnit : MonoBehaviour {
     public OfficerModel model;
-
     //public GameObject officerWindow;
     public GameObject officerAttackedAnimator;
     public GameObject officerPlatform;
@@ -27,7 +26,8 @@ public class OfficerUnit : MonoBehaviour {
     public Text officerName;
 
     //private string oldSefira;
-
+    private bool changeState = false;
+    private string currentBool = "";
     public GameObject faceSprite;
     public GameObject hairSprite;
 
@@ -75,7 +75,7 @@ public class OfficerUnit : MonoBehaviour {
         hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
         
         //ChangeAgentUnifrom();과 동일?
-
+        model.SetUnit(this);
     }
 
     private void UpdateDirection() {
@@ -162,7 +162,36 @@ public class OfficerUnit : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        /*
 
+        if (!changeState)
+        {
+
+            switch (model.GetState())
+            {
+                case OfficerCmdState.MEMO_STAY:
+                    changeState = true;
+                    currentBool = "Memo";
+                    puppetAnim.SetBool(currentBool, changeState);
+                    break;
+                case OfficerCmdState.DOCUMENT:
+                    currentBool = "Document";
+                    changeState = true;
+                    puppetAnim.SetBool(currentBool, changeState);
+                    break;
+            }
+        }
+        else
+        {
+            if (model.GetState() == OfficerCmdState.IDLE || model.GetState() == OfficerCmdState.RETURN)
+            {
+                changeState = false;
+                puppetAnim.SetBool(currentBool, changeState);
+                currentBool = "";
+            }
+        }
+        */
+        
         if (oldPos != transform.localPosition.x)
         {
             /*
@@ -181,6 +210,8 @@ public class OfficerUnit : MonoBehaviour {
              */
             puppetAnim.SetBool("Move", false);
         }
+        
+        
 
         if (oldPosY != transform.localPosition.y)
         {
@@ -213,6 +244,7 @@ public class OfficerUnit : MonoBehaviour {
             model.TakeMentalDamage(20);
             Debug.Log("TakeMentalDamage " + model.mental + "/" + model.maxMental);
         }
+        
 
         if (model.panicFlag) { 
             //make panic Action

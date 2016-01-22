@@ -4,25 +4,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
+public static class SpeakerID {
+    public const short ANGELA = 0;
+    public const short PLAYER = 1;
+    public const short ANONYMOUS = 2;
+    public const short OTHER = 3;
+}
+
 public class ConversationScript : MonoBehaviour {
-    [System.Serializable]
-    public class TextObjectPanel {
-        public GameObject textObject;
-        public float posX;
+    public enum TextPos
+    {
+        LEFT,
+        MID,
+        RIGHT
     }
+    [System.Serializable]
+    public class ConversationTextPanel
+    {
+        public GameObject textObject;
+        public TextPos pos;
+    }
+    [System.Serializable]
+    public class TextPosFloat
+    {
+        public float left;
+        public float mid;
+        public float right;
+    }
+
+    public TextPosFloat pos;
     public RectTransform list;
     public RectTransform selectList;
     public RectTransform maximumSize;
-    public GameObject Left;
-    //public TextObjectPanel Left;
-    public GameObject Right;
-    //public TextObjectPanel Right;
+    public ConversationTextPanel[] objectList;
+    //public GameObject Left;
+    //public ConversationTextPanel Left;
+    //public GameObject Right;
+    //public ConversationTextPanel Right;
     public GameObject Select;
-    //public TextObjectPanel Select;
-
+    //public ConversationTextPanel Select;
+    //public GameObject Anonymous;
+    //public ConversationTextPanel Anonymous;
     public GameObject Sysmessage;
     
-    public int cnt = 0;
+    private int cnt = 0;
     public float spacing;
 
     public float posleft,posright;
@@ -31,7 +56,24 @@ public class ConversationScript : MonoBehaviour {
     private float startPosy;
     private float startHeight;
     private float posy = 0.0f;
-    
+
+    private float GetPos(TextPos p) {
+        switch (p) { 
+            case TextPos.LEFT:
+                return pos.left;
+            case TextPos.MID:
+                return pos.mid;
+            case TextPos.RIGHT:
+                return pos.right;
+            default:
+                return 0.0f;
+        }
+    }
+
+    private float GetPos(ConversationTextPanel p)
+    {
+        return this.GetPos(p.pos);
+    }
 
     public void Start() {
         if (spacing < 1.0f) {
@@ -45,12 +87,36 @@ public class ConversationScript : MonoBehaviour {
         list.anchoredPosition = new Vector2(list.anchoredPosition.x, 0.0f);
     }
 
-    public void LeftMake(string text) {
-        MakeText(Left, text, -50f);
+    private ConversationTextPanel GetObject(short id)
+    {
+        /*
+        switch (id) { 
+            case SpeakerID.ANGELA://angela
+                return objectList[0];
+            case SpeakerID.PLAYER://player
+                return objectList[1];
+            case SpeakerID.ANONYMOUS://anonymous
+                return objectList[2];
+            case SpeakerID.OTHER:
+                return objectList[3];
+            default:
+                return objectList[0];
+        }*/
+        if (id < 0 || id > objectList.Length) {
+            Debug.Log("index out error in get object");
+            return objectList[0];
+        }
+        return objectList[id];
+    }
+
+    public void MakeTextByID(short speaker, string text) {
+        ConversationTextPanel temp = GetObject(speaker);
+        float posx = GetPos(temp);
+        MakeText(temp.textObject, text, posx);
     }
 
     public void SelectMake(string[] text) {
-        //ClearSelect();
+        ClearSelect();
         int[] indexAry = new int[text.Length];
         
         float yPos = 0.0f;
@@ -70,7 +136,6 @@ public class ConversationScript : MonoBehaviour {
             EventTrigger trigger = obj.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
-            Debug.Log(obj.transform.GetSiblingIndex());
             entry.callback.AddListener((eventdata) => { OnSelect(obj.transform.GetSiblingIndex()); });
             trigger.triggers.Add(entry);
             selectObject.Add(obj);
@@ -91,10 +156,6 @@ public class ConversationScript : MonoBehaviour {
 
         }
         selectObject.Clear();
-    }
-
-    public void RightMake(string text) {
-        MakeText(Right, text, 50f);
     }
 
     public void MakeText(GameObject target) {

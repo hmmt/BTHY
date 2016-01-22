@@ -374,7 +374,6 @@ public class WorkerModel: ObjectModelBase, IObserver {
             }
         }
 
-
         return false;
     }
 

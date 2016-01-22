@@ -43,4 +43,12 @@ public class MenuScript : MonoBehaviour {
         SelectMenu();
     }
 
+    public RectTransform GetSelectedRect() {
+        foreach (Menu m in menus) {
+            if (m.Equals(selected)) {
+                return m.panel;
+            }
+        }
+        return null;
+    }
 }

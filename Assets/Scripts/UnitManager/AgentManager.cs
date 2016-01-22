@@ -192,7 +192,8 @@ public class AgentManager : IObserver {
     public void activateAgent(AgentModel unit, string sefira)
     {
         unit.activated = true;
-
+        Debug.Log("activated");
+        SefiraManager.instance.getSefira(unit.currentSefira).AddAgent(unit);
         unit.SetCurrentSefira(sefira);
         agentListSpare.Remove(unit);
 
@@ -204,13 +205,15 @@ public class AgentManager : IObserver {
     public void deactivateAgent(AgentModel unit)
     {
         unit.activated = false;
-
+        Debug.Log("deactivated");
+        SefiraManager.instance.getSefira(unit.currentSefira).RemoveAgent(unit);
         Notice.instance.Remove(NoticeName.FixedUpdate, unit);
         agentList.Remove(unit);
         Notice.instance.Send(NoticeName.RemoveAgent, unit);
 
         agentListSpare.Add(unit);
         unit.SetCurrentSefira("0");
+       
     }
 
     public void RemoveAgent(AgentModel model)
@@ -234,6 +237,9 @@ public class AgentManager : IObserver {
         {
             yesodAgentList.Remove(model);
         }
+
+        Sefira sefira = SefiraManager.instance.getSefira(model.currentSefira);
+        sefira.agentList.Remove(model);
 
         Notice.instance.Remove(NoticeName.FixedUpdate, model);
         agentList.Remove(model);
@@ -355,6 +361,14 @@ public class AgentManager : IObserver {
 
     private void OnChangeAgentSefira(AgentModel agentModel, string oldSefira)
     {
+        Sefira old, current;
+        /*
+        Debug.Log("Change");
+        if (oldSefira != "0") {
+            old = SefiraManager.instance.getSefira(oldSefira);
+            old.RemoveAgent(agentModel);
+        }
+        */
         switch (oldSefira)
         {
             case "1":
@@ -370,7 +384,14 @@ public class AgentManager : IObserver {
                 yesodAgentList.Remove(agentModel);
                 break;
         }
+        /*
 
+        if (agentModel.currentSefira != "0")
+        {
+            current = SefiraManager.instance.getSefira(agentModel.currentSefira);
+            current.AddAgent(agentModel);
+        }
+        */
         switch (agentModel.currentSefira)
         {
             case "1":

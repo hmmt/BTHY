@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <system>
+  <!--
+   시스템 메시지 
+   <message id="" name="로그 이름"/>
+    -> 0번은 일단 비워둠
+   
+   키워드
+   <keyword id="" name="키워드 이름" desc="키워드 설명"/>
+  -->
+  
   <message id ="1" name="대화 종료"/>
   <message id ="2" name="키워드 획득"/>
 

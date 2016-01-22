@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Sefira
 {
-
     public string name;
     public int index;
     public string indexString;
@@ -15,7 +14,9 @@ public class Sefira
     public int departmentNum;
     public List<MapNode>[] departmentList;
     public List<OfficerModel> officerList;
+    public List<AgentModel> agentList;
     public List<CreatureModel> creatureList;
+    public List<SkillTypeInfo>[] agentSkill;//속한 직원들의 스킬 정보
 
     private int maxOfficerCnt = 15;
     private CreatureModel[] creatureAry;
@@ -33,6 +34,12 @@ public class Sefira
         officerList = new List<OfficerModel>();
         workingList = new List<int>();
         idleList = new List<int>();
+        agentSkill = new List<SkillTypeInfo>[3];
+        agentList = new List<AgentModel>();
+
+        for (int i = 0; i < 3; i++) {
+            agentSkill[i] = new List<SkillTypeInfo>();
+        }
 
         officerCnt = 0;
         OfficerMentalReturn = 20;
@@ -42,6 +49,17 @@ public class Sefira
     public void AddUnit(OfficerModel add) {
         officerList.Add(add);
         officerCnt++;
+    }
+
+    public void AddAgent(AgentModel add) {
+        agentList.Add(add); Debug.Log("agentList");
+        foreach (AgentModel am in agentList) {
+                        Debug.Log(am.name);
+        }
+    }
+
+    public void RemoveAgent(AgentModel unit) {
+        agentList.Remove(unit);
     }
 
     public void initCreatureArray()
@@ -171,10 +189,13 @@ public class Sefira
             tempList[i] = new List<MapNode>(departmentList[i]);
         }
 
+        /*
         for (int i = 0; i < maxOfficerCnt; i++) {
             OfficeManager.instance.CreateOfficerModel(indexString);
         }
+        */
 
+        OfficeManager.instance.CreateOfficerModel(indexString);
         AssignOfficerDept();
         foreach (OfficerModel om in officerList) {
             int deptNum = om.deptNum;
@@ -187,7 +208,28 @@ public class Sefira
         }
     }
 
+    public void InitAgentSkillList() {
+        
+    }
 
+    public SkillTypeInfo[] GetSkills() {
+        return null;
+    }
+
+    public SkillTypeInfo tempget() {
+        return agentList[0].directSkill;
+    }
+
+    private bool CheckSkillDuplicate(AgentModel model) {
+        for (int i = 0; i < 3; i++) {
+
+
+            foreach (SkillTypeInfo s in agentSkill[i]) { 
+                
+            }
+        }
+        return false;
+    }
 }
 
 public class OfficerDept
@@ -214,6 +256,20 @@ public class OfficerDept
 }
 
 public class SefiraName {
+    public enum Sefira { 
+        MALKUT,
+        YESOD,
+        HOD,
+        NETACH,
+        TIPERERTH,
+        GEBURAH,
+        CHESED,
+        BINAH,
+        CHOKHMAH,
+        KETHER,
+        DAAT
+    }
+
     public static string Malkut = "Malkut";
     public static string Yesod = "Yesod";
     public static string Hod = "Hod";
@@ -281,7 +337,12 @@ public class SefiraManager {
         }
         return null;
     }
-     
+
+     /// <summary>
+     /// Searched by index string
+     /// </summary>
+     /// <param name="str"></param>
+     /// <returns></returns>
     public Sefira getSefira(string str) {
         foreach (Sefira s in sefiraList) {
             if (s.indexString.Equals(str) || s.name.Equals(str))
@@ -291,5 +352,6 @@ public class SefiraManager {
         }
         return null;
     }
+
 
 }

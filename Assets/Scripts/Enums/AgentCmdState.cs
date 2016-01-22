@@ -67,14 +67,17 @@ public enum AgentCmdType
 }
 
 public enum OfficerCmdState { 
-    START,
-    IDLE,
-    MEMO,
-    CHAT,
-    DOCUMENT,
-    WORKING,
-    PANIC,
-    RETURN,
+    START, //하루가 시작 될 때 상태
+    IDLE, //대기
+    MEMO_MOVE, //메모 상태
+    MEMO_STAY,
+    CHAT, //채팅
+    DOCUMENT, //문서를 들고 다른 부서로 이동
+    WORKING, //일하는 중?
+    PANIC, //패닉 상태
+    RETURN, //자신의 부서로 돌아가는 상태
+    OPEN_DOOR, //문엶
+    RUN_AWAY, //도주
     DEAD
 }
 
@@ -111,6 +114,7 @@ public class AgentCommand
     public virtual void Execute(WorkerModel agent)
     {
     }
+
     public virtual void OnStop(WorkerModel agent)
     {
     }
@@ -135,6 +139,7 @@ public class AgentCommand
         //cmd.action = action;
         return cmd;
     }
+
     public static AgentCommand MakeReturnCreature()
     {
         AgentCommand cmd = new AgentCommand();
@@ -256,7 +261,7 @@ public class AgentCommandQueue
 {
     private LinkedList<AgentCommand> queue;
     private WorkerModel agent;
-
+    
     public AgentCommandQueue(WorkerModel agent)
     {
         queue = new LinkedList<AgentCommand>();
