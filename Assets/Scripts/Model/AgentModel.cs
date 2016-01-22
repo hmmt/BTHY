@@ -384,6 +384,11 @@ public class AgentModel : WorkerModel
         }
     }
 
+	public bool HasSkill(SkillTypeInfo skill)
+	{
+		return directSkill.id == skill.id || indirectSkill.id == skill.id || blockSkill.id == skill.id;
+	}
+
     public override void ProcessAction()
     {
         commandQueue.Execute(this);
@@ -404,11 +409,12 @@ public class AgentModel : WorkerModel
         }
         else if (state == AgentCmdState.WORKING)
         {
+			/*
             if (MovableNode.GetCurrentEdge() == null && MovableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
                 //MoveToCreatureRoom(target);
                 //commandQueue.SetAgentCommand(AgentCommand.MakeMove(target.GetWorkspaceNode()));
-            }
+            }*/
         }
         else if (state == AgentCmdState.ESCAPE_WORKING)
         {
@@ -439,6 +445,10 @@ public class AgentModel : WorkerModel
         return state;
     }
 
+	public AgentCommand GetCurrentCommand()
+	{
+		return commandQueue.GetCurrentCmd ();
+	}
     public AgentCmdType GetCurrentCommandType()
     {
         AgentCommand cmd = commandQueue.GetCurrentCmd();
@@ -447,6 +457,10 @@ public class AgentModel : WorkerModel
         return cmd.type;
     }
 
+	public void MoveToCreatureForWorking()
+	{
+		
+	}
     public void AttackedByCreature()
     {
         state = AgentCmdState.CAPTURE_BY_CREATURE;
@@ -463,6 +477,27 @@ public class AgentModel : WorkerModel
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     //public void Working(CreatureModel target, UseSkill action)
+
+	public void ManageCreature(CreatureModel target, SkillTypeInfo skill)
+	{
+		if (HasSkill (skill) == false)
+		{
+			Debug.LogError ("ManagerCreature >> invalid skill");
+		}
+		state = AgentCmdState.WORKING;
+		commandQueue.Clear ();
+		commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
+		commandQueue.AddLast(AgentCommand.MakeManageCreature(target, this, skill));
+	}
+	public void ObserveCreature(CreatureModel target)
+	{
+		state = AgentCmdState.WORKING;
+		commandQueue.Clear ();
+		commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
+		commandQueue.AddLast(AgentCommand.MakeObserveCreature(target));
+	}
+
+
     public void Working(CreatureModel target)
     {
         state = AgentCmdState.WORKING;
@@ -484,6 +519,7 @@ public class AgentModel : WorkerModel
     {
         state = AgentCmdState.IDLE;
         commandQueue.Clear();
+		//AgentCommand cmd = GetCurrentCommand();
         this.target = null;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }

@@ -30,6 +30,12 @@ public class CreatureModel : IObserver
 {
     public int instanceId;
 
+	// lock
+	public int targetedCount = 0;
+
+	// buf
+	public float bufRemainingTime;
+
     // 메타데이터
     public CreatureTypeInfo metaInfo;
     
@@ -229,6 +235,10 @@ public class CreatureModel : IObserver
 
     public void OnFixedUpdate()
     {
+		if (bufRemainingTime > 0)
+		{
+			bufRemainingTime -= Time.deltaTime;
+		}
         if (escapeAttackWait > 0)
         {
             escapeAttackWait -= Time.deltaTime;
@@ -531,6 +541,24 @@ public class CreatureModel : IObserver
             return false;
         }
     }
+
+	public bool IsTargeted()
+	{
+		return targetedCount > 0;
+	}
+	public void AddTargetedCount()
+	{
+		targetedCount++;
+	}
+	public void ReleaseTargetedCount()
+	{
+		targetedCount--;
+	}
+
+	public bool IsReady()
+	{
+		return bufRemainingTime <= 0;
+	}
 
     /*
     public void OnClicked()

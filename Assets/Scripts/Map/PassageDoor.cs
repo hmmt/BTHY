@@ -53,7 +53,6 @@ public class PassageDoor : MonoBehaviour {
     {
         if (animator != null)
         {
-            Debug.Log("OPEND!!!");
             animator.SetBool("opened", true);
         }
     }

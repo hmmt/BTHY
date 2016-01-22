@@ -260,6 +260,7 @@ public class UseSkill : ActionClassBase
     {
         agent.FinishWorking();
         targetCreature.state = CreatureState.WAIT;
+		targetCreature.bufRemainingTime = 5f;
     }
 
     private void FinshWork()
@@ -526,7 +527,7 @@ public class UseSkill : ActionClassBase
 
         //agent.MoveToCreture(creature.gameObject);
         //agent.Working (creature.gameObject);
-        agent.Working(creature);
+        //agent.Working(creature);
         //creature.ShowNarrationText("start", agent.name);
 
         inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.workSpeed, skillInfo.amount); // 임시

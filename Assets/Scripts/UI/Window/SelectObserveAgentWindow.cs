@@ -45,7 +45,8 @@ public class SelectObserveAgentWindow : MonoBehaviour
 
     public void SelectAgentSkill(AgentModel agent)
     {
-        ObserveCreature.Create(agent,targetCreature);
+        //ObserveCreature.Create(agent,targetCreature);
+		agent.ObserveCreature(targetCreature);
         //UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
         CloseWindow();
     }

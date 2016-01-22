@@ -309,7 +309,12 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 	{
         Color color = roomFogRenderer.color;
 
-        if (_targetUnit.model.state == CreatureState.WORKING)
+		if (_targetUnit.model.IsTargeted () == true)
+		{
+			color.a = 0f;
+			roomFogRenderer.color = color;
+		}
+        else if (_targetUnit.model.state == CreatureState.WORKING)
         {
             color.a = 0f;
             roomFogRenderer.color = color;

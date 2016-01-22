@@ -48,7 +48,10 @@ public enum AgentCmdType
 {
     NONE,
     MOVE,
+
+	OBSERVE_CREATURE,
     MANAGE_CREATURE, // 격리소에 있는 환상체 관리
+
     CAPTURE_BY_CREATURE, // 환상체에게 붙잡힘
     CAPTURE_BY_AGENT, // 패닉 직원에게 붙잡힘
 
@@ -97,6 +100,14 @@ public class AgentCommand
 
     public bool isFinished = false;
 
+	/// <summary>
+	/// Raises the init event.
+	/// </summary>
+	/// <param name="agent">Agent.</param>
+	public virtual void OnInit(WorkerModel agent)
+	{
+	}
+
     /// <summary>
     /// 해당 command가 실행되기 시작할 때 호출됩니다.
     /// </summary>
@@ -115,9 +126,20 @@ public class AgentCommand
     {
     }
 
+	/// <summary>
+	/// This method is called after removing from queue
+	/// </summary>
+	/// <param name="agent">Agent.</param>
     public virtual void OnStop(WorkerModel agent)
     {
     }
+
+	/// <summary>
+	/// Raises the destroy event.
+	/// </summary>
+	public virtual void OnDestroy(WorkerModel agent)
+	{
+	}
 
     public void Finish()
     {
@@ -139,7 +161,21 @@ public class AgentCommand
         //cmd.action = action;
         return cmd;
     }
+		
+	public static AgentCommand MakeObserveCreature(CreatureModel targetCreature)
+	{
+		ObserveCreatureAgentCommand cmd = new ObserveCreatureAgentCommand (targetCreature);
+		cmd.type = AgentCmdType.OBSERVE_CREATURE;
 
+		return cmd;
+	}
+	public static AgentCommand MakeManageCreature(CreatureModel targetCreature, AgentModel agent, SkillTypeInfo skill)
+	{
+		ManageCreatureAgentCommand cmd = new ManageCreatureAgentCommand (targetCreature, agent, skill);
+		cmd.type = AgentCmdType.MANAGE_CREATURE;
+
+		return cmd;
+	}
     public static AgentCommand MakeReturnCreature()
     {
         AgentCommand cmd = new AgentCommand();
@@ -257,6 +293,117 @@ public class OpenDoorAgnetCommand : AgentCommand
     }
 }
 
+public class ManageCreatureAgentCommand : AgentCommand
+{
+	private AgentModel[] coopAgents;
+	private CreatureModel targetCreature;
+	private SkillTypeInfo skill;
+
+	private UseSkill useSkill;
+
+	private bool waiting = true;
+
+	public ManageCreatureAgentCommand(CreatureModel targetCreature, AgentModel self, SkillTypeInfo skill)
+	{
+		this.targetCreature = targetCreature;
+		this.skill = skill;
+		this.coopAgents = new AgentModel[]{ self };
+	}
+
+	public ManageCreatureAgentCommand(CreatureModel targetCreature, AgentModel[] coopAgents, SkillTypeInfo skill)
+	{
+		this.targetCreature = targetCreature;
+		this.skill = skill;
+		this.coopAgents = coopAgents;
+	}
+
+	public override void OnInit(WorkerModel agent)
+	{
+		base.OnInit (agent);
+		targetCreature.AddTargetedCount ();
+	}
+	public override void Execute(WorkerModel agent)
+	{
+		base.Execute(agent);
+		if(useSkill == null)
+			CheckStarting ((AgentModel)agent);
+	}
+	public override void OnDestroy(WorkerModel agent)
+	{
+		targetCreature.ReleaseTargetedCount ();
+	}
+
+	public void Cancle()
+	{
+	}
+
+	private void CheckStarting(AgentModel agent)
+	{
+		if (!waiting)
+			return;
+		int count = 0;
+		/*
+		foreach (AgentModel otherAgent in coopAgents)
+		{
+			if (otherAgent.GetCurrentCommandType() != AgentCmdType.MANAGE_CREATURE)
+			{
+				count++;
+			}
+		}*/
+
+		if (count == 0)
+		{
+			/*
+			foreach (AgentModel otherAgent in coopAgents)
+			{
+				AgentCommand otherCmd = otherAgent.GetCurrentCommand ();
+				ManageCreatureAgentCommand cmd = (ManageCreatureAgentCommand)otherCmd;
+
+				cmd.waiting = false;
+			}*/
+			waiting = false;
+
+			useSkill = UseSkill.InitUseSkillAction (skill, agent, targetCreature);
+
+			//Finish ();
+		}
+	}
+}
+
+public class ObserveCreatureAgentCommand : AgentCommand
+{
+	private CreatureModel targetCreature;
+
+	public ObserveCreatureAgentCommand(CreatureModel targetCreature)
+	{
+		this.targetCreature = targetCreature;
+	}
+
+	public override void OnInit(WorkerModel agent)
+	{
+		base.OnInit (agent);
+		targetCreature.AddTargetedCount ();
+	}
+
+	public override void OnStart(WorkerModel agent)
+	{
+		ObserveCreature.Create ((AgentModel)agent, targetCreature);
+	}
+	public override void Execute(WorkerModel agent)
+	{
+		base.Execute(agent);
+	}
+	public override void OnDestroy(WorkerModel agent)
+	{
+		targetCreature.ReleaseTargetedCount ();
+	}
+
+	public void Cancle()
+	{
+	}
+
+}
+
 public class AgentCommandQueue
 {
     private LinkedList<AgentCommand> queue;
@@ -290,8 +437,10 @@ public class AgentCommandQueue
 
             if (cmd.isFinished)
             {
+				queue.RemoveFirst();
                 cmd.OnStop(agent);
-                queue.RemoveFirst();
+				cmd.OnDestroy (agent);
+                
                 if (queue.Count > 0)
                 {
                     queue.First.Value.OnStart(agent);
@@ -308,6 +457,7 @@ public class AgentCommandQueue
         foreach (AgentCommand cmd in queue)
         {
             cmd.OnStop(agent);
+			cmd.OnDestroy (agent);
         }
         queue.Clear();
     }
@@ -320,6 +470,7 @@ public class AgentCommandQueue
         }
         queue.Clear();
         queue.AddFirst(cmd);
+		cmd.OnInit (agent);
         cmd.OnStart(agent);
     }
 
@@ -330,11 +481,13 @@ public class AgentCommandQueue
             queue.First.Value.OnStop(agent);
         }
         queue.AddFirst(cmd);
+		cmd.OnInit (agent);
         cmd.OnStart(agent);
     }
 
     public void AddLast(AgentCommand cmd)
     {
         queue.AddLast(cmd);
+		cmd.OnInit (agent);
     }
 }

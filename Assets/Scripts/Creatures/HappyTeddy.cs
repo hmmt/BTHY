@@ -84,7 +84,9 @@ public class HappyTeddy  : CreatureBase {
 		SoundEffectPlayer.PlayOnce("creature/happy_teddy/happyTeddy_Ability_Special", skill.targetCreatureView.transform.position);
 
         TimerCallback.Create(4.0f, delegate() {
-            skill.agent.TakePhysicalDamage(Mathf.Max(skill.agent.maxHp / 3, 1));
+			
+            //skill.agent.TakePhysicalDamage(Mathf.Max(skill.agent.maxHp / 3, 1));
+
             model.AddFeeling(feelingUp);
         });
     }

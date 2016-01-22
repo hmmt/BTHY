@@ -124,7 +124,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
     public void SelectAgentSkill(AgentModel agent, SkillTypeInfo skillInfo)
 	{
-		UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
+		//UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
 		CloseWindow ();
 	}
 

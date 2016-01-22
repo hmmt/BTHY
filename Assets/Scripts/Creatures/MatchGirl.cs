@@ -72,7 +72,7 @@ public class MatchGirl  : CreatureBase {
                     "typo/matchgirl/01_matchGirl_commonAttack_01",
                     "typo/matchgirl/01_matchGirl_commonAttack_02"};
 
-        skill.agent.TakePhysicalDamage(100);
+        skill.agent.TakePhysicalDamage(1);
         skill.CheckLive();
         if (skill.agent.isDead())
         {
@@ -113,7 +113,6 @@ public class MatchGirl  : CreatureBase {
 		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
 
-        skill.agent.TakePhysicalDamage(100);
         skill.CheckLive();
         if (skill.agent.isDead())
         {
