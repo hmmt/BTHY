@@ -1,182 +1,254 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class CreatureUnit : MonoBehaviour, IObserver {
+public class CreatureUnit : MonoBehaviour {
+    
 
-	public CreatureTypeInfo metaInfo;
+    public CreatureModel model;
 
-	public CreatureState state = CreatureState.WAIT;
+    public IsolateRoom room;
+    public SpriteRenderer spriteRenderer;
+    public SpriteRenderer returnSpriteRenderer;
 
-	//
-	public SpriteRenderer spriteRenderer;
-	//
 
-	public int feeling { get; private set; }
+    // ?
+    public CreatureAnimScript animTarget;
 
-	public IsolateRoom room;
+    // 아직 안 씀
 
-	public CreatureBase script;
+    
+    public Animator creatureAnimator;
+    public CreatureAnimBase script;
+    
 
-	public SkillTypeInfo specialSkill; // 이 환상체를 대상으로 할 수 있는 특수스킬
+    private Vector3 directionScaleFactor = new Vector3(1f, 1f, 1f);
+    private Vector3 scaleFactor = new Vector3(1f, 1f, 1f);
 
-	// path finding2
-	private MapNode currentNode;
+    Vector2 oldScale;
 
-	private MapEdge currentEdge;
-	private int edgeDirection;
-	private float edgePosRate; // 0~1
+    private Vector3 viewPosition;
+    private bool visible = true;
 
-	private MapEdge[] pathList;
-	private int pathIndex;
+    private bool mousePointEnter = false;
 
-	// graph
-	private MapNode workspaceNode;
+   private void UpdateViewPosition()
+   {
+       MapEdge currentEdge = model.GetCurrentEdge();
 
-	private Vector2 GetCurrentViewPosition()
+       if (currentEdge != null && currentEdge.type == "door")
+       {
+           if (visible)
+           {
+               visible = false;
+               Vector3 newPosition = model.GetCurrentViewPosition();
+               newPosition.z = 100000f;
+               viewPosition = newPosition;
+           }
+       }
+       else
+       {
+           if (!visible)
+           {
+               visible = true;
+           }
+           viewPosition = model.GetCurrentViewPosition();
+       }
+       transform.localPosition = viewPosition;
+   }
+
+   private void UpdateDirection()
+   {
+       MapEdge currentEdge = model.GetCurrentEdge();
+       int edgeDirection = model.GetMovableNode().GetEdgeDirection();
+
+       if (model.lookAtTarget != null)
+       {
+           Vector2 myPosition = model.GetCurrentViewPosition();
+           Vector2 targetPosition = model.lookAtTarget.GetCurrentViewPosition();
+           Vector3 scale = directionScaleFactor;
+
+           if (myPosition.x > targetPosition.x && scale.x > 0)
+           {
+               scale.x = -scale.x;
+           }
+           else if (myPosition.x < targetPosition.x && scale.x < 0)
+           {
+               scale.x = -scale.x;
+           }
+
+           directionScaleFactor = scale;
+       }
+       else
+       {
+           if (currentEdge != null)
+           {
+               MapNode node1 = currentEdge.node1;
+               MapNode node2 = currentEdge.node2;
+               Vector2 pos1 = node1.GetPosition();
+               Vector2 pos2 = node2.GetPosition();
+
+               if (edgeDirection == 1)
+               {
+                   Vector3 scale = directionScaleFactor;
+
+                   if (pos2.x - pos1.x > 0 && scale.x < 0)
+                   {
+                       scale.x = -scale.x;
+                   }
+                   else if (pos2.x - pos1.x < 0 && scale.x > 0)
+                   {
+                       scale.x = -scale.x;
+                   }
+                   directionScaleFactor = scale;
+               }
+               else
+               {
+                   Vector3 scale = directionScaleFactor;
+
+                   if (pos2.x - pos1.x > 0 && scale.x > 0)
+                   {
+                       scale.x = -scale.x;
+                   }
+                   else if (pos2.x - pos1.x < 0 && scale.x < 0)
+                   {
+                       scale.x = -scale.x;
+                   }
+                   directionScaleFactor = scale;
+               }
+           }
+       }
+   }
+
+   private void UpdateScale()
+   {
+       Vector3 mouseScale = new Vector3(1, 1, 1);
+       if (mousePointEnter)
+       {
+           mouseScale = new Vector3(1.2f, 1.2f, 1.2f);
+       }
+       
+       creatureAnimator.transform.localScale = new Vector3(
+           directionScaleFactor.x * scaleFactor.x * mouseScale.x,
+           directionScaleFactor.y * scaleFactor.y * mouseScale.y,
+           directionScaleFactor.z * scaleFactor.z * mouseScale.z
+           );
+   }
+    void FixedUpdate()
 	{
-		Vector2 output = transform.localPosition;
-		if(currentNode != null)
-		{
-			Vector2 pos = currentNode.GetPosition();
-			output.x = pos.x;
-			output.y = pos.y;
-		}
-		else if(currentEdge != null)
-		{
-			MapNode node1 = currentEdge.node1;
-			MapNode node2 = currentEdge.node2;
-			Vector2 pos1 = node1.GetPosition();
-			Vector2 pos2 = node2.GetPosition();
-
-			if(edgeDirection == 1)
-			{
-				output.x = Mathf.Lerp(pos1.x, pos2.x, edgePosRate);
-				output.y = Mathf.Lerp(pos1.y, pos2.y, edgePosRate);
-			}
-			else
-			{
-				output.x = Mathf.Lerp(pos1.x, pos2.x, 1-edgePosRate);
-				output.y = Mathf.Lerp(pos1.y, pos2.y, 1-edgePosRate);
-			}
-		}
-		return output;
+		UpdateViewPosition();
+        UpdateDirection();
 	}
 
-	private void UpdateViewPosition()
-	{
-		transform.localPosition = GetCurrentViewPosition();
-	}
-
-	void Awake()
-	{
-
-	}
-
-	void Start () {
-	}
-
-	void OnEnable()
-	{
-		Notice.instance.Observe ("CreatureFeelingUpdateTimer", this);
-	}
-	void OnDiable()
-	{
-		Notice.instance.Remove ("CreatureFeelingUpdateTimer", this);
-	}
-
-	public void SetNode(MapNode node)
-	{
-		currentNode = node;
-	}
-
-	public MapNode GetNode()
-	{
-		return currentNode;
-	}
-
-	public void SetWorkspaceNode(MapNode node)
-	{
-        workspaceNode = node;
-	}
-
-	public MapNode GetWorkspaceNode()
-	{
-		return workspaceNode;
-	}
-
-	public void UpdateFeeling()
-	{
-		if (Random.value < metaInfo.feelingDownProb)
-		{
-			//feeling -= metaInfo.feelingDownValue;
-			SubFeeling(metaInfo.feelingDownValue);
-
-			//Notice.instance.Send("UpdateCreatureState_" + gameObject.GetInstanceID());
-		}
-	}
-
-	public void OnNotice(string notice, params object[] param)
-	{
-		if(notice == "CreatureFeelingUpdateTimer")
-		{
-			UpdateFeeling();
-		}
-	}
-
-	void FixedUpdate()
-	{
+    private CreatureState oldState = CreatureState.WAIT;
+    void Update()
+    {
+        
         if (script != null)
         {
-            script.FixedUpdate(this);
+            script.Update();
         }
-		UpdateViewPosition();
-	}
+        
 
-	public void ShowTextOutside(CreatureOutsideTextLayout layoutType, string textKey)
-	{
+        if (oldState != model.state)
+        {
+            OnChangeState();
+            oldState = model.state;
+        }
+    }
 
-	}
+    void LateUpdate()
+    {
+        
+        if (script != null)
+        {
+            script.LateUpdate();
+        }
+        
 
-	public void ShowNarrationText(string narrationKey, params string[] param)
-	{
-		string narrationFormat;
-		if(metaInfo.narrationTable.TryGetValue (narrationKey, out narrationFormat))
-		{
-			string narration = TextConverter.GetTextFromFormatText(narrationFormat, param);
-			Notice.instance.Send("AddNarrationLog", narration);
-		}
-	}
+        UpdateScale();
+    }
+
+    void Start()
+    {
+        if (model.state == CreatureState.ESCAPE_RETURN)
+        {
+            spriteRenderer.gameObject.SetActive(false);
+            returnSpriteRenderer.gameObject.SetActive(true);
+        }
+        else
+        {
+            spriteRenderer.gameObject.SetActive(true);
+            returnSpriteRenderer.gameObject.SetActive(false);
+        }
+    }
+
+    void OnChangeState()
+    {
+        if (model.state == CreatureState.ESCAPE_RETURN)
+        {
+            spriteRenderer.gameObject.SetActive(false);
+            returnSpriteRenderer.gameObject.SetActive(true);
+        }
+        else if (model.state != CreatureState.ESCAPE_RETURN && oldState == CreatureState.ESCAPE_RETURN)
+        {
+            spriteRenderer.gameObject.SetActive(true);
+            returnSpriteRenderer.gameObject.SetActive(false);
+        }
+    }
+
+    public Vector3 GetScaleFactor()
+    {
+        return scaleFactor;
+    }
+
+    public void SetScaleFactor(float x, float y, float z)
+    {
+        scaleFactor = new Vector3(x, y, z);
+    }
+
+    /**
+     * 환상체가 삭제되면 격리소도 삭제
+     * 
+     */
+    void OnDestroy()
+    {
+        Destroy(room.gameObject);
+    }
 
     public void PlaySound(string soundKey)
     {
         string soundFilename;
-        if (metaInfo.soundTable.TryGetValue(soundKey, out soundFilename))
+        if (model.metaInfo.soundTable.TryGetValue(soundKey, out soundFilename))
         {
             SoundEffectPlayer.PlayOnce(soundFilename, transform.position);
         }
     }
 
-	public void AddFeeling(int value)
-	{
-		feeling += value;
-		if (feeling > metaInfo.feelingMax)
-			feeling = metaInfo.feelingMax;
-        Notice.instance.Send("UpdateCreatureState_" + gameObject.GetInstanceID());
-	}
-
-	public void SubFeeling(int value)
-	{
-		feeling = Mathf.Max(feeling - value, 0);
-        Notice.instance.Send("UpdateCreatureState_" + gameObject.GetInstanceID());
-	}
-
 	public void OnClicked()
 	{
-		if(state == CreatureState.WAIT)
-		{
-			//SelectWorkAgentWindow.CreateWindow(this);
-            SelectWorkAgentWindow.CreateWindow(room);
-			//IsolateRoomStatus.CreateWindow(this);
-		}
+        room.OnClickedCreatureRoom();
 	}
+
+    public void OnClick() {
+        Debug.Log("크리쳐 상태 " + model.state);
+        if (model.state == CreatureState.WAIT)
+        {
+            SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
+            //IsolateRoomStatus.CreateWindow(this);
+        }
+        else if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
+        {
+            SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+        }
+    }
+
+    public void PointerEnter()
+    {
+        mousePointEnter = true;
+    }
+
+    public void PointerOut()
+    {
+        mousePointEnter = false;
+    }
 }

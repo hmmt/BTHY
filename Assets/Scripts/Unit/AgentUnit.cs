@@ -1,147 +1,241 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
+[System.Serializable]
+public class AgentUnitUI {
+    public Slider hp;
+    public RectTransform workIcon;
+    public bool Activated = false;
+
+    public void initUI() {
+        hp.gameObject.SetActive(false);
+        workIcon.gameObject.SetActive(false);
+    }
+
+    public void activateUI(AgentModel model) {
+        hp.gameObject.SetActive(true);
+        workIcon.gameObject.SetActive(true);
+        this.Activated = true;
+        hp.maxValue = model.maxHp;
+        hp.value = model.hp;
+    }
+
+    //0번 : 검은색(붕괴 시 아이콘), 1번 : 멀쩡한 상태 아이콘
+    //1번의 alpha값을 수정하는 것을 통해 효과
+    public void setUIValue(AgentModel model) {
+        if (!Activated) return;
+        Color c = workIcon.GetChild(1).GetComponent<Image>().color;
+        c.a = (float)model.mental / model.maxMental;
+
+        workIcon.GetChild(1).GetComponent<Image>().color = c;
+        hp.value = model.hp;
+    }
+   
+}
 
 public class AgentUnit : MonoBehaviour {
 
-	// game data
-	public AgentTypeInfo metadata;
-	public long metadataId;
-	public string name;
-	public int hp;
+    public AgentModel model;
 
-	public int mental;
-	public int movement;
-	public int work;
+    public GameObject agentWindow;
+    public GameObject agentAttackedAnimator;
+    public GameObject agentPlatform;
 
-	public string prefer;
-	public int preferBonus;
-	public string reject;
-	public int rejectBonus;
+    public agentSkillDoing showSkillIcon;
+    public AgentSpeech showSpeech;
 
-	public SkillTypeInfo directSkill;
-	public SkillTypeInfo indirectSkill;
-	public SkillTypeInfo blockSkill;
+    public Animator agentAnimator;
+    public GameObject renderNode;
 
-	public string imgsrc;
+    public GameObject puppetNode;
+    public Animator puppetAnim;
 
-	public Dictionary<string, string> speechTable = new Dictionary<string, string>();
+    public AgentAnim animTarget;
 
-	public string panicType;
-	//
+    public float oldPos;
+    public float oldPosY;
+    public bool agentMove=false;
+    public bool agentDead = false;
 
-	public SpriteRenderer spriteRenderer;
-	//
+    public Text agentName;
 
-	private AgentCmdState state = AgentCmdState.IDLE;
-	public CreatureUnit target; // state; MOVE, WORKING
+    private string oldSefira;
 
-	private PanicAction currentPanicAction;
+    //각 직원 부위 스프라이트 결정 변수
+    public GameObject faceSprite;
+    public GameObject deadSprite;
+    public GameObject hairSprite;
 
-	// path finding
-	/*
-	private bool movingOnPath = false;
-	private AIPoint[] shortestPath;
-	private int pathCurIndex;
-	*/
+    public UnityEngine.UI.Text speechText;
 
-	// path finding2
-	private MapNode currentNode;
+    public AgentUnitUI ui;
 
-	private MapEdge currentEdge;
-	private float edgePosRate; // 0~1
+    // layer에서 z값 순서 정하기 위한 값.
+    public float zValue;
 
-	private int edgeDirection; //?
+    private bool uiOpened = false;
 
-//	private GraphPosition graphPosition;
+    //직원 대사
+    string speech = "";
 
-	private MapEdge[] pathList;
-	private int pathIndex;
+    void LateUpdate()
+    {
+        /*
+        foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>())
+        {
+            if (model.mental > 0)
+            {
+                if (renderer.sprite.name == "Face_A_00")
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+                else if (renderer.sprite.name == "Face_A_01")
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_01");
+                else if (renderer.sprite.name == "Face_A_02")
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_02");
+            }
+
+            else
+            {
+                if (renderer.sprite.name == "Face_A_00")
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_00");
+                else if (renderer.sprite.name == "Face_A_01")
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_01");
+                else if (renderer.sprite.name == "Face_A_02")
+                    renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Panic/panic_" + model.panicSpriteName + "_02");
+
+            }
+        }
+
+        foreach (var renderer in hairSprite.GetComponents<SpriteRenderer>())
+        {
+            if (renderer.sprite.name == "Hair_M_A_00")
+                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+            else if (renderer.sprite.name == "Hair_M_A_01")
+                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_01");
+            else if (renderer.sprite.name == "Hair_M_A_02")
+            {
+                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_02");
+                renderer.transform.localScale.Set(-1,1,1);
+            }
+        }
+         */
+    }
+
+    void  Start()
+    {
+        //agentAnimator.SetInteger("Sepira", 1);
+        //agentAnimator.SetBool("Change", false);
+
+        puppetAnim.SetInteger("Sefira", 1);
+        puppetAnim.SetBool("Change", false);
+
+        oldPos = transform.localPosition.x;
+        oldPosY = transform.localPosition.y;
+        oldSefira = "1";
+        agentName.text = model.name;
+
+        agentPlatform.SetActive(false);
+
+        faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
+        hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
+        
+        ui.initUI();
+        if (PlayerModel.instance.IsOpenedArea("yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            uiOpened = true;
+        }
+
+        if (uiOpened) {
+            ui.activateUI(model);
+        }
+        ChangeAgentUniform();
+    }
+
+    /*
+    public void DeadAgent()
+    {
+        deadSprite.gameObject.SetActive(true);
+        faceSprite.gameObject.SetActive(false);
+        hairSprite.gameObject.SetActive(false);
+        agentAnimator.gameObject.SetActive(false);
+
+        deadSprite.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Agent/Dead");
+        deadSprite.transform.Rotate(0f, -90f, 0f);
+    }*/
 
 	private void UpdateDirection()
 	{
-		if(currentEdge != null)
-		{
-			MapNode node1 = currentEdge.node1;
-			MapNode node2 = currentEdge.node2;
-			Vector2 pos1 = node1.GetPosition();
-			Vector2 pos2 = node2.GetPosition();
+        MapEdge currentEdge = model.GetCurrentEdge();
+        int edgeDirection = model.GetEdgeDirection();
 
-			if(edgeDirection == 1)
-			{
-				Transform anim = transform.Find("Anim");
-				Vector3 scale = anim.localScale;
-				if(pos2.x - pos1.x > 0 && scale.x < 0)
-				{
-					scale.x = -scale.x;
-				}
-				else if(pos2.x - pos1.x < 0 && scale.x > 0)
-				{
-					scale.x = -scale.x;
-				}
-				anim.transform.localScale = scale;
-			}
-			else
-			{
-				Transform anim = transform.Find("Anim");
-				Vector3 scale = anim.localScale;
-				if(pos2.x - pos1.x > 0 && scale.x > 0)
-				{
-					scale.x = -scale.x;
-				}
-				else if(pos2.x - pos1.x < 0 && scale.x < 0)
-				{
-					scale.x = -scale.x;
-				}
-				anim.transform.localScale = scale;
-			}
-		}
-	}
+            if (currentEdge != null)
+            {
+                MapNode node1 = currentEdge.node1;
+                MapNode node2 = currentEdge.node2;
+                Vector2 pos1 = node1.GetPosition();
+                Vector2 pos2 = node2.GetPosition();
 
-	private Vector2 GetCurrentViewPosition()
-	{
-		Vector2 output = transform.localPosition;
-		if(currentNode != null)
-		{
-			Vector2 pos = currentNode.GetPosition();
-			output.x = pos.x;
-			output.y = pos.y;
-		}
-		else if(currentEdge != null)
-		{
-			MapNode node1 = currentEdge.node1;
-			MapNode node2 = currentEdge.node2;
-			Vector2 pos1 = node1.GetPosition();
-			Vector2 pos2 = node2.GetPosition();
+                if (edgeDirection == 1)
+                {
+                    //Transform anim = renderNode.transform;
 
-			if(edgeDirection == 1)
-			{
-				output.x = Mathf.Lerp(pos1.x, pos2.x, edgePosRate);
-				output.y = Mathf.Lerp(pos1.y, pos2.y, edgePosRate);
-			}
-			else
-			{
-				output.x = Mathf.Lerp(pos1.x, pos2.x, 1-edgePosRate);
-				output.y = Mathf.Lerp(pos1.y, pos2.y, 1-edgePosRate);
-			}
-		}
-		return output;
+                    Transform puppet = puppetNode.transform;
+
+                    //Vector3 scale = anim.localScale;
+                    Vector3 puppetScale = puppet.localScale;
+
+                    if (pos2.x - pos1.x > 0 && puppetScale.x < 0)
+                    {
+                       // scale.x = -scale.x;
+                        puppetScale.x = -puppetScale.x;
+                    }
+                    else if (pos2.x - pos1.x < 0 && puppetScale.x > 0)
+                    {
+                    //    scale.x = -scale.x;
+                        puppetScale.x = -puppetScale.x;
+                    }
+                    //anim.transform.localScale = scale;
+                    puppet.transform.localScale = puppetScale;
+                }
+                else
+                {
+                   // Transform anim = renderNode.transform;
+                    Transform puppet = puppetNode.transform;
+
+                  //  Vector3 scale = anim.localScale;
+                    Vector3 puppetScale = puppet.localScale;
+
+                    if (pos2.x - pos1.x > 0 && puppetScale.x > 0)
+                    {
+                  //      scale.x = -scale.x;
+                        puppetScale.x = -puppetScale.x;
+                    }
+                    else if (pos2.x - pos1.x < 0 && puppetScale.x < 0)
+                    {
+                  //      scale.x = -scale.x;
+                        puppetScale.x = -puppetScale.x;
+                    }
+                  //  anim.transform.localScale = scale;
+                    puppet.transform.localScale = puppetScale;
+                }
+            }
 	}
 
 	private bool visible = true;
-	private float oldZ;
 
 	private void UpdateViewPosition()
 	{
+        MapEdge currentEdge = model.GetCurrentEdge();
+
 		if(currentEdge != null && currentEdge.type == "door")
 		{
 			if(visible)
 			{
 				visible = false;
-				Vector3 oldViewPosition = transform.localPosition;
-				oldZ = oldViewPosition.z;
-				oldViewPosition.z = 100000f;
-				transform.localPosition = oldViewPosition;
+                Vector3 newPosition = model.GetCurrentViewPosition();
+                newPosition.z = 100000f;
+                transform.localPosition = newPosition;
 			}
 		}
 		else
@@ -149,11 +243,10 @@ public class AgentUnit : MonoBehaviour {
 			if(!visible)
 			{
 				visible = true;
-				Vector3 oldViewPosition = transform.localPosition;
-				oldViewPosition.z = oldZ;
-				transform.localPosition = oldViewPosition;	
 			}
-			transform.localPosition = GetCurrentViewPosition();
+            Vector3 newPosition = model.GetCurrentViewPosition();
+            newPosition.z = zValue;
+			transform.localPosition = newPosition;
 		}
 	}
 
@@ -161,156 +254,161 @@ public class AgentUnit : MonoBehaviour {
 
 	private float waitTimer = 0;
 
-	void Start () {
-
-		//currentNode = MapGraph.instance.GetNodeById(100);
-		currentNode = MapGraph.instance.GetNodeById("1001002");
-
-//		MoveToNode(MapGraph.instance.GetNodeById(5));
-	}
-
 	// if map is destroyed....?
+
+    public void ChangeAgentUniform()
+    {
+        if (animTarget != null)
+        {
+            if (model.currentSefira == "1")
+            {
+                animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentM1"));
+            }
+            else
+            {
+                animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
+            }
+        }
+        //agentAnimator.SetBool("Change", true);
+
+        puppetAnim.SetBool("Change", true);
+
+        if (model.currentSefira == "1")
+        {
+            agentAnimator.SetInteger("Sepira", 1);
+            puppetAnim.SetInteger("Sefira", 1);
+        }
+
+        else if (model.currentSefira == "2")
+        {
+            agentAnimator.SetInteger("Sepira", 2);
+            puppetAnim.SetInteger("Sefira", 2);
+        }
+
+        else if (model.currentSefira == "3")
+        {
+            agentAnimator.SetInteger("Sepira", 3);
+            puppetAnim.SetInteger("Sefira", 3);
+        }
+
+        else if (model.currentSefira == "4")
+        {
+            agentAnimator.SetInteger("Sepira", 4);
+            puppetAnim.SetInteger("Sefira", 4);
+        }
+
+        TimerCallback.Create(1, delegate()
+        {
+            /*if (agentAnimator.GetBool("Change"))
+                agentAnimator.SetBool("Change", false);
+            */
+            if (puppetAnim.GetBool("Change"))
+                puppetAnim.SetBool("Change", false);
+        });
+        oldSefira = model.currentSefira;
+    }
+
 
 	void FixedUpdate()
 	{
-		ProcessAction ();
+        if (oldSefira != model.currentSefira)
+        {
+            ChangeAgentUniform();
+        }
 
-		//ProcessMoving ();
-		ProcessMoveNode();
+        if (oldPos != transform.localPosition.x)
+        {
+            //agentAnimator.SetBool("AgentMove", true);
+           // faceSprite.GetComponent<Animator>().SetBool("Move", true);
+           // hairSprite.GetComponent<Animator>().SetBool("Move", true);
+
+            animTarget.SetSpeed(model.movement / 4.0f);
+            puppetAnim.SetBool("Move", true);
+        }
+        else
+        {
+          //  agentAnimator.SetBool("AgentMove", false);
+         //   faceSprite.GetComponent<Animator>().SetBool("Move", false);
+          //  hairSprite.GetComponent<Animator>().SetBool("Move", false);
+
+            animTarget.SetSpeed(1);
+            puppetAnim.SetBool("Move", false);
+        }
+        /*
+        if (oldPosY != transform.localPosition.y)
+        {
+            agentPlatform.SetActive(true);
+        }
+
+        else
+        {
+            agentPlatform.SetActive(false);
+        }
+        */
+        oldPosY = transform.localPosition.y;
+        oldPos = transform.localPosition.x;
+
+        int randLyricsTick = Random.Range(0, 3000);
+        //&& !speechText.IsActive()제거
+        if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 )
+        {
+            int randLyricsStory = Random.Range(0, 10);
+            if (randLyricsStory < 8)
+            {
+                speech = AgentLyrics.instance.getLyricsByDay(PlayerModel.instance.GetDay());
+            }
+            else
+            {
+                speech = AgentLyrics.instance.getStoryLyrics();
+            }
+            Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+            Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+            showSpeech.showSpeech(speech);
+        }
+
+        if (model.mental <= 0 && !speechText.IsActive())
+        {
+            speech = AgentLyrics.instance.getPanicLyrics();
+            Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+            Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+            showSpeech.showSpeech(speech);
+            Debug.Log("패닉대사 " + speech);
+        }
+        ui.setUIValue(model);
 	}
 
 	void Update()
 	{
 		UpdateViewPosition();
 		UpdateDirection();
-		SetCurrentHP (hp);
-		UpdateMentalView ();
+		///SetCurrentHP (model.hp);
+		//UpdateMentalView ();
+        if (PlayerModel.instance.IsOpenedArea("4") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            uiOpened = true;
+        }
+        else uiOpened = false;
+
+        if (uiOpened)
+        {
+            ui.activateUI(model);
+        }
+        else {
+            ui.initUI();
+        }
+
+        if (Input.GetKey(KeyCode.T)){
+            Debug.Log("check"+PlayerModel.instance.IsOpenedArea("4") + " " +CreatureManager.instance.yessodState);
+        }
+        if (Input.GetKeyDown(KeyCode.G)) {
+            model.mental -= 10;
+           // Debug.Log("최대치" + model.maxMental + "현재" + model.mental + "알파" + mentalImage.color.a);
+        }
+        if (Input.GetKeyDown(KeyCode.H)) {
+            model.hp -= 1;
+        }
 	}
-
-	private void ProcessAction()
-	{
-		if(currentPanicAction != null)
-		{
-			currentPanicAction.Execute();
-		}
-		else if(state == AgentCmdState.IDLE)
-		{
-			if(waitTimer <= 0)
-			{
-				int x,y;
-				/*
-				CreatureRoom.instance.WorldToTile(transform.position, out x, out y);
-				Vector2 goalPoint = CreatureRoom.instance.GetNearRoamingPoint(new Vector2(x,y));
-				MoveToTilePos((int)goalPoint.x, (int)goalPoint.y);
-				*/
-
-				MoveToNode(MapGraph.instance.GetRandomRestPoint());
-				
-				waitTimer = 1.5f + Random.value;
-			}
-		}
-		waitTimer -= Time.deltaTime;
-	}
-	/*
-	private void ProcessMoving()
-	{		
-		Vector2 moveDirection = new Vector2(0,0);
-		do
-		{
-			if(movingOnPath)
-			{
-				int x,y;
-				CreatureRoom.instance.WorldToTile(transform.position, out x, out y);
-				AIPoint nextPoint = shortestPath[pathCurIndex];
-				if(x == nextPoint.x && y == nextPoint.y)
-				{
-					pathCurIndex++;
-					if(pathCurIndex >= shortestPath.Length)
-					{
-						movingOnPath = false;
-						moveDirection = new Vector2(0,0);
-						break;
-					}
-					nextPoint = shortestPath[pathCurIndex];
-				}
-				Vector2 nextPosition = CreatureRoom.instance.TileToWorld(nextPoint.x, nextPoint.y);
-				
-				moveDirection = (nextPosition - (Vector2)transform.position).normalized;
-			}
-		}while(false);
-		
-		
-		// update position
-		Vector2 newLocalPos = (Vector2)transform.localPosition +  moveDirection * movement * Time.deltaTime;
-		
-		transform.localPosition = new Vector3 (newLocalPos.x, newLocalPos.y, transform.localPosition.z);
-	}
-*/
-	private void ProcessMoveNode()
-	{
-		/*
-		private MapNode currentNode;
-
-		private MapEdge currentEdge;
-		private int edgeDirection;
-		private float edgePosRate; // 0~1
-
-		private MapEdge[] pathList;
-		private int pathIndex;
-		*/
-
-		if(pathList != null)
-		{
-			if(currentNode != null)
-			{
-				if(pathIndex >= pathList.Length)
-				{
-					pathList = null;
-				}
-				else
-				{
-					
-					currentEdge = pathList[pathIndex];
-					if(currentEdge.node1 == currentNode)
-					{
-						edgeDirection = 1;
-					}
-					else
-					{
-						edgeDirection = 0;
-					}
-					currentNode = null;
-				}
-			}
-			else if(currentEdge != null)
-			{
-				edgePosRate += Time.deltaTime/currentEdge.cost * movement;
-
-				if(edgePosRate >= 1)
-				{
-					if(edgeDirection == 1)
-						currentNode = currentEdge.node2;
-					else
-						currentNode = currentEdge.node1;
-
-					edgePosRate = 0;
-					currentEdge = null;
-					pathIndex++;
-				}
-			}
-		}
-	}
-
-	// edge 위에 있을 때도 통합할 수 있는 타입 필요
-	public MapNode GetCurrentNode()
-	{
-		return currentNode;
-	}
-	public AgentCmdState GetState()
-	{
-		return state;
-	}
-
+    /*
 	public void SetMaxHP(int maxHP)
 	{
 		GetComponentInChildren<AgentHPBar> ().SetMaxHP (maxHP);
@@ -318,152 +416,71 @@ public class AgentUnit : MonoBehaviour {
 
 	public void SetCurrentHP(int hp)
 	{
-		GetComponentInChildren<AgentHPBar> ().SetCurrentHP (hp);
-	}
+        if (PlayerModel.instance.IsOpenedArea("Yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            GetComponentInChildren<AgentHPBar>().gameObject.SetActive(true);
+            GetComponentInChildren<AgentHPBar>().SetCurrentHP(hp);
+        }
 
+        else if (!GetComponentInChildren<AgentHPBar>().gameObject.activeInHierarchy)
+        {
+                GetComponentInChildren<AgentHPBar>().gameObject.SetActive(false);
+        }
+	}
+    */
 	public void UpdateMentalView()
 	{
-		GetComponentInChildren<MentalViewer> ().SetMentalRate ((float)mental / (float)metadata.mental);
+        if (PlayerModel.instance.IsOpenedArea("Yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
+        {
+            GetComponentInChildren<MentalViewer>().gameObject.SetActive(true);
+            GetComponentInChildren<MentalViewer>().SetMentalRate((float)model.mental / (float)model.maxMental);
+        }
+        else if (!GetComponentInChildren<MentalViewer>().gameObject.activeInHierarchy)
+        {
+                GetComponentInChildren<MentalViewer>().gameObject.SetActive(false);
+           
+        }
 	}
-/*
-	public void MoveToTilePos(int goalx, int goaly)
-	{
-		int x,y;
-		CreatureRoom.instance.WorldToTile(transform.position, out x, out y);
-		AIPoint[] path = Astar.SearchPath(CreatureRoom.instance.GetTileMap(), x,y, goalx,goaly);
-		MoveOnPath(path);
-	}
-
-	public void MoveToGlobalPos(Vector2 pos)
-	{
-		int x,y;
-		CreatureRoom.instance.WorldToTile(pos, out x, out y);
-		MoveToTilePos (x, y);
-	}
-	*/
-
-	/*
-		private MapNode currentNode;
-
-		private MapEdge currentEdge;
-		private int edgeDirection;
-		private float edgePosRate; // 0~1
-
-		private MapEdge[] pathList;
-		private int pathIndex;
-		*/
-	public void MoveToNode(MapNode targetNode)
-	{
-		if(currentNode != null)
-		{
-			MapEdge[] searchedPath = GraphAstar.SearchPath(currentNode, targetNode);
-
-			pathList = searchedPath;
-			pathIndex = 0;
-		}
-		else if(currentEdge != null)
-		{
-			MapNode tempNode = new MapNode("-1", GetCurrentViewPosition());
-			MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
-			MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
-			tempNode.AddEdge(tempEdge1);
-			tempNode.AddEdge(tempEdge2);
-
-			MapEdge[] searchedPath = GraphAstar.SearchPath(tempNode, targetNode);
-
-			pathList = searchedPath;
-			pathIndex = 0;
-			if(searchedPath.Length > 0)
-			{
-				currentEdge = searchedPath[0];
-				edgePosRate = 0;
-				edgeDirection = 1;
-			}
-		}
-		else
-		{
-			Debug.Log("Current State invalid");
-		}
-	}
-
-	public void MoveToNode(string targetNodeId)
-	{
-		MoveToNode(MapGraph.instance.GetNodeById(targetNodeId));
-	}
-
-	public void MoveToCreture(CreatureUnit target)
-	{
-		//MoveToGlobalPos ((Vector2)target.transform.position);
-		//MoveToNode(target.GetNode());
-		MoveToNode(target.GetWorkspaceNode());
-	}
-	public void Working(CreatureUnit target)
-	{
-		state = AgentCmdState.WORKING;
-		this.target = target;
-		MoveToCreture (target);
-	}
-	public void FinishWorking()
-	{
-		state = AgentCmdState.IDLE;
-		this.target = null;
-	}
-/*
-	public bool isMoving()
-	{
-		return movingOnPath;
-	}
-	*/
 
 	public void OpenStatusWindow()
 	{
-		AgentStatusWindow.CreateWindow (this);
-	}
-/*
-	void MoveOnPath(AIPoint[] dir)
-	{
-		Debug.Log("old call");
-		if(dir.Length == 0)
-			return;
-		shortestPath = (AIPoint[])dir.Clone ();
-		pathCurIndex = 0;
-		movingOnPath = true;
-	}
-*/
-	void MoveOnPath(MapEdge[] path)
-	{
-		if(path.Length == 0)
-			return;
+        AgentModel oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
+		AgentStatusWindow.CreateWindow (model);
+        if (CollectionWindow.currentWindow != null)
+        CollectionWindow.currentWindow.CloseWindow();
 
-		pathList = path;
-		pathIndex = 0;	
-	}
+        speech = AgentLyrics.instance.getOnClickLyrics();
+        Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
+        Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
+        showSpeech.showSpeech(speech);
+        Debug.Log("관리자에게 " + speech);
+        
 
-	public void Speech(string speechKey)
-	{
-		string speech;
-		if(speechTable.TryGetValue (speechKey, out speech))
-		{
-			Notice.instance.Send("AddPlayerLog", name + " : " +  speech);
-			TextAppearNormalEffect.Create(GetComponent<DestroyHandler>(), new Vector2(0, 0.5f), 4f, name + " : " +  speech, Color.blue);
-		}
+        // TODO : 최적화 필요
+        agentWindow = GameObject.FindGameObjectWithTag("AnimAgentController");
+
+        if (agentWindow.GetComponent<Animator>().GetBool("isTrue"))
+        {
+            Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
+            agentWindow.GetComponent<Animator>().SetBool("isTrue", false);
+        }
+        else if(oldUnit == model)
+        {
+            Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
+            agentWindow.GetComponent<Animator>().SetBool("isTrue", true);
+        }
 	}
 
-	public void Panic()
-	{
-		if(panicType == "default")
-		{
-			currentPanicAction = new PanicDefaultAction();
-		}
-		else if(panicType == "roaming")
-		{
-			currentPanicAction = new PanicRoaming(this);
-		}
-	}
+    public void Speech(string speechKey)
+    {
+        string speech;
+        if (model.speechTable.TryGetValue(speechKey, out speech))
+        {
+            Notice.instance.Send("AddPlayerLog", name + " : " + speech);
+            TextAppearNormalEffect.Create(GetComponent<DestroyHandler>(), new Vector2(0, 0.5f), 4f, name + " : " + speech, Color.blue);
+        }
+    }
 
-	public void Die()
-	{
-		Notice.instance.Send("AgentDie", this);
-		Destroy (gameObject);
-	}
+
+
 }

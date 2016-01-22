@@ -8,8 +8,12 @@ public class MapEdge {
 	public float cost;
 
 	public string type;
-
+    public string name;
 	public bool activated;
+
+    // temp edge
+    public bool isTemporary = false;
+    public MapEdge baseEdge = null;
 
 	public MapEdge(MapNode node1, MapNode node2, string type)
 	{
@@ -17,7 +21,8 @@ public class MapEdge {
 		this.node2 = node2;
 		this.type = type;
 
-		this.cost = Vector2.Distance(node1.GetPosition(), node2.GetPosition());
+
+		this.cost = Vector3.Distance(node1.GetPosition(), node2.GetPosition());
 	}
 
 	public MapEdge(MapNode node1, MapNode node2, string type, float cost)
@@ -31,6 +36,10 @@ public class MapEdge {
 
 	public MapNode ConnectedNode(MapNode node)
 	{
+        if (node1.activate == false || node2.activate == false)
+        {
+            return null;
+        }
 		if(node == node1)
 		{
 			return node2;
@@ -41,4 +50,16 @@ public class MapEdge {
 		}
 		return null;
 	}
+
+    public MapNode GetGoalNode(int direction)
+    {
+        if (direction == 1)
+        {
+            return node2;
+        }
+        else
+        {
+            return node1;
+        }
+    }
 }

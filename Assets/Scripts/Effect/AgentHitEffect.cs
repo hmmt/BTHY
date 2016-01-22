@@ -76,8 +76,11 @@ public class AgentHitEffect : MonoBehaviour
         return effect;
     }
     */
-    public static AgentHitEffect Create(AgentUnit agent)
+    //public static AgentHitEffect Create(AgentUnit agent)
+    public static AgentHitEffect Create(AgentModel agent)
     {
+        // TODO : 바꿔야 
+        /*
         //
         GameObject newEffect = Prefab.LoadPrefab("AgentHitEffect");
 
@@ -95,6 +98,7 @@ public class AgentHitEffect : MonoBehaviour
 
         effect.transform.localScale = new Vector3(0.3f, 0.3f, 1);
         effect.UpdateState();
+        */
 
         return null;
     }

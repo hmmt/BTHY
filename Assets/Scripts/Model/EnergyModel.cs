@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EnergyModel : IObserver {
-
+    
 	private static EnergyModel _instance = null;
 
 	public static EnergyModel instance
@@ -16,41 +16,87 @@ public class EnergyModel : IObserver {
 		}
 	}
 
-	private int energy = 0;
+	private float energy = 0;
+    private float leftEnergy = 40;
+    private float stageLeftEnergy = 0;
 
+    public EnergyModel()
+    {
+        Init();
+    }
 	public void Init()
 	{
 		energy = 0;
 	}
 
-	public void AddEnergy(int added)
+	public void AddEnergy(float added)
 	{
 		this.energy += added;
 	}
 
-	public int GetEnergy()
+    public void SubEnergy(float sub)
+    {
+        this.energy -= sub;
+    }
+
+	public float GetEnergy()
 	{
 		return energy;
 	}
 
-	public void UpdateEnergy()
-	{
-		CreatureUnit[] units = CreatureFacade.instance.GetCreatureList ();
-		
-		foreach(CreatureUnit unit in units)
-		{
-			int addedEnergy = 1;
+    public void SetStageLeftEnergy(float energy)
+    {
+        stageLeftEnergy = energy;
+    }
 
+    public int GetStageLeftEnergy()
+    {
+        return (int)stageLeftEnergy;
+    }
+
+    public void SetLeftEnergy(float left)
+    {
+        leftEnergy = left;
+    }
+
+    public float GetLeftEnergy()
+    {
+        return leftEnergy;
+    }
+
+	private void UpdateEnergy()
+	{
+		CreatureModel[] units = CreatureManager.instance.GetCreatureList ();
+		
+		foreach(CreatureModel unit in units)
+		{
+			float addedEnergy = 1;
+            /*
 			int feelingTick = unit.metaInfo.feelingMax / unit.metaInfo.genEnergy.Length;
-			addedEnergy = unit.metaInfo.genEnergy[Mathf.Clamp(unit.feeling/feelingTick, 0, unit.metaInfo.genEnergy.Length-1)];
+			addedEnergy = unit.metaInfo.genEnergy[Mathf.Clamp((int)(unit.feeling)/feelingTick, 0, unit.metaInfo.genEnergy.Length-1)];
+            */
+            if(unit.sefiraEmpty)
+            {
+                addedEnergy = (unit.GetEnergyTick()) / 2;
+                if(addedEnergy < 0)
+                {
+                    addedEnergy = addedEnergy * 2;
+                }
+            }
+            else
+            {
+                addedEnergy = unit.GetEnergyTick();
+            }
+
 			AddEnergy(addedEnergy);
+            unit.genEnergyCount += addedEnergy;
 			if(addedEnergy > 0)
 			{
-				TextAppearEffect.Create((Vector2)unit.transform.position, "+" + addedEnergy.ToString(), Color.white);
+				TextAppearEffect.Create((Vector2)unit.GetCurrentViewPosition(), "+" + addedEnergy.ToString(), Color.white);
 			}
 			else if(addedEnergy < 0)
 			{
-				TextAppearEffect.Create((Vector2)unit.transform.position, addedEnergy.ToString(), Color.white);
+                TextAppearEffect.Create((Vector2)unit.GetCurrentViewPosition(), addedEnergy.ToString(), Color.white);
 			}
 		}
 		

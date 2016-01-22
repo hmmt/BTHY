@@ -1,0 +1,18 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BackgroundTouchArea.cs">
+    <Files>
+      <File FileName="Assets/OverlayObject.cs" Line="18" Column="2" />
+      <File FileName="Assets/Scripts/Model/AgentModel.cs" Line="806" Column="6" />
+      <File FileName="Assets/Scripts/AI/TempAgentAI.cs" Line="14" Column="50" />
+      <File FileName="Assets/Scripts/Model/CreatureModel.cs" Line="31" Column="25" />
+      <File FileName="Assets/Scripts/BackgroundTouchArea.cs" Line="22" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="Assets\Scripts\Unit\SefiraMapLayer.cs" line="54" offsetX="216" offsetY="896" expression="fogRenderer" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>

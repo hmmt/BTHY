@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<creature_list>
+  <creature name="Matchgirl" src="Matchgirl">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+	<creature name="OldLady" src="OldLady">
+    <stat>OldLady_stat</stat>
+  </creature>
+	<creature name="HappyTeddy" src="HappyTeddy">
+    <stat>test</stat>
+  </creature>
+	<creature name="Fetus" src="Fetus">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+	<creature name="RedShoes" src="RedShoes">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="OneBadManyGood" src="OneBadManyGood">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+
+	<creature name="Reaper" src="Reaper">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="SmilePierrot" src="SmilePierrot">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="MagicalGirl" src="MagicalGirl">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+	<creature name="VoidBook" src="VoidBook">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+
+	<creature name="AnonymousManPortrait" src="AnonymousManPortrait">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="LadyLookingAtWall" src="LadyLookingAtWall">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="JackLessTree" src="JackLessTree">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+	<creature name="NullThing" src="NullThing">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+
+  <creature name="SilentGirl" src="SilentGirl">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="Theresia" src="Theresia">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  
+  <creature name="SilentGirl" src="SilentGirl">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+  <creature name="Theresia" src="Theresia">
+    <stat>HappyTeddy_stat</stat>
+  </creature>
+
+</creature_list>

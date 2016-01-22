@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<creature>
+	<info id="20002"
+		name="보고 싶은 사신"
+		codeId="O-04-098-R"
+		level="HE"
+		stackLevel="2"
+
+		attackType="RED,WHITE"
+		intelligence="정상적인 의사소통 가능"
+		
+		horrorProb="0.95"
+		horrorDmg="20" cmt1="-20~40으로 되어 잇음"
+		
+		physicsProb="0.9"
+		physicsDmg="4" cmt2="4~7으로 되어 잇음"
+		
+		mentalProb="0.95"
+		mentalDmg="10" cmt3="-10~30으로 되어 잇음"
+
+		observeLevel="5"
+
+		script="Reaper"
+		>
+		<feeling max="200" downProb="0.3" downValue="1">
+			<section feelingValue="100" state="good" energy="0.6"/>
+			<section feelingValue="50" state="normal" energy="0.3"/>
+			<section feelingValue="0" state="bad" energy="-1"/>
+		</feeling>
+
+		<preferSkill type="direct" bonus="0.3"/>
+		<preferSkill type="block" bonus="0.5"/>
+		<rejectSkill type="block" bonus="-0.5"/>
+
+		<narration action="move">
+			-> #0(이)가 작업을 시작하러 '보고 싶은 사신'의 방에 들어갑니다
+		</narration>
+
+		<narration action="start">
+			-> [
+			{‘보고 싶은 사신’의 두건 속에 무엇이 있을지 아는 직원은 거의 드뭅니다.},
+			{직원들이 가장 가기 싫어하는 환상체 투표에서 ‘보고싶은 사신’ 은 2위를 달성했습니다.},
+			{‘보고 싶은 사신’ 만큼 고약한 특성을 가지고 있는 환상체도 드물겁니다.},
+			{그의 두건 속에 있는 그리움을 마주하기 위해선 강한 다짐이 필요합니다.}
+			]
+		</narration>
+
+
+		<narration action="mid1">
+			-> [
+			{‘보고 싶은 사신’ 의 방으로 들어가는 #0의 표정은 썩 좋지 않았습니다. },
+			{#0(은)는 방문 앞에서 몇 번이나 심호흡을 하며 환상체를 마주하기 위한 마음의 준비를 했었습니다. },
+			{#0(이)가 자신의 손톱을 잘근 씹어대며 환상체의 방에 들어가길 주저 했었습니다.},
+			{#0(이)가 담담하게 ‘보고 싶은 사신’ 의 방에 들어가기까진 상당히 시간이 걸렸습니다}
+			]
+		</narration>
+
+		<narration action="mid2">
+			-> [
+			{‘보고 싶은 사신’은 허름한 두건을 뒤집은 채로 곧 들어올 #0(을)를 기다리고 있습니다. },
+			{#0의 죄들은 ‘단 한번의 악과 수백가지의 선행’ 에게 곧 도달할 것입니다.},
+			{‘보고 싶은 사신’은 수많은 마음의 준비를 끝내고 들어온 #0(을)를, 맞이합니다. },
+			{#0의 심정이 어떻던 간에 ‘보고 싶은 사신’이 원하는 것은 하나 입니다. }
+			]
+		</narration>
+
+		<narration action="mid3">
+			-> [
+			{#0(은)는 방에 들어왔습니다. #0(은)는 그의 눈 앞의 상대를 바라봅니다.},
+			{#0의 눈에는 더 이상 ‘보고 싶은 사신’ 이 담겨 있지 않습니다. }
+			]
+		</narration>
+
+		<narration action="mid4">
+			-> [
+			{#0의 다리에 힘이 풀립니다. 주저 앉을 생각도 못한 채 꿈 같은 그 광경을 주시합니다. },
+			{#0(은)는 그대로 멈춰있습니다. 마치 도스토예프스키의 시간만 멈춰버린 것 같습니다. }
+			]
+		</narration>
+
+		<narration action="special_ability1">
+			-> [
+			{‘보고 싶은 사신’이 #0만을 위한 형태로 다가옵니다.}
+			]
+		</narration>
+
+		<narration action="special_ability2">
+			-> [
+			{아마도 ‘보고 싶은 사신’은 웃고 있을 겁니다. }
+			]
+		</narration>
+
+		<narration action="special_ability3">
+			-> [
+			{그러나 그것은 말하자면, ‘보고 싶은 사신’ 이 갖고 있는 ‘무늬’ 같은 것입니다.}
+			]
+		</narration>
+
+		<narration action="special_ability4">
+			-> [
+			{‘보고 싶은 사신’ 이 하는 공격행위는 어떤 형태던 간에 #0에겐 치명상을 입힐 것입니다. }
+			]
+		</narration>
+
+
+		<narration action="panic">
+			-> [
+			{#0(은)는 짐승처럼 울부짖으며 알아듣기 힘든 소리를 질러댑니다. #0(은)는 ‘보고 싶은 사신’이 환상체라는 사실조차 잊어버렸습니다. },
+			{다른 동료들이 미쳐버린 #0(을)를 강제로 데리고 나오겠지만, #0(은)는 아마 ‘보고 싶은 사신’ 을 잊지 못할 것입니다. }
+			]
+		</narration>
+
+		<narration action="dead">
+			-> [
+			{#0에겐 일말의 반항조차 없었습니다. 그럼에도 죽어가는 #0의 눈에는 끝까지 ‘보고 싶은 사신’ 을 향해있습니다.  },
+			{우리와 392일을 함께한 #0(은)는 더 이상 ‘내일’ 이 없습니다. #0(은)는 오랜 후회가 담겨 있는 눈물을 흘립니다.}
+			]
+		</narration>
+
+
+
+		<desc>
+			"두건 아래에 무엇이 있는지 아무도 모른다. 어쩌면 아무 것도 없을 수 있다. 생각을  읽는 능력도 있는 건지, 이것을 마주하면, 자신이 가장 보고 싶어 하는 사람의 이미지로 변한다. 항상 칼이나 낫 같은 무기를 소지하고 다닌다. 상대가 놀라거나 충격에 빠진 틈을 타서 들고 있는 무기로 공격을 가한다. 낮은 물리력과 단순한 공격형태에도 불구하고 대상을 마주하면 꼼짝없이 물리피해를 당하게 되는 듯 싶다. 오로지 눈 앞에 있는 상대의 목숨을 빼앗는다는 묵표외엔 다른 행동을 하지 않아서 '사신'이라는 닉네임이 붙여졌다."
+		</desc>
+
+		<observe>
+			<observe_sub>
+			"(병실 상담 중 일부 발췌)"
+			"문을 열었고, 눈이 마주쳤는데 허공을 본 것 같다는 느낌이 들었고, 어느 순간 동생이 저를 쳐다보고 있었어요. 믿어지세요?"
+			"12살 때 잃어버린 동생 말이에요."
+			</observe_sub>
+
+			<observe_sub>
+			"살아있을거라는 생각은 안했지만, 그렇다고 죽었따는 확신도 하지 않은 채 20년이 지났어요."
+			"(중략)"
+			"그건 분명 동생이었어요. 그때 입고 있었던 옷, 신발, 머리 모든 게 똑같은 채로 저한테 걸어오더니 천진난만한 얼굴로 저를 보면서 '뭐해?'라고 물어봤어요."
+			</observe_sub>
+
+			<observe_sub>	
+			"무슨 말을 해야할지, 할말은 정말 많았는데, 결국 아무 말도 못하게 되었어요."
+			"저한테 걸어오는 그 순간이 꿈결처럼 아득하고 눈앞이 희뿌애지는 순간, 복부에 강한 고통이 느껴졌고 쓰러졌어요."
+			"차라리 그 때 눈을 뜨지 않은 게 다행이에요."
+			"눈을 떴다면, 피투성이가 된 채 서 있는 동생을 보게 됐었을 테니까요."
+			</observe_sub>
+
+			<observe_sub>
+			"차라리 후회중이에요."
+			"그 때 뭐라도 말이라도 할걸, '그때 손을 놓쳐서 정말 미안해'라던지 같은, 의미없는 사과라도 할걸."
+			"(정신착란증이 보여 더 이상은 상담은 불가)"
+			</observe_sub>
+		</observe>
+
+		<img src="Unit/creature/Reaper_01" x="-1" y="-1"/>
+		<room src="Unit/creature/isolate_room"/>
+		<frame src="Unit/creature/frame/Reaper_frame"/>
+
+		<graph>
+			<node id="creature" x="-1.6" y="-1" type="creature"/>
+			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
+			<node id="door"  x="2" y="-1" type="entry"/>
+			<edge node1="workspace" node2="door" type="road" />
+			<edge node1="creature" node2="workspace" type="road" />
+		</graph>
+	</info>
+</creature>

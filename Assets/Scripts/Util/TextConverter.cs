@@ -19,6 +19,7 @@ public class TextConverter
 		string selected = randomStringList[Random.Range(0, randomStringList.Count)];
 		return selected.Substring(1, selected.Length - 2);
 	}
+   
 	public static string GetTextFromFormatText(string format_text, params string[] param)
 	{
 		string output = format_text;
@@ -40,6 +41,72 @@ public class TextConverter
 
 		return output;
 	}
+
+
+    /// <summary>
+    /// /////////////////////////////////////////////////////////
+    /// </summary>
+    /// <param name="descData"></param>
+    /// <returns></returns>
+    private static string[] SelectProcessWord(string random_list)
+    {
+        List<string> randomStringList = new List<string>();
+        Match match = Regex.Match(random_list.Substring(1, random_list.Length - 2),
+                    "{[^}]*}");
+
+        while (match.Success)
+        {
+            randomStringList.Add(match.Value.Substring(1, match.Value.Length-2));
+            match = match.NextMatch();
+        }
+
+        return randomStringList.ToArray();
+    }
+    public static string[] GetTextFromFormatProcessText(string format_text, params string[] param)
+    {
+        string[] output = new string[0];
+
+        //Regex regex = new Regex("%[[%]^]*%]");
+
+        Match match = Regex.Match(format_text, "\\[[^\\]]*\\]");
+
+        while (match.Success)
+        {
+            string[] words = SelectProcessWord(match.Value);
+
+            output = new string[words.Length];
+            for(int i=0; i<words.Length; i++)
+            {
+                output[i] = format_text.Replace(match.Value, words[i]);
+
+                for (int k = 0; k < param.Length; k++)
+                {
+                    output[i] = output[i].Replace("#" + k, param[k]); ;
+                }
+            }
+            match = match.NextMatch();
+        }
+        return output;
+    }
+
+    public static string[] GetTextFromFormatProcessText(string format_text) {
+        string[] output = new string[0];
+
+        Match match = Regex.Match(format_text, "\\[[^\\]]*\\]");
+
+        while(match.Success){
+            string[] words = SelectProcessWord(match.Value);
+            output = new string[words.Length];
+            for(int i = 0; i <words.Length;i++){
+                output[i] = format_text.Replace(match.Value, words[i]);
+
+            }
+            match = match.NextMatch();
+        }
+        return output;
+    }
+
+    
 
     public static string TranslateDescData(string descData)
     {

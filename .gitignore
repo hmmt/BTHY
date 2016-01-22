@@ -1,4 +1,11 @@
-Library/
-obj/
-Debug/
-Release/
+Library
+obj
+Debug
+Release
+Temp
+build
+
+.DS_Store
+*.csproj
+*.pidb
+*.sln

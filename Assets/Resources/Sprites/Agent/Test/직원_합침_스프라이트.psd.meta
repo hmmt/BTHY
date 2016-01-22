@@ -1,0 +1,221 @@
+fileFormatVersion: 2
+guid: 6ca9594a876480f44b780b66434d4a38
+timeCreated: 1451987601
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: head
+    21300002: "\uC9C1\uC6D0_\uD569\uCE68_\uC2A4\uD504\uB77C\uC774\uD2B8_1"
+    21300004: body
+    21300006: "\uC9C1\uC6D0_\uD569\uCE68_\uC2A4\uD504\uB77C\uC774\uD2B8_3"
+    21300008: "\uC9C1\uC6D0_\uD569\uCE68_\uC2A4\uD504\uB77C\uC774\uD2B8_4"
+    21300010: F_up_arm
+    21300012: f_low_arm
+    21300014: B_up_arm
+    21300016: B_low_arm
+    21300018: F_hand
+    21300020: B_hand
+    21300022: F_up_leg
+    21300024: F_low_leg
+    21300026: B_up_leg
+    21300028: B_low_leg
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: head
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 659
+        width: 310
+        height: 310
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "\uC9C1\uC6D0_\uD569\uCE68_\uC2A4\uD504\uB77C\uC774\uD2B8_1"
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 749
+        width: 73
+        height: 44
+      alignment: 9
+      pivot: {x: .481830508, y: .517805159}
+      border: {x: 3, y: 0, z: 0, w: 0}
+    - name: body
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 611
+        width: 200
+        height: 350
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "\uC9C1\uC6D0_\uD569\uCE68_\uC2A4\uD504\uB77C\uC774\uD2B8_3"
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 605
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "\uC9C1\uC6D0_\uD569\uCE68_\uC2A4\uD504\uB77C\uC774\uD2B8_4"
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 592
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: F_up_arm
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 439
+        width: 100
+        height: 160
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: f_low_arm
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 434
+        width: 100
+        height: 170
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: B_up_arm
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 400
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: B_low_arm
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 394
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: F_hand
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 336
+        width: 60
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: B_hand
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 307
+        width: 60
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: F_up_leg
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 96
+        width: 120
+        height: 160
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: F_low_leg
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 73
+        width: 100
+        height: 160
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: B_up_leg
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 71
+        width: 120
+        height: 160
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: B_low_leg
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 66
+        width: 100
+        height: 140
+      alignment: 9
+      pivot: {x: .339743644, y: .271062404}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

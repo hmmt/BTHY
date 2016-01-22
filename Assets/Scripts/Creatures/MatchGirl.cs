@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MatchGirl  : CreatureBase {
 
-    public override void SkillFailWorkTick(UseSkill skill)
+    public override void OnSkillFailWorkTick(UseSkill skill)
 	{
 		if(Random.value <= 0.4)
 		{
@@ -13,22 +13,23 @@ public class MatchGirl  : CreatureBase {
 
 	public void ActivateSkill(UseSkill skill)
 	{
+        Debug.Log("MatchGirl ActivateSkill");
         // show effect
 
         skill.PauseWorking();
-        SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
+        SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability", skill.targetCreatureView.transform.position);
 
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
+        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
         // skill이 이미 release 될 상황 고려 필요
         effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
 
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 5)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 5)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 4)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 4)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_out_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
 
@@ -41,61 +42,82 @@ public class MatchGirl  : CreatureBase {
 
                 float damage = randomTable[Random.Range(0, randomTable.Length)];
 
-                skill.agent.hp = (int)(skill.agent.hp * (1 - damage));
-                skill.agent.mental = (int)(skill.agent.mental * (1 - damage));
+                skill.agent.TakePhysicalDamage(skill.agent.hp - (int)(skill.agent.hp * (1 - damage)));
+                skill.agent.TakeMentalDamage(skill.agent.mental - (int)(skill.agent.mental * (1 - damage)));
 
-                SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability_damage.wav", skill.targetCreature.transform.position);
+                SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability_damage", skill.targetCreatureView.transform.position);
 
                 string[] typos = {"typo/matchgirl/01_matchGirl_specialAttack_00",
                     "typo/matchgirl/01_matchGirl_specialAttack_01",
                     "typo/matchgirl/01_matchGirl_specialAttack_02"};
 
 
-                TypoEffect.Create(skill.targetCreature, typos[Random.Range(0, typos.Length)], 0, 2);
+                TypoEffect.Create(skill.targetCreatureView, typos[Random.Range(0, typos.Length)], 0, 2);
 
                 skill.CheckLive();
             });
 	}
 
-    public override void SkillNormalAttack(UseSkill skill)
+    public override void OnSkillNormalAttack(UseSkill skill)
     {
         /*
-        OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_commonAttack_00", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
+        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_commonAttack_00", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
          * */
+
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
+        unit.animTarget.SendMessage("Attack");
 
         string[] typos = {"typo/matchgirl/01_matchGirl_commonAttack_00",
                     "typo/matchgirl/01_matchGirl_commonAttack_01",
                     "typo/matchgirl/01_matchGirl_commonAttack_02"};
 
-        
-        TypoEffect.Create(skill.targetCreature, typos[Random.Range(0,typos.Length)], 0, 2);
+        skill.agent.TakePhysicalDamage(1);
+        skill.CheckLive();
+        if (skill.agent.isDead())
+        {
+            AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
+            agentUnit.animTarget.PlayMatchGirlDead();
+        }
+
+
+        TypoEffect.Create(skill.targetCreatureView, typos[Random.Range(0, typos.Length)], 0, 2);
     }
 
-	public override void EnterRoom(UseSkill skill)
+	public override void OnEnterRoom(UseSkill skill)
 	{
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
+        unit.animTarget.SendMessage("Attack");
+
 		skill.PauseWorking ();
 		//SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
 
 
-		OutsideTextEffect effect = OutsideTextEffect.Create (skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 8);
+		OutsideTextEffect effect = OutsideTextEffect.Create (skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 8);
 		effect.transform.localScale = new Vector3(1.1f,1.1f,1);
 
 		// skill이 이미 release 될 상황 고려 필요
 		effect.GetComponent<DestroyHandler> ().AddReceiver (delegate() {skill.ResumeWorking();});
 
 
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 6)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 6)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 5)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 5)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 4)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 4)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 5, 3)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 5, 3)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.room, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
+		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
+
+        skill.CheckLive();
+        if (skill.agent.isDead())
+        {
+            AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
+            agentUnit.animTarget.PlayMatchGirlDead();
+        }
 	}
 }

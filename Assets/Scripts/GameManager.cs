@@ -3,227 +3,270 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using System.Runtime.Serialization.Formatters.Binary;
 
-public class GameManager : MonoBehaviour {
+public enum GameState
+{
+    PLAYING,
+    PAUSE
+}
 
-	private CurrentUIState currentUIState;
+public enum GameSceneState
+{
+    STORY,
+    MAINGAME
+}
 
-	void Awake()
-	{
-		Screen.fullScreen = true;
-	}
+public class GameManager : MonoBehaviour
+{
 
-	void Start()
-	{
-		StartGame ();
-	}
+    private string saveFileName;
+    private static GameManager _currentGameManager;
 
-	// start managing isolate
-	public void StartGame()
-	{
-		currentUIState = CurrentUIState.DEFAULT;
+    private CurrentUIState currentUIState;
 
-		GameStaticDataLoader.LoadStaticData ();
+    // game mode object
+    public GameObject gameStateScreen;
+    public StageTimeInfoUI stageTimeInfoUI;
+    public StageUI stageUI;
 
-		EnergyModel.instance.Init ();
-		GetComponent<RootTimer> ().AddTimer ("EnergyTimer", 5);
-		Notice.instance.Observe ("EnergyTimer", EnergyModel.instance);
-		GetComponent<RootTimer> ().AddTimer ("CreatureFeelingUpdateTimer", 10);
+    // story mode object
+    public StoryScene storyScene;
 
-
-		AgentFacade.instance.AddAgent (1, 6, 0);
-		AgentFacade.instance.AddAgent (2, 7, 0);
-//		AgentFacade.instance.AddAgent (3, 8, 0);
-//		AgentFacade.instance.AddAgent (4, 7, 1);
-
-		CreatureFacade.instance.AddCreature (10001, "1002001", -8, -1);
-		CreatureFacade.instance.AddCreature (10002, "1003002", -16, -1);
-		CreatureFacade.instance.AddCreature (10003, "1004101", 8, -1);
-		CreatureFacade.instance.AddCreature (10004, "1004102", 17, -1);
-		CreatureFacade.instance.AddCreature (10005, "1003111-left-1", -10, -9);
-		CreatureFacade.instance.AddCreature (10006, "1003111-right-1", 10, -9);
-		//CreatureFacade.instance.AddCreature (1000, 1004002);
-		//CreatureFacade.instance.AddCreature (1003, 1004003);
-
-		//CreatureFacade.instance.AddCreature (1001, 1004101);
-		//CreatureFacade.instance.AddCreature (1000, 1004102);
-		//CreatureFacade.instance.AddCreature (1003, 1004103);
-
-		//CreatureFacade.instance.AddCreature (1003, 1004111);
+    // loading mode object
+    public LoadingScreenState loadingScreenState;
 
 
-		//TextAppearEffect.Create (new Vector2 (0, 0), "134234656745243456745432", Color.white);
+    public BriefingInfo briefingText;
+    public GameState state;
 
-		Notice.instance.Send ("AddPlayerLog", "game start가나다");
-	}
+    public static GameManager currentGameManager
+    {
+        get { return _currentGameManager; }
+    }
 
-	public void EndGame()
-	{
-		GetComponent<RootTimer> ().RemoveTimer ("EnergyTimer");
-	}
+    void Awake()
+    {
+        state = GameState.PAUSE;
 
-	public void SetCurrentUIState(CurrentUIState state)
-	{
-		currentUIState = state;
-	}
-	public CurrentUIState GetCurrentUIState()
-	{
-		return currentUIState;
-	}
-	/*
-	public void LoadMetadata()
-	{
-		// skills
+        saveFileName = Application.persistentDataPath + "/saveData1.txt";
 
-		StreamReader sr = new StreamReader (Application.dataPath + "/xml/Skills.xml");
-		
-		string text = sr.ReadToEnd ();
-		sr.Close ();
+        Screen.fullScreen = true;
+        _currentGameManager = this;
+
+        Camera.main.orthographicSize += 5;
 
 
-		XmlDocument doc = new XmlDocument ();
-		doc.LoadXml (text);
+        // 옮겨야 한다.
+        GameStaticDataLoader.LoadStaticData();
+        MapGraph.instance.LoadMap();
+        //EnergyModel.instance.Init();
+    }
 
-		XmlNodeList nodes = doc.SelectNodes ("/skills/skill");
+    void Start()
+    {
+        AgentLayer.currentLayer.Init();
+        CreatureLayer.currentLayer.Init();
+        OfficerLayer.currentLayer.Init();
+        AgentListScript.instance.Init();
 
-		List<SkillTypeInfo> skillTypeList = new List<SkillTypeInfo> ();
+        if (PlayerModel.instance.GetDay() == 0)
+        {
+            PlayerModel.instance.OpenArea("1"); ;
+            AgentManager.instance.AddAgentModel();
+            
+        }
 
-		foreach(XmlNode node in nodes)
-		{
-			SkillTypeInfo model = new SkillTypeInfo();
+        //OfficeManager.instance.CreateOfficerModel("1");
+        /*
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
 
-			model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
-			model.name = node.Attributes.GetNamedItem("name").InnerText;
-			model.type = node.Attributes.GetNamedItem("type").InnerText;
-			model.amount = int.Parse(node.Attributes.GetNamedItem("amount").InnerText);
+        OfficeManager.instance.CreateOfficerModel("1");
+        OfficeManager.instance.CreateOfficerModel("1");
+        */
+        foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+        {
+            agent.ReturnToSefira();
+        }
 
-			skillTypeList.Add(model);
-		}
+        //SefiraManager.instance.getSefira("1").AssignOfficerDept();
+        /*
+        foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList()) {
+            officer.ReturnToSefira();
+        }
+        */
+        StartStage();
+        //OpenStoryScene("start");
+        /*
+        gameStateScreen.SetActive(false);
+        storyScene.gameObject.SetActive(false);
+        loadingScreenState.StartLoading();
+        */
+    }
 
-		SkillTypeList.instance.Init (skillTypeList.ToArray ());
+    public void OpenStoryScene(string storyName)
+    {
+        if (storyName == "start")
+        {
+            loadingScreenState.gameObject.SetActive(false);
+            gameStateScreen.SetActive(false);
+            storyScene.gameObject.SetActive(true);
+            storyScene.LoadStory(storyName);
+        }
+    }
 
-		// agents
+    public void StartStage()
+    {
+        /*
+        loadingScreenState.gameObject.SetActive(false);
+        storyScene.gameObject.SetActive(false);
+        gameStateScreen.SetActive(true);
+        */
+        stageUI.Open(StageUI.UIType.START_STAGE);
+        // StartGame();
+    }
 
-		sr = new StreamReader (Application.dataPath + "/xml/Agents.xml");
+    // start managing isolate
+    public void StartGame()
+    {
+        state = GameState.PLAYING;
+        //briefingText.SetNarrationByDay();
 
-		text = sr.ReadToEnd ();
-		sr.Close ();
+        currentUIState = CurrentUIState.DEFAULT;
 
-		doc = new XmlDocument ();
-		doc.LoadXml (text);
+        GetComponent<RootTimer>().AddTimer("EnergyTimer", 5);
+        Notice.instance.Observe("EnergyTimer", EnergyModel.instance);
+        GetComponent<RootTimer>().AddTimer("CreatureFeelingUpdateTimer", 10);
 
-		nodes = doc.SelectNodes ("/agent_list/agent");
+        int day = PlayerModel.instance.GetDay();
+        stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
 
-		List<AgentTypeInfo> agentTypeList = new List<AgentTypeInfo> ();
+        foreach (OfficerModel om in OfficeManager.instance.GetOfficerList()) {
+            StartCoroutine(om.StartAction());
+        }
+    }
 
-		foreach(XmlNode node in nodes)
-		{
-			AgentTypeInfo model = new AgentTypeInfo();
+    public void EndGame()
+    {
+        state = GameState.PAUSE;
+        Debug.Log("EndGame");
+        if (AgentStatusWindow.currentWindow != null)
+            AgentStatusWindow.currentWindow.CloseWindow();
 
-			model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
-			model.name = node.Attributes.GetNamedItem("name").InnerText;
-			model.hp = int.Parse(node.Attributes.GetNamedItem("hp").InnerText);
-			model.mental = int.Parse(node.Attributes.GetNamedItem("mental").InnerText);
-			model.movement = int.Parse(node.Attributes.GetNamedItem("movement").InnerText);
-			model.work = int.Parse(node.Attributes.GetNamedItem("work").InnerText);
+        if (SelectWorkAgentWindow.currentWindow != null)
+            SelectWorkAgentWindow.currentWindow.CloseWindow();
 
-			XmlNode preferSkillNode = node.SelectSingleNode("preferSkill");
-			model.prefer = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.preferBonus = int.Parse(preferSkillNode.Attributes.GetNamedItem("bonus").InnerText);
-			
-			XmlNode rejectSkillNode = node.SelectSingleNode("rejectSkill");
-			model.reject = rejectSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.rejectBonus = int.Parse(rejectSkillNode.Attributes.GetNamedItem("bonus").InnerText);
+        if (CollectionWindow.currentWindow != null)
+            CollectionWindow.currentWindow.CloseWindow();
 
-			long directSkillId = long.Parse(node.Attributes.GetNamedItem("directSkillId").InnerText);
-			long indirectSkillId = long.Parse(node.Attributes.GetNamedItem("indirectSkillId").InnerText);
-			long blockSkillId = long.Parse(node.Attributes.GetNamedItem("blockSkillId").InnerText);
+        if (SelectSefiraAgentWindow.currentWindow != null)
+            SelectSefiraAgentWindow.currentWindow.CloseWindow();
+        EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy() + EnergyModel.instance.GetStageLeftEnergy());
+        //직원계산파트 필요
+        
+        GetComponent<RootTimer>().RemoveTimer("EnergyTimer");
+        GetComponent<RootTimer>().RemoveTimer("CreatureFeelingUpdateTimer");
+    }
 
-			model.directSkill = SkillTypeList.instance.GetData(directSkillId);
-			model.indirectSkill = SkillTypeList.instance.GetData(indirectSkillId);
-			model.blockSkill = SkillTypeList.instance.GetData(blockSkillId);
+    void FixedUpdate()
+    {
+        if (state == GameState.PLAYING)
+        {
+            Notice.instance.Send(NoticeName.FixedUpdate);
+        }
+    }
 
-			XmlNode imgNode = node.SelectSingleNode("img");
-			model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
+    public void TimeOver()
+    {
+        EndGame();
 
-			XmlNodeList speechList = node.SelectNodes("speech");
-			Dictionary<string, string> speechTable = new Dictionary<string, string>();
-			foreach(XmlNode speechNode in speechList)
-			{
-				string action = speechNode.Attributes.GetNamedItem("action").InnerText;
-				string speechText = speechNode.Attributes.GetNamedItem("text").InnerText;
-				speechTable.Add(action, speechText);
-			}
+        int day = PlayerModel.instance.GetDay();
+        float needEnergy = StageTypeInfo.instnace.GetEnergyNeed(day);
+        float energy = EnergyModel.instance.GetEnergy();
 
-			model.speechTable = speechTable;
+        if (energy >= needEnergy)
+        {
+            stageUI.Open(StageUI.UIType.END_STAGE);
+            EndStage.instance.init(AgentManager.instance.GetAgentList()[0]);
+            //briefingText.SetNarrationByDay();
+        }
+        else
+        {
+            //storyScene.LoadStory("start");
+            //OpenStoryScene("start");
+            stageUI.Open(StageUI.UIType.END_STAGE);
+            EndStage.instance.init(AgentManager.instance.GetAgentList()[0]);
+            Debug.Log("Game Over..");
+        }
+    }
 
+    public void ExitStage()
+    {
+        int day = PlayerModel.instance.GetDay();
+        PlayerModel.instance.SetDay(day + 1);
+        EnergyModel.instance.Init();
 
-			agentTypeList.Add(model);
-		}
+        //stageUI.Open(StageUI.UIType.START_STAGE);
+        //Application.LoadLevel("Menu");
+    }
 
-		AgentTypeList.instance.Init (agentTypeList.ToArray ());
+    public void SetCurrentUIState(CurrentUIState state)
+    {
+        currentUIState = state;
+    }
+    public CurrentUIState GetCurrentUIState()
+    {
+        return currentUIState;
+    }
 
-		// creature
+    public void Quit()
+    {
+        Application.Quit();
+    }
 
-		sr = new StreamReader (Application.dataPath + "/xml/Creatures.xml");
-		
-		text = sr.ReadToEnd ();
-		sr.Close ();
-		
-		doc = new XmlDocument ();
-		doc.LoadXml (text);
-		
-		nodes = doc.SelectNodes ("/creature_list/creature");
+    public void SaveData()
+    {
+        Dictionary<string, object> dic = new Dictionary<string, object>();
 
-		List<CreatureTypeInfo> creatureTypeList = new List<CreatureTypeInfo> ();
+        dic.Add("agents", AgentManager.instance.GetSaveData());
+        dic.Add("officers", OfficeManager.instance.GetSaveData());
+        dic.Add("creatures", CreatureManager.instance.GetSaveData());
+        dic.Add("playerData", PlayerModel.instance.GetSaveData());
 
-		foreach(XmlNode node in nodes)
-		{
-			CreatureTypeInfo model = new CreatureTypeInfo();
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(saveFileName);
+        bf.Serialize(file, dic);
+        file.Close();
+    }
 
-			model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
-			model.name = node.Attributes.GetNamedItem("name").InnerText;
-			model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
-			model.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
-			model.attackType = node.Attributes.GetNamedItem("attackType").InnerText;
-			model.intelligence = int.Parse(node.Attributes.GetNamedItem("intelligence").InnerText);
-			model.horrorProb = int.Parse(node.Attributes.GetNamedItem("horrorProb").InnerText);
-			model.horrorDmg = int.Parse(node.Attributes.GetNamedItem("horrorDmg").InnerText);
-			
-			model.physicsProb = int.Parse(node.Attributes.GetNamedItem("physicsProb").InnerText);
-			model.physicsDmg = int.Parse(node.Attributes.GetNamedItem("physicsDmg").InnerText);
-			
-			model.mentalProb = int.Parse(node.Attributes.GetNamedItem("mentalProb").InnerText);
-			model.mentalDmg = int.Parse(node.Attributes.GetNamedItem("mentalDmg").InnerText);
-			
-			model.feelingMax = int.Parse(node.Attributes.GetNamedItem("feelingMax").InnerText);
-			model.feelingDownProb = int.Parse(node.Attributes.GetNamedItem("feelingDownProb").InnerText);
-			model.feelingDownValue = int.Parse(node.Attributes.GetNamedItem("feelingDownValue").InnerText);
+    public void LoadData()
+    {
+        if (File.Exists(saveFileName) == false)
+        {
+            Debug.Log("save file don't exists");
+            return;
+        }
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Open(saveFileName, FileMode.Open);
+        Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(file);
+        file.Close();
 
-			XmlNode preferSkillNode = node.SelectSingleNode("preferSkill");
-			model.prefer = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.preferBonus = int.Parse(preferSkillNode.Attributes.GetNamedItem("bonus").InnerText);
+        Dictionary<string, object> agents = null, creatures = null, playerData = null;
+        Dictionary<string, object> officers = null;
+        GameUtil.TryGetValue(dic, "agents", ref agents);
+        GameUtil.TryGetValue(dic, "officers", ref officers);
+        GameUtil.TryGetValue(dic, "creatures", ref creatures);
+        GameUtil.TryGetValue(dic, "playerData", ref playerData);
 
-			XmlNode rejectSkillNode = node.SelectSingleNode("rejectSkill");
-			model.reject = rejectSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.rejectBonus = int.Parse(rejectSkillNode.Attributes.GetNamedItem("bonus").InnerText);
-
-			XmlNodeList genEnergy = node.SelectNodes("genEnergy/item");
-			List<int> items = new List<int>();
-			foreach(XmlNode itemNode in genEnergy)
-			{
-				items.Add(int.Parse(itemNode.Attributes.GetNamedItem("value").InnerText));
-			}
-			items.Sort();
-			model.genEnergy = items.ToArray();
-
-			XmlNode imgNode = node.SelectSingleNode("img");
-			model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
-
-			creatureTypeList.Add(model);
-		}
-
-		CreatureTypeList.instance.Init (creatureTypeList.ToArray ());
-	}
-	*/
+        PlayerModel.instance.LoadData(playerData);
+        AgentManager.instance.LoadData(agents);
+        OfficeManager.instance.LoadData(officers);
+        CreatureManager.instance.LoadData(creatures);
+    }
 }

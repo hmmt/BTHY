@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<traits>
+	<trait id="10001" level="1" randomFlag="1" name="열등감" hp="0" mental="-20" moveSpeed="0" workSpeed="0"/>
+	<trait id="10002" level="1" randomFlag="1" name="허약함" hp="-1" mental="0" moveSpeed="-1" workSpeed="0"/>
+	<trait id="10003" level="1" randomFlag="1" name="구부정한 자세" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10004" level="1" randomFlag="1" name="높은 집중력" hp="0" mental="0" moveSpeed="0" workSpeed="1"/>
+	<trait id="10005" level="1" randomFlag="1" name="게으름" hp="0" mental="0" moveSpeed="0" workSpeed="-2"/>
+	<trait id="10006" level="1" randomFlag="1" name="운동애호가" hp="2" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10007" level="1" randomFlag="1" name="날다람쥐" hp="0" mental="0" moveSpeed="1" workSpeed="1"/>
+	<trait id="10008" level="1" randomFlag="1" name="골초" hp="-1" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10009" level="1" randomFlag="1" name="부우지어러언함" hp="0" mental="0" moveSpeed="-1" workSpeed="1"/>
+	<trait id="10010" level="1" randomFlag="1" name="헤픈 웃음" hp="-2" mental="0" moveSpeed="-1" workSpeed="0"/>
+	<trait id="10011" level="1" randomFlag="0" name="흉터" hp="2" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10012" level="1" randomFlag="0" name="단련된 정신" hp="0" mental="20" moveSpeed="0" workSpeed="0"/>
+	<trait id="10013" level="1" randomFlag="0" name="맴도는 비명소리" hp="0" mental="-20" moveSpeed="0" workSpeed="-1"/>
+	<trait id="10014" level="1" randomFlag="0" name="몸에 익은 발걸음" hp="0" mental="0" moveSpeed="2" workSpeed="0"/>
+	<trait id="10015" level="1" randomFlag="0" name="곪는 상처" hp="-2" mental="0" moveSpeed="-1" workSpeed="0"/>
+	<trait id="10016" level="1" randomFlag="0" name="호기심이 강함" hp="0" mental="10" moveSpeed="-1" workSpeed="0"/>
+	<trait id="10017" level="1" randomFlag="0" name="단호박" hp="0" mental="11" moveSpeed="0" workSpeed="2"/>
+	<trait id="10018" level="1" randomFlag="0" name="쾌활함" hp="1" mental="0" moveSpeed="1" workSpeed="1"/>
+	<trait id="10019" level="1" randomFlag="0" name="건망증이 심함" hp="0" mental="-10" moveSpeed="1" workSpeed="-1"/>
+	<trait id="10020" level="1" randomFlag="0" name="소문내기 좋아함" hp="0" mental="0" moveSpeed="2" workSpeed="-1"/>
+	<trait id="10021" level="2" randomFlag="1" name="수줍음" hp="0" mental="-15" moveSpeed="-1" workSpeed="0"/>
+	<trait id="10022" level="2" randomFlag="0" name="콩콩콩" hp="2" mental="22" moveSpeed="2" workSpeed="2"/>
+	<trait id="10023" level="2" randomFlag="1" name="싸늘한 시선" hp="0" mental="0" moveSpeed="2" workSpeed="1"/>
+	<trait id="10024" level="2" randomFlag="1" name="신중함" hp="0" mental="10" moveSpeed="-1" workSpeed="-1"/>
+	<trait id="10025" level="2" randomFlag="1" name="낭만적 사색가" hp="0" mental="20" moveSpeed="-1" workSpeed="0"/>
+	<trait id="10026" level="2" randomFlag="1" name="행동파" hp="1" mental="-10" moveSpeed="2" workSpeed="2"/>
+	<trait id="10027" level="2" randomFlag="1" name="이기적 유전자" hp="0" mental="-30" moveSpeed="1" workSpeed="1"/>
+	<trait id="10028" level="2" randomFlag="1" name="낙천가" hp="0" mental="20" moveSpeed="1" workSpeed="-1"/>
+	<trait id="10029" level="2" randomFlag="1" name="XXX" hp="0" mental="-50" moveSpeed="1" workSpeed="0"/>
+	<trait id="10030" level="2" randomFlag="1" name="아침형 인간" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10031" level="2" randomFlag="0" name="든든한 육체" hp="3" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10032" level="2" randomFlag="0" name="강인한 정신" hp="0" mental="30" moveSpeed="0" workSpeed="0"/>
+	<trait id="10033" level="2" randomFlag="0" name="나홀로 세피라에" hp="0" mental="-20" moveSpeed="0" workSpeed="1"/>
+	<trait id="10034" level="2" randomFlag="0" name="멤도는 메아리" hp="-2" mental="0" moveSpeed="1" workSpeed="0"/>
+	<trait id="10035" level="2" randomFlag="0" name="그노티 세아우톤" hp="0" mental="-15" moveSpeed="0" workSpeed="-1"/>
+	<trait id="10036" level="2" randomFlag="0" name="불휘 기픈 남간" hp="0" mental="-10" moveSpeed="2" workSpeed="-1"/>
+	<trait id="10037" level="2" randomFlag="0" name="Libera me" hp="0" mental="10" moveSpeed="0" workSpeed="0"/>
+	<trait id="10038" level="2" randomFlag="0" name="이유 모를 두통" hp="-2" mental="0" moveSpeed="3" workSpeed="0"/>
+	<trait id="10039" level="2" randomFlag="0" name="Only my matches"/>
+	<trait id="10040" level="3" randomFlag="1" name="심사숙고" hp="0" mental="25" moveSpeed="-1" workSpeed="-2"/>
+	<trait id="10041" level="3" randomFlag="1" name="탁월한 지혜" hp="0" mental="20" moveSpeed="0" workSpeed="2"/>
+	<trait id="10042" level="3" randomFlag="1" name="실속파" hp="0" mental="0" moveSpeed="0" workSpeed="3"/>
+	<trait id="10043" level="3" randomFlag="1" name="대충대충" hp="0" mental="0" moveSpeed="2" workSpeed="2"/>
+	<trait id="10044" level="3" randomFlag="1" name="분노조절장애" hp="0" mental="-10" moveSpeed="0" workSpeed="2"/>
+	<trait id="10045" level="3" randomFlag="1" name="섬세한 조작" hp="0" mental="0" moveSpeed="0" workSpeed="-2"/>
+	<trait id="10046" level="3" randomFlag="1" name="프로작업러" hp="0" mental="0" moveSpeed="0" workSpeed="1"/>
+	<trait id="10047" level="3" randomFlag="1" name="실존주의자" hp="0" mental="5" moveSpeed="0" workSpeed="0"/>
+	<trait id="10048" level="3" randomFlag="1" name="각선미" hp="1" mental="0" moveSpeed="2" workSpeed="0"/>
+	<trait id="10049" level="3" randomFlag="1" name="청소부" hp="-2" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10050" level="3" randomFlag="0" name="체력 단련 완료" hp="4" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10051" level="3" randomFlag="0" name="굳건한 정신" hp="0" mental="40" moveSpeed="0" workSpeed="0"/>
+	<trait id="10052" level="3" randomFlag="0" name="천하 태평" hp="0" mental="-30" moveSpeed="0" workSpeed="2"/>
+	<trait id="10053" level="3" randomFlag="0" name="파블로프의 000(직원이름)" hp="0" mental="0" moveSpeed="0" workSpeed="1"/>
+	<trait id="10054" level="3" randomFlag="0" name="희비의 쌍곡선" hp="-2" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10055" level="3" randomFlag="0" name="킬링 허그" hp="2" mental="10" moveSpeed="0" workSpeed="0"/>
+	<trait id="10056" level="3" randomFlag="0" name="질식의 멜로디" hp="0" mental="-10" moveSpeed="2" workSpeed="0"/>
+	<trait id="10057" level="3" randomFlag="0" name="쿠루쿠루쿠루쿠루" hp="-1" mental="-30" moveSpeed="0" workSpeed="0"/>
+	<trait id="10058" level="3" randomFlag="0" name="여백의 미" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10059" level="3" randomFlag="0" name="노인과 동화" hp="0" mental="-25" moveSpeed="0" workSpeed="0"/>
+	<trait id="10060" level="4" randomFlag="1" name="팔자 걸음" hp="1" mental="0" moveSpeed="-3" workSpeed="0"/>
+	<trait id="10061" level="4" randomFlag="1" name="인내심"/>
+	<trait id="10062" level="3" randomFlag="1" name="노력파" hp="0" mental="20" moveSpeed="0" workSpeed="3"/>
+	<trait id="10063" level="4" randomFlag="1" name="베테랑" hp="0" mental="0" moveSpeed="0" workSpeed="2"/>
+	<trait id="10064" level="4" randomFlag="1" name="깊은 반성"/>
+	<trait id="10065" level="4" randomFlag="1" name="뛰어난 화술" hp="0" mental="0" moveSpeed="0" workSpeed="-2"/>
+	<trait id="10066" level="4" randomFlag="1" name="다혈질" hp="0" mental="-50" moveSpeed="3" workSpeed="3"/>
+	<trait id="10067" level="4" randomFlag="1" name="쿨 워터 "/>
+	<trait id="10068" level="4" randomFlag="1" name="완벽주의자" hp="1" mental="20" moveSpeed="-3" workSpeed="-3"/>
+	<trait id="10069" level="4" randomFlag="1" name="돌려말하기" hp="0" mental="0" moveSpeed="0" workSpeed="2"/>
+	<trait id="10070" level="4" randomFlag="0" name="금강불괴" hp="5" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10071" level="4" randomFlag="0" name="해탈의 경지" hp="0" mental="60" moveSpeed="0" workSpeed="0"/>
+	<trait id="10072" level="4" randomFlag="0" name="의지의 차이" hp="0" mental="-40" moveSpeed="0" workSpeed="3"/>
+	<trait id="10073" level="4" randomFlag="0" name="능란한 사교술" hp="0" mental="50" moveSpeed="0" workSpeed="-3"/>
+	<trait id="10074" level="4" randomFlag="0" name="잊혀지지 않는 기억" hp="0" mental="-30" moveSpeed="0" workSpeed="0"/>
+	<trait id="10075" level="4" randomFlag="0" name="아나크수나문!" hp="4" mental="-20" moveSpeed="2" workSpeed="0"/>
+	<trait id="10076" level="4" randomFlag="0" name="고약한 미소" hp="0" mental="-10" moveSpeed="2" workSpeed="2"/>
+	<trait id="10077" level="4" randomFlag="0" name="용두사미" hp="0" mental="-20" moveSpeed="0" workSpeed="0"/>
+	<trait id="10078" level="4" randomFlag="0" name="불타버릴만큼 히트" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10079" level="4" randomFlag="0" name="요동치는 하트" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10080" level="5" randomFlag="1" name="관찰 덕후" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10081" level="5" randomFlag="1" name="오버액션" hp="0" mental="0" moveSpeed="1" workSpeed="2"/>
+	<trait id="10082" level="5" randomFlag="1" name="거짓말쟁이" hp="0" mental="-22" moveSpeed="0" workSpeed="1"/>
+	<trait id="10083" level="5" randomFlag="1" name="타키온" hp="0" mental="0" moveSpeed="4" workSpeed="4"/>
+	<trait id="10084" level="5" randomFlag="1" name="튼튼함의 대명사" hp="8" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10085" level="5" randomFlag="1" name="침울함" hp="0" mental="-30" moveSpeed="-2" workSpeed="-1"/>
+	<trait id="10086" level="5" randomFlag="1" name="스토리텔러" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10087" level="5" randomFlag="1" name="노인 공경" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10088" level="5" randomFlag="0" name="일억 이천 작업" hp="0" mental="0" moveSpeed="0" workSpeed="3"/>
+	<trait id="10089" level="5" randomFlag="1" name="무늬만 달인" hp="0" mental="0" moveSpeed="0" workSpeed="5"/>
+	<trait id="10090" level="5" randomFlag="0" name="타격의 달인" hp="7" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10091" level="5" randomFlag="0" name="해탈의 경지" hp="0" mental="90" moveSpeed="0" workSpeed="0"/>
+	<trait id="10092" level="5" randomFlag="0" name="유아 독존" hp="0" mental="-50" moveSpeed="0" workSpeed="4"/>
+	<trait id="10093" level="5" randomFlag="0" name="바라매 아니 뮐쌔" hp="0" mental="-20" moveSpeed="3" workSpeed="-3"/>
+	<trait id="10094" level="5" randomFlag="0" name="태엽 장치 테레지아" hp="-2" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10095" level="5" randomFlag="0" name="희미한 영광" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="10096" level="5" randomFlag="0" name="모순 덩어리" hp="5" mental="30" moveSpeed="0" workSpeed="0"/>
+	<trait id="10097" level="5" randomFlag="0" name="우울한 오르페우스" hp="2" mental="15" moveSpeed="0" workSpeed="0"/>
+	<trait id="10098" level="5" randomFlag="0" name="기괴한 요리사" hp="0" mental="-20" moveSpeed="0" workSpeed="0"/>
+	<trait id="10099" level="5" randomFlag="0" name="확산성 밀리언 수액" hp="0" mental="0" moveSpeed="-1" workSpeed="0"/>
+	<trait id="10100" level="5" randomFlag="0" name="허나 거절한다." hp="0" mental="0" moveSpeed="0" workSpeed="-1"/>
+	<trait id="20001" level="1" randomFlag="0" name="우울증" hp="0" mental="-40" moveSpeed="-2" workSpeed="-2"/>
+	<trait id="20002" level="1" randomFlag="0" name="정신박약" hp="-4" mental="-44" moveSpeed="-4" workSpeed="-4"/>
+	<trait id="20003" level="1" randomFlag="0" name="알 수 없는 집착" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+	<trait id="20004" level="1" randomFlag="0" name="화상" hp="0" mental="0" moveSpeed="-2" workSpeed="0"/>
+	<trait id="20005" level="1" randomFlag="0" name="죄책감" hp="0" mental="0" moveSpeed="0" workSpeed="0"/>
+</traits>

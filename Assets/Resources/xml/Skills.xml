@@ -1,14 +1,209 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <skills>
-	<skill id="10001" type="direct" name="영양공급" amount="20" imgsrc="UI/skill/Work_Feed"/>
-	<skill id="10002" type="direct" name="인신공양" amount="40" imgsrc="UI/skill/Work_Commu"/> 
-	
-	<skill id="20001" type="indirect" name="청소하기" amount="30" imgsrc="UI/skill/Work_Clean"/> 
-	<skill id="20002" type="indirect" name="이야기하기" amount="20" imgsrc="UI/skill/Work_Commu"/> 
-	
-	<skill id="30001" type="block" name="제압하기" amount="30" imgsrc="UI/skill/Work_Supression"/>
+	<skill id="10001" type="direct" tier="1" name="배식" desc="밥을 준다" amount="20" feeling="15" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+		</bonus>
+		<bonus type="I">
+			<amount>0.8</amount>
+		</bonus>
+		<bonus type="S">
+			<amount>0.7</amount>
+		</bonus>
+		<bonus type="C">
+		</bonus>
 
-	<skill id="40001" type="unique" name="고해하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
-	<skill id="40002" type="unique" name="포옹하기" amount="30" imgsrc="UI/skill/Work_Commu"/>
+		<nextSkill>10002</nextSkill>
+		<nextSkill>10003</nextSkill>
+		<nextSkill>10004</nextSkill>
+	</skill>
+
+	<skill id="10002" type="direct" tier="2" name="영양튜브" desc="튜브로 밥을 준다" amount="29" feeling="27" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+			<amount>0.8</amount>
+			<feeling>0.8</feeling>
+		</bonus>
+		<bonus type="I">
+			<feeling>0.8</feeling>
+		</bonus>
+		<bonus type="S">
+		</bonus>
+		<bonus type="C">
+		</bonus>
+	</skill>	
+
+	<skill id="10003" type="direct" tier="2" name="인신공양" desc="사람을 밥으로 준다" amount="26" feeling="19" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+			<amount>0.8</amount>			
+		</bonus>
+		<bonus type="I">
+			<amount>1.2</amount>
+			<mentalReduce>-15</mentalReduce>
+		</bonus>
+		<bonus type="S">
+			<amount>1.5</amount>
+			<mentalReduce>-20</mentalReduce>
+		</bonus>
+		<bonus type="C">
+			<mentalReduce>-10</mentalReduce>
+		</bonus>
+	</skill>
+
+	<skill id="10004" type="direct" tier="2" name="치료" desc="밥으로 치료한다" amount="33" feeling="23" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+			<amount>0.8</amount>
+			<feeling>0.8</feeling>
+		</bonus>
+		<bonus type="I">
+			<amount>1.2</amount>
+		</bonus>
+		<bonus type="S">
+			<amount>1.3</amount>
+			<feeling>0.8</feeling>
+		</bonus>
+		<bonus type="C">
+			<amount>0.7</amount>
+			<feeling>1.4</feeling>
+		</bonus>
+	</skill>
+
+	<skill id="20001" type="indirect" tier="1" name="시설청소" desc="밥을 먹이기 위해 청소한다" amount="15" feeling="10" imgsrc="UI/skill/Work_Clean">
+		<bonus type="D">
+			<mentalReduce>-5</mentalReduce>
+		</bonus>
+		<bonus type="I">
+		</bonus>
+		<bonus type="S">
+			<amount>1.2</amount>
+			<feeling>0.8</feeling>
+		</bonus>
+		<bonus type="C">
+			<amount>0.8</amount>
+			<feeling>1.2</feeling>
+		</bonus>
+
+		<nextSkill>20002</nextSkill>
+		<nextSkill>20003</nextSkill>
+		<nextSkill>20004</nextSkill>
+	</skill>
+
+	<skill id="20002" type="indirect" tier="2" name="대화" desc="대화하고 밥을 줄 것이다" amount="22" feeling="22" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+			<amount>0.8</amount>
+			<feeling>0.8</feeling>
+		</bonus>
+		<bonus type="I">
+			<feeling>1.2</feeling>
+			<mentalTick>3</mentalTick>
+		</bonus>
+		<bonus type="S">
+			<feeling>1.2</feeling>
+			<mentalTick>3</mentalTick>
+		</bonus>
+		<bonus type="C">
+			<amount>1.5</amount>
+			<mentalTick>-1</mentalTick>
+		</bonus>
+	</skill>
+
+	<skill id="20003" type="indirect" tier="2" name="세척" desc="씻은 다음에 밥을 준다" amount="24" feeling="18" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+			<mentalReduce>-15</mentalReduce>
+		</bonus>
+		<bonus type="I">
+		</bonus>
+		<bonus type="S">
+		</bonus>
+		<bonus type="C">
+			<amount>1.2</amount>
+			<feeling>0.7</feeling>
+		</bonus>
+	</skill>
+
+	<skill id="20004" type="indirect" tier="2" name="격리실 소독" desc="격리실을 소독 하고 밥을 준다" amount="27" feeling="15" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+			<mentalReduce>10</mentalReduce>
+		</bonus>
+		<bonus type="I">
+		</bonus>
+		<bonus type="S">
+			<amount>1.2</amount>
+		</bonus>
+		<bonus type="C">
+			<amount>0.8</amount>
+			<feeling>1.4</feeling>
+		</bonus>
+	</skill>
+
+	<skill id="30001" type="block" tier="1" name="제압" desc="진정시키고 밥을 주자" amount="10" feeling="-10" bonusEnergy="5" imgsrc="UI/skill/Work_Supression">
+		<bonus type="D">
+			<amount>0.8</amount>
+			<mentalTick>3</mentalTick>
+		</bonus>
+		<bonus type="I">
+			<mentalTick>-3</mentalTick>
+		</bonus>
+		<bonus type="S">
+			<mentalTick>-3</mentalTick>
+		</bonus>
+		<bonus type="C">
+		</bonus>
+
+		<nextSkill>30002</nextSkill>
+		<nextSkill>30003</nextSkill>
+		<nextSkill>30004</nextSkill>
+	</skill>			
+
+	<skill id="30002" type="block" tier="2" name="마취" desc="재우면 밥을 못먹겠지" amount="17" feeling="-14" bonusEnergy="13" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+		</bonus>
+		<bonus type="I">
+			<mentalReduce>-15</mentalReduce>
+		</bonus>
+		<bonus type="S">
+			<mentalReduce>-18</mentalReduce>
+		</bonus>
+		<bonus type="C">
+			<amount>0.8</amount>
+		</bonus>
+	</skill>
+
+	<skill id="30003" type="block" tier="2" name="속박" desc="묶어서 밥을 안준다" amount="20" feeling="-17" bonusEnergy="10" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+		</bonus>
+		<bonus type="I">
+			<amount>1.2</amount>
+			<mentalReduce>-12</mentalReduce>
+		</bonus>
+		<bonus type="S">
+			<amount>1.5</amount>
+			<mentalReduce>-15</mentalReduce>
+		</bonus>
+		<bonus type="C">
+			<amount>0.7</amount>
+			<mentalReduce>-5</mentalReduce>
+		</bonus>
+	</skill>						
+
+	<skill id="30004" type="block" tier="2" name="타격" desc="밥을 안먹으니 때리자" amount="13" feeling="-20" bonusEnergy="20" imgsrc="UI/skill/Work_Feed">
+		<bonus type="D">
+			<amount>1.2</amount>
+			<mentalTick>1</mentalTick>
+		</bonus>
+		<bonus type="I">
+			<mentalTick>-5</mentalTick>
+		</bonus>
+		<bonus type="S">
+			<mentalTick>-8</mentalTick>
+		</bonus>
+		<bonus type="C">
+			<mentalReduce>-15</mentalReduce>
+		</bonus>
+	</skill>		
+
+
+	<skill id="400001" type="unique" tier="1" name="고해하기" desc="ㅈㅅ" amount="30" imgsrc="UI/skill/Work_Commu"/>
+	<skill id="400002" type="unique" tier="1" name="포옹하기" desc="으헝헝" amount="30" imgsrc="UI/skill/Work_Commu"/>
+
+	<skill id="400010" type="unique" tier="1" name="(아무것도없는)전용스킬" desc="아무것도 없네" amount="30" imgsrc="UI/skill/Work_Commu"/>
 	
 </skills>

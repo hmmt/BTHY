@@ -47,8 +47,8 @@ public class IsolateRoomStatus : MonoBehaviour {
 
 	public void UpdateCreatureStatus()
 	{
-		NameText.text = "name : " + target.targetUnit.metaInfo.name;
-		FeelingText.text = "feel : " + target.targetUnit.feeling;
+		NameText.text = "name : " + target.targetUnit.model.metaInfo.name;
+        FeelingText.text = "feel : " + target.targetUnit.model.feeling;
 	}
 
 	public void OnClickClose()

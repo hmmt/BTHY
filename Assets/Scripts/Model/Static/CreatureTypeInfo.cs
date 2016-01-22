@@ -3,16 +3,69 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
+public enum CreatureFeelingState
+{
+    GOOD,
+    NORM,
+    BAD
+}
+public enum SkillBonusAttr
+{
+    CATEGORY_TYPE,
+    CATEGORY_ID
+}
+[System.Serializable]
+public class SkillBonusInfo
+{
+    public SkillBonusAttr attr;
+
+    public string skillType;
+    public long skillId;
+    public float bonus;
+}
+
+[System.Serializable]
+public class EnergyGenInfo
+{
+    public int section;
+    public float genValue;
+
+    public EnergyGenInfo(int section, float genValue)
+    {
+        this.section = section;
+        this.genValue = genValue;
+    }
+
+    public static int SectionSortComparison(EnergyGenInfo a, EnergyGenInfo b)
+    {
+        return a.section - b.section;
+    }
+}
+
+[System.Serializable]
+public class FeelingSectionInfo
+{
+    public int section;
+    public float energyGenValue;
+    public CreatureFeelingState feelingState;
+    public SkillBonusInfo[] preferList;
+    public SkillBonusInfo[] rejectList;
+}
+
 [System.Serializable]
 public class CreatureTypeInfo
 {
 	public long id;
 	public string name;
 	public string codeId;
-	public int level;
-	public string attackType;
-	public int intelligence;
+	public string level;
 
+    public int stackLevel;
+    public int observeLevel;
+
+	public string attackType;
+	public string intelligence;
+    
 	public float horrorProb;
 	public int horrorDmg;
 			
@@ -24,23 +77,21 @@ public class CreatureTypeInfo
 			
 	public int feelingMax;
 	public float feelingDownProb;
-	public int feelingDownValue;
+	public float feelingDownValue;
 
-	public SkillTypeInfo specialSkill;
+	//public SkillTypeInfo specialSkill;
 
-	public int[] genEnergy;
-			
-	public string prefer;
-	public float preferBonus;
+    public FeelingSectionInfo[] feelingSectionInfo;
 
-	public string reject;
-	public float rejectBonus;
-
-	public string imgsrc;
+	public string imgsrc = "";
     public string roomsrc;
     public string framesrc;
+    public string animSrc =""; // 
+
+    public string roomReturnSrc; // 제압당한 환상체 돌아가는 이미지
 
 	public string script;
+    //public string animatorScript;
 
 	public Dictionary<string, string> typoTable;
 	public Dictionary<string, string> narrationTable;
@@ -49,7 +100,9 @@ public class CreatureTypeInfo
 
     public string desc;
     public string observe;
+    public string[] observeList;
 
     public XmlNodeList nodeInfo;
     public XmlNodeList edgeInfo;
+
 }

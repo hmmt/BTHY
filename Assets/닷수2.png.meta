@@ -1,0 +1,324 @@
+fileFormatVersion: 2
+guid: 8b63e3bc829275f428f9d2ce9cd47bc2
+timeCreated: 1451458049
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Puppet_head
+    21300002: puppet_body
+    21300004: puppet_F_upper_arm
+    21300006: puppet_F_upper_leg
+    21300008: puppet_B_upper_arm
+    21300010: pupper_B_lower_arm
+    21300012: puppet_F_lower_arm
+    21300014: puppet_F_lower_leg
+    21300016: puppet_B_lowerLEG
+    21300018: Puppet_B_upper_Leg
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Puppet_head
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 504
+        width: 470
+        height: 472
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: -195}
+        - {x: -95, y: -182}
+        - {x: -94, y: -170}
+        - {x: -70, y: -174}
+        - {x: 1, y: -175}
+        - {x: 21, y: -171}
+        - {x: 57, y: -158}
+        - {x: 99, y: -157}
+        - {x: 139, y: -146}
+        - {x: 167, y: -133}
+        - {x: 184, y: -124}
+        - {x: 188, y: -121}
+        - {x: 196, y: -116}
+        - {x: 220, y: -96}
+        - {x: 232, y: -80}
+        - {x: 235, y: -71}
+        - {x: 235, y: -29}
+        - {x: 220, y: -13}
+        - {x: 201, y: -7}
+        - {x: 185, y: -6}
+        - {x: 161, y: -7}
+        - {x: 161, y: 12}
+        - {x: 151, y: 58}
+        - {x: 141, y: 90}
+        - {x: 171, y: 83}
+        - {x: 184, y: 85}
+        - {x: 194, y: 100}
+        - {x: 186, y: 135}
+        - {x: 139, y: 162}
+        - {x: 155, y: 179}
+        - {x: 153, y: 200}
+        - {x: 134, y: 221}
+        - {x: 118, y: 236}
+        - {x: -10, y: 236}
+        - {x: -51, y: 226}
+        - {x: -79, y: 206}
+        - {x: -105, y: 187}
+        - {x: -110, y: 197}
+        - {x: -137, y: 218}
+        - {x: -181, y: 219}
+        - {x: -203, y: 199}
+        - {x: -199, y: 146}
+        - {x: -185, y: 91}
+        - {x: -193, y: 83}
+        - {x: -198, y: 73}
+        - {x: -202, y: 45}
+        - {x: -207, y: 15}
+        - {x: -207, y: -4}
+        - {x: -218, y: -68}
+        - {x: -219, y: -115}
+        - {x: -230, y: -125}
+        - {x: -235, y: -142}
+        - {x: -235, y: -227}
+        - {x: -227, y: -236}
+        - {x: -220, y: -236}
+        - {x: -190, y: -230}
+        - {x: -178, y: -236}
+        - {x: -145, y: -236}
+        - {x: -146, y: -228}
+        - {x: -121, y: -227}
+        - {x: -115, y: -220}
+    - name: puppet_body
+      rect:
+        serializedVersion: 2
+        x: 674
+        y: 594
+        width: 210
+        height: 362
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 105, y: -102}
+        - {x: 105, y: -14}
+        - {x: 103, y: -3}
+        - {x: 99, y: 21}
+        - {x: 83, y: 75}
+        - {x: 72, y: 124}
+        - {x: 64, y: 143}
+        - {x: 49, y: 163}
+        - {x: 26, y: 180}
+        - {x: 23, y: 181}
+        - {x: -5, y: 181}
+        - {x: -31, y: 158}
+        - {x: -55, y: 107}
+        - {x: -88, y: 9}
+        - {x: -100, y: -47}
+        - {x: -105, y: -77}
+        - {x: -105, y: -151}
+        - {x: -91, y: -168}
+        - {x: -72, y: -175}
+        - {x: -46, y: -181}
+        - {x: 41, y: -181}
+        - {x: 63, y: -171}
+        - {x: 95, y: -136}
+    - name: puppet_F_upper_arm
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 272
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 45, y: 73}
+        - {x: -41, y: -3}
+        - {x: -49, y: -14}
+        - {x: -49, y: -53}
+        - {x: -43, y: -69}
+        - {x: 21, y: -69}
+        - {x: 73, y: -27}
+        - {x: 73, y: 73}
+    - name: puppet_F_upper_leg
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 267
+        width: 123
+        height: 212
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -33.5, y: 106}
+        - {x: -60.5, y: 28}
+        - {x: -60.5, y: -79}
+        - {x: -41.5, y: -102}
+        - {x: 11.5, y: -102}
+        - {x: 61.5, y: -77}
+        - {x: 61.5, y: 106}
+    - name: puppet_B_upper_arm
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 377
+        width: 132
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 78}
+        - {x: -65, y: 78}
+        - {x: -66, y: 74}
+        - {x: -66, y: 30}
+        - {x: -6, y: -65}
+        - {x: 15, y: -78}
+        - {x: 57, y: -78}
+        - {x: 66, y: -75}
+        - {x: 66, y: -8}
+        - {x: 5, y: 77}
+    - name: pupper_B_lower_arm
+      rect:
+        serializedVersion: 2
+        x: 807
+        y: 344
+        width: 181
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -89.5, y: 78.5}
+        - {x: -90.5, y: 76.5}
+        - {x: -90.5, y: -4.5}
+        - {x: 8.5, y: -78.5}
+        - {x: 90.5, y: -78.5}
+        - {x: 90.5, y: -16.5}
+        - {x: 32.5, y: 78.5}
+    - name: puppet_F_lower_arm
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 32
+        width: 133
+        height: 197
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 4.5, y: 98.5}
+        - {x: -66.5, y: -10.5}
+        - {x: -66.5, y: -98.5}
+        - {x: -23.5, y: -98.5}
+        - {x: 36.5, y: -59.5}
+        - {x: 63.5, y: 30.5}
+        - {x: 63.5, y: 96.5}
+        - {x: 61.5, y: 98.5}
+    - name: puppet_F_lower_leg
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 67
+        width: 234
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -26, y: 57.5}
+        - {x: -94, y: 25.5}
+        - {x: -117, y: -18.5}
+        - {x: -117, y: -57.5}
+        - {x: 7, y: -57.5}
+        - {x: 94, y: -42.5}
+        - {x: 117, y: -0.5}
+        - {x: 117, y: 57.5}
+    - name: puppet_B_lowerLEG
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 26
+        width: 190
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -95, y: 89.5}
+        - {x: -95, y: 49.5}
+        - {x: -56, y: -19.5}
+        - {x: -21, y: -52.5}
+        - {x: 19, y: -89.5}
+        - {x: 95, y: -89.5}
+        - {x: 95, y: -6.5}
+        - {x: 12, y: 89.5}
+    - name: Puppet_B_upper_Leg
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 103
+        width: 182
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -91, y: 5}
+        - {x: -24, y: -77}
+        - {x: 91, y: -77}
+        - {x: 91, y: -5}
+        - {x: 51, y: 77}
+        - {x: -88, y: 77}
+        - {x: -91, y: 72}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

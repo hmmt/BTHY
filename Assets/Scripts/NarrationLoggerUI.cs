@@ -4,7 +4,18 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class NarrationLoggerUI : MonoBehaviour, IObserver {
-	public GameObject logBoard;
+
+
+    public CreatureModel newInputCreature;
+    public CreatureModel oldInputCreature;
+    public CreatureModel targetCreature;
+
+    public static NarrationLoggerUI instantNarrationLog;
+
+    public GameObject logBoard;
+    public Text title;
+    public LogListScript script;
+    private int logSize = 0;
 	
 	//private int boxHeight = 200;
 
@@ -13,7 +24,7 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	private float lastTextPosition = -200;
 	private float lastTextHeight = 0;
 
-    private float diff = 15f;
+    private float diff = 20f;
 
     private bool addedText = false;
 	
@@ -26,11 +37,13 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 
     void Start()
     {
+        instantNarrationLog = this;
     }
 	
 	public void AddText(string msg)
 	{
-		
+        oldInputCreature = newInputCreature;
+
 		GameObject logTextObj = Prefab.LoadPrefab ("NarrationText");
 		
 		Text textUI = logTextObj.GetComponent<Text> ();
@@ -62,10 +75,10 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 		
 		
 		rt = textUI.GetComponent<RectTransform> ();
-		pos = rt.localPosition;
+        pos = rt.localPosition;
 		// pos.y = -180-(textChildren.Length-1) * textHeight;
 		//pos.y = -boxPosition + 20;
-		lastTextPosition -= lastTextHeight;
+		lastTextPosition -= lastTextHeight*rt.localScale.y;
 		pos.y = lastTextPosition;
 		rt.localPosition = pos;
 		rt.sizeDelta = new Vector2 (rt.sizeDelta.x, textHeight);
@@ -78,12 +91,12 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
             Text textLine = logTextLineObj.GetComponent<Text>();
 
             textLine.transform.SetParent(logBoard.transform, false);
-            textLine.text = "---------------------------------------------------------";
+            textLine.text = "----------------------------------------------";
 
             RectTransform textLineRt = logTextLineObj.GetComponent<RectTransform>();
             Vector3 textLinePos = textLineRt.localPosition;
 
-            textLinePos.y = lastTextPosition + 20f;
+            textLinePos.y = lastTextPosition + 10f;
 
             textLineRt.localPosition = textLinePos;
         }
@@ -93,9 +106,50 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	
 	public void OnNotice(string notice, params object[] param)
 	{
-		if("AddNarrationLog" == notice)
+        script = gameObject.GetComponent<LogListScript>();
+        if ("AddNarrationLog" == notice && targetCreature == (CreatureModel)param[1])
 		{
-			AddText (" "+(string)param [0]);
+
+            script.MakeTextWithBg(" " + (string)param[0]);
+            newInputCreature = (CreatureModel)param[1];
+            title.text = newInputCreature.metaInfo.name;
 		}
+        script.SortBgList();
 	}
+
+    //리스트를 받아와서 기존에 있는걸 clear시키고 받아온 리스트들의 로그를 출력한다.
+    public void setLogList(CreatureModel focusCreature)
+    {
+        title.text = focusCreature.metaInfo.name;
+        newInputCreature = focusCreature;
+        script = gameObject.GetComponent<LogListScript>();
+        if (oldInputCreature != newInputCreature)
+        {
+            //logClear();
+            script.DeleteAll();
+            foreach(string narrationLog in newInputCreature.narrationList)
+            {
+                script.MakeTextWithBg(""+narrationLog);
+            }
+            oldInputCreature = newInputCreature;
+        }
+        script.SortBgList();
+    }
+
+    public void logClear()
+    {
+        foreach (Transform child in logBoard.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        logSize = 0;
+        boxPosition = 250;
+        lastTextPosition = -200;
+        lastTextHeight = 0;
+
+        diff = 20f;
+
+        addedText = false;
+    }
 }

@@ -53,15 +53,29 @@ public class OutsideTextEffect : MonoBehaviour {
     }
 
 
+    public static OutsideTextEffect Create(long creatureId, string typoKey, CreatureOutsideTextLayout layout)
+    {
+        return Create(CreatureLayer.currentLayer.GetCreature(creatureId).room, typoKey, layout);
+    }
 	public static OutsideTextEffect Create(IsolateRoom room, string typoKey, CreatureOutsideTextLayout layout)
 	{
 		return Create(room, typoKey, layout, 0, 1);
 	}
 
+    public static OutsideTextEffect Create(long creatureId, string typoKey, CreatureOutsideTextLayout layout, float start, float time)
+    {
+        return Create(CreatureLayer.currentLayer.GetCreature(creatureId).room, typoKey, layout, start, time);
+    }
 	public static OutsideTextEffect Create(IsolateRoom room, string typoKey, CreatureOutsideTextLayout layout, float start, float time)
 	{
 		return Create(room, typoKey, layout, start, time, null);
 	}
+
+
+    public static OutsideTextEffect Create(long creatureId, string typoKey, CreatureOutsideTextLayout layout, float start, float time, Callback callback)
+    {
+        return Create(CreatureLayer.currentLayer.GetCreature(creatureId).room, typoKey, layout, start, time, callback);
+    }
 	public static OutsideTextEffect Create(IsolateRoom room, string typoKey, CreatureOutsideTextLayout layout, float start, float time, Callback callback)
 	{
 		GameObject newEffect = Prefab.LoadPrefab ("OutsideTextEffect");
@@ -74,9 +88,8 @@ public class OutsideTextEffect : MonoBehaviour {
 		}
 		
 		OutsideTextEffect effect = newEffect.GetComponent<OutsideTextEffect> ();
-		
-		Texture2D tex = Resources.Load<Texture2D> ("Sprites/"+typoKey);
-		effect.GetComponent<SpriteRenderer>().sprite = Sprite.Create(tex, new Rect(0,0,tex.width, tex.height), new Vector2(0.5f, 0.5f));
+
+        effect.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/" + typoKey);
 
 		effect.startTime = start;
 		effect.goalTime = time;

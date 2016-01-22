@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<creature>
+	<info id="20005"
+		name="마법 소녀"
+		codeId="O-05-064-Y"
+		level="HE"
+		stackLevel="2"
+
+		attackType="Red"
+		intelligence="대화 불가"
+		
+		horrorProb="0.4"
+		horrorDmg="-30"
+		
+		physicsProb="0.5"
+		physicsDmg="2" cmt1="실제로는 2~3"
+		
+		mentalProb="0"
+		mentalDmg="0"
+
+		observeLevel="5"
+
+		script="MagicalGirl"
+		>
+		<feeling max="100" downProb="0.44" downValue="1">
+			<section feelingValue="50" state="good" energy="0.5"/>
+			<section feelingValue="30" state="normal" energy="0.3"/>
+			<section feelingValue="0" state="bad" energy="-1.3"/>
+		</feeling>
+
+		<skill_bonus>
+			<prefer_skill type="block" bonus="0.5"/>
+			<reject_skill type="indirect" bonus="-0.3"/>
+		</skill_bonus>
+
+		<narration action="move">
+			-> #0(이)가 작업을 시작하러 '마법 소녀'의 방에 들어갑니다
+		</narration>
+
+		<narration action="start">
+			-> [
+			{‘마법소녀’는 아마 모든 환상체들 중에 활발하고 쾌활한 성격을 지닌 소녀일 것입니다. 그러나 과연 그 뿐일지는 모르는 일입니다. },
+			{‘마법소녀’는 아직까진 우리들에게 괜찮지만, 여전히 유의해야 할 것입니다.},
+			{‘마법소녀’의 잠재적 위험성에 대해 대부분의 직원들은 다 알 것입니다. 경계를 게을리 하지 마세요.},
+			{사실  ‘마법소녀’가 원하는 것은 ‘평화’가 아닙니다. }
+			]
+		</narration>
+
+		<narration action="mid1">
+			-> [
+			{‘마법소녀’ 는 기분 좋은 듯 창 밖을 바라보며 콧노래를 흥얼거립니다. },
+			{‘마법소녀’ 는 밝은 미소로 방으로 들어온 #0(을)를 맞이합니다. },
+			{‘마법소녀’ 는 #0에게 먼저 인사합니다. ‘오늘은 날씨가 정말 좋아요!’},
+			{‘마법소녀’ 는 #0(을)를 눈에 띄게 반가워합니다. }
+			]
+		</narration>
+
+		<narration action="mid2">
+			-> [
+			{마법소녀가 #0에게 지난 번 악당과 3:1 로 싸워 이긴, 그녀의 영웅담을 이야기해주며 자랑스러워 하고 있습니다.  },
+			{#0(이)가 ‘마법소녀’의 이야기를 듣고 있습니다. 벌써 여러 번도 더 해준 이야기지만 그녀는 계속해서 말하고 싶어합니다.},
+			{#0(이)가 칭찬을 해주자 그녀가 기분 좋은 듯 웃습니다. }
+			]
+		</narration>
+
+		<narration action="mid3">
+			-> [
+			{그녀의 ‘마법구두’ 가 이따금씩 또각 거리며 유쾌한 소리를 냅니다. },
+			{그녀의 목에 달린 ‘마법 보석’이 햇빛에 반짝이며 빛을 냅니다. },
+			{그녀의 풍성한 마법복의 레이스가 풍성하게 흔들립니다. }
+			]
+		</narration>
+
+		<narration action="mid4">
+			-> [
+			{그녀는 #0에게 ‘사명감’에 대하여 이야기 합니다. 자신의 사명은 대단히 중요하고 비밀스러운 것이라고 속삭입니다. },
+			{그녀는 #0에게 ‘정의’ 에 대하여 이야기 합니다. 자신이 하는 일 자체가 곧 정의라고 속삭입니다.  }
+			]
+		</narration>
+
+		<narration action="reverse1">
+			-> [
+			{‘마법소녀’는 울적한 목소리로 방에 들어온 #0에게 중얼거리지만 잘 들리지 않습니다.},
+			{‘마법소녀’ 는 #0(이)가 방에 들어왔음에도 전과 달리 돌아보지는 않습니다. }
+			]
+		</narration>
+
+		<narration action="reverse2">
+			-> [
+			{#0(이)가 ‘마법소녀’의 상태를 확인 하기 위해 그녀에게 다가갑니다. ‘평화가 질려가고 있어요},
+			{그녀가 또박 또박 중얼거립니다. ‘오늘은 날씨가 좋네요. 기쁘지는 않아요.’}
+			]
+		</narration>
+
+		<narration action="reverse3">
+			-> [
+			{그녀의 ‘마법구두’가 조용히 또각 거리며 침묵을 깨뜨립니다.},
+			{그녀의 눈빛에는 초점이 없고 입가엔 평소엔 본 적 없던 음산한 미소가 지어집니다.  }
+			]
+		</narration>
+
+		<narration action="special_ability1">
+			-> [
+			{더 이상 마법소녀가 아니게 된 ‘마법소녀’는 #(0)에게 살의를 담긴 눈빛을 보입니다}
+			]
+		</narration>
+
+		<narration action="special_ability2">
+			-> [
+			{‘마법소녀’는 #0(이)가 마취주사를 놓는다는 걸 눈치채고 먼저 공격을 가했습니다.}
+			]
+		</narration>
+
+		<narration action="special_ability3">
+			-> [
+			{#0에게 마법적인 힘을 가했습니다. }
+			]
+		</narration>
+		
+		<narration action="dead">
+			-> [
+			{‘마법소녀’는 쓰러진 #0(을)를 그대로 밟은 채 방을 빠져 나갑니다. 그녀는 다른 희생자들을 찾아 격리소 구석 구석을 헤맬 것입니다. },
+			{숨이 끊어지기 직전에 #0(은)는 있는 힘을 다 짜내어 ‘마법소녀’ 에게 말을 걸어 보려 합니다. ‘마법소녀’는 아무 것도 들리지 않는 다는 듯 격리실의 문을 열었습니다.}
+			]
+		</narration>
+
+		<desc>
+			"당장이라도 정의와 평화를 위해 악당들을 무찌를 것 같은 분위기와 옷차림으로 구성된 소녀이다* 기본적으로 모든 직원들에게 온순하고 친절한 모습을 보이며 일상적인 대화를 오가는 등의 행동이 가능하다* 평소에 자신을 세계를 구하기 위해 태어난 영웅이라고 믿고 있으며 이에 대한 자부심도 커보인다* 정기적으로 직원들을 투입해 오가는 대화들을 기록하여 심리변화를 파악하는 게 중요하다* 대화에서 '불안함'이나'회의감'이 드러날경우, 최소 2~3일 내에 외형과 성격이 역변하는 해리성 장애와도 유사한 행동을 띈다* 선과 악에 대한 정의가 철저한 나머지, 악ㅇ 없다는 것에 대하여 커다른 공포와 회의를 느낀 나머지 스스로가 악이 되는 것 같다는 추측을 할 수 있다* '역변'이 이뤄진 후에는 모든 수치들이 정상으로 돌아오며 본인은 그런 행위에 대해 전혀 기억을 하지 못한다* 상기를 시킬 필요는 없다*"
+		</desc>
+
+		<observe>
+			<observe_sub>
+			"(대화기록 일부 발췌)"
+			"직원 #0: 그래서, 오늘은 기분이 어떤가요?"
+			"소녀: 좋아요. 세상은 평화롭고, 이곳은 조용해요!. 평화롭다는 건 참 좋은거에요. 악당들이 없다는 뜻이니까요."
+			"(중략)"
+			</observe_sub>
+
+			<observe_sub>
+			"직원 #0: 오늘은 좀 우울해보이네요"
+			"소녀: 여전히 좋아요. 세상은 평화롭고, 이곳은..."
+			"(더 이상 말을 하려 하지 않았다.)"
+			"(중략)"
+			</observe_sub>
+
+			<observe_sub>
+			"직원 #0: 괜찮으신가요?"
+			"소녀: 왜 여전히 평화로운거죠? 제가 존재하는 이유는 악당을 무찌르기 위한 건데, 이건 마치 제가 필요없다는 것 같아요. 왜 이 곳은 조용하기만 하죠? 아, 제가 마법소녀라는 말을 당신에게 했었나요? 세상을 평화롭게 하기 위해서 저는 선택받은 아이로 태어났쬬. 오늘은 근데, 조용하네요."
+			"(횡설수설을 이어감)"
+			"(중략)"
+			</observe_sub>
+
+			<observe_sub>
+			"소녀: 세상은 선과 악 두 가지로 구분할 수 있어. 나는 정의의 편에 속해. 하지만, 본래 선과 악은 하나일지도 몰라. 악당의 역할이 없다면, 세상은 누가 지켜주지?"
+			</observe_sub>
+		</observe>
+
+		<img src="Unit/creature/magicalGirl" x="-1" y="-1"/>
+		<room src="Unit/creature/isolate_room"/>
+		<frame src="Unit/creature/frame/MagicalGirl_frame"/>
+
+		<graph>
+			<node id="creature" x="-1.6" y="-1" type="creature"/>
+			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
+			<node id="door"  x="2" y="-1" type="entry"/>
+			<edge node1="workspace" node2="door" type="road" />
+			<edge node1="creature" node2="workspace" type="road" />
+		</graph>
+	</info>
+</creature>
