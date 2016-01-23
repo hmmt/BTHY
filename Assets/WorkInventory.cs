@@ -21,6 +21,8 @@ public class WorkInventory : MonoBehaviour {
     private int previous = -1;
     public GameObject WorkList;
 
+	public CreatureModel targetCreature;
+
     public void Init() {
         //delete;
         extended = false;
@@ -50,12 +52,16 @@ public class WorkInventory : MonoBehaviour {
         WorkList.gameObject.SetActive(false);
     }
 
-    private void CreatePanel(int index) {
+	private void CreatePanel(int index) {
         GameObject newObj = Instantiate(work);
         RectTransform rect = newObj.GetComponent<RectTransform>();
         WorkSlot script = newObj.GetComponent<WorkSlot>();
-        script.index = index;
-        script.ClearCurrentSkill();
+
+		WorkSettingElement setting = TempAgentAI.instance.GetWorkSetting (targetCreature);
+
+        //script.ClearCurrentSkill();
+		script.Init(setting, index);
+
         rect.SetParent(parent);
         newObj.transform.localScale = Vector3.one;
         newObj.GetComponent<Image>().sprite = nonSelected;

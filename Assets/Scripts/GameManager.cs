@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+		InitFirst ();
+
         state = GameState.PAUSE;
 
         saveFileName = Application.persistentDataPath + "/saveData1.txt";
@@ -62,6 +64,13 @@ public class GameManager : MonoBehaviour
         MapGraph.instance.LoadMap();
         //EnergyModel.instance.Init();
     }
+
+	void InitFirst()
+	{
+		if (TempAgentAI.instance == null) {
+			new GameObject ("AgentAI").AddComponent<TempAgentAI>();
+		}
+	}
 
     void Start()
     {

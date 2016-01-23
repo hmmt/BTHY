@@ -1,44 +1,54 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public class WorkSettingElement
+{
+	public class Slot
+	{
+		public SkillTypeInfo skill;
+		public int agentCnt;
+	}
+	public CreatureModel creature;
+
+	public Slot[] slots;
+
+	public WorkSettingElement()
+	{
+		slots = new Slot[3];
+		slots [0] = new Slot ();
+		slots [1] = new Slot ();
+		slots [2] = new Slot ();
+	}
+}
+
+
 public class TempAgentAI : MonoBehaviour, IObserver {
 
-	private class AIElement
+	private static TempAgentAI _instance;
+	public static TempAgentAI instance
 	{
-		public CreatureModel creature;
-		public SkillTypeInfo skill;
+		get{ return _instance; }
 	}
 
-	List<AIElement> aiList;
+	Dictionary<int, WorkSettingElement> aiList;
 
 	void Awake()
 	{
-		aiList = new List<AIElement> ();
+		_instance = this;
+		aiList = new Dictionary<int, WorkSettingElement> ();
 
 		Notice.instance.Observe (NoticeName.AddCreature, this);
+
+		DontDestroyOnLoad (gameObject);
 	}
 
 
 	public void FixedUpdate()
 	{
-
-		//CreatureModel[] creatures = CreatureManager.instance.GetCreatureList ();
-	
-		/*
-		foreach (CreatureModel creature in creatures)
+		foreach (WorkSettingElement ai in aiList.Values)
 		{
-			if (creature.state == CreatureState.WAIT)
-			{
-				if (agents.Count != 0)
-				{
-					AgentModel agent = agents [0];
-					UseSkill.InitUseSkillAction(skillInfo, agent, targetCreature);
-				}
-			}
-		}*/
-
-		foreach (AIElement ai in aiList)
-		{
+			if (ai.slots[0].skill == null)
+				continue;
 			if (ai.creature.state == CreatureState.WAIT && ai.creature.IsTargeted() == false && ai.creature.IsReady())
 			{
 				List<AgentModel> agents = GetWaitingAgents ();
@@ -46,10 +56,8 @@ public class TempAgentAI : MonoBehaviour, IObserver {
 				if (agents.Count != 0)
 				{
 					AgentModel agent = agents [Random.Range(0, agents.Count)];
-					if (agent.HasSkill (ai.skill)) {
-						//UseSkill.InitUseSkillAction (ai.skill, agent, ai.creature);
-						agent.ManageCreature(ai.creature, ai.skill);
-						Debug.Log ("AI :: ");
+					if (agent.HasSkill (ai.slots[0].skill)) {
+						agent.ManageCreature(ai.creature, ai.slots[0].skill);
 					}
 					break;
 				}
@@ -71,19 +79,31 @@ public class TempAgentAI : MonoBehaviour, IObserver {
 		return output;
 	}
 
+	public WorkSettingElement GetWorkSetting(CreatureModel targetCreature)
+	{
+		WorkSettingElement setting;
+		if (aiList.TryGetValue (targetCreature.instanceId, out setting))
+		{
+			return setting;
+		}
+		else
+		{
+			Debug.Log ("GetWorkSetting >> creature work setting not found");
+			return null;
+		}
+
+	}
+
 	public void OnNotice(string name, params object[] param)
 	{
 		if (name == NoticeName.AddCreature)
 		{
 			CreatureModel creature = (CreatureModel)param [0];
 
-			AIElement ai = new AIElement ();
+			WorkSettingElement ai = new WorkSettingElement ();
 			ai.creature = creature;
-			ai.skill = SkillTypeList.instance.GetData (10001);
 
-			aiList.Add (ai);
+			aiList.Add (ai.creature.instanceId, ai);
 		}
 	}
-
-
 }

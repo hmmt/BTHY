@@ -8,6 +8,7 @@ public class WorkSlot : MonoBehaviour
     public RectTransform initialRect;
     public WorkInventory inventory;//일단 쓸 지 안쓸지 모르겠음
 
+	public CreatureModel targetCreature;
     public SkillTypeInfo currentSkill;
     public RectTransform NormalState;
     public Text Hint;
@@ -19,11 +20,27 @@ public class WorkSlot : MonoBehaviour
     private bool extended = false;
     private int agentcnt;
 
+	/*
     public void Awake() {
         agentcnt = 0;
         SetButtonActive();
         SetCountText();
-    }
+    }*/
+
+	public void Init(WorkSettingElement workSetting, int index)
+	{
+		targetCreature = workSetting.creature;
+		this.index = index;
+		this.agentcnt = workSetting.slots [index].agentCnt;
+		if (workSetting.slots [index].skill != null) {
+			SetCurrentSkill (workSetting.slots [index].skill);
+		} else {
+			ClearCurrentSkill ();
+		}
+
+		SetButtonActive();
+		SetCountText();
+	}
 
     public void SetInventoryScript(WorkInventory script) {
         this.inventory = script;
@@ -38,11 +55,15 @@ public class WorkSlot : MonoBehaviour
     }
 
     public void ClearCurrentSkill() {
+		this.currentSkill = null;
+
         GameObject icon = GetIcon();
         //임시스프라이트
         icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("warning");
         GameObject text = GetText();
         text.GetComponent<Text>().text = "할당되지 않음";
+
+		UpdateWorkSetting ();
     }
 
     public void SetCurrentSkill(SkillTypeInfo skill) {
@@ -52,6 +73,8 @@ public class WorkSlot : MonoBehaviour
         icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(skill.imgsrc);
         GameObject text = GetText();
         text.GetComponent<Text>().text = skill.name;
+
+		UpdateWorkSetting ();
     }
 
     public bool IsLocked() {
@@ -69,6 +92,7 @@ public class WorkSlot : MonoBehaviour
         agentcnt++;
         SetButtonActive();
         SetCountText();
+		UpdateWorkSetting ();
     }
 
     public void SubAgent()
@@ -79,6 +103,9 @@ public class WorkSlot : MonoBehaviour
         }
 
         agentcnt--;
+
+		UpdateWorkSetting ();
+
         SetButtonActive();
         SetCountText();
     }
@@ -112,8 +139,17 @@ public class WorkSlot : MonoBehaviour
 
     public void ClearAgentCnt() {
         this.agentcnt = 0;
+		UpdateWorkSetting ();
+
         SetCountText();
         SetButtonActive();
     }
+
+	private void UpdateWorkSetting()
+	{
+		WorkSettingElement setting = TempAgentAI.instance.GetWorkSetting (targetCreature);
+		setting.slots [index].agentCnt = agentcnt;
+		setting.slots [index].skill = currentSkill;
+	}
 
 }

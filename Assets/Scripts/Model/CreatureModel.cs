@@ -36,6 +36,9 @@ public class CreatureModel : IObserver
 	// buf
 	public float bufRemainingTime;
 
+	// work
+	public WorkSlot workSlot;
+
     // 메타데이터
     public CreatureTypeInfo metaInfo;
     

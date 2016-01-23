@@ -45,7 +45,10 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         inst.targetCreature = creature;
 
         inst.workType = type;
+
         inst.inventory = inst.GetComponent<WorkInventory>();
+		inst.inventory.targetCreature = creature;
+
         inst.workListScript = inst.GetComponent<WorkListScript>();
         inst.workListScript.Init();
         if (type == WorkType.NORMAL)
