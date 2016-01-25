@@ -18,23 +18,33 @@ public class ConversationUnit : MonoBehaviour {
     long selectTarget = 0;
     int current = 0;
     short speaker = 0;
+    public bool endDisplayed = false;
     ConversationModel.Description desc;
     ConversationModel.Select select;
-    
+    EndingModel end;
+    static int endDate = -1;
+    static bool isEnded = false;
+
     public string SystemSymbol;
 
     public bool selected = false;
     public AudioSource pop;
     public AudioSource bg;
+    public Animator alert;
 
     void Awake()
     {
-        _instance = this;
+        _instance = this;   
         
     }
 
     void Init() {
         model = ConversationManager.instance.GetDayScript();
+        if (isEnded && model.date > ConversationManager.instance.GetEndDate()) {
+            this.endDisplayed = true;
+        }
+        alert.gameObject.SetActive(false);
+        
     }
 
     void Start() {
@@ -43,6 +53,10 @@ public class ConversationUnit : MonoBehaviour {
         }
         Init();
         bg.Play();
+        if (endDisplayed) {
+            InturreptEnd();
+            return;
+        }
         Change();
         OnClick();
     }
@@ -58,6 +72,7 @@ public class ConversationUnit : MonoBehaviour {
                 script.SysMake(SystemSymbol + s.GetMessage());
             }
         }
+        
     }
 
     public void InturreptEnd() {
@@ -66,6 +81,10 @@ public class ConversationUnit : MonoBehaviour {
 
     void Change() {
         this.desc = model.GetDescByID(state);
+        if (desc.isEnd) {
+            ConversationManager.instance.SetEnd(desc.endId);
+            isEnded = true;
+        }
         this.selectTarget = desc.selectId;
 
         this.speaker = desc.speaker;
@@ -83,13 +102,17 @@ public class ConversationUnit : MonoBehaviour {
         {
             queue.Enqueue(s);
         }
-        foreach (ConversationModel.Select.SelectNode s in select.list)
+        if (select != null)
         {
-            selectList.Add(s.desc);
+            foreach (ConversationModel.Select.SelectNode s in select.list)
+            {
+                selectList.Add(s.desc);
+            }
         }
     }
 
     public void OnClick() {
+        if (endDisplayed) return;
         if (queue.Count == 0) {
             if (!selected)
             {
@@ -113,14 +136,26 @@ public class ConversationUnit : MonoBehaviour {
         if (subindex != -1)
         {
             sub1 = str.Substring(0, subindex);
-            sub2 = str.Substring(subindex + 1);
-            if (!short.TryParse(sub2, out sp)) {
-                sp = speaker;
+            sub2 = str.Substring(subindex+1);
+            int subindex2 = sub2.IndexOf("$");
+
+            if (subindex2 != -1) {
+                string sub3;
+                sub3 = sub2.Substring(subindex2);
+                
+                //make Alert
+                short effect;
+                Debug.Log(sub3);
+                string effectId = sub3.Substring(1);
+                effect = short.Parse(effectId);
+                Effect(effect);
             }
+            string speakerId = sub2.Substring(0,1);
+            sp = short.Parse(speakerId);
+
             str = sub1;
         }
-
-        script.MakeTextByID(speaker , str);
+        script.MakeTextByID(sp , str);
         pop.PlayOneShot(pop.clip);
     }
 
@@ -143,4 +178,8 @@ public class ConversationUnit : MonoBehaviour {
         Change();
     }
 
+    public void Effect(short id) {
+        this.alert.gameObject.SetActive(true);
+        alert.SetInteger("Cnt", 3);
+    }
 }

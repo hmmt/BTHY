@@ -134,7 +134,16 @@ public class GameStaticDataLoader {
             description.tempdesc = dNode.InnerText.Trim();
             //Debug.Log(description.tempdesc);
             description.loadText();
-            
+
+            XmlNode endNode = dNode.SelectSingleNode("end");
+            if (endNode != null)
+            {
+
+                description.endId = endNode.Attributes.GetNamedItem("id").InnerText;
+                description.isEnd = true;
+                Debug.Log(description.endId + description.tempdesc);
+            }
+
             XmlNodeList sys = dNode.SelectNodes("sys");
             if (sys.Count != 0)
             {
@@ -163,11 +172,37 @@ public class GameStaticDataLoader {
         return output.ToArray();
     }
 
+    private ConversationModel.Select[] LoadSelect(XmlNodeList selectList) {
+        List<ConversationModel.Select> output = new List<ConversationModel.Select>();
+        foreach (XmlNode sNode in selectList)
+        {
+            ConversationModel.Select select = new ConversationModel.Select();
+            select.id = long.Parse(sNode.Attributes.GetNamedItem("id").InnerText);
+
+            XmlNodeList innerNodes = sNode.SelectNodes("node");
+            foreach (XmlNode selectNode in innerNodes)
+            {
+                ConversationModel.Select.SelectNode unit = new ConversationModel.Select.SelectNode();
+                unit.id = long.Parse(selectNode.Attributes.GetNamedItem("id").InnerText);
+                unit.desc = selectNode.Attributes.GetNamedItem("desc").InnerText;
+                unit.descId = long.Parse(selectNode.Attributes.GetNamedItem("target").InnerText);
+                unit.favor = int.Parse(selectNode.Attributes.GetNamedItem("favor").InnerText);
+
+                select.list.Add(unit);
+            }
+
+            output.Add(select);
+        }
+
+        return output.ToArray();
+    }
+
     public void LoadDayScript()
     {
         //LoadSystemMessage();
         TextAsset textAsset = Resources.Load<TextAsset>("xml/Day");
         List<ConversationModel> list = new List<ConversationModel>();
+        List<EndingModel> endList = new List<EndingModel>();
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(textAsset.text);
 
@@ -179,27 +214,24 @@ public class GameStaticDataLoader {
             XmlNodeList descList = node.SelectNodes("desc");
             model.InitDescList(LoadDesc(descList));
 
-            XmlNodeList selectList = node.SelectNodes("select");
-            foreach (XmlNode sNode in selectList) {
-                ConversationModel.Select select = new ConversationModel.Select();
-                select.id = long.Parse(sNode.Attributes.GetNamedItem("id").InnerText);   
-
-                XmlNodeList innerNodes = sNode.SelectNodes("node");
-                foreach (XmlNode selectNode in innerNodes) {
-                    ConversationModel.Select.SelectNode unit = new ConversationModel.Select.SelectNode();
-                    unit.id = long.Parse(selectNode.Attributes.GetNamedItem("id").InnerText);
-                    unit.desc = selectNode.Attributes.GetNamedItem("desc").InnerText;
-                    unit.descId = long.Parse(selectNode.Attributes.GetNamedItem("target").InnerText);
-                    unit.favor = int.Parse(selectNode.Attributes.GetNamedItem("favor").InnerText);
-
-                    select.list.Add(unit);
-                }
-
-                model.selectList.Add(select);
+            XmlNode endingNode = node.SelectSingleNode("ending");
+            if (endingNode != null)
+            {
+                EndingModel end = new EndingModel();
+                end.date = model.date;
+                end.target = endingNode.Attributes.GetNamedItem("id").InnerText;
+                Debug.Log(end.date + "일 엔딩 " + end.target);
+                    
+                end.InitDescList(LoadDesc(endingNode.SelectNodes("desc")));
+                end.InitSelectList(LoadSelect(endingNode.SelectNodes("select")));
+                endList.Add(end);
             }
+
+            XmlNodeList selectList = node.SelectNodes("select");
+            model.InitSelectList(LoadSelect(selectList));
             list.Add(model);
         }
-        ConversationManager.instance.Init(list.ToArray());
+        ConversationManager.instance.Init(list.ToArray(), endList.ToArray());
     }
 
 	public void LoadSKillData()
