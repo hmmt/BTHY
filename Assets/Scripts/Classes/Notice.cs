@@ -26,7 +26,12 @@ public class NoticeName
     public static string AddOfficer = "AddOfficer";
     public static string RemoveAgent = "RemoveAgent";
     public static string RemoveOfficer = "RemoveOfficer";
-    public static string InitAgent = "InitAgent";
+
+    public static string InitAgent = "InitAgent"; // Unused?
+
+	// change for UI
+	public static string ChangeWorkSetting = "ChangeWorkSetting";
+
     public static string ChangeAgentSefira = "ChangeAgentSefira";
     public static string ChangeAgentSefira_Late = "ChangeAgentSefira_Late";
     public static string ChangeAgentState = "ChangeAgentState";

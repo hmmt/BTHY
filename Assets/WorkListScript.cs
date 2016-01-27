@@ -10,17 +10,33 @@ public class WorkListScript : MonoBehaviour {
     private WorkSlot targetSlot;
     private Sefira currentSefira;
 
-    public List<SkillTypeInfo> skillList = new List<SkillTypeInfo>();
+    //public List<SkillTypeInfo> skillList = new List<SkillTypeInfo>();
     
     public void Init()
     {
         currentSefira = SefiraManager.instance.getSefira(SefiraName.Malkut);
-        SkillTypeInfo[] tempitem = SkillTypeList.instance.GetList();
-        skillList.Add(tempitem[0]);
-        skillList.Add(tempitem[1]);
-        skillList.Add(tempitem[2]);
-        skillList.Add(tempitem[3]);
-        SlotCall(0);
+
+
+		Dictionary<long, SkillTypeInfo> directSkillList = new Dictionary<long, SkillTypeInfo>();
+		Dictionary<long, SkillTypeInfo> indirectSkillList = new Dictionary<long, SkillTypeInfo>();
+		Dictionary<long, SkillTypeInfo> blockSkillList = new Dictionary<long, SkillTypeInfo>();
+
+		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+		{
+			foreach (SkillTypeInfo skill in agent.GetDirectSkillList()) {
+				directSkillList [skill.id] = skill;
+			}
+			foreach (SkillTypeInfo skill in agent.GetIndirectSkillList()) {
+				indirectSkillList [skill.id] = skill;
+			}
+			foreach (SkillTypeInfo skill in agent.GetBlockSkillList()) {
+				blockSkillList [skill.id] = skill;
+			}
+		}
+
+		SlotCall (0, new List<SkillTypeInfo>(directSkillList.Values));
+		SlotCall(1, new List<SkillTypeInfo>(indirectSkillList.Values));
+		SlotCall(2, new List<SkillTypeInfo>(blockSkillList.Values));
     }
 
     public void Select(WorkSlot target) {
@@ -28,18 +44,19 @@ public class WorkListScript : MonoBehaviour {
     }
 
     public void ClearSlot(int index) {
+		/*
         foreach (RectTransform rect in parentAry[index]) {
             skillList.Remove(rect.GetComponent<SkillTypeInfo>());
             Destroy(rect.gameObject);
         }
-        skillList.Clear();
+        skillList.Clear();*/
     }
 
-    public void SlotCall(int index) {
+	public void SlotCall(int index, List<SkillTypeInfo> skillList) {
         float posy = 0.0f;
         foreach (SkillTypeInfo s in skillList) {
             GameObject slot = CreateItem(s);
-            slot.transform.SetParent(parentAry[0]);
+            slot.transform.SetParent(parentAry[index]);
             RectTransform rect = slot.GetComponent<RectTransform>();
             float size = rect.sizeDelta.y;
             rect.localScale = Vector3.one;

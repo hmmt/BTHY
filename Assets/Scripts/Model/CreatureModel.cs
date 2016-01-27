@@ -35,9 +35,7 @@ public class CreatureModel : IObserver
 
 	// buf
 	public float bufRemainingTime;
-
-	// work
-	public WorkSlot workSlot;
+	public float bufFeelingAddRate; // per second
 
     // 메타데이터
     public CreatureTypeInfo metaInfo;
@@ -54,10 +52,13 @@ public class CreatureModel : IObserver
 
     public float feeling { get; private set; }
 
+	//public float energyPoint;
+	public float feelingsPoint;
+
     //환상체 나레이션 저장 List
     public List<string> narrationList;
 
-    // 이하 save 되지 않는 데이터들
+    // 이하 save 프錘않는 데이터들
 
     public CreatureState state = CreatureState.WAIT;
 
@@ -240,8 +241,9 @@ public class CreatureModel : IObserver
     {
 		if (bufRemainingTime > 0)
 		{
-			bufRemainingTime -= Time.deltaTime;
+			ProcessWorkingBuf ();
 		}
+		 
         if (escapeAttackWait > 0)
         {
             escapeAttackWait -= Time.deltaTime;
@@ -360,6 +362,19 @@ public class CreatureModel : IObserver
             Notice.instance.Send("AddNarrationLog", selected, this);
         }
     }
+
+	public void ProcessWorkingBuf()
+	{
+		bufRemainingTime -= Time.deltaTime;
+		//feeling += bufFeelingAddRate * Time.deltaTime;
+		AddFeeling(bufFeelingAddRate * Time.deltaTime);
+	}
+
+	public void SetFeelingBuf(float time, float feelingAmount)
+	{
+		bufRemainingTime = time;
+		bufFeelingAddRate = feelingAmount / time;
+	}
 
     public void AddFeeling(float value)
     {

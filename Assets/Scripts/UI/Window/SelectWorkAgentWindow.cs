@@ -176,11 +176,11 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         slotPanel.agentHealth.text = HealthCheck(unit);
         slotPanel.agentMental.text = MentalCheck(unit);
         slotPanel.agentLevel.text = "등급 : "+unit.level;
-
+/*
         SetSkillButton(slotPanel.skillButton1, unit, unit.directSkill);
         SetSkillButton(slotPanel.skillButton2, unit, unit.indirectSkill);
         SetSkillButton(slotPanel.skillButton3, unit, unit.blockSkill);
-
+*/
         if(targetCreature.script != null)
             SetSkillButton(slotPanel.skillButton4, unit, targetCreature.script.GetSpecialSkill());
         else
@@ -208,7 +208,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
 
         slotPanel.targetAgent = unit;
-        slotPanel.skillButton1.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.directSkill.imgsrc);
+        //slotPanel.skillButton1.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.directSkill.imgsrc);
         slotPanel.skillButton2.gameObject.SetActive(false);
         slotPanel.skillButton3.gameObject.SetActive(false);
         slotPanel.skillButton4.gameObject.SetActive(false);

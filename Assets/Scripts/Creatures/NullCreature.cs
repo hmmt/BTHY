@@ -26,6 +26,8 @@ public class NullCreature : CreatureBase {
     // 변신
     public override void OnFixedUpdate(CreatureModel creature)
     {
+		// 
+		/*
         if (creature.feeling <= changeCondition)
         {
             if (!changed)
@@ -46,7 +48,8 @@ public class NullCreature : CreatureBase {
         if (creature.feeling <= 0)
         {
             creature.Escape();
-        }   
+        }
+        */
     }
 
     public override SkillTypeInfo GetSpecialSkill()

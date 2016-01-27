@@ -31,6 +31,8 @@ public class MyWindow : EditorWindow
 
     void OnGUI()
     {
+		if (MapGraph.instance.loaded == false)
+			return;
         GUILayout.Label("AGENT LIST", EditorStyles.boldLabel);
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
@@ -40,9 +42,11 @@ public class MyWindow : EditorWindow
             GUILayout.Label("lifeValue : " + agent.agentLifeValue);
             GUILayout.Label("HP : " + agent.hp);
             GUILayout.Label("mental : " + agent.mental);
+			/*
             GUILayout.Label("direct skill: " + agent.directSkill.id);
             GUILayout.Label("indirect skill: " + agent.indirectSkill.id);
             GUILayout.Label("block skill: " + agent.blockSkill.id);
+            */
             
             EditorGUILayout.EndVertical();
         }

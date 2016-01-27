@@ -52,6 +52,7 @@ public class MagicalGirl : CreatureBase {
     // 역변
     public override void OnFixedUpdate(CreatureModel creature)
     {
+		/*
         if (creature.feeling <= darkCondition)
         {
             if (isDark == false)
@@ -74,7 +75,7 @@ public class MagicalGirl : CreatureBase {
         if (creature.feeling <= 0)
         {
             creature.Escape();
-        }
+        }*/
     }
 
     private void SkillDarkAttack(UseSkill skill)

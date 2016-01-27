@@ -34,10 +34,15 @@ public class TempAgentAI : MonoBehaviour, IObserver {
 
 	void Awake()
 	{
+		if (_instance != null) {
+			Destroy (gameObject);
+			return;
+		}
 		_instance = this;
 		aiList = new Dictionary<int, WorkSettingElement> ();
 
 		Notice.instance.Observe (NoticeName.AddCreature, this);
+		Notice.instance.Observe (NoticeName.ChangeWorkSetting, this);
 
 		DontDestroyOnLoad (gameObject);
 	}
@@ -94,6 +99,26 @@ public class TempAgentAI : MonoBehaviour, IObserver {
 
 	}
 
+	private void OnChangeWorkSetting(CreatureModel targetCreature)
+	{
+		// TODO: 
+		WorkSettingElement setting;
+		if (aiList.TryGetValue (targetCreature.instanceId, out setting))
+		{
+			foreach (AgentModel agent in AgentManager.instance.GetAgentList()) {
+				if (agent.GetState () == AgentCmdState.WORKING &&
+				   agent.target != null && agent.target.instanceId == targetCreature.instanceId)
+				{
+					agent.FinishWorking();
+				}
+			}
+		}
+	}
+
+	private void OnChangeWorkPriority()
+	{
+	}
+
 	public void OnNotice(string name, params object[] param)
 	{
 		if (name == NoticeName.AddCreature)
@@ -104,6 +129,11 @@ public class TempAgentAI : MonoBehaviour, IObserver {
 			ai.creature = creature;
 
 			aiList.Add (ai.creature.instanceId, ai);
+		}
+
+		if (name == NoticeName.ChangeWorkSetting)
+		{
+			OnChangeWorkSetting ((CreatureModel)param [0]);
 		}
 	}
 }

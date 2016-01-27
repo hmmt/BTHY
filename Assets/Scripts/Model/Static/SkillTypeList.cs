@@ -38,6 +38,30 @@ public class SkillTypeList
 		return _list.ToArray ();
 	}
 
+	private SkillTypeInfo[] GetListBySkillType(string type)
+	{
+		List<SkillTypeInfo> output = new List<SkillTypeInfo>();
+		foreach (SkillTypeInfo skill in _list) {
+			if (skill.type == type) {
+				output.Add (skill);
+			}
+		}
+		return output.ToArray ();
+	}
+
+	public SkillTypeInfo[] GetDirectSkillList()
+	{
+		return GetListBySkillType ("direct");
+	}
+	public SkillTypeInfo[] GetIndirectSkillList()
+	{
+		return GetListBySkillType ("indirect");
+	}
+	public SkillTypeInfo[] GetBlockSkillList()
+	{
+		return GetListBySkillType ("block");
+	}
+
 	public SkillTypeInfo GetData(long id)
 	{
 		foreach(SkillTypeInfo info in _list)

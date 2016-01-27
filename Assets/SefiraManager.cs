@@ -216,10 +216,6 @@ public class Sefira
         return null;
     }
 
-    public SkillTypeInfo tempget() {
-        return agentList[0].directSkill;
-    }
-
     private bool CheckSkillDuplicate(AgentModel model) {
         for (int i = 0; i < 3; i++) {
 

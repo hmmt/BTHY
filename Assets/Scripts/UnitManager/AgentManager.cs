@@ -90,10 +90,14 @@ public class AgentManager : IObserver {
         unit.preferBonus = info.preferBonus;
         unit.reject = info.reject;
         unit.rejectBonus = info.rejectBonus;
-
+/*
         unit.directSkill = info.directSkill;
         unit.indirectSkill = info.indirectSkill;
         unit.blockSkill = info.blockSkill;
+*/
+		unit.AddSkill (info.directSkill);
+		unit.AddSkill (info.indirectSkill);
+		unit.AddSkill (info.blockSkill);
 
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
 

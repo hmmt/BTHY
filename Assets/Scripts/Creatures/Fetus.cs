@@ -18,7 +18,7 @@ public class Fetus : CreatureBase
             feedTimer = 0;
             creature.SubFeeling(20);
         }
-
+		/*
         if(creature.feeling <= 40)
         {
             cryTimer += Time.deltaTime;
@@ -27,7 +27,7 @@ public class Fetus : CreatureBase
         {
             cryTimer = 0;
         }
-
+        */
         if(cryTimer > cryLimit)
         {
             cryTimer = 0;

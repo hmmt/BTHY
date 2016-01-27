@@ -174,9 +174,11 @@ public class InfoSlotScript : MonoBehaviour {
         desc[1] = model.workSpeed + "";
         desc[2] = model.maxMental + "";
         desc[3] = model.movement + "";
+		/*
         workDesc[0] = model.directSkill.description;
         workDesc[1] = model.indirectSkill.description;
         workDesc[2] = model.blockSkill.description;
+        */
 
         for(int i = 0; i< InfoImageList.Length; i++){
             InfoImageList[i].GetComponent<Image>().sprite = model.StatusSprites[i];
@@ -188,10 +190,11 @@ public class InfoSlotScript : MonoBehaviour {
             OverlayObject script = WorkImageList[i].GetComponent<OverlayObject>();
             script.text = workDesc[i];
         }
-
+		/*
         WorkDescription[0].text = model.directSkill.name;
         WorkDescription[1].text = model.indirectSkill.name;
         WorkDescription[2].text = model.blockSkill.name;
+        */
     }
 
 }

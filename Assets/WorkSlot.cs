@@ -150,6 +150,7 @@ public class WorkSlot : MonoBehaviour
 		WorkSettingElement setting = TempAgentAI.instance.GetWorkSetting (targetCreature);
 		setting.slots [index].agentCnt = agentcnt;
 		setting.slots [index].skill = currentSkill;
+		Notice.instance.Send (NoticeName.ChangeWorkSetting, setting.creature);
 	}
 
 }

@@ -11,11 +11,16 @@ public class UseSkill : ActionClassBase
     public float workSpeed;
     public float workProgress;
     public float totalFeeling;
-
+	/*
     public int goalWork;
     public float elapsedWorkingTime;
     public int currentWork;
     public int updateTick = 5;
+    */
+
+	public int successCount;
+
+
     public int workCount;
 
     // skill info
@@ -260,7 +265,7 @@ public class UseSkill : ActionClassBase
     {
         agent.FinishWorking();
         targetCreature.state = CreatureState.WAIT;
-		targetCreature.bufRemainingTime = 5f;
+		//targetCreature.bufRemainingTime = 5f;
     }
 
     private void FinshWork()
@@ -273,6 +278,8 @@ public class UseSkill : ActionClassBase
 
         //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(false);
         agentView.showSkillIcon.turnOnDoingSkillIcon(false);
+
+		//targetCreature.SetFeelingBuf (bufTime, feelingBufAmount);
 
         Release();
 
@@ -341,6 +348,7 @@ public class UseSkill : ActionClassBase
             if (Random.value < workProb)
             {
                 success = true;
+				successCount++;
             }
             else
             {
@@ -362,9 +370,11 @@ public class UseSkill : ActionClassBase
             {
                 targetCreature.script.OnSkillFailWorkTick(this);
 
-                // when changed in SkillFailWorkTick
+                // It can be skipped when changed in SkillFailWorkTick
                 if (workPlaying)
                 {
+					
+					/*
                     if (targetCreature.IsPreferSkill(skillTypeInfo))
                     {
                         workValue = (int)(workValue * 0.5);
@@ -416,6 +426,7 @@ public class UseSkill : ActionClassBase
 
                         agentUpdated = true;
                     }
+                    */
                 }
             }
 
@@ -428,7 +439,7 @@ public class UseSkill : ActionClassBase
                 agent.TakeMentalDamage(mentalTick);
             }
 
-            targetCreature.AddFeeling(workValue);
+            //targetCreature.AddFeeling(workValue);
 
             Notice.instance.Send("UpdateCreatureState_" + targetCreature.instanceId);
             if (agentUpdated)
@@ -500,7 +511,7 @@ public class UseSkill : ActionClassBase
 
     public static UseSkill InitUseSkillAction(SkillTypeInfo skillInfo, AgentModel agent, CreatureModel creature)
     {
-        if (agent.target != null || creature.state != CreatureState.WAIT)
+        if (creature.state != CreatureState.WAIT)
         {
             return null;
         }

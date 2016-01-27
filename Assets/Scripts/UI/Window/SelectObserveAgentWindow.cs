@@ -70,7 +70,7 @@ public class SelectObserveAgentWindow : MonoBehaviour
             tr.localPosition = new Vector3(0, tr.rect.y /2 + posy, 0);
 
             AgentSlotPanelObserve slotPanel = slot.GetComponent<AgentSlotPanelObserve>();
-            slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
+            //slotPanel.skillButton1.image.sprite = Resources.Load<Sprite>("Sprites/" + unit.directSkill.imgsrc);
 
             if (cnt % 2 == 0)
             {

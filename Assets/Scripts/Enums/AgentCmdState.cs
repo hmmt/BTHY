@@ -296,7 +296,6 @@ public class OpenDoorAgnetCommand : AgentCommand
 public class ManageCreatureAgentCommand : AgentCommand
 {
 	private AgentModel[] coopAgents;
-	private CreatureModel targetCreature;
 	private SkillTypeInfo skill;
 
 	private UseSkill useSkill;
@@ -361,9 +360,13 @@ public class ManageCreatureAgentCommand : AgentCommand
 
 				cmd.waiting = false;
 			}*/
-			waiting = false;
+
 
 			useSkill = UseSkill.InitUseSkillAction (skill, agent, targetCreature);
+
+			if (useSkill == null)
+				Finish ();
+			waiting = false;
 
 			//Finish ();
 		}
@@ -372,8 +375,6 @@ public class ManageCreatureAgentCommand : AgentCommand
 
 public class ObserveCreatureAgentCommand : AgentCommand
 {
-	private CreatureModel targetCreature;
-
 	public ObserveCreatureAgentCommand(CreatureModel targetCreature)
 	{
 		this.targetCreature = targetCreature;
