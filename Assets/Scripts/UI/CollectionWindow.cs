@@ -31,7 +31,6 @@ public class CollectionWindow : MonoBehaviour {
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
 
-
     public void onClickObserveButton()
     {
         Debug.Log("Work Count : "+creature.workCount+"Observe Condition : "+creature.observeCondition + "Observe Progress : "+creature.observeProgress+1);
