@@ -61,7 +61,7 @@ public class HappyTeddy  : CreatureBase {
     public void ActivateSkill(UseSkill skill, int feelingUp)
     {
         // show effect
-
+		/*
         skill.PauseWorking();
         ///SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
 
@@ -91,12 +91,14 @@ public class HappyTeddy  : CreatureBase {
 
             model.AddFeeling(feelingUp);
         });
+        */
     }
 
     //
 
     public override void OnEnterRoom(UseSkill skill)
     {
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4);
@@ -110,6 +112,7 @@ public class HappyTeddy  : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 
     public override SkillTypeInfo GetSpecialSkill()

@@ -73,18 +73,6 @@ public class UseSkill : ActionClassBase
         workSpeed = speed;
         totalFeeling = feeling;
 
-        int maxHP = 0;
-        int maxMental = 0;
-        // skill 보너스
-        if (maxHP > 100)
-        {
-            workSpeed *= 1.3f;
-        }
-        else if (maxMental > 200)
-        {
-            workSpeed *= 1.3f;
-        }
-
         // 성향에 따른 보너스
         switch (agent.agentLifeValue)
         {
@@ -299,7 +287,7 @@ public class UseSkill : ActionClassBase
             bool success = true;
             bool agentUpdated = false;
             float workProb = 0.6f;
-
+			/*
             float physicsProb = targetCreature.metaInfo.physicsProb;
             float mentalProb = targetCreature.metaInfo.mentalProb;
             int physicsDmg = targetCreature.metaInfo.physicsDmg;
@@ -327,7 +315,9 @@ public class UseSkill : ActionClassBase
             {
                 workProb += agent.blockBonus;
             }
+            */
 
+			/*
             // creature prefer
             float bonus = 0;
             if (targetCreature.GetPreferSkillBonus(skillTypeInfo, out bonus))
@@ -344,6 +334,7 @@ public class UseSkill : ActionClassBase
             {
                 // prob middle
             }
+			*/
 
             if (Random.value < workProb)
             {
@@ -357,6 +348,7 @@ public class UseSkill : ActionClassBase
 
             if (success)
             {
+				/*
                 if (targetCreature.IsPreferSkill(skillTypeInfo))
                 {
                     workValue = (int)(workValue * 1.5);
@@ -365,6 +357,7 @@ public class UseSkill : ActionClassBase
                 {
                     workValue = (int)(workValue * 0.5);
                 }
+                */
             }
             else
             {
@@ -373,7 +366,23 @@ public class UseSkill : ActionClassBase
                 // It can be skipped when changed in SkillFailWorkTick
                 if (workPlaying)
                 {
-					
+					float attackProb = targetCreature.GetAttackProb ();
+
+					if (Random.value <= attackProb) {
+						if (targetCreature.GetAttackType () == CreatureAttackType.PHYSICS)
+						{
+							agent.TakePhysicalDamage(targetCreature.GetPhysicsDmg ());
+						}
+						else if (targetCreature.GetAttackType () == CreatureAttackType.MENTAL)
+						{
+							agent.TakeMentalDamage (targetCreature.GetMentalDmg ());
+						}
+						else // COMPLEX
+						{
+							agent.TakePhysicalDamage(targetCreature.GetPhysicsDmg ());
+							agent.TakeMentalDamage (targetCreature.GetMentalDmg ());
+						}
+					}
 					/*
                     if (targetCreature.IsPreferSkill(skillTypeInfo))
                     {
@@ -430,14 +439,15 @@ public class UseSkill : ActionClassBase
                 }
             }
 
+			/*
             if (mentalTick > 0)
             {
                 agent.RecoverMental(mentalTick);
             }
             else if (mentalTick < 0)
             {
-                agent.TakeMentalDamage(mentalTick);
-            }
+                agent.TakeMentalDamage(-mentalTick);
+            }*/
 
             //targetCreature.AddFeeling(workValue);
 

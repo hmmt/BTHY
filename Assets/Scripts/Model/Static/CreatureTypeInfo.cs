@@ -14,6 +14,13 @@ public enum SkillBonusAttr
     CATEGORY_TYPE,
     CATEGORY_ID
 }
+
+public enum CreatureAttackType
+{
+	PHYSICS,
+	MENTAL,
+	COMPLEX
+}
 [System.Serializable]
 public class SkillBonusInfo
 {
@@ -63,17 +70,21 @@ public class CreatureTypeInfo
     public int stackLevel;
     public int observeLevel;
 
-	public string attackType;
 	public string intelligence;
+
+	public CreatureAttackType attackType;
+
+	public float attackProb;
+	public int physicsDmg;
+	public int mentalDmg;
     
 	public float horrorProb;
 	public int horrorDmg;
+
 			
 	public float physicsProb;
-	public int physicsDmg;
 			
 	public float mentalProb;
-	public int mentalDmg;
 			
 	public int feelingMax;
 	public float feelingDownProb;

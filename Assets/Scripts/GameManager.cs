@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public enum GameState
 {
     PLAYING,
+	STOP,
     PAUSE
 }
 
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
 		InitFirst ();
 
-        state = GameState.PAUSE;
+		state = GameState.STOP;
 
         saveFileName = Application.persistentDataPath + "/saveData1.txt";
 
@@ -161,9 +162,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+	public void Pause()
+	{
+		state = GameState.PAUSE;
+		stageTimeInfoUI.Pause ();
+	}
+
+	public void Resume()
+	{
+		state = GameState.PLAYING;
+		stageTimeInfoUI.Resume ();
+	}
+
     public void EndGame()
     {
-        state = GameState.PAUSE;
+		state = GameState.STOP;
         Debug.Log("EndGame");
         if (AgentStatusWindow.currentWindow != null)
             AgentStatusWindow.currentWindow.CloseWindow();

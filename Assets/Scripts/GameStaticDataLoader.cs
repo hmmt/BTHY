@@ -638,7 +638,10 @@ public class GameStaticDataLoader {
         model.name = node.SelectSingleNode("name").InnerText;
         //model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
         model.level = node.SelectSingleNode("level").InnerText;
-        model.attackType = node.SelectSingleNode("attackType").InnerText;
+        
+		//model.attackType = node.SelectSingleNode("attackType").InnerText;
+		model.attackType = CreatureAttackType.PHYSICS;
+
         //model.intelligence = node.Attributes.GetNamedItem("intelligence").InnerText;
 
         //model.stackLevel = int.Parse(node.Attributes.GetNamedItem("stackLevel").InnerText);

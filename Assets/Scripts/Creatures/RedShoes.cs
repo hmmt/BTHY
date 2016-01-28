@@ -13,7 +13,7 @@ public class RedShoes : CreatureBase {
     public void ActivateSkill(UseSkill skill)
     {
         // show effect
-
+		/*
         skill.PauseWorking();
         ///SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
 
@@ -31,12 +31,14 @@ public class RedShoes : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_AttackTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 2.0f, 2.0f).DisableFade()
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 
     //
 
     public override void OnEnterRoom(UseSkill skill)
     {
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 5.0f);
@@ -57,5 +59,6 @@ public class RedShoes : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 3.5f, 2.0f)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }
