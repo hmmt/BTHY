@@ -34,8 +34,10 @@ public class CreatureModel : IObserver
 	public int targetedCount = 0;
 
 	// buf
-	public float bufRemainingTime;
-	public float bufFeelingAddRate; // per second
+	public float energyChangeTime;
+	public float energyChangeAmount;
+	public float energyChangeElapsedTime;
+	//public float bufFeelingAddRate; // per second
 
     // 메타데이터
     public CreatureTypeInfo metaInfo;
@@ -52,8 +54,8 @@ public class CreatureModel : IObserver
 
     public float feeling { get; private set; }
 
-	//public float energyPoint;
-	public float feelingsPoint;
+	public float energyPoint;
+	//public float feelingsPoint;
 
     //환상체 나레이션 저장 List
     public List<string> narrationList;
@@ -239,9 +241,13 @@ public class CreatureModel : IObserver
 
     public void OnFixedUpdate()
     {
-		if (bufRemainingTime > 0)
+		if (energyChangeTime > energyChangeElapsedTime)
 		{
 			ProcessWorkingBuf ();
+		}
+		else
+		{
+			GenerateEnergy ();
 		}
 		 
         if (escapeAttackWait > 0)
@@ -363,17 +369,31 @@ public class CreatureModel : IObserver
         }
     }
 
-	public void ProcessWorkingBuf()
+	private void ProcessWorkingBuf()
 	{
-		bufRemainingTime -= Time.deltaTime;
-		//feeling += bufFeelingAddRate * Time.deltaTime;
-		AddFeeling(bufFeelingAddRate * Time.deltaTime);
-	}
+		float delta = Time.deltaTime;
+		if (energyChangeElapsedTime + Time.deltaTime > energyChangeTime)
+			delta = energyChangeTime - energyChangeTime;
+		energyChangeElapsedTime += delta;
 
+		energyPoint += energyChangeAmount / (energyChangeTime / delta);
+	}
+	private void GenerateEnergy()
+	{
+	}
+	/*
 	public void SetFeelingBuf(float time, float feelingAmount)
 	{
 		bufRemainingTime = time;
 		bufFeelingAddRate = feelingAmount / time;
+	}
+	*/
+
+	public void SetEnergyChange(float time, float energyChangeAmount)
+	{
+		energyChangeTime = time;
+		this.energyChangeAmount = energyChangeAmount;
+		energyChangeElapsedTime = 0;
 	}
 
     public void AddFeeling(float value)
@@ -430,6 +450,24 @@ public class CreatureModel : IObserver
         bonus = 0;
         return false;
     }
+
+	public float GetAttackProb()
+	{
+		return 0.3f;
+	}
+
+	public int GetPhysicsDmg()
+	{
+		return 1;
+	}
+	public int GetMentalDmg()
+	{
+		return 1;
+	}
+	public CreatureAttackType GetAttackType()
+	{
+		return CreatureAttackType.PHYSICS;
+	}
 
     public bool GetRejectSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
     {
@@ -575,7 +613,7 @@ public class CreatureModel : IObserver
 
 	public bool IsReady()
 	{
-		return bufRemainingTime <= 0;
+		return energyChangeElapsedTime >= energyChangeTime;
 	}
 
     /*

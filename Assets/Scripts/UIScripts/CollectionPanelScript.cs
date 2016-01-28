@@ -20,7 +20,7 @@ public class CollectionPanelScript : MonoBehaviour {
         
         name.text = model.metaInfo.name;
         
-        grade.text = model.metaInfo.attackType + " / " + model.metaInfo.level;
+		grade.text = model.metaInfo.attackType.ToString() + " / " + model.metaInfo.level;
         SetObservation(model);
         
     }

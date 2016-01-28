@@ -74,7 +74,7 @@ public class CollectionWindow : MonoBehaviour {
 
 		wnd.name.text = creature.metaInfo.name;
 		wnd.code.text = creature.metaInfo.codeId;
-		wnd.attackType.text = creature.metaInfo.attackType;
+		wnd.attackType.text = creature.metaInfo.attackType.ToString();
 		//wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
 		wnd.dangerLevel.text = creature.metaInfo.level.ToString();
         wnd.observePercent.text = (float)creature.observeProgress / creature.metaInfo.observeLevel * 100+"%";

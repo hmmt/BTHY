@@ -52,7 +52,7 @@ public class Fetus : CreatureBase
     public void ActivateSkill(UseSkill skill)
     {
         // show effect
-
+		/*
         skill.PauseWorking();
         ///SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
 
@@ -76,7 +76,7 @@ public class Fetus : CreatureBase
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/fetus/nameLessFetus_AttackTypo_08", CreatureOutsideTextLayout.CENTER_BOTTOM, 3.5f, 2.0f)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
+        */
 
     }
 
@@ -96,6 +96,7 @@ public class Fetus : CreatureBase
         {
             feedTimer = 0;
         }
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/fetus/nameLessFetus_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 6.0f);
@@ -104,9 +105,6 @@ public class Fetus : CreatureBase
         // skill이 이미 release 될 상황 고려 필요
         effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
 
-        /*
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/fetus/nameLessFetus_AttackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 5.5f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);*/
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/fetus/nameLessFetus_EnterTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.0f, 5.5f)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/fetus/nameLessFetus_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.5f, 5.0f)
@@ -123,5 +121,6 @@ public class Fetus : CreatureBase
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/fetus/nameLessFetus_EnterTypo_09", CreatureOutsideTextLayout.CENTER_BOTTOM, 4.5f, 2.0f)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }

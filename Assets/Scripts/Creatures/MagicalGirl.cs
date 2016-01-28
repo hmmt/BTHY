@@ -86,13 +86,14 @@ public class MagicalGirl : CreatureBase {
 
     public override void OnEnterRoom(UseSkill skill)
     {
-        skill.PauseWorking();
+        
 
         if (isDark)
         {
             SkillDarkAttack(skill);
         }
-
+		/*
+		skill.PauseWorking();
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
@@ -107,5 +108,6 @@ public class MagicalGirl : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }
