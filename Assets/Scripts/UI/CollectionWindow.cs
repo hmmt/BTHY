@@ -27,7 +27,8 @@ public class CollectionWindow : MonoBehaviour {
     public TextListScript listScirpt;
     public TextListScript observeScript;
     public RectTransform observeButton;
-    
+
+
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
 
@@ -96,6 +97,7 @@ public class CollectionWindow : MonoBehaviour {
         currentWindow = wnd;
         
         wnd.SetObserveText();
+
     }
 
     public void SetObserveText() {
@@ -113,6 +115,8 @@ public class CollectionWindow : MonoBehaviour {
     public void CloseWindow()
     {
         //currentWindow = null;
+        
+
         GameObject.FindGameObjectWithTag("AnimCollectionController")
             .GetComponent<Animator>().SetBool("isTrue", true);
         //Destroy(gameObject);

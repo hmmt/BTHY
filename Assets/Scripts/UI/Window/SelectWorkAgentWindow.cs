@@ -28,6 +28,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
     private WorkInventory inventory;
     private WorkListScript workListScript;
 
+    private CreaturePriority priority;
+
 
 
 	public static SelectWorkAgentWindow currentWindow = null;
@@ -65,7 +67,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         }
 
         inst.ShowAgentList();
-
+        inst.priority = inst.gameObject.GetComponent<CreaturePriority>();
+        inst.priority.Init(inst.targetCreature);
         currentWindow = inst;
         return inst;
     }
@@ -293,6 +296,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	public void CloseWindow()
 	{
 		//gameObject.SetActive (false);
+        SefiraManager.instance.getSefira(targetCreature.sefiraNum).priority.SetPriority(targetCreature, priority.GetCnt());
 		currentWindow = null;
 		Destroy (gameObject);
 	}
