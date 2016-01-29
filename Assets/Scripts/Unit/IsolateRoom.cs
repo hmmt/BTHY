@@ -154,7 +154,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		if(targetUnit != null)
 		{
             // 잠시 안 띄움
-			feelingText.text = targetUnit.model.feeling.ToString ();
+			//feelingText.text = targetUnit.model.feeling.ToString ();
+			feelingText.text = targetUnit.model.energyPoint.ToString();
             creatureLevel.text = targetUnit.model.metaInfo.level;
             creatureName.text = targetUnit.model.metaInfo.name;
 

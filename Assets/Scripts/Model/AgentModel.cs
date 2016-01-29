@@ -669,6 +669,23 @@ public class AgentModel : WorkerModel
         commandQueue.AddFirst(AgentCommand.MakeOpenDoor(door));
     }
 
+	// method about managing
+	public float GetSuccessProb(SkillTypeInfo skill)
+	{
+		// 가치관, 등급 고려
+		return 0.5f + 0.2f;
+	}
+
+	public float GetEvasionProb()
+	{
+		return 0.1f;
+	}
+
+	public float GetEnergyAbility(SkillTypeInfo skill)
+	{
+		return 30f;
+	}
+
 
     public bool HasTrait(long id)
     {

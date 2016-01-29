@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GlobalGameManager : MonoBehaviour {
+public class StartSceneRoot : MonoBehaviour {
 
-	private static GlobalGameManager _instance = null;
-	public static GlobalGameManager instance
+	private static StartSceneRoot _instance = null;
+	public static StartSceneRoot instance
 	{
 		get
 		{
@@ -25,14 +25,5 @@ public class GlobalGameManager : MonoBehaviour {
 
 		GameStaticDataLoader.LoadStaticData();
 		MapGraph.instance.LoadMap ();
-	}
-
-	void Update()
-	{
-		if (Application.loadedLevelName == "StartScene")
-		{
-			Debug.Log ("load....");
-			Application.LoadLevel ("Main");
-		}
 	}
 }

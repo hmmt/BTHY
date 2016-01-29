@@ -373,10 +373,11 @@ public class CreatureModel : IObserver
 	{
 		float delta = Time.deltaTime;
 		if (energyChangeElapsedTime + Time.deltaTime > energyChangeTime)
-			delta = energyChangeTime - energyChangeTime;
+			delta = energyChangeTime - energyChangeElapsedTime;
 		energyChangeElapsedTime += delta;
 
 		energyPoint += energyChangeAmount / (energyChangeTime / delta);
+		Notice.instance.Send("UpdateCreatureState_" + instanceId);
 	}
 	private void GenerateEnergy()
 	{
@@ -436,21 +437,6 @@ public class CreatureModel : IObserver
         state = CreatureState.ESCAPE_RETURN;
     }
 
-    public bool GetPreferSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
-    {
-        FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
-        foreach (SkillBonusInfo bonusInfo in info.preferList)
-        {
-            if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
-            {
-                bonus = bonusInfo.bonus;
-                return true;
-            }
-        }
-        bonus = 0;
-        return false;
-    }
-
 	public float GetAttackProb()
 	{
 		return 0.3f;
@@ -469,6 +455,23 @@ public class CreatureModel : IObserver
 		return CreatureAttackType.PHYSICS;
 	}
 
+	// unused
+	public bool GetPreferSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
+	{
+		FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
+		foreach (SkillBonusInfo bonusInfo in info.preferList)
+		{
+			if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
+			{
+				bonus = bonusInfo.bonus;
+				return true;
+			}
+		}
+		bonus = 0;
+		return false;
+	}
+
+	// unused
     public bool GetRejectSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
     {
         FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
@@ -486,14 +489,20 @@ public class CreatureModel : IObserver
 
     public bool IsPreferSkill(SkillTypeInfo skillTypeInfo)
     {
+		/*
         float bonus;
         return GetPreferSkillBonus(skillTypeInfo, out bonus);
+        */
+		return true;
     }
 
     public bool IsRejectSkill(SkillTypeInfo skillTypeInfo)
     {
+		/*
         float bonus;
         return GetRejectSkillBonus(skillTypeInfo, out bonus);
+        */
+		return false;
     }
 
     public string GetArea()
