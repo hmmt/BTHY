@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class WorkSlot : MonoBehaviour
+public class WorkSlot : MonoBehaviour, IObserver
 {
     public int index;
     public RectTransform initialRect;
@@ -17,8 +18,13 @@ public class WorkSlot : MonoBehaviour
     public Toggle LockButton;
     public Button Cnt;
     public Text CountText;
+    public Image Success;
     private bool extended = false;
     private int agentcnt;
+    private List<AgentModel> agentList;
+    private float possibility = 0.0f;
+
+    public string test = "";
 
 	/*
     public void Awake() {
@@ -29,6 +35,8 @@ public class WorkSlot : MonoBehaviour
 
 	public void Init(WorkSettingElement workSetting, int index)
 	{
+        agentList = new List<AgentModel>();
+        NormalState = gameObject.transform.GetChild(2).GetComponent<RectTransform>();
 		targetCreature = workSetting.creature;
 		this.index = index;
 		this.agentcnt = workSetting.slots [index].agentCnt;
@@ -36,10 +44,14 @@ public class WorkSlot : MonoBehaviour
 			SetCurrentSkill (workSetting.slots [index].skill);
 		} else {
 			ClearCurrentSkill ();
-		}
+        }
+        Notice.instance.Observe(NoticeName.ReportAgentSuccess, this);
 
 		SetButtonActive();
 		SetCountText();
+        CalcSuccessPossibility();
+        int randVal = Random.Range(0, 100);
+        this.test = "" + randVal;
 	}
 
     public void SetInventoryScript(WorkInventory script) {
@@ -47,11 +59,15 @@ public class WorkSlot : MonoBehaviour
     }
 
     public GameObject GetIcon() {
-        return NormalState.GetChild(0).gameObject;
+        return NormalState.GetChild(1).gameObject;
     }
 
     public GameObject GetText() {
-        return NormalState.GetChild(1).gameObject;
+        return NormalState.GetChild(2).gameObject;
+    }
+
+    public GameObject GetImage() {
+        return NormalState.GetChild(0).gameObject;
     }
 
     public void ClearCurrentSkill() {
@@ -153,4 +169,47 @@ public class WorkSlot : MonoBehaviour
 		Notice.instance.Send (NoticeName.ChangeWorkSetting, setting.creature);
 	}
 
+    public void OnNotice(string notice, params object[] param)
+    {
+        if (notice == NoticeName.ReportAgentSuccess) {
+            if ((param[1] as CreatureModel).Equals(this.targetCreature) 
+                && (param[2] as SkillTypeInfo).Equals(this.currentSkill)) {
+                this.agentList.Add((AgentModel)param[0]);
+            }
+            //calc success percentage
+            CalcSuccessPossibility();
+        }
+    }
+
+    private void CalcSuccessPossibility() {
+        Image img = GetImage().GetComponent<Image>();
+        if (img == null) {
+            img = GetImage().AddComponent<Image>();
+        }
+        if (agentList.Count == 0) {
+            img.color = Color.black;
+            return;
+        }
+        float sum = 0.0f;
+
+        foreach (AgentModel am in this.agentList) {
+            sum += am.successPercent;
+        }
+        this.agentList.Clear();
+
+        if(sum > 100f) sum = 100f;
+        if (0.0f < sum&& sum <= 33f) {
+            img.color = Color.red;
+        }
+        else if(33f < sum && sum <= 66f){
+            img.color = Color.red + Color.green;
+        }
+        else {
+            img.color = Color.green;
+        }
+    }
+
+    public void CloseWindow() {
+        Notice.instance.Remove(NoticeName.ReportAgentSuccess, this);
+    }
 }

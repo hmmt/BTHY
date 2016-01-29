@@ -81,8 +81,7 @@ public class TextListScript : MonoBehaviour{
             //iconObject.GetComponent<OverlayScript>().text = desc[i];
             //iconObject.GetComponent<OverlayScript>().Init(desc[i]);
             iconObject.transform.SetParent(iconGrid);
-            Vector3 iconposition = Camera.main.WorldToViewportPoint(iconObject.transform.position);
-            icons.pos = iconposition;
+            
             enter.callback.AddListener((eventdata) => { icons.Overlay(); });
             exit.callback.AddListener((eventdata) => { icons.Hide(); });
             tri.triggers.Add(enter);

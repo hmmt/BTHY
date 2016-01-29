@@ -24,12 +24,20 @@ public class WorkInventory : MonoBehaviour {
 	public CreatureModel targetCreature;
 
     public void Init() {
+        Debug.Log("initializing");
+        sizey = parent.GetComponent<RectTransform>().rect.height;
+        sizex = parent.GetComponent<RectTransform>().rect.width;
+        list = new List<WorkSlot>();
+
+        //init 일단 여기서 불러놓음
+        //Init();
         //delete;
         extended = false;
         unitSize = sizey/workCnt;
         
         foreach (WorkSlot o in list)
         {
+            Debug.Log("InitDestroy" + o.NormalState.childCount);
             Destroy(o.gameObject);
         }
 
@@ -37,25 +45,23 @@ public class WorkInventory : MonoBehaviour {
 
         for (int i = 0; i < workCnt; i++) {
             CreatePanel(i);
+
         }
 
+        WorkList.gameObject.SetActive(false);
     }
 
-    void Start()
-    {
-        sizey = parent.GetComponent<RectTransform>().rect.height;
-        sizex = parent.GetComponent<RectTransform>().rect.width;
-        list = new List<WorkSlot>();
-        
-        //init 일단 여기서 불러놓음
-        Init();
-        WorkList.gameObject.SetActive(false);
+    public void WindowDestroy() {
+        foreach (WorkSlot w in list) {
+            w.CloseWindow();
+        }
     }
 
 	private void CreatePanel(int index) {
         GameObject newObj = Instantiate(work);
         RectTransform rect = newObj.GetComponent<RectTransform>();
         WorkSlot script = newObj.GetComponent<WorkSlot>();
+        Debug.Log("createPanel"+ script.NormalState.childCount);
 
 		WorkSettingElement setting = TempAgentAI.instance.GetWorkSetting (targetCreature);
 

@@ -106,15 +106,16 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	
 	public void OnNotice(string notice, params object[] param)
 	{
-        script = gameObject.GetComponent<LogListScript>();
         if ("AddNarrationLog" == notice && targetCreature == (CreatureModel)param[1])
 		{
 
+            script = gameObject.GetComponent<LogListScript>();
             script.MakeTextWithBg(" " + (string)param[0]);
             newInputCreature = (CreatureModel)param[1];
             title.text = newInputCreature.metaInfo.name;
+
+            script.SortBgList();
 		}
-        script.SortBgList();
 	}
 
     //리스트를 받아와서 기존에 있는걸 clear시키고 받아온 리스트들의 로그를 출력한다.

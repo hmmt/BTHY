@@ -21,13 +21,16 @@ public class OverlayScript : MonoBehaviour{
     private RectTransform bg;
     private RectTransform contentBox;
     private static float INF = -1000000;
+    private bool _displayed;
 
     void Awake() {
         _instance = this;
         parent = this.GetComponent<RectTransform>();
         bg = box.GetChild(0).GetComponent<RectTransform>();
-        contentBox = box.GetChild(1).GetComponent<RectTransform>();
+        //contentBox = box.GetChild(1).GetComponent<RectTransform>();
+        contentBox = box.GetComponent<RectTransform>();
         textBox = contentBox.GetComponent<Text>();
+        _displayed = false;
     }
 
     public void Start() {
@@ -42,10 +45,15 @@ public class OverlayScript : MonoBehaviour{
     }
 
     public void Overlay(GameObject obj, string content){
-
+        if (_displayed) return;
+        _displayed = true;
+        RectTransform posRect = obj.GetComponent<RectTransform>();
+        box.SetParent(posRect);
         box.localPosition = Vector3.zero;
-        box.SetParent(obj.GetComponent<RectTransform>());
-        box.localPosition = Vector3.zero;
+        box.anchoredPosition = new Vector2(posRect.anchoredPosition.x,
+                                            posRect.anchoredPosition.y + posRect.rect.height/2);
+        Debug.Log(box.anchoredPosition);
+        box.SetParent(parent);
         //Vector2 viewportPoint = Camera.main.WorldToViewportPoint(pos);
         //Vector2 world = Camera.main.ViewportToWorldPoint(viewportPoint);
         textBox.text = content;
@@ -53,6 +61,8 @@ public class OverlayScript : MonoBehaviour{
     }
 
     public void Hide() {
+        if (!_displayed) return;
+        _displayed = false;
         box.localPosition = new Vector3(0f, 0f, INF);
         box.SetParent(parent);
         SetBg();

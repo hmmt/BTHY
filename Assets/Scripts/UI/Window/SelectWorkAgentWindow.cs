@@ -50,6 +50,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
         inst.inventory = inst.GetComponent<WorkInventory>();
 		inst.inventory.targetCreature = creature;
+        inst.inventory.Init();
 
         inst.workListScript = inst.GetComponent<WorkListScript>();
         inst.workListScript.Init();
@@ -296,9 +297,10 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	public void CloseWindow()
 	{
 		//gameObject.SetActive (false);
+        this.inventory.WindowDestroy();
         SefiraManager.instance.getSefira(targetCreature.sefiraNum).priority.SetPriority(targetCreature, priority.GetCnt());
 		currentWindow = null;
-		Destroy (gameObject);
+		Destroy(gameObject);
 	}
 
     public string MentalCheck(AgentModel unit)

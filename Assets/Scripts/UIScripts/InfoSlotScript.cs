@@ -76,11 +76,11 @@ public class InfoSlotScript : MonoBehaviour {
             EventTrigger.Entry enter = new EventTrigger.Entry();
             EventTrigger.Entry exit = new EventTrigger.Entry();
             enter.eventID = EventTriggerType.PointerEnter;
+            
             exit.eventID = EventTriggerType.PointerExit;
 
             OverlayObject overlayItem = temp.gameObject.AddComponent<OverlayObject>();
             enter.callback.AddListener((eventdata) => { overlayItem.Overlay(); });
-
             exit.callback.AddListener((eventdata) => { overlayItem.Hide(); });
             tri.triggers.Add(enter);
             tri.triggers.Add(exit);
@@ -107,9 +107,8 @@ public class InfoSlotScript : MonoBehaviour {
 
         foreach (Text temp in WorkDescription) {
             temp.gameObject.SetActive(true);
-
         }
-        
+
 	}
     
     public void OnPointerEnter(GameObject target) {
@@ -171,8 +170,8 @@ public class InfoSlotScript : MonoBehaviour {
     public void SetSprite(AgentModel model) {
 
         desc[0] = model.maxHp + "";
-        desc[1] = model.workSpeed + "";
-        desc[2] = model.maxMental + "";
+        desc[2] = model.workSpeed + "";
+        desc[1] = model.maxMental + "";
         desc[3] = model.movement + "";
 		/*
         workDesc[0] = model.directSkill.description;
@@ -189,6 +188,7 @@ public class InfoSlotScript : MonoBehaviour {
             WorkImageList[i].GetComponent<Image>().sprite = model.WorklistSprites[i];
             OverlayObject script = WorkImageList[i].GetComponent<OverlayObject>();
             script.text = workDesc[i];
+            
         }
 		/*
         WorkDescription[0].text = model.directSkill.name;

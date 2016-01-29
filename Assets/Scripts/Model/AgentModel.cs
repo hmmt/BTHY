@@ -70,6 +70,12 @@ public class AgentModel : WorkerModel
 
     public Sprite[] StatusSprites = new Sprite[4];
     public Sprite[] WorklistSprites = new Sprite[3];
+
+    /// <summary>
+    /// 임시 값, 성공확률
+    /// </summary>
+    public float successPercent;
+
     /*
      * state; MOVE, WORKING
      * 이동하거나 작업할 때 대상 환상체
@@ -99,6 +105,7 @@ public class AgentModel : WorkerModel
         MovableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         history = new AgentHistory();
         
+        successPercent = Random.Range(0, 90f);
     }
 
     public override Dictionary<string, object> GetSaveData()
@@ -540,6 +547,14 @@ public class AgentModel : WorkerModel
 		commandQueue.Clear ();
 		commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
 		commandQueue.AddLast(AgentCommand.MakeManageCreature(target, this, skill));
+
+        //send Message to work slot(SelectWorkAgentWindow)
+        object[] sendMessage = new object[3];
+        sendMessage[0] = this;
+        sendMessage[1] = target;
+        sendMessage[2] = skill;
+        Notice.instance.Send(NoticeName.ReportAgentSuccess, sendMessage);
+
 	}
 	public void ObserveCreature(CreatureModel target)
 	{

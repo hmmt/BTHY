@@ -55,8 +55,7 @@ public class TraitListScript : MonoBehaviour {
             enter.eventID = EventTriggerType.PointerEnter;
             exit.eventID = EventTriggerType.PointerExit;
             iconObject.transform.SetParent(iconGrid);
-            Vector3 iconposition = Camera.main.WorldToViewportPoint(iconObject.transform.position);
-            icons.pos = iconposition;
+            
             enter.callback.AddListener((eventdata) => { icons.Overlay(); });
             exit.callback.AddListener((eventdata) => { icons.Hide(); });
             trigger.triggers.Add(enter);

@@ -148,7 +148,7 @@ public class ConversationManager {
 
     public void Init(ConversationModel[] input, EndingModel[] endInput) {
         _loaded = true;
-        Debug.Log("Loaded");
+       // Debug.Log("Loaded");
         list = new List<ConversationModel>(input);
         ending = new List<EndingModel>(endInput);
     }

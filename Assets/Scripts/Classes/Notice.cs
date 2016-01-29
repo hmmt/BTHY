@@ -44,6 +44,8 @@ public class NoticeName
 
     public static string EscapeCreature = "EscapeCreature";
 
+    public static string ReportAgentSuccess = "ReportAgentSuccess";
+
     // PassageObject
     public static string AddPassageObject = "AddPassageObject";
     public static string UpdatePassageObject = "UpdatePassageObject";

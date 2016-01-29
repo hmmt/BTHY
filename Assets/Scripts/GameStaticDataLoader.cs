@@ -141,7 +141,7 @@ public class GameStaticDataLoader {
 
                 description.endId = endNode.Attributes.GetNamedItem("id").InnerText;
                 description.isEnd = true;
-                Debug.Log(description.endId + description.tempdesc);
+                //Debug.Log(description.endId + description.tempdesc);
             }
 
             XmlNodeList sys = dNode.SelectNodes("sys");
@@ -220,7 +220,7 @@ public class GameStaticDataLoader {
                 EndingModel end = new EndingModel();
                 end.date = model.date;
                 end.target = endingNode.Attributes.GetNamedItem("id").InnerText;
-                Debug.Log(end.date + "일 엔딩 " + end.target);
+                //Debug.Log(end.date + "일 엔딩 " + end.target);
                     
                 end.InitDescList(LoadDesc(endingNode.SelectNodes("desc")));
                 end.InitSelectList(LoadSelect(endingNode.SelectNodes("select")));
@@ -761,7 +761,7 @@ public class GameStaticDataLoader {
                 SkillTypeInfo skillInfo = SkillTypeList.instance.GetDataByName(skillNames[i]);
                 if (skillInfo == null)
                 {
-                    Debug.Log("skill not found : " + skillNames[i]);
+                    //Debug.Log("skill not found : " + skillNames[i]);
                     continue;
                 }
                 info.skillId = skillInfo.id;
