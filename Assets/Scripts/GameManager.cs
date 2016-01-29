@@ -61,8 +61,10 @@ public class GameManager : MonoBehaviour
 
 
         // 옮겨야 한다.
+		/*
         GameStaticDataLoader.LoadStaticData();
         MapGraph.instance.LoadMap();
+        */
         //EnergyModel.instance.Init();
     }
 

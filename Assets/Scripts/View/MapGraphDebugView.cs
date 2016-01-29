@@ -29,12 +29,12 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
 
     void OnEnable()
     {
-        Notice.instance.Observe(NoticeName.LoadMapGraphComplete, this);
+        //Notice.instance.Observe(NoticeName.LoadMapGraphComplete, this);
     }
 
     void OnDisable()
     {
-        Notice.instance.Remove(NoticeName.LoadMapGraphComplete, this);
+        //Notice.instance.Remove(NoticeName.LoadMapGraphComplete, this);
     }
 
     public void UpdateView()
@@ -78,9 +78,11 @@ public class MapGraphDebugView : MonoBehaviour, IObserver {
 
     public void OnNotice(string name, params object[] param)
     {
+		/*
         if (name == NoticeName.LoadMapGraphComplete)
         {
             UpdateView();
         }
+        */
     }
 }
