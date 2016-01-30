@@ -55,6 +55,7 @@ public class StoryTempScript : MonoBehaviour {
         else
         {
             OnStartGame();
+            
         }
 
         Init();
@@ -71,6 +72,7 @@ public class StoryTempScript : MonoBehaviour {
 
     public void OnStartGame() {
         menuAnim.SetBool("Start", true);
+        ConversationUnit.instance.bg.Play();
     }
 
     IEnumerator LoadStartScene() {

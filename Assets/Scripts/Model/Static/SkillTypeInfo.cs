@@ -36,4 +36,6 @@ public class SkillTypeInfo {
     public int mentalTickC;
 
     public long[] nextSkillIdList;
+
+    public string category;
 }

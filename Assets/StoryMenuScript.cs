@@ -11,17 +11,10 @@ public class StoryMenuScript : MonoBehaviour {
             return _instance;
         }
     }
-    [System.Serializable]
-    public class ManualObject {
-        public GameObject prefabs;
-        public string name;
-        public bool exported = false;
-    }
 
     public Menu[] menu;
     public int level;
     public GameObject[] menuLevel;
-    public List<ManualObject> manualList;
     private Menu _selected;
     private GameObject _currentLevel;
 
@@ -62,7 +55,7 @@ public class StoryMenuScript : MonoBehaviour {
         level++;
         SetActiveByLevel();
     }
-
+    /*
     public void OnClick(string target) {
         ManualObject output = null;
         Debug.Log(target);
@@ -81,7 +74,7 @@ public class StoryMenuScript : MonoBehaviour {
                 break;
             }
         }
-        */
+        
         output = GetManual(target);
         if (output.exported) {
             return;
@@ -114,7 +107,7 @@ public class StoryMenuScript : MonoBehaviour {
 
         return output;
     }
-
+    */
     public void OnRightClick(BaseEventData eventData) {
         PointerEventData pointer = eventData as PointerEventData;
 

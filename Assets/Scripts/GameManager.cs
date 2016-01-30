@@ -158,7 +158,12 @@ public class GameManager : MonoBehaviour
 
         int day = PlayerModel.instance.GetDay();
         stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
-
+        /*
+        foreach (Sefira s in SefiraManager) { 
+            
+        }
+        */
+        SefiraManager.instance.getSefira(SefiraName.Malkut).InitAgentSkillList();
         foreach (OfficerModel om in OfficeManager.instance.GetOfficerList()) {
             StartCoroutine(om.StartAction());
         }

@@ -207,7 +207,7 @@ public class ManualScript : MonoBehaviour {
                         _exported = false;
                         anim.SetBool("Play", false);
                         anim.SetBool("Close", true);
-                        StoryMenuScript.instance.CloseManual(this.directory);
+                        //StoryMenuScript.instance.CloseManual(this.directory);
                     }
             }
         }

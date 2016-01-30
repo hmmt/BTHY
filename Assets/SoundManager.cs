@@ -18,11 +18,12 @@ public class SoundManager : MonoBehaviour {
         }
         private List<AudioSource> list;
         private List<AudioSource> playing;
+        public bool changing;
 
         public int[] volume;
 
-        public int _index = 0;
-        private int index {
+        private int _index = 0;
+        public int index {
             get { return _index; }
             set { _index = value; }
         }
@@ -66,12 +67,14 @@ public class SoundManager : MonoBehaviour {
             playing = audioSrc;
             _index = 0;
             volume = new int[Length];
+            changing = false;
         }
 
         public void PlayInitial() {
             this._index = 0;
             PlayAll();
             SetVolume(_index);
+            PrintAudioVolumeAll();
         }
 
         public void PlayAll()
@@ -116,8 +119,38 @@ public class SoundManager : MonoBehaviour {
                 volume[i] = 0;
             }
         }
-    }
 
+        public AudioSource GetPlayingAudio() {
+            return playing[_index];
+        }
+
+        public AudioSource GetAudioWithIndex(int index) {
+            if (index < 0 || index > playing.Count) return null;
+            return playing[index];
+        }
+
+        public void ChangePlayingAudio(int index) {
+            this._index = index;
+        }
+
+        public void SetVolumeWithValue(int index, float volume) {
+            if (volume > 1.0f || volume < 0.0f) return;
+            AudioSource src = GetAudioWithIndex(index);
+            src.volume = volume;
+        }
+
+        public void SetVolumeWithValue(AudioSource src, float volume) {
+            if (volume > 1.0f || volume < 0.0f) return;
+            src.volume = volume;
+        }
+
+        public void PrintAudioVolumeAll() {
+            foreach (AudioSource src in playing) {
+                Debug.Log(src.volume);
+            }
+        }
+
+    }
     
     private static SoundManager _instance = null;
     public static SoundManager instance {
@@ -125,6 +158,7 @@ public class SoundManager : MonoBehaviour {
     }
 
     public AudioList bgm;
+    private bool changing = false;
 
     void Awake() {
         _instance = this;
@@ -142,26 +176,22 @@ public class SoundManager : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            Debug.Log("1번");
-            bgm.SetVolume(0);
+            StartCoroutine(AudioChangeWithFadeEffect(bgm, 0));
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Debug.Log("2번");
-            bgm.SetVolume(1);
+            StartCoroutine(AudioChangeWithFadeEffect(bgm, 1));
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Debug.Log("3번");
-            bgm.SetVolume(2);
+            StartCoroutine(AudioChangeWithFadeEffect(bgm, 2));
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            Debug.Log("4번");
-            bgm.SetVolume(3);
+            StartCoroutine(AudioChangeWithFadeEffect(bgm, 3));
         }
 	}
 
@@ -180,5 +210,32 @@ public class SoundManager : MonoBehaviour {
         yield return new WaitForSeconds(target.Unit);
         target.PlayAll();
         StartCoroutine(AudioTimer(target));
+    }
+
+    private IEnumerator AudioChangeWithFadeEffect(AudioList target, int index) {
+        if (changing) {
+            yield break;
+        }
+        int cnt = 100;
+        AudioSource fadeOut, fadeIn;
+        changing = true;
+        fadeOut = target.GetPlayingAudio();
+        fadeIn = target.GetAudioWithIndex(index);
+        
+        if(fadeOut.Equals(fadeIn)){
+            changing = false;
+            yield break;
+        }
+
+        while (cnt > 0)
+        {
+            yield return new WaitForSeconds(0.02f);
+            cnt--;
+            float volume = cnt * 0.01f;
+            target.SetVolumeWithValue(fadeIn, 1f - volume);
+            target.SetVolumeWithValue(fadeOut, volume);
+        }
+        target.index = index;
+        changing = false;
     }
 }

@@ -117,6 +117,71 @@ public class Sefira
             return target.priority;
         }
     }
+
+    public class AgentSkillCategory {
+        public string category;
+        public List<SkillTypeInfo> list;
+
+        public AgentSkillCategory(string name)
+        {
+            this.category = name;
+            list = new List<SkillTypeInfo>();
+
+        }
+
+        public void AddSkill(SkillTypeInfo s){
+            list.Add(s);
+        }
+
+        public SkillTypeInfo[] GetSkills() {
+            return list.ToArray();
+        }
+
+        public bool DupCheck(SkillTypeInfo s) {
+            bool output = false;
+            foreach (SkillTypeInfo skill in list) {
+                if (skill.Equals(s)) {
+                    output = true;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public int GetIndex(string t) {
+            int output = -1;
+            switch (t) { 
+                case "A":
+                    output = 0;
+                    break;
+                case "B":
+                    output = 1;
+                    break;
+                case "C":
+                    output = 2;
+                    break;
+                case "D":
+                    output = 3;
+                    break;
+                case "E":
+                    output = 4;
+                    break;
+                case "F":
+                    output = 5;
+                    break;
+                case "G":
+                    output = 6;
+                    break;
+                case "H":
+                    output = 7;
+                    break;
+                default:
+                    break;
+            }
+            return output;
+        }
+    }
+
     public string name;
     public int index;
     public string indexString;
@@ -131,6 +196,8 @@ public class Sefira
     public List<CreatureModel> creatureList;
     public List<SkillTypeInfo>[] agentSkill;//속한 직원들의 스킬 정보
     public CreaturePriority priority;
+
+    public List<AgentSkillCategory> skillCategory;
 
     private int maxOfficerCnt = 15;
     private CreatureModel[] creatureAry;
@@ -157,7 +224,7 @@ public class Sefira
 
         officerCnt = 0;
         OfficerMentalReturn = 20;
-        
+        skillCategory = new List<AgentSkillCategory>();
     }
 
     public void AddUnit(OfficerModel add) {
@@ -324,7 +391,55 @@ public class Sefira
     }
 
     public void InitAgentSkillList() {
-        
+        foreach (AgentModel am in agentList) {
+            SkillTypeInfo[] tempAry = am.GetSkillList();
+            Debug.Log("initagentskillList"+ tempAry.Length);
+            foreach (SkillTypeInfo s in tempAry) {
+                Debug.Log(s.category);
+                AgentSkillCategory category = null;
+                bool initial = false;
+                if (!CheckCategoryExist(s.category))
+                {
+                    category = new AgentSkillCategory(s.category);
+                    initial = true;
+                }
+                else {
+                    foreach (AgentSkillCategory asc in skillCategory) {
+                        if (asc.category == s.category) {
+                            category = asc;
+                            break;
+                        }
+                    }
+                }
+
+                if (!category.DupCheck(s)) {
+                    category.AddSkill(s);
+                    Debug.Log("add" + s.name);
+                }
+                if (initial) {
+                    this.skillCategory.Add(category);
+                }
+            }
+            
+        }
+    }
+
+    public AgentSkillCategory[] GetSkillCategories() {
+        Debug.Log("길이 : " + skillCategory.Count);
+        return skillCategory.ToArray();
+    }
+
+    private bool CheckCategoryExist(string category) {
+        bool output = false;
+
+        foreach (AgentSkillCategory asc in skillCategory) {
+            if (asc.category.Equals(category)) {
+                output = true;
+                break;
+            }
+        }
+
+        return output;
     }
 
     public SkillTypeInfo[] GetSkills() {

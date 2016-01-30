@@ -52,7 +52,6 @@ public class ConversationUnit : MonoBehaviour {
             SystemSymbol = "<<System>> ";
         }
         Init();
-        bg.Play();
         if (endDisplayed) {
             InturreptEnd();
             return;

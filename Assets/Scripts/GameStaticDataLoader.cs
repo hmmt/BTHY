@@ -255,7 +255,7 @@ public class GameStaticDataLoader {
 			model.type = node.Attributes.GetNamedItem("type").InnerText;
 			model.amount = int.Parse(node.Attributes.GetNamedItem("amount").InnerText);
             model.description = node.Attributes.GetNamedItem("desc").InnerText;
-            
+            model.category = node.Attributes.GetNamedItem("category").InnerText;
             model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
 
             XmlNodeList bonusType= node.SelectNodes("bonus");
