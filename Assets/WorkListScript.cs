@@ -117,7 +117,7 @@ public class WorkListScript : MonoBehaviour {
         category = new List<Sefira.AgentSkillCategory>(currentSefira.GetSkillCategories());
         
         foreach (Sefira.AgentSkillCategory temp in category) {
-            Debug.Log(temp.category + " " + temp.GetIndex(temp.category).ToString() + " " + temp.list.Count);
+            //Debug.Log(temp.category + " " + temp.GetIndex(temp.category).ToString() + " " + temp.list.Count);
             SlotCall(temp.GetIndex(temp.category), temp.list);
         }
     }

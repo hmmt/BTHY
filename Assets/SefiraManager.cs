@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Sefira
 {
+    /*
     public class CreaturePriority
     {
         public class Priority
@@ -36,12 +37,17 @@ public class Sefira
                 list.Add(p);
                 cnt++;
             }
-            
         }
 
         public void SetPriority(CreatureModel model, int value)
         {
-            Priority target = GetModel(model);
+            Debug.Log(model.metaInfo.name + " " + value);
+            Priority older = GetPriorityByLevel(value);
+            if (older != null) {
+                PriorityClear(older);
+            }
+            Priority target = GetPriorityByModel(model);
+            Debug.Log(target);
             if (value < 0 || value > max)
             {
                 Debug.Log("Priority Error");
@@ -56,52 +62,17 @@ public class Sefira
             {
                 return;
             }
-            int origin = target.priority;
+           
             target.priority = value;
-            bool dir;
-            if (origin > value)
-            {
-                //뒤로민다
-                dir = true;
-            }
-            else
-            {
-                //앞으로민다
-                dir = false;
-            }
-
-            //밀자
-            foreach (Priority p in list)
-            {
-                if (p.Equals(target))
-                {
-                    continue;
-                }
-                if (dir)
-                {
-                    if (p.priority >= value && p.priority < origin)
-                    {
-                        p.priority++;
-                    }
-                }
-                else
-                {
-                    if (p.priority <= value && p.priority > origin)
-                    {
-                        p.priority--;
-                    }
-                }
-            }
         }
 
-        public Priority GetModel(CreatureModel model)
+        public Priority GetPriorityByModel(CreatureModel model)
         {
             Priority output = null;
 
-
             foreach (Priority temp in list)
             {
-                if (temp.model.Equals(model))
+                if (model == temp.model)
                 {
                     output = temp;
                     break;
@@ -110,11 +81,96 @@ public class Sefira
 
             return output;
         }
-
+        
         public int GetPriority(CreatureModel model)
         {
-            Priority target = GetModel(model);
+            Priority target = GetPriorityByModel(model);
             return target.priority;
+        }
+
+        public Priority GetPriorityByLevel(int level) {
+            Priority output = null;
+            foreach (Priority p in list) {
+                if (p.priority == level) {
+                    output = p;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public Priority[] GetList() {
+            return list.ToArray();
+        }
+
+        public void PriorityClear(Priority p) {
+            p.model = null;
+            p.priority = 0;
+        }
+
+    }
+    */
+
+    public class PrioritySystem {
+        public class Priority{
+            public CreatureModel model;
+            public int priority;
+        }
+
+        public List<Priority> list;
+
+        public PrioritySystem(List<CreatureModel> creature) {
+            list = new List<Priority>();
+
+            foreach (CreatureModel cm in creature) {
+                Priority temp = new Priority();
+                temp.model = cm;
+                temp.priority = -1;
+                list.Add(temp);
+            }
+        }
+
+        public Priority GetPriorityByModel(CreatureModel model) {
+            Priority output = null;
+            foreach (Priority temp in list) {
+                if (temp.model == model) {
+                    output = temp;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public Priority GetPriorityByLevel(int level) {
+            Priority output = null;
+            foreach (Priority p in list) {
+                if (p.priority == level) {
+                    output = p;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public void SetPriority(CreatureModel model, int level) {
+            Priority item = GetPriorityByModel(model);
+            if (item == null) {
+                return;
+            }
+            Priority older = GetPriorityByLevel(level);
+            if (older != null)
+            {
+                older.priority = 0;
+            }
+
+            item.priority = level;
+        }
+
+        public void SetPriorityNull(CreatureModel model) {
+            Priority temp = GetPriorityByModel(model);
+            Debug.Log(temp);
+            if (temp == null) return;
+            temp.priority = -1;
         }
     }
 
@@ -195,7 +251,7 @@ public class Sefira
     public List<AgentModel> agentList;
     public List<CreatureModel> creatureList;
     public List<SkillTypeInfo>[] agentSkill;//속한 직원들의 스킬 정보
-    public CreaturePriority priority;
+    public PrioritySystem priority;
 
     public List<AgentSkillCategory> skillCategory;
 
@@ -217,7 +273,6 @@ public class Sefira
         idleList = new List<int>();
         agentSkill = new List<SkillTypeInfo>[3];
         agentList = new List<AgentModel>();
-        priority = new CreaturePriority();
         for (int i = 0; i < 3; i++) {
             agentSkill[i] = new List<SkillTypeInfo>();
         }
@@ -252,7 +307,8 @@ public class Sefira
             idleList.Add(i);
         }
         isWorking = new bool[creatureList.Count];
-        priority.Init(creatureList);
+        priority = new PrioritySystem(creatureList);
+        //priority.Init(creatureList);
     }
 
     public void initDepartmentNodeList(int i)

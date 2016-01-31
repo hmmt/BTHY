@@ -298,7 +298,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	{
 		//gameObject.SetActive (false);
         this.inventory.WindowDestroy();
-        SefiraManager.instance.getSefira(targetCreature.sefiraNum).priority.SetPriority(targetCreature, priority.GetCnt());
+        //SefiraManager.instance.getSefira(targetCreature.sefiraNum).priority.SetPriority(targetCreature, priority.GetCnt());
 		currentWindow = null;
 		Destroy(gameObject);
 	}

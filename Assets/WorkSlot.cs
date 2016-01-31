@@ -75,7 +75,7 @@ public class WorkSlot : MonoBehaviour, IObserver
 
         GameObject icon = GetIcon();
         //임시스프라이트
-        icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("warning");
+        icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("Sprites/UI/" + "warning");
         GameObject text = GetText();
         text.GetComponent<Text>().text = "할당되지 않음";
 
@@ -86,7 +86,7 @@ public class WorkSlot : MonoBehaviour, IObserver
         this.currentSkill = skill;
 
         GameObject icon = GetIcon();
-        icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(skill.imgsrc);
+        icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("Sprites/" + skill.imgsrc);
         GameObject text = GetText();
         text.GetComponent<Text>().text = skill.name;
 

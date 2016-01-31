@@ -14,7 +14,7 @@ public class WorkItemScript : MonoBehaviour {
         this.info = info;
         tier.text = "1";
         name.text = info.name;
-        icon.sprite = ResourceCache.instance.GetSprite(info.imgsrc);
+        icon.sprite = ResourceCache.instance.GetSprite("Sprites/" + info.imgsrc);
     }
 
     public void OnClick() {
