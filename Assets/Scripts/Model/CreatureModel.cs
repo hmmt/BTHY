@@ -26,6 +26,7 @@ public class Vector2Serializer
 }
 
 // 
+[System.Serializable]
 public class CreatureModel : IObserver
 {
     public int instanceId;
@@ -54,7 +55,7 @@ public class CreatureModel : IObserver
 
     public float feeling { get; private set; }
 
-	public float energyPoint;
+	public float energyPoint = 100;
 	//public float feelingsPoint;
 
     //환상체 나레이션 저장 List
@@ -135,6 +136,8 @@ public class CreatureModel : IObserver
 
     public CreatureFeelingState GetFeelingState()
     {
+		return CreatureFeelingState.GOOD;
+		/*
         CreatureFeelingState feelingState = CreatureFeelingState.BAD;
         float sectionMax = 0;
 
@@ -148,8 +151,9 @@ public class CreatureModel : IObserver
         }
 
         return feelingState;
+        */
     }
-
+	/*
     public FeelingSectionInfo GetCurrentFeelingSectionInfo()
     {
         FeelingSectionInfo output = metaInfo.feelingSectionInfo[0];
@@ -166,9 +170,24 @@ public class CreatureModel : IObserver
 
         return output;
     }
+    */
 
     public float GetEnergyTick()
     {
+		EnergyGenInfo selected = metaInfo.energyGenInfo [0];
+		foreach (EnergyGenInfo info in metaInfo.energyGenInfo)
+		{
+			if (energyPoint <= info.upperBound)
+			{
+				selected = info;
+			}
+			else
+			{
+				break;
+			}	
+		}
+		return selected.genValue;
+		/*
         float energyDummy = 0;
         float sectionMax = 0;
 
@@ -182,6 +201,7 @@ public class CreatureModel : IObserver
         }
 
         return energyDummy + energyDummy * 0.6f * ((float)(observeProgress) / 5);
+        */
     }
 
     private static int counter = 0;
@@ -231,8 +251,9 @@ public class CreatureModel : IObserver
 
     public void UpdateFeeling()
     {
-        if (Random.value < metaInfo.feelingDownProb)
+        //if (Random.value < metaInfo.feelingDownProb)
         {
+			energyPoint += metaInfo.energyPointChange;
             SubFeeling(metaInfo.feelingDownValue);
 
             Notice.instance.Send("UpdateCreatureState_" + instanceId);
@@ -455,6 +476,7 @@ public class CreatureModel : IObserver
 		return CreatureAttackType.PHYSICS;
 	}
 
+	/*
 	// unused
 	public bool GetPreferSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
 	{
@@ -486,6 +508,7 @@ public class CreatureModel : IObserver
         bonus = 0;
         return false;
     }
+	*/
 
     public bool IsPreferSkill(SkillTypeInfo skillTypeInfo)
     {

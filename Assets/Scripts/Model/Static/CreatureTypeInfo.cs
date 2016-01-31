@@ -34,21 +34,22 @@ public class SkillBonusInfo
 [System.Serializable]
 public class EnergyGenInfo
 {
-    public int section;
+    public int upperBound;
     public float genValue;
 
-    public EnergyGenInfo(int section, float genValue)
+	public EnergyGenInfo(int upperBound, float genValue)
     {
-        this.section = section;
+		this.upperBound = upperBound;
         this.genValue = genValue;
     }
 
     public static int SectionSortComparison(EnergyGenInfo a, EnergyGenInfo b)
     {
-        return a.section - b.section;
+		return a.upperBound - b.upperBound;
     }
 }
 
+/*
 [System.Serializable]
 public class FeelingSectionInfo
 {
@@ -58,7 +59,7 @@ public class FeelingSectionInfo
     public SkillBonusInfo[] preferList;
     public SkillBonusInfo[] rejectList;
 }
-
+*/
 [System.Serializable]
 public class CreatureTypeInfo
 {
@@ -82,17 +83,20 @@ public class CreatureTypeInfo
 	public int horrorDmg;
 
 			
-	public float physicsProb;
+	//public float physicsProb;
 			
-	public float mentalProb;
+	//public float mentalProb;
 			
 	public int feelingMax;
-	public float feelingDownProb;
+	//public float feelingDownProb;
 	public float feelingDownValue;
 
 	//public SkillTypeInfo specialSkill;
 
-    public FeelingSectionInfo[] feelingSectionInfo;
+    //public FeelingSectionInfo[] feelingSectionInfo;
+
+	public EnergyGenInfo[] energyGenInfo;
+	public int energyPointChange;
 
 	public string imgsrc = "";
     public string roomsrc;

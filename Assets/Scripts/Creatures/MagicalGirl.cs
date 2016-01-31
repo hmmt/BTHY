@@ -18,7 +18,7 @@ public class MagicalGirl : CreatureBase {
 
 
     }
-
+	/*
     public override CreatureAttackInfo GetAttackInfo(UseSkill skill)
     {
         if (model.feeling <= darkCondition)
@@ -32,7 +32,7 @@ public class MagicalGirl : CreatureBase {
         {
             return base.GetAttackInfo(skill);
         }
-    }
+    }*/
     private void ChangeDark(CreatureModel creature)
     {
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);

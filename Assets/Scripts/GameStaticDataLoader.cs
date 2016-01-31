@@ -627,7 +627,8 @@ public class GameStaticDataLoader {
 
     public void LoadCreatueStatData(CreatureTypeInfo model, string src)
     {
-        TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/" + src);
+		Debug.Log ("Load stat >> " + src);
+        TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/stats/" + src);
 
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(creatureTextAsset.text);
@@ -651,13 +652,17 @@ public class GameStaticDataLoader {
         model.horrorDmg = int.Parse(node.SelectSingleNode("horrorMin").InnerText, System.Globalization.NumberStyles.Any);
         //model.horrorDmg = int.Parse(node.SelectSingleNode("horrorMax").InnerText);
 
-        model.physicsProb = float.Parse(node.SelectSingleNode("physicsProb").InnerText);
-        model.physicsDmg = int.Parse(node.SelectSingleNode("physicsMin").InnerText, System.Globalization.NumberStyles.Any);
-        //model.physicsDmg = int.Parse(node.SelectSingleNode("physicsMax").InnerText);
+		//model.attackProb = float.Parse (node.SelectSingleNode ("attackProb").InnerText);
 
-        model.mentalProb = float.Parse(node.SelectSingleNode("mentalProb").InnerText);
-        model.mentalDmg = int.Parse(node.SelectSingleNode("mentalMin").InnerText, System.Globalization.NumberStyles.Any);
+        //model.physicsProb = float.Parse(node.SelectSingleNode("physicsProb").InnerText);
+        //model.physicsDmg = int.Parse(node.SelectSingleNode("physicsMin").InnerText, System.Globalization.NumberStyles.Any);
+        //model.physicsDmg = int.Parse(node.SelectSingleNode("physicsMax").InnerText);
+		model.physicsDmg = (int)float.Parse(node.SelectSingleNode("physicsDmg").InnerText, System.Globalization.NumberStyles.Any);
+
+        //model.mentalProb = float.Parse(node.SelectSingleNode("mentalProb").InnerText);
+        //model.mentalDmg = int.Parse(node.SelectSingleNode("mentalMin").InnerText, System.Globalization.NumberStyles.Any);
         //model.mentalDmg = int.Parse(node.SelectSingleNode("mentalMax").InnerText);
+		model.mentalDmg = (int)float.Parse(node.SelectSingleNode("mentalDmg").InnerText, System.Globalization.NumberStyles.Any);
 
         //model.script = node.Attributes.GetNamedItem("script").InnerText;
 
@@ -668,14 +673,35 @@ public class GameStaticDataLoader {
         }*/
 
         model.feelingMax = int.Parse(node.SelectSingleNode("feelingMax").InnerText, System.Globalization.NumberStyles.Any);
-        model.feelingDownProb = float.Parse(node.SelectSingleNode("feelingDownProb").InnerText);
+        //model.feelingDownProb = float.Parse(node.SelectSingleNode("feelingDownProb").InnerText);
         model.feelingDownValue = float.Parse(node.SelectSingleNode("feelingDownValue").InnerText);
 
+		model.energyPointChange = int.Parse(node.SelectSingleNode("energyPointChange").InnerText);
+
+		List<EnergyGenInfo> energyItems = new List<EnergyGenInfo> ();
+		XmlNode energyGenSection = node.SelectSingleNode ("energyGenSection");
+		XmlNodeList energySections = energyGenSection.SelectNodes ("section");
+		foreach (XmlNode section in energySections)
+		{
+			int upperBound;
+			float value;
+
+			upperBound = int.Parse (section.Attributes.GetNamedItem ("bound").InnerText);
+			value = float.Parse(section.Attributes.GetNamedItem("gen").InnerText);
+
+			EnergyGenInfo info = new EnergyGenInfo (upperBound, value);
+			energyItems.Add (info);
+		}
+
+		model.energyGenInfo = energyItems.ToArray ();
+
+		/*
         List<EnergyGenInfo> energyItems = new List<EnergyGenInfo>();
 
         string sectionGood = node.SelectSingleNode("energySectionGood").InnerText;
         string sectionNorm = node.SelectSingleNode("energySectionNorm").InnerText;
-
+		*/
+		/*
         List<FeelingSectionInfo> feelingSectionInfoList = new List<FeelingSectionInfo>();
 
         // 기분 상태 : 나쁨
@@ -724,6 +750,7 @@ public class GameStaticDataLoader {
         feelingSectionInfoList.Add(goodFeeling);
 
         model.feelingSectionInfo = feelingSectionInfoList.ToArray();
+		*/
 
     }
 

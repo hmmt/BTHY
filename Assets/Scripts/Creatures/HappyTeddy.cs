@@ -34,7 +34,7 @@ public class HappyTeddy  : CreatureBase {
         bool isSpecialSkill = skill.skillTypeInfo.id == 40002;
         float prob = 0;
         int feelingUp = 0;
-
+		/*
         CreatureFeelingState feelingState = model.GetFeelingState();
         if (feelingState == CreatureFeelingState.BAD)
         {
@@ -50,6 +50,7 @@ public class HappyTeddy  : CreatureBase {
         {
             ActivateSkill(skill, feelingUp);
         }
+        */
 	}
 
     // temporary
