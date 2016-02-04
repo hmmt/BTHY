@@ -18,7 +18,13 @@ public class ManualManager : MonoBehaviour {
         public GameObject prefabs;
         public string name;
         public bool exported = false;
+        public bool moving = false;
+        public float movingTime;
     }
+
+    public RectTransform from;
+    public RectTransform exportArea;
+    public RectTransform parent;
 
     public List<ManualObject> manualList;
 
@@ -55,9 +61,48 @@ public class ManualManager : MonoBehaviour {
         return output;
     }
 
-    public void ExportManual() { 
-        
+    public void ExportManual(ManualObject target) {
+        if (target.exported == true)
+            return;
+        else
+            target.exported = true;
+
+        StartCoroutine(ManualMovement(target, exportArea, 100));
+
     }
 
+    /// <summary>
+    /// target, dest
+    /// unit => how many make routines
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="dest"></param>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    public IEnumerator ManualMovement(ManualObject target, RectTransform dest, int unit) {
+        if (target.moving) yield return null;
+        target.moving = true;
+        RectTransform rect = target.prefabs.GetComponent<RectTransform>();
+        rect.SetParent(from);
+        rect.localPosition = Vector2.zero;
 
+        Vector3 directionVector2 = dest.localPosition - rect.localPosition;
+        Debug.Log(directionVector2);
+
+        int cnt = 0;
+        float unitTime = 1 / (float)unit;
+        float unitSize = directionVector2.magnitude * unitTime;
+        Debug.Log(unitSize + " // " + unitTime);
+        
+        Vector3 dir = directionVector2 * unitTime;
+        while (cnt < unit) {
+            //Debug.Log(cnt);
+            rect.transform.localPosition = dir * cnt;
+            cnt++;
+            yield return new WaitForSeconds(unitTime);
+        }
+        rect.SetParent(parent);
+        target.moving = false;
+    }
+    
 }

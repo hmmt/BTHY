@@ -9,6 +9,8 @@ public class LogListScript : MonoBehaviour, IObserver {
     public RectTransform criteria;
     public List<RectTransform> child;
 
+    public Sprite[] bgImage;
+
     public bool narration = false;
     public float initialPos;
     public float initialX;
@@ -36,7 +38,7 @@ public class LogListScript : MonoBehaviour, IObserver {
 
         if ("AddSystemLog" == notice && !narration)
         {
-            MakeTextWithBg(" " + (string)param[0]);
+            MakeTextWithBg("  " + (string)param[0]);
             initialX = List.rect.width / 2;
         }
 
@@ -52,7 +54,7 @@ public class LogListScript : MonoBehaviour, IObserver {
         GameObject addText = Instantiate(LogText);
         RectTransform rt = addText.GetComponent<RectTransform>();
 
-
+        /*
         if ((child.Count % 2) == 0)
         {
             addText.transform.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Semi"); ;
@@ -61,19 +63,19 @@ public class LogListScript : MonoBehaviour, IObserver {
         {
             addText.transform.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
         }
-
+        */
+        addText.transform.GetComponent<Image>().sprite = bgImage[0];
 
         addText.transform.GetChild(0).GetComponent<Text>().text = text;
 
         addText.SetActive(true);//might not be needed
         addText.transform.SetParent(List, false);
         float h = addText.transform.GetChild(0).GetComponent<Text>().preferredHeight;
-        rt.sizeDelta = new Vector2(List.rect.width, h + spacing);
+        rt.sizeDelta = new Vector2(List.rect.width-10f, h + 10f);
 
         AddComponents(rt);
         child.Add(rt);
 
-        
     }
 
     public void AddComponents(RectTransform add)
@@ -97,7 +99,7 @@ public class LogListScript : MonoBehaviour, IObserver {
            
             rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y);
             rt.localPosition = new Vector3(posx, posy, 0.0f);
-            posy -= (size);
+            posy -= (size + spacing);
            
         }
         Vector2 rectSize = List.sizeDelta;

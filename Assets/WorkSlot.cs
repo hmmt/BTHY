@@ -8,7 +8,7 @@ public class WorkSlot : MonoBehaviour, IObserver
     public int index;
     public RectTransform initialRect;
     public WorkInventory inventory;//일단 쓸 지 안쓸지 모르겠음
-
+    public GameObject SelectImage;
 	public CreatureModel targetCreature;
     public SkillTypeInfo currentSkill;
     public RectTransform NormalState;
@@ -23,6 +23,7 @@ public class WorkSlot : MonoBehaviour, IObserver
     private int agentcnt;
     private List<AgentModel> agentList;
     private float possibility = 0.0f;
+    public Sprite[] LockSprite;
 
     public string test = "";
 
@@ -36,7 +37,7 @@ public class WorkSlot : MonoBehaviour, IObserver
 	public void Init(WorkSettingElement workSetting, int index)
 	{
         agentList = new List<AgentModel>();
-        NormalState = gameObject.transform.GetChild(2).GetComponent<RectTransform>();
+        //NormalState = gameObject.transform.GetChild(2).GetComponent<RectTransform>();
 		targetCreature = workSetting.creature;
 		this.index = index;
 		this.agentcnt = workSetting.slots [index].agentCnt;
@@ -52,7 +53,21 @@ public class WorkSlot : MonoBehaviour, IObserver
         CalcSuccessPossibility();
         int randVal = Random.Range(0, 100);
         this.test = "" + randVal;
+        SetLockImage();
+        SelectImage.gameObject.SetActive(false);
 	}
+
+    public void SetLockImage() {
+        Toggle LockItem = LockButton.GetComponent<Toggle>();
+        Image LockImage = LockItem.GetComponent<Image>();
+        if (LockItem.isOn)
+        {
+            LockImage.sprite = LockSprite[0];
+        }
+        else { 
+            LockImage.sprite = LockSprite[1];
+        }
+    }
 
     public void SetInventoryScript(WorkInventory script) {
         this.inventory = script;
@@ -72,12 +87,13 @@ public class WorkSlot : MonoBehaviour, IObserver
 
     public void ClearCurrentSkill() {
 		this.currentSkill = null;
-
+        //Debug.Log(NormalState);
         GameObject icon = GetIcon();
         //임시스프라이트
         icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("Sprites/UI/" + "warning");
         GameObject text = GetText();
-        text.GetComponent<Text>().text = "할당되지 않음";
+        text.GetComponent<Text>().text = "Unassigned";
+        text.GetComponent<Text>().fontSize = 12;
 
 		UpdateWorkSetting ();
     }
@@ -198,6 +214,7 @@ public class WorkSlot : MonoBehaviour, IObserver
         this.agentList.Clear();
 
         if(sum > 100f) sum = 100f;
+        /*
         if (0.0f < sum&& sum <= 33f) {
             img.color = Color.red;
         }
@@ -206,7 +223,7 @@ public class WorkSlot : MonoBehaviour, IObserver
         }
         else {
             img.color = Color.green;
-        }
+        }*/
     }
 
     public void CloseWindow() {

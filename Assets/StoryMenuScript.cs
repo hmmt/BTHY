@@ -55,6 +55,15 @@ public class StoryMenuScript : MonoBehaviour {
         level++;
         SetActiveByLevel();
     }
+
+    public void OnClick(string target) {
+        ManualManager.ManualObject output = ManualManager.instance.GetManual(target);
+        Debug.Log(output.name);
+        if (output == null) return;
+
+        ManualManager.instance.ExportManual(output);
+    }
+
     /*
     public void OnClick(string target) {
         ManualObject output = null;

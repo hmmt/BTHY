@@ -52,10 +52,11 @@ public class OfficerLayer : MonoBehaviour, IObserver {
         unit.zValue = -zCount;
 
         Vector3 unitScale = unit.transform.localScale;
-        unitScale.z = 0.001f;
+        unitScale.z = 0.0005f;
         unit.transform.localScale = unitScale;
 
         zCount = (zCount+ 1)% 1000;
+        
 
         // 바뀔 수 있음
 		if(unit.animTarget != null && hairList.Length > 0)

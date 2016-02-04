@@ -79,7 +79,7 @@ public class MatchGirl  : CreatureBase {
         if (skill.agent.isDead())
         {
             AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
-            agentUnit.animTarget.PlayMatchGirlDead();
+            //agentUnit.animTarget.PlayMatchGirlDead();
         }
 
 
@@ -119,7 +119,7 @@ public class MatchGirl  : CreatureBase {
         if (skill.agent.isDead())
         {
             AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
-            agentUnit.animTarget.PlayMatchGirlDead();
+            //agentUnit.animTarget.PlayMatchGirlDead();
         }
 	}
 }

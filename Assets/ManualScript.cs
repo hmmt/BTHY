@@ -188,6 +188,7 @@ public class ManualScript : MonoBehaviour {
     }
 
     public void CloseManual() {
+        return;
         float width, height;
 
         width = destroyArea.rect.width / 2;
@@ -214,7 +215,7 @@ public class ManualScript : MonoBehaviour {
     }
 
     public void Update() {
-        BoundaryCheck();
-        CloseManual();
+        //BoundaryCheck();
+        //CloseManual();
     }
 }

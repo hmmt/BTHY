@@ -168,7 +168,7 @@ public class Sefira
 
         public void SetPriorityNull(CreatureModel model) {
             Priority temp = GetPriorityByModel(model);
-            Debug.Log(temp);
+            //Debug.Log(temp);
             if (temp == null) return;
             temp.priority = -1;
         }
@@ -288,10 +288,12 @@ public class Sefira
     }
 
     public void AddAgent(AgentModel add) {
-        agentList.Add(add); Debug.Log("agentList");
+        agentList.Add(add); 
+        //Debug.Log("agentList");
+        /*
         foreach (AgentModel am in agentList) {
-                        Debug.Log(am.name);
-        }
+            Debug.Log(am.name);
+        }*/
     }
 
     public void RemoveAgent(AgentModel unit) {
@@ -427,13 +429,13 @@ public class Sefira
             tempList[i] = new List<MapNode>(departmentList[i]);
         }
 
-        /*
+        
         for (int i = 0; i < maxOfficerCnt; i++) {
             OfficeManager.instance.CreateOfficerModel(indexString);
         }
-        */
+        
 
-        OfficeManager.instance.CreateOfficerModel(indexString);
+        //OfficeManager.instance.CreateOfficerModel(indexString);
         AssignOfficerDept();
         foreach (OfficerModel om in officerList) {
             int deptNum = om.deptNum;
@@ -481,7 +483,7 @@ public class Sefira
     }
 
     public AgentSkillCategory[] GetSkillCategories() {
-        Debug.Log("길이 : " + skillCategory.Count);
+        //Debug.Log("길이 : " + skillCategory.Count);
         return skillCategory.ToArray();
     }
 

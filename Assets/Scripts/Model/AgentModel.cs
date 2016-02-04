@@ -796,6 +796,7 @@ public class AgentModel : WorkerModel
 
     public string LifeStyle() {
         string temp = null;
+        /*
         switch (agentLifeValue) { 
             case 1:
                 temp = "합리주의자";
@@ -810,7 +811,23 @@ public class AgentModel : WorkerModel
                 temp = "평화주의자";
                 break;
         }
+        */
 
+        switch (agentLifeValue)
+        {
+            case 1:
+                temp = "Rationalist";
+                break;
+            case 2:
+                temp = "Optimist";
+                break;
+            case 3:
+                temp = "Principlist";
+                break;
+            case 4:
+                temp = "Pacifist";
+                break;
+        }
         return temp;
     }
 

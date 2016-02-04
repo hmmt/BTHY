@@ -23,7 +23,7 @@ public class MenuLeftEnergy : MonoBehaviour {
 
         slider.maxValue = value;
         oldvalue = value;
-        slider.value = value;
+        slider.value = slider.maxValue -  value;
     }
 	
 	// Update is called once per frame
@@ -33,7 +33,7 @@ public class MenuLeftEnergy : MonoBehaviour {
         //Debug.Log(EnergyModel.instance.GetLeftEnergy());
         if (!bothmode)
         {
-            slider.value = EnergyModel.instance.GetLeftEnergy();
+            slider.value =slider.maxValue -  EnergyModel.instance.GetLeftEnergy();
         }
         /*oldvalue = EnergyModel.instance.GetLeftEnergy();
         if (!oldvalue.Equals(slider.value)) {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class SefiraAgentSlot : MonoBehaviour {
     /*
@@ -10,6 +11,8 @@ public class SefiraAgentSlot : MonoBehaviour {
     public  List<AgentModel> YesodAgentList = new List<AgentModel>();
     */
     public SetAgentSefira[] slot = new SetAgentSefira[5];
+
+    public Sprite[] bgImage;
 
     public  string currentSefira;
 
@@ -26,6 +29,13 @@ public class SefiraAgentSlot : MonoBehaviour {
     {
         //Debug.Log(gameObject);
         _instance = this;
+        Init();
+    }
+
+    public void Init() { 
+        for(int i= 0 ; i < 4; i ++){
+            slot[i].cnt = i;
+        }
     }
 
     public void CancelSefiraAgent(AgentModel unit, int index)
@@ -62,24 +72,30 @@ public class SefiraAgentSlot : MonoBehaviour {
     public void EmptySefira() {
         for (int i = 4; i >= 0; i--)
         {
+            slot[i].Bg.sprite = bgImage[0];
             slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentHair.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentLevel.text = "없음";
             slot[i].agentName.text = "없음";
             slot[i].cancelButton.gameObject.SetActive(false);
+            slot[i].Cancel.gameObject.SetActive(false);
+            slot[i].Model = null;
         }
     }
 
     public void SetSefira(List<AgentModel> model) {
         for (int i = 4; i >= model.Count; i--)
         {
+            slot[i].Bg.sprite = bgImage[0];
             slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentHair.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentLevel.text = "없음";
             slot[i].agentName.text = "없음";
             slot[i].cancelButton.gameObject.SetActive(false);
+            slot[i].Cancel.gameObject.SetActive(false);
+            slot[i].Model = null;
         }
 
         for (int i = 0; i < model.Count; i++)
@@ -88,17 +104,22 @@ public class SefiraAgentSlot : MonoBehaviour {
             AgentModel agentModel = model[i];
 
             agentModel.GetPortrait("body", null);
-
+            slot[i].Bg.sprite = bgImage[1];
             slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(agentModel.bodyImgSrc);
             slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(agentModel.faceImgSrc);
             slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(agentModel.hairImgSrc);
+            slot[i].Model = agentModel;
 
             slot[i].agentLevel.text = "" + agentModel.level;
             slot[i].agentName.text = "" + agentModel.name;
+            slot[i].Cancel.gameObject.SetActive(true);
+            /*
             slot[i].cancelButton.gameObject.SetActive(true);
             slot[i].cancelButton.onClick.RemoveAllListeners();
             slot[i].cancelButton.onClick.AddListener(() => CancelSefiraAgent(agentModel, copied));
+             */
         }
-    
+        
     }
+
 }

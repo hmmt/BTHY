@@ -64,7 +64,7 @@ public class OfficerUnit : MonoBehaviour {
         officerAnimator.SetBool("Change", false);
 
         if(animTarget != null)
-            animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
+            //animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
         
         oldPos = transform.localPosition.x;
         oldPosY = transform.localPosition.y;
@@ -229,6 +229,7 @@ public class OfficerUnit : MonoBehaviour {
             int randLyricsStroy = Random.Range(0, 10);
             if (randLyricsStroy < 8)
             {
+              
                 speech = AgentLyrics.instance.getLyricsByDay(PlayerModel.instance.GetDay());
             }
             else {

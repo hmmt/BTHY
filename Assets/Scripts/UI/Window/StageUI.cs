@@ -49,6 +49,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
     public RectTransform AddButton;
     public RectTransform openText;
+    public RectTransform allocateSlot;
     public RectTransform agentInformation;
     public RectTransform infoSlot;
 
@@ -73,7 +74,7 @@ public class StageUI : MonoBehaviour, IObserver {
         agentCost = 1;
         areaCost = 10;
         OpenSefira.gameObject.SetActive(false);
-        openText.gameObject.SetActive(false);
+        //openText.gameObject.SetActive(false);
         areaBtnDic = new Dictionary<string, AreaButton>();
         nextScene = false;
         foreach (AreaButton btn in areaButtons)
@@ -581,7 +582,7 @@ public class StageUI : MonoBehaviour, IObserver {
         currentSefriaUi = areaName;
 
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
-        openText.gameObject.SetActive(false);   
+        //openText.gameObject.SetActive(false);   
         //ShowAgentList();
         listScript.ShowAgentListWithChange();
         if(areaName.Equals("0")){
@@ -596,14 +597,14 @@ public class StageUI : MonoBehaviour, IObserver {
         {
             agentSlot.gameObject.SetActive(true);
             OpenSefira.gameObject.SetActive(false);
-            openText.gameObject.SetActive(false);
+            //openText.gameObject.SetActive(false);
         }
          else
         {
             OpenSefira.gameObject.SetActive(true);
             agentSlot.gameObject.SetActive(false);
-            openText.gameObject.SetActive(true);
-            openText.GetChild(0).GetComponent<Text>().text = areaCost + "";
+            //openText.gameObject.SetActive(true);
+            //openText.GetChild(0).GetComponent<Text>().text = areaCost + "";
         }
     }
 
@@ -786,6 +787,7 @@ public class StageUI : MonoBehaviour, IObserver {
         CommonBg.gameObject.SetActive(false);
         if (currentType == UIType.START_STAGE)
         {
+            Camera.main.orthographicSize = 9.5f;
             startStageUi.gameObject.SetActive(false);
             
             GameManager.currentGameManager.StartGame();
@@ -854,56 +856,5 @@ public class StageUI : MonoBehaviour, IObserver {
 
 
         return null;
-    }
-}
-
-namespace UISpace
-{
-    
-    public class StartUIManager
-    {
-        private static StartUIManager _instance = null;
-        public static StartUIManager instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new StartUIManager();
-                }
-
-                return _instance;
-            }
-        }
-
-    }
-
-    public class EndUIManager
-    {
-        private static EndUIManager _instance = null;
-        public static EndUIManager instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new EndUIManager();
-                return _instance;
-            }
-        }
-    }
-
-    public class CommonUIManager
-    {
-        private static CommonUIManager _instance = null;
-        public static CommonUIManager instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new CommonUIManager();
-                return _instance;
-            }
-        }
-
     }
 }

@@ -30,7 +30,7 @@ public class TextListScript : MonoBehaviour{
         GameObject addText = Instantiate(makeObject);
         RectTransform rt = addText.GetComponent<RectTransform>();
        
-                
+        /*  
         if ((child.Count % 2) == 0)
         {
             addText.transform.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Semi"); ;
@@ -39,7 +39,8 @@ public class TextListScript : MonoBehaviour{
         {
             addText.transform.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("UIResource/Collection/Dark");
         }
-
+        */
+        
         if (fontSize == 0)
         {
             fontSize = addText.transform.GetChild(0).GetComponent<Text>().fontSize;

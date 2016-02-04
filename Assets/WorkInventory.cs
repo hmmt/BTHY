@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class WorkInventory : MonoBehaviour {
     public GameObject work;
-
     public Transform parent;
     private int workCnt = 3;//기분 수치 구간의 갯수
     private List<WorkSlot> list;
@@ -61,7 +60,7 @@ public class WorkInventory : MonoBehaviour {
         GameObject newObj = Instantiate(work);
         RectTransform rect = newObj.GetComponent<RectTransform>();
         WorkSlot script = newObj.GetComponent<WorkSlot>();
-        Debug.Log("createPanel"+ script.NormalState.childCount);
+        //Debug.Log("createPanel"+ script.NormalState.childCount);
 
 		WorkSettingElement setting = TempAgentAI.instance.GetWorkSetting (targetCreature);
 
@@ -70,7 +69,8 @@ public class WorkInventory : MonoBehaviour {
 
         rect.SetParent(parent);
         newObj.transform.localScale = Vector3.one;
-        newObj.GetComponent<Image>().sprite = nonSelected;
+        //newObj.GetComponent<Image>().sprite = nonSelected;
+        
         float height = unitSize;
 
         script.SetInventoryScript(this);
@@ -96,12 +96,13 @@ public class WorkInventory : MonoBehaviour {
     public void OnClick(int i) {
         selected = list[i];
         //선택 효과 만들기
+        
         if (previous != -1) {
-            list[previous].GetComponent<Image>().sprite = nonSelected;
+            list[previous].SelectImage.SetActive(false);
             
         }
         previous = i;
-        selected.GetComponent<Image>().sprite = isSelected;
+        selected.SelectImage.SetActive(true);
         
         if (!extended)
         {
@@ -114,7 +115,7 @@ public class WorkInventory : MonoBehaviour {
     public void Close() {
         extended = false;
         selected = null;
-        list[previous].GetComponent<Image>().sprite = nonSelected;
+        list[previous].SelectImage.SetActive(false);
         previous = -1;
         WorkList.gameObject.SetActive(false);
     }

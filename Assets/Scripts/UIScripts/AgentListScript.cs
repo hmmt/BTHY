@@ -18,6 +18,8 @@ public class AgentListScript : MonoBehaviour {
     public RectTransform infoPanel;
 
     public int mode, order;
+    public float spacing;
+
     private PromotionPanelScript promoteScript;
     private RectTransform agentListforScroll;
     private float initialPosy;
@@ -160,10 +162,15 @@ public class AgentListScript : MonoBehaviour {
 
             rt.localPosition = new Vector3(agentListforScroll.localPosition.x, -posy, 0.0f);
             script.getModel().calcLevel();
-            posy += script.GetHeight();
-            if (script.Equals(extendedScript)) {
+            
+            if (script.Equals(extendedScript))
+            {
+                posy += script.GetHeight();
                 infoPanel.localPosition = new Vector3(0.0f, -posy, 0.0f);
-                posy += extendSize;
+                posy += extendSize+spacing;
+            }
+            else {
+                posy += (script.GetHeight() + spacing);
             }
         }
         
@@ -254,8 +261,8 @@ public class AgentListScript : MonoBehaviour {
 
             int index = modelList.FindIndex(x => x == script.getModel());
             script.index = index;
-            float posy = script.GetHeight() * index;
-            cumulative += script.GetHeight();
+            float posy = (script.GetHeight()+spacing) * index;
+            cumulative += (script.GetHeight() +spacing);
             if (extended)
             {
                 if (index.Equals(extendedIndex)) {
@@ -264,7 +271,7 @@ public class AgentListScript : MonoBehaviour {
                     
                 }else if (found)
                 {
-                    posy += script.GetHeight() *2;
+                    posy += script.GetHeight() *2 + spacing;
                 }
             }
             //rt.localPosition = new Vector3(0.0f, -posy, 0.0f);
@@ -274,7 +281,7 @@ public class AgentListScript : MonoBehaviour {
         }
         if (extended) {
             
-            additional = extendedScript.GetHeight() * 2;
+            additional = (extendedScript.GetHeight() * 2) +spacing;
             cumulative += additional;
         }
         

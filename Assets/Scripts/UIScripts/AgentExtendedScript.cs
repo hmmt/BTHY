@@ -15,6 +15,7 @@ public class AgentExtendedScript : MonoBehaviour {
         attr.hair.sprite = ResourceCache.instance.GetSprite(model.hairImgSrc);
         attr.face.sprite = ResourceCache.instance.GetSprite(model.faceImgSrc);
         attr.body.sprite = ResourceCache.instance.GetSprite(model.bodyImgSrc);
+        attr.Level.text = model.level + " Level";
         info.SelectedAgent(model);
     }
 

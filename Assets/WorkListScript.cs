@@ -131,7 +131,7 @@ public class WorkListScript : MonoBehaviour {
         float posy = 0.0f;
         foreach (SkillTypeInfo s in skillList)
         {
-            Debug.Log("slot call " + s.name);
+            //Debug.Log("slot call " + s.name);
             GameObject slot = CreateItem(s);
             slot.transform.SetParent(parentAry[index]);
             RectTransform rect = slot.GetComponent<RectTransform>();

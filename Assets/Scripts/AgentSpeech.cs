@@ -3,8 +3,10 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class AgentSpeech : MonoBehaviour {
-    public RectTransform rt;
-    public RectTransform bg;
+    public RectTransform textObject;
+    private RectTransform textRect;
+    private RectTransform bgRect;
+
     private Text speechText;
     private TextAnchor standard;
     private string copy;
@@ -12,34 +14,37 @@ public class AgentSpeech : MonoBehaviour {
     public float spacing;
     private Vector2 init_size;
     private Vector2 mini_size;
+    private Vector2 bg_size;
 
     public void Start() {
-        //rt = transform.GetComponent<RectTransform>();
-        speechText = rt.GetComponent<Text>();
-        
+        textRect = textObject.GetChild(0).GetComponent<RectTransform>();
+        bgRect = textObject.GetComponent<RectTransform>();
+        speechText = textRect.GetComponent<Text>();
+
         size = speechText.fontSize;
         standard = speechText.alignment;
-        init_size = rt.sizeDelta;
-        mini_size = new Vector2(rt.sizeDelta.x / 2, rt.sizeDelta.y);
-        rt.gameObject.SetActive(false);
-        bg.gameObject.SetActive(false);
+        init_size = textRect.sizeDelta;
+        mini_size = new Vector2(init_size.x / 2, init_size.y);
+        textObject.gameObject.SetActive(false);
     }
 
     public void FixedUpdate() {
-        if (rt.gameObject.activeSelf ) {
+
+        if (textObject.gameObject.activeSelf) {
             if (Camera.main.orthographicSize < 8)
             {
                 speechText.alignment = standard;
                 speechText.fontSize = size;
                 SetSpeech(copy);
-                rt.sizeDelta = init_size;
+                textRect.sizeDelta = init_size;
+                bgRect.sizeDelta = bg_size;
             }
-            else
-            {
+            else {
                 speechText.alignment = TextAnchor.MiddleCenter;
                 speechText.fontSize = size * 3;
                 SetSpeech(". . .");
-                rt.sizeDelta = mini_size;
+                textRect.sizeDelta = mini_size;
+                bgRect.sizeDelta = mini_size;
             }
         }
     }
@@ -47,50 +52,44 @@ public class AgentSpeech : MonoBehaviour {
     private void SetSpeech(string text) {
         speechText.text = text;
         float h = speechText.preferredHeight;
-        rt.sizeDelta = new Vector2(rt.sizeDelta.x, h + 10f);
-        bg.sizeDelta = rt.sizeDelta;
+        textRect.sizeDelta = new Vector2(textRect.sizeDelta.x, h);
+        init_size = new Vector2(textRect.sizeDelta.x, textRect.sizeDelta.y);
+        bgRect.sizeDelta = new Vector2(textRect.sizeDelta.x + 10f, h + 10f);
+        bg_size = new Vector2(bgRect.sizeDelta.x, bgRect.sizeDelta.y);
     }
 
     public void showSpeech(string speech)
     {
         copy = speech;
-        if (!rt.gameObject.activeSelf) {
-            SetSpeech(speech);
-
-            rt.gameObject.SetActive(true);
-            bg.gameObject.SetActive(true);
-            TimerCallback.Create(5.0f, rt.gameObject, delegate()
+        if (!textObject.gameObject.activeSelf){
+            SetSpeech(copy);
+            textObject.gameObject.SetActive(true);
+            TimerCallback.Create(5.0f, textObject.gameObject, delegate()
             {
-                rt.gameObject.SetActive(false);
-                bg.gameObject.SetActive(false);
+                textObject.gameObject.SetActive(false);
             });
-
         }
-        bg.sizeDelta = rt.sizeDelta;
-    }
 
+    }
+     
     public void showSpeech(string speech, float time) {
         copy = speech;
-        if (!rt.gameObject.activeSelf)
+        if (!textObject.gameObject.activeSelf)
         {
-            SetSpeech(speech);
-
-            rt.gameObject.SetActive(true);
-            bg.gameObject.SetActive(true);
-            TimerCallback.Create(time, rt.gameObject, delegate()
+            SetSpeech(copy);
+            textObject.gameObject.SetActive(true);
+            TimerCallback.Create(time, textObject.gameObject, delegate()
             {
-                rt.gameObject.SetActive(false);
-                bg.gameObject.SetActive(false);
+                textObject.gameObject.SetActive(false);
             });
-
         }
-        bg.sizeDelta = rt.sizeDelta;
+
     }
 
     public void turnOnDoingSkillIcon(bool turnOn)
     {
-        rt.gameObject.SetActive(turnOn);
-        bg.gameObject.SetActive(turnOn);
+        
+        textObject.gameObject.SetActive(turnOn);
     }
 }
 
