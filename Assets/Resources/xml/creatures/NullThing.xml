@@ -14,14 +14,6 @@
 		animatorScript="CreatureAnimNull"
 
 		>
-		<feeling max="200" downProb="0.99" downValue="20">
-			<section feelingValue="100" state="good" energy="0.4"/>
-			<section feelingValue="50" state="normal" energy="0.2"/>
-			<section feelingValue="0" state="bad" energy="-0.4"/>
-		</feeling>
-
-		<preferSkill type="indirect" bonus="0.2"/>
-		<rejectSkill type="block" bonus="-0.2"/>
 
 
 		<narration action="move">
@@ -144,9 +136,9 @@
 			</observe_sub>
 		</observe>
 
-		<img src="Agent/Hodd/00" x="-1" y="-1"/>
-
-		<img src="Unit/creature/Null" x="-1" y="-1"/>
+		<anim prefab="Unit/CreatureAnimator/NothingAnim" x="-0.5" y="-1.5"/>
+	    
+	    <img src="Unit/dummy" x="-1" y="-1"/>
 		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/frame/MagicalGirl_frame"/>
 

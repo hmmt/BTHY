@@ -14,14 +14,10 @@ public class TraitTypeInfo {
     public int hp;
     public int mental;
 
-    public int moveSpeed;
-    public int workSpeed;
+    public int move;
+    public int work;
 
     public string description;
-
-    public float directWork;
-    public float inDirectWork;
-    public float blockWork;
 
     public int traitFlag;
 

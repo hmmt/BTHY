@@ -8,31 +8,11 @@
 
 		attackType="RED"
 		intelligence="대화 가능"
-		
-		horrorProb="0.4"
-		horrorDmg="-20"
-		
-		physicsProb="0.1"
-		physicsDmg="1"
-		
-		mentalProb="0.3"
-		mentalDmg="11"
 
 		observeLevel="5"
 
 		script="MatchGirl"
 		>
-		<feeling max="300" downProb="0.2" downValue="7.3">
-			<section feelingValue="150" state="good" energy="2"/>
-			<section feelingValue="50" state="normal" energy="1"/>
-			<section feelingValue="0" state="bad" energy="0"/>
-		</feeling>
-		
-		<preferSkill type="indirect" bonus="0.33"/>
-		<rejectSkill type="direct" bonus="-0.2"/>
-		<rejectSkill type="block" bonus="-0.3"/>
-
-		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 
 		<narration action="move">
 			-> #0(이)가 작업을 시작하러 성냥팔이 소녀의 방에 들어갑니다
@@ -149,10 +129,10 @@
 			</observe_sub>
 		</observe>
 
-    <anim prefab="Unit/CreatureAnimator/MatchGirl" x="-1" y="-2"/>
-    
-		<!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
-    <img src="Unit/dummy" x="-1" y="-1"/>
+	    <anim prefab="Unit/CreatureAnimator/MatchGirl" x="-1" y="-2"/>
+	    
+			<!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
+	    <img src="Unit/dummy" x="-1" y="-1"/>
 		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/01_matchGirl_frame"/>
 

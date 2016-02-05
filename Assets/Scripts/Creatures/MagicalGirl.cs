@@ -15,8 +15,7 @@ public class MagicalGirl : CreatureBase {
     public override void OnInit()
     {
         base.OnInit();
-
-
+		//model.SetCurrentNode (MapGraph.instance.GetNodeById("malkuth-0-5"));
     }
 	/*
     public override CreatureAttackInfo GetAttackInfo(UseSkill skill)
