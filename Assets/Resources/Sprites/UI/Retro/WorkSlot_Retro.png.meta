@@ -1,0 +1,443 @@
+fileFormatVersion: 2
+guid: 8b8dae73ca7b0fa47ac954e30b425d49
+timeCreated: 1454330524
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: WorkInventory
+    21300002: WorkList
+    21300004: IconNonselected
+    21300006: WorkIcon_Selected
+    21300008: WorkCategory
+    21300010: WorkListItem
+    21300012: WorkSlot_nonSelect
+    21300014: WorkSlot_Retro_7
+    21300016: WorkSlot_Retro_8
+    21300018: WorkSlot_Retro_9
+    21300020: WorkSlot_Retro_10
+    21300022: WorkSlot_Retro_11
+    21300024: WorkSlot_selected
+    21300026: Lock
+    21300028: Locked
+    21300030: UP
+    21300032: Cnt
+    21300034: Down
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 2
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: WorkInventory
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 5083
+        width: 1960
+        height: 1768
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8.872498, y: -257.22253}
+        - {x: -5.8724976, y: -255.22253}
+        - {x: -0.87249756, y: -254.22253}
+        - {x: 6.1275024, y: -251.22253}
+        - {x: 11.127502, y: -246.22253}
+        - {x: 12.127502, y: -246.22253}
+        - {x: 21.127502, y: -237.22253}
+        - {x: 21.127502, y: -236.22253}
+        - {x: 24.127502, y: -233.22253}
+        - {x: 272.1275, y: -233.22253}
+        - {x: 287.1275, y: -218.22253}
+        - {x: 287.1275, y: 224.77747}
+        - {x: 272.1275, y: 239.77747}
+        - {x: 272.1275, y: 240.77747}
+        - {x: 268.1275, y: 245.77747}
+        - {x: 267.1275, y: 249.77747}
+        - {x: 265.1275, y: 251.77747}
+        - {x: 263.1275, y: 256.77747}
+        - {x: 260.1275, y: 258.77747}
+        - {x: 260.1275, y: 259.77747}
+        - {x: 63.127502, y: 259.77747}
+        - {x: 61.127502, y: 256.77747}
+        - {x: 58.127502, y: 253.77747}
+        - {x: 54.127502, y: 245.77747}
+        - {x: 50.127502, y: 239.77747}
+        - {x: 13.127502, y: 239.77747}
+        - {x: 10.127502, y: 242.77747}
+        - {x: 9.127502, y: 242.77747}
+        - {x: 8.127502, y: 244.77747}
+        - {x: 5.1275024, y: 245.77747}
+        - {x: 3.1275024, y: 247.77747}
+        - {x: -1.8724976, y: 249.77747}
+        - {x: -7.8724976, y: 250.77747}
+        - {x: -8.872498, y: 251.77747}
+        - {x: -11.872498, y: 251.77747}
+        - {x: -12.872498, y: 252.77747}
+        - {x: -23.872498, y: 252.77747}
+        - {x: -24.872498, y: 253.77747}
+        - {x: -230.8725, y: 253.77747}
+        - {x: -231.8725, y: 252.77747}
+        - {x: -242.8725, y: 252.77747}
+        - {x: -246.8725, y: 250.77747}
+        - {x: -252.8725, y: 249.77747}
+        - {x: -261.8725, y: 245.77747}
+        - {x: -268.8725, y: 238.77747}
+        - {x: -269.8725, y: 238.77747}
+        - {x: -273.8725, y: 234.77747}
+        - {x: -273.8725, y: 233.77747}
+        - {x: -277.8725, y: 229.77747}
+        - {x: -277.8725, y: 228.77747}
+        - {x: -281.8725, y: 224.77747}
+        - {x: -284.8725, y: 217.77747}
+        - {x: -285.8725, y: 211.77747}
+        - {x: -286.8725, y: 210.77747}
+        - {x: -286.8725, y: -212.22253}
+        - {x: -285.8725, y: -220.22253}
+        - {x: -282.8725, y: -225.22253}
+        - {x: -282.8725, y: -227.22253}
+        - {x: -280.8725, y: -230.22253}
+        - {x: -279.8725, y: -233.22253}
+        - {x: -275.8725, y: -236.22253}
+        - {x: -275.8725, y: -237.22253}
+        - {x: -266.8725, y: -246.22253}
+        - {x: -265.8725, y: -246.22253}
+        - {x: -262.8725, y: -250.22253}
+        - {x: -258.8725, y: -251.22253}
+        - {x: -254.8725, y: -254.22253}
+        - {x: -248.8725, y: -255.22253}
+        - {x: -245.8725, y: -257.22253}
+        - {x: -241.8725, y: -257.22253}
+        - {x: -240.8725, y: -258.22253}
+        - {x: -13.872498, y: -258.22253}
+        - {x: -12.872498, y: -257.22253}
+    - name: WorkList
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 3059
+        width: 1092
+        height: 1741
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 125.412506, y: -250.24255}
+        - {x: 127.412506, y: -250.24255}
+        - {x: 132.4125, y: -248.24255}
+        - {x: 135.4125, y: -246.24255}
+        - {x: 140.4125, y: -242.24255}
+        - {x: 153.4125, y: -229.24255}
+        - {x: 157.4125, y: -220.24255}
+        - {x: 159.4125, y: -215.24255}
+        - {x: 160.4125, y: -212.24255}
+        - {x: 161.4125, y: -207.24255}
+        - {x: 161.4125, y: 209.75745}
+        - {x: 160.4125, y: 214.75745}
+        - {x: 159.4125, y: 215.75745}
+        - {x: 158.4125, y: 221.75745}
+        - {x: 155.4125, y: 228.75745}
+        - {x: 151.4125, y: 233.75745}
+        - {x: 143.4125, y: 242.75745}
+        - {x: 142.4125, y: 242.75745}
+        - {x: 135.4125, y: 249.75745}
+        - {x: 126.412506, y: 253.75745}
+        - {x: 120.412506, y: 255.75745}
+        - {x: -118.587494, y: 255.75745}
+        - {x: -124.587494, y: 253.75745}
+        - {x: -133.5875, y: 249.75745}
+        - {x: -136.5875, y: 246.75745}
+        - {x: -144.5875, y: 239.75745}
+        - {x: -144.5875, y: 238.75745}
+        - {x: -149.5875, y: 233.75745}
+        - {x: -153.5875, y: 228.75745}
+        - {x: -156.5875, y: 221.75745}
+        - {x: -157.5875, y: 217.75745}
+        - {x: -158.5875, y: 214.75745}
+        - {x: -159.5875, y: 209.75745}
+        - {x: -159.5875, y: -205.24255}
+        - {x: -158.5875, y: -206.24255}
+        - {x: -157.5875, y: -214.24255}
+        - {x: -155.5875, y: -220.24255}
+        - {x: -152.5875, y: -227.24255}
+        - {x: -150.5875, y: -229.24255}
+        - {x: -145.5875, y: -235.24255}
+        - {x: -139.5875, y: -241.24255}
+        - {x: -134.5875, y: -245.24255}
+        - {x: -132.5875, y: -247.24255}
+        - {x: -125.587494, y: -250.24255}
+        - {x: -120.587494, y: -252.24255}
+        - {x: -117.587494, y: -253.24255}
+        - {x: -111.587494, y: -254.24255}
+        - {x: 114.412506, y: -254.24255}
+        - {x: 119.412506, y: -253.24255}
+    - name: IconNonselected
+      rect:
+        serializedVersion: 2
+        x: 1838
+        y: 4578
+        width: 95
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WorkIcon_Selected
+      rect:
+        serializedVersion: 2
+        x: 1978
+        y: 4568
+        width: 113
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.434998, y: 17.139893}
+        - {x: -16.434998, y: 16.139893}
+        - {x: -16.434998, y: -11.860107}
+        - {x: -11.434998, y: -16.860107}
+        - {x: 11.565002, y: -16.860107}
+        - {x: 17.565002, y: -10.860107}
+        - {x: 17.565002, y: 13.139893}
+        - {x: 16.565002, y: 17.139893}
+    - name: WorkCategory
+      rect:
+        serializedVersion: 2
+        x: 2203
+        y: 4510
+        width: 233
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -34.122498, y: -33.825073}
+        - {x: 26.877502, y: -33.825073}
+        - {x: 34.877502, y: -31.825073}
+        - {x: 34.877502, y: 28.174927}
+        - {x: 31.877502, y: 34.174927}
+        - {x: -32.122498, y: 34.174927}
+        - {x: -34.122498, y: 27.174927}
+    - name: WorkListItem
+      rect:
+        serializedVersion: 2
+        x: 1838
+        y: 4021
+        width: 906
+        height: 257
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -132.38501, y: 38.142456}
+        - {x: -132.38501, y: -37.857544}
+        - {x: 133.61499, y: -37.857544}
+        - {x: 133.61499, y: 38.142456}
+    - name: WorkSlot_nonSelect
+      rect:
+        serializedVersion: 2
+        x: 497
+        y: 1875
+        width: 906
+        height: 495
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -132.6275, y: 73.4375}
+        - {x: -132.6275, y: -63.5625}
+        - {x: -123.6275, y: -72.5625}
+        - {x: 123.3725, y: -72.5625}
+        - {x: 133.3725, y: -62.5625}
+        - {x: 133.3725, y: 73.4375}
+    - name: WorkSlot_Retro_7
+      rect:
+        serializedVersion: 2
+        x: 1937
+        y: 2251
+        width: 65
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WorkSlot_Retro_8
+      rect:
+        serializedVersion: 2
+        x: 2036
+        y: 2251
+        width: 65
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WorkSlot_Retro_9
+      rect:
+        serializedVersion: 2
+        x: 1937
+        y: 2100
+        width: 65
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WorkSlot_Retro_10
+      rect:
+        serializedVersion: 2
+        x: 1933
+        y: 2011
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WorkSlot_Retro_11
+      rect:
+        serializedVersion: 2
+        x: 1937
+        y: 1936
+        width: 65
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WorkSlot_selected
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 906
+        width: 1131
+        height: 704
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 164.64249, y: -74.994995}
+        - {x: 165.64249, y: -70.994995}
+        - {x: 165.64249, y: 70.005005}
+        - {x: 163.64249, y: 80.005005}
+        - {x: 158.64249, y: 88.005005}
+        - {x: 151.64249, y: 94.005005}
+        - {x: 142.64249, y: 100.005005}
+        - {x: 132.64249, y: 103.005005}
+        - {x: -132.35751, y: 103.005005}
+        - {x: -139.35751, y: 102.005005}
+        - {x: -151.35751, y: 95.005005}
+        - {x: -161.35751, y: 81.005005}
+        - {x: -163.35751, y: 77.005005}
+        - {x: -165.35751, y: 71.005005}
+        - {x: -165.35751, y: -71.994995}
+        - {x: -164.35751, y: -78.994995}
+        - {x: -151.35751, y: -95.994995}
+        - {x: -145.35751, y: -99.994995}
+        - {x: -135.35751, y: -102.994995}
+        - {x: 135.64249, y: -102.994995}
+        - {x: 144.64249, y: -99.994995}
+        - {x: 158.64249, y: -88.994995}
+        - {x: 162.64249, y: -79.994995}
+    - name: Lock
+      rect:
+        serializedVersion: 2
+        x: 1940
+        y: 1410
+        width: 69
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Locked
+      rect:
+        serializedVersion: 2
+        x: 2032
+        y: 1410
+        width: 69
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: UP
+      rect:
+        serializedVersion: 2
+        x: 1940
+        y: 1249
+        width: 69
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Cnt
+      rect:
+        serializedVersion: 2
+        x: 1933
+        y: 1154
+        width: 82
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Down
+      rect:
+        serializedVersion: 2
+        x: 1940
+        y: 1078
+        width: 69
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -79,7 +79,7 @@ public class CreatureBase {
 	{
 		
 	}
-
+	/*
     public virtual CreatureAttackInfo GetAttackInfo(UseSkill skill)
     {
         return new CreatureAttackInfo(
@@ -88,7 +88,7 @@ public class CreatureBase {
             model.metaInfo.physicsDmg,
             model.metaInfo.mentalDmg
             );
-    }
+    }*/
 
 
     public virtual SkillTypeInfo GetSpecialSkill()

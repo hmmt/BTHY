@@ -6,6 +6,9 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
     private bool init = false;
     private float limitTime;
     private float goalTime;
+	private float pauseTime;
+	private bool pause = false;
+
     private GameManager gameManager;
 
     public UnityEngine.UI.Text timerText;
@@ -30,7 +33,7 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
 
     void Update()
     {
-        if (limitTime <= 0)
+		if (limitTime <= 0 || GameManager.currentGameManager.state == GameState.PAUSE)
         {
             return;
         }
@@ -47,6 +50,9 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
     {
         while (true)
         {
+			if(GameManager.currentGameManager.state == GameState.PAUSE)
+				yield return new WaitForSeconds(0.1f);
+				
             int remain = (int)(goalTime - Time.time);
 
             if (remain > 0)
@@ -73,6 +79,21 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
         this.gameManager = gameManager;
         StartCoroutine(UpdateTimer());
     }
+
+	public void Pause()
+	{
+		pauseTime = Time.time;
+		pause = true;
+	}
+
+	public void Resume()
+	{
+		if (pause)
+		{
+			goalTime += Time.time - pauseTime;
+			pause = false;
+		}
+	}
 
     public void OnUpdateDayUI()
     {

@@ -23,7 +23,7 @@ public class OneBadManyGood : CreatureBase {
     {
         Debug.Log("OneBadManyGood ActivateSkill()");
         // show effect
-
+		/*
         skill.PauseWorking();
 
         ///SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
@@ -66,12 +66,14 @@ public class OneBadManyGood : CreatureBase {
             skill.targetCreature.ShowNarrationText("special_ability3", skill.agent.name);
             skill.agent.mental -= skillDamage;
         });
+        */
     }
 
     //
 
     public override void OnEnterRoom(UseSkill skill)
     {
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/goodbad/oneGoodManyBad_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4);
@@ -85,5 +87,6 @@ public class OneBadManyGood : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/goodbad/oneGoodManyBad_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }

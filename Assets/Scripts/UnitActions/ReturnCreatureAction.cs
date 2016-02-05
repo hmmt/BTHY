@@ -68,11 +68,12 @@ public class ReturnCreatureAction : ActionClassBase {
         c.agent = agent;
         c.creature = creature;
         c.agentMoveQueue = new MovableObjectNode[50];
-        c.creaturePosTarget = new MovableObjectNode();
+        // target은 movable이 아닌 듯
+        c.creaturePosTarget = new MovableObjectNode(null);
         c.creaturePosTarget.Assign(agent.GetMovableNode());
         for(int i=0; i<50; i++)
         {
-            c.agentMoveQueue[i] = new MovableObjectNode();
+            c.agentMoveQueue[i] = new MovableObjectNode(null);
         }
         c.agentMoveQueue[c.queueIndex].Assign(agent.GetMovableNode());
         c.queueSize++;

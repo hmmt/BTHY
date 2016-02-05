@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class OfficerUnit : MonoBehaviour {
     public OfficerModel model;
-
     //public GameObject officerWindow;
     public GameObject officerAttackedAnimator;
     public GameObject officerPlatform;
@@ -14,6 +13,10 @@ public class OfficerUnit : MonoBehaviour {
     public AgentSpeech showSpeech;
     public Animator officerAnimator;
     public GameObject renderNode;
+
+    public GameObject puppetNode;
+    public Animator puppetAnim;
+    public AgentAnim animTarget;
 
     public float oldPos;
     public float oldPosY;
@@ -23,7 +26,8 @@ public class OfficerUnit : MonoBehaviour {
     public Text officerName;
 
     //private string oldSefira;
-
+    private bool changeState = false;
+    private string currentBool = "";
     public GameObject faceSprite;
     public GameObject hairSprite;
 
@@ -32,6 +36,7 @@ public class OfficerUnit : MonoBehaviour {
     string speech = "";
 
     void LateUpdate() {
+        /*
         foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>()) {
             if (renderer.sprite.name == "Face_A_00")
                 renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
@@ -51,12 +56,15 @@ public class OfficerUnit : MonoBehaviour {
                 renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_02");
                 renderer.transform.localScale.Set(-1, 1, 1);
             }
-        }
+        }*/
     }
 
     void Start() {
         officerAnimator.SetInteger("Sepira", 1);
         officerAnimator.SetBool("Change", false);
+
+        if(animTarget != null)
+            //animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
         
         oldPos = transform.localPosition.x;
         oldPosY = transform.localPosition.y;
@@ -67,7 +75,7 @@ public class OfficerUnit : MonoBehaviour {
         hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
         
         //ChangeAgentUnifrom();과 동일?
-
+        model.SetUnit(this);
     }
 
     private void UpdateDirection() {
@@ -81,35 +89,33 @@ public class OfficerUnit : MonoBehaviour {
             Vector2 pos1 = node1.GetPosition();
             Vector2 pos2 = node2.GetPosition();
 
+            Transform puppetAnim = puppetNode.transform;
+            Vector3 puppetScale = puppetAnim.localScale;
+
             if (edgeDirection == 1)
             {
-                Transform anim = renderNode.transform;
 
-                Vector3 scale = anim.localScale;
-
-                if (pos2.x - pos1.x > 0 && scale.x < 0)
+                if (pos2.x - pos1.x > 0 && puppetScale.x < 0)
                 {
-                    scale.x = -scale.x;
+                    puppetScale.x = -puppetScale.x;
                 }
-                else if (pos2.x - pos1.x < 0 && scale.x > 0)
+                else if (pos2.x - pos1.x < 0 && puppetScale.x > 0)
                 {
-                    scale.x = -scale.x;
+                    puppetScale.x = -puppetScale.x;
                 }
-                anim.transform.localScale = scale;
+                puppetAnim.transform.localScale = puppetScale;
             }
             else {
-                Transform anim = renderNode.transform;
-                Vector3 scale = anim.localScale;
 
-                if (pos2.x - pos1.x > 0 && scale.x > 0)
+                if (pos2.x - pos1.x > 0 && puppetScale.x > 0)
                 {
-                    scale.x = -scale.x;
+                    puppetScale.x = -puppetScale.x;
                 }
-                else if (pos2.x - pos1.x < 0 && scale.x < 0)
+                else if (pos2.x - pos1.x < 0 && puppetScale.x < 0)
                 {
-                    scale.x = -scale.x;
+                    puppetScale.x = -puppetScale.x;
                 }
-                anim.transform.localScale = scale;
+                puppetAnim.transform.localScale = puppetScale;
             }
         }
     }
@@ -143,30 +149,69 @@ public class OfficerUnit : MonoBehaviour {
 
     public void ChangeOfficerUniform() {
         officerAnimator.SetBool("Change", true);
-        officerAnimator.SetInteger("Sepira", int.Parse(model.currentSefira));
+
+        puppetAnim.SetBool("Change", true);
+
+        puppetAnim.SetInteger("Sefira", int.Parse(model.currentSefira));
         TimerCallback.Create(1, delegate()
         {
-            if (officerAnimator.GetBool("Change"))
-                officerAnimator.SetBool("Change", false);
+            if (puppetAnim.GetBool("Change"))
+                puppetAnim.SetBool("Change", false);
         });
 
     }
 
     void FixedUpdate() {
+        /*
 
+        if (!changeState)
+        {
+
+            switch (model.GetState())
+            {
+                case OfficerCmdState.MEMO_STAY:
+                    changeState = true;
+                    currentBool = "Memo";
+                    puppetAnim.SetBool(currentBool, changeState);
+                    break;
+                case OfficerCmdState.DOCUMENT:
+                    currentBool = "Document";
+                    changeState = true;
+                    puppetAnim.SetBool(currentBool, changeState);
+                    break;
+            }
+        }
+        else
+        {
+            if (model.GetState() == OfficerCmdState.IDLE || model.GetState() == OfficerCmdState.RETURN)
+            {
+                changeState = false;
+                puppetAnim.SetBool(currentBool, changeState);
+                currentBool = "";
+            }
+        }
+        */
+        
         if (oldPos != transform.localPosition.x)
         {
-            officerAnimator.SetBool("AgentMove", true);
+            /*
+            puppetAnim.SetBool("Move", true);
             faceSprite.GetComponent<Animator>().SetBool("Move", true);
             hairSprite.GetComponent<Animator>().SetBool("Move", true);
             //officerAnimator.SetBool();
-
+            */
+            puppetAnim.SetBool("Move", true);
         }
         else {
+            /*
             officerAnimator.SetBool("AgentMove", false);
             faceSprite.GetComponent<Animator>().SetBool("Move", false);
             hairSprite.GetComponent<Animator>().SetBool("Move", false);
+             */
+            puppetAnim.SetBool("Move", false);
         }
+        
+        
 
         if (oldPosY != transform.localPosition.y)
         {
@@ -184,6 +229,7 @@ public class OfficerUnit : MonoBehaviour {
             int randLyricsStroy = Random.Range(0, 10);
             if (randLyricsStroy < 8)
             {
+              
                 speech = AgentLyrics.instance.getLyricsByDay(PlayerModel.instance.GetDay());
             }
             else {
@@ -195,14 +241,23 @@ public class OfficerUnit : MonoBehaviour {
         }
 
         //패닉 대사
+        if (Input.GetKeyDown(KeyCode.O)) {
+            model.TakeMentalDamage(20);
+            Debug.Log("TakeMentalDamage " + model.mental + "/" + model.maxMental);
+        }
+        
 
+        if (model.panicFlag) { 
+            //make panic Action
+            Debug.Log("발견");
+            showSpeech.showSpeech("What the Fuck???");
+            model.panicFlag = false;
+        }
     }
 
     void Update() {
         UpdateViewPosition();
         UpdateDirection();
-
-        
     }
 
     

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AgentLyrics : MonoBehaviour {
+public class AgentLyrics {
 
     private static AgentLyrics _instance = null;
 
@@ -9,13 +9,14 @@ public class AgentLyrics : MonoBehaviour {
     {
         get
         {
-            if (_instance == null)
-            {
+            if (_instance == null) {
                 _instance = new AgentLyrics();
+
             }
             return _instance;
         }
     }
+
 
     public string getLyricsByDay(int day)
     {

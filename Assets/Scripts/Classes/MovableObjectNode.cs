@@ -10,7 +10,19 @@ public class PathData
     public int pathIndex;
 }
 
+public enum MovableState
+{
+    MOVE,
+    STOP,
+    WAIT
+}
+
 public class MovableObjectNode {
+    private ObjectModelBase model;
+
+    private MovableState state;
+
+    private MapNode lastNode;
     private MapNode currentNode;
 
     private MapEdge currentEdge;
@@ -24,11 +36,19 @@ public class MovableObjectNode {
     //private MapEdge[] pathList;
     private PathResult pathInfo;
     private float edgePosRateGoal; // 목표 edge의 edgePosRate
-    public float targetZValue;
 
     private int pathIndex;
 
     private PathData pathData = new PathData();
+
+    // 지울 예정
+    public MovableObjectNode()
+    {
+    }
+    public MovableObjectNode(ObjectModelBase model)
+    {
+        this.model = model;
+    }
 
     public Vector3 GetCurrentViewPosition()
     {
@@ -64,9 +84,35 @@ public class MovableObjectNode {
         return output;
     }
 
-    public float GetZValue()
+    // 현재 있는 노드가 passage에 속해 있으면 그 passage 반환
+    public PassageObjectModel GetPassage()
     {
-        return 0;
+        if (currentNode != null)
+        {
+            return currentNode.GetAttachedPassage();
+        }
+        else if (currentEdge != null)
+        {
+            PassageObjectModel p1 = currentEdge.node1.GetAttachedPassage();
+            PassageObjectModel p2 = currentEdge.node1.GetAttachedPassage();
+
+            if (p1 != null && p2 != null)
+            {
+                if (p1 == p2)
+                    return p1;
+                else
+                    return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            Debug.Log("ERROR : invalid node state");
+        }
+        return null;
     }
 
     /**
@@ -77,56 +123,74 @@ public class MovableObjectNode {
      */
     public void ProcessMoveNode(int movement)
     {
-        if (pathInfo != null)
+        // 문에 대한 처리
+        if (currentNode != null)
         {
+            if (currentNode.GetDoor() != null)
+                currentNode.GetDoor().OnObjectPassed();
+        }
+        else if (currentEdge != null)
+        {
+            if (currentEdge.node1.GetDoor() != null)
+                currentEdge.node1.GetDoor().OnObjectPassed();
+
+            if (currentEdge.node2.GetDoor() != null)
+                currentEdge.node2.GetDoor().OnObjectPassed();
+        }
+        //if (pathInfo != null)
+        if(state == MovableState.MOVE)
+        {
+            // 현재 node 위에 있는 경우
             if (currentNode != null)
             {
                 if (pathIndex >= pathInfo.pathEdges.Length)
                 {
                     pathInfo = null;
+                    state = MovableState.STOP;
                 }
                 else
                 {
-                    if (currentZValue > 0)
+                    MapEdge nextEdge = pathInfo.pathEdges[pathIndex];
+                    int nextDirection = pathInfo.edgeDirections[pathIndex];
+                    MapNode nextGoalNode = nextEdge.GetGoalNode(nextDirection);
+
+                    // 길이 막혀있을 경우
+                    if (nextGoalNode.closed)
                     {
-                        if (pathInfo.pathEdges[pathIndex].node1 == currentNode)
+                        if (nextGoalNode.GetDoor() != null)
                         {
-                            ///////// 여기부터
-                            //MapNodePlane plane = pathInfo.pathEdges[pathIndex].node2.GetPlane();
-                            //if (plane == null)
+                            // null 체크는 임시. 나중에 model이 무조건 null이 아니게 변경 예정.
+                            if (model != null)
                             {
-                                currentZValue -= Time.deltaTime;
-                                if (currentZValue < 0) currentZValue = 0;
-                                return;
+                                if (model.CanOpenDoor())
+                                {
+                                    InteractWithDoor(nextGoalNode.GetDoor());
+                                }
                             }
                         }
                         else
                         {
-                            //MapNodePlane plane = pathInfo.pathEdges[pathIndex].node1.GetPlane();
-                            //if (plane == null)
-                            {
-                                currentZValue -= Time.deltaTime;
-                                if (currentZValue < 0) currentZValue = 0;
-                                return;
-                            }
+                            StopMoving();
                         }
-                    }
-
-                    currentEdge = pathInfo.pathEdges[pathIndex];
-                    if (currentEdge.node1 == currentNode)
-                    {
-                        //edgeDirection = 1;
                     }
                     else
                     {
-                        //edgeDirection = 0;
+                        currentEdge = nextEdge;
+                        if (currentEdge.node1 == currentNode)
+                        {
+                            //edgeDirection = 1;
+                        }
+                        else
+                        {
+                            //edgeDirection = 0;
+                        }
+                        edgeDirection = nextDirection;
+                        edgePosRate = 0;
+                        currentNode = null;
                     }
-                    edgeDirection = pathInfo.edgeDirections[pathIndex];
-                    edgePosRate = 0;
-                    currentNode = null;
                 }
             }
-            else if (currentEdge != null)
+            else if (currentEdge != null) // 현재 edge 위에 있는 경우
             {
                 if (pathInfo.pathEdges != null)
                 {
@@ -136,6 +200,7 @@ public class MovableObjectNode {
 
                     if (pathIndex >= pathInfo.pathEdges.Length - 1) // 마지막 노드
                     {
+                        // 목표 지점에 도착
                         if (edgePosRate >= edgePosRateGoal)
                         {
                             edgePosRate = edgePosRateGoal;
@@ -147,38 +212,32 @@ public class MovableObjectNode {
                                     currentNode = currentEdge.node1;
                             }
                             pathInfo = null; // 이동 종료
-                            // z값 이동
-                            currentZValue = targetZValue;
-                        }
-                        else
-                        {
-                            // z값 이동
-                            float remainPosRate = 1 - oldPosRate;
-
-                            if (currentZValue != targetZValue)
-                            {
-                                float deltaZValue = (targetZValue - currentZValue) * deltaRate / remainPosRate;
-                                currentZValue += deltaZValue;
-                            }
+                            state = MovableState.STOP;
                         }
                     }
-                    else if (edgePosRate >= 1)
+                    else
                     {
-                        if (edgeDirection == 1)
-                            currentNode = currentEdge.node2;
-                        else
-                            currentNode = currentEdge.node1;
+                        // 다음 노드에 도착
+                        if (edgePosRate >= 1)
+                        {
+                            if (edgeDirection == 1)
+                                currentNode = currentEdge.node2;
+                            else
+                                currentNode = currentEdge.node1;
 
-                        edgePosRate = 0;
-                        currentEdge = null;
-                        pathIndex++;
+                            edgePosRate = 0;
+                            currentEdge = null;
+                            pathIndex++;
+                        }
                     }
                 }
             }
         }
+
+
+        if (currentNode != null)
+            lastNode = currentNode;
     }
-
-
 
     public bool Equal(MovableObjectNode src)
     {
@@ -200,6 +259,7 @@ public class MovableObjectNode {
     public void SetCurrentNode(MapNode node)
     {
         pathInfo = null;
+        state = MovableState.STOP;
         currentNode = node;
         currentEdge = null;
     }
@@ -213,6 +273,7 @@ public class MovableObjectNode {
         }
         else
             pathInfo = null;
+        state = src.state;
         pathIndex = src.pathIndex;
 
         edgePosRate = src.edgePosRate; // 0~1
@@ -231,12 +292,18 @@ public class MovableObjectNode {
 
     public bool IsMoving()
     {
-        return pathInfo != null;
+        return state == MovableState.MOVE;
+        //return pathInfo != null;
     }
 
+    public void Wait()
+    {
+        state = MovableState.WAIT;
+    }
     public void StopMoving()
     {
         pathInfo = null;
+        state = MovableState.STOP;
         if (currentNode != null && currentNode.isTemporary)
         {
             Debug.Log("23");
@@ -274,6 +341,11 @@ public class MovableObjectNode {
                 Debug.Log("StopMoving() : INVALID state2");
             }
         }
+    }
+
+    private void InteractWithDoor(DoorObjectModel door)
+    {
+        model.InteractWithDoor(door);
     }
 
     // TODO : 같은 node_group에 있는 애들만 포함해야 함
@@ -368,6 +440,7 @@ public class MovableObjectNode {
 
             PathResult result = GraphAstar.SearchPath(currentNode, tempNode);
             pathInfo = result;
+            state = MovableState.MOVE;
 
             MapEdge[] searchedPath = result.pathEdges;
             pathIndex = 0;
@@ -410,6 +483,7 @@ public class MovableObjectNode {
                 pathInfo = new PathResult(new MapEdge[1], new int[1]);
                 pathInfo.pathEdges[0] = currentEdge;
                 pathInfo.edgeDirections[0] = edgeDirection;
+                state = MovableState.MOVE;
 
                 if (edgeDirection == 1)
                     aPos = edgePosRate;
@@ -433,7 +507,6 @@ public class MovableObjectNode {
                     edgePosRate = aPos;
                     edgePosRateGoal = bPos;
                 }
-                targetZValue = targetNode.currentZValue;
             }
             else
             {
@@ -456,7 +529,7 @@ public class MovableObjectNode {
                 tempNode.AddEdge(tempEdge1);
                 tempNode.AddEdge(tempEdge2);
 
-                MovableObjectNode old = new MovableObjectNode();
+                MovableObjectNode old = new MovableObjectNode(model);
                 old.Assign(this);
                 currentNode = tempNode;
 
@@ -493,7 +566,6 @@ public class MovableObjectNode {
                     {
                         Debug.LogError("MovableObjectNode : unknown error");
                     }
-                    targetZValue = targetNode.currentZValue;
                 }
             }
         }
@@ -510,11 +582,10 @@ public class MovableObjectNode {
             PathResult result = GraphAstar.SearchPath(currentNode, targetNode);
 
             pathInfo = result;
+            state = MovableState.MOVE;
 
             pathIndex = 0;
             edgePosRateGoal = 1;
-
-            targetZValue = targetZ;
         }
         else if (currentEdge != null)
         {
@@ -534,6 +605,7 @@ public class MovableObjectNode {
             //MapEdge[] searchedPath = GraphAstar.SearchPath(tempNode, targetNode);
             PathResult result = GraphAstar.SearchPath(tempNode, targetNode);
             pathInfo = result;
+            state = MovableState.MOVE;
 
 
             MapEdge[] searchedPath = pathInfo.pathEdges;
@@ -562,7 +634,6 @@ public class MovableObjectNode {
             }
 
             edgePosRateGoal = 1;
-            targetZValue = targetZ;
         }
         else
         {
@@ -577,5 +648,27 @@ public class MovableObjectNode {
             return true;
         }
         return false;
+    }
+
+    private void EnterNode(MapNode node)
+    {
+        if (model == null)
+            return;
+        PassageObjectModel passage = node.GetAttachedPassage();
+        if (passage != null)
+        {
+            // ???
+        }
+    }
+
+    private void ExitNode(MapNode node)
+    {
+        if (model == null)
+            return;
+        PassageObjectModel passage = node.GetAttachedPassage();
+        if (passage != null)
+        {
+            // ???
+        }
     }
 }

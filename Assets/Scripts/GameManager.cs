@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public enum GameState
 {
     PLAYING,
+	STOP,
     PAUSE
 }
 
@@ -47,7 +48,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        state = GameState.PAUSE;
+		InitFirst ();
+
+		state = GameState.STOP;
 
         saveFileName = Application.persistentDataPath + "/saveData1.txt";
 
@@ -58,24 +61,38 @@ public class GameManager : MonoBehaviour
 
 
         // 옮겨야 한다.
-        MapGraph.instance.LoadMap();
+		/*
         GameStaticDataLoader.LoadStaticData();
+        MapGraph.instance.LoadMap();
+        */
         //EnergyModel.instance.Init();
     }
+
+	void InitFirst()
+	{
+		if (TempAgentAI.instance == null) {
+			new GameObject ("AgentAI").AddComponent<TempAgentAI>();
+		}
+	}
 
     void Start()
     {
         AgentLayer.currentLayer.Init();
         CreatureLayer.currentLayer.Init();
         OfficerLayer.currentLayer.Init();
+        AgentListScript.instance.Init();
+
+		AgentModel a = null;
         if (PlayerModel.instance.GetDay() == 0)
         {
             PlayerModel.instance.OpenArea("1"); ;
-            AgentManager.instance.AddAgentModel();
+
+			a = AgentManager.instance.AddAgentModel();
             
         }
 
-        OfficeManager.instance.CreateOfficerModel("1");
+        //OfficeManager.instance.CreateOfficerModel("1");
+        /*
         OfficeManager.instance.CreateOfficerModel("1");
         OfficeManager.instance.CreateOfficerModel("1");
         OfficeManager.instance.CreateOfficerModel("1");
@@ -86,17 +103,31 @@ public class GameManager : MonoBehaviour
 
         OfficeManager.instance.CreateOfficerModel("1");
         OfficeManager.instance.CreateOfficerModel("1");
-
+        */
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
             agent.ReturnToSefira();
         }
 
+        //SefiraManager.instance.getSefira("1").AssignOfficerDept();
+        
         foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList()) {
             officer.ReturnToSefira();
         }
+        
 
+		stageUI.CancelSefiraAgent(a);
+		a.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
+		a.SetCurrentSefira("1");
+		if (!a.activated)
+			AgentManager.instance.activateAgent(a, "1");
+
+		a.SetCurrentNode (MapGraph.instance.GetNodeById ("malkuth-0-2"));
+
+		
         StartStage();
+		//stageUI.Close ();
+		//StartGame();
         //OpenStoryScene("start");
         /*
         gameStateScreen.SetActive(false);
@@ -141,14 +172,47 @@ public class GameManager : MonoBehaviour
 
         int day = PlayerModel.instance.GetDay();
         stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
+        /*
+        foreach (Sefira s in SefiraManager) { 
+            
+        }
+        */
+        SefiraManager.instance.getSefira(SefiraName.Malkut).InitAgentSkillList();
+        foreach (OfficerModel om in OfficeManager.instance.GetOfficerList()) {
+            StartCoroutine(om.StartAction());
+        }
     }
+
+	public void Pause()
+	{
+		state = GameState.PAUSE;
+		stageTimeInfoUI.Pause ();
+	}
+
+	public void Resume()
+	{
+		state = GameState.PLAYING;
+		stageTimeInfoUI.Resume ();
+	}
 
     public void EndGame()
     {
-        state = GameState.PAUSE;
+		state = GameState.STOP;
         Debug.Log("EndGame");
-        EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy() + EnergyModel.instance.GetStageLeftEnergy());
+        if (AgentStatusWindow.currentWindow != null)
+            AgentStatusWindow.currentWindow.CloseWindow();
 
+        if (SelectWorkAgentWindow.currentWindow != null)
+            SelectWorkAgentWindow.currentWindow.CloseWindow();
+
+        if (CollectionWindow.currentWindow != null)
+            CollectionWindow.currentWindow.CloseWindow();
+
+        if (SelectSefiraAgentWindow.currentWindow != null)
+            SelectSefiraAgentWindow.currentWindow.CloseWindow();
+        EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy() + EnergyModel.instance.GetStageLeftEnergy());
+        //직원계산파트 필요
+        
         GetComponent<RootTimer>().RemoveTimer("EnergyTimer");
         GetComponent<RootTimer>().RemoveTimer("CreatureFeelingUpdateTimer");
     }
@@ -172,12 +236,15 @@ public class GameManager : MonoBehaviour
         if (energy >= needEnergy)
         {
             stageUI.Open(StageUI.UIType.END_STAGE);
-            briefingText.SetNarrationByDay();
+            EndStage.instance.init(AgentManager.instance.GetAgentList()[0]);
+            //briefingText.SetNarrationByDay();
         }
         else
         {
             //storyScene.LoadStory("start");
-            OpenStoryScene("start");
+            //OpenStoryScene("start");
+            stageUI.Open(StageUI.UIType.END_STAGE);
+            EndStage.instance.init(AgentManager.instance.GetAgentList()[0]);
             Debug.Log("Game Over..");
         }
     }

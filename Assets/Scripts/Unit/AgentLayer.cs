@@ -5,6 +5,8 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
     public static AgentLayer currentLayer { private set; get; }
 
+    public Sprite[] hairListTemp;
+    public Sprite[] faceListTemp;
     private List<AgentUnit> agentList;
 
     private int zCount;
@@ -40,7 +42,8 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
     public void AddAgent(AgentModel model)
     {
-        GameObject newUnit = Prefab.LoadPrefab("unit");
+        //GameObject newUnit = Prefab.LoadPrefab("unit");
+        GameObject newUnit = Prefab.LoadPrefab("Agent/AgentUnit");
         newUnit.transform.SetParent(transform, false);
         AgentUnit unit = newUnit.GetComponent<AgentUnit>();
 
@@ -56,10 +59,25 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
         // 다른 유닛의 Z값 범위를 침범하지 않도록 z스케일을 낮춘다.
         Vector3 unitScale = unit.transform.localScale;
-        unitScale.z = 0.001f;
+        unitScale.z = 0.0005f;
         unit.transform.localScale = unitScale;
 
         zCount = (zCount + 1) % 1000;
+
+        if (unit.animTarget != null && hairListTemp.Length > 0) {
+            unit.animTarget.SetHair(unit.model.tempHairSprite);
+            if (faceListTemp.Length > 0) {
+                unit.animTarget.SetFace(unit.model.tempFaceSprite);
+            }
+        }
+    }
+
+    public Sprite GetAgentHair() {
+        return hairListTemp[Random.Range(0, hairListTemp.Length)];
+    }
+
+    public Sprite GetAgentFace() { 
+        return faceListTemp[Random.Range(0, faceListTemp.Length)];
     }
 
     public void RemoveAgent(AgentModel model)

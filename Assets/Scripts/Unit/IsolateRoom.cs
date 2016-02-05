@@ -95,6 +95,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void Init()
     {
+
+        roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1);
         float sizex = Mathf.Max(
             roomSpriteRenderer.sprite.bounds.size.x * roomSpriteRenderer.gameObject.transform.localScale.x,
             roomSpriteRenderer.sprite.bounds.size.x * roomSpriteRenderer.gameObject.transform.localScale.x
@@ -103,6 +105,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             roomSpriteRenderer.sprite.bounds.size.y * roomSpriteRenderer.gameObject.transform.localScale.y,
             roomSpriteRenderer.sprite.bounds.size.y * roomSpriteRenderer.gameObject.transform.localScale.y
             );
+
 
         touchButtonTransform.sizeDelta = new Vector2(sizex, sizey);
 
@@ -151,7 +154,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		if(targetUnit != null)
 		{
             // 잠시 안 띄움
-			feelingText.text = targetUnit.model.feeling.ToString ();
+			//feelingText.text = targetUnit.model.feeling.ToString ();
+			feelingText.text = targetUnit.model.energyPoint.ToString();
             creatureLevel.text = targetUnit.model.metaInfo.level;
             creatureName.text = targetUnit.model.metaInfo.name;
 
@@ -263,16 +267,21 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void OnClick()
     {
-        CreatureModel oldCreature = (CollectionWindow.currentWindow != null )? CollectionWindow.currentWindow.GetCreature() : null;
+        targetUnit.OnClick();
+        
+    }
+
+    public void OnClickedCreatureRoom() {
+        CreatureModel oldCreature = (CollectionWindow.currentWindow != null) ? CollectionWindow.currentWindow.GetCreature() : null;
         if (SelectWorkAgentWindow.currentWindow != null)
-        SelectWorkAgentWindow.currentWindow.CloseWindow();
+            SelectWorkAgentWindow.currentWindow.CloseWindow();
         CollectionWindow.Create(_targetUnit.model);
 
 
         // TODO : 최적화 필요
         collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
 
-        
+
         if (collection.GetComponent<Animator>().GetBool("isTrue"))
         {
             //Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
@@ -304,7 +313,12 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 	{
         Color color = roomFogRenderer.color;
 
-        if (_targetUnit.model.state == CreatureState.WORKING)
+		if (_targetUnit.model.IsTargeted () == true)
+		{
+			color.a = 0f;
+			roomFogRenderer.color = color;
+		}
+        else if (_targetUnit.model.state == CreatureState.WORKING)
         {
             color.a = 0f;
             roomFogRenderer.color = color;

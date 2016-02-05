@@ -49,6 +49,11 @@ public class AgentUnit : MonoBehaviour {
     public Animator agentAnimator;
     public GameObject renderNode;
 
+    public GameObject puppetNode;
+    public Animator puppetAnim;
+
+    public AgentAnim animTarget;
+
     public float oldPos;
     public float oldPosY;
     public bool agentMove=false;
@@ -77,6 +82,7 @@ public class AgentUnit : MonoBehaviour {
 
     void LateUpdate()
     {
+        /*
         foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>())
         {
             if (model.mental > 0)
@@ -113,16 +119,23 @@ public class AgentUnit : MonoBehaviour {
                 renderer.transform.localScale.Set(-1,1,1);
             }
         }
+         */
     }
 
     void  Start()
     {
-        agentAnimator.SetInteger("Sepira", 1);
-        agentAnimator.SetBool("Change", false);
+        //agentAnimator.SetInteger("Sepira", 1);
+        //agentAnimator.SetBool("Change", false);
+
+        puppetAnim.SetInteger("Sefira", 1);
+        puppetAnim.SetBool("Change", false);
+
         oldPos = transform.localPosition.x;
         oldPosY = transform.localPosition.y;
         oldSefira = "1";
         agentName.text = model.name;
+
+        agentPlatform.SetActive(false);
 
         faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
         hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
@@ -165,35 +178,46 @@ public class AgentUnit : MonoBehaviour {
 
                 if (edgeDirection == 1)
                 {
-                    Transform anim = renderNode.transform;
+                    //Transform anim = renderNode.transform;
 
-                    Vector3 scale = anim.localScale;
+                    Transform puppet = puppetNode.transform;
 
-                    if (pos2.x - pos1.x > 0 && scale.x < 0)
+                    //Vector3 scale = anim.localScale;
+                    Vector3 puppetScale = puppet.localScale;
+
+                    if (pos2.x - pos1.x > 0 && puppetScale.x < 0)
                     {
-                        scale.x = -scale.x;
+                       // scale.x = -scale.x;
+                        puppetScale.x = -puppetScale.x;
                     }
-                    else if (pos2.x - pos1.x < 0 && scale.x > 0)
+                    else if (pos2.x - pos1.x < 0 && puppetScale.x > 0)
                     {
-                        scale.x = -scale.x;
+                    //    scale.x = -scale.x;
+                        puppetScale.x = -puppetScale.x;
                     }
-                    anim.transform.localScale = scale;
+                    //anim.transform.localScale = scale;
+                    puppet.transform.localScale = puppetScale;
                 }
                 else
                 {
-                    Transform anim = renderNode.transform;
+                   // Transform anim = renderNode.transform;
+                    Transform puppet = puppetNode.transform;
 
-                    Vector3 scale = anim.localScale;
+                  //  Vector3 scale = anim.localScale;
+                    Vector3 puppetScale = puppet.localScale;
 
-                    if (pos2.x - pos1.x > 0 && scale.x > 0)
+                    if (pos2.x - pos1.x > 0 && puppetScale.x > 0)
                     {
-                        scale.x = -scale.x;
+                  //      scale.x = -scale.x;
+                        puppetScale.x = -puppetScale.x;
                     }
-                    else if (pos2.x - pos1.x < 0 && scale.x < 0)
+                    else if (pos2.x - pos1.x < 0 && puppetScale.x < 0)
                     {
-                        scale.x = -scale.x;
+                  //      scale.x = -scale.x;
+                        puppetScale.x = -puppetScale.x;
                     }
-                    anim.transform.localScale = scale;
+                  //  anim.transform.localScale = scale;
+                    puppet.transform.localScale = puppetScale;
                 }
             }
 	}
@@ -234,33 +258,53 @@ public class AgentUnit : MonoBehaviour {
 
     public void ChangeAgentUniform()
     {
-        agentAnimator.SetBool("Change", true);
+        
+        if (animTarget != null)
+        {
+            if (model.currentSefira == "1")
+            {
+                //animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentM1"));
+            }
+            else
+            {
+                //animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
+            }
+        }
+        //agentAnimator.SetBool("Change", true);
 
+        puppetAnim.SetBool("Change", true);
 
         if (model.currentSefira == "1")
         {
             agentAnimator.SetInteger("Sepira", 1);
+            puppetAnim.SetInteger("Sefira", 1);
         }
 
         else if (model.currentSefira == "2")
         {
             agentAnimator.SetInteger("Sepira", 2);
+            puppetAnim.SetInteger("Sefira", 2);
         }
 
         else if (model.currentSefira == "3")
         {
             agentAnimator.SetInteger("Sepira", 3);
+            puppetAnim.SetInteger("Sefira", 3);
         }
 
         else if (model.currentSefira == "4")
         {
             agentAnimator.SetInteger("Sepira", 4);
+            puppetAnim.SetInteger("Sefira", 4);
         }
 
         TimerCallback.Create(1, delegate()
         {
-            if (agentAnimator.GetBool("Change"))
+            /*if (agentAnimator.GetBool("Change"))
                 agentAnimator.SetBool("Change", false);
+            */
+            if (puppetAnim.GetBool("Change"))
+                puppetAnim.SetBool("Change", false);
         });
         oldSefira = model.currentSefira;
     }
@@ -275,17 +319,23 @@ public class AgentUnit : MonoBehaviour {
 
         if (oldPos != transform.localPosition.x)
         {
-            agentAnimator.SetBool("AgentMove", true);
-            faceSprite.GetComponent<Animator>().SetBool("Move", true);
-            hairSprite.GetComponent<Animator>().SetBool("Move", true);
+            //agentAnimator.SetBool("AgentMove", true);
+           // faceSprite.GetComponent<Animator>().SetBool("Move", true);
+           // hairSprite.GetComponent<Animator>().SetBool("Move", true);
+
+            animTarget.SetSpeed(model.movement / 4.0f);
+            puppetAnim.SetBool("Move", true);
         }
         else
         {
-            agentAnimator.SetBool("AgentMove", false);
-            faceSprite.GetComponent<Animator>().SetBool("Move", false);
-            hairSprite.GetComponent<Animator>().SetBool("Move", false);
-        }
+          //  agentAnimator.SetBool("AgentMove", false);
+         //   faceSprite.GetComponent<Animator>().SetBool("Move", false);
+          //  hairSprite.GetComponent<Animator>().SetBool("Move", false);
 
+            animTarget.SetSpeed(1);
+            puppetAnim.SetBool("Move", false);
+        }
+        /*
         if (oldPosY != transform.localPosition.y)
         {
             agentPlatform.SetActive(true);
@@ -295,7 +345,7 @@ public class AgentUnit : MonoBehaviour {
         {
             agentPlatform.SetActive(false);
         }
-
+        */
         oldPosY = transform.localPosition.y;
         oldPos = transform.localPosition.x;
 
@@ -395,6 +445,7 @@ public class AgentUnit : MonoBehaviour {
 
 	public void OpenStatusWindow()
 	{
+        return;
         AgentModel oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
 		AgentStatusWindow.CreateWindow (model);
         if (CollectionWindow.currentWindow != null)
@@ -404,7 +455,7 @@ public class AgentUnit : MonoBehaviour {
         Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
         Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
         showSpeech.showSpeech(speech);
-        Debug.Log("관리자에게 " + speech);
+        //Debug.Log("관리자에게 " + speech);
         
 
         // TODO : 최적화 필요
@@ -412,12 +463,12 @@ public class AgentUnit : MonoBehaviour {
 
         if (agentWindow.GetComponent<Animator>().GetBool("isTrue"))
         {
-            Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
+            //Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
             agentWindow.GetComponent<Animator>().SetBool("isTrue", false);
         }
         else if(oldUnit == model)
         {
-            Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
+            //Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
             agentWindow.GetComponent<Animator>().SetBool("isTrue", true);
         }
 	}
@@ -431,6 +482,7 @@ public class AgentUnit : MonoBehaviour {
             TextAppearNormalEffect.Create(GetComponent<DestroyHandler>(), new Vector2(0, 0.5f), 4f, name + " : " + speech, Color.blue);
         }
     }
+
 
 
 }

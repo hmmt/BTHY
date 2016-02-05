@@ -29,6 +29,7 @@ public class SmilePierrot : CreatureBase {
 
     public override void OnEnterRoom(UseSkill skill)
     {
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/smilePierrot/smilePierrot_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 7);
@@ -47,5 +48,6 @@ public class SmilePierrot : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/smilePierrot/smilePierrot_enterTypo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }

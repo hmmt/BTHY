@@ -8,7 +8,6 @@ public class MapNode {
 
     private bool _activate;
     private string areaName;
-    private string groupName;
 	private List<MapEdge> edges;
     private List<MapNode> zNodes;
 	private Vector3 pos;
@@ -16,7 +15,12 @@ public class MapNode {
     public bool isTemporary = false;
     public bool isZBase = false;
 
-    public MapSefiraArea area; // 소속된 area
+    public bool closed = false;
+
+    private DoorObjectModel door = null;
+    private PassageObjectModel attachedPassage;
+
+    private bool closable;
 
     public bool activate
     {
@@ -29,19 +33,19 @@ public class MapNode {
         this.id = id;
         this.pos = pos;
         this.areaName = areaName;
-        this.groupName = "NoName";
+        this.attachedPassage = null;
 
         _activate = true;
         edges = new List<MapEdge>();
         zNodes = new List<MapNode>();
     }
 
-    public MapNode(string id, Vector3 pos, string areaName, string groupName)
+    public MapNode(string id, Vector3 pos, string areaName, PassageObjectModel attachedPassage)
 	{
 		this.id = id;
 		this.pos = pos;
         this.areaName = areaName;
-        this.groupName = groupName;
+        this.attachedPassage = attachedPassage;
 
         _activate = true;
 		edges = new List<MapEdge>();
@@ -68,6 +72,26 @@ public class MapNode {
         edges.Remove(edge);
     }
 
+    public void SetClosable(bool b)
+    {
+        closable = b;
+    }
+
+    public void SetDoor(DoorObjectModel door)
+    {
+        this.door = door;
+    }
+
+    public DoorObjectModel GetDoor()
+    {
+        return door;
+    }
+
+    public bool IsClosable()
+    {
+        return closable;
+    }
+
 	public Vector3 GetPosition()
 	{
 		return pos;
@@ -83,9 +107,9 @@ public class MapNode {
         return areaName;
     }
 
-    public string GetGroupName()
+    public PassageObjectModel GetAttachedPassage()
     {
-        return groupName;
+        return attachedPassage;
     }
 
 	public MapEdge[] GetEdges()

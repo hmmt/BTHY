@@ -46,13 +46,17 @@ public class PlayerModel {
 
     public void OpenArea(string area)
     {
+        Sefira s = SefiraManager.instance.getSefira(area);
         if (areaList.Contains(area) && !openedAreaList.Contains(area))
         {
             openedAreaList.Add(area);
             UpdateArea(area);
-            SefiraManager.instance.getSefira(area).initCreatureArray(
-                ref SefiraManager.instance.getSefira(area).creatureList,
-                ref SefiraManager.instance.getSefira(area).idleList);
+            //SefiraManager.instance.getSefira(area).activated = true;
+            //SefiraManager.instance.getSefira(area).initCreatureArray();
+            s.activated = true;
+            s.initCreatureArray();
+            s.initOfficerGroup();
+            
         }
     }
 
@@ -100,12 +104,12 @@ public class PlayerModel {
 
         if (added == "1")
         {
-            CreatureManager.instance.AddCreature(RandomCreature(), "left-upper-way2", -9.6f, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "left-upper-way3", -17.2f, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "right-upper-way2", 9.6f, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "right-upper-way3", 17.2f, -1, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "left-down-way2", -14, -8.5f, added);
-            CreatureManager.instance.AddCreature(RandomCreature(), "right-down-way2", 14, -8.5f, added);
+			CreatureManager.instance.AddCreature(100001, "left-upper-way2", -8f, -3f, added);
+			CreatureManager.instance.AddCreature(100002, "left-upper-way3", -15f, -3f, added);
+			CreatureManager.instance.AddCreature(100003, "right-upper-way2", 8f, -3f, added);
+			CreatureManager.instance.AddCreature(100004, "right-upper-way3", 15f, -3f, added);
+			CreatureManager.instance.AddCreature(100005, "left-down-way2", -6, -10f, added);
+			CreatureManager.instance.AddCreature(100006, "right-down-way2", 6, -10f, added);
 
         }
         else if (added == "2")

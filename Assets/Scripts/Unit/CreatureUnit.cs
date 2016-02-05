@@ -10,9 +10,16 @@ public class CreatureUnit : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer returnSpriteRenderer;
 
+
+    // ?
+    public CreatureAnimScript animTarget;
+
     // 아직 안 씀
+
+    
     public Animator creatureAnimator;
     public CreatureAnimBase script;
+    
 
     private Vector3 directionScaleFactor = new Vector3(1f, 1f, 1f);
     private Vector3 scaleFactor = new Vector3(1f, 1f, 1f);
@@ -119,7 +126,7 @@ public class CreatureUnit : MonoBehaviour {
        {
            mouseScale = new Vector3(1.2f, 1.2f, 1.2f);
        }
-
+       
        creatureAnimator.transform.localScale = new Vector3(
            directionScaleFactor.x * scaleFactor.x * mouseScale.x,
            directionScaleFactor.y * scaleFactor.y * mouseScale.y,
@@ -135,10 +142,12 @@ public class CreatureUnit : MonoBehaviour {
     private CreatureState oldState = CreatureState.WAIT;
     void Update()
     {
+        
         if (script != null)
         {
             script.Update();
         }
+        
 
         if (oldState != model.state)
         {
@@ -149,10 +158,12 @@ public class CreatureUnit : MonoBehaviour {
 
     void LateUpdate()
     {
+        
         if (script != null)
         {
             script.LateUpdate();
         }
+        
 
         UpdateScale();
     }
@@ -215,17 +226,23 @@ public class CreatureUnit : MonoBehaviour {
 
 	public void OnClicked()
 	{
-        Debug.Log("크리쳐 상태 "+model.state);
-		if(model.state == CreatureState.WAIT)
-		{
-			SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
-			//IsolateRoomStatus.CreateWindow(this);
-		}
-        else if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
-        {
-            SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
-        }
+        room.OnClickedCreatureRoom();
 	}
+
+    public void OnClick() {
+        Debug.Log("크리쳐 상태 " + model.state);
+
+		if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
+		{
+			SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+		}
+		else
+        //if (model.state == CreatureState.WAIT)
+        {
+            SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
+            //IsolateRoomStatus.CreateWindow(this);
+        }
+    }
 
     public void PointerEnter()
     {

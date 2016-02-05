@@ -11,10 +11,14 @@ using System;
 public enum CreatureState
 {
 	WAIT,
+	WAIT_COOLDOWN,
+
     ESCAPE,
     ESCAPE_ATTACK,
     ESCAPE_RETURN,
     ESCAPE_WORK,
+
 	WORKING,
+
     OBSERVE
 }

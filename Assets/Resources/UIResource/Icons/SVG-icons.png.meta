@@ -1,0 +1,1024 @@
+fileFormatVersion: 2
+guid: 1ca36080da7d4224a8176a42f6836efa
+timeCreated: 1451979216
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: SVG-icons_0
+    21300002: SVG-icons_1
+    21300004: SVG-icons_2
+    21300006: SVG-icons_3
+    21300008: SVG-icons_4
+    21300010: SVG-icons_5
+    21300012: SVG-icons_6
+    21300014: SVG-icons_7
+    21300016: SVG-icons_8
+    21300018: SVG-icons_9
+    21300020: SVG-icons_10
+    21300022: SVG-icons_11
+    21300024: SVG-icons_12
+    21300026: SVG-icons_13
+    21300028: SVG-icons_14
+    21300030: SVG-icons_15
+    21300032: SVG-icons_16
+    21300034: SVG-icons_17
+    21300036: SVG-icons_18
+    21300038: SVG-icons_19
+    21300040: SVG-icons_20
+    21300042: SVG-icons_21
+    21300044: SVG-icons_22
+    21300046: SVG-icons_23
+    21300048: SVG-icons_24
+    21300050: SVG-icons_25
+    21300052: SVG-icons_26
+    21300054: SVG-icons_27
+    21300056: SVG-icons_28
+    21300058: SVG-icons_29
+    21300060: SVG-icons_30
+    21300062: SVG-icons_31
+    21300064: SVG-icons_32
+    21300066: SVG-icons_33
+    21300068: SVG-icons_34
+    21300070: SVG-icons_35
+    21300072: SVG-icons_36
+    21300074: SVG-icons_37
+    21300076: SVG-icons_38
+    21300078: SVG-icons_39
+    21300080: SVG-icons_40
+    21300082: SVG-icons_41
+    21300084: SVG-icons_42
+    21300086: SVG-icons_43
+    21300088: SVG-icons_44
+    21300090: SVG-icons_45
+    21300092: SVG-icons_46
+    21300094: SVG-icons_47
+    21300096: SVG-icons_48
+    21300098: SVG-icons_49
+    21300100: SVG-icons_50
+    21300102: SVG-icons_51
+    21300104: SVG-icons_52
+    21300106: SVG-icons_53
+    21300108: SVG-icons_54
+    21300110: SVG-icons_55
+    21300112: SVG-icons_56
+    21300114: SVG-icons_57
+    21300116: SVG-icons_58
+    21300118: SVG-icons_59
+    21300120: SVG-icons_60
+    21300122: SVG-icons_61
+    21300124: SVG-icons_62
+    21300126: SVG-icons_63
+    21300128: SVG-icons_64
+    21300130: SVG-icons_65
+    21300132: SVG-icons_66
+    21300134: SVG-icons_67
+    21300136: SVG-icons_68
+    21300138: SVG-icons_69
+    21300140: SVG-icons_70
+    21300142: SVG-icons_71
+    21300144: SVG-icons_72
+    21300146: SVG-icons_73
+    21300148: SVG-icons_74
+    21300150: SVG-icons_75
+    21300152: SVG-icons_76
+    21300154: SVG-icons_77
+    21300156: SVG-icons_78
+    21300158: SVG-icons_79
+    21300160: SVG-icons_80
+    21300162: SVG-icons_81
+    21300164: SVG-icons_82
+    21300166: SVG-icons_83
+    21300168: SVG-icons_84
+    21300170: SVG-icons_85
+    21300172: SVG-icons_86
+    21300174: SVG-icons_87
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: SVG-icons_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_2
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_3
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_4
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_5
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_6
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_7
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_8
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_9
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_10
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 264
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_11
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_12
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_13
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_14
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_15
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_16
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_17
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_18
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_19
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_20
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_21
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 227
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_22
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_23
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_24
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_25
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_26
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_27
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_28
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_29
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_30
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_31
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_32
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 190
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_33
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_34
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_35
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_36
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_37
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_38
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_39
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_40
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_41
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_42
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_43
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 153
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_44
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_45
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_46
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_47
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_48
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_49
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_50
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_51
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_52
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_53
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_54
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 116
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_55
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_56
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_57
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_58
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_59
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_60
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_61
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_62
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_63
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_64
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_65
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 79
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_66
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_67
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_68
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_69
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_70
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_71
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_72
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_73
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_74
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_75
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_76
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 42
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_77
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_78
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_79
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_80
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_81
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_82
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_83
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_84
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_85
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_86
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SVG-icons_87
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

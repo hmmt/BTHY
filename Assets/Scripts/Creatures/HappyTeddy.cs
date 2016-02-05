@@ -15,6 +15,7 @@ public class HappyTeddy  : CreatureBase {
 
 	public override void OnSkillStart(UseSkill skill)
 	{
+		/*
 		if(skill.skillTypeInfo.id == 40002) // 
 		{
 			if(skill.targetCreature.feeling <= 50)
@@ -25,6 +26,7 @@ public class HappyTeddy  : CreatureBase {
 				}
 			}
 		}
+		*/
 	}
 
     public override void OnSkillTickUpdate(UseSkill skill)
@@ -32,7 +34,7 @@ public class HappyTeddy  : CreatureBase {
         bool isSpecialSkill = skill.skillTypeInfo.id == 40002;
         float prob = 0;
         int feelingUp = 0;
-
+		/*
         CreatureFeelingState feelingState = model.GetFeelingState();
         if (feelingState == CreatureFeelingState.BAD)
         {
@@ -48,6 +50,7 @@ public class HappyTeddy  : CreatureBase {
         {
             ActivateSkill(skill, feelingUp);
         }
+        */
 	}
 
     // temporary
@@ -59,7 +62,7 @@ public class HappyTeddy  : CreatureBase {
     public void ActivateSkill(UseSkill skill, int feelingUp)
     {
         // show effect
-
+		/*
         skill.PauseWorking();
         ///SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
 
@@ -84,15 +87,19 @@ public class HappyTeddy  : CreatureBase {
 		SoundEffectPlayer.PlayOnce("creature/happy_teddy/happyTeddy_Ability_Special", skill.targetCreatureView.transform.position);
 
         TimerCallback.Create(4.0f, delegate() {
-            skill.agent.TakePhysicalDamage(Mathf.Max(skill.agent.maxHp / 3, 1));
+			
+            //skill.agent.TakePhysicalDamage(Mathf.Max(skill.agent.maxHp / 3, 1));
+
             model.AddFeeling(feelingUp);
         });
+        */
     }
 
     //
 
     public override void OnEnterRoom(UseSkill skill)
     {
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4);
@@ -106,6 +113,7 @@ public class HappyTeddy  : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 
     public override SkillTypeInfo GetSpecialSkill()

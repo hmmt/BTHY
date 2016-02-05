@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class AgentIcons {
     public Image[] statuslist;
     public Image[] worklist;
+    
 }
 
 public class AgentStatusWindow : MonoBehaviour, IObserver {
@@ -22,13 +24,15 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
     public Image AgentBody;
 
     public AgentIcons icons;
+    public string[] statusDesc;
+    public string[] worklistDesc;
 
 	[HideInInspector]
 	public static AgentStatusWindow currentWindow = null;
 
 	private AgentModel _target = null;
 	private bool enabled = false;
-
+    private List<List<GameObject>> iconList;
     public AgentModel target
 	{
 		get{ return _target; }
@@ -52,15 +56,52 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         {
             newObj = currentWindow.gameObject;
             //currentWindow.CloseWindow();
+            inst = newObj.GetComponent<AgentStatusWindow>();
         }
         else
         {
             newObj = Prefab.LoadPrefab("AgentStatusWindow");
+            
+            inst = newObj.GetComponent<AgentStatusWindow>();
+            inst.iconList = new List<List<GameObject>>();
+            inst.worklistDesc = new string[inst.icons.worklist.Length];
+            inst.statusDesc = new string[inst.icons.statuslist.Length];
+
+            for (int i = 0; i < inst.icons.statuslist.Length; i++)
+            {
+                GameObject target = inst.icons.statuslist[i].gameObject;
+
+                EventTrigger trigger = target.AddComponent<EventTrigger>();
+                EventTrigger.Entry enter = new EventTrigger.Entry();
+                EventTrigger.Entry exit = new EventTrigger.Entry();
+                enter.eventID = EventTriggerType.PointerEnter;
+                exit.eventID = EventTriggerType.PointerExit;
+                OverlayObject overlayItem = target.AddComponent<OverlayObject>();
+                enter.callback.AddListener((eventdata) => { overlayItem.Overlay(); });
+                exit.callback.AddListener((eventdata) => { overlayItem.Hide(); });
+                trigger.triggers.Add(enter);
+                trigger.triggers.Add(exit);
+            }
+
+            for (int i = 0; i < inst.icons.worklist.Length; i++)
+            {
+                GameObject target = inst.icons.worklist[i].gameObject;
+
+                EventTrigger trigger = target.AddComponent<EventTrigger>();
+                EventTrigger.Entry enter = new EventTrigger.Entry();
+                EventTrigger.Entry exit = new EventTrigger.Entry();
+                enter.eventID = EventTriggerType.PointerEnter;
+                exit.eventID = EventTriggerType.PointerExit;
+                OverlayObject overlayItem = target.AddComponent<OverlayObject>();
+                enter.callback.AddListener((eventdata) => { overlayItem.Overlay(); });
+                exit.callback.AddListener((eventdata) => { overlayItem.Hide(); });
+                trigger.triggers.Add(enter);
+                trigger.triggers.Add(exit);
+            }
         }
 		
-		 inst = newObj.GetComponent<AgentStatusWindow> ();
-
 		inst.target = unit;
+        
 		inst.UpdateCreatureStatus ();
         inst.AgentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
         inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
@@ -70,6 +111,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
 		return inst;
 	}
+
 	void OnEnable()
 	{
 		enabled = true;
@@ -79,6 +121,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 		}
 		Notice.instance.Observe ("AgentDie", this);
 	}
+
 	void OnDisable()
 	{
 		enabled = false;
@@ -131,12 +174,25 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         DepartMent.text = "" + GetSefiraName( target.currentSefira);
 		NameText.text =  ""+target.name;
 		LevelText.text = ""+target.level + "등급";
+        statusDesc[0] = target.hp + "";
+        statusDesc[1] = target.mental + "";
+        statusDesc[2] = target.movement + "";
+        statusDesc[3] = target.workSpeed + "";
+		/*
+        worklistDesc[0] = target.directSkill.name;
+        worklistDesc[1] = target.indirectSkill.name;
+        worklistDesc[2] = target.blockSkill.name;*/
+        OverlayObject[] mannualAry = new OverlayObject[4];
         for (int i = 0; i < icons.statuslist.Length; i++) {
             icons.statuslist[i].sprite = target.StatusSprites[i];
+            OverlayObject overlay = icons.statuslist[i].GetComponent<OverlayObject>();
+            overlay.text = statusDesc[i];
         }
+
         for (int i = 0; i < icons.worklist.Length; i++)
         {
             icons.worklist[i].sprite = target.WorklistSprites[i];
+            icons.worklist[i].GetComponent<OverlayObject>().text = worklistDesc[i];
         }
 
         //ShowTraitList();
@@ -175,8 +231,16 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         TraitListScript script = transform.GetComponent<TraitListScript>();
         script.DeleteAll();
 
+        foreach (List<GameObject> temp in iconList) {
+            foreach (GameObject t in temp) {
+                Destroy(t);
+            }
+            temp.Clear();
+        }
+        iconList.Clear();
+
         for (int i = 0; i < target.traitList.Count; i++) {
-            script.MakeTrait(target.traitList[i].name);
+            iconList.Add(script.MakeTrait(target.traitList[i]));
         }
         AgentLifeStyle.text = target.LifeStyle();
         script.SortTrait();
@@ -191,13 +255,6 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	{
         GameObject.FindGameObjectWithTag("AnimAgentController")
             .GetComponent<Animator>().SetBool("isTrue", true);
-		//currentWindow = null;
-		//Destroy (gameObject);
-	}
-
-	public void Test()
-	{
-		Debug.Log ("33");
 	}
 
     public void OnClickPortrait() {

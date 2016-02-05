@@ -9,6 +9,12 @@ public class NullCreature : CreatureBase {
     private bool changed = false;
 
 
+	public override void OnInit()
+	{
+		base.OnInit();
+		//model.SetCurrentNode (MapGraph.instance.GetNodeById("sefira-malkuth-4"));
+	}
+
     private void ChangeBody()
     {
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
@@ -26,6 +32,8 @@ public class NullCreature : CreatureBase {
     // 변신
     public override void OnFixedUpdate(CreatureModel creature)
     {
+		// 
+		/*
         if (creature.feeling <= changeCondition)
         {
             if (!changed)
@@ -46,7 +54,8 @@ public class NullCreature : CreatureBase {
         if (creature.feeling <= 0)
         {
             creature.Escape();
-        }   
+        }
+        */
     }
 
     public override SkillTypeInfo GetSpecialSkill()

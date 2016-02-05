@@ -5,17 +5,18 @@ public class UseSkill : ActionClassBase
 {
 
     public int totalTickNum;
-    public float tickInterval;
-    public float totalWork;
-    public float curWork;
+    public float tickInterval = 1.0f;
     public float workSpeed;
     public float workProgress;
-    public float totalFeeling;
-
+    //public float totalFeeling;
+	/*
     public int goalWork;
     public float elapsedWorkingTime;
     public int currentWork;
     public int updateTick = 5;
+    */
+
+	public int successCount;
     public int workCount;
 
     // skill info
@@ -29,8 +30,8 @@ public class UseSkill : ActionClassBase
     public CreatureUnit targetCreatureView;
     public IsolateRoom room;
 
-    private int mentalReduce; // 작업 후 정신력 감소량
-    private int mentalTick; // 틱 당 정신력 변화량
+    //private int mentalReduce; // 작업 후 정신력 감소량
+    //private int mentalTick; // 틱 당 정신력 변화량
 
     private bool alreadyHit = false;
 
@@ -64,52 +65,39 @@ public class UseSkill : ActionClassBase
     {
         workCount = 0;
         totalTickNum = tickNum;
-        totalWork = work;
         workSpeed = speed;
-        totalFeeling = feeling;
-
-        int maxHP = 0;
-        int maxMental = 0;
-        // skill 보너스
-        if (maxHP > 100)
-        {
-            workSpeed *= 1.3f;
-        }
-        else if (maxMental > 200)
-        {
-            workSpeed *= 1.3f;
-        }
+        //totalFeeling = feeling;
 
         // 성향에 따른 보너스
         switch (agent.agentLifeValue)
         {
         case 1:
-            totalWork *= skill.amountBonusD;
-            totalFeeling *= skill.feelingBonusD;
-            mentalReduce = skill.mentalReduceD;
-            mentalTick = skill.mentalTickD;
+            //totalWork *= skill.amountBonusD;
+            //totalFeeling *= skill.feelingBonusD;
+            //mentalReduce = skill.mentalReduceD;
+            //mentalTick = skill.mentalTickD;
             break;
         case 2:
-            totalWork *= skill.amountBonusI;
-            totalFeeling  *= skill.feelingBonusI;
-            mentalReduce = skill.mentalReduceI;
-            mentalTick = skill.mentalTickI;
+            //totalWork *= skill.amountBonusI;
+            //totalFeeling  *= skill.feelingBonusI;
+            //mentalReduce = skill.mentalReduceI;
+            //mentalTick = skill.mentalTickI;
             break;
         case 3:
-            totalWork *= skill.amountBonusC;
-            totalFeeling *= skill.feelingBonusC;
-            mentalReduce = skill.mentalReduceC;
-            mentalTick = skill.mentalTickC;
+            //totalWork *= skill.amountBonusC;
+            //totalFeeling *= skill.feelingBonusC;
+            //mentalReduce = skill.mentalReduceC;
+            //mentalTick = skill.mentalTickC;
             break;
         case 4:
-            totalWork *= skill.amountBonusS;
-            totalFeeling *= skill.feelingBonusS;
-            mentalReduce = skill.mentalReduceS;
-            mentalTick = skill.mentalTickS;
+            //totalWork *= skill.amountBonusS;
+            //totalFeeling *= skill.feelingBonusS;
+            //mentalReduce = skill.mentalReduceS;
+            //mentalTick = skill.mentalTickS;
             break;
         }
 
-        tickInterval = totalWork / totalTickNum;
+        //tickInterval = totalWork / totalTickNum;
     }
 
     public void FixedUpdate()
@@ -118,7 +106,7 @@ public class UseSkill : ActionClassBase
 
         ProgressWork();
 
-        if (curWork >= totalWork && !readyToFinish)
+		if (workCount >= totalTickNum && !readyToFinish)
         {
             string speech;
             if (agent.speechTable.TryGetValue("work_complete", out speech))
@@ -153,42 +141,46 @@ public class UseSkill : ActionClassBase
                 targetCreatureView.PlaySound("enter");
                 targetCreature.script.OnEnterRoom(this);
             }
-            if (workPlaying)
-            {
-                workProgress += Time.deltaTime * workSpeed;
-            }
         }
+
+        if (workPlaying && IsWorkingState())
+        {
+            workProgress += Time.deltaTime * workSpeed;
+        }
+    }
+    public bool IsWorkingState()
+    {
+        if (agent.GetCurrentCommandType() == AgentCmdType.MANAGE_CREATURE)
+            return true;
+        return false;
     }
     private void ProgressWork()
     {
         if (workProgress >= tickInterval * (workCount + 1))
         {
             workCount++;
-            //int addedWork = (int)(totalWork / totalTickNum);
-            int addedFelling = (int)(totalFeeling / totalTickNum);
-            ProcessWorkTick(addedFelling);
-            curWork = workCount * totalWork / totalTickNum;
-            progressBar.SetRate(curWork / (float)totalWork);
+            ProcessWorkTick();
+			progressBar.SetRate(workCount / (float)totalTickNum);
         }
     }
     private void ProcessWorkNarration()
     {
-        if (!narrationPart1 && curWork >= (totalWork) / 5.0f)
+		if (!narrationPart1 && workCount >= (totalTickNum) / 5.0f)
         {
             targetCreature.ShowNarrationText("mid1", agent.name);
             narrationPart1 = true;
         }
-        else if (!narrationPart2 && curWork >= (2 * totalWork) / 5.0f)
+		else if (!narrationPart2 && workCount >= (2 * totalTickNum) / 5.0f)
         {
             targetCreature.ShowNarrationText("mid2", agent.name);
             narrationPart2 = true;
         }
-        else if (!narrationPart3 && curWork >= (3 * totalWork) / 5.0f)
+		else if (!narrationPart3 && workCount >= (3 * totalTickNum) / 5.0f)
         {
             targetCreature.ShowNarrationText("mid3", agent.name);
             narrationPart3 = true;
         }
-        else if (!narrationPart4 && curWork >= (4 * totalWork) / 5.0f)
+		else if (!narrationPart4 && workCount >= (4 * totalTickNum) / 5.0f)
         {
             targetCreature.ShowNarrationText("mid4", agent.name);
             narrationPart4 = true;
@@ -253,6 +245,7 @@ public class UseSkill : ActionClassBase
     {
         agent.FinishWorking();
         targetCreature.state = CreatureState.WAIT;
+		//targetCreature.bufRemainingTime = 5f;
     }
 
     private void FinshWork()
@@ -263,8 +256,25 @@ public class UseSkill : ActionClassBase
         tempCreView.Hide();
         */
 
+		//workCount
+		//successCount
+		float energyAdd = agent.GetEnergyAbility(skillTypeInfo)*successCount/workCount;
+
+		if (targetCreature.IsPreferSkill (skillTypeInfo)) {
+			targetCreature.AddFeeling(skillTypeInfo.amount*successCount/workCount);
+		} else if (targetCreature.IsRejectSkill (skillTypeInfo)) {
+			targetCreature.SubFeeling (skillTypeInfo.amount*successCount/workCount);
+		}
+
+		targetCreature.SetEnergyChange (5, energyAdd);
+
+
+
+
         //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(false);
         agentView.showSkillIcon.turnOnDoingSkillIcon(false);
+
+		//targetCreature.SetFeelingBuf (bufTime, feelingBufAmount);
 
         Release();
 
@@ -274,7 +284,7 @@ public class UseSkill : ActionClassBase
         Destroy(progressBar.gameObject);
     }
 
-    private void ProcessWorkTick(int workValue)
+    private void ProcessWorkTick()
     {
         targetCreature.script.OnSkillTickUpdate(this);
 
@@ -283,144 +293,45 @@ public class UseSkill : ActionClassBase
         {
             bool success = true;
             bool agentUpdated = false;
-            float workProb = 0.6f;
+            
 
-            float physicsProb = targetCreature.metaInfo.physicsProb;
-            float mentalProb = targetCreature.metaInfo.mentalProb;
-            int physicsDmg = targetCreature.metaInfo.physicsDmg;
-            int mentalDmg = targetCreature.metaInfo.mentalDmg;
-
-            if (targetCreature.script != null)
-            {
-                CreatureAttackInfo attackInfo = targetCreature.script.GetAttackInfo(this);
-
-                physicsProb = attackInfo.physicsProb;
-                mentalProb = attackInfo.mentalProb;
-                physicsDmg = attackInfo.physicsDmg;
-                mentalDmg = attackInfo.mentalDmg;
-            }
-
-            if (skillTypeInfo.type == "direct")
-            {
-                workProb += agent.directBonus;
-            }
-            else if (skillTypeInfo.type == "indirect")
-            {
-                workProb += agent.inDirectBonus;
-            }
-            else if (skillTypeInfo.type == "block")
-            {
-                workProb += agent.blockBonus;
-            }
-
-            // creature prefer
-            float bonus = 0;
-            if (targetCreature.GetPreferSkillBonus(skillTypeInfo, out bonus))
-            {
-                // prob up
-                workProb += bonus;
-            }
-            else if (targetCreature.GetRejectSkillBonus(skillTypeInfo, out bonus))
-            {
-                // prob down
-                workProb += bonus;
-            }
-            else
-            {
-                // prob middle
-            }
+			float workProb = agent.GetSuccessProb (skillTypeInfo);
 
             if (Random.value < workProb)
-            {
                 success = true;
-            }
             else
-            {
                 success = false;
-            }
 
             if (success)
             {
-                if (targetCreature.IsPreferSkill(skillTypeInfo))
-                {
-                    workValue = (int)(workValue * 1.5);
-                }
-                else if (targetCreature.IsRejectSkill(skillTypeInfo))
-                {
-                    workValue = (int)(workValue * 0.5);
-                }
+				successCount++;
             }
             else
             {
                 targetCreature.script.OnSkillFailWorkTick(this);
 
-                // when changed in SkillFailWorkTick
+                // It can be skipped when changed in SkillFailWorkTick
                 if (workPlaying)
                 {
-                    if (targetCreature.IsPreferSkill(skillTypeInfo))
-                    {
-                        workValue = (int)(workValue * 0.5);
-                    }
-                    else if (targetCreature.IsRejectSkill(skillTypeInfo))
-                    {
-                        workValue = (int)(workValue * 1.5);
-                    }
-                    workValue = -workValue;
+					float attackProb = targetCreature.GetAttackProb () - agent.GetEvasionProb();
 
-                    bool physicsAtk = Random.value < physicsProb;
-                    bool mentalAtk = Random.value < mentalProb;
-
-                    if (physicsAtk || mentalAtk)
-                    {
-                        targetCreature.script.OnSkillNormalAttack(this);
-                    }
-
-                    if (physicsAtk)
-                    {
-
-                        //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp",true);
-                        // Debug.Log("직원 애니메이터 1불 : "+agent.agentAttackedAnimator.GetComponent<Animator>().GetBool("attackUP"));
-
-                        agent.TakePhysicalDamage(physicsDmg);
-                        agent.expHpDamage += physicsDmg;
-
-                        agentUpdated = true;
-
-                        AgentHitEffect.Create(agent);
-                        targetCreatureView.PlaySound("attack");
-
-                        string speech;
-                        if (!alreadyHit && agent.speechTable.TryGetValue("work_hit", out speech))
-                        {
-                            Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
-                            Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
-                            alreadyHit = true;
-                            agentView.showSpeech.showSpeech(speech);
-                        }
-
-                        //agent.agentAttackedAnimator.GetComponent<Animator>().SetBool("attackUp", false);
-                        //  Debug.Log("직원 애니메이터 2불 : " + agent.agentAttackedAnimator.GetComponent<Animator>().GetBool("attackUP"));
-                    }
-                    if (mentalAtk)
-                    {
-                        agent.TakeMentalDamage(targetCreature.metaInfo.mentalDmg);
-                        agent.expMentalDamage += targetCreature.metaInfo.mentalDmg;
-
-                        agentUpdated = true;
-                    }
+					if (Random.value <= attackProb) {
+						if (targetCreature.GetAttackType () == CreatureAttackType.PHYSICS)
+						{
+							agent.TakePhysicalDamage(targetCreature.GetPhysicsDmg ());
+						}
+						else if (targetCreature.GetAttackType () == CreatureAttackType.MENTAL)
+						{
+							agent.TakeMentalDamage (targetCreature.GetMentalDmg ());
+						}
+						else // COMPLEX
+						{
+							agent.TakePhysicalDamage(targetCreature.GetPhysicsDmg ());
+							agent.TakeMentalDamage (targetCreature.GetMentalDmg ());
+						}
+					}
                 }
             }
-
-            if (mentalTick > 0)
-            {
-                agent.RecoverMental(mentalTick);
-            }
-            else if (mentalTick < 0)
-            {
-                agent.TakeMentalDamage(mentalTick);
-            }
-
-            targetCreature.AddFeeling(workValue);
 
             Notice.instance.Send("UpdateCreatureState_" + targetCreature.instanceId);
             if (agentUpdated)
@@ -492,7 +403,7 @@ public class UseSkill : ActionClassBase
 
     public static UseSkill InitUseSkillAction(SkillTypeInfo skillInfo, AgentModel agent, CreatureModel creature)
     {
-        if (agent.target != null || creature.state != CreatureState.WAIT)
+        if (creature.state != CreatureState.WAIT)
         {
             return null;
         }
@@ -519,7 +430,7 @@ public class UseSkill : ActionClassBase
 
         //agent.MoveToCreture(creature.gameObject);
         //agent.Working (creature.gameObject);
-        agent.Working(creature);
+        //agent.Working(creature);
         //creature.ShowNarrationText("start", agent.name);
 
         inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.workSpeed, skillInfo.amount); // 임시

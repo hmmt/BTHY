@@ -18,11 +18,20 @@ public class GameStaticDataLoader {
 
         if(TraitTypeList.instance.loaded == false)
             loader.LoadTraitData();
+
+        if (PassageObjectTypeList.instance.loaded == false)
+            loader.LoadPassageData();
+
+        if (SystemMessageManager.instance.isLoaded() == false)
+            loader.LoadSystemMessage();
+
+        if (ConversationManager.instance.isLoaded() == false)
+            loader.LoadDayScript();
 	}
 
     public void LoadTraitData()
     {
-        TextAsset textAsset = Resources.Load<TextAsset>("xml/Traits");
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Traits2");
 
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(textAsset.text);
@@ -30,34 +39,197 @@ public class GameStaticDataLoader {
         XmlNodeList nodes = doc.SelectNodes("/traits/trait");
 
         List<TraitTypeInfo> traitTypeList = new List<TraitTypeInfo>();
+        List<TraitTypeInfo> NFList = new List<TraitTypeInfo>();
+        List<TraitTypeInfo> EIList = new List<TraitTypeInfo>();
+        List<TraitTypeInfo>[] levelList = new List<TraitTypeInfo>[5];
 
+        for (int i = 0; i < 5; i++) {
+            levelList[i] = new List<TraitTypeInfo>();
+        }
+
+		int r = 0;
         foreach (XmlNode node in nodes)
         {
             TraitTypeInfo model = new TraitTypeInfo();
 
-            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+			model.id = (long)float.Parse(node.Attributes.GetNamedItem("id").InnerText);
             model.name = node.Attributes.GetNamedItem("name").InnerText;
 
-            model.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
-            model.randomFlag = int.Parse(node.Attributes.GetNamedItem("randomFlag").InnerText);
+			model.level = (int)float.Parse(node.Attributes.GetNamedItem("level").InnerText);
+            //model.randomFlag = int.Parse(node.Attributes.GetNamedItem("randomFlag").InnerText);
+			model.randomFlag = r++%2;
 
-            model.hp = int.Parse(node.Attributes.GetNamedItem("hp").InnerText);
-            model.mental = int.Parse(node.Attributes.GetNamedItem("mental").InnerText);
+			model.hp = (int)float.Parse(node.Attributes.GetNamedItem("hp").InnerText);
+			model.mental = (int)float.Parse(node.Attributes.GetNamedItem("mental").InnerText);
 
-            model.moveSpeed = int.Parse(node.Attributes.GetNamedItem("moveSpeed").InnerText);
-            model.workSpeed = int.Parse(node.Attributes.GetNamedItem("workSpeed").InnerText);
+			model.move = (int)float.Parse(node.Attributes.GetNamedItem("move").InnerText);
+			model.work = (int)float.Parse(node.Attributes.GetNamedItem("work").InnerText);
 
-            model.directWork = float.Parse(node.Attributes.GetNamedItem("directWork").InnerText);
-            model.inDirectWork = float.Parse(node.Attributes.GetNamedItem("inDirectWork").InnerText);
-            model.blockWork = float.Parse(node.Attributes.GetNamedItem("blockWork").InnerText);
-
-            model.discType = int.Parse(node.Attributes.GetNamedItem("discType").InnerText);
+			model.discType = (int)float.Parse(node.Attributes.GetNamedItem("discType").InnerText);
 
             model.description = node.Attributes.GetNamedItem("description").InnerText;
 
+            if (model.randomFlag == 1) {
+                levelList[model.level - 1].Add(model);
+                switch (model.discType) { 
+                    case 1:
+                    case 2:
+                        EIList.Add(model);
+                        break;
+                    case 3:
+                    case 4:
+                        NFList.Add(model);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
             traitTypeList.Add(model);
         }
-        TraitTypeList.instance.Init(traitTypeList.ToArray());
+        TraitTypeList.instance.Init(traitTypeList.ToArray(), EIList.ToArray(), NFList.ToArray(), levelList);
+
+    }
+
+    public void LoadSystemMessage() {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Sysmessage");
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+        
+        XmlNodeList messageNodes = doc.SelectNodes("system/message");
+        XmlNodeList keywordNodes = doc.SelectNodes("system/keyword");
+        List<SystemMessage> messageList = new List<SystemMessage>();
+        List<KeywordMessage> keywordList = new List<KeywordMessage>();
+
+        foreach (XmlNode node in messageNodes)
+        {
+            SystemMessage model = new SystemMessage();
+            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            model.name = node.Attributes.GetNamedItem("name").InnerText;
+            messageList.Add(model);
+        }
+
+        foreach (XmlNode node in keywordNodes)
+        {
+            KeywordMessage model = new KeywordMessage();
+            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            model.name = node.Attributes.GetNamedItem("name").InnerText;
+            model.desc = node.Attributes.GetNamedItem("desc").InnerText;
+            keywordList.Add(model);
+        }
+
+        SystemMessageManager.instance.Init(messageList.ToArray(), keywordList.ToArray());
+    }
+
+    private ConversationModel.Description[] LoadDesc(XmlNodeList descList) {
+        List<ConversationModel.Description> output = new List<ConversationModel.Description>();
+        foreach (XmlNode dNode in descList)
+        {
+            ConversationModel.Description description = new ConversationModel.Description();
+            description.id = long.Parse(dNode.Attributes.GetNamedItem("id").InnerText);
+            description.speaker = short.Parse(dNode.Attributes.GetNamedItem("speaker").InnerText);
+            description.selectId = long.Parse(dNode.Attributes.GetNamedItem("select").InnerText);
+            description.tempdesc = dNode.InnerText.Trim();
+            //Debug.Log(description.tempdesc);
+            description.loadText();
+
+            XmlNode endNode = dNode.SelectSingleNode("end");
+            if (endNode != null)
+            {
+
+                description.endId = endNode.Attributes.GetNamedItem("id").InnerText;
+                description.isEnd = true;
+                //Debug.Log(description.endId + description.tempdesc);
+            }
+
+            XmlNodeList sys = dNode.SelectNodes("sys");
+            if (sys.Count != 0)
+            {
+                foreach (XmlNode s in sys)
+                {
+                    int type = int.Parse(s.Attributes.GetNamedItem("call").InnerText);
+                    SystemMessage sm = null;
+                    switch (type)
+                    {
+                        case 1:
+                            sm = SystemMessageManager.instance.GetSysMessage(1);
+                            break;
+                        case 2:
+                            int target = int.Parse(s.Attributes.GetNamedItem("target").InnerText);
+                            sm = SystemMessageManager.instance.GetKeyword(target);
+                            break;
+                        default:
+                            Debug.Log("worng system type in Desc +" + description.id);
+                            break;
+                    }
+                    description.sys.Add(sm);
+                }
+            }
+            output.Add(description);
+        }
+        return output.ToArray();
+    }
+
+    private ConversationModel.Select[] LoadSelect(XmlNodeList selectList) {
+        List<ConversationModel.Select> output = new List<ConversationModel.Select>();
+        foreach (XmlNode sNode in selectList)
+        {
+            ConversationModel.Select select = new ConversationModel.Select();
+            select.id = long.Parse(sNode.Attributes.GetNamedItem("id").InnerText);
+
+            XmlNodeList innerNodes = sNode.SelectNodes("node");
+            foreach (XmlNode selectNode in innerNodes)
+            {
+                ConversationModel.Select.SelectNode unit = new ConversationModel.Select.SelectNode();
+                unit.id = long.Parse(selectNode.Attributes.GetNamedItem("id").InnerText);
+                unit.desc = selectNode.Attributes.GetNamedItem("desc").InnerText;
+                unit.descId = long.Parse(selectNode.Attributes.GetNamedItem("target").InnerText);
+                unit.favor = int.Parse(selectNode.Attributes.GetNamedItem("favor").InnerText);
+
+                select.list.Add(unit);
+            }
+
+            output.Add(select);
+        }
+
+        return output.ToArray();
+    }
+
+    public void LoadDayScript()
+    {
+        //LoadSystemMessage();
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Day");
+        List<ConversationModel> list = new List<ConversationModel>();
+        List<EndingModel> endList = new List<EndingModel>();
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        XmlNodeList nodes = doc.SelectNodes("script/day");
+        foreach (XmlNode node in nodes) {
+            ConversationModel model = new ConversationModel();
+            model.date = int.Parse(node.Attributes.GetNamedItem("date").InnerText);
+
+            XmlNodeList descList = node.SelectNodes("desc");
+            model.InitDescList(LoadDesc(descList));
+
+            XmlNode endingNode = node.SelectSingleNode("ending");
+            if (endingNode != null)
+            {
+                EndingModel end = new EndingModel();
+                end.date = model.date;
+                end.target = endingNode.Attributes.GetNamedItem("id").InnerText;
+                //Debug.Log(end.date + "일 엔딩 " + end.target);
+                    
+                end.InitDescList(LoadDesc(endingNode.SelectNodes("desc")));
+                end.InitSelectList(LoadSelect(endingNode.SelectNodes("select")));
+                endList.Add(end);
+            }
+
+            XmlNodeList selectList = node.SelectNodes("select");
+            model.InitSelectList(LoadSelect(selectList));
+            list.Add(model);
+        }
+        ConversationManager.instance.Init(list.ToArray(), endList.ToArray());
     }
 
 	public void LoadSKillData()
@@ -80,7 +252,8 @@ public class GameStaticDataLoader {
 			model.name = node.Attributes.GetNamedItem("name").InnerText;
 			model.type = node.Attributes.GetNamedItem("type").InnerText;
 			model.amount = int.Parse(node.Attributes.GetNamedItem("amount").InnerText);
-
+            model.description = node.Attributes.GetNamedItem("desc").InnerText;
+            model.category = node.Attributes.GetNamedItem("category").InnerText;
             model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
 
             XmlNodeList bonusType= node.SelectNodes("bonus");
@@ -286,6 +459,7 @@ public class GameStaticDataLoader {
         foreach (XmlNode pathInfoNode in creature_list)
         {
             string src = pathInfoNode.Attributes.GetNamedItem("src").InnerText;
+			Debug.Log ("load creature >> "+ src);
 
             TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/"+src);
 
@@ -296,7 +470,8 @@ public class GameStaticDataLoader {
 
             CreatureTypeInfo model = new CreatureTypeInfo();
 
-            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            //model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+			model.id = long.Parse(pathInfoNode.Attributes.GetNamedItem("id").InnerText);
             //model.name = node.Attributes.GetNamedItem("name").InnerText;
             model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
             //model.level = node.Attributes.GetNamedItem("level").InnerText;
@@ -316,11 +491,11 @@ public class GameStaticDataLoader {
             model.mentalDmg = int.Parse(node.Attributes.GetNamedItem("mentalDmg").InnerText);
             */
             model.script = node.Attributes.GetNamedItem("script").InnerText;
-
+            /*
             if (node.Attributes.GetNamedItem("animatorScript") != null)
             {
                 model.animatorScript = node.Attributes.GetNamedItem("animatorScript").InnerText;
-            }
+            }*/
             /*
             XmlNode feelingNode = node.SelectSingleNode("feeling");
             model.feelingMax = int.Parse(feelingNode.Attributes.GetNamedItem("max").InnerText);
@@ -367,11 +542,17 @@ public class GameStaticDataLoader {
             */
 
             XmlNode imgNode = node.SelectSingleNode("img");
-            model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
+            if(imgNode != null)
+                model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
             XmlNode roomNode = node.SelectSingleNode("room");
             model.roomsrc = roomNode.Attributes.GetNamedItem("src").InnerText;
             XmlNode frameNode = node.SelectSingleNode("frame");
             model.framesrc = frameNode.Attributes.GetNamedItem("src").InnerText;
+            XmlNode animNode = node.SelectSingleNode("anim");
+            if (animNode != null)
+            {
+                model.animSrc = animNode.Attributes.GetNamedItem("prefab").InnerText;
+            }
 
             XmlNode roomReturnSrcNode = node.SelectSingleNode("returnImg");
             if (roomReturnSrcNode != null)
@@ -382,17 +563,6 @@ public class GameStaticDataLoader {
             {
                 model.roomReturnSrc = "";
             }
-
-            Dictionary<string, string> typoTable = new Dictionary<string, string>();
-            XmlNodeList typoNodeList = node.SelectNodes("typo");
-            foreach (XmlNode typoNode in typoNodeList)
-            {
-                string key = typoNode.Attributes.GetNamedItem("action").InnerText;
-                string ttext = typoNode.InnerText;
-
-                typoTable.Add(key, ttext);
-            }
-            model.typoTable = typoTable;
 
             Dictionary<string, string> narrationTable = new Dictionary<string, string>();
             XmlNodeList narrationNodeList = node.SelectNodes("narration");
@@ -446,7 +616,8 @@ public class GameStaticDataLoader {
 
     public void LoadCreatueStatData(CreatureTypeInfo model, string src)
     {
-        TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/" + src);
+		Debug.Log ("Load stat >> " + src);
+        TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/stats/" + src);
 
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(creatureTextAsset.text);
@@ -457,7 +628,10 @@ public class GameStaticDataLoader {
         model.name = node.SelectSingleNode("name").InnerText;
         //model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
         model.level = node.SelectSingleNode("level").InnerText;
-        model.attackType = node.SelectSingleNode("attackType").InnerText;
+        
+		//model.attackType = node.SelectSingleNode("attackType").InnerText;
+		model.attackType = CreatureAttackType.PHYSICS;
+
         //model.intelligence = node.Attributes.GetNamedItem("intelligence").InnerText;
 
         //model.stackLevel = int.Parse(node.Attributes.GetNamedItem("stackLevel").InnerText);
@@ -467,30 +641,56 @@ public class GameStaticDataLoader {
         model.horrorDmg = int.Parse(node.SelectSingleNode("horrorMin").InnerText, System.Globalization.NumberStyles.Any);
         //model.horrorDmg = int.Parse(node.SelectSingleNode("horrorMax").InnerText);
 
-        model.physicsProb = float.Parse(node.SelectSingleNode("physicsProb").InnerText);
-        model.physicsDmg = int.Parse(node.SelectSingleNode("physicsMin").InnerText, System.Globalization.NumberStyles.Any);
-        //model.physicsDmg = int.Parse(node.SelectSingleNode("physicsMax").InnerText);
+		//model.attackProb = float.Parse (node.SelectSingleNode ("attackProb").InnerText);
 
-        model.mentalProb = float.Parse(node.SelectSingleNode("mentalProb").InnerText);
-        model.mentalDmg = int.Parse(node.SelectSingleNode("mentalMin").InnerText, System.Globalization.NumberStyles.Any);
+        //model.physicsProb = float.Parse(node.SelectSingleNode("physicsProb").InnerText);
+        //model.physicsDmg = int.Parse(node.SelectSingleNode("physicsMin").InnerText, System.Globalization.NumberStyles.Any);
+        //model.physicsDmg = int.Parse(node.SelectSingleNode("physicsMax").InnerText);
+		model.physicsDmg = (int)float.Parse(node.SelectSingleNode("physicsDmg").InnerText, System.Globalization.NumberStyles.Any);
+
+        //model.mentalProb = float.Parse(node.SelectSingleNode("mentalProb").InnerText);
+        //model.mentalDmg = int.Parse(node.SelectSingleNode("mentalMin").InnerText, System.Globalization.NumberStyles.Any);
         //model.mentalDmg = int.Parse(node.SelectSingleNode("mentalMax").InnerText);
+		model.mentalDmg = (int)float.Parse(node.SelectSingleNode("mentalDmg").InnerText, System.Globalization.NumberStyles.Any);
 
         //model.script = node.Attributes.GetNamedItem("script").InnerText;
 
+        /*
         if (node.Attributes.GetNamedItem("animatorScript") != null)
         {
             model.animatorScript = node.Attributes.GetNamedItem("animatorScript").InnerText;
-        }
+        }*/
 
         model.feelingMax = int.Parse(node.SelectSingleNode("feelingMax").InnerText, System.Globalization.NumberStyles.Any);
-        model.feelingDownProb = float.Parse(node.SelectSingleNode("feelingDownProb").InnerText);
+        //model.feelingDownProb = float.Parse(node.SelectSingleNode("feelingDownProb").InnerText);
         model.feelingDownValue = float.Parse(node.SelectSingleNode("feelingDownValue").InnerText);
 
+		model.energyPointChange = int.Parse(node.SelectSingleNode("energyPointChange").InnerText);
+
+		List<EnergyGenInfo> energyItems = new List<EnergyGenInfo> ();
+		XmlNode energyGenSection = node.SelectSingleNode ("energyGenSection");
+		XmlNodeList energySections = energyGenSection.SelectNodes ("section");
+		foreach (XmlNode section in energySections)
+		{
+			int upperBound;
+			float value;
+
+			upperBound = int.Parse (section.Attributes.GetNamedItem ("bound").InnerText);
+			value = float.Parse(section.Attributes.GetNamedItem("gen").InnerText);
+
+			EnergyGenInfo info = new EnergyGenInfo (upperBound, value);
+			energyItems.Add (info);
+		}
+
+		model.energyGenInfo = energyItems.ToArray ();
+
+		/*
         List<EnergyGenInfo> energyItems = new List<EnergyGenInfo>();
 
         string sectionGood = node.SelectSingleNode("energySectionGood").InnerText;
         string sectionNorm = node.SelectSingleNode("energySectionNorm").InnerText;
-
+		*/
+		/*
         List<FeelingSectionInfo> feelingSectionInfoList = new List<FeelingSectionInfo>();
 
         // 기분 상태 : 나쁨
@@ -539,6 +739,7 @@ public class GameStaticDataLoader {
         feelingSectionInfoList.Add(goodFeeling);
 
         model.feelingSectionInfo = feelingSectionInfoList.ToArray();
+		*/
 
     }
 
@@ -576,7 +777,7 @@ public class GameStaticDataLoader {
                 SkillTypeInfo skillInfo = SkillTypeList.instance.GetDataByName(skillNames[i]);
                 if (skillInfo == null)
                 {
-                    Debug.Log("skill not found : " + skillNames[i]);
+                    //Debug.Log("skill not found : " + skillNames[i]);
                     continue;
                 }
                 info.skillId = skillInfo.id;
@@ -588,6 +789,31 @@ public class GameStaticDataLoader {
         return output;
     }
 
+    public void LoadPassageData()
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/PassageList");
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        XmlNodeList nodes = doc.SelectNodes("/passage_list/passage");
+
+        List<PassageObjectTypeInfo> passsageTypeList = new List<PassageObjectTypeInfo>();
+
+        foreach (XmlNode node in nodes)
+        {
+            PassageObjectTypeInfo typeInfo = new PassageObjectTypeInfo();
+
+            typeInfo.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+
+            typeInfo.prefabSrc = node.SelectSingleNode("src").InnerText;
+
+            passsageTypeList.Add(typeInfo);
+        }
+
+        PassageObjectTypeList.instance.Init(passsageTypeList.ToArray());
+    }
+
     public void LoadCreatureResourceData()
     {
     }
@@ -595,4 +821,5 @@ public class GameStaticDataLoader {
     public void LoadCreatureTextData()
     {
     }
+
 }

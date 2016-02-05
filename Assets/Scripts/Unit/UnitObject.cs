@@ -3,33 +3,114 @@ using System.Collections.Generic;
 
 public class ObjectModelBase
 {
+    public Vector3 position;
     public string GetType()
     {
         return "unknown";
     }
-}
 
-public class UnitObjectModel : ObjectModelBase
-{
-    virtual public MovableObjectNode GetMovableNode()
+    public bool CanOpenDoor()
     {
-        return null;
+        return true;
+    }
+
+    public virtual void InteractWithDoor(DoorObjectModel door)
+    {
     }
 }
+
 
 public class PassageObjectModel : ObjectModelBase
 {
+    // 메타데이터
+    private PassageObjectTypeInfo metaInfo;
+    
+    private string id;
+    private string sefiraName;
     private List<MapObjectModel> mapObjectList;
-    private Dictionary<string, MapNode> mapNodeList;
+    private Dictionary<string, MapNode> mapNodeTable;
+    private List<DoorObjectModel> doorObjectList;
+    //private
 
-    public PassageObjectModel()
+    public PassageObjectModel(string id, string sefiraName, PassageObjectTypeInfo metaInfo)
     {
+        this.id = id;
+        this.sefiraName = sefiraName;
+        this.metaInfo = metaInfo;
         mapObjectList = new List<MapObjectModel>();
+        mapNodeTable = new Dictionary<string, MapNode>();
+        doorObjectList = new List<DoorObjectModel>();
     }
 
-    public void AddMapObject(MapObjectBloodModel mapObject)
+    public void CreateMapObject(long typeId)
+    {
+        MapObjectTypeInfo typeInfo =  MapObjectTypeList.instance.GetData(typeId);
+
+        MapObjectModel model = new MapObjectModel();
+        model.metaInfo = typeInfo;
+        model.passage = this;
+
+        AddMapObject(model);
+
+        //Notice.instance.Send(NoticeName.AddMapObject, model);
+
+        /*GameObject mapObj = Prefab.LoadPrefab(typeInfo.src);
+        MapObject mapObjScript = mapObj.GetComponent<MapObject>();*/
+    }
+    public DoorObjectModel[] GetDoorList()
+    {
+        return doorObjectList.ToArray();
+    }
+    private void AddMapObject(MapObjectModel mapObject)
     {
         mapObjectList.Add(mapObject);
+        Notice.instance.Send(NoticeName.AddMapObject, mapObject);
+    }
+
+    public void AddNode(MapNode node)
+    {
+        mapNodeTable.Add(node.GetId(), node);
+        /*
+        if (node.IsClosable())
+        {
+            DoorObjectModel door = new DoorObjectModel(this, node);
+            doorObjectList.Add(door);
+            node.SetDoor(door);
+        }*/
+    }
+
+    public void AddDoor(DoorObjectModel door)
+    {
+        doorObjectList.Add(door);
+    }
+
+    public bool IsClosable()
+    {
+        foreach (MapNode node in mapNodeTable.Values)
+        {
+            if (node.IsClosable())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
+    public void ClosePassage()
+    {
+        foreach (DoorObjectModel door in doorObjectList)
+        {
+            door.Close();
+        }
+    }
+
+    public void OpenPassage()
+    {
+        foreach (DoorObjectModel door in doorObjectList)
+        {
+            door.Open();
+        }
     }
 
     public int GetHorrorPointTotal()
@@ -42,10 +123,106 @@ public class PassageObjectModel : ObjectModelBase
 
         return output;
     }
+
+    public PassageObjectTypeInfo GetMetaInfo()
+    {
+        return metaInfo;
+    }
+    public string GetId()
+    {
+        return id;
+    }
+
+    public string GetSefiraName()
+    {
+        return sefiraName;
+    }
+
+    public void FixedUpdate()
+    {
+        foreach (DoorObjectModel door in doorObjectList)
+        {
+            door.FixedUpdate();
+        }
+    }
 }
+
+public class DoorObjectModel : ObjectModelBase
+{
+    private string id;
+
+    private PassageObjectModel passage;
+    public int hp;
+    private bool closed;
+    
+    // TypeInfo로 변경필요
+    public string type;
+    public MapNode node;
+
+    private float autoCloseCount;
+
+    public DoorObjectModel(string id, string type, PassageObjectModel passage, MapNode node)
+    {
+        this.id = id;
+        //openProgress = 0;
+        this.type = type;
+        this.passage = passage;
+        this.node = node;
+    }
+
+    public string GetId()
+    {
+        return id;
+    }
+
+    public bool IsClosed()
+    {
+        return closed;
+    }
+
+    public void Open()
+    {
+        closed = false;
+        node.closed = false;
+        //Notice.instance.Send(NoticeName.OpenPassageDoor, passage, this);
+    }
+
+    public void Close()
+    {
+        autoCloseCount = 0;
+        closed = true;
+        node.closed = true;
+        //Notice.instance.Send(NoticeName.ClosePassageDoor, passage, this);
+    }
+
+    public void OnObjectPassed()
+    {
+        autoCloseCount = 0;
+    }
+    public void FixedUpdate()
+    {
+        if (!closed)
+        {
+            autoCloseCount += Time.deltaTime;
+            if (autoCloseCount > 1)
+            {
+                Close();
+            }
+        }
+    }
+}
+/*
+public class DoorBlockModel : DoorObjectModel
+{
+
+}*/
 
 public class MapObjectModel : ObjectModelBase
 {
+    public MapObjectTypeInfo metaInfo;
+    
+    // mapObject가 있는 passage
+    public PassageObjectModel passage;
     public int horrorPoint;
 }
 

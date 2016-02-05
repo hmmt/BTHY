@@ -3,6 +3,12 @@ using System.Collections;
 
 public class MatchGirl  : CreatureBase {
 
+	public override void OnInit()
+	{
+		base.OnInit();
+		//model.SetCurrentNode (MapGraph.instance.GetNodeById("malkuth-1-4"));
+	}
+
     public override void OnSkillFailWorkTick(UseSkill skill)
 	{
 		if(Random.value <= 0.4)
@@ -16,6 +22,7 @@ public class MatchGirl  : CreatureBase {
         Debug.Log("MatchGirl ActivateSkill");
         // show effect
 
+		/*
         skill.PauseWorking();
         SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability", skill.targetCreatureView.transform.position);
 
@@ -31,7 +38,7 @@ public class MatchGirl  : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
+        
 
         skill.targetCreature.ShowNarrationText("special_ability1", skill.agent.name);
         TimerCallback.Create(3.0f, delegate() { skill.targetCreature.ShowNarrationText("special_ability2", skill.agent.name); });
@@ -56,6 +63,7 @@ public class MatchGirl  : CreatureBase {
 
                 skill.CheckLive();
             });
+       */
 	}
 
     public override void OnSkillNormalAttack(UseSkill skill)
@@ -65,9 +73,20 @@ public class MatchGirl  : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
          * */
 
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
+        unit.animTarget.SendMessage("Attack");
+
         string[] typos = {"typo/matchgirl/01_matchGirl_commonAttack_00",
                     "typo/matchgirl/01_matchGirl_commonAttack_01",
                     "typo/matchgirl/01_matchGirl_commonAttack_02"};
+
+        skill.agent.TakePhysicalDamage(1);
+        skill.CheckLive();
+        if (skill.agent.isDead())
+        {
+            AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
+            //agentUnit.animTarget.PlayMatchGirlDead();
+        }
 
 
         TypoEffect.Create(skill.targetCreatureView, typos[Random.Range(0, typos.Length)], 0, 2);
@@ -75,6 +94,9 @@ public class MatchGirl  : CreatureBase {
 
 	public override void OnEnterRoom(UseSkill skill)
 	{
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
+        unit.animTarget.SendMessage("Attack");
+		/*
 		skill.PauseWorking ();
 		//SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
 
@@ -98,5 +120,12 @@ public class MatchGirl  : CreatureBase {
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
 		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
+		*/
+        skill.CheckLive();
+        if (skill.agent.isDead())
+        {
+            AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
+            //agentUnit.animTarget.PlayMatchGirlDead();
+        }
 	}
 }

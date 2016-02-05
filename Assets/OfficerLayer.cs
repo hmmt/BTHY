@@ -6,6 +6,9 @@ public class OfficerLayer : MonoBehaviour, IObserver {
 
     public static OfficerLayer currentLayer { private set; get; }
     public GameObject target;
+
+    public Sprite[] hairList;
+    public Sprite[] faceListTemp;
     private List<OfficerUnit> officerList;
 
     private int zCount;
@@ -32,8 +35,8 @@ public class OfficerLayer : MonoBehaviour, IObserver {
         
         ClearOfficer();
         foreach (OfficerModel model in OfficeManager.instance.GetOfficerList()) {
-            Debug.Log("in layer" + model.name);
-            //AddOfficer(model);
+            //Debug.Log("in layer" + model.name);
+            AddOfficer(model);
         }
     }
 
@@ -50,10 +53,21 @@ public class OfficerLayer : MonoBehaviour, IObserver {
         unit.zValue = -zCount;
 
         Vector3 unitScale = unit.transform.localScale;
-        unitScale.z = 0.001f;
+        unitScale.z = 0.0005f;
         unit.transform.localScale = unitScale;
 
         zCount = (zCount+ 1)% 1000;
+        
+
+        // 바뀔 수 있음
+        if (unit.animTarget != null && hairList.Length > 0)
+        {
+            unit.animTarget.SetHair(hairList[Random.Range(0, hairList.Length)]);
+            if (faceListTemp.Length > 0)
+            {
+                unit.animTarget.SetFace(faceListTemp[Random.Range(0, faceListTemp.Length)]);
+            }
+        }
 
     }
 
@@ -85,8 +99,8 @@ public class OfficerLayer : MonoBehaviour, IObserver {
     {
         if (notice == NoticeName.AddOfficer) {
             foreach (object obj in param) {
-                Debug.Log("make?");
-                //AddOfficer((OfficerModel)obj);
+                //Debug.Log("make?");
+                AddOfficer((OfficerModel)obj);
             }
         }
         else if (notice == NoticeName.RemoveOfficer){

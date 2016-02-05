@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class WorkerModel: IObserver {
+public class WorkerModel: ObjectModelBase, IObserver {
     public int instanceId;
     
     public string name;
@@ -32,6 +32,8 @@ public class WorkerModel: IObserver {
     public string hairImgSrc;
     public string faceImgSrc;
     public string bodyImgSrc;
+
+    public AgentHistory history;
 
     public Dictionary<string, string> speechTable = new Dictionary<string, string>();
 
@@ -62,6 +64,7 @@ public class WorkerModel: IObserver {
     public bool visible = true;
     public float oldZ;
     public float waitTimer = 0;
+    public bool panicFlag = false;
     
     public WorkerModel() { }
 
@@ -71,7 +74,6 @@ public class WorkerModel: IObserver {
         this.instanceId = instanceId;
         this.movableNode = new MovableObjectNode();
         this.movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
-        
     }
 
     public WorkerModel(int instanceId, Sefira area) {
@@ -94,7 +96,6 @@ public class WorkerModel: IObserver {
 
     public virtual Dictionary<string, object> GetSaveData() {
         Dictionary<string, object> output = new Dictionary<string, object>();
-
         output.Add("instanceId", instanceId);
         output.Add("currentSefira", currentSefira);
         output.Add("name", name);
@@ -123,6 +124,7 @@ public class WorkerModel: IObserver {
     }
 
     public virtual void LoadData(Dictionary<string, object> dic) {
+
         TryGetValue(dic, "instanceId", ref instanceId);
         TryGetValue(dic, "name", ref name);
         TryGetValue(dic, "hp", ref hp);
@@ -140,7 +142,8 @@ public class WorkerModel: IObserver {
         
     }
 
-    public void GetPortrait(string parts, string key) {
+    public virtual void GetPortrait(string parts, string key)
+    {
         switch (parts)
         {
             case "hair":
@@ -170,71 +173,86 @@ public class WorkerModel: IObserver {
         
     }
 
-    public MovableObjectNode GetMovableNode() {
+    public virtual MovableObjectNode GetMovableNode()
+    {
         return movableNode;
     }
 
-    public Vector3 GetCurrentViewPosition() {
+    public virtual Vector3 GetCurrentViewPosition()
+    {
         return movableNode.GetCurrentViewPosition();
     }
 
-    public MapNode GetCurrentNode() {
+    public virtual MapNode GetCurrentNode()
+    {
         return movableNode.GetCurrentNode();
     }
 
-    public void SetCurrentNode(MapNode node) {
+    public virtual void SetCurrentNode(MapNode node)
+    {
         movableNode.SetCurrentNode(node);
     }
 
-    public MapEdge GetCurrentEdge() {
+    public virtual MapEdge GetCurrentEdge()
+    {
         return movableNode.GetCurrentEdge();
     }
 
-    public int GetEdgeDirection() {
+    public virtual int GetEdgeDirection()
+    {
         return movableNode.GetEdgeDirection();
     }
 
     //Get Command State
 
-    public void ReturnToSefira() {
+    public virtual void ReturnToSefira() {
         SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
     }
 
-    public void MoveToNode(string targetNodeID) {
+    public virtual void MoveToNode(string targetNodeID)
+    {
         movableNode.MoveToNode(MapGraph.instance.GetNodeById(targetNodeID));
     }
 
-    public void MoveToCreature(CreatureModel target) { 
+    public virtual void MoveToCreature(CreatureModel target)
+    { 
         movableNode.MoveToMovableNode(target.GetMovableNode());
     }
 
-    public void MoveToCreatureRoom(CreatureModel target) {
+    public virtual void MoveToCreatureRoom(CreatureModel target)
+    {
         movableNode.MoveToNode(target.GetWorkspaceNode());
     }
 
-    public bool isDead() {
+    public virtual bool isDead()
+    {
         return hp <= 0;
     }
 
-    public void Attacked() { 
+    public virtual void Attacked() { 
         
     }
 
-    public void WorkEscape() { 
+    public virtual void WorkEscape()
+    { 
     
     }
 
-    public void Working() { 
+    public virtual void Working()
+    { 
     
     }
 
-    public void FinishWorking() { 
+    public virtual void FinishWorking()
+    { 
     
     }
 
     public MapNode GetConnectedNode() {
         MapNode pos = this.movableNode.GetCurrentNode();
+        //Debug.Log(pos);
         MapNode connected = null;
+        if(pos == null) return null;
         foreach (MapEdge me in pos.GetEdges()) {
             if (me.type == "door") continue;
             connected = me.ConnectedNode(pos);
@@ -242,35 +260,35 @@ public class WorkerModel: IObserver {
         return connected;
     }
 
-    public void TakePhysicalDamage(int damage) {
+    public virtual void TakePhysicalDamage(int damage) {
+        Debug.Log("TakePhysicalDamage : " + damage);
         hp -= damage;
         if (hp <= 0) { 
             //dead
         }
     }
 
-    public void TakeMentalDamage(int damage) {
+    public virtual void TakeMentalDamage(int damage) {
         mental -= damage;
-        if (mental <= 0) { 
-            //mental broken
-        }
+        
     }
 
-    public void RecoverHP(int amount){
+    public virtual void RecoverHP(int amount){
         hp += amount;
         hp = hp> maxHp? maxHp: hp;
     }
 
-    public void RecoverMental(int amount){
+    public virtual void RecoverMental(int amount){
         mental += amount;
         mental = mental> maxMental? maxMental: mental;
     }
 
-    public void Panic() { 
-    
+    public virtual void Panic() { 
+        
     }
 
-    public void Die() {
+    public virtual void Die()
+    {
         this.hp = 0;
         //state setting
     }
@@ -281,18 +299,23 @@ public class WorkerModel: IObserver {
         }
     }
 
-    public static int CompareByName(WorkerModel x, WorkerModel y){
-        if (x == null || y == null){
-            Debug.Log("Error to compare");
+    public static int CompareByName(WorkerModel x, WorkerModel y)
+    {
+        if (x == null || y == null)
+        {
+            Debug.Log("Errror in comparison by name");
             return 0;
         }
-        if (x.name == null){
+        if (x.name == null)
+        {
             if (y.name == null) return 0;
             else return -1;
         }
-        else {
+        else
+        {
             if (y.name == null) return 1;
-            else {
+            else
+            {
                 return x.name.CompareTo(y.name);
             }
         }
@@ -316,5 +339,42 @@ public class WorkerModel: IObserver {
         return xIndex.CompareTo(yIndex);
     }
 
-    
+    public virtual void SetPanicState() {
+        this.panicFlag = true;
+    }
+
+    public virtual void PanicReadyComplete() {
+        return;
+    }
+
+    public virtual bool IsInSefira() {
+        MapNode node = MovableNode.GetCurrentNode();
+        MapEdge edge = MovableNode.GetCurrentEdge();
+        //MapNode[] sefiraNodes = SefiraManager.instance.getSefira(currentSefira)
+        if (node != null)
+        {
+            string name = node.GetId();
+            int index = name.IndexOf("sefira");
+            //Debug.Log(index);
+            if (index != -1)
+            {
+                return true;
+            }
+        }
+        else {
+            string edge1, edge2;
+            edge1 = edge.node1.GetId();
+            edge2 = edge.node2.GetId();
+            //Debug.Log(edge1 + " " + edge2);
+
+            if ((edge1.IndexOf("sefira") != -1) && (edge2.IndexOf("sefira") != -1))
+            {
+                //Debug.Log("맞지롱");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

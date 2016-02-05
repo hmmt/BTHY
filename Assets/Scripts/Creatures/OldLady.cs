@@ -23,6 +23,7 @@ public class OldLady : CreatureBase {
     public void ActivateSkill(UseSkill skill)
     {
         Debug.Log("OldLady ActivateSkill()");
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/oldlady/OldLady_AttackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 7.5f);
@@ -80,10 +81,12 @@ public class OldLady : CreatureBase {
                 skill.agent.TakeMentalDamage(10);
             }
         });
+        */
     }
 
     public override void OnEnterRoom(UseSkill skill)
     {
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/oldlady/OldLady_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 9);
@@ -107,5 +110,6 @@ public class OldLady : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/oldlady/OldLady_EnterTypo_08", CreatureOutsideTextLayout.CENTER_BOTTOM, 7, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }

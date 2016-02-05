@@ -8,32 +8,11 @@
 
 		attackType="RED"
 		intelligence="대화 가능"
-		
-		horrorProb="0.4"
-		horrorDmg="-20"
-		
-		physicsProb="0.1"
-		physicsDmg="1"
-		
-		mentalProb="0.3"
-		mentalDmg="11"
 
 		observeLevel="5"
 
-
 		script="MatchGirl"
 		>
-		<feeling max="300" downProb="0.2" downValue="7.3">
-			<section feelingValue="150" state="good" energy="2"/>
-			<section feelingValue="50" state="normal" energy="1"/>
-			<section feelingValue="0" state="bad" energy="0"/>
-		</feeling>
-		
-		<preferSkill type="indirect" bonus="0.33"/>
-		<rejectSkill type="direct" bonus="-0.2"/>
-		<rejectSkill type="block" bonus="-0.3"/>
-
-		<typo action="enter_room" src="typo/01_matchGirl_out_typo" layout="center_bottom"/>
 
 		<narration action="move">
 			-> #0(이)가 작업을 시작하러 성냥팔이 소녀의 방에 들어갑니다
@@ -120,13 +99,7 @@
 		</narration>
 
 		<desc>
-			"허름한 망토를 입고 바구니를 들고 다니는 10세 안팎의 소녀의 모습이다."
-			"피부가 비정상적으로 차갑다."
-			"귀여운 소녀의 외모 때문에 상대를 방심시킬 수 있으니 유의해야 한다."
-
-			"눈이 마주칠 때 상냥한 표정을 지어주거나, 먼저 말을 걸 경우 공격성을 띈다."
-			"하지만 겉으로 보기엔 공격을 취한다고 보기 힘들기 때문에 본인이 공격을 당하는 걸 눈치채지 못 할 수 있다."
-			"평소에 갖고 다니는 성냥들에 불을 붙이면, 가상의 형태가 등장하는데 그것을 주시하고 있는 대상의 욕망에 따라 그 속성이 바뀐다."
+			"허름한 망토를 입고 바구니를 들고 다니는 10세 안팎의 소녀의 모습이다*피부가 비정상적으로 차갑다*귀여운 소녀의 외모 때문에 상대를 방심시킬 수 있으니 유의해야 한다*눈이 마주칠 때 상냥한 표정을 지어주거나, 먼저 말을 걸 경우 공격성을 띈다*	하지만 겉으로 보기엔 공격을 취한다고 보기 힘들기 때문에 본인이 공격을 당하는 걸 눈치채지 못 할 수 있다*평소에 갖고 다니는 성냥들에 불을 붙이면, 가상의 형태가 등장하는데 그것을 주시하고 있는 대상의 욕망에 따라 그 속성이 바뀐다."
 		</desc>
 
 		<observe>
@@ -156,13 +129,16 @@
 			</observe_sub>
 		</observe>
 
-		<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>
+	    <anim prefab="Unit/CreatureAnimator/MatchGirl" x="-1" y="-2"/>
+	    
+			<!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
+	    <img src="Unit/dummy" x="-1" y="-1"/>
 		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/01_matchGirl_frame"/>
 
 		<graph>
 			<node id="creature" x="-1.6" y="-1" type="creature"/>
-			<node id="workspace" x="-1.0" y="-1" type="workspace"/>
+			<node id="workspace" x="0.0" y="-1" type="workspace"/>
 			<node id="door"  x="2" y="-1" type="entry"/>
 			<edge node1="workspace" node2="door" type="road" />
 			<edge node1="creature" node2="workspace" type="road" />

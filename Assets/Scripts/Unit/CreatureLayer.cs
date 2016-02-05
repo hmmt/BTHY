@@ -7,8 +7,11 @@ public class CreatureLayer : MonoBehaviour, IObserver {
     public static CreatureLayer currentLayer { private set; get; }
 
     private List<CreatureUnit> creatureList;
-
+    private List<int> tempIntforSprite = new List<int>();
     private Dictionary<long, CreatureUnit> creatureDic;
+
+    private string directory = "Sprites/IsolateRoom/isolate_";
+    private string dark = "_dark";
 
     void Awake()
     {
@@ -45,7 +48,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         unit.transform.SetParent(transform, false);
 
         unit.model = model;
-
+        /*
         if (model.metaInfo.animatorScript != null)
         {
             unit.script = (CreatureAnimBase)System.Activator.CreateInstance(System.Type.GetType(model.metaInfo.animatorScript));
@@ -55,21 +58,35 @@ public class CreatureLayer : MonoBehaviour, IObserver {
                 unit.script.Init();
             }
         }
+        */
 
-        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.imgsrc);
-        Texture2D tex = unit.spriteRenderer.sprite.texture;
-        unit.SetScaleFactor(200f / tex.width, 200f / tex.height, 1);
+        if (model.metaInfo.animSrc != "")
+        {
+            GameObject animatorObject = Prefab.LoadPrefab(model.metaInfo.animSrc);
+            unit.animTarget = animatorObject.GetComponent<CreatureAnimScript>();
+            animatorObject.transform.SetParent(unit.transform, false);
+        }
+
+        // 나중에 animator들로 다 교체
+        //if (model.metaInfo.imgsrc != "")
+        {
+            unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.imgsrc);
+            Texture2D tex = unit.spriteRenderer.sprite.texture;
+            unit.SetScaleFactor(200f / tex.width, 200f / tex.height, 1);
+        }
 
         if (model.metaInfo.roomReturnSrc != "")
         {
             unit.returnSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.roomReturnSrc);
         }
 
-        GameObject creatureRoom = ResourceCache.instance.LoadPrefab("IsolateRoom");
+        GameObject creatureRoom = Prefab.LoadPrefab("IsolateRoom");
         creatureRoom.transform.SetParent(transform, false);
         IsolateRoom room = creatureRoom.GetComponent<IsolateRoom>();
-
-        room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.roomsrc);
+        int rand = Random.Range(1, 4);
+        tempIntforSprite.Add(rand);
+        string spriteDirectory = this.directory + rand;
+        room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
         room.targetUnit = unit;
 
         /*
@@ -121,6 +138,33 @@ public class CreatureLayer : MonoBehaviour, IObserver {
             foreach (object obj in param)
             {
                 AddCreature((CreatureModel)obj);
+            }
+        }
+    }
+
+    public void OnSpriteButtonClick(bool state) {
+        string spriteDirectory = "";
+        
+        if (state)
+        {
+            for (int i = 0; i < creatureList.Count; i++) {
+                CreatureUnit cu = creatureList[i];
+                spriteDirectory = this.directory + tempIntforSprite[i];
+                //cu.spriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+                cu.room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+                cu.room.roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1f);
+                cu.room.roomSpriteRenderer.transform.localPosition = Vector3.zero;
+            }
+        }
+        else {
+            for (int i = 0; i < creatureList.Count; i++)
+            {
+                CreatureUnit cu = creatureList[i];
+                spriteDirectory = this.directory + tempIntforSprite[i] + this.dark;
+                //cu.spriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+                cu.room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+                cu.room.roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1f);
+                cu.room.roomSpriteRenderer.transform.localPosition = Vector3.zero;
             }
         }
     }

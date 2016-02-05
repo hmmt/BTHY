@@ -90,7 +90,7 @@ public class CreatureManager : IObserver{
             YessodCreature.Add(creature);
         }
         //Debug.Log(SefiraManager.instance.getSefira(sepira).creatureList.Count);
-        
+        SefiraManager.instance.getSefira(sepira).creatureList.Add(creature);
     }
 
     public List<CreatureModel> GetSelectedList(string sefira) {

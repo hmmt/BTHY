@@ -1,0 +1,276 @@
+fileFormatVersion: 2
+guid: 2a6e156e25c8a334cadf4aff20a049de
+timeCreated: 1451627771
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: hair0
+    21300002: AgentCut_1
+    21300004: hair2
+    21300006: hair3
+    21300008: face0
+    21300010: face1
+    21300012: head
+    21300014: fua
+    21300016: body1
+    21300018: body0
+    21300020: bua
+    21300022: fba
+    21300024: bul
+    21300026: bba
+    21300028: fh
+    21300030: ful
+    21300032: bh
+    21300034: AgentCut_21
+    21300036: ff
+    21300038: bf
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: hair0
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 818
+        width: 262
+        height: 182
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: AgentCut_1
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 844
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hair2
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 793
+        width: 252
+        height: 179
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hair3
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 696
+        width: 283
+        height: 287
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: face0
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 644
+        width: 190
+        height: 155
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: face1
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 637
+        width: 190
+        height: 155
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: head
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 401
+        width: 272
+        height: 275
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fua
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 471
+        width: 83
+        height: 156
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: body1
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 299
+        width: 198
+        height: 344
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: body0
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 292
+        width: 222
+        height: 351
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bua
+      rect:
+        serializedVersion: 2
+        x: 898
+        y: 511
+        width: 77
+        height: 135
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fba
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 299
+        width: 88
+        height: 136
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bul
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 159
+        width: 113
+        height: 191
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bba
+      rect:
+        serializedVersion: 2
+        x: 898
+        y: 338
+        width: 77
+        height: 133
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fh
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 183
+        width: 46
+        height: 71
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ful
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 60
+        width: 126
+        height: 194
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bh
+      rect:
+        serializedVersion: 2
+        x: 913
+        y: 243
+        width: 46
+        height: 71
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: AgentCut_21
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 239
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ff
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 16
+        width: 119
+        height: 167
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bf
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 6
+        width: 113
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

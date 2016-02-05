@@ -10,8 +10,10 @@ public class AgentManager : IObserver {
 
     public static string[] nameList
         = {
-              "one",
-              "two"
+              "Tim", "Jacob", "Mason", "William", "Jayden", "Noah", "Micheal", "Ethan",
+              "Paul", "Elijah", "Joshua", "Liam", "Christopher", "Ryan", "Issac", "Isaiah",
+              "Susan", "Sophia", "Ava", "Emily", "Chloe", "Grace", "Charlotte", "Lilian", 
+              "Alyssa", "Ashley"
           };
 
 	public static AgentManager _instance;
@@ -70,8 +72,8 @@ public class AgentManager : IObserver {
 
         AgentModel unit = new AgentModel(nextInstId++, "1");
 
-        TraitTypeInfo RandomEiTrait = TraitTypeList.instance.GetRandomEiTrait(1);
-        TraitTypeInfo RandomNfTrait = TraitTypeList.instance.GetRandomNfTrait(1);
+        TraitTypeInfo RandomEiTrait = TraitTypeList.instance.GetRandomEITrait(unit.traitList);
+        TraitTypeInfo RandomNfTrait = TraitTypeList.instance.GetRandomNFTrait(unit.traitList);
         TraitTypeInfo RandomNormalTrait = TraitTypeList.instance.GetRandomInitTrait();
 
 
@@ -90,10 +92,14 @@ public class AgentManager : IObserver {
         unit.preferBonus = info.preferBonus;
         unit.reject = info.reject;
         unit.rejectBonus = info.rejectBonus;
-
+/*
         unit.directSkill = info.directSkill;
         unit.indirectSkill = info.indirectSkill;
         unit.blockSkill = info.blockSkill;
+*/
+		unit.AddSkill (info.directSkill);
+		unit.AddSkill (info.indirectSkill);
+		unit.AddSkill (info.blockSkill);
 
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
 
@@ -192,7 +198,8 @@ public class AgentManager : IObserver {
     public void activateAgent(AgentModel unit, string sefira)
     {
         unit.activated = true;
-
+        //Debug.Log("activated");
+        SefiraManager.instance.getSefira(unit.currentSefira).AddAgent(unit);
         unit.SetCurrentSefira(sefira);
         agentListSpare.Remove(unit);
 
@@ -204,13 +211,15 @@ public class AgentManager : IObserver {
     public void deactivateAgent(AgentModel unit)
     {
         unit.activated = false;
-
+        Debug.Log("deactivated");
+        SefiraManager.instance.getSefira(unit.currentSefira).RemoveAgent(unit);
         Notice.instance.Remove(NoticeName.FixedUpdate, unit);
         agentList.Remove(unit);
         Notice.instance.Send(NoticeName.RemoveAgent, unit);
 
         agentListSpare.Add(unit);
         unit.SetCurrentSefira("0");
+       
     }
 
     public void RemoveAgent(AgentModel model)
@@ -234,6 +243,9 @@ public class AgentManager : IObserver {
         {
             yesodAgentList.Remove(model);
         }
+
+        Sefira sefira = SefiraManager.instance.getSefira(model.currentSefira);
+        sefira.agentList.Remove(model);
 
         Notice.instance.Remove(NoticeName.FixedUpdate, model);
         agentList.Remove(model);
@@ -355,6 +367,14 @@ public class AgentManager : IObserver {
 
     private void OnChangeAgentSefira(AgentModel agentModel, string oldSefira)
     {
+        Sefira old, current;
+        /*
+        Debug.Log("Change");
+        if (oldSefira != "0") {
+            old = SefiraManager.instance.getSefira(oldSefira);
+            old.RemoveAgent(agentModel);
+        }
+        */
         switch (oldSefira)
         {
             case "1":
@@ -370,7 +390,14 @@ public class AgentManager : IObserver {
                 yesodAgentList.Remove(agentModel);
                 break;
         }
+        /*
 
+        if (agentModel.currentSefira != "0")
+        {
+            current = SefiraManager.instance.getSefira(agentModel.currentSefira);
+            current.AddAgent(agentModel);
+        }
+        */
         switch (agentModel.currentSefira)
         {
             case "1":

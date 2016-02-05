@@ -56,7 +56,7 @@ public class TextConverter
 
         while (match.Success)
         {
-            randomStringList.Add(match.Value.Substring(1, match.Value.Length-1));
+            randomStringList.Add(match.Value.Substring(1, match.Value.Length-2));
             match = match.NextMatch();
         }
 
@@ -88,6 +88,25 @@ public class TextConverter
         }
         return output;
     }
+
+    public static string[] GetTextFromFormatProcessText(string format_text) {
+        string[] output = new string[0];
+
+        Match match = Regex.Match(format_text, "\\[[^\\]]*\\]");
+
+        while(match.Success){
+            string[] words = SelectProcessWord(match.Value);
+            output = new string[words.Length];
+            for(int i = 0; i <words.Length;i++){
+                output[i] = format_text.Replace(match.Value, words[i]);
+
+            }
+            match = match.NextMatch();
+        }
+        return output;
+    }
+
+    
 
     public static string TranslateDescData(string descData)
     {
