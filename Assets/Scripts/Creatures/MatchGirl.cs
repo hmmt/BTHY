@@ -95,7 +95,7 @@ public class MatchGirl  : CreatureBase {
 	public override void OnEnterRoom(UseSkill skill)
 	{
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
-        unit.animTarget.SendMessage("Attack");
+        //unit.animTarget.SendMessage("Attack");
 		/*
 		skill.PauseWorking ();
 		//SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
