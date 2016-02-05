@@ -82,10 +82,12 @@ public class GameManager : MonoBehaviour
         OfficerLayer.currentLayer.Init();
         AgentListScript.instance.Init();
 
+		AgentModel a = null;
         if (PlayerModel.instance.GetDay() == 0)
         {
             PlayerModel.instance.OpenArea("1"); ;
-            AgentManager.instance.AddAgentModel();
+
+			a = AgentManager.instance.AddAgentModel();
             
         }
 
@@ -113,7 +115,19 @@ public class GameManager : MonoBehaviour
             officer.ReturnToSefira();
         }
         */
+
+		stageUI.CancelSefiraAgent(a);
+		a.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
+		a.SetCurrentSefira("1");
+		if (!a.activated)
+			AgentManager.instance.activateAgent(a, "1");
+
+		a.SetCurrentNode (MapGraph.instance.GetNodeById ("malkuth-0-2"));
+
+		
         StartStage();
+		stageUI.Close ();
+		//StartGame();
         //OpenStoryScene("start");
         /*
         gameStateScreen.SetActive(false);

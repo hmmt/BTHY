@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<traits>
+	<trait attack="0.0" description="건강을 해치는 담배. 그래도 피우시겠습니까?" discType="0.0" energy="-2.0" hp="-2.0" id="2.0" level="1.0" mental="10.0" move="0.0" name="골초" success="0.0" work="0.0"/>
+	<trait attack="0.1" description="그 놈은 툭하면 열불이 나는 녀석이라 안정된 작업은 꿈도 못 꿀 걸?" discType="0.0" energy="1.0" hp="0.0" id="3.0" level="2.0" mental="-5.0" move="0.0" name="분노조절장애" success="-0.1" work="0.0"/>
+	<trait attack="0.0" description="내 걸음걸이가 뭐 어때서?! 그냥 좀 느릴 뿐이잖아! 쳐다보지 말라고!" discType="0.0" energy="0.0" hp="-1.0" id="4.0" level="2.0" mental="0.0" move="-2.0" name="팔자걸음" success="0.0" work="0.0"/>
+	<trait attack="0.0" description="내가 남들보다 못하다는 느낌이 드는 순간 맥이 탁 풀리는 것 같아. " discType="0.0" energy="0.0" hp="2.0" id="5.0" level="3.0" mental="-10.0" move="1.0" name="열등감" success="0.0" work="-1.0"/>
+	<trait attack="0.0" description="허약해빠졌구만! 체력도 약하고 걸음걸이는 왜 이렇게 굼떠?" discType="0.0" energy="-2.0" hp="-3.0" id="6.0" level="3.0" mental="0.0" move="-2.0" name="허약함" success="0.0" work="0.0"/>
+	<trait attack="0.0" description="다시 만난 그는 알 수 없는 말만을 쉴새 없이 중얼거렸다. " discType="0.0" energy="3.0" hp="-1.0" id="7.0" level="4.0" mental="15.0" move="-1.0" name="금지된 지혜" success="0.0" work="-1.0"/>
+	<trait attack="0.08" description="밥도 좋고, 이야기도 좋고, 책도 좋고, 때리는 것도 좋아요! 다 좋다고요!" discType="0.0" energy="-5.0" hp="-2.0" id="8.0" level="4.0" mental="-15.0" move="0.0" name="욕망의 항아리" success="0.15" work="1.0"/>
+	<trait attack="0.0" description="언제부터일까요 환상체를 제압하는 게 재밌어진 것 같아요. 좋네요." discType="0.0" energy="0.0" hp="0.0" id="9.0" level="5.0" mental="-20.0" move="2.0" name="사이코패스" success="0.1" work="2.0"/>
+	<trait attack="0.1" description="그래 그래, 전부 내 발 아래 무릎 꿇어라! " discType="0.0" energy="-6.0" hp="0.0" id="10.0" level="5.0" mental="-20.0" move="3.0" name="디어사이드" success="0.1" work="0.0"/>
+	<trait attack="0.0" description="아침에는 뭐든 잘할 수 있어요! 다른 때는…음...하하!" discType="0.0" energy="1.0" hp="1.0" id="11.0" level="1.0" mental="3.0" move="0.0" name="아침형 인간" success="0.01" work="0.0"/>
+	<trait attack="0.0" description="드디어 출근이군요! 정말 정말 설레요! 두근두근~" discType="0.0" energy="1.0" hp="1.0" id="12.0" level="1.0" mental="3.0" move="0.0" name="설레는 마음" success="0.01" work="0.0"/>
+	<trait attack="0.0" description="으아악! 점심 식사 때 마다 어색해서 죽어버릴 것 같아요!! 제발 저랑 이야기 좀 할래요?" discType="0.0" energy="1.0" hp="1.0" id="13.0" level="1.0" mental="3.0" move="0.0" name="어색어색" success="0.01" work="0.0"/>
+	<trait attack="0.0" description="이제야 좀 적응되는 것 같네요. 입사 초에는 정신이 나갈 것 같았거든요." discType="0.0" energy="1.0" hp="1.0" id="14.0" level="2.0" mental="5.0" move="0.0" name="적응 완료!" success="0.01" work="0.0"/>
+	<trait attack="0.0" description="이 곳은 정말 신세계에요! 없는 것이 없죠! 내일은 또 어떤 작업을 하게 될까요?" discType="0.0" energy="1.0" hp="1.0" id="15.0" level="2.0" mental="5.0" move="0.0" name="신세계" success="0.01" work="0.0"/>
+	<trait attack="0.0" description="어제 k가 작업 중 습격을 받았어요. 의무실로 달려갔는데 그는 어디에도 없더군요." discType="0.0" energy="1.0" hp="1.0" id="16.0" level="3.0" mental="5.0" move="0.0" name="이질감" success="0.01" work="0.0"/>
+	<trait attack="0.0" description="너무 찜찜해요. 분명 오늘 누군가와 만나기로 했는데 아무 기억도 나지 않아요." discType="0.0" energy="1.0" hp="1.0" id="17.0" level="3.0" mental="5.0" move="0.0" name="미묘한 느낌" success="0.01" work="0.0"/>
+	<trait attack="0.0" description="무슨 일이 일어나던 더 이상 신경 안쓰기로 했어요. 쓸 데 없는 감정 소모거든요." discType="0.0" energy="2.0" hp="2.0" id="18.0" level="4.0" mental="12.0" move="0.0" name="우수 방관자" success="0.02" work="0.0"/>
+	<trait attack="0.0" description="능수능란이 어떤 뜻인지 아시나요? 그건 바로 저 녀석을 두고 하는 말이죠." discType="0.0" energy="2.0" hp="2.0" id="19.0" level="4.0" mental="12.0" move="0.0" name="능수능란" success="0.02" work="0.0"/>
+	<trait attack="0.0" description="그는 우리 팀의 베테랑! 모든 작업에 다 능숙하죠!" discType="0.0" energy="2.0" hp="2.0" id="20.0" level="5.0" mental="10.0" move="0.0" name="베테랑" success="0.02" work="0.0"/>
+	<trait attack="0.0" description="이 쯤 되면 프로작업러라고 불러도 되지 않나?" discType="0.0" energy="2.0" hp="2.0" id="21.0" level="5.0" mental="10.0" move="0.0" name="프로작업러" success="0.02" work="0.0"/>
+	<trait attack="0.0" description="빨라서 좋긴 한데 저 녀석 생각이 있기는 할까?" discType="1.0" energy="0.0" hp="0.0" id="22.0" level="1.0" mental="-3.0" move="1.0" name="행동파" success="0.0" work="0.0"/>
+	<trait attack="0.0" description="뭐든지 후다닥 해치워버리는 그 녀석을 보면 날다람쥐가 생각나." discType="1.0" energy="0.0" hp="-1.0" id="23.0" level="1.0" mental="0.0" move="2.0" name="날다람쥐" success="0.0" work="0.0"/>
+	<trait attack="0.01" description="그렇게 회사에서 뛰어다니다가는 쥐도새도 모르게 채여갈 지도 몰라." discType="1.0" energy="0.0" hp="0.0" id="24.0" level="1.0" mental="3.0" move="1.0" name="호기심" success="0.0" work="0.0"/>
+	<trait attack="0.0" description="심심해? 그럼 나랑 작업하러 가자. 작업이 얼마나 재밌다고~" discType="1.0" energy="0.0" hp="0.0" id="25.0" level="2.0" mental="2.0" move="1.0" name="심심타파" success="0.0" work="0.0"/>
+	<trait attack="0.01" description="무슨 일이든 순식간에 해치우는 저를 보면 이 단어가 생각나죠! 안 그래요?" discType="1.0" energy="0.0" hp="0.0" id="26.0" level="2.0" mental="0.0" move="1.0" name="변화무쌍" success="0.01" work="0.3"/>
+	<trait attack="0.0" description="그 녀석 성질 한 번 더럽네. 자기가 빠르면 다야? 인성이 되야지!" discType="1.0" energy="1.0" hp="0.0" id="27.0" level="3.0" mental="-5.0" move="1.0" name="다혈질" success="0.0" work="0.0"/>
+	<trait attack="0.05" description="그렇게 마구잡이로 작업하면 환상체한테 얻어맞을지도 모른다고!" discType="1.0" energy="0.0" hp="0.0" id="28.0" level="3.0" mental="0.0" move="2.0" name="오버액션" success="0.0" work="0.5"/>
+	<trait attack="0.02" description="오늘은 어떤 세피라에 가지? 이 생각만 하면 힘이 절로 솟아나요." discType="1.0" energy="1.5" hp="-1.0" id="29.0" level="4.0" mental="0.0" move="1.0" name="모험가" success="0.0" work="0.0"/>
+	<trait attack="0.0" description="광속보다 빠른! 맞는 말이야." discType="1.0" energy="-0.5" hp="1.0" id="30.0" level="4.0" mental="0.0" move="2.0" name="타키온" success="-0.03" work="0.5"/>
+	<trait attack="0.0" description="남들과는 다르게 색다르게 작업을 하는 세피라의 나그네!" discType="1.0" energy="-0.5" hp="0.0" id="31.0" level="5.0" mental="0.0" move="4.0" name="누구보다 빠르게" success="-0.05" work="1.0"/>
+	<trait attack="-0.05" description="난나난난난나 난난나~ 해피해피해피 로보토미♬ 음~ 기분 좋아~" discType="1.0" energy="0.0" hp="0.0" id="32.0" level="5.0" mental="10.0" move="2.0" name="긍정의 제왕" success="0.0" work="0.0"/>
+	<trait attack="0.0" description="요즘 신입사원들은 말이야~ 노오오오력을 안하더라고!" discType="2.0" energy="0.0" hp="0.0" id="33.0" level="1.0" mental="3.0" move="0.0" name="끈기" success="0.0" work="1.0"/>
+	<trait attack="0.0" description="그는 정말 부지런해! 에너지도 팍팍 잘 생산하고 말이야." discType="2.0" energy="0.5" hp="0.0" id="34.0" level="1.0" mental="0.0" move="0.0" name="부우우지러언" success="0.0" work="1.0"/>
+	<trait attack="-0.01" description="그는 세세한 것 하나하나에 모두 신경을 씁니다. 그래서일까요. 좀 느리네요." discType="2.0" energy="0.0" hp="0.0" id="35.0" level="1.0" mental="2.0" move="-0.5" name="주의 깊음" success="0.0" work="1.0"/>
+	<trait attack="0.0" description="정신 집중! 작업 속도가 빨라진다! " discType="2.0" energy="0.0" hp="0.0" id="36.0" level="2.0" mental="2.0" move="0.0" name="정신 집중" success="0.01" work="2.0"/>
+	<trait attack="-0.02" description="그는 환상체가 무슨 짓을 하던 그저 꿋꿋이 자기 할 일을 하더라고요…" discType="2.0" energy="0.0" hp="0.0" id="37.0" level="2.0" mental="0.0" move="0.0" name="인내심" success="0.0" work="1.0"/>
+	<trait attack="-0.05" description="심사숙고해서 작업을 하면 속도는 느려도 내 마음이 편해." discType="2.0" energy="-0.5" hp="0.0" id="38.0" level="3.0" mental="0.0" move="-0.5" name="심사숙고" success="0.0" work="1.0"/>
+	<trait attack="0.0" description="신중해서 나쁠 거는 없어. 다만 걸을 때도 신경 쓸 게 많아서 좀 걱정이긴 해. " discType="2.0" energy="0.0" hp="1.0" id="39.0" level="3.0" mental="0.0" move="0.0" name="신중함" success="0.02" work="1.0"/>
+	<trait attack="0.0" description="조용해보인다고요? 이래보여도 저 지난 달 실적 1등이거든요?" discType="2.0" energy="1.0" hp="-1.0" id="40.0" level="4.0" mental="5.0" move="0.0" name="외유내강" success="0.01" work="1.0"/>
+	<trait attack="-0.03" description="속도는 느려도 섬세한 컨트롤로 성공확률은 오히려 높다고!" discType="2.0" energy="1.0" hp="1.0" id="41.0" level="4.0" mental="0.0" move="0.0" name="섬세한 조작" success="0.07" work="1.0"/>
+	<trait attack="0.0" description="사색에 잠기면 걸음은 좀 느려지더라도 생각이 정리가 되서 좋아." discType="2.0" energy="0.0" hp="0.0" id="42.0" level="5.0" mental="15.0" move="-1.0" name="낭만적 사색가" success="0.0" work="2.0"/>
+	<trait attack="0.0" description="제발 날 좀 내버려둬. " discType="2.0" energy="1.0" hp="0.0" id="43.0" level="5.0" mental="10.0" move="0.0" name="고독한 인생" success="0.0" work="3.0"/>
+	<trait attack="0.0" description="정시 퇴근? 당신, 회사에 대한 열정이 부족하군요?" discType="3.0" energy="1.0" hp="0.0" id="44.0" level="1.0" mental="0.0" move="0.0" name="일중독" success="0.0" work="1.0"/>
+	<trait attack="0.0" description="이번 입사시험의 수석이 바로 저 사람이에요. 머리가 진짜 좋나봐." discType="3.0" energy="2.0" hp="0.0" id="45.0" level="1.0" mental="5.0" move="0.0" name="엘리트" success="0.0" work="0.0"/>
+	<trait attack="0.03" description="그 후에 어떻게 된...아! (인터뷰를 하는 중 자리를 떠버렸다.)" discType="3.0" energy="1.0" hp="0.0" id="46.0" level="1.0" mental="-3.0" move="0.0" name="괴팍한 인재" success="0.0" work="0.0"/>
+	<trait attack="0.0" description="작업하러 가는 길에 대화가 왜 필요한거지? 빠르게 이동하자고." discType="3.0" energy="1.0" hp="0.0" id="47.0" level="2.0" mental="0.0" move="0.5" name="냉철함" success="-0.01" work="0.0"/>
+	<trait attack="0.02" description="결과만 좋으면 그만 아닌가요? 제 도덕성을 의심하지 마세요." discType="3.0" energy="1.0" hp="0.0" id="48.0" level="2.0" mental="0.0" move="0.0" name="이기적 유전자" success="0.0" work="0.3"/>
+	<trait attack="-0.03" description="실속만 챙겨가는 그 녀석은 작업도 정말 할 것만 하고 가더라고~" discType="3.0" energy="2.0" hp="0.0" id="49.0" level="3.0" mental="0.0" move="0.0" name="실속파" success="0.02" work="0.5"/>
+	<trait attack="0.07" description="저 녀석 저렇게 실적만 챙기다가는 빈틈이 쌓여서 무너져버리고 말거야." discType="3.0" energy="3.0" hp="0.0" id="50.0" level="3.0" mental="0.0" move="0.0" name="성과 중시" success="0.03" work="0.0"/>
+	<trait attack="0.0" description="그 분한테는 무슨 말을 못하겠어요. 자기밖에 모른다니까요? 완전 별로야." discType="3.0" energy="2.0" hp="0.0" id="51.0" level="4.0" mental="8.0" move="0.0" name="강력한 주장" success="0.0" work="0.0"/>
+	<trait attack="0.0" description="그는 모든지 완벽해야지만 만족하기 때문에 항상 했던 일을 한번 더 점검하죠." discType="3.0" energy="2.0" hp="0.0" id="52.0" level="4.0" mental="0.0" move="0.0" name="완벽주의자" success="0.03" work="-0.5"/>
+	<trait attack="0.0" description="그가 작업을 진행하는 모습을 보고 있으면 마치 연주회의 지휘자가 앞에 있는 듯해." discType="3.0" energy="4.0" hp="0.0" id="53.0" level="5.0" mental="-5.0" move="1.0" name="마에스트로" success="0.05" work="1.0"/>
+	<trait attack="0.05" description="너 자신에 대해서 너무 신뢰하지 말라고! 너는 실수 안할 줄 알아?" discType="3.0" energy="4.0" hp="0.0" id="54.0" level="5.0" mental="10.0" move="0.0" name="자의식 과잉" success="0.0" work="0.0"/>
+	<trait attack="-0.01" description="어휴! 너부터 챙기고 남을 도우란말이야!" discType="4.0" energy="0.0" hp="0.0" id="55.0" level="1.0" mental="3.0" move="-0.5" name="이타성" success="0.0" work="0.0"/>
+	<trait attack="-0.01" description="쉴 새 없이 떠드는 것도 체력이 받쳐줘야 하는 거지…." discType="4.0" energy="-0.5" hp="-1.0" id="56.0" level="1.0" mental="0.0" move="0.5" name="수다쟁이" success="0.0" work="0.0"/>
+	<trait attack="-0.02" description="그 사람만 오면 작업 분위기가 엄청 좋아져요. 모두 화기애애하죠." discType="4.0" energy="0.5" hp="0.0" id="57.0" level="1.0" mental="0.0" move="0.0" name="분위기메이커" success="0.0" work="0.5"/>
+	<trait attack="-0.02" description="느리면 어때요? 대신에 다른게 좋잖아요~헤헤" discType="4.0" energy="0.0" hp="1.0" id="58.0" level="2.0" mental="10.0" move="-0.5" name="낙천가" success="0.0" work="-0.5"/>
+	<trait attack="-0.02" description="때때로 아주 가끔 그의 미소가 떠오른다. 왜일까…?" discType="4.0" energy="1.0" hp="0.0" id="59.0" level="2.0" mental="0.0" move="0.0" name="상냥한 미소" success="0.02" work="0.0"/>
+	<trait attack="-0.01" description="빨리빨리 대충대충 하는 작업에 성공이 있을 거라 생각한거야?" discType="4.0" energy="-1.0" hp="1.0" id="60.0" level="3.0" mental="0.0" move="0.0" name="대충대충" success="-0.05" work="0.0"/>
+	<trait attack="-0.02" description="작업 때마다 조잘대는 그를 보면 꼭 병아리 같다니까! 귀여워." discType="4.0" energy="0.0" hp="-1.0" id="61.0" level="3.0" mental="8.0" move="0.0" name="삐약삐약" success="0.0" work="-0.8"/>
+	<trait attack="-0.03" description="그가 말을 시작하면 환상체도 홀린듯이 얌전해져요! 테디랑 마법소녀까지 말이에요!" discType="4.0" energy="1.5" hp="0.0" id="62.0" level="4.0" mental="5.0" move="0.0" name="뛰어난 화술" success="0.03" work="-1.0"/>
+	<trait attack="-0.02" description="누군가를 상처입히지 않으려 하는 너의 말은 정말로 상냥해." discType="4.0" energy="1.0" hp="0.0" id="63.0" level="4.0" mental="-15.0" move="0.0" name="착한 거짓말" success="0.05" work="0.0"/>
+	<trait attack="-0.03" description="그는 우리 팀의 천사라고 불리죠. 진짜 그정도로 친절하다니까요?" discType="4.0" energy="1.0" hp="1.0" id="64.0" level="5.0" mental="1.0" move="1.0" name="천사" success="0.0" work="1.0"/>
+	<trait attack="-0.03" description="이야기를 할 때마다 너무 행복해요. 체력도 막 오르는 것 같다니까요?" discType="4.0" energy="0.0" hp="2.0" id="65.0" level="5.0" mental="10.0" move="0.0" name="스토리텔러" success="0.08" work="-1.0"/>
+</traits>

@@ -291,8 +291,8 @@ public class AgentModel : WorkerModel
         {
             traitMaxHp += traitList[i].hp;
             traitMaxmental += traitList[i].mental;
-            traitmovement += traitList[i].moveSpeed;
-            traitWork += traitList[i].workSpeed;
+            traitmovement += traitList[i].move;
+            traitWork += traitList[i].work;
         }
 
         maxHp = defaultMaxHp + traitMaxHp;
@@ -302,10 +302,6 @@ public class AgentModel : WorkerModel
 
         hp += addTrait.hp;
         mental += addTrait.mental;
-
-        directBonus += (int)addTrait.directWork;
-        inDirectBonus += (int)addTrait.inDirectWork;
-        blockBonus += (int)addTrait.blockWork;
 
         if (maxHp <= 0)
         {

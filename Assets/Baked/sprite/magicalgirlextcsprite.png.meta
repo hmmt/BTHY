@@ -1,0 +1,331 @@
+fileFormatVersion: 2
+guid: db27007ec9a5b1c409bcf892b47f2138
+timeCreated: 1454120981
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: CHARA_eyebrow
+    21300002: CHARA_darkcircle1
+    21300004: magicalgirlextcsprite_2
+    21300006: CHARA_darkcircle2
+    21300008: CHARA_mouth50
+    21300010: CHARA_spit
+    21300012: magicalgirlextcsprite_6
+    21300014: magicalgirlextcsprite_7
+    21300016: CHARA_eye50
+    21300018: CHARA_mouth0
+    21300020: CHARA_eye0
+    21300022: magicalgirlextcsprite_11
+    21300024: CHARA_mouth00
+    21300026: magicalgirlextcsprite_13
+    21300028: magicalgirlextcsprite_14
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: 1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: CHARA_eyebrow
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 536
+        width: 74
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 11}
+        - {x: -31, y: 7}
+        - {x: -33, y: 6}
+        - {x: -33, y: -4}
+        - {x: -20, y: -10}
+        - {x: 19, y: -10}
+        - {x: 26, y: -5}
+        - {x: 28, y: 1}
+        - {x: 28, y: 11}
+    - name: CHARA_darkcircle1
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 503
+        width: 63
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24.5, y: 2.5}
+        - {x: 13.5, y: 11.5}
+        - {x: -7.5, y: 15.5}
+        - {x: -29.5, y: 15.5}
+        - {x: -29.5, y: -9.5}
+        - {x: -14.5, y: -16.5}
+        - {x: 20.5, y: -16.5}
+        - {x: 27.5, y: -5.5}
+        - {x: 27.5, y: -0.5}
+    - name: magicalgirlextcsprite_2
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 471
+        width: 16
+        height: 8
+      alignment: 9
+      pivot: {x: 4.6769295, y: -2.648758}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: CHARA_darkcircle2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 499
+        width: 63
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16.5, y: 16}
+        - {x: -25.5, y: -2}
+        - {x: -25.5, y: -16}
+        - {x: 19.5, y: -16}
+        - {x: 24.5, y: -3}
+        - {x: 25.5, y: 2}
+        - {x: 25.5, y: 16}
+    - name: CHARA_mouth50
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 428
+        width: 63
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -19.5, y: 21}
+        - {x: -29.5, y: 15}
+        - {x: -29.5, y: -9}
+        - {x: -27.5, y: -19}
+        - {x: 26.5, y: -19}
+        - {x: 28.5, y: -9}
+        - {x: 28.5, y: 16}
+        - {x: 23.5, y: 21}
+    - name: CHARA_spit
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 293
+        width: 253
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -106.5, y: -23.5}
+        - {x: -106.5, y: -40.5}
+        - {x: -100.5, y: -42.5}
+        - {x: -89.5, y: -42.5}
+        - {x: -89.5, y: -26.5}
+        - {x: -91.5, y: -23.5}
+      - - {x: 96.5, y: -19.5}
+        - {x: 87.5, y: -22.5}
+        - {x: 87.5, y: -35.5}
+        - {x: 91.5, y: -37.5}
+        - {x: 100.5, y: -37.5}
+        - {x: 105.5, y: -32.5}
+        - {x: 105.5, y: -19.5}
+      - - {x: -20.5, y: 69.5}
+        - {x: -22.5, y: 64.5}
+        - {x: -22.5, y: 61.5}
+        - {x: -20.5, y: 58.5}
+        - {x: -12.5, y: 58.5}
+        - {x: -9.5, y: 64.5}
+        - {x: -9.5, y: 69.5}
+    - name: magicalgirlextcsprite_6
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 260
+        width: 13
+        height: 15
+      alignment: 9
+      pivot: {x: 1.8271848, y: -4.5407004}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: magicalgirlextcsprite_7
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 382
+        width: 14
+        height: 14
+      alignment: 9
+      pivot: {x: 5.0308313, y: -1.094853}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: CHARA_eye50
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 276
+        width: 84
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25, y: 34}
+        - {x: -22, y: 34}
+        - {x: -34, y: 30}
+        - {x: -34, y: -17}
+        - {x: -23, y: -37}
+        - {x: 19, y: -37}
+        - {x: 37, y: -20}
+        - {x: 37, y: 8}
+        - {x: 32, y: 22}
+    - name: CHARA_mouth0
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 165
+        width: 127
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -55.5, y: 23.5}
+        - {x: -55.5, y: 4.5}
+        - {x: -48.5, y: -12.5}
+        - {x: -24.5, y: -25.5}
+        - {x: 3.5, y: -25.5}
+        - {x: 54.5, y: 1.5}
+        - {x: 55.5, y: 5.5}
+        - {x: 55.5, y: 23.5}
+    - name: CHARA_eye0
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 150
+        width: 81
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 26.5, y: 34}
+        - {x: -20.5, y: 34}
+        - {x: -32.5, y: 30}
+        - {x: -32.5, y: -17}
+        - {x: -21.5, y: -37}
+        - {x: 20.5, y: -37}
+        - {x: 38.5, y: -20}
+        - {x: 38.5, y: 8}
+        - {x: 33.5, y: 22}
+    - name: magicalgirlextcsprite_11
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 153
+        width: 17
+        height: 7
+      alignment: 9
+      pivot: {x: -1.0820595, y: -2.1097565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: CHARA_mouth00
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 57
+        width: 113
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 21.5, y: 26.5}
+        - {x: -51.5, y: 17.5}
+        - {x: -51.5, y: -5.5}
+        - {x: -43.5, y: -20.5}
+        - {x: 24.5, y: -20.5}
+        - {x: 45.5, y: -9.5}
+        - {x: 45.5, y: 26.5}
+    - name: magicalgirlextcsprite_13
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 0
+        width: 21
+        height: 28
+      alignment: 9
+      pivot: {x: -1.8026955, y: -6.604659}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: magicalgirlextcsprite_14
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 39
+        width: 36
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5, y: 13.5}
+        - {x: -12, y: 6.5}
+        - {x: -12, y: -7.5}
+        - {x: -7, y: -9.5}
+        - {x: 10, y: -9.5}
+        - {x: 12, y: -5.5}
+        - {x: 12, y: 11.5}
+        - {x: 9, y: 13.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

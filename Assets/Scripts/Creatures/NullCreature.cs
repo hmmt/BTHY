@@ -9,6 +9,12 @@ public class NullCreature : CreatureBase {
     private bool changed = false;
 
 
+	public override void OnInit()
+	{
+		base.OnInit();
+		//model.SetCurrentNode (MapGraph.instance.GetNodeById("sefira-malkuth-4"));
+	}
+
     private void ChangeBody()
     {
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);

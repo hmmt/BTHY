@@ -3,6 +3,12 @@ using System.Collections;
 
 public class MatchGirl  : CreatureBase {
 
+	public override void OnInit()
+	{
+		base.OnInit();
+		//model.SetCurrentNode (MapGraph.instance.GetNodeById("malkuth-1-4"));
+	}
+
     public override void OnSkillFailWorkTick(UseSkill skill)
 	{
 		if(Random.value <= 0.4)

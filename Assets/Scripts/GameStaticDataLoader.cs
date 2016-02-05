@@ -31,7 +31,7 @@ public class GameStaticDataLoader {
 
     public void LoadTraitData()
     {
-        TextAsset textAsset = Resources.Load<TextAsset>("xml/Traits");
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Traits2");
 
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(textAsset.text);
@@ -47,27 +47,25 @@ public class GameStaticDataLoader {
             levelList[i] = new List<TraitTypeInfo>();
         }
 
+		int r = 0;
         foreach (XmlNode node in nodes)
         {
             TraitTypeInfo model = new TraitTypeInfo();
 
-            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+			model.id = (long)float.Parse(node.Attributes.GetNamedItem("id").InnerText);
             model.name = node.Attributes.GetNamedItem("name").InnerText;
 
-            model.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
-            model.randomFlag = int.Parse(node.Attributes.GetNamedItem("randomFlag").InnerText);
+			model.level = (int)float.Parse(node.Attributes.GetNamedItem("level").InnerText);
+            //model.randomFlag = int.Parse(node.Attributes.GetNamedItem("randomFlag").InnerText);
+			model.randomFlag = r++%2;
 
-            model.hp = int.Parse(node.Attributes.GetNamedItem("hp").InnerText);
-            model.mental = int.Parse(node.Attributes.GetNamedItem("mental").InnerText);
+			model.hp = (int)float.Parse(node.Attributes.GetNamedItem("hp").InnerText);
+			model.mental = (int)float.Parse(node.Attributes.GetNamedItem("mental").InnerText);
 
-            model.moveSpeed = int.Parse(node.Attributes.GetNamedItem("moveSpeed").InnerText);
-            model.workSpeed = int.Parse(node.Attributes.GetNamedItem("workSpeed").InnerText);
+			model.move = (int)float.Parse(node.Attributes.GetNamedItem("move").InnerText);
+			model.work = (int)float.Parse(node.Attributes.GetNamedItem("work").InnerText);
 
-            model.directWork = float.Parse(node.Attributes.GetNamedItem("directWork").InnerText);
-            model.inDirectWork = float.Parse(node.Attributes.GetNamedItem("inDirectWork").InnerText);
-            model.blockWork = float.Parse(node.Attributes.GetNamedItem("blockWork").InnerText);
-
-            model.discType = int.Parse(node.Attributes.GetNamedItem("discType").InnerText);
+			model.discType = (int)float.Parse(node.Attributes.GetNamedItem("discType").InnerText);
 
             model.description = node.Attributes.GetNamedItem("description").InnerText;
 
@@ -461,6 +459,7 @@ public class GameStaticDataLoader {
         foreach (XmlNode pathInfoNode in creature_list)
         {
             string src = pathInfoNode.Attributes.GetNamedItem("src").InnerText;
+			Debug.Log ("load creature >> "+ src);
 
             TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/"+src);
 
@@ -471,7 +470,8 @@ public class GameStaticDataLoader {
 
             CreatureTypeInfo model = new CreatureTypeInfo();
 
-            model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            //model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
+			model.id = long.Parse(pathInfoNode.Attributes.GetNamedItem("id").InnerText);
             //model.name = node.Attributes.GetNamedItem("name").InnerText;
             model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
             //model.level = node.Attributes.GetNamedItem("level").InnerText;
@@ -563,17 +563,6 @@ public class GameStaticDataLoader {
             {
                 model.roomReturnSrc = "";
             }
-
-            Dictionary<string, string> typoTable = new Dictionary<string, string>();
-            XmlNodeList typoNodeList = node.SelectNodes("typo");
-            foreach (XmlNode typoNode in typoNodeList)
-            {
-                string key = typoNode.Attributes.GetNamedItem("action").InnerText;
-                string ttext = typoNode.InnerText;
-
-                typoTable.Add(key, ttext);
-            }
-            model.typoTable = typoTable;
 
             Dictionary<string, string> narrationTable = new Dictionary<string, string>();
             XmlNodeList narrationNodeList = node.SelectNodes("narration");

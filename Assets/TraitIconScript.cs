@@ -63,23 +63,23 @@ public class TraitIcon {
             outputText.Add("Mental-");
         }
 
-        if (type.moveSpeed > 0)
+        if (type.move > 0)
         {
             output.Add(iconSheet[4]);
             outputText.Add("Movement speed+");
         }
-        else if (type.moveSpeed < 0)
+        else if (type.move < 0)
         {
             output.Add(iconSheet[5]);
             outputText.Add("Movement speed-");
         }
 
-        if (type.workSpeed > 0)
+        if (type.work > 0)
         {
             output.Add(iconSheet[6]);
             outputText.Add("Work speed+");
         }
-        else if (type.workSpeed < 0)
+        else if (type.work < 0)
         {
             output.Add(iconSheet[7]);
             outputText.Add("Work speed-");

@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <creature_list>
-  <creature name="Matchgirl" src="Matchgirl">
+  <creature name="Matchgirl" src="Matchgirl" id="100001">
     <stat>MatchGirl_stat</stat>
   </creature>
-  <creature name="HappyTeddy" src="HappyTeddy">
+  <creature name="HappyTeddy" src="HappyTeddy" id="100002">
     <stat>HappyTeddy_stat</stat>
   </creature>
+
+  <!--
   <creature name="OneBadManyGood" src="OneBadManyGood">
     <stat>OneBadManyGood_stat</stat>
   </creature>
-  <creature name="RedShoes" src="RedShoes">
+  -->
+
+  <creature name="RedShoes" src="RedShoes" id="100003">
     <stat>RedShoes_stat</stat>
   </creature>
-  <creature name="MagicalGirl" src="MagicalGirl">
+  <creature name="MagicalGirl" src="MagicalGirl" id="100004">
     <stat>MagicalGirl_stat</stat>
   </creature>
-  <creature name="NullThing" src="NullThing">
+  <creature name="NullThing" src="NullThing" id="100005">
     <stat>NullThing_stat</stat>
+  </creature>
+
+  <creature name="SingingMachine" src="SingingMachine" id="100006">
+    <stat>SingingMachine_stat</stat>
   </creature>
   <!-- BigBird, SiningMachine, orangeTree -->
   <!---
