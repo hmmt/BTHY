@@ -12,9 +12,9 @@ public class AgentExtendedScript : MonoBehaviour {
         this.model = model;
         attr.Name.text = model.name;
         characteristic.text = model.LifeStyle();
-        attr.hair.sprite = ResourceCache.instance.GetSprite(model.hairImgSrc);
-        attr.face.sprite = ResourceCache.instance.GetSprite(model.faceImgSrc);
-        attr.body.sprite = ResourceCache.instance.GetSprite(model.bodyImgSrc);
+        attr.hair.sprite = model.tempHairSprite;
+        attr.face.sprite = model.tempFaceSprite;
+        //attr.body.sprite = 
         attr.Level.text = model.level + " Level";
         info.SelectedAgent(model);
     }

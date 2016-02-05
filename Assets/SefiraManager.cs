@@ -451,9 +451,9 @@ public class Sefira
     public void InitAgentSkillList() {
         foreach (AgentModel am in agentList) {
             SkillTypeInfo[] tempAry = am.GetSkillList();
-            Debug.Log("initagentskillList"+ tempAry.Length);
+            // Debug.Log("initagentskillList"+ tempAry.Length);
             foreach (SkillTypeInfo s in tempAry) {
-                Debug.Log(s.category);
+                //Debug.Log(s.category);
                 AgentSkillCategory category = null;
                 bool initial = false;
                 if (!CheckCategoryExist(s.category))
@@ -472,7 +472,7 @@ public class Sefira
 
                 if (!category.DupCheck(s)) {
                     category.AddSkill(s);
-                    Debug.Log("add" + s.name);
+                    //Debug.Log("add" + s.name);
                 }
                 if (initial) {
                     this.skillCategory.Add(category);

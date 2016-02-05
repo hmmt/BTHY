@@ -62,17 +62,24 @@ public class TextListScript : MonoBehaviour{
 
     public void MakeTraits(TraitTypeInfo trait)
     {
+        Debug.Log(trait.name);
         GameObject addObject = Instantiate(makeObject);
         RectTransform rt = addObject.GetComponent<RectTransform>();
         RectTransform iconGrid = addObject.transform.GetChild(1).GetComponent<RectTransform>();
         string[] desc;
         Sprite[] iconList = TraitIcon.instnace.GetSpriteByTrait(trait, out desc);
+        Debug.Log(iconList.Length);
+        Debug.Log(desc.Length);
 
         for (int i = 0; i < iconList.Length; i++) {
             GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
             iconObject.GetComponent<Image>().sprite = iconList[i];
             OverlayObject icons = iconObject.GetComponent<OverlayObject>();
-            icons.text = desc[i];
+            int tempindex = i;
+            if (tempindex < desc.Length) {
+                icons.text = desc[tempindex];
+            }
+            
 
             EventTrigger tri = iconObject.AddComponent<EventTrigger>();
             EventTrigger.Entry enter = new EventTrigger.Entry();

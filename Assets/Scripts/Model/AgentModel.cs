@@ -70,6 +70,8 @@ public class AgentModel : WorkerModel
 
     public Sprite[] StatusSprites = new Sprite[4];
     public Sprite[] WorklistSprites = new Sprite[3];
+    public Sprite tempHairSprite;
+    public Sprite tempFaceSprite;
 
     /// <summary>
     /// 임시 값, 성공확률
@@ -104,7 +106,10 @@ public class AgentModel : WorkerModel
         SetCurrentSefira(area);
         MovableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         history = new AgentHistory();
-        
+
+        tempHairSprite = AgentLayer.currentLayer.GetAgentHair();
+        tempFaceSprite = AgentLayer.currentLayer.GetAgentFace();
+
         successPercent = Random.Range(0, 90f);
     }
 

@@ -65,11 +65,19 @@ public class AgentLayer : MonoBehaviour, IObserver {
         zCount = (zCount + 1) % 1000;
 
         if (unit.animTarget != null && hairListTemp.Length > 0) {
-            unit.animTarget.SetHair(hairListTemp[Random.Range(0, hairListTemp.Length)]);
+            unit.animTarget.SetHair(unit.model.tempHairSprite);
             if (faceListTemp.Length > 0) {
-                unit.animTarget.SetFace(faceListTemp[Random.Range(0, faceListTemp.Length)]);
+                unit.animTarget.SetFace(unit.model.tempFaceSprite);
             }
         }
+    }
+
+    public Sprite GetAgentHair() {
+        return hairListTemp[Random.Range(0, hairListTemp.Length)];
+    }
+
+    public Sprite GetAgentFace() { 
+        return faceListTemp[Random.Range(0, faceListTemp.Length)];
     }
 
     public void RemoveAgent(AgentModel model)

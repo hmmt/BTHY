@@ -32,9 +32,9 @@ public class PromotionPanelScript : MonoBehaviour {
     {
         this.script = script;
         this.model = script.getModel();
-        Hair.sprite = ResourceCache.instance.GetSprite(this.model.hairImgSrc);
-        Body.sprite = ResourceCache.instance.GetSprite(this.model.bodyImgSrc);
-        Face.sprite = ResourceCache.instance.GetSprite(this.model.faceImgSrc);
+        Hair.sprite = model.tempHairSprite;
+        //Body.sprite = ResourceCache.instance.GetSprite(this.model.bodyImgSrc);
+        Face.sprite = model.tempFaceSprite;
         name.text = this.model.name;
         direct.image.sprite = this.model.WorklistSprites[0];
         indirect.image.sprite = this.model.WorklistSprites[1];

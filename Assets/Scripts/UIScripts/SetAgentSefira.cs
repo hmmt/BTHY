@@ -23,6 +23,8 @@ public class SetAgentSefira : MonoBehaviour {
     public UnityEngine.UI.Button cancelButton;
     public UnityEngine.UI.Image Bg;
     public UnityEngine.UI.Image Cancel;
+    public Sprite headImg;
+    public GameObject bodyObject;
 
 
     public void OnClick(BaseEventData eventData)

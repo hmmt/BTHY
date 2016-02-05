@@ -57,15 +57,15 @@ public class SlotAttributes {
         data.level = model.level + "";
         data.life = model.LifeStyle();
         SetSefira(model);
-        data.hair = ResourceCache.instance.GetSprite(model.hairImgSrc);
-        data.face = ResourceCache.instance.GetSprite(model.faceImgSrc);
-        data.body = ResourceCache.instance.GetSprite(model.bodyImgSrc);
+        data.hair = model.tempHairSprite;
+        data.face = model.tempFaceSprite;
+        //data.body = ResourceCache.instance.GetSprite(model.bodyImgSrc);
     }
 
     public void SetAttributes() {
         hair.sprite = data.hair;
         face.sprite = data.face;
-        body.sprite = data.body;
+        //body.sprite = data.body;
         name.text = data.name;
         level.text = data.level;
         life.text = data.life;

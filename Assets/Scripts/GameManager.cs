@@ -110,11 +110,11 @@ public class GameManager : MonoBehaviour
         }
 
         //SefiraManager.instance.getSefira("1").AssignOfficerDept();
-        /*
+        
         foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList()) {
             officer.ReturnToSefira();
         }
-        */
+        
 
 		stageUI.CancelSefiraAgent(a);
 		a.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
 
 		
         StartStage();
-		stageUI.Close ();
+		//stageUI.Close ();
 		//StartGame();
         //OpenStoryScene("start");
         /*

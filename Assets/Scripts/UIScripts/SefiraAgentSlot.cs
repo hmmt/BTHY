@@ -80,6 +80,7 @@ public class SefiraAgentSlot : MonoBehaviour {
             slot[i].agentName.text = "없음";
             slot[i].cancelButton.gameObject.SetActive(false);
             slot[i].Cancel.gameObject.SetActive(false);
+            slot[i].bodyObject.gameObject.SetActive(false);
             slot[i].Model = null;
         }
     }
@@ -95,6 +96,7 @@ public class SefiraAgentSlot : MonoBehaviour {
             slot[i].agentName.text = "없음";
             slot[i].cancelButton.gameObject.SetActive(false);
             slot[i].Cancel.gameObject.SetActive(false);
+            slot[i].bodyObject.gameObject.SetActive(false);
             slot[i].Model = null;
         }
 
@@ -105,14 +107,15 @@ public class SefiraAgentSlot : MonoBehaviour {
 
             agentModel.GetPortrait("body", null);
             slot[i].Bg.sprite = bgImage[1];
-            slot[i].agentBody.sprite = ResourceCache.instance.GetSprite(agentModel.bodyImgSrc);
-            slot[i].agentFace.sprite = ResourceCache.instance.GetSprite(agentModel.faceImgSrc);
-            slot[i].agentHair.sprite = ResourceCache.instance.GetSprite(agentModel.hairImgSrc);
+            slot[i].agentBody.sprite = slot[i].headImg;
+            slot[i].agentFace.sprite = agentModel.tempFaceSprite;
+            slot[i].agentHair.sprite = agentModel.tempHairSprite;
             slot[i].Model = agentModel;
 
             slot[i].agentLevel.text = "" + agentModel.level;
             slot[i].agentName.text = "" + agentModel.name;
             slot[i].Cancel.gameObject.SetActive(true);
+            slot[i].bodyObject.gameObject.SetActive(true);
             /*
             slot[i].cancelButton.gameObject.SetActive(true);
             slot[i].cancelButton.onClick.RemoveAllListeners();
