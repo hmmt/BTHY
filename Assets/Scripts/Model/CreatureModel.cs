@@ -26,6 +26,7 @@ public class Vector2Serializer
 }
 
 // 
+[System.Serializable]
 public class CreatureModel : IObserver
 {
     public int instanceId;
@@ -34,7 +35,10 @@ public class CreatureModel : IObserver
 	public int targetedCount = 0;
 
 	// buf
-	public float bufRemainingTime;
+	public float energyChangeTime;
+	public float energyChangeAmount;
+	public float energyChangeElapsedTime;
+	//public float bufFeelingAddRate; // per second
 
     // 메타데이터
     public CreatureTypeInfo metaInfo;
@@ -51,10 +55,13 @@ public class CreatureModel : IObserver
 
     public float feeling { get; private set; }
 
+	public float energyPoint = 100;
+	//public float feelingsPoint;
+
     //환상체 나레이션 저장 List
     public List<string> narrationList;
 
-    // 이하 save 되지 않는 데이터들
+    // 이하 save 프錘않는 데이터들
 
     public CreatureState state = CreatureState.WAIT;
 
@@ -129,6 +136,8 @@ public class CreatureModel : IObserver
 
     public CreatureFeelingState GetFeelingState()
     {
+		return CreatureFeelingState.GOOD;
+		/*
         CreatureFeelingState feelingState = CreatureFeelingState.BAD;
         float sectionMax = 0;
 
@@ -142,8 +151,9 @@ public class CreatureModel : IObserver
         }
 
         return feelingState;
+        */
     }
-
+	/*
     public FeelingSectionInfo GetCurrentFeelingSectionInfo()
     {
         FeelingSectionInfo output = metaInfo.feelingSectionInfo[0];
@@ -160,9 +170,24 @@ public class CreatureModel : IObserver
 
         return output;
     }
+    */
 
     public float GetEnergyTick()
     {
+		EnergyGenInfo selected = metaInfo.energyGenInfo [0];
+		foreach (EnergyGenInfo info in metaInfo.energyGenInfo)
+		{
+			if (energyPoint <= info.upperBound)
+			{
+				selected = info;
+			}
+			else
+			{
+				break;
+			}	
+		}
+		return selected.genValue;
+		/*
         float energyDummy = 0;
         float sectionMax = 0;
 
@@ -176,6 +201,7 @@ public class CreatureModel : IObserver
         }
 
         return energyDummy + energyDummy * 0.6f * ((float)(observeProgress) / 5);
+        */
     }
 
     private static int counter = 0;
@@ -225,8 +251,9 @@ public class CreatureModel : IObserver
 
     public void UpdateFeeling()
     {
-        if (Random.value < metaInfo.feelingDownProb)
+        //if (Random.value < metaInfo.feelingDownProb)
         {
+			energyPoint += metaInfo.energyPointChange;
             SubFeeling(metaInfo.feelingDownValue);
 
             Notice.instance.Send("UpdateCreatureState_" + instanceId);
@@ -235,10 +262,15 @@ public class CreatureModel : IObserver
 
     public void OnFixedUpdate()
     {
-		if (bufRemainingTime > 0)
+		if (energyChangeTime > energyChangeElapsedTime)
 		{
-			bufRemainingTime -= Time.deltaTime;
+			ProcessWorkingBuf ();
 		}
+		else
+		{
+			GenerateEnergy ();
+		}
+		 
         if (escapeAttackWait > 0)
         {
             escapeAttackWait -= Time.deltaTime;
@@ -358,6 +390,34 @@ public class CreatureModel : IObserver
         }
     }
 
+	private void ProcessWorkingBuf()
+	{
+		float delta = Time.deltaTime;
+		if (energyChangeElapsedTime + Time.deltaTime > energyChangeTime)
+			delta = energyChangeTime - energyChangeElapsedTime;
+		energyChangeElapsedTime += delta;
+
+		energyPoint += energyChangeAmount / (energyChangeTime / delta);
+		Notice.instance.Send("UpdateCreatureState_" + instanceId);
+	}
+	private void GenerateEnergy()
+	{
+	}
+	/*
+	public void SetFeelingBuf(float time, float feelingAmount)
+	{
+		bufRemainingTime = time;
+		bufFeelingAddRate = feelingAmount / time;
+	}
+	*/
+
+	public void SetEnergyChange(float time, float energyChangeAmount)
+	{
+		energyChangeTime = time;
+		this.energyChangeAmount = energyChangeAmount;
+		energyChangeElapsedTime = 0;
+	}
+
     public void AddFeeling(float value)
     {
         feeling += value;
@@ -398,21 +458,42 @@ public class CreatureModel : IObserver
         state = CreatureState.ESCAPE_RETURN;
     }
 
-    public bool GetPreferSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
-    {
-        FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
-        foreach (SkillBonusInfo bonusInfo in info.preferList)
-        {
-            if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
-            {
-                bonus = bonusInfo.bonus;
-                return true;
-            }
-        }
-        bonus = 0;
-        return false;
-    }
+	public float GetAttackProb()
+	{
+		return 0.3f;
+	}
 
+	public int GetPhysicsDmg()
+	{
+		return 1;
+	}
+	public int GetMentalDmg()
+	{
+		return 1;
+	}
+	public CreatureAttackType GetAttackType()
+	{
+		return CreatureAttackType.PHYSICS;
+	}
+
+	/*
+	// unused
+	public bool GetPreferSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
+	{
+		FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
+		foreach (SkillBonusInfo bonusInfo in info.preferList)
+		{
+			if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
+			{
+				bonus = bonusInfo.bonus;
+				return true;
+			}
+		}
+		bonus = 0;
+		return false;
+	}
+
+	// unused
     public bool GetRejectSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
     {
         FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
@@ -427,17 +508,24 @@ public class CreatureModel : IObserver
         bonus = 0;
         return false;
     }
+	*/
 
     public bool IsPreferSkill(SkillTypeInfo skillTypeInfo)
     {
+		/*
         float bonus;
         return GetPreferSkillBonus(skillTypeInfo, out bonus);
+        */
+		return true;
     }
 
     public bool IsRejectSkill(SkillTypeInfo skillTypeInfo)
     {
+		/*
         float bonus;
         return GetRejectSkillBonus(skillTypeInfo, out bonus);
+        */
+		return false;
     }
 
     public string GetArea()
@@ -557,7 +645,7 @@ public class CreatureModel : IObserver
 
 	public bool IsReady()
 	{
-		return bufRemainingTime <= 0;
+		return energyChangeElapsedTime >= energyChangeTime;
 	}
 
     /*

@@ -258,15 +258,16 @@ public class AgentUnit : MonoBehaviour {
 
     public void ChangeAgentUniform()
     {
+        
         if (animTarget != null)
         {
             if (model.currentSefira == "1")
             {
-                animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentM1"));
+                //animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentM1"));
             }
             else
             {
-                animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
+                //animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
             }
         }
         //agentAnimator.SetBool("Change", true);
@@ -453,7 +454,7 @@ public class AgentUnit : MonoBehaviour {
         Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
         Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
         showSpeech.showSpeech(speech);
-        Debug.Log("관리자에게 " + speech);
+        //Debug.Log("관리자에게 " + speech);
         
 
         // TODO : 최적화 필요
@@ -461,12 +462,12 @@ public class AgentUnit : MonoBehaviour {
 
         if (agentWindow.GetComponent<Animator>().GetBool("isTrue"))
         {
-            Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
+            //Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
             agentWindow.GetComponent<Animator>().SetBool("isTrue", false);
         }
         else if(oldUnit == model)
         {
-            Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
+            //Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
             agentWindow.GetComponent<Animator>().SetBool("isTrue", true);
         }
 	}

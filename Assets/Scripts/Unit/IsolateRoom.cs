@@ -95,6 +95,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void Init()
     {
+
+        roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1);
         float sizex = Mathf.Max(
             roomSpriteRenderer.sprite.bounds.size.x * roomSpriteRenderer.gameObject.transform.localScale.x,
             roomSpriteRenderer.sprite.bounds.size.x * roomSpriteRenderer.gameObject.transform.localScale.x
@@ -103,6 +105,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             roomSpriteRenderer.sprite.bounds.size.y * roomSpriteRenderer.gameObject.transform.localScale.y,
             roomSpriteRenderer.sprite.bounds.size.y * roomSpriteRenderer.gameObject.transform.localScale.y
             );
+
 
         touchButtonTransform.sizeDelta = new Vector2(sizex, sizey);
 
@@ -151,7 +154,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		if(targetUnit != null)
 		{
             // 잠시 안 띄움
-			feelingText.text = targetUnit.model.feeling.ToString ();
+			//feelingText.text = targetUnit.model.feeling.ToString ();
+			feelingText.text = targetUnit.model.energyPoint.ToString();
             creatureLevel.text = targetUnit.model.metaInfo.level;
             creatureName.text = targetUnit.model.metaInfo.name;
 

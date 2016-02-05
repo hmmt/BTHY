@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<creature>
+	<stat>
+		<name>악 선행</name>
+		<level>...</level>
+		<attackType>Red</attackType>
+
+		<horrorProb>0.1</horrorProb>
+		<horrorMin>2.0</horrorMin>
+		<horrorMax>2.0</horrorMax>
+
+		<physicsDmg>0</physicsDmg>
+		<mentalDmg>0</mentalDmg>
+
+		<feelingMax>400.0</feelingMax>
+		<feelingDownValue>3.3</feelingDownValue>
+
+		<!--
+		<energySectionGood>50</energySectionGood>
+		<energySectionNorm>x</energySectionNorm>
+		<energyGenGood>27.0</energyGenGood>
+		<energyGenNorm>x</energyGenNorm>
+		<energyGenBad>-19.0</energyGenBad>
+	
+		<preferSkiilsGood>대화,세척,포옹하기</preferSkiilsGood>
+		<preferValuesGood>15,8,25</preferValuesGood>
+		<rejectSkiilsGood>직접,차단</rejectSkiilsGood>
+		<rejectValuesGood>15,30</rejectValuesGood>
+
+		<preferSkiilsNorm>x</preferSkiilsNorm>
+		<preferValuesNorm>x</preferValuesNorm>
+		<rejectSkiilsNorm>x</rejectSkiilsNorm>
+		<rejectValuesNorm>x</rejectValuesNorm>
+
+		<preferSkiilsBad>포옹하기</preferSkiilsBad>
+		<preferValuesBad>21.0</preferValuesBad>
+		<rejectSkiilsBad>차단</rejectSkiilsBad>
+		<rejectValuesBad>50.0</rejectValuesBad>
+		-->
+
+		<energyPointChange>8</energyPointChange>
+
+		<energyGenSection>
+			<section bound="150" gen="0.0875"/>
+			<section bound="300" gen="0.015"/>
+		</energyGenSection>
+	</stat>
+</creature>

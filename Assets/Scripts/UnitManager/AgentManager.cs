@@ -10,8 +10,10 @@ public class AgentManager : IObserver {
 
     public static string[] nameList
         = {
-              "one",
-              "two"
+              "Tim", "Jacob", "Mason", "William", "Jayden", "Noah", "Micheal", "Ethan",
+              "Paul", "Elijah", "Joshua", "Liam", "Christopher", "Ryan", "Issac", "Isaiah",
+              "Susan", "Sophia", "Ava", "Emily", "Chloe", "Grace", "Charlotte", "Lilian", 
+              "Alyssa", "Ashley"
           };
 
 	public static AgentManager _instance;
@@ -90,10 +92,14 @@ public class AgentManager : IObserver {
         unit.preferBonus = info.preferBonus;
         unit.reject = info.reject;
         unit.rejectBonus = info.rejectBonus;
-
+/*
         unit.directSkill = info.directSkill;
         unit.indirectSkill = info.indirectSkill;
         unit.blockSkill = info.blockSkill;
+*/
+		unit.AddSkill (info.directSkill);
+		unit.AddSkill (info.indirectSkill);
+		unit.AddSkill (info.blockSkill);
 
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
 
@@ -192,7 +198,7 @@ public class AgentManager : IObserver {
     public void activateAgent(AgentModel unit, string sefira)
     {
         unit.activated = true;
-        Debug.Log("activated");
+        //Debug.Log("activated");
         SefiraManager.instance.getSefira(unit.currentSefira).AddAgent(unit);
         unit.SetCurrentSefira(sefira);
         agentListSpare.Remove(unit);

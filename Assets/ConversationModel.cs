@@ -13,6 +13,9 @@ public class ConversationModel
         public bool innerText = false;
         public string tempdesc;
 
+        public bool isEnd = false;
+        public string endId = "";
+
         public List<string> desc;
         public List<SystemMessage> sys = new List<SystemMessage>();
 
@@ -44,6 +47,7 @@ public class ConversationModel
             }
             return false;
         }
+
     }
     public class Select {
         public class SelectNode {
@@ -68,12 +72,18 @@ public class ConversationModel
     }
 
     public int date;
-    public List<Description> descList = new List<Description>();
-    public List<Select> selectList = new List<Select>();
+    public List<Description> descList;
+    public List<Select> selectList;
+    
+    public ConversationModel() { }
 
     public void InitDescList(Description[] ary) {
         descList = new List<Description>(ary);
         //로드 검사
+    }
+
+    public void InitSelectList(Select[] ary) {
+        selectList = new List<Select>(ary);
     }
 
     public Description GetDescByID(long id) {
@@ -97,7 +107,16 @@ public class ConversationModel
         }
         return output;
     }
-    
+
+}
+
+public class EndingModel :ConversationModel{
+    public string target;
+    public int date;
+
+    public EndingModel() { 
+        
+    }
 }
 
 public class ConversationManager {
@@ -111,7 +130,13 @@ public class ConversationManager {
     }
 
     public List<ConversationModel> list;
+    public List<EndingModel> ending;
+
+    private bool endLoad = false;
+    private string endId = "";
     private bool _loaded = false;
+    private int cnt = 0;
+    private int endDate = -1;
 
     public ConversationManager() {
         _loaded = false;
@@ -121,22 +146,23 @@ public class ConversationManager {
         return _loaded;
     }
 
-    public void Init(ConversationModel[] input) {
+    public void Init(ConversationModel[] input, EndingModel[] endInput) {
         _loaded = true;
-        Debug.Log("Loaded");
+       // Debug.Log("Loaded");
         list = new List<ConversationModel>(input);
+        ending = new List<EndingModel>(endInput);
     }
-
 
     public ConversationModel GetDayScript() {
         ConversationModel output = null;
+            
         if (_loaded == false) {
             Debug.Log("no loaded");
             return null;
         }
+
         int daynum = PlayerModel.instance.GetDay();
         daynum--;
-        Debug.Log("오늘은 " + (daynum+1) + "일");
         if (daynum < 0) {
             daynum = 0;
         }
@@ -144,9 +170,37 @@ public class ConversationManager {
             Debug.Log("no script for date " + daynum);
             daynum = 0;
         }
-        output = list[daynum];
 
+        if (endLoad) {
+            endLoad = false;
+            output = GetEnd(endId);
+            cnt++;
+        }
+        else output = list[cnt++];
+        
         return output;
         
+    }
+
+    public void SetEnd(string id) {
+        this.endId = id;
+        this.endLoad = true;
+        this.endDate = GetEnd(id).date;
+    }
+
+    public int GetEndDate() {
+        return this.endDate;
+    }
+
+    public EndingModel GetEnd(string str) {
+        EndingModel output = null;
+
+        foreach (EndingModel em in ending) {
+            if (em.target.Equals(str)) {
+                output = em;
+                return output;
+            }
+        }
+        return output;
     }
 }

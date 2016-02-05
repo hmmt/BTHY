@@ -18,7 +18,7 @@ public class MagicalGirl : CreatureBase {
 
 
     }
-
+	/*
     public override CreatureAttackInfo GetAttackInfo(UseSkill skill)
     {
         if (model.feeling <= darkCondition)
@@ -32,7 +32,7 @@ public class MagicalGirl : CreatureBase {
         {
             return base.GetAttackInfo(skill);
         }
-    }
+    }*/
     private void ChangeDark(CreatureModel creature)
     {
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
@@ -52,6 +52,7 @@ public class MagicalGirl : CreatureBase {
     // 역변
     public override void OnFixedUpdate(CreatureModel creature)
     {
+		/*
         if (creature.feeling <= darkCondition)
         {
             if (isDark == false)
@@ -74,7 +75,7 @@ public class MagicalGirl : CreatureBase {
         if (creature.feeling <= 0)
         {
             creature.Escape();
-        }
+        }*/
     }
 
     private void SkillDarkAttack(UseSkill skill)
@@ -85,13 +86,14 @@ public class MagicalGirl : CreatureBase {
 
     public override void OnEnterRoom(UseSkill skill)
     {
-        skill.PauseWorking();
+        
 
         if (isDark)
         {
             SkillDarkAttack(skill);
         }
-
+		/*
+		skill.PauseWorking();
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
         effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
 
@@ -106,5 +108,6 @@ public class MagicalGirl : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }

@@ -16,6 +16,7 @@ public class MatchGirl  : CreatureBase {
         Debug.Log("MatchGirl ActivateSkill");
         // show effect
 
+		/*
         skill.PauseWorking();
         SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability", skill.targetCreatureView.transform.position);
 
@@ -31,7 +32,7 @@ public class MatchGirl  : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_out_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
+        
 
         skill.targetCreature.ShowNarrationText("special_ability1", skill.agent.name);
         TimerCallback.Create(3.0f, delegate() { skill.targetCreature.ShowNarrationText("special_ability2", skill.agent.name); });
@@ -56,6 +57,7 @@ public class MatchGirl  : CreatureBase {
 
                 skill.CheckLive();
             });
+       */
 	}
 
     public override void OnSkillNormalAttack(UseSkill skill)
@@ -77,7 +79,7 @@ public class MatchGirl  : CreatureBase {
         if (skill.agent.isDead())
         {
             AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
-            agentUnit.animTarget.PlayMatchGirlDead();
+            //agentUnit.animTarget.PlayMatchGirlDead();
         }
 
 
@@ -88,7 +90,7 @@ public class MatchGirl  : CreatureBase {
 	{
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
         unit.animTarget.SendMessage("Attack");
-
+		/*
 		skill.PauseWorking ();
 		//SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
 
@@ -112,12 +114,12 @@ public class MatchGirl  : CreatureBase {
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
 		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
-
+		*/
         skill.CheckLive();
         if (skill.agent.isDead())
         {
             AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
-            agentUnit.animTarget.PlayMatchGirlDead();
+            //agentUnit.animTarget.PlayMatchGirlDead();
         }
 	}
 }

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public enum SysMessageType { 
     Message,
-    Keyword
+    Keyword,
+    Alert
 }
 
 public class SystemMessage {
@@ -32,7 +33,6 @@ public class KeywordMessage : SystemMessage{
         this.type = SysMessageType.Keyword;
     }
 
-    
 }
 
 public class SystemMessageManager {

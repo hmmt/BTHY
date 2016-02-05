@@ -27,10 +27,10 @@ public class CollectionWindow : MonoBehaviour {
     public TextListScript listScirpt;
     public TextListScript observeScript;
     public RectTransform observeButton;
-    
+
+
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
-
 
     public void onClickObserveButton()
     {
@@ -74,7 +74,7 @@ public class CollectionWindow : MonoBehaviour {
 
 		wnd.name.text = creature.metaInfo.name;
 		wnd.code.text = creature.metaInfo.codeId;
-		wnd.attackType.text = creature.metaInfo.attackType;
+		wnd.attackType.text = creature.metaInfo.attackType.ToString();
 		//wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
 		wnd.dangerLevel.text = creature.metaInfo.level.ToString();
         wnd.observePercent.text = (float)creature.observeProgress / creature.metaInfo.observeLevel * 100+"%";
@@ -97,6 +97,7 @@ public class CollectionWindow : MonoBehaviour {
         currentWindow = wnd;
         
         wnd.SetObserveText();
+
     }
 
     public void SetObserveText() {
@@ -114,6 +115,8 @@ public class CollectionWindow : MonoBehaviour {
     public void CloseWindow()
     {
         //currentWindow = null;
+        
+
         GameObject.FindGameObjectWithTag("AnimCollectionController")
             .GetComponent<Animator>().SetBool("isTrue", true);
         //Destroy(gameObject);

@@ -7,8 +7,11 @@ public class CreatureLayer : MonoBehaviour, IObserver {
     public static CreatureLayer currentLayer { private set; get; }
 
     private List<CreatureUnit> creatureList;
-
+    private List<int> tempIntforSprite = new List<int>();
     private Dictionary<long, CreatureUnit> creatureDic;
+
+    private string directory = "Sprites/IsolateRoom/isolate_";
+    private string dark = "_dark";
 
     void Awake()
     {
@@ -80,8 +83,10 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         GameObject creatureRoom = Prefab.LoadPrefab("IsolateRoom");
         creatureRoom.transform.SetParent(transform, false);
         IsolateRoom room = creatureRoom.GetComponent<IsolateRoom>();
-
-        room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + model.metaInfo.roomsrc);
+        int rand = Random.Range(1, 4);
+        tempIntforSprite.Add(rand);
+        string spriteDirectory = this.directory + rand;
+        room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
         room.targetUnit = unit;
 
         /*
@@ -133,6 +138,33 @@ public class CreatureLayer : MonoBehaviour, IObserver {
             foreach (object obj in param)
             {
                 AddCreature((CreatureModel)obj);
+            }
+        }
+    }
+
+    public void OnSpriteButtonClick(bool state) {
+        string spriteDirectory = "";
+        
+        if (state)
+        {
+            for (int i = 0; i < creatureList.Count; i++) {
+                CreatureUnit cu = creatureList[i];
+                spriteDirectory = this.directory + tempIntforSprite[i];
+                //cu.spriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+                cu.room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+                cu.room.roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1f);
+                cu.room.roomSpriteRenderer.transform.localPosition = Vector3.zero;
+            }
+        }
+        else {
+            for (int i = 0; i < creatureList.Count; i++)
+            {
+                CreatureUnit cu = creatureList[i];
+                spriteDirectory = this.directory + tempIntforSprite[i] + this.dark;
+                //cu.spriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+                cu.room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+                cu.room.roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1f);
+                cu.room.roomSpriteRenderer.transform.localPosition = Vector3.zero;
             }
         }
     }

@@ -231,14 +231,16 @@ public class CreatureUnit : MonoBehaviour {
 
     public void OnClick() {
         Debug.Log("크리쳐 상태 " + model.state);
-        if (model.state == CreatureState.WAIT)
+
+		if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
+		{
+			SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+		}
+		else
+        //if (model.state == CreatureState.WAIT)
         {
             SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
             //IsolateRoomStatus.CreateWindow(this);
-        }
-        else if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
-        {
-            SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
         }
     }
 

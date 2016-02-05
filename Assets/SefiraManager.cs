@@ -4,6 +4,240 @@ using System.Collections.Generic;
 
 public class Sefira
 {
+    /*
+    public class CreaturePriority
+    {
+        public class Priority
+        {
+            public int index;
+            public CreatureModel model;
+            public int priority;
+            public bool isLocked;
+
+        }
+        private int max = 0;
+        public int Max
+        {
+            get { return max; }
+        }
+        private List<Priority> list;
+
+        public void Init(List<CreatureModel> input)
+        {
+            int cnt = 0;
+            max = input.Count;
+            list = new List<Priority>();
+            foreach (CreatureModel model in input)
+            {
+                Priority p = new Priority();
+                p.model = model;
+                p.index = cnt;
+                p.priority = 0;
+                p.isLocked = false;
+                list.Add(p);
+                cnt++;
+            }
+        }
+
+        public void SetPriority(CreatureModel model, int value)
+        {
+            Debug.Log(model.metaInfo.name + " " + value);
+            Priority older = GetPriorityByLevel(value);
+            if (older != null) {
+                PriorityClear(older);
+            }
+            Priority target = GetPriorityByModel(model);
+            Debug.Log(target);
+            if (value < 0 || value > max)
+            {
+                Debug.Log("Priority Error");
+                return;
+            }
+            if (value == 0) {
+                target.priority = 0;
+                return;
+            }
+
+            if (value == target.priority)
+            {
+                return;
+            }
+           
+            target.priority = value;
+        }
+
+        public Priority GetPriorityByModel(CreatureModel model)
+        {
+            Priority output = null;
+
+            foreach (Priority temp in list)
+            {
+                if (model == temp.model)
+                {
+                    output = temp;
+                    break;
+                }
+            }
+
+            return output;
+        }
+        
+        public int GetPriority(CreatureModel model)
+        {
+            Priority target = GetPriorityByModel(model);
+            return target.priority;
+        }
+
+        public Priority GetPriorityByLevel(int level) {
+            Priority output = null;
+            foreach (Priority p in list) {
+                if (p.priority == level) {
+                    output = p;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public Priority[] GetList() {
+            return list.ToArray();
+        }
+
+        public void PriorityClear(Priority p) {
+            p.model = null;
+            p.priority = 0;
+        }
+
+    }
+    */
+
+    public class PrioritySystem {
+        public class Priority{
+            public CreatureModel model;
+            public int priority;
+        }
+
+        public List<Priority> list;
+
+        public PrioritySystem(List<CreatureModel> creature) {
+            list = new List<Priority>();
+
+            foreach (CreatureModel cm in creature) {
+                Priority temp = new Priority();
+                temp.model = cm;
+                temp.priority = -1;
+                list.Add(temp);
+            }
+        }
+
+        public Priority GetPriorityByModel(CreatureModel model) {
+            Priority output = null;
+            foreach (Priority temp in list) {
+                if (temp.model == model) {
+                    output = temp;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public Priority GetPriorityByLevel(int level) {
+            Priority output = null;
+            foreach (Priority p in list) {
+                if (p.priority == level) {
+                    output = p;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public void SetPriority(CreatureModel model, int level) {
+            Priority item = GetPriorityByModel(model);
+            if (item == null) {
+                return;
+            }
+            Priority older = GetPriorityByLevel(level);
+            if (older != null)
+            {
+                older.priority = 0;
+            }
+
+            item.priority = level;
+        }
+
+        public void SetPriorityNull(CreatureModel model) {
+            Priority temp = GetPriorityByModel(model);
+            //Debug.Log(temp);
+            if (temp == null) return;
+            temp.priority = -1;
+        }
+    }
+
+    public class AgentSkillCategory {
+        public string category;
+        public List<SkillTypeInfo> list;
+
+        public AgentSkillCategory(string name)
+        {
+            this.category = name;
+            list = new List<SkillTypeInfo>();
+
+        }
+
+        public void AddSkill(SkillTypeInfo s){
+            list.Add(s);
+        }
+
+        public SkillTypeInfo[] GetSkills() {
+            return list.ToArray();
+        }
+
+        public bool DupCheck(SkillTypeInfo s) {
+            bool output = false;
+            foreach (SkillTypeInfo skill in list) {
+                if (skill.Equals(s)) {
+                    output = true;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public int GetIndex(string t) {
+            int output = -1;
+            switch (t) { 
+                case "A":
+                    output = 0;
+                    break;
+                case "B":
+                    output = 1;
+                    break;
+                case "C":
+                    output = 2;
+                    break;
+                case "D":
+                    output = 3;
+                    break;
+                case "E":
+                    output = 4;
+                    break;
+                case "F":
+                    output = 5;
+                    break;
+                case "G":
+                    output = 6;
+                    break;
+                case "H":
+                    output = 7;
+                    break;
+                default:
+                    break;
+            }
+            return output;
+        }
+    }
+
     public string name;
     public int index;
     public string indexString;
@@ -17,6 +251,9 @@ public class Sefira
     public List<AgentModel> agentList;
     public List<CreatureModel> creatureList;
     public List<SkillTypeInfo>[] agentSkill;//속한 직원들의 스킬 정보
+    public PrioritySystem priority;
+
+    public List<AgentSkillCategory> skillCategory;
 
     private int maxOfficerCnt = 15;
     private CreatureModel[] creatureAry;
@@ -36,14 +273,13 @@ public class Sefira
         idleList = new List<int>();
         agentSkill = new List<SkillTypeInfo>[3];
         agentList = new List<AgentModel>();
-
         for (int i = 0; i < 3; i++) {
             agentSkill[i] = new List<SkillTypeInfo>();
         }
 
         officerCnt = 0;
         OfficerMentalReturn = 20;
-        
+        skillCategory = new List<AgentSkillCategory>();
     }
 
     public void AddUnit(OfficerModel add) {
@@ -52,10 +288,12 @@ public class Sefira
     }
 
     public void AddAgent(AgentModel add) {
-        agentList.Add(add); Debug.Log("agentList");
+        agentList.Add(add); 
+        //Debug.Log("agentList");
+        /*
         foreach (AgentModel am in agentList) {
-                        Debug.Log(am.name);
-        }
+            Debug.Log(am.name);
+        }*/
     }
 
     public void RemoveAgent(AgentModel unit) {
@@ -71,6 +309,8 @@ public class Sefira
             idleList.Add(i);
         }
         isWorking = new bool[creatureList.Count];
+        priority = new PrioritySystem(creatureList);
+        //priority.Init(creatureList);
     }
 
     public void initDepartmentNodeList(int i)
@@ -189,13 +429,13 @@ public class Sefira
             tempList[i] = new List<MapNode>(departmentList[i]);
         }
 
-        /*
+        
         for (int i = 0; i < maxOfficerCnt; i++) {
             OfficeManager.instance.CreateOfficerModel(indexString);
         }
-        */
+        
 
-        OfficeManager.instance.CreateOfficerModel(indexString);
+        //OfficeManager.instance.CreateOfficerModel(indexString);
         AssignOfficerDept();
         foreach (OfficerModel om in officerList) {
             int deptNum = om.deptNum;
@@ -209,15 +449,59 @@ public class Sefira
     }
 
     public void InitAgentSkillList() {
-        
+        foreach (AgentModel am in agentList) {
+            SkillTypeInfo[] tempAry = am.GetSkillList();
+            Debug.Log("initagentskillList"+ tempAry.Length);
+            foreach (SkillTypeInfo s in tempAry) {
+                Debug.Log(s.category);
+                AgentSkillCategory category = null;
+                bool initial = false;
+                if (!CheckCategoryExist(s.category))
+                {
+                    category = new AgentSkillCategory(s.category);
+                    initial = true;
+                }
+                else {
+                    foreach (AgentSkillCategory asc in skillCategory) {
+                        if (asc.category == s.category) {
+                            category = asc;
+                            break;
+                        }
+                    }
+                }
+
+                if (!category.DupCheck(s)) {
+                    category.AddSkill(s);
+                    Debug.Log("add" + s.name);
+                }
+                if (initial) {
+                    this.skillCategory.Add(category);
+                }
+            }
+            
+        }
+    }
+
+    public AgentSkillCategory[] GetSkillCategories() {
+        //Debug.Log("길이 : " + skillCategory.Count);
+        return skillCategory.ToArray();
+    }
+
+    private bool CheckCategoryExist(string category) {
+        bool output = false;
+
+        foreach (AgentSkillCategory asc in skillCategory) {
+            if (asc.category.Equals(category)) {
+                output = true;
+                break;
+            }
+        }
+
+        return output;
     }
 
     public SkillTypeInfo[] GetSkills() {
         return null;
-    }
-
-    public SkillTypeInfo tempget() {
-        return agentList[0].directSkill;
     }
 
     private bool CheckSkillDuplicate(AgentModel model) {

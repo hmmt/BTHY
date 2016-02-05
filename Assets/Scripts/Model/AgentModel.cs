@@ -51,10 +51,12 @@ public class AgentModel : WorkerModel
     public int emotionalTrait=0;
 
     public AgentHistory history;
-
+	/*
     public SkillTypeInfo directSkill;
     public SkillTypeInfo indirectSkill;
     public SkillTypeInfo blockSkill;
+*/
+	private List<SkillTypeInfo> skillList;
 
     //
 
@@ -68,6 +70,12 @@ public class AgentModel : WorkerModel
 
     public Sprite[] StatusSprites = new Sprite[4];
     public Sprite[] WorklistSprites = new Sprite[3];
+
+    /// <summary>
+    /// 임시 값, 성공확률
+    /// </summary>
+    public float successPercent;
+
     /*
      * state; MOVE, WORKING
      * 이동하거나 작업할 때 대상 환상체
@@ -88,6 +96,8 @@ public class AgentModel : WorkerModel
         commandQueue = new AgentCommandQueue(this);
 
         traitList = new List<TraitTypeInfo>();
+		skillList = new List<SkillTypeInfo> ();
+
         instanceId = id;
         //currentSefira = area;
         currentSefira = "0";
@@ -95,6 +105,7 @@ public class AgentModel : WorkerModel
         MovableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         history = new AgentHistory();
         
+        successPercent = Random.Range(0, 90f);
     }
 
     public override Dictionary<string, object> GetSaveData()
@@ -115,11 +126,11 @@ public class AgentModel : WorkerModel
         output.Add("preferBonus", preferBonus);
         output.Add("reject", reject);
         output.Add("rejectBonus", rejectBonus);
-    
+    /*
         output.Add("directSkillId", directSkill.id);
         output.Add("indirectSkillId", indirectSkill.id);
         output.Add("blockSkillId", blockSkill.id);
-
+*/
         /*
         BinaryFormatter bf = new BinaryFormatter();
         MemoryStream stream = new MemoryStream();
@@ -150,7 +161,7 @@ public class AgentModel : WorkerModel
         TryGetValue(dic, "preferBonus", ref preferBonus);
         TryGetValue(dic, "reject", ref reject);
         TryGetValue(dic, "rejectBonus", ref rejectBonus);
-
+		/*
         long id = 0;
         TryGetValue(dic, "directSkillId", ref id);
         directSkill = SkillTypeList.instance.GetData(id);
@@ -160,6 +171,7 @@ public class AgentModel : WorkerModel
         id = 0;
         TryGetValue(dic, "blockSkillId", ref id);
         blockSkill = SkillTypeList.instance.GetData(id);
+        */
     }
 
     // notice로 호출됨
@@ -325,8 +337,11 @@ public class AgentModel : WorkerModel
          */
     }
 
+	// skill start
+
     public void promoteSkill(int skillClass)
     {
+		/*
         int randomSkillFlag;
         if(skillClass == 1)
         {
@@ -349,10 +364,10 @@ public class AgentModel : WorkerModel
 
             blockSkill = SkillTypeList.instance.GetData(blockSkill.nextSkillIdList[randomSkillFlag]);
 
-        }
+        }*/
 
     }
-
+	/*
     public void UpdateSkill(string skillType)
     {
         SkillTypeInfo newSkill = null;
@@ -383,11 +398,54 @@ public class AgentModel : WorkerModel
             return;
         }
     }
+    */
+	public void AddSkill(SkillTypeInfo skill)
+	{
+		skillList.Add (skill);
+	}
+
+	public SkillTypeInfo[] GetSkillList()
+	{
+		return skillList.ToArray ();
+	}
+
+	private SkillTypeInfo[] GetSkillListByType(string type)
+	{
+		List<SkillTypeInfo> output = new List<SkillTypeInfo>();
+		foreach(SkillTypeInfo skill in skillList)
+		{
+			if (skill.type == type)
+				output.Add (skill);
+		}
+		return output.ToArray ();
+	}
+	public SkillTypeInfo[] GetDirectSkillList()
+	{
+		return GetSkillListByType ("direct");
+	}
+	public SkillTypeInfo[] GetIndirectSkillList()
+	{
+		return GetSkillListByType ("indirect");
+	}
+	public SkillTypeInfo[] GetBlockSkillList()
+	{
+		return GetSkillListByType ("block");
+	}
 
 	public bool HasSkill(SkillTypeInfo skill)
 	{
-		return directSkill.id == skill.id || indirectSkill.id == skill.id || blockSkill.id == skill.id;
+		//return directSkill.id == skill.id || indirectSkill.id == skill.id || blockSkill.id == skill.id;
+		foreach (SkillTypeInfo s in skillList)
+		{
+			if (s.id == skill.id)
+				return true;
+		}
+		return false;
 	}
+
+	// skill end
+
+
 
     public override void ProcessAction()
     {
@@ -485,13 +543,23 @@ public class AgentModel : WorkerModel
 			Debug.LogError ("ManagerCreature >> invalid skill");
 		}
 		state = AgentCmdState.WORKING;
+		this.target = target;
 		commandQueue.Clear ();
 		commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
 		commandQueue.AddLast(AgentCommand.MakeManageCreature(target, this, skill));
+
+        //send Message to work slot(SelectWorkAgentWindow)
+        object[] sendMessage = new object[3];
+        sendMessage[0] = this;
+        sendMessage[1] = target;
+        sendMessage[2] = skill;
+        Notice.instance.Send(NoticeName.ReportAgentSuccess, sendMessage);
+
 	}
 	public void ObserveCreature(CreatureModel target)
 	{
 		state = AgentCmdState.WORKING;
+		this.target = target;
 		commandQueue.Clear ();
 		commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
 		commandQueue.AddLast(AgentCommand.MakeObserveCreature(target));
@@ -517,12 +585,16 @@ public class AgentModel : WorkerModel
     }
     public void FinishWorking()
     {
-        state = AgentCmdState.IDLE;
-        commandQueue.Clear();
-		//AgentCommand cmd = GetCurrentCommand();
-        this.target = null;
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+		StopAction ();
     }
+	public void StopAction()
+	{
+		state = AgentCmdState.IDLE;
+		commandQueue.Clear();
+		//AgentCommand cmd = GetCurrentCommand();
+		this.target = null;
+		Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+	}
     public void UpdateStateIdle()
     {
         state = AgentCmdState.IDLE;
@@ -596,6 +668,23 @@ public class AgentModel : WorkerModel
 
         commandQueue.AddFirst(AgentCommand.MakeOpenDoor(door));
     }
+
+	// method about managing
+	public float GetSuccessProb(SkillTypeInfo skill)
+	{
+		// 가치관, 등급 고려
+		return 0.5f + 0.2f;
+	}
+
+	public float GetEvasionProb()
+	{
+		return 0.1f;
+	}
+
+	public float GetEnergyAbility(SkillTypeInfo skill)
+	{
+		return 30f;
+	}
 
 
     public bool HasTrait(long id)
@@ -707,6 +796,7 @@ public class AgentModel : WorkerModel
 
     public string LifeStyle() {
         string temp = null;
+        /*
         switch (agentLifeValue) { 
             case 1:
                 temp = "합리주의자";
@@ -721,7 +811,23 @@ public class AgentModel : WorkerModel
                 temp = "평화주의자";
                 break;
         }
+        */
 
+        switch (agentLifeValue)
+        {
+            case 1:
+                temp = "Rationalist";
+                break;
+            case 2:
+                temp = "Optimist";
+                break;
+            case 3:
+                temp = "Principlist";
+                break;
+            case 4:
+                temp = "Pacifist";
+                break;
+        }
         return temp;
     }
 

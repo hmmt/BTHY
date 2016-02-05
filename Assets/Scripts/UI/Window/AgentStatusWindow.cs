@@ -178,9 +178,10 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         statusDesc[1] = target.mental + "";
         statusDesc[2] = target.movement + "";
         statusDesc[3] = target.workSpeed + "";
+		/*
         worklistDesc[0] = target.directSkill.name;
         worklistDesc[1] = target.indirectSkill.name;
-        worklistDesc[2] = target.blockSkill.name;
+        worklistDesc[2] = target.blockSkill.name;*/
         OverlayObject[] mannualAry = new OverlayObject[4];
         for (int i = 0; i < icons.statuslist.Length; i++) {
             icons.statuslist[i].sprite = target.StatusSprites[i];

@@ -37,6 +37,7 @@ public class VoidBook : CreatureBase {
 
     public override void OnEnterRoom(UseSkill skill)
     {
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/voidBook/voidBook_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4);
@@ -47,5 +48,6 @@ public class VoidBook : CreatureBase {
 
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/voidBook/voidBook_enterTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 3)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }

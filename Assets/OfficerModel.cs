@@ -76,8 +76,8 @@ public class OfficerModel : WorkerModel {
         else if (state == OfficerCmdState.IDLE && waitTimer <= 0 && !isMoving)
         {
             //make next status
-            //int randState = UnityEngine.Random.Range(0, 5);
-            int randState = 1;
+            int randState = UnityEngine.Random.Range(0, 5);
+            //int randState = 1;
             switch (randState) { 
                 case 0:
                     state = OfficerCmdState.IDLE;

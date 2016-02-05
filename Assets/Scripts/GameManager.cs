@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public enum GameState
 {
     PLAYING,
+	STOP,
     PAUSE
 }
 
@@ -47,7 +48,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        state = GameState.PAUSE;
+		InitFirst ();
+
+		state = GameState.STOP;
 
         saveFileName = Application.persistentDataPath + "/saveData1.txt";
 
@@ -58,10 +61,19 @@ public class GameManager : MonoBehaviour
 
 
         // 옮겨야 한다.
+		/*
         GameStaticDataLoader.LoadStaticData();
         MapGraph.instance.LoadMap();
+        */
         //EnergyModel.instance.Init();
     }
+
+	void InitFirst()
+	{
+		if (TempAgentAI.instance == null) {
+			new GameObject ("AgentAI").AddComponent<TempAgentAI>();
+		}
+	}
 
     void Start()
     {
@@ -146,15 +158,32 @@ public class GameManager : MonoBehaviour
 
         int day = PlayerModel.instance.GetDay();
         stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
-
+        /*
+        foreach (Sefira s in SefiraManager) { 
+            
+        }
+        */
+        SefiraManager.instance.getSefira(SefiraName.Malkut).InitAgentSkillList();
         foreach (OfficerModel om in OfficeManager.instance.GetOfficerList()) {
             StartCoroutine(om.StartAction());
         }
     }
 
+	public void Pause()
+	{
+		state = GameState.PAUSE;
+		stageTimeInfoUI.Pause ();
+	}
+
+	public void Resume()
+	{
+		state = GameState.PLAYING;
+		stageTimeInfoUI.Resume ();
+	}
+
     public void EndGame()
     {
-        state = GameState.PAUSE;
+		state = GameState.STOP;
         Debug.Log("EndGame");
         if (AgentStatusWindow.currentWindow != null)
             AgentStatusWindow.currentWindow.CloseWindow();

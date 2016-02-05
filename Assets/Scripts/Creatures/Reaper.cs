@@ -15,9 +15,9 @@ public class Reaper : CreatureBase {
 
     private void ActivateSkill(UseSkill skill)
     {
-        Debug.Log("Reaper ActivateSkill");
+        //Debug.Log("Reaper ActivateSkill");
         // 스킬 : <I am MISSIN’ U>
-
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_attackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
@@ -52,10 +52,12 @@ public class Reaper : CreatureBase {
                 skill.agent.TakeMentalDamage(10);
             //skill.CheckLive();
         });
+        */
     }
 
     public override void OnEnterRoom(UseSkill skill)
     {
+		/*
         skill.PauseWorking();
 
         OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 8);
@@ -77,5 +79,6 @@ public class Reaper : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/reaper/reaper_enterTypo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
+        */
     }
 }

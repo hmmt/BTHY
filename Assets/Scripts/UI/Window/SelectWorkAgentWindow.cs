@@ -28,6 +28,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
     private WorkInventory inventory;
     private WorkListScript workListScript;
 
+    private CreaturePriority priority;
+
 
 
 	public static SelectWorkAgentWindow currentWindow = null;
@@ -45,7 +47,11 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         inst.targetCreature = creature;
 
         inst.workType = type;
+
         inst.inventory = inst.GetComponent<WorkInventory>();
+		inst.inventory.targetCreature = creature;
+        inst.inventory.Init();
+
         inst.workListScript = inst.GetComponent<WorkListScript>();
         inst.workListScript.Init();
         if (type == WorkType.NORMAL)
@@ -62,7 +68,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         }
 
         inst.ShowAgentList();
-
+        inst.priority = inst.gameObject.GetComponent<CreaturePriority>();
+        inst.priority.Init(inst.targetCreature);
         currentWindow = inst;
         return inst;
     }
@@ -173,11 +180,11 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         slotPanel.agentHealth.text = HealthCheck(unit);
         slotPanel.agentMental.text = MentalCheck(unit);
         slotPanel.agentLevel.text = "등급 : "+unit.level;
-
+/*
         SetSkillButton(slotPanel.skillButton1, unit, unit.directSkill);
         SetSkillButton(slotPanel.skillButton2, unit, unit.indirectSkill);
         SetSkillButton(slotPanel.skillButton3, unit, unit.blockSkill);
-
+*/
         if(targetCreature.script != null)
             SetSkillButton(slotPanel.skillButton4, unit, targetCreature.script.GetSpecialSkill());
         else
@@ -205,7 +212,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         AgentSlotPanel slotPanel = slot.GetComponent<AgentSlotPanel>();
 
         slotPanel.targetAgent = unit;
-        slotPanel.skillButton1.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.directSkill.imgsrc);
+        //slotPanel.skillButton1.image.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.directSkill.imgsrc);
         slotPanel.skillButton2.gameObject.SetActive(false);
         slotPanel.skillButton3.gameObject.SetActive(false);
         slotPanel.skillButton4.gameObject.SetActive(false);
@@ -290,8 +297,10 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 	public void CloseWindow()
 	{
 		//gameObject.SetActive (false);
+        this.inventory.WindowDestroy();
+        //SefiraManager.instance.getSefira(targetCreature.sefiraNum).priority.SetPriority(targetCreature, priority.GetCnt());
 		currentWindow = null;
-		Destroy (gameObject);
+		Destroy(gameObject);
 	}
 
     public string MentalCheck(AgentModel unit)

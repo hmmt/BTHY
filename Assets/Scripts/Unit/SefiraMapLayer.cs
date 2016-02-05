@@ -7,6 +7,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
     void Start()
     {
+		OnLoadMapGraph();
         foreach (SefiraObject sefira in sefiras)
         {
             if (PlayerModel.instance.openedAreaList.Contains(sefira.sefiraName))
@@ -106,8 +107,6 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
     void OnEnable()
     {
-        Notice.instance.Observe(NoticeName.LoadMapGraphComplete, this);
-
         Notice.instance.Observe(NoticeName.AddMapObject, this);
         Notice.instance.Observe(NoticeName.AddPassageObject, this);
         Notice.instance.Observe(NoticeName.AreaOpenUpdate, this);
@@ -118,8 +117,6 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
     void OnDisable()
     {
-        Notice.instance.Remove(NoticeName.LoadMapGraphComplete, this);
-
         Notice.instance.Remove(NoticeName.AreaOpenUpdate, this);
         Notice.instance.Remove(NoticeName.AddMapObject, this);
         Notice.instance.Remove(NoticeName.AddPassageObject, this);
@@ -226,11 +223,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
     public void OnNotice(string notice, params object[] param)
     {
-        if (notice == NoticeName.LoadMapGraphComplete)
-        {
-            OnLoadMapGraph();
-        }
-        else if (notice == NoticeName.AreaOpenUpdate)
+        if (notice == NoticeName.AreaOpenUpdate)
         {
             SetSefiraActive((string)param[0], true);
         }
