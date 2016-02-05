@@ -1,0 +1,351 @@
+fileFormatVersion: 2
+guid: 833e38a6bf8d2d64f9b25f76d99c96cc
+timeCreated: 1454572838
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Malkut_L_Arm
+    21300002: Malkut_R_Arm
+    21300004: Malkut_L_Hand
+    21300006: Malkut_R_Hand
+    21300008: Malkut_4
+    21300010: Malkut_Body
+    21300012: Malkut_R_Upleg
+    21300014: Malkut_7
+    21300016: Malkut_L_Upleg
+    21300018: Malkut_L_Downleg
+    21300020: Malkut_R_Downleg
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Malkut_L_Arm
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 790
+        width: 78
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 78}
+        - {x: -20, y: 78}
+        - {x: -39, y: 29}
+        - {x: -39, y: -71}
+        - {x: -36, y: -78}
+        - {x: 33, y: -78}
+        - {x: 39, y: -72}
+        - {x: 39, y: 10}
+        - {x: 29, y: 70}
+    - name: Malkut_R_Arm
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 776
+        width: 78
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 78}
+        - {x: -20, y: 78}
+        - {x: -39, y: 29}
+        - {x: -39, y: -71}
+        - {x: -36, y: -78}
+        - {x: 33, y: -78}
+        - {x: 39, y: -72}
+        - {x: 39, y: 10}
+        - {x: 29, y: 70}
+    - name: Malkut_L_Hand
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 640
+        width: 127
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.5, y: 54.5}
+        - {x: -54.5, y: 1.5}
+        - {x: -54.5, y: -23.5}
+        - {x: -0.5, y: -54.5}
+        - {x: 52.5, y: -54.5}
+        - {x: 63.5, y: -22.5}
+        - {x: 63.5, y: 37.5}
+        - {x: 44.5, y: 54.5}
+      - - {x: -60.5, y: 5.5}
+        - {x: -60.5, y: 8.5}
+        - {x: -63.5, y: 9.5}
+        - {x: -63.5, y: 4.5}
+    - name: Malkut_R_Hand
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 637
+        width: 127
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.5, y: 54.5}
+        - {x: -54.5, y: 1.5}
+        - {x: -54.5, y: -23.5}
+        - {x: -0.5, y: -54.5}
+        - {x: 52.5, y: -54.5}
+        - {x: 63.5, y: -22.5}
+        - {x: 63.5, y: 37.5}
+        - {x: 44.5, y: 54.5}
+      - - {x: -60.5, y: 5.5}
+        - {x: -60.5, y: 8.5}
+        - {x: -63.5, y: 9.5}
+        - {x: -63.5, y: 4.5}
+    - name: Malkut_4
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 420
+        width: 9
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Malkut_Body
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 246
+        width: 287
+        height: 373
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 139.5, y: -186.5}
+        - {x: 143.5, y: -186.5}
+        - {x: 143.5, y: -181.5}
+        - {x: 140.5, y: -182.5}
+      - - {x: 137.5, y: -141.5}
+        - {x: 139.5, y: -134.5}
+        - {x: 139.5, y: -117.5}
+        - {x: 137.5, y: -117.5}
+        - {x: 112.5, y: -13.5}
+        - {x: 108.5, y: 9.5}
+        - {x: 100.5, y: 43.5}
+        - {x: 77.5, y: 116.5}
+        - {x: 62.5, y: 129.5}
+        - {x: 10.5, y: 135.5}
+        - {x: -60.5, y: 135.5}
+        - {x: -74.5, y: 133.5}
+        - {x: -96.5, y: 130.5}
+        - {x: -102.5, y: 119.5}
+        - {x: -113.5, y: 85.5}
+        - {x: -121.5, y: 52.5}
+        - {x: -135.5, y: -14.5}
+        - {x: -143.5, y: -79.5}
+        - {x: -143.5, y: -136.5}
+        - {x: -117.5, y: -153.5}
+        - {x: -69.5, y: -168.5}
+        - {x: -21.5, y: -174.5}
+        - {x: 1.5, y: -175.5}
+        - {x: 22.5, y: -175.5}
+        - {x: 67.5, y: -167.5}
+        - {x: 83.5, y: -163.5}
+        - {x: 113.5, y: -151.5}
+      - - {x: 131.5, y: -153.5}
+        - {x: 134.5, y: -152.5}
+        - {x: 134.5, y: -149.5}
+        - {x: 131.5, y: -148.5}
+        - {x: 129.5, y: -150.5}
+      - - {x: 84.5, y: 116.5}
+        - {x: 80.5, y: 116.5}
+        - {x: 77.5, y: 112.5}
+        - {x: 79.5, y: 109.5}
+        - {x: 84.5, y: 110.5}
+        - {x: 87.5, y: 111.5}
+        - {x: 87.5, y: 115.5}
+      - - {x: 27.5, y: 186.5}
+        - {x: 26.5, y: 185.5}
+        - {x: 26.5, y: 184.5}
+        - {x: 29.5, y: 181.5}
+        - {x: 31.5, y: 181.5}
+        - {x: 33.5, y: 183.5}
+        - {x: 33.5, y: 186.5}
+    - name: Malkut_R_Upleg
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 268
+        width: 115
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43.5, y: -77.5}
+        - {x: -44.5, y: -74.5}
+        - {x: -48.5, y: -74.5}
+        - {x: -49.5, y: -77.5}
+      - - {x: -52.5, y: -67.5}
+        - {x: -49.5, y: -66.5}
+        - {x: -49.5, y: -63.5}
+        - {x: -52.5, y: -62.5}
+        - {x: -54.5, y: -64.5}
+      - - {x: -57.5, y: 77.5}
+        - {x: -57.5, y: -4.5}
+        - {x: -35.5, y: -25.5}
+        - {x: 40.5, y: -25.5}
+        - {x: 57.5, y: 10.5}
+        - {x: 57.5, y: 66.5}
+        - {x: 32.5, y: 77.5}
+      - - {x: -48.5, y: -9.5}
+        - {x: -45.5, y: -8.5}
+        - {x: -45.5, y: -5.5}
+        - {x: -48.5, y: -4.5}
+        - {x: -50.5, y: -6.5}
+      - - {x: 30.5, y: 77.5}
+        - {x: 31.5, y: 74.5}
+        - {x: 37.5, y: 74.5}
+        - {x: 39.5, y: 76.5}
+        - {x: 39.5, y: 77.5}
+    - name: Malkut_7
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 422
+        width: 9
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Malkut_L_Upleg
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 266
+        width: 115
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43.5, y: -77.5}
+        - {x: -44.5, y: -74.5}
+        - {x: -48.5, y: -74.5}
+        - {x: -49.5, y: -77.5}
+      - - {x: -52.5, y: -67.5}
+        - {x: -49.5, y: -66.5}
+        - {x: -49.5, y: -63.5}
+        - {x: -52.5, y: -62.5}
+        - {x: -54.5, y: -64.5}
+      - - {x: -57.5, y: 77.5}
+        - {x: -57.5, y: -4.5}
+        - {x: -35.5, y: -25.5}
+        - {x: 40.5, y: -25.5}
+        - {x: 57.5, y: 10.5}
+        - {x: 57.5, y: 66.5}
+        - {x: 32.5, y: 77.5}
+      - - {x: -48.5, y: -9.5}
+        - {x: -45.5, y: -8.5}
+        - {x: -45.5, y: -5.5}
+        - {x: -48.5, y: -4.5}
+        - {x: -50.5, y: -6.5}
+      - - {x: 30.5, y: 77.5}
+        - {x: 31.5, y: 74.5}
+        - {x: 37.5, y: 74.5}
+        - {x: 39.5, y: 76.5}
+        - {x: 39.5, y: 77.5}
+    - name: Malkut_L_Downleg
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 67
+        width: 99
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17.5, y: 70}
+        - {x: -37.5, y: 63}
+        - {x: -49.5, y: 43}
+        - {x: -49.5, y: -45}
+        - {x: -42.5, y: -70}
+        - {x: 43.5, y: -70}
+        - {x: 49.5, y: -27}
+        - {x: 49.5, y: 49}
+        - {x: 32.5, y: 70}
+    - name: Malkut_R_Downleg
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 55
+        width: 99
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17.5, y: 70}
+        - {x: -37.5, y: 63}
+        - {x: -49.5, y: 43}
+        - {x: -49.5, y: -45}
+        - {x: -42.5, y: -70}
+        - {x: 43.5, y: -70}
+        - {x: 49.5, y: -27}
+        - {x: 49.5, y: 49}
+        - {x: 32.5, y: 70}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

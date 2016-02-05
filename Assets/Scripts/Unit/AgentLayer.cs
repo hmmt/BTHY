@@ -5,6 +5,8 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
     public static AgentLayer currentLayer { private set; get; }
 
+    public Sprite[] hairListTemp;
+    public Sprite[] faceListTemp;
     private List<AgentUnit> agentList;
 
     private int zCount;
@@ -61,6 +63,13 @@ public class AgentLayer : MonoBehaviour, IObserver {
         unit.transform.localScale = unitScale;
 
         zCount = (zCount + 1) % 1000;
+
+        if (unit.animTarget != null && hairListTemp.Length > 0) {
+            unit.animTarget.SetHair(hairListTemp[Random.Range(0, hairListTemp.Length)]);
+            if (faceListTemp.Length > 0) {
+                unit.animTarget.SetFace(faceListTemp[Random.Range(0, faceListTemp.Length)]);
+            }
+        }
     }
 
     public void RemoveAgent(AgentModel model)

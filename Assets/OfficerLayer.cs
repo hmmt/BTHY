@@ -8,6 +8,7 @@ public class OfficerLayer : MonoBehaviour, IObserver {
     public GameObject target;
 
     public Sprite[] hairList;
+    public Sprite[] faceListTemp;
     private List<OfficerUnit> officerList;
 
     private int zCount;
@@ -59,8 +60,14 @@ public class OfficerLayer : MonoBehaviour, IObserver {
         
 
         // 바뀔 수 있음
-		if(unit.animTarget != null && hairList.Length > 0)
+        if (unit.animTarget != null && hairList.Length > 0)
+        {
             unit.animTarget.SetHair(hairList[Random.Range(0, hairList.Length)]);
+            if (faceListTemp.Length > 0)
+            {
+                unit.animTarget.SetFace(faceListTemp[Random.Range(0, faceListTemp.Length)]);
+            }
+        }
 
     }
 

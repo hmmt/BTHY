@@ -37,7 +37,7 @@ public class BriefingInfo : MonoBehaviour {
         AreaName.text = area;
         SefiraBrief.text = tmpBriefing;
         if (!cancel && Input.GetMouseButtonDown(1)) {
-            Debug.Log("클릭");
+            //Debug.Log("클릭");
             cancel = !cancel;//우클릭 시 초기화 되어야할텐데;
             
         }
@@ -93,8 +93,8 @@ public class BriefingInfo : MonoBehaviour {
             cancel = true;
             setActive(true);
             AreaImage.sprite = ResourceCache.instance.GetSprite("Sprites/Sefira/Malkut_01");
-            area = "지휘감시팀";
-            tmpBriefing = " 직원 및 환상체들을 감시하고 환상체 관리를 위한 지휘를 내리거나 기획을 하는 부서입니다. 이 부서에서는 격리소 곳곳을 비춰주는 CCTV 들을 통해 즉각적인 명령과 지휘를 통솔합니다. \n\n\n 열기위한 에너지 비용:10";
+            area = "Conducting & Surveillance Team";
+            tmpBriefing = " This is a department that sets out plans and commands regarding of abnormalitic's management and surveillance. Here, you can give out direct orders by watching over the CCTV that has the facility under surveillance.";
         }
     }
 

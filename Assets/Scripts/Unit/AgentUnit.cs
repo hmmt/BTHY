@@ -445,6 +445,7 @@ public class AgentUnit : MonoBehaviour {
 
 	public void OpenStatusWindow()
 	{
+        return;
         AgentModel oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
 		AgentStatusWindow.CreateWindow (model);
         if (CollectionWindow.currentWindow != null)
