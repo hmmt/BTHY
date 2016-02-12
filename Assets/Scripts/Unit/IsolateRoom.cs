@@ -111,11 +111,11 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
         if (targetUnit.model.sefiraNum == "1")
         {
-            frameRedRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Feel_Red");
-            frameYellowRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Feel_Yellow");
-            frameGreenRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Feel_Green");
-            workingOffRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Work_Off");
-            workingOnRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Work_On");
+            frameRedRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Red");
+            frameYellowRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Yellow");
+            frameGreenRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Green");
+            workingOffRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Frame");
+            workingOnRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Frame");
         }
 
         else if (targetUnit.model.sefiraNum == "2")
@@ -229,8 +229,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
             if (targetUnit.model.state == CreatureState.WORKING)
             {
-                workingOnRenderer.gameObject.SetActive(true);
-                workingOffRenderer.gameObject.SetActive(false);
+                //workingOnRenderer.gameObject.SetActive(true);
+                //workingOffRenderer.gameObject.SetActive(false);
                 observeRoom.SetBool("ObserveStart", false);
                 observeRoom.SetInteger("ObserveProcess",0);
                 //observeCatuionSprite.gameObject.SetActive(false);
@@ -238,8 +238,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
             else if (targetUnit.model.state == CreatureState.OBSERVE)
             {
-                workingOnRenderer.gameObject.SetActive(true);
-                workingOffRenderer.gameObject.SetActive(false);
+                //workingOnRenderer.gameObject.SetActive(true);
+                //workingOffRenderer.gameObject.SetActive(false);
                 observeRoom.SetBool("ObserveStart", true);
                 observeRoom.SetInteger("ObserveProcess", 1);
                 // observeCatuionSprite.gameObject.SetActive(true);
@@ -247,8 +247,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
             else
             {
-                workingOnRenderer.gameObject.SetActive(false);
-                workingOffRenderer.gameObject.SetActive(true);
+                //workingOnRenderer.gameObject.SetActive(false);
+                //workingOffRenderer.gameObject.SetActive(true);
                 observeRoom.SetBool("ObserveStart", false);
                 observeRoom.SetInteger("ObserveProcess", 0);
                 //observeCatuionSprite.gameObject.SetActive(false);

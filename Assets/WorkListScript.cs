@@ -150,7 +150,7 @@ public class WorkListScript : MonoBehaviour {
         WorkItemScript script = newObj.GetComponent<WorkItemScript>();
 
         script.SetInfo(skill);
-        AddEventTrigger(script.GetIconObject(), script);
+        AddEventTrigger(script.gameObject, script);
         //Add eventTrigger?
         return newObj;
     }

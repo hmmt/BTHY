@@ -77,6 +77,10 @@ public class WorkSlot : MonoBehaviour, IObserver
         return NormalState.GetChild(1).gameObject;
     }
 
+    public GameObject GetLeftImage() {
+        return NormalState.gameObject;
+    }
+
     public GameObject GetText() {
         return NormalState.GetChild(2).gameObject;
     }

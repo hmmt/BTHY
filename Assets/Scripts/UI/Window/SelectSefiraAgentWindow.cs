@@ -18,6 +18,7 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
     public static SelectSefiraAgentWindow CreateWindow(GameObject sefira, string sefiraName)
     {
+        return null;
         if (currentWindow != null)
         {
             currentWindow.CloseWindow();

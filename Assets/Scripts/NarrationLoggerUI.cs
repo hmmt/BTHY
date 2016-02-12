@@ -14,7 +14,8 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 
     public GameObject logBoard;
     public Text title;
-    public LogListScript script;
+    //public LogListScript script;
+    public LoggingScript script;
     private int logSize = 0;
 	
 	//private int boxHeight = 200;
@@ -33,6 +34,8 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	{
 		Notice.instance.Observe ("AddNarrationLog", this);
 		//Notice.instance.Observe ("AgentDie", this);
+        //script = gameObject.GetComponent<LogListScript>();
+        script = gameObject.GetComponent<LoggingScript>();  
 	}
 
     void Start()
@@ -109,12 +112,11 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
         if ("AddNarrationLog" == notice && targetCreature == (CreatureModel)param[1])
 		{
 
-            script = gameObject.GetComponent<LogListScript>();
-            script.MakeTextWithBg(" " + (string)param[0]);
+            //script.MakeTextWithBg(" " + (string)param[0]);
             newInputCreature = (CreatureModel)param[1];
             title.text = newInputCreature.metaInfo.name;
-
-            script.SortBgList();
+            script.MakeText("" + (string)param[0]);
+            script.Sort();
 		}
 	}
 
@@ -123,18 +125,19 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
     {
         title.text = focusCreature.metaInfo.name;
         newInputCreature = focusCreature;
-        script = gameObject.GetComponent<LogListScript>();
+        //script = gameObject.GetComponent<LogListScript>();
         if (oldInputCreature != newInputCreature)
         {
             //logClear();
             script.DeleteAll();
             foreach(string narrationLog in newInputCreature.narrationList)
             {
-                script.MakeTextWithBg(""+narrationLog);
+                //script.MakeTextWithBg(""+narrationLog);
+                script.MakeText("" + narrationLog);
             }
             oldInputCreature = newInputCreature;
         }
-        script.SortBgList();
+        script.Sort();
     }
 
     public void logClear()

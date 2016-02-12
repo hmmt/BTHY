@@ -82,8 +82,8 @@ public class WorkInventory : MonoBehaviour {
         list.Add(script);
     }
 
-    public void AddEventTrigger( WorkSlot script) {
-        GameObject target = script.GetIcon();
+    public void AddEventTrigger(WorkSlot script) {
+        GameObject target = script.GetLeftImage();
 
         EventTrigger trigger1 = target.AddComponent<EventTrigger>();
         EventTrigger.Entry entry1 = new EventTrigger.Entry();

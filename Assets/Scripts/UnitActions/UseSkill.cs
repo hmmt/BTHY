@@ -448,9 +448,11 @@ public class UseSkill : ActionClassBase
         //관찰 조건을 위한 환상체 작업 횟수추가
         creature.workCount++;
 
-        GameObject progressObj = Instantiate(Resources.Load<GameObject>("Prefabs/ProgressBar")) as GameObject;
-        progressObj.transform.parent = creatureView.transform;
-        progressObj.transform.localPosition = new Vector3(0, -0.7f, 0);
+        GameObject progressObj = Instantiate(Resources.Load<GameObject>("Prefabs/EnergyBar")) as GameObject;
+        //progressObj.transform.parent = creatureView.transform;
+        //progressObj.transform.localPosition = new Vector3(0, -0.7f, 0);
+        progressObj.transform.SetParent(creatureView.transform.GetChild(0));
+        progressObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1.65f, 0.874f);
 
         inst.progressBar = progressObj.GetComponent<ProgressBar>();
         inst.progressBar.SetVisible(true);

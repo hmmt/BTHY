@@ -108,8 +108,8 @@ public class PlayerModel {
 			CreatureManager.instance.AddCreature(100002, "left-upper-way3", -15f, -3f, added);
 			CreatureManager.instance.AddCreature(100003, "right-upper-way2", 8f, -3f, added);
 			CreatureManager.instance.AddCreature(100004, "right-upper-way3", 15f, -3f, added);
-			CreatureManager.instance.AddCreature(100005, "left-down-way2", -6, -10f, added);
-			CreatureManager.instance.AddCreature(100006, "right-down-way2", 6, -10f, added);
+			CreatureManager.instance.AddCreature(100005, "left-down-way2", -8, -10f, added);
+			CreatureManager.instance.AddCreature(100006, "right-down-way2", 8, -10f, added);
 
         }
         else if (added == "2")
