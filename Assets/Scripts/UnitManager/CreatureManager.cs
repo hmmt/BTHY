@@ -159,26 +159,40 @@ public class CreatureManager : IObserver{
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
         List<MapEdge> edgeList = new List<MapEdge>();
 
+		MapNode outterNode = null;
+		MapNode innerNode = null;
+
+		PassageObjectModel passage = null;
+
+		passage = new PassageObjectModel(nodeId+"@creature", entryNode.GetAreaName(), PassageObjectTypeList.instance.GetVoidData());
+		passage.position = new Vector3(x, y, 0);
+		int doorCount = 1;
+
         foreach (XmlNode node in typeInfo.nodeInfo)
         {
             string id = nodeId + "@" + node.Attributes.GetNamedItem("id").InnerText;
             float nodeX = model.basePosition.x + float.Parse(node.Attributes.GetNamedItem("x").InnerText);
             float nodeY = model.basePosition.y + float.Parse(node.Attributes.GetNamedItem("y").InnerText);
 
-            MapNode newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
+			MapNode newNode = null;
 
             XmlNode typeNode = node.Attributes.GetNamedItem("type");
             if (typeNode != null && typeNode.InnerText == "workspace")
             {
+				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
                 model.SetWorkspaceNode(newNode);
             }
             else if (typeNode != null && typeNode.InnerText == "creature")
             {
+				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
                 model.SetRoomNode(newNode);
                 model.SetCurrentNode(newNode);
             }
             else if (typeNode != null && typeNode.InnerText == "entry")
             {
+				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
+				string entryNodeId = id + "@entry_door";
+
                 MapEdge edge = new MapEdge(newNode, entryNode, "door");
 
                 edgeList.Add(edge);
@@ -186,6 +200,63 @@ public class CreatureManager : IObserver{
                 newNode.AddEdge(edge);
                 entryNode.AddEdge(edge);
             }
+			else if(typeNode != null && typeNode.InnerText == "outterDoor")
+			{
+				newNode = outterNode = new MapNode(id, new Vector2(entryNode.GetPosition().x, entryNode.GetPosition().y), entryNode.GetAreaName(), passage);
+
+				string roomDoorId = passage.GetId() + "@" + doorCount;
+				outterNode.SetClosable(true);
+				DoorObjectModel outterDoor = new DoorObjectModel(roomDoorId, "DoorRight", passage, outterNode);
+				outterDoor.position = new Vector3(outterNode.GetPosition().x, outterNode.GetPosition().y, -0.01f);
+				passage.AddDoor(outterDoor);
+				outterNode.SetDoor(outterDoor);
+				outterDoor.Close();
+
+
+				MapEdge edge = new MapEdge(newNode, entryNode, "road");
+
+				edgeList.Add(edge);
+
+				newNode.AddEdge(edge);
+				entryNode.AddEdge(edge);
+
+				if(innerNode != null)
+				{
+					MapEdge doorEdge = new MapEdge(outterNode, innerNode, "door", 0);
+
+					outterDoor.Connect (innerNode.GetDoor ());
+
+					edgeList.Add(doorEdge);
+
+					outterNode.AddEdge(doorEdge);
+					innerNode.AddEdge(doorEdge);
+				}
+			}
+			else if(typeNode != null && typeNode.InnerText == "innerDoor")
+			{
+				newNode = innerNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName(), passage);
+
+				string roomDoorId = passage.GetId() + "@" + doorCount;
+				innerNode.SetClosable(true);
+				DoorObjectModel innerDoor = new DoorObjectModel(roomDoorId, "DoorRight", passage, innerNode);
+				innerDoor.position = new Vector3(innerNode.GetPosition().x, innerNode.GetPosition().y, -0.01f);
+				passage.AddDoor(innerDoor);
+				innerNode.SetDoor(innerDoor);
+				innerDoor.Close();
+
+				if(outterNode != null)
+				{
+					MapEdge doorEdge = new MapEdge(innerNode, outterNode, "door", 0);
+
+					innerDoor.Connect (outterNode.GetDoor ());
+
+					edgeList.Add(doorEdge);
+
+					innerNode.AddEdge(doorEdge);
+					outterNode.AddEdge(doorEdge);
+				}
+					
+			}
 
             nodeDic.Add(id, newNode);
         }
@@ -221,6 +292,8 @@ public class CreatureManager : IObserver{
             node1.AddEdge(edge);
             node2.AddEdge(edge);
         }
+
+		MapGraph.instance.RegisterPassage (passage);
 
         if (model.script != null)
             model.script.OnInit();

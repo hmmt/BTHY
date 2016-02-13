@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
             officer.ReturnToSefira();
         }
         
-
+		/*
 		stageUI.CancelSefiraAgent(a);
 		a.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
 		a.SetCurrentSefira("1");
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 			AgentManager.instance.activateAgent(a, "1");
 
 		a.SetCurrentNode (MapGraph.instance.GetNodeById ("malkuth-0-2"));
-
+		*/
 		
         StartStage();
 		//stageUI.Close ();
