@@ -30,7 +30,6 @@ public class EnergyGatheringScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         float value = EnergyModel.instance.GetEnergy();
-        value = value *10f;
         if (value < max)
         {
             gathered = false;

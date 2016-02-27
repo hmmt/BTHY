@@ -25,6 +25,10 @@ public class WorkSlot : MonoBehaviour, IObserver
     private float possibility = 0.0f;
     public Sprite[] LockSprite;
 
+    public GameObject AgentPortrait;
+    public Image Face;
+    public Image Hair;
+
     public string test = "";
 
 	/*
@@ -47,6 +51,7 @@ public class WorkSlot : MonoBehaviour, IObserver
 			ClearCurrentSkill ();
         }
         Notice.instance.Observe(NoticeName.ReportAgentSuccess, this);
+        Notice.instance.Observe(NoticeName.WorkEndReport, this);
 
 		SetButtonActive();
 		SetCountText();
@@ -55,6 +60,7 @@ public class WorkSlot : MonoBehaviour, IObserver
         this.test = "" + randVal;
         SetLockImage();
         SelectImage.gameObject.SetActive(false);
+        AgentPortrait.gameObject.SetActive(false);
 	}
 
     public void SetLockImage() {
@@ -97,7 +103,7 @@ public class WorkSlot : MonoBehaviour, IObserver
         icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("Sprites/UI/" + "warning");
         GameObject text = GetText();
         text.GetComponent<Text>().text = "Unassigned";
-        text.GetComponent<Text>().fontSize = 12;
+        text.GetComponent<Text>().fontSize = 13;
 
 		UpdateWorkSetting ();
     }
@@ -109,6 +115,8 @@ public class WorkSlot : MonoBehaviour, IObserver
         icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("Sprites/" + skill.imgsrc);
         GameObject text = GetText();
         text.GetComponent<Text>().text = skill.name;
+
+        text.GetComponent<Text>().fontSize = 14;
 
 		UpdateWorkSetting ();
     }
@@ -195,10 +203,26 @@ public class WorkSlot : MonoBehaviour, IObserver
             if ((param[1] as CreatureModel).Equals(this.targetCreature) 
                 && (param[2] as SkillTypeInfo).Equals(this.currentSkill)) {
                 this.agentList.Add((AgentModel)param[0]);
+
+                SetAgentPortrait(agentList[0]);
             }
             //calc success percentage
             CalcSuccessPossibility();
         }
+        else if(notice == NoticeName.WorkEndReport){
+            ClearAgentPortrait();
+        }
+    }
+
+    public void SetAgentPortrait(AgentModel model) {
+        this.AgentPortrait.gameObject.SetActive(true);
+        this.Face.sprite = model.tempFaceSprite;
+        this.Hair.sprite = model.tempHairSprite;
+    }
+
+    public void ClearAgentPortrait() {
+        this.AgentPortrait.gameObject.SetActive(false);
+        
     }
 
     private void CalcSuccessPossibility() {
@@ -211,7 +235,7 @@ public class WorkSlot : MonoBehaviour, IObserver
             return;
         }
         float sum = 0.0f;
-
+        
         foreach (AgentModel am in this.agentList) {
             sum += am.successPercent;
         }

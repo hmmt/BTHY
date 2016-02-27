@@ -9,10 +9,10 @@
    <keyword id="" name="키워드 이름" desc="키워드 설명"/>
   -->
   
-  <message id ="1" name="대화 종료"/>
-  <message id ="2" name="키워드 획득"/>
+  <message id ="1" name="End of Conversation"/>
+  <message id ="2" name="Keyword acquisition"/>
 
-  <keyword id ="0" name="특별한 방법" desc="앤젤라는 ‘특별한 방법’ 을 통해 환상체로부터 에너지를 얻는 것이라고 했다. 아마 신기술의 일종인 것 같지만 확실하게는 알 수가 없다."/>
+  <keyword id ="0" name="Special method" desc="앤젤라는 ‘특별한 방법’ 을 통해 환상체로부터 에너지를 얻는 것이라고 했다. 아마 신기술의 일종인 것 같지만 확실하게는 알 수가 없다."/>
   <keyword id ="1" name="AI" desc="회사에선 나를 도와주기 위해 앤젤라 라는 이름의 AI를 제공했다. 그녀는 자신이 보통의 AI보다 유능한 존재라고 했다."/>
   <keyword id ="2" name="차별" desc="앤젤라는 내가 다른 사람들과 ‘차별성’ 이 있어서 로보토미에 입사할 수 있는 것이었다고 했다. 아직 어떤 차별점이 있는지에 대해서는 감이 잡히지 않는다."/>
   <keyword id ="3" name="공감" desc="앤젤라는 자신이 ‘공감’을 할 수 있다고, 정확히 말하면 공감을 할 수 있는 알고리즘을 가지고 있다고 얘기했다. 그녀는 나를 공감할 수 있다. 혹은 공감하는 시늉을 할 수 있다."/>

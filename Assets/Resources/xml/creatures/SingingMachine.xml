@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="10001"
-		name="행복할 성냥팔이소녀와 성냥들"
-		codeId="F-01-035-R"
-		level="THEH"
+		name="Singing Machine"
+		codeId="O-05-30-H"
+		level="HE"
 		stackLevel="2"
 
 		attackType="RED"
@@ -110,40 +110,41 @@
 		</narration>
 
 		<desc>
-			"허름한 망토를 입고 바구니를 들고 다니는 10세 안팎의 소녀의 모습이다*피부가 비정상적으로 차갑다*귀여운 소녀의 외모 때문에 상대를 방심시킬 수 있으니 유의해야 한다*눈이 마주칠 때 상냥한 표정을 지어주거나, 먼저 말을 걸 경우 공격성을 띈다*	하지만 겉으로 보기엔 공격을 취한다고 보기 힘들기 때문에 본인이 공격을 당하는 걸 눈치채지 못 할 수 있다*평소에 갖고 다니는 성냥들에 불을 붙이면, 가상의 형태가 등장하는데 그것을 주시하고 있는 대상의 욕망에 따라 그 속성이 바뀐다."
-		</desc>
+      "The machine takes the shape of a long cylinder. By the look of it, it may look like a simple grinder but the existence of the thing’s own ‘will’ fills the criteria of Illutionite. When approached (extra experiments are needed to determine how many meters the perimeter actually is) or touched, the Illutionite ‘operates’ and with a strong suctioning power, pulls in a nearby subject inside its body. Afterwards, the body’s fan shuts and the Illutionite works on the task. The task takes approximately 5 minutes. After a few experiments, we have concluded that the Illutionite desires the result of ‘music’ from this interaction. Employees are needed to fulfill that specific need every once in a while in order to prevent the creature’s stress levels from rising."
+    </desc>
 
 		<observe>
 			<observe_sub>
-				"이것을 처음 보는 사람이라면 누구든지 상냥하게 웃으면서 도움이 필요하냐고 물어볼 거에요."
-				"전 교육을 받고 투입이 되었기 때문에 가까스로 참았지만, 말 그대로 동화에서 튀어나온 것 같은 생김새 때문에 무의식적으로 웃는 제스쳐를 취했어요. "
-				"(중략)"
-			</observe_sub>
+        "Employee M2543 : “I was supposed to be sent in alone. The Illutionite looked like nothing much, something like a machine used in a factory, it didn’t even react to anything."
+        "But that day, [Redacted] insisted that we had to go there. The ‘Pale Horse’ had responded to something specifically he had said, he repeated that a lot."
+        "I didn’t think ‘Pale Horse’ was thinking about [Redacted] when it responded. Most of the Illutionites I take care of are tame."
+        "Also I’m very lucky. I thought that day would be the same. (Omitted)"
+      </observe_sub>
 
 			<observe_sub>
-				"저한테 관심을 보이는 듯 하더군요."
-				"그리고 늘 가지고 다니는 성냥에 불을 비췄는데 불길 속에서 뭐가 나타났냐면..."
-				"(중략)"
-			</observe_sub>
+        "[Redacted] closely observed the Illutionite. I just wanted to write the report quickly and get out, but he was thinking differently."
+        "He was sure; there wouldn’t be an Illutionite that doesn’t have special powers. I warned him not to get too close, but [Redacted] took one step closer."
+        "And suddenly the thing came to life, opened its lid and swallowed him whole. Literally swallowed him."
+      </observe_sub>
 
 			<observe_sub>
-				"일주일 동안 작업을 쉬어야만 했어요."
-				"정신을 차리면 그것이 있는 방으로 발걸음이 향해지더군요."
-				"그것은 10살 또래 소녀들과는 확연히 달라요. "
-				"어쩌면 우리보다 지능이 높을 수도 있다는 사실을 항상 유의해야 할 거에요."
-				"(중략)"
-			</observe_sub>
+        "The lid closed and a loud noise came from the inside of the creature, there was no way of knowing what was happening, but I was too terrified to do anything."
+        "(Omitted)"
+        
+      </observe_sub>
 
-			<observe_sub>
-				"마지막으로 경고하는데, 그것 앞에서 절대로 다른 동화들을 언급해선 안돼요."
-				"가령 백설공주나, 신데렐라 같은 흔한 동화들이요..."
-			</observe_sub>
+      <observe_sub>
+        "In the dark, I realized, the thing was playing an instrument. By crushing and cutting [Redacted]’s body, it was creating a melody."
+        "As I was contemplating my horrific realizations, the lid opened again."
+        "Bits and pieces of [Redacted] were in there. So little that you had to wonder, what happened to the rest. (Omitted)"
+      </observe_sub>
 		</observe>
 
     <anim prefab="Unit/CreatureAnimator/machine" x="-1" y="-2"/>
     
 		<!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
     <img src="Unit/dummy" x="-1" y="-1"/>
+    <portrait src="Unit/creature/Machine_port"/>
 		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/01_matchGirl_frame"/>
 

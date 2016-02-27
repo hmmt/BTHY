@@ -57,6 +57,9 @@ public class ConversationScript : MonoBehaviour {
     private float startHeight;
     private float posy = 0.0f;
 
+    public Sprite SelectWaitingImage;
+    public Text ShowSpeaker;
+
     private float GetPos(TextPos p) {
         switch (p) { 
             case TextPos.LEFT:
@@ -87,6 +90,27 @@ public class ConversationScript : MonoBehaviour {
         list.anchoredPosition = new Vector2(list.anchoredPosition.x, 0.0f);
     }
 
+    public string GetSpeaker(short id) {
+        switch (id)
+        {
+            case SpeakerID.ANGELA://angela
+                return "ANGELA";
+            case SpeakerID.PLAYER://player
+                return "MANAGER";
+            case SpeakerID.ANONYMOUS://anonymous
+                return "ANONYMOUS";
+            case SpeakerID.OTHER:
+                return "OTHER";
+            default:
+                return "WHO";
+        }
+    }
+
+    public void SetSpeakerText(short id) {
+        string speaker = GetSpeaker(id);
+        ShowSpeaker.text = speaker;
+    }
+
     private ConversationTextPanel GetObject(short id)
     {
         /*
@@ -113,6 +137,7 @@ public class ConversationScript : MonoBehaviour {
         ConversationTextPanel temp = GetObject(speaker);
         float posx = GetPos(temp);
         MakeText(temp.textObject, text, posx);
+        SetSpeakerText(speaker);
     }
 
     public void SelectMake(string[] text) {
@@ -124,22 +149,48 @@ public class ConversationScript : MonoBehaviour {
             indexAry[i] = i;
             GameObject obj = Instantiate(Select);
 
-            Text te = obj.GetComponent<Text>();
+            Text te = obj.transform.GetChild(0).GetComponent<Text>();
+            //Text te = obj.GetComponent<Text>();
             te.text = text[i];
             float size = te.preferredHeight;
             obj.transform.SetParent(selectList);
             obj.transform.localScale = Vector3.one;
             RectTransform rect = obj.GetComponent<RectTransform>();
-            rect.anchoredPosition = new Vector2(0.0f, -10f - yPos);
-            yPos += size + 10f;
+            if (size > rect.rect.height) {
+                size = rect.rect.height;
+            }
+            rect.sizeDelta = new Vector2(rect.sizeDelta.x, size);
+            
+            //rect.anchoredPosition = new Vector2(0.0f, -10f - yPos);
+            rect.anchoredPosition = new Vector2(0.0f,-20f - yPos);
+            yPos += size + 8f;
+            Image img = obj.GetComponent<Image>();
+            img.color = new Color(img.color.r, img.color.g, img.color.b, 2/255f);
 
             EventTrigger trigger = obj.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
             entry.callback.AddListener((eventdata) => { OnSelect(obj.transform.GetSiblingIndex()); });
             trigger.triggers.Add(entry);
+
+            EventTrigger.Entry pointerEnter = new EventTrigger.Entry();
+            pointerEnter.eventID = EventTriggerType.PointerEnter;
+            pointerEnter.callback.AddListener((eventData) => { ImageAlpha(img, 1f); });
+            trigger.triggers.Add(pointerEnter);
+
+            EventTrigger.Entry pointerExit = new EventTrigger.Entry();
+            pointerExit.eventID = EventTriggerType.PointerExit;
+            pointerExit.callback.AddListener((eventData) => { ImageAlpha(img, 2/255f); });
+            trigger.triggers.Add(pointerExit);
+            
             selectObject.Add(obj);
         }
+    }
+
+    public void ImageAlpha(Image target, float value) {
+        Color temp = target.color;
+        temp.a = value;
+        target.color = temp;
     }
 
     public void SysMake(string text) {
@@ -157,7 +208,7 @@ public class ConversationScript : MonoBehaviour {
         }
         selectObject.Clear();
     }
-
+    /*
     public void MakeText(GameObject target) {
         GameObject box = Instantiate(target); 
         box.transform.localScale = Vector3.one;
@@ -173,25 +224,42 @@ public class ConversationScript : MonoBehaviour {
         rect.SetParent(list);
        
         SetList(rect);
-    }
+    }*/
 
     public void MakeText(GameObject target, string text, float posX)
     {
         GameObject box = Instantiate(target);
-        
+        ConversationItem script = box.GetComponent<ConversationItem>();
+        box.transform.SetParent(list.transform);    
+        /*
         RectTransform rect = box.GetComponent<RectTransform>();
         RectTransform child = box.transform.GetChild(0).GetComponent<RectTransform>();
         string str = text;
-
+        
         Text t = child.GetComponent<Text>();
         t.text = str;
         tempvalue = t.preferredHeight;
         rect.sizeDelta = new Vector2(child.rect.width, t.preferredHeight + 5f);
         child.localPosition = new Vector3(child.localPosition.x, -5f, 0.0f);
-        SetList(rect, posX);
+         */
+        bool pos;
+        if (posX > 0)
+        {
+            pos = true;
+        }
+        else
+        {
+            pos = false;
+        }
+        if (text == null) {
+            text = "";
+        }
+        script.SetText(text, pos);
+        
+        SetList(script.GetRect(), posX);
     }
-
-    
+     
+    /*
     public void SetList(RectTransform rect) {
 
         rect.SetParent(list.transform);
@@ -200,28 +268,40 @@ public class ConversationScript : MonoBehaviour {
         float add = rect.sizeDelta.y;
         rect.localPosition = new Vector3(0.0f, -posy, 0.0f);
         posy += add;
-        if (posy > startHeight) {
-            list.sizeDelta = new Vector2(list.sizeDelta.x, posy);
+
+        list.sizeDelta = new Vector2(list.sizeDelta.x, posy);
+
+        if (posy > startHeight)
+        {
+            Debug.Log("여깁니까");
             list.anchoredPosition = new Vector2(list.anchoredPosition.x, posy - startHeight - 5f);
         }
+        else {
+            Debug.Log("아님여기");
+            list.anchoredPosition = new Vector2(list.anchoredPosition.x, startHeight - posy);
+        }
     }
-
+    */
     public void SetList(RectTransform rect, float posx)
     {
 
         rect.SetParent(list.transform);
         rect.localScale = new Vector3(1f, 1f, 1f);
 
-        float add = tempvalue;
-        tempvalue = 0.0f;
+        float add = rect.sizeDelta.y;
+        
         rect.localPosition = new Vector3(posx, -posy, 0.0f);
         posy += (add + spacing);
         //Debug.Log("local y: " + rect.localPosition.y + "posy: " + posy);
+
+        list.sizeDelta = new Vector2(list.sizeDelta.x, posy);
+
         if (posy > startHeight)
         {
-            list.sizeDelta = new Vector2(list.sizeDelta.x, posy);
-            
             list.anchoredPosition = new Vector2(list.anchoredPosition.x, posy - startHeight);
+        }
+        else {
+            list.anchoredPosition = new Vector2(list.anchoredPosition.x, -(startHeight - posy));
         }
     }
 

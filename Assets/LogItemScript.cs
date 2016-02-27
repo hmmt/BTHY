@@ -31,20 +31,18 @@ public class LogItemScript : MonoBehaviour {
 
         if (maxX < sizeX) {
             cnt = (int)(sizeX / maxX);
-            Debug.Log(cnt);
+            //Debug.Log(cnt);
             sizeX = maxX;
         }
 
         float sizeY = textTarget.fontSize + 2;
         sizeY *= (cnt + 1);
         sizeY += 1f;//for small space
-        Debug.Log(sizeY);
         sizeY = sizeY + v_spacing;
-        Debug.Log(sizeY + " " + v_spacing);
         imgRect.sizeDelta = new Vector2(sizeX + h_spacing , sizeY + v_spacing);
         textRect.sizeDelta = new Vector2(sizeX, sizeY);
         //textRect.localPosition = Vector2.zero;
-        textRect.anchoredPosition = new Vector2(h_spacing/2, -v_spacing/2f);
+        textRect.anchoredPosition = new Vector2(h_spacing/2, 0f);
         this.height = sizeY;
         
     }

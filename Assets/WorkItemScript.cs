@@ -7,6 +7,7 @@ public class WorkItemScript : MonoBehaviour {
     public Text tier;
     public Text name;
     public Image icon;
+    public Image bg;
 
     public SkillTypeInfo info;
 
@@ -18,11 +19,14 @@ public class WorkItemScript : MonoBehaviour {
     }
 
     public void OnClick() {
-        Debug.Log("이동");
     }
 
     public GameObject GetIconObject() {
         return icon.gameObject;
+    }
+
+    public void SetBg(Sprite c) {
+        this.bg.sprite = c;
     }
     
 }

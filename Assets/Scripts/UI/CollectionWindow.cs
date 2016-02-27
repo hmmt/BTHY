@@ -80,6 +80,9 @@ public class CollectionWindow : MonoBehaviour {
         wnd.observePercent.text = (float)creature.observeProgress / creature.metaInfo.observeLevel * 100+"%";
         wnd.nickname.text = wnd.name.text;
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
+        if (creature.metaInfo.tempPortrait != null) {
+            wnd.profImage.sprite = creature.metaInfo.tempPortrait;
+        }
         wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
        // wnd.UpdateBg("default");
         //wnd.observeButton.gameObject.SetActive(false);

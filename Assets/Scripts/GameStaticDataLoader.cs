@@ -540,6 +540,10 @@ public class GameStaticDataLoader {
             items.Sort();
             model.genEnergy = items.ToArray();
             */
+            XmlNode portrait = node.SelectSingleNode("portrait");
+            if (portrait != null) {
+                model.tempPortrait = ResourceCache.instance.GetSprite("Sprites/" + portrait.Attributes.GetNamedItem("src").InnerText);
+            }
 
             XmlNode imgNode = node.SelectSingleNode("img");
             if(imgNode != null)

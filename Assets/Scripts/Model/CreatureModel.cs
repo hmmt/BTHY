@@ -354,6 +354,7 @@ public class CreatureModel : IObserver
         if (metaInfo.narrationTable.TryGetValue(narrationKey, out narrationFormat))
         {
             string narration = TextConverter.GetTextFromFormatText(narrationFormat, param);
+
             narrationList.Add(narration);
             Notice.instance.Send("AddNarrationLog", narration, this);
         }
