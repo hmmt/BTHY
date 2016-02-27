@@ -75,8 +75,8 @@ public class SefiraObject : MonoBehaviour {
     {
         PassageObject passage = GetPassageObject(model.GetId());
 
-        Debug.Log(doorModel.type);
-        // temp prefab
+		//Debug.Log ("AddPassageDoor >>> " + doorModel.type);
+
         GameObject doorObj = Prefab.LoadPrefab("Map/Door/"+doorModel.type);
         PassageDoor doorScript = doorObj.GetComponent<PassageDoor>();
 

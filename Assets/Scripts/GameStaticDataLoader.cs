@@ -459,7 +459,7 @@ public class GameStaticDataLoader {
         foreach (XmlNode pathInfoNode in creature_list)
         {
             string src = pathInfoNode.Attributes.GetNamedItem("src").InnerText;
-			Debug.Log ("load creature >> "+ src);
+			//Debug.Log ("load creature >> "+ src);
 
             TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/"+src);
 
@@ -620,7 +620,7 @@ public class GameStaticDataLoader {
 
     public void LoadCreatueStatData(CreatureTypeInfo model, string src)
     {
-		Debug.Log ("Load stat >> " + src);
+		//Debug.Log ("Load stat >> " + src);
         TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/stats/" + src);
 
         XmlDocument doc = new XmlDocument();

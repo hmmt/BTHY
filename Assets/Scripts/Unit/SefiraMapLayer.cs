@@ -151,7 +151,8 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         {
             if (sefira.sefiraName == model.GetSefiraName())
             {
-                sefira.AddPassageObject(model);
+                //sefira.AddPassageObject(model);
+				sefira.InitPassageObject(model);
                 break;
             }
         }
@@ -231,7 +232,6 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         {
             SetSefiraActive((string)param[0], (bool)param[1]);
         }
-
         else if (notice == NoticeName.AddPassageObject)
         {
             AddPassageObject((PassageObjectModel)param[0]);
@@ -240,6 +240,11 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         {
             AddMapObject((MapObjectModel)param[0]);
         }
+		else if(notice == NoticeName.AddPassageDoor)
+		{
+			AddPassageDoor ((PassageObjectModel)param[0], (DoorObjectModel)param [1]);
+		}
+			
         /*else if (notice == NoticeName.ClosePassageDoor)
         {
             ClosePassage((PassageObjectModel)param[0], (DoorObjectModel)param[1]);

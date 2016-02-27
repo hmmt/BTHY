@@ -203,14 +203,14 @@ public class MapGraph : IObserver
                             sefira.departmentList[index].Add(newMapNode);
                         }
 
+						MapNode optionalNode = null;
                         XmlNodeList optionList = node.SelectNodes("option");
                         int doorCount = 1;
                         foreach (XmlNode optionNode in optionList)
                         {
-                            if (optionNode.InnerText == "closable")
-                            {
-                                //newMapNode.SetClosable(true);
-                            }
+							if (optionNode.InnerText == "room")
+							{
+							}
                         }
                         XmlNode doorNode = node.SelectSingleNode("door");
                         if (doorNode != null)
@@ -228,13 +228,19 @@ public class MapGraph : IObserver
                         if(passage != null)
                             passage.AddNode(newMapNode);
                         mapArea.AddNode(newMapNode);
+						if (optionalNode != null)
+							mapArea.AddNode (optionalNode);
                     }
                     if (passage != null)
                         passageDic.Add(groupName, passage);
                 }
+				else if(nodeGroup.Name == "#comment")
+				{
+					// skip
+				}
                 else
                 {
-                    Debug.Log("this is not node_group");
+					Debug.Log("this is not node_group >>> "+nodeGroup.Name);
                 }
             }
 
@@ -303,15 +309,6 @@ public class MapGraph : IObserver
         Notice.instance.Observe(NoticeName.FixedUpdate, this);
         Notice.instance.Send(NoticeName.LoadMapGraphComplete);
     }
-    /*
-    public void AddPassageObject(string id, long metadataId)
-    {
-        PassageObjectTypeInfo typeinfo = PassageObjectTypeList.instance.GetData(metadataId);
-
-        PassageObjectModel model = new PassageObjectModel(id, typeinfo);
-        RegisterPassageObject(model);
-
-    }*/
     public void RegisterPassageObject(PassageObjectModel model)
     {
         passageTable.Add(model.GetId(), model);
@@ -334,6 +331,12 @@ public class MapGraph : IObserver
     {
         return edges.ToArray();
     }
+
+	public void RegisterPassage(PassageObjectModel passage)
+	{
+		passageTable.Add (passage.GetId (), passage);
+		Notice.instance.Send (NoticeName.AddPassageObject, passage);
+	}
 
     public PassageObjectModel[] GetPassageObjectList()
     {

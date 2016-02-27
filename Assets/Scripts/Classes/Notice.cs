@@ -51,6 +51,7 @@ public class NoticeName
     // PassageObject
     public static string AddPassageObject = "AddPassageObject";
     public static string UpdatePassageObject = "UpdatePassageObject";
+	public static string AddPassageDoor = "AddPassageDoor";
     public static string AddMapObject = "AddMapObject";
 
     public static string ClosePassageDoor = "ClosePassageDoor";

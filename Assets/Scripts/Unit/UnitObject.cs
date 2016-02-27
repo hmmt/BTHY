@@ -159,6 +159,8 @@ public class DoorObjectModel : ObjectModelBase
     public string type;
     public MapNode node;
 
+	private DoorObjectModel connectedDoor = null;
+
     private float autoCloseCount;
 
     public DoorObjectModel(string id, string type, PassageObjectModel passage, MapNode node)
@@ -180,10 +182,20 @@ public class DoorObjectModel : ObjectModelBase
         return closed;
     }
 
+	public void Connect(DoorObjectModel door)
+	{
+		connectedDoor = door;
+		door.connectedDoor = this;
+	}
+
     public void Open()
     {
         closed = false;
         node.closed = false;
+		if(connectedDoor != null && connectedDoor.closed == true)
+		{
+			connectedDoor.Open ();
+		}
         //Notice.instance.Send(NoticeName.OpenPassageDoor, passage, this);
     }
 
@@ -192,12 +204,20 @@ public class DoorObjectModel : ObjectModelBase
         autoCloseCount = 0;
         closed = true;
         node.closed = true;
+		if(connectedDoor != null && connectedDoor.closed == false)
+		{
+			connectedDoor.Close ();
+		}
         //Notice.instance.Send(NoticeName.ClosePassageDoor, passage, this);
     }
 
     public void OnObjectPassed()
     {
         autoCloseCount = 0;
+		if(connectedDoor != null)
+		{
+			connectedDoor.autoCloseCount = 0;
+		}
     }
     public void FixedUpdate()
     {

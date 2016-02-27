@@ -58,4 +58,12 @@ public class PassageObjectTypeList {
 		}
 		return null;
 	}
+
+	public PassageObjectTypeInfo GetVoidData()
+	{
+		PassageObjectTypeInfo info = new PassageObjectTypeInfo ();
+		info.id = -1;
+		info.prefabSrc = "Map/Passage/PassageEmpty";
+		return info;
+	}
 }
