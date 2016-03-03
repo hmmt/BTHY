@@ -61,7 +61,7 @@ public class PassageObjectTypeList {
 
 	public PassageObjectTypeInfo GetVoidData()
 	{
-		PassageObjectTypeInfo info = new PassageObjectTypeInfo ();
+        PassageObjectTypeInfo info = new PassageObjectTypeInfo ();
 		info.id = -1;
 		info.prefabSrc = "Map/Passage/PassageEmpty";
 		return info;
