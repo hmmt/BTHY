@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <creature>
 	<stat>
-		<name>마법소녀</name>
+		<name>Magical Girl</name>
 		<level>...</level>
 		<attackType>Red</attackType>
 

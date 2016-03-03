@@ -83,25 +83,26 @@ public class ManualManager : MonoBehaviour {
         if (target.moving) yield return null;
         target.moving = true;
         RectTransform rect = target.prefabs.GetComponent<RectTransform>();
-        rect.SetParent(from);
-        rect.localPosition = Vector2.zero;
+        //rect.SetParent(from);
+        //rect.localPosition = Vector2.zero;
 
-        Vector3 directionVector2 = dest.localPosition - rect.localPosition;
+        Vector2 directionVector2 = dest.anchoredPosition - rect.anchoredPosition;
         Debug.Log(directionVector2);
 
         int cnt = 0;
         float unitTime = 1 / (float)unit;
         float unitSize = directionVector2.magnitude * unitTime;
-        Debug.Log(unitSize + " // " + unitTime);
+        Debug.Log(unitSize + " // " + unitTime + " // " + unit);
         
         Vector3 dir = directionVector2 * unitTime;
-        while (cnt < unit) {
+
+        while (cnt < (unit-30)) {
             //Debug.Log(cnt);
-            rect.transform.localPosition = dir * cnt;
+            rect.Translate(dir);
             cnt++;
             yield return new WaitForSeconds(unitTime);
         }
-        rect.SetParent(parent);
+        //rect.SetParent(parent);
         target.moving = false;
     }
     

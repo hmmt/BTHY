@@ -32,6 +32,8 @@ public class NoticeName
 	// change for UI
 	public static string ChangeWorkSetting = "ChangeWorkSetting";
 
+    public static string WorkEndReport = "WorkEndReport";
+
     public static string ChangeAgentSefira = "ChangeAgentSefira";
     public static string ChangeAgentSefira_Late = "ChangeAgentSefira_Late";
     public static string ChangeAgentState = "ChangeAgentState";

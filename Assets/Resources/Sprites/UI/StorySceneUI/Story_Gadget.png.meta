@@ -1,0 +1,282 @@
+fileFormatVersion: 2
+guid: a529ed21581fde44eb34e42cb1373e8b
+timeCreated: 1455879585
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Audio_0
+    21300002: Audio_1
+    21300004: StartButton_0
+    21300006: StartButton_1
+    21300008: Gadget_Bright_0
+    21300010: Gadget_Dark_1
+    21300012: Gadget_0
+    21300014: Gadget_1
+    21300016: Gadget_2
+    21300018: Conversation
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Audio_0
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 3529
+        width: 709
+        height: 709
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 131.76811, y: -91.82068}
+        - {x: 150.76811, y: -53.82068}
+        - {x: 154.76811, y: -39.82068}
+        - {x: 157.76811, y: -20.820679}
+        - {x: 157.76811, y: 25.179321}
+        - {x: 148.76811, y: 60.17932}
+        - {x: 132.76811, y: 91.17932}
+        - {x: 99.76811, y: 127.17932}
+        - {x: 61.768112, y: 149.17932}
+        - {x: 36.768112, y: 156.17932}
+        - {x: 25.768112, y: 158.17932}
+        - {x: -24.231888, y: 158.17932}
+        - {x: -36.231888, y: 156.17932}
+        - {x: -64.23189, y: 147.17932}
+        - {x: -78.23189, y: 140.17932}
+        - {x: -107.23189, y: 119.17932}
+        - {x: -124.23189, y: 101.17932}
+        - {x: -144.23189, y: 70.17932}
+        - {x: -153.23189, y: 50.17932}
+        - {x: -157.23189, y: 28.179321}
+        - {x: -157.23189, y: -25.820679}
+        - {x: -151.23189, y: -52.82068}
+        - {x: -143.23189, y: -71.82068}
+        - {x: -127.23189, y: -95.82068}
+        - {x: -110.23189, y: -117.82068}
+        - {x: -70.23189, y: -144.82068}
+        - {x: -36.231888, y: -156.82068}
+        - {x: 29.768112, y: -156.82068}
+        - {x: 63.768112, y: -147.82068}
+        - {x: 90.76811, y: -131.82068}
+        - {x: 104.76811, y: -120.82068}
+    - name: Audio_1
+      rect:
+        serializedVersion: 2
+        x: 1234
+        y: 3583
+        width: 467
+        height: 467
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 104.42853, y: 44.591064}
+        - {x: 64.42853, y: 90.591064}
+        - {x: 39.428528, y: 102.591064}
+        - {x: 30.428528, y: 104.591064}
+        - {x: -33.571472, y: 104.591064}
+        - {x: -82.57147, y: 81.591064}
+        - {x: -103.57147, y: 34.591064}
+        - {x: -103.57147, y: -36.408936}
+        - {x: -65.57147, y: -95.408936}
+        - {x: -32.571472, y: -103.408936}
+        - {x: 31.428528, y: -103.408936}
+        - {x: 71.42853, y: -82.408936}
+        - {x: 88.42853, y: -64.408936}
+        - {x: 104.42853, y: -26.408936}
+    - name: StartButton_0
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 2458
+        width: 490
+        height: 497
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 109.420105, y: 40.928955}
+        - {x: 81.420105, y: 89.928955}
+        - {x: 34.420105, y: 110.928955}
+        - {x: -37.579895, y: 110.928955}
+        - {x: -42.579895, y: 109.928955}
+        - {x: -85.579895, y: 80.928955}
+        - {x: -108.579895, y: 28.928955}
+        - {x: -108.579895, y: -30.071045}
+        - {x: -91.579895, y: -70.071045}
+        - {x: -55.579895, y: -100.071045}
+        - {x: -28.579895, y: -110.071045}
+        - {x: 29.420105, y: -110.071045}
+        - {x: 62.420105, y: -97.071045}
+        - {x: 84.420105, y: -79.071045}
+        - {x: 109.420105, y: -36.071045}
+    - name: StartButton_1
+      rect:
+        serializedVersion: 2
+        x: 1631
+        y: 2467
+        width: 490
+        height: 499
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 109.22443, y: 40.414307}
+        - {x: 97.22443, y: 69.41431}
+        - {x: 59.224426, y: 100.41431}
+        - {x: 33.224426, y: 111.41431}
+        - {x: -28.775574, y: 111.41431}
+        - {x: -70.77557, y: 101.41431}
+        - {x: -106.77557, y: 48.414307}
+        - {x: -108.77557, y: 40.414307}
+        - {x: -108.77557, y: -25.585693}
+        - {x: -106.77557, y: -42.585693}
+        - {x: -93.77557, y: -67.58569}
+        - {x: -47.775574, y: -107.58569}
+        - {x: -31.775574, y: -110.58569}
+        - {x: 30.224426, y: -110.58569}
+        - {x: 67.22443, y: -94.58569}
+        - {x: 88.22443, y: -78.58569}
+        - {x: 109.22443, y: -28.585693}
+    - name: Gadget_Bright_0
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 1489
+        width: 180
+        height: 639
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31.84616, y: 142.34528}
+        - {x: -39.84616, y: 134.34528}
+        - {x: -39.84616, y: -133.65472}
+        - {x: -31.84616, y: -141.65472}
+        - {x: 41.15384, y: -141.65472}
+        - {x: 41.15384, y: 142.34528}
+    - name: Gadget_Dark_1
+      rect:
+        serializedVersion: 2
+        x: 1672
+        y: 1525
+        width: 181
+        height: 637
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.12036, y: 141.7865}
+        - {x: -40.12036, y: -141.2135}
+        - {x: 40.87964, y: -141.2135}
+        - {x: 40.87964, y: 141.7865}
+    - name: Gadget_0
+      rect:
+        serializedVersion: 2
+        x: 2103
+        y: 2011
+        width: 181
+        height: 217
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32.26886, y: 48.992554}
+        - {x: -40.26886, y: 40.992554}
+        - {x: -40.26886, y: -48.007446}
+        - {x: 40.73114, y: -48.007446}
+        - {x: 40.73114, y: 48.992554}
+    - name: Gadget_1
+      rect:
+        serializedVersion: 2
+        x: 2103
+        y: 1736
+        width: 181
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.26886, y: 49.219543}
+        - {x: -40.26886, y: -47.780457}
+        - {x: 40.73114, y: -47.780457}
+        - {x: 40.73114, y: 49.219543}
+    - name: Gadget_2
+      rect:
+        serializedVersion: 2
+        x: 2103
+        y: 1449
+        width: 181
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.26886, y: 48.632874}
+        - {x: -40.26886, y: -39.367126}
+        - {x: -32.26886, y: -47.367126}
+        - {x: 40.73114, y: -47.367126}
+        - {x: 40.73114, y: 48.632874}
+    - name: Conversation
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 606
+        width: 2256
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -499.44757, y: 28.343353}
+        - {x: -499.44757, y: -27.656647}
+        - {x: 500.55243, y: -27.656647}
+        - {x: 500.55243, y: 28.343353}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

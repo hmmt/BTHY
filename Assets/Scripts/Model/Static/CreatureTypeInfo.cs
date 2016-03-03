@@ -122,4 +122,5 @@ public class CreatureTypeInfo
 
 	public GameObject workerAnim;
 
+    public Sprite tempPortrait;
 }

@@ -586,6 +586,8 @@ public class AgentModel : WorkerModel
     }
     public void FinishWorking()
     {
+        //UI AgentWorkPanel 초상화 지우기
+        Notice.instance.Send(NoticeName.MakeName(NoticeName.WorkEndReport, instanceId.ToString()));
 		StopAction ();
     }
 	public void StopAction()

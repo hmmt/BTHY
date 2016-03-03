@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <creature>
 	<info id="20005"
-		name="마법 소녀"
-		codeId="O-05-064-Y"
+		name="Magical Girl"
+		codeId="O-01-04-H"
 		level="HE"
 		stackLevel="2"
 
 		attackType="Red"
-		intelligence="대화 불가"
+		intelligence="Able to partake in everyday conversation"
 		
 		horrorProb="0.4"
 		horrorDmg="-30"
@@ -125,40 +125,40 @@
 		</narration>
 
 		<desc>
-			"당장이라도 정의와 평화를 위해 악당들을 무찌를 것 같은 분위기와 옷차림으로 구성된 소녀이다* 기본적으로 모든 직원들에게 온순하고 친절한 모습을 보이며 일상적인 대화를 오가는 등의 행동이 가능하다* 평소에 자신을 세계를 구하기 위해 태어난 영웅이라고 믿고 있으며 이에 대한 자부심도 커보인다* 정기적으로 직원들을 투입해 오가는 대화들을 기록하여 심리변화를 파악하는 게 중요하다* 대화에서 '불안함'이나'회의감'이 드러날경우, 최소 2~3일 내에 외형과 성격이 역변하는 해리성 장애와도 유사한 행동을 띈다* 선과 악에 대한 정의가 철저한 나머지, 악ㅇ 없다는 것에 대하여 커다른 공포와 회의를 느낀 나머지 스스로가 악이 되는 것 같다는 추측을 할 수 있다* '역변'이 이뤄진 후에는 모든 수치들이 정상으로 돌아오며 본인은 그런 행위에 대해 전혀 기억을 하지 못한다* 상기를 시킬 필요는 없다*"
+      "Creature has the appearance of a woman ready fight any villain for peace and justice. Generally the creature is kind and polite to the staff and is able to converse casually. Creature continues to believe that it is a hero sent to save the world and is considerably proud of that fact. When the creature is faced with 'Anxiety' or 'Skepticism', within 2-4 days its outer persona changes and creature displays symptoms of dissociative disorder. Its definition of good and evil is fixed in its mind. Some assume that, when the creature’s beliefs led to the horrible doubt about the existence of evil, it chose to become ‘evil’ to negate that doubt. After ‘enraged’ behavior passes, it does not remember its own behavior. There is no need to remind the creature of past events.*"
 		</desc>
 
 		<observe>
 			<observe_sub>
-			"(대화기록 일부 발췌)"
-			"직원 #0: 그래서, 오늘은 기분이 어떤가요?"
-			"소녀: 좋아요. 세상은 평화롭고, 이곳은 조용해요!. 평화롭다는 건 참 좋은거에요. 악당들이 없다는 뜻이니까요."
-			"(중략)"
-			</observe_sub>
+        "Employee M4032 : so, how are you doing today?"
+        "Little Witch : Great. It’s quiet in here and the world is peaceful. Peace is a great thing. No more villains. Right?"
+        "(Omitted)"
+      </observe_sub>
 
 			<observe_sub>
-			"직원 #0: 오늘은 좀 우울해보이네요"
-			"소녀: 여전히 좋아요. 세상은 평화롭고, 이곳은..."
-			"(더 이상 말을 하려 하지 않았다.)"
-			"(중략)"
-			</observe_sub>
+        "Employee M4032 : You look a bit blue today."
+        "Little Witch: Still great. World is peaceful, in here it’s… (Creature fell silent)"
+        "(Omitted)"
+      </observe_sub>
 
 			<observe_sub>
-			"직원 #0: 괜찮으신가요?"
-			"소녀: 왜 여전히 평화로운거죠? 제가 존재하는 이유는 악당을 무찌르기 위한 건데, 이건 마치 제가 필요없다는 것 같아요. 왜 이 곳은 조용하기만 하죠? 아, 제가 마법소녀라는 말을 당신에게 했었나요? 세상을 평화롭게 하기 위해서 저는 선택받은 아이로 태어났쬬. 오늘은 근데, 조용하네요."
-			"(횡설수설을 이어감)"
-			"(중략)"
-			</observe_sub>
+        "Employee M4032 : Hey, are you alright?"
+        "Little Witch: Why is it still so peaceful? I live to defeat evil villains. The world doesn’t need me at all, does it? Oh, did I tell you I’m a witch? I was chosen to bring peace in to the world. But today, it’s already quiet. (Creature continued to murmur incomprehensible words by itself)"
+        "(Omitted)"
+        "(The creature showed signs of anxiety and compulsive behavior; it didn’t even notice when the Employee came into the room)"
+      </observe_sub>
 
 			<observe_sub>
-			"소녀: 세상은 선과 악 두 가지로 구분할 수 있어. 나는 정의의 편에 속해. 하지만, 본래 선과 악은 하나일지도 몰라. 악당의 역할이 없다면, 세상은 누가 지켜주지?"
-			</observe_sub>
+        "Little Witch : The world in divided into good and evil. I stand with justice. If I am good, there must be evil too. Without evils, I cannot exist. Who would save the world then?"
+        "After these symptoms where displayed she was sedated with enough anesthetic to last 3 days."
+      </observe_sub>
 		</observe>
 
 		<anim prefab="Unit/CreatureAnimator/MagicalGirlAnim" x="-1" y="-2"/>
     
 		<!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
     	<img src="Unit/dummy" x="-1" y="-1"/>
+    <portrait src="Unit/creature/magicalGirl"/>
 		<room src="Unit/creature/isolate_room"/>
 		<frame src="Unit/creature/frame/MagicalGirl_frame"/>
 

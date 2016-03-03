@@ -16,7 +16,7 @@
   <edge node1="sefira-malkuth-7" node2="sefira-malkuth-8" type="road" />
   <edge node1="sefira-malkuth-8" node2="sefira-malkuth-9" type="road" />
   
-  <edge node1="center-way1" node2="center-way2" type="road" />
+  <edge node1="center-way1" node2="center-way2" type="road" elevator="0"/>
   
   <edge node1="malkuth-0-1" node2="malkuth-0-2" type="road" />  
   <edge node1="malkuth-0-2" node2="malkuth-0-3" type="road" />
@@ -39,13 +39,13 @@
   <edge node1="left-upper-way3" node2="left-upper-way4" type="road" />
   
   
-  <edge node1="right-way4" node2="right-way5" type="road" />
+  <edge node1="right-way4" node2="right-way5" type="road" elevator="2"/>
   <edge node1="right-down-way1" node2="right-down-way2" type="road" />
   <edge node1="right-down-way2" node2="right-down-way3" type="road" />
   <edge node1="malkuth-2-1" node2="malkuth-2-2" type="road" />
   <edge node1="malkuth-2-2" node2="malkuth-2-3" type="road" />
 
-  <edge node1="left-way4" node2="left-way5" type="road" />
+  <edge node1="left-way4" node2="left-way5" type="road" elevator ="1" />
   <edge node1="left-down-way1" node2="left-down-way2" type="road" />
   <edge node1="left-down-way2" node2="left-down-way3" type="road" />
   <edge node1="malkuth-3-1" node2="malkuth-3-2" type="road" />

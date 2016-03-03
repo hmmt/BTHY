@@ -32,6 +32,8 @@ public class ConversationUnit : MonoBehaviour {
     public AudioSource bg;
     public Animator alert;
 
+    public CassetteRotation[] cassette;
+
     void Awake()
     {
         _instance = this;   
@@ -71,10 +73,12 @@ public class ConversationUnit : MonoBehaviour {
                 script.SysMake(SystemSymbol + s.GetMessage());
             }
         }
+        StopCassette();
         
     }
 
     public void InturreptEnd() {
+        StopCassette();
         script.SysMake(SystemSymbol + SystemMessageManager.instance.GetSysMessage(1).GetMessage());
     }
 
@@ -82,6 +86,7 @@ public class ConversationUnit : MonoBehaviour {
         this.desc = model.GetDescByID(state);
         if (desc.isEnd) {
             ConversationManager.instance.SetEnd(desc.endId);
+            StopCassette();
             isEnded = true;
         }
         this.selectTarget = desc.selectId;
@@ -90,6 +95,8 @@ public class ConversationUnit : MonoBehaviour {
         if (desc.id == 0 || selectTarget != 0) {
             this.select = model.GetSelectById(selectTarget);
         }
+
+
         
         SetString();
     }
@@ -180,5 +187,12 @@ public class ConversationUnit : MonoBehaviour {
     public void Effect(short id) {
         this.alert.gameObject.SetActive(true);
         alert.SetInteger("Cnt", 3);
+    }
+
+    public void StopCassette(){
+        foreach(CassetteRotation script in cassette){
+            //script.rotate = false;
+            script.enabled = false;
+        }
     }
 }
