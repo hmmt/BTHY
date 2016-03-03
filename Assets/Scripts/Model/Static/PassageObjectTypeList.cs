@@ -25,15 +25,6 @@ public class PassageObjectTypeList {
     private PassageObjectTypeList()
 	{
         _list = new List<PassageObjectTypeInfo>();
-        /*
-        /// dummy
-        PassageObjectTypeInfo info = new PassageObjectTypeInfo();
-        info.prefabSrc = "Map/PassageObject";
-        info.id = 1;
-
-        _list.Add(info);
-        _loaded = true;
-        */
 	}
 
     public void Init(PassageObjectTypeInfo[] list)

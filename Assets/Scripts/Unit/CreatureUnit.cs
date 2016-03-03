@@ -230,6 +230,7 @@ public class CreatureUnit : MonoBehaviour {
 	}
 
     public void OnClick() {
+		Debug.Log ("onClick");
 		if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
 		{
 			SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);

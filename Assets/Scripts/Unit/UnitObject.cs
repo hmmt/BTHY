@@ -23,20 +23,22 @@ public class ObjectModelBase
 public class PassageObjectModel : ObjectModelBase
 {
     // 메타데이터
-    private PassageObjectTypeInfo metaInfo;
+    //private PassageObjectTypeInfo metaInfo;
     
     private string id;
+	private string src;
     private string sefiraName;
     private List<MapObjectModel> mapObjectList;
     private Dictionary<string, MapNode> mapNodeTable;
     private List<DoorObjectModel> doorObjectList;
     //private
 
-    public PassageObjectModel(string id, string sefiraName, PassageObjectTypeInfo metaInfo)
+    public PassageObjectModel(string id, string sefiraName, string prefabSrc)
     {
         this.id = id;
         this.sefiraName = sefiraName;
-        this.metaInfo = metaInfo;
+        //this.metaInfo = metaInfo;
+		this.src = prefabSrc;
         mapObjectList = new List<MapObjectModel>();
         mapNodeTable = new Dictionary<string, MapNode>();
         doorObjectList = new List<DoorObjectModel>();
@@ -124,14 +126,15 @@ public class PassageObjectModel : ObjectModelBase
         return output;
     }
 
-    public PassageObjectTypeInfo GetMetaInfo()
-    {
-        return metaInfo;
-    }
     public string GetId()
     {
         return id;
     }
+
+	public string GetSrc()
+	{
+		return src;
+	}
 
     public string GetSefiraName()
     {

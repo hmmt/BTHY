@@ -87,6 +87,12 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         tempIntforSprite.Add(rand);
         string spriteDirectory = this.directory + rand;
         room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
+
+		GameObject g = Instantiate (room.roomSpriteRenderer.gameObject);
+		g.transform.SetParent (room.transform, false);
+		g.transform.localScale = new Vector3(0.16f, 0.16f, 1f);
+		g.transform.localPosition = new Vector3 (0, 0, -0.006f);
+
         room.targetUnit = unit;
 
         /*

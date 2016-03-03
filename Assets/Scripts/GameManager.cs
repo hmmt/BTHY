@@ -91,39 +91,25 @@ public class GameManager : MonoBehaviour
             
         }
 
-        //OfficeManager.instance.CreateOfficerModel("1");
-        /*
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        */
+     
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
             agent.ReturnToSefira();
         }
 
-        //SefiraManager.instance.getSefira("1").AssignOfficerDept();
-        
         foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList()) {
             officer.ReturnToSefira();
         }
         
-		/*
+
 		stageUI.CancelSefiraAgent(a);
 		a.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
 		a.SetCurrentSefira("1");
 		if (!a.activated)
 			AgentManager.instance.activateAgent(a, "1");
 
-		a.SetCurrentNode (MapGraph.instance.GetNodeById ("malkuth-0-2"));
-		*/
+		a.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-5"));
+
 		
         StartStage();
 		//stageUI.Close ();

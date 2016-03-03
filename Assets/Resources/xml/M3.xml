@@ -1,0 +1,1197 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<map_graph>
+  <node_list>
+    <area name="1" sub="4">
+      <node_group x="0" y="0" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1" x="-4" y="1" />
+        <node id="sefira-malkuth-2" x="-3" y="1"   />
+        <node id="sefira-malkuth-3" x="-2" y="1"   />
+        <node id="sefira-malkuth-4" x="-1" y="1"   />
+        <node id="sefira-malkuth-5" x="0" y="1"   type="sefira"/>
+        <node id="sefira-malkuth-6" x="1" y="1"   />
+        <node id="sefira-malkuth-7" x="2" y="1"   />
+        <node id="sefira-malkuth-8" x="3" y="1"   />
+        <node id="sefira-malkuth-9" x="4" y="1" />
+      </node_group>
+      <node_group x="0" y="-8" src="Map/Passage/PassageElevator">
+        <node id="center-way1" x="0" y="-1" />
+        <node id="center-way2" x="0" y="-14" />
+      </node_group>
+      <node_group x="0" y="0">
+        <node id="malkuth-0-1" x="7" y="4" type="dept" />
+        <node id="malkuth-0-2" x="9" y="4" type="dept" />
+        <node id="malkuth-0-3" x="11" y="4" type="dept" />
+        <node id="malkuth-0-4" x="13" y="4" type="dept" />
+        <node id="malkuth-0-5" x="15" y="4" type="dept" />
+        <node id="malkuth-0-6" x="17" y="4" type="dept" />
+      </node_group>
+      <node_group x="12" y="1.5" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1" x="7" y="1" />
+        <node id="right-upper-way2" x="9.5" y="1" />
+        <node id="right-upper-way3" x="14.5" y="1" />
+        <node id="right-upper-way4" x="17" y="1" />
+      </node_group>
+      <node_group x="21" y="-7" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1" x="18" y="4" />
+        <node id="right-way2" x="19" y="4" />
+        <node id="right-way3" x="21" y="2" />
+        <node id="right-way4" x="21" y="1" />
+        <node id="right-way5" x="21" y="-14" />
+      </node_group>
+      <node_group x="6.11" y="-13.74" src="Map/Passage/PassageShort">
+        <node id="right-down-way1" x="2.5" y="-14" />
+        <node id="right-down-way2" x="6.25" y="-14" />
+        <node id="right-down-way3" x="10" y="-14" />
+      </node_group>
+      <node_group x="0" y="0">
+        <node id="malkuth-2-1" x="12.5" y="-14" type="dept" />
+        <node id="malkuth-2-2" x="15.75" y="-14" type="dept" />
+        <node id="malkuth-2-3" x="19" y="-14" type="dept" />
+      </node_group>
+      <node_group x="0" y="0">
+        <node id="malkuth-1-1" x="-7" y="4" type="dept" />
+        <node id="malkuth-1-2" x="-9" y="4" type="dept" />
+        <node id="malkuth-1-3" x="-11" y="4" type="dept" />
+        <node id="malkuth-1-4" x="-13" y="4" type="dept" />
+        <node id="malkuth-1-5" x="-15" y="4" type="dept" />
+        <node id="malkuth-1-6" x="-17" y="4" type="dept" />
+      </node_group>
+      <node_group x="-12" y="1.5" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1" x="-7" y="1" />
+        <node id="left-upper-way2" x="-9.5" y="1" />
+        <node id="left-upper-way3" x="-14.5" y="1" />
+        <node id="left-upper-way4" x="-17" y="1" />
+        <node id="left-upper-way2-door" x="-9.5" y="1.5" />
+      </node_group>
+      <node_group x="-21" y="-7" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1" x="-18" y="4" />
+        <node id="left-way2" x="-19" y="4" />
+        <node id="left-way3" x="-21" y="2" />
+        <node id="left-way4" x="-21" y="1" />
+        <node id="left-way5" x="-21" y="-14" />
+      </node_group>
+      <node_group x="-6.32" y="-13.74" src="Map/Passage/PassageShort">
+        <node id="left-down-way1" x="-2.5" y="-14" />
+        <node id="left-down-way2" x="-6.25" y="-14" />
+        <node id="left-down-way3" x="-10" y="-14" />
+      </node_group>
+      <node_group x="0" y="0">
+        <node id="malkuth-3-1" x="-12.5" y="-14" type="dept" />
+        <node id="malkuth-3-2" x="-15.75" y="-14" type="dept" />
+        <node id="malkuth-3-3" x="-19" y="-14" type="dept" />
+      </node_group>
+      <node_group x="0" y="-24.6" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1(d)" x="-4" y="-23.6" />
+        <node id="sefira-malkuth-2(d)" x="-3" y="-23.6"   />
+        <node id="sefira-malkuth-3(d)" x="-2" y="-23.6"   />
+        <node id="sefira-malkuth-4(d)" x="-1" y="-23.6"   />
+        <node id="sefira-malkuth-5(d)" x="0" y="-23.6"   />
+        <node id="sefira-malkuth-6(d)" x="1" y="-23.6"   />
+        <node id="sefira-malkuth-7(d)" x="2" y="-23.6"   />
+        <node id="sefira-malkuth-8(d)" x="3" y="-23.6"   />
+        <node id="sefira-malkuth-9(d)" x="4" y="-23.6" />
+      </node_group>
+      <node_group x="0" y="-32.6" src="Map/Passage/PassageElevator">
+        <node id="center-way1(d)" x="0" y="-25.6" />
+        <node id="center-way2(d)" x="0" y="-38.6" />
+      </node_group>
+      <node_group x="0" y="-24.6">
+        <node id="malkuth-0-1(d)" x="7" y="-20.6" type="dept" />
+        <node id="malkuth-0-2(d)" x="9" y="-20.6" type="dept" />
+        <node id="malkuth-0-3(d)" x="11" y="-20.6" type="dept" />
+        <node id="malkuth-0-4(d)" x="13" y="-20.6" type="dept" />
+        <node id="malkuth-0-5(d)" x="15" y="-20.6" type="dept" />
+        <node id="malkuth-0-6(d)" x="17" y="-20.6" type="dept" />
+      </node_group>
+      <node_group x="12" y="-23.1" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1(d)" x="7" y="-23.6" />
+        <node id="right-upper-way2(d)" x="9.5" y="-23.6" />
+        <node id="right-upper-way3(d)" x="14.5" y="-23.6" />
+        <node id="right-upper-way4(d)" x="17" y="-23.6" />
+      </node_group>
+      <node_group x="21" y="-31.6" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1(d)" x="18" y="-20.6" />
+        <node id="right-way2(d)" x="19" y="-20.6" />
+        <node id="right-way3(d)" x="21" y="-22.6" />
+        <node id="right-way4(d)" x="21" y="-23.6" />
+        <node id="right-way5(d)" x="21" y="-38.6" />
+      </node_group>
+      <node_group x="6.11" y="-38.34" src="Map/Passage/PassageShort">
+        <node id="right-down-way1(d)" x="2.5" y="-38.6" />
+        <node id="right-down-way2(d)" x="6.25" y="-38.6" />
+        <node id="right-down-way3(d)" x="10" y="-38.6" />
+      </node_group>
+      <node_group x="0" y="-24.6">
+        <node id="malkuth-2-1(d)" x="12.5" y="-38.6" type="dept" />
+        <node id="malkuth-2-2(d)" x="15.75" y="-38.6" type="dept" />
+        <node id="malkuth-2-3(d)" x="19" y="-38.6" type="dept" />
+      </node_group>
+      <node_group x="0" y="-24.6">
+        <node id="malkuth-1-1(d)" x="-7" y="-20.6" type="dept" />
+        <node id="malkuth-1-2(d)" x="-9" y="-20.6" type="dept" />
+        <node id="malkuth-1-3(d)" x="-11" y="-20.6" type="dept" />
+        <node id="malkuth-1-4(d)" x="-13" y="-20.6" type="dept" />
+        <node id="malkuth-1-5(d)" x="-15" y="-20.6" type="dept" />
+        <node id="malkuth-1-6(d)" x="-17" y="-20.6" type="dept" />
+      </node_group>
+      <node_group x="-12" y="-23.1" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1(d)" x="-7" y="-23.6" />
+        <node id="left-upper-way2(d)" x="-9.5" y="-23.6" />
+        <node id="left-upper-way3(d)" x="-14.5" y="-23.6" />
+        <node id="left-upper-way4(d)" x="-17" y="-23.6" />
+        <node id="left-upper-way2-door(d)" x="-9.5" y="-23.1" />
+      </node_group>
+      <node_group x="-21" y="-31.6" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1(d)" x="-18" y="-20.6" />
+        <node id="left-way2(d)" x="-19" y="-20.6" />
+        <node id="left-way3(d)" x="-21" y="-22.6" />
+        <node id="left-way4(d)" x="-21" y="-23.6" />
+        <node id="left-way5(d)" x="-21" y="-38.6" />
+      </node_group>
+      <node_group x="-6.32" y="-38.34" src="Map/Passage/PassageShort">
+        <node id="left-down-way1(d)" x="-2.5" y="-38.6" />
+        <node id="left-down-way2(d)" x="-6.25" y="-38.6" />
+        <node id="left-down-way3(d)" x="-10" y="-38.6" />
+      </node_group>
+      <node_group x="0" y="-24.6">
+        <node id="malkuth-3-1(d)" x="-12.5" y="-38.6" type="dept" />
+        <node id="malkuth-3-2(d)" x="-15.75" y="-38.6" type="dept" />
+        <node id="malkuth-3-3(d)" x="-19" y="-38.6" type="dept" />
+      </node_group>
+      <node_group x="49.7" y="-24.6" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1(d)(d)" x="45.7" y="-23.6" />
+        <node id="sefira-malkuth-2(d)(d)" x="46.7" y="-23.6"   />
+        <node id="sefira-malkuth-3(d)(d)" x="47.7" y="-23.6"   />
+        <node id="sefira-malkuth-4(d)(d)" x="48.7" y="-23.6"   />
+        <node id="sefira-malkuth-5(d)(d)" x="49.7" y="-23.6"   />
+        <node id="sefira-malkuth-6(d)(d)" x="50.7" y="-23.6"   />
+        <node id="sefira-malkuth-7(d)(d)" x="51.7" y="-23.6"   />
+        <node id="sefira-malkuth-8(d)(d)" x="52.7" y="-23.6"   />
+        <node id="sefira-malkuth-9(d)(d)" x="53.7" y="-23.6" />
+      </node_group>
+      <node_group x="49.7" y="-32.6" src="Map/Passage/PassageElevator">
+        <node id="center-way1(d)(d)" x="49.7" y="-25.6" />
+        <node id="center-way2(d)(d)" x="49.7" y="-38.6" />
+      </node_group>
+      <node_group x="49.7" y="-24.6">
+        <node id="malkuth-0-1(d)(d)" x="56.7" y="-20.6" type="dept" />
+        <node id="malkuth-0-2(d)(d)" x="58.7" y="-20.6" type="dept" />
+        <node id="malkuth-0-3(d)(d)" x="60.7" y="-20.6" type="dept" />
+        <node id="malkuth-0-4(d)(d)" x="62.7" y="-20.6" type="dept" />
+        <node id="malkuth-0-5(d)(d)" x="64.7" y="-20.6" type="dept" />
+        <node id="malkuth-0-6(d)(d)" x="66.7" y="-20.6" type="dept" />
+      </node_group>
+      <node_group x="61.7" y="-23.1" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1(d)(d)" x="56.7" y="-23.6" />
+        <node id="right-upper-way2(d)(d)" x="59.2" y="-23.6" />
+        <node id="right-upper-way3(d)(d)" x="64.2" y="-23.6" />
+        <node id="right-upper-way4(d)(d)" x="66.7" y="-23.6" />
+      </node_group>
+      <node_group x="70.7" y="-31.6" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1(d)(d)" x="67.7" y="-20.6" />
+        <node id="right-way2(d)(d)" x="68.7" y="-20.6" />
+        <node id="right-way3(d)(d)" x="70.7" y="-22.6" />
+        <node id="right-way4(d)(d)" x="70.7" y="-23.6" />
+        <node id="right-way5(d)(d)" x="70.7" y="-38.6" />
+      </node_group>
+      <node_group x="55.81" y="-38.34" src="Map/Passage/PassageShort">
+        <node id="right-down-way1(d)(d)" x="52.2" y="-38.6" />
+        <node id="right-down-way2(d)(d)" x="55.95" y="-38.6" />
+        <node id="right-down-way3(d)(d)" x="59.7" y="-38.6" />
+      </node_group>
+      <node_group x="49.7" y="-24.6">
+        <node id="malkuth-2-1(d)(d)" x="62.2" y="-38.6" type="dept" />
+        <node id="malkuth-2-2(d)(d)" x="65.45" y="-38.6" type="dept" />
+        <node id="malkuth-2-3(d)(d)" x="68.7" y="-38.6" type="dept" />
+      </node_group>
+      <node_group x="49.7" y="-24.6">
+        <node id="malkuth-1-1(d)(d)" x="42.7" y="-20.6" type="dept" />
+        <node id="malkuth-1-2(d)(d)" x="40.7" y="-20.6" type="dept" />
+        <node id="malkuth-1-3(d)(d)" x="38.7" y="-20.6" type="dept" />
+        <node id="malkuth-1-4(d)(d)" x="36.7" y="-20.6" type="dept" />
+        <node id="malkuth-1-5(d)(d)" x="34.7" y="-20.6" type="dept" />
+        <node id="malkuth-1-6(d)(d)" x="32.7" y="-20.6" type="dept" />
+      </node_group>
+      <node_group x="37.7" y="-23.1" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1(d)(d)" x="42.7" y="-23.6" />
+        <node id="left-upper-way2(d)(d)" x="40.2" y="-23.6" />
+        <node id="left-upper-way3(d)(d)" x="35.2" y="-23.6" />
+        <node id="left-upper-way4(d)(d)" x="32.7" y="-23.6" />
+        <node id="left-upper-way2-door(d)(d)" x="40.2" y="-23.1" />
+      </node_group>
+      <node_group x="28.7" y="-31.6" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1(d)(d)" x="31.7" y="-20.6" />
+        <node id="left-way2(d)(d)" x="30.7" y="-20.6" />
+        <node id="left-way3(d)(d)" x="28.7" y="-22.6" />
+        <node id="left-way4(d)(d)" x="28.7" y="-23.6" />
+        <node id="left-way5(d)(d)" x="28.7" y="-38.6" />
+      </node_group>
+      <node_group x="43.38" y="-38.34" src="Map/Passage/PassageShort">
+        <node id="left-down-way1(d)(d)" x="47.2" y="-38.6" />
+        <node id="left-down-way2(d)(d)" x="43.45" y="-38.6" />
+        <node id="left-down-way3(d)(d)" x="39.7" y="-38.6" />
+      </node_group>
+      <node_group x="49.7" y="-24.6">
+        <node id="malkuth-3-1(d)(d)" x="37.2" y="-38.6" type="dept" />
+        <node id="malkuth-3-2(d)(d)" x="33.95" y="-38.6" type="dept" />
+        <node id="malkuth-3-3(d)(d)" x="30.7" y="-38.6" type="dept" />
+      </node_group>
+      <node_group x="49.7" y="1.3" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1(d)(d)(d)" x="45.7" y="2.3" />
+        <node id="sefira-malkuth-2(d)(d)(d)" x="46.7" y="2.3"   />
+        <node id="sefira-malkuth-3(d)(d)(d)" x="47.7" y="2.3"   />
+        <node id="sefira-malkuth-4(d)(d)(d)" x="48.7" y="2.3"   />
+        <node id="sefira-malkuth-5(d)(d)(d)" x="49.7" y="2.3"   />
+        <node id="sefira-malkuth-6(d)(d)(d)" x="50.7" y="2.3"   />
+        <node id="sefira-malkuth-7(d)(d)(d)" x="51.7" y="2.3"   />
+        <node id="sefira-malkuth-8(d)(d)(d)" x="52.7" y="2.3"   />
+        <node id="sefira-malkuth-9(d)(d)(d)" x="53.7" y="2.3" />
+      </node_group>
+      <node_group x="49.7" y="-6.7" src="Map/Passage/PassageElevator">
+        <node id="center-way1(d)(d)(d)" x="49.7" y="0.3000002" />
+        <node id="center-way2(d)(d)(d)" x="49.7" y="-12.7" />
+      </node_group>
+      <node_group x="49.7" y="1.3">
+        <node id="malkuth-0-1(d)(d)(d)" x="56.7" y="5.3" type="dept" />
+        <node id="malkuth-0-2(d)(d)(d)" x="58.7" y="5.3" type="dept" />
+        <node id="malkuth-0-3(d)(d)(d)" x="60.7" y="5.3" type="dept" />
+        <node id="malkuth-0-4(d)(d)(d)" x="62.7" y="5.3" type="dept" />
+        <node id="malkuth-0-5(d)(d)(d)" x="64.7" y="5.3" type="dept" />
+        <node id="malkuth-0-6(d)(d)(d)" x="66.7" y="5.3" type="dept" />
+      </node_group>
+      <node_group x="61.7" y="2.8" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1(d)(d)(d)" x="56.7" y="2.3" />
+        <node id="right-upper-way2(d)(d)(d)" x="59.2" y="2.3" />
+        <node id="right-upper-way3(d)(d)(d)" x="64.2" y="2.3" />
+        <node id="right-upper-way4(d)(d)(d)" x="66.7" y="2.3" />
+      </node_group>
+      <node_group x="70.7" y="-5.7" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1(d)(d)(d)" x="67.7" y="5.3" />
+        <node id="right-way2(d)(d)(d)" x="68.7" y="5.3" />
+        <node id="right-way3(d)(d)(d)" x="70.7" y="3.3" />
+        <node id="right-way4(d)(d)(d)" x="70.7" y="2.3" />
+        <node id="right-way5(d)(d)(d)" x="70.7" y="-12.7" />
+      </node_group>
+      <node_group x="55.81" y="-12.44" src="Map/Passage/PassageShort">
+        <node id="right-down-way1(d)(d)(d)" x="52.2" y="-12.7" />
+        <node id="right-down-way2(d)(d)(d)" x="55.95" y="-12.7" />
+        <node id="right-down-way3(d)(d)(d)" x="59.7" y="-12.7" />
+      </node_group>
+      <node_group x="49.7" y="1.3">
+        <node id="malkuth-2-1(d)(d)(d)" x="62.2" y="-12.7" type="dept" />
+        <node id="malkuth-2-2(d)(d)(d)" x="65.45" y="-12.7" type="dept" />
+        <node id="malkuth-2-3(d)(d)(d)" x="68.7" y="-12.7" type="dept" />
+      </node_group>
+      <node_group x="49.7" y="1.3">
+        <node id="malkuth-1-1(d)(d)(d)" x="42.7" y="5.3" type="dept" />
+        <node id="malkuth-1-2(d)(d)(d)" x="40.7" y="5.3" type="dept" />
+        <node id="malkuth-1-3(d)(d)(d)" x="38.7" y="5.3" type="dept" />
+        <node id="malkuth-1-4(d)(d)(d)" x="36.7" y="5.3" type="dept" />
+        <node id="malkuth-1-5(d)(d)(d)" x="34.7" y="5.3" type="dept" />
+        <node id="malkuth-1-6(d)(d)(d)" x="32.7" y="5.3" type="dept" />
+      </node_group>
+      <node_group x="37.7" y="2.8" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1(d)(d)(d)" x="42.7" y="2.3" />
+        <node id="left-upper-way2(d)(d)(d)" x="40.2" y="2.3" />
+        <node id="left-upper-way3(d)(d)(d)" x="35.2" y="2.3" />
+        <node id="left-upper-way4(d)(d)(d)" x="32.7" y="2.3" />
+        <node id="left-upper-way2-door(d)(d)(d)" x="40.2" y="2.8" />
+      </node_group>
+      <node_group x="28.7" y="-5.7" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1(d)(d)(d)" x="31.7" y="5.3" />
+        <node id="left-way2(d)(d)(d)" x="30.7" y="5.3" />
+        <node id="left-way3(d)(d)(d)" x="28.7" y="3.3" />
+        <node id="left-way4(d)(d)(d)" x="28.7" y="2.3" />
+        <node id="left-way5(d)(d)(d)" x="28.7" y="-12.7" />
+      </node_group>
+      <node_group x="43.38" y="-12.44" src="Map/Passage/PassageShort">
+        <node id="left-down-way1(d)(d)(d)" x="47.2" y="-12.7" />
+        <node id="left-down-way2(d)(d)(d)" x="43.45" y="-12.7" />
+        <node id="left-down-way3(d)(d)(d)" x="39.7" y="-12.7" />
+      </node_group>
+      <node_group x="49.7" y="1.3">
+        <node id="malkuth-3-1(d)(d)(d)" x="37.2" y="-12.7" type="dept" />
+        <node id="malkuth-3-2(d)(d)(d)" x="33.95" y="-12.7" type="dept" />
+        <node id="malkuth-3-3(d)(d)(d)" x="30.7" y="-12.7" type="dept" />
+      </node_group>
+      <node_group x="49.7" y="25.2" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1(d)(d)(d)(d)" x="45.7" y="26.2" />
+        <node id="sefira-malkuth-2(d)(d)(d)(d)" x="46.7" y="26.2"   />
+        <node id="sefira-malkuth-3(d)(d)(d)(d)" x="47.7" y="26.2"   />
+        <node id="sefira-malkuth-4(d)(d)(d)(d)" x="48.7" y="26.2"   />
+        <node id="sefira-malkuth-5(d)(d)(d)(d)" x="49.7" y="26.2"   />
+        <node id="sefira-malkuth-6(d)(d)(d)(d)" x="50.7" y="26.2"   />
+        <node id="sefira-malkuth-7(d)(d)(d)(d)" x="51.7" y="26.2"   />
+        <node id="sefira-malkuth-8(d)(d)(d)(d)" x="52.7" y="26.2"   />
+        <node id="sefira-malkuth-9(d)(d)(d)(d)" x="53.7" y="26.2" />
+      </node_group>
+      <node_group x="49.7" y="17.2" src="Map/Passage/PassageElevator">
+        <node id="center-way1(d)(d)(d)(d)" x="49.7" y="24.2" />
+        <node id="center-way2(d)(d)(d)(d)" x="49.7" y="11.2" />
+      </node_group>
+      <node_group x="49.7" y="25.2">
+        <node id="malkuth-0-1(d)(d)(d)(d)" x="56.7" y="29.2" type="dept" />
+        <node id="malkuth-0-2(d)(d)(d)(d)" x="58.7" y="29.2" type="dept" />
+        <node id="malkuth-0-3(d)(d)(d)(d)" x="60.7" y="29.2" type="dept" />
+        <node id="malkuth-0-4(d)(d)(d)(d)" x="62.7" y="29.2" type="dept" />
+        <node id="malkuth-0-5(d)(d)(d)(d)" x="64.7" y="29.2" type="dept" />
+        <node id="malkuth-0-6(d)(d)(d)(d)" x="66.7" y="29.2" type="dept" />
+      </node_group>
+      <node_group x="61.7" y="26.7" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1(d)(d)(d)(d)" x="56.7" y="26.2" />
+        <node id="right-upper-way2(d)(d)(d)(d)" x="59.2" y="26.2" />
+        <node id="right-upper-way3(d)(d)(d)(d)" x="64.2" y="26.2" />
+        <node id="right-upper-way4(d)(d)(d)(d)" x="66.7" y="26.2" />
+      </node_group>
+      <node_group x="70.7" y="18.2" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1(d)(d)(d)(d)" x="67.7" y="29.2" />
+        <node id="right-way2(d)(d)(d)(d)" x="68.7" y="29.2" />
+        <node id="right-way3(d)(d)(d)(d)" x="70.7" y="27.2" />
+        <node id="right-way4(d)(d)(d)(d)" x="70.7" y="26.2" />
+        <node id="right-way5(d)(d)(d)(d)" x="70.7" y="11.2" />
+      </node_group>
+      <node_group x="55.81" y="11.46" src="Map/Passage/PassageShort">
+        <node id="right-down-way1(d)(d)(d)(d)" x="52.2" y="11.2" />
+        <node id="right-down-way2(d)(d)(d)(d)" x="55.95" y="11.2" />
+        <node id="right-down-way3(d)(d)(d)(d)" x="59.7" y="11.2" />
+      </node_group>
+      <node_group x="49.7" y="25.2">
+        <node id="malkuth-2-1(d)(d)(d)(d)" x="62.2" y="11.2" type="dept" />
+        <node id="malkuth-2-2(d)(d)(d)(d)" x="65.45" y="11.2" type="dept" />
+        <node id="malkuth-2-3(d)(d)(d)(d)" x="68.7" y="11.2" type="dept" />
+      </node_group>
+      <node_group x="49.7" y="25.2">
+        <node id="malkuth-1-1(d)(d)(d)(d)" x="42.7" y="29.2" type="dept" />
+        <node id="malkuth-1-2(d)(d)(d)(d)" x="40.7" y="29.2" type="dept" />
+        <node id="malkuth-1-3(d)(d)(d)(d)" x="38.7" y="29.2" type="dept" />
+        <node id="malkuth-1-4(d)(d)(d)(d)" x="36.7" y="29.2" type="dept" />
+        <node id="malkuth-1-5(d)(d)(d)(d)" x="34.7" y="29.2" type="dept" />
+        <node id="malkuth-1-6(d)(d)(d)(d)" x="32.7" y="29.2" type="dept" />
+      </node_group>
+      <node_group x="37.7" y="26.7" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1(d)(d)(d)(d)" x="42.7" y="26.2" />
+        <node id="left-upper-way2(d)(d)(d)(d)" x="40.2" y="26.2" />
+        <node id="left-upper-way3(d)(d)(d)(d)" x="35.2" y="26.2" />
+        <node id="left-upper-way4(d)(d)(d)(d)" x="32.7" y="26.2" />
+        <node id="left-upper-way2-door(d)(d)(d)(d)" x="40.2" y="26.7" />
+      </node_group>
+      <node_group x="28.7" y="18.2" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1(d)(d)(d)(d)" x="31.7" y="29.2" />
+        <node id="left-way2(d)(d)(d)(d)" x="30.7" y="29.2" />
+        <node id="left-way3(d)(d)(d)(d)" x="28.7" y="27.2" />
+        <node id="left-way4(d)(d)(d)(d)" x="28.7" y="26.2" />
+        <node id="left-way5(d)(d)(d)(d)" x="28.7" y="11.2" />
+      </node_group>
+      <node_group x="43.38" y="11.46" src="Map/Passage/PassageShort">
+        <node id="left-down-way1(d)(d)(d)(d)" x="47.2" y="11.2" />
+        <node id="left-down-way2(d)(d)(d)(d)" x="43.45" y="11.2" />
+        <node id="left-down-way3(d)(d)(d)(d)" x="39.7" y="11.2" />
+      </node_group>
+      <node_group x="49.7" y="25.2">
+        <node id="malkuth-3-1(d)(d)(d)(d)" x="37.2" y="11.2" type="dept" />
+        <node id="malkuth-3-2(d)(d)(d)(d)" x="33.95" y="11.2" type="dept" />
+        <node id="malkuth-3-3(d)(d)(d)(d)" x="30.7" y="11.2" type="dept" />
+      </node_group>
+      <node_group x="1.1" y="25.2" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1(d)(d)(d)(d)(d)" x="-2.9" y="26.2" />
+        <node id="sefira-malkuth-2(d)(d)(d)(d)(d)" x="-1.9" y="26.2"   />
+        <node id="sefira-malkuth-3(d)(d)(d)(d)(d)" x="-0.9" y="26.2"   />
+        <node id="sefira-malkuth-4(d)(d)(d)(d)(d)" x="0.1" y="26.2"   />
+        <node id="sefira-malkuth-5(d)(d)(d)(d)(d)" x="1.1" y="26.2"   />
+        <node id="sefira-malkuth-6(d)(d)(d)(d)(d)" x="2.1" y="26.2"   />
+        <node id="sefira-malkuth-7(d)(d)(d)(d)(d)" x="3.1" y="26.2"   />
+        <node id="sefira-malkuth-8(d)(d)(d)(d)(d)" x="4.1" y="26.2"   />
+        <node id="sefira-malkuth-9(d)(d)(d)(d)(d)" x="5.1" y="26.2" />
+      </node_group>
+      <node_group x="1.1" y="17.2" src="Map/Passage/PassageElevator">
+        <node id="center-way1(d)(d)(d)(d)(d)" x="1.1" y="24.2" />
+        <node id="center-way2(d)(d)(d)(d)(d)" x="1.1" y="11.2" />
+      </node_group>
+      <node_group x="1.1" y="25.2">
+        <node id="malkuth-0-1(d)(d)(d)(d)(d)" x="8.1" y="29.2" type="dept" />
+        <node id="malkuth-0-2(d)(d)(d)(d)(d)" x="10.1" y="29.2" type="dept" />
+        <node id="malkuth-0-3(d)(d)(d)(d)(d)" x="12.1" y="29.2" type="dept" />
+        <node id="malkuth-0-4(d)(d)(d)(d)(d)" x="14.1" y="29.2" type="dept" />
+        <node id="malkuth-0-5(d)(d)(d)(d)(d)" x="16.1" y="29.2" type="dept" />
+        <node id="malkuth-0-6(d)(d)(d)(d)(d)" x="18.1" y="29.2" type="dept" />
+      </node_group>
+      <node_group x="13.1" y="26.7" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1(d)(d)(d)(d)(d)" x="8.1" y="26.2" />
+        <node id="right-upper-way2(d)(d)(d)(d)(d)" x="10.6" y="26.2" />
+        <node id="right-upper-way3(d)(d)(d)(d)(d)" x="15.6" y="26.2" />
+        <node id="right-upper-way4(d)(d)(d)(d)(d)" x="18.1" y="26.2" />
+      </node_group>
+      <node_group x="22.1" y="18.2" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1(d)(d)(d)(d)(d)" x="19.1" y="29.2" />
+        <node id="right-way2(d)(d)(d)(d)(d)" x="20.1" y="29.2" />
+        <node id="right-way3(d)(d)(d)(d)(d)" x="22.1" y="27.2" />
+        <node id="right-way4(d)(d)(d)(d)(d)" x="22.1" y="26.2" />
+        <node id="right-way5(d)(d)(d)(d)(d)" x="22.1" y="11.2" />
+      </node_group>
+      <node_group x="7.21" y="11.46" src="Map/Passage/PassageShort">
+        <node id="right-down-way1(d)(d)(d)(d)(d)" x="3.6" y="11.2" />
+        <node id="right-down-way2(d)(d)(d)(d)(d)" x="7.35" y="11.2" />
+        <node id="right-down-way3(d)(d)(d)(d)(d)" x="11.1" y="11.2" />
+      </node_group>
+      <node_group x="1.1" y="25.2">
+        <node id="malkuth-2-1(d)(d)(d)(d)(d)" x="13.6" y="11.2" type="dept" />
+        <node id="malkuth-2-2(d)(d)(d)(d)(d)" x="16.85" y="11.2" type="dept" />
+        <node id="malkuth-2-3(d)(d)(d)(d)(d)" x="20.1" y="11.2" type="dept" />
+      </node_group>
+      <node_group x="1.1" y="25.2">
+        <node id="malkuth-1-1(d)(d)(d)(d)(d)" x="-5.9" y="29.2" type="dept" />
+        <node id="malkuth-1-2(d)(d)(d)(d)(d)" x="-7.9" y="29.2" type="dept" />
+        <node id="malkuth-1-3(d)(d)(d)(d)(d)" x="-9.9" y="29.2" type="dept" />
+        <node id="malkuth-1-4(d)(d)(d)(d)(d)" x="-11.9" y="29.2" type="dept" />
+        <node id="malkuth-1-5(d)(d)(d)(d)(d)" x="-13.9" y="29.2" type="dept" />
+        <node id="malkuth-1-6(d)(d)(d)(d)(d)" x="-15.9" y="29.2" type="dept" />
+      </node_group>
+      <node_group x="-10.9" y="26.7" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1(d)(d)(d)(d)(d)" x="-5.9" y="26.2" />
+        <node id="left-upper-way2(d)(d)(d)(d)(d)" x="-8.4" y="26.2" />
+        <node id="left-upper-way3(d)(d)(d)(d)(d)" x="-13.4" y="26.2" />
+        <node id="left-upper-way4(d)(d)(d)(d)(d)" x="-15.9" y="26.2" />
+        <node id="left-upper-way2-door(d)(d)(d)(d)(d)" x="-8.4" y="26.7" />
+      </node_group>
+      <node_group x="-19.9" y="18.2" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1(d)(d)(d)(d)(d)" x="-16.9" y="29.2" />
+        <node id="left-way2(d)(d)(d)(d)(d)" x="-17.9" y="29.2" />
+        <node id="left-way3(d)(d)(d)(d)(d)" x="-19.9" y="27.2" />
+        <node id="left-way4(d)(d)(d)(d)(d)" x="-19.9" y="26.2" />
+        <node id="left-way5(d)(d)(d)(d)(d)" x="-19.9" y="11.2" />
+      </node_group>
+      <node_group x="-5.22" y="11.46" src="Map/Passage/PassageShort">
+        <node id="left-down-way1(d)(d)(d)(d)(d)" x="-1.4" y="11.2" />
+        <node id="left-down-way2(d)(d)(d)(d)(d)" x="-5.15" y="11.2" />
+        <node id="left-down-way3(d)(d)(d)(d)(d)" x="-8.9" y="11.2" />
+      </node_group>
+      <node_group x="1.1" y="25.2">
+        <node id="malkuth-3-1(d)(d)(d)(d)(d)" x="-11.4" y="11.2" type="dept" />
+        <node id="malkuth-3-2(d)(d)(d)(d)(d)" x="-14.65" y="11.2" type="dept" />
+        <node id="malkuth-3-3(d)(d)(d)(d)(d)" x="-17.9" y="11.2" type="dept" />
+      </node_group>
+      <node_group x="-46.5" y="25.2" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1(d)(d)(d)(d)(d)(d)" x="-50.5" y="26.2" />
+        <node id="sefira-malkuth-2(d)(d)(d)(d)(d)(d)" x="-49.5" y="26.2"   />
+        <node id="sefira-malkuth-3(d)(d)(d)(d)(d)(d)" x="-48.5" y="26.2"   />
+        <node id="sefira-malkuth-4(d)(d)(d)(d)(d)(d)" x="-47.5" y="26.2"   />
+        <node id="sefira-malkuth-5(d)(d)(d)(d)(d)(d)" x="-46.5" y="26.2"   />
+        <node id="sefira-malkuth-6(d)(d)(d)(d)(d)(d)" x="-45.5" y="26.2"   />
+        <node id="sefira-malkuth-7(d)(d)(d)(d)(d)(d)" x="-44.5" y="26.2"   />
+        <node id="sefira-malkuth-8(d)(d)(d)(d)(d)(d)" x="-43.5" y="26.2"   />
+        <node id="sefira-malkuth-9(d)(d)(d)(d)(d)(d)" x="-42.5" y="26.2" />
+      </node_group>
+      <node_group x="-46.5" y="17.2" src="Map/Passage/PassageElevator">
+        <node id="center-way1(d)(d)(d)(d)(d)(d)" x="-46.5" y="24.2" />
+        <node id="center-way2(d)(d)(d)(d)(d)(d)" x="-46.5" y="11.2" />
+      </node_group>
+      <node_group x="-46.5" y="25.2">
+        <node id="malkuth-0-1(d)(d)(d)(d)(d)(d)" x="-39.5" y="29.2" type="dept" />
+        <node id="malkuth-0-2(d)(d)(d)(d)(d)(d)" x="-37.5" y="29.2" type="dept" />
+        <node id="malkuth-0-3(d)(d)(d)(d)(d)(d)" x="-35.5" y="29.2" type="dept" />
+        <node id="malkuth-0-4(d)(d)(d)(d)(d)(d)" x="-33.5" y="29.2" type="dept" />
+        <node id="malkuth-0-5(d)(d)(d)(d)(d)(d)" x="-31.5" y="29.2" type="dept" />
+        <node id="malkuth-0-6(d)(d)(d)(d)(d)(d)" x="-29.5" y="29.2" type="dept" />
+      </node_group>
+      <node_group x="-34.5" y="26.7" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1(d)(d)(d)(d)(d)(d)" x="-39.5" y="26.2" />
+        <node id="right-upper-way2(d)(d)(d)(d)(d)(d)" x="-37" y="26.2" />
+        <node id="right-upper-way3(d)(d)(d)(d)(d)(d)" x="-32" y="26.2" />
+        <node id="right-upper-way4(d)(d)(d)(d)(d)(d)" x="-29.5" y="26.2" />
+      </node_group>
+      <node_group x="-25.5" y="18.2" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1(d)(d)(d)(d)(d)(d)" x="-28.5" y="29.2" />
+        <node id="right-way2(d)(d)(d)(d)(d)(d)" x="-27.5" y="29.2" />
+        <node id="right-way3(d)(d)(d)(d)(d)(d)" x="-25.5" y="27.2" />
+        <node id="right-way4(d)(d)(d)(d)(d)(d)" x="-25.5" y="26.2" />
+        <node id="right-way5(d)(d)(d)(d)(d)(d)" x="-25.5" y="11.2" />
+      </node_group>
+      <node_group x="-40.39" y="11.46" src="Map/Passage/PassageShort">
+        <node id="right-down-way1(d)(d)(d)(d)(d)(d)" x="-44" y="11.2" />
+        <node id="right-down-way2(d)(d)(d)(d)(d)(d)" x="-40.25" y="11.2" />
+        <node id="right-down-way3(d)(d)(d)(d)(d)(d)" x="-36.5" y="11.2" />
+      </node_group>
+      <node_group x="-46.5" y="25.2">
+        <node id="malkuth-2-1(d)(d)(d)(d)(d)(d)" x="-34" y="11.2" type="dept" />
+        <node id="malkuth-2-2(d)(d)(d)(d)(d)(d)" x="-30.75" y="11.2" type="dept" />
+        <node id="malkuth-2-3(d)(d)(d)(d)(d)(d)" x="-27.5" y="11.2" type="dept" />
+      </node_group>
+      <node_group x="-46.5" y="25.2">
+        <node id="malkuth-1-1(d)(d)(d)(d)(d)(d)" x="-53.5" y="29.2" type="dept" />
+        <node id="malkuth-1-2(d)(d)(d)(d)(d)(d)" x="-55.5" y="29.2" type="dept" />
+        <node id="malkuth-1-3(d)(d)(d)(d)(d)(d)" x="-57.5" y="29.2" type="dept" />
+        <node id="malkuth-1-4(d)(d)(d)(d)(d)(d)" x="-59.5" y="29.2" type="dept" />
+        <node id="malkuth-1-5(d)(d)(d)(d)(d)(d)" x="-61.5" y="29.2" type="dept" />
+        <node id="malkuth-1-6(d)(d)(d)(d)(d)(d)" x="-63.5" y="29.2" type="dept" />
+      </node_group>
+      <node_group x="-58.5" y="26.7" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1(d)(d)(d)(d)(d)(d)" x="-53.5" y="26.2" />
+        <node id="left-upper-way2(d)(d)(d)(d)(d)(d)" x="-56" y="26.2" />
+        <node id="left-upper-way3(d)(d)(d)(d)(d)(d)" x="-61" y="26.2" />
+        <node id="left-upper-way4(d)(d)(d)(d)(d)(d)" x="-63.5" y="26.2" />
+        <node id="left-upper-way2-door(d)(d)(d)(d)(d)(d)" x="-56" y="26.7" />
+      </node_group>
+      <node_group x="-67.5" y="18.2" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1(d)(d)(d)(d)(d)(d)" x="-64.5" y="29.2" />
+        <node id="left-way2(d)(d)(d)(d)(d)(d)" x="-65.5" y="29.2" />
+        <node id="left-way3(d)(d)(d)(d)(d)(d)" x="-67.5" y="27.2" />
+        <node id="left-way4(d)(d)(d)(d)(d)(d)" x="-67.5" y="26.2" />
+        <node id="left-way5(d)(d)(d)(d)(d)(d)" x="-67.5" y="11.2" />
+      </node_group>
+      <node_group x="-52.82" y="11.46" src="Map/Passage/PassageShort">
+        <node id="left-down-way1(d)(d)(d)(d)(d)(d)" x="-49" y="11.2" />
+        <node id="left-down-way2(d)(d)(d)(d)(d)(d)" x="-52.75" y="11.2" />
+        <node id="left-down-way3(d)(d)(d)(d)(d)(d)" x="-56.5" y="11.2" />
+      </node_group>
+      <node_group x="-46.5" y="25.2">
+        <node id="malkuth-3-1(d)(d)(d)(d)(d)(d)" x="-59" y="11.2" type="dept" />
+        <node id="malkuth-3-2(d)(d)(d)(d)(d)(d)" x="-62.25" y="11.2" type="dept" />
+        <node id="malkuth-3-3(d)(d)(d)(d)(d)(d)" x="-65.5" y="11.2" type="dept" />
+      </node_group>
+      <node_group x="-46.5" y="-0.7" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1(d)(d)(d)(d)(d)(d)(d)" x="-50.5" y="0.3" />
+        <node id="sefira-malkuth-2(d)(d)(d)(d)(d)(d)(d)" x="-49.5" y="0.3"   />
+        <node id="sefira-malkuth-3(d)(d)(d)(d)(d)(d)(d)" x="-48.5" y="0.3"   />
+        <node id="sefira-malkuth-4(d)(d)(d)(d)(d)(d)(d)" x="-47.5" y="0.3"   />
+        <node id="sefira-malkuth-5(d)(d)(d)(d)(d)(d)(d)" x="-46.5" y="0.3"   />
+        <node id="sefira-malkuth-6(d)(d)(d)(d)(d)(d)(d)" x="-45.5" y="0.3"   />
+        <node id="sefira-malkuth-7(d)(d)(d)(d)(d)(d)(d)" x="-44.5" y="0.3"   />
+        <node id="sefira-malkuth-8(d)(d)(d)(d)(d)(d)(d)" x="-43.5" y="0.3"   />
+        <node id="sefira-malkuth-9(d)(d)(d)(d)(d)(d)(d)" x="-42.5" y="0.3" />
+      </node_group>
+      <node_group x="-46.5" y="-8.7" src="Map/Passage/PassageElevator">
+        <node id="center-way1(d)(d)(d)(d)(d)(d)(d)" x="-46.5" y="-1.7" />
+        <node id="center-way2(d)(d)(d)(d)(d)(d)(d)" x="-46.5" y="-14.7" />
+      </node_group>
+      <node_group x="-46.5" y="-0.7">
+        <node id="malkuth-0-1(d)(d)(d)(d)(d)(d)(d)" x="-39.5" y="3.3" type="dept" />
+        <node id="malkuth-0-2(d)(d)(d)(d)(d)(d)(d)" x="-37.5" y="3.3" type="dept" />
+        <node id="malkuth-0-3(d)(d)(d)(d)(d)(d)(d)" x="-35.5" y="3.3" type="dept" />
+        <node id="malkuth-0-4(d)(d)(d)(d)(d)(d)(d)" x="-33.5" y="3.3" type="dept" />
+        <node id="malkuth-0-5(d)(d)(d)(d)(d)(d)(d)" x="-31.5" y="3.3" type="dept" />
+        <node id="malkuth-0-6(d)(d)(d)(d)(d)(d)(d)" x="-29.5" y="3.3" type="dept" />
+      </node_group>
+      <node_group x="-34.5" y="0.8" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1(d)(d)(d)(d)(d)(d)(d)" x="-39.5" y="0.3" />
+        <node id="right-upper-way2(d)(d)(d)(d)(d)(d)(d)" x="-37" y="0.3" />
+        <node id="right-upper-way3(d)(d)(d)(d)(d)(d)(d)" x="-32" y="0.3" />
+        <node id="right-upper-way4(d)(d)(d)(d)(d)(d)(d)" x="-29.5" y="0.3" />
+      </node_group>
+      <node_group x="-25.5" y="-7.7" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1(d)(d)(d)(d)(d)(d)(d)" x="-28.5" y="3.3" />
+        <node id="right-way2(d)(d)(d)(d)(d)(d)(d)" x="-27.5" y="3.3" />
+        <node id="right-way3(d)(d)(d)(d)(d)(d)(d)" x="-25.5" y="1.3" />
+        <node id="right-way4(d)(d)(d)(d)(d)(d)(d)" x="-25.5" y="0.3000002" />
+        <node id="right-way5(d)(d)(d)(d)(d)(d)(d)" x="-25.5" y="-14.7" />
+      </node_group>
+      <node_group x="-40.39" y="-14.44" src="Map/Passage/PassageShort">
+        <node id="right-down-way1(d)(d)(d)(d)(d)(d)(d)" x="-44" y="-14.7" />
+        <node id="right-down-way2(d)(d)(d)(d)(d)(d)(d)" x="-40.25" y="-14.7" />
+        <node id="right-down-way3(d)(d)(d)(d)(d)(d)(d)" x="-36.5" y="-14.7" />
+      </node_group>
+      <node_group x="-46.5" y="-0.7">
+        <node id="malkuth-2-1(d)(d)(d)(d)(d)(d)(d)" x="-34" y="-14.7" type="dept" />
+        <node id="malkuth-2-2(d)(d)(d)(d)(d)(d)(d)" x="-30.75" y="-14.7" type="dept" />
+        <node id="malkuth-2-3(d)(d)(d)(d)(d)(d)(d)" x="-27.5" y="-14.7" type="dept" />
+      </node_group>
+      <node_group x="-46.5" y="-0.7">
+        <node id="malkuth-1-1(d)(d)(d)(d)(d)(d)(d)" x="-53.5" y="3.3" type="dept" />
+        <node id="malkuth-1-2(d)(d)(d)(d)(d)(d)(d)" x="-55.5" y="3.3" type="dept" />
+        <node id="malkuth-1-3(d)(d)(d)(d)(d)(d)(d)" x="-57.5" y="3.3" type="dept" />
+        <node id="malkuth-1-4(d)(d)(d)(d)(d)(d)(d)" x="-59.5" y="3.3" type="dept" />
+        <node id="malkuth-1-5(d)(d)(d)(d)(d)(d)(d)" x="-61.5" y="3.3" type="dept" />
+        <node id="malkuth-1-6(d)(d)(d)(d)(d)(d)(d)" x="-63.5" y="3.3" type="dept" />
+      </node_group>
+      <node_group x="-58.5" y="0.8" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1(d)(d)(d)(d)(d)(d)(d)" x="-53.5" y="0.3" />
+        <node id="left-upper-way2(d)(d)(d)(d)(d)(d)(d)" x="-56" y="0.3" />
+        <node id="left-upper-way3(d)(d)(d)(d)(d)(d)(d)" x="-61" y="0.3" />
+        <node id="left-upper-way4(d)(d)(d)(d)(d)(d)(d)" x="-63.5" y="0.3" />
+        <node id="left-upper-way2-door(d)(d)(d)(d)(d)(d)(d)" x="-56" y="0.8" />
+      </node_group>
+      <node_group x="-67.5" y="-7.7" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1(d)(d)(d)(d)(d)(d)(d)" x="-64.5" y="3.3" />
+        <node id="left-way2(d)(d)(d)(d)(d)(d)(d)" x="-65.5" y="3.3" />
+        <node id="left-way3(d)(d)(d)(d)(d)(d)(d)" x="-67.5" y="1.3" />
+        <node id="left-way4(d)(d)(d)(d)(d)(d)(d)" x="-67.5" y="0.3000002" />
+        <node id="left-way5(d)(d)(d)(d)(d)(d)(d)" x="-67.5" y="-14.7" />
+      </node_group>
+      <node_group x="-52.82" y="-14.44" src="Map/Passage/PassageShort">
+        <node id="left-down-way1(d)(d)(d)(d)(d)(d)(d)" x="-49" y="-14.7" />
+        <node id="left-down-way2(d)(d)(d)(d)(d)(d)(d)" x="-52.75" y="-14.7" />
+        <node id="left-down-way3(d)(d)(d)(d)(d)(d)(d)" x="-56.5" y="-14.7" />
+      </node_group>
+      <node_group x="-46.5" y="-0.7">
+        <node id="malkuth-3-1(d)(d)(d)(d)(d)(d)(d)" x="-59" y="-14.7" type="dept" />
+        <node id="malkuth-3-2(d)(d)(d)(d)(d)(d)(d)" x="-62.25" y="-14.7" type="dept" />
+        <node id="malkuth-3-3(d)(d)(d)(d)(d)(d)(d)" x="-65.5" y="-14.7" type="dept" />
+      </node_group>
+      <node_group x="-46.5" y="-23.8" src="Map/Passage/PassageMalcuteRoom">
+        <node id="sefira-malkuth-1(d)(d)(d)(d)(d)(d)(d)(d)" x="-50.5" y="-22.8" />
+        <node id="sefira-malkuth-2(d)(d)(d)(d)(d)(d)(d)(d)" x="-49.5" y="-22.8"   />
+        <node id="sefira-malkuth-3(d)(d)(d)(d)(d)(d)(d)(d)" x="-48.5" y="-22.8"   />
+        <node id="sefira-malkuth-4(d)(d)(d)(d)(d)(d)(d)(d)" x="-47.5" y="-22.8"   />
+        <node id="sefira-malkuth-5(d)(d)(d)(d)(d)(d)(d)(d)" x="-46.5" y="-22.8"   />
+        <node id="sefira-malkuth-6(d)(d)(d)(d)(d)(d)(d)(d)" x="-45.5" y="-22.8"   />
+        <node id="sefira-malkuth-7(d)(d)(d)(d)(d)(d)(d)(d)" x="-44.5" y="-22.8"   />
+        <node id="sefira-malkuth-8(d)(d)(d)(d)(d)(d)(d)(d)" x="-43.5" y="-22.8"   />
+        <node id="sefira-malkuth-9(d)(d)(d)(d)(d)(d)(d)(d)" x="-42.5" y="-22.8" />
+      </node_group>
+      <node_group x="-46.5" y="-31.8" src="Map/Passage/PassageElevator">
+        <node id="center-way1(d)(d)(d)(d)(d)(d)(d)(d)" x="-46.5" y="-24.8" />
+        <node id="center-way2(d)(d)(d)(d)(d)(d)(d)(d)" x="-46.5" y="-37.8" />
+      </node_group>
+      <node_group x="-46.5" y="-23.8">
+        <node id="malkuth-0-1(d)(d)(d)(d)(d)(d)(d)(d)" x="-39.5" y="-19.8" type="dept" />
+        <node id="malkuth-0-2(d)(d)(d)(d)(d)(d)(d)(d)" x="-37.5" y="-19.8" type="dept" />
+        <node id="malkuth-0-3(d)(d)(d)(d)(d)(d)(d)(d)" x="-35.5" y="-19.8" type="dept" />
+        <node id="malkuth-0-4(d)(d)(d)(d)(d)(d)(d)(d)" x="-33.5" y="-19.8" type="dept" />
+        <node id="malkuth-0-5(d)(d)(d)(d)(d)(d)(d)(d)" x="-31.5" y="-19.8" type="dept" />
+        <node id="malkuth-0-6(d)(d)(d)(d)(d)(d)(d)(d)" x="-29.5" y="-19.8" type="dept" />
+      </node_group>
+      <node_group x="-34.5" y="-22.3" src="Map/Passage/PassageHallway">
+        <node id="right-upper-way1(d)(d)(d)(d)(d)(d)(d)(d)" x="-39.5" y="-22.8" />
+        <node id="right-upper-way2(d)(d)(d)(d)(d)(d)(d)(d)" x="-37" y="-22.8" />
+        <node id="right-upper-way3(d)(d)(d)(d)(d)(d)(d)(d)" x="-32" y="-22.8" />
+        <node id="right-upper-way4(d)(d)(d)(d)(d)(d)(d)(d)" x="-29.5" y="-22.8" />
+      </node_group>
+      <node_group x="-25.5" y="-30.8" src="Map/Passage/PassageElevatorLong">
+        <node id="right-way1(d)(d)(d)(d)(d)(d)(d)(d)" x="-28.5" y="-19.8" />
+        <node id="right-way2(d)(d)(d)(d)(d)(d)(d)(d)" x="-27.5" y="-19.8" />
+        <node id="right-way3(d)(d)(d)(d)(d)(d)(d)(d)" x="-25.5" y="-21.8" />
+        <node id="right-way4(d)(d)(d)(d)(d)(d)(d)(d)" x="-25.5" y="-22.8" />
+        <node id="right-way5(d)(d)(d)(d)(d)(d)(d)(d)" x="-25.5" y="-37.8" />
+      </node_group>
+      <node_group x="-40.39" y="-37.54" src="Map/Passage/PassageShort">
+        <node id="right-down-way1(d)(d)(d)(d)(d)(d)(d)(d)" x="-44" y="-37.8" />
+        <node id="right-down-way2(d)(d)(d)(d)(d)(d)(d)(d)" x="-40.25" y="-37.8" />
+        <node id="right-down-way3(d)(d)(d)(d)(d)(d)(d)(d)" x="-36.5" y="-37.8" />
+      </node_group>
+      <node_group x="-46.5" y="-23.8">
+        <node id="malkuth-2-1(d)(d)(d)(d)(d)(d)(d)(d)" x="-34" y="-37.8" type="dept" />
+        <node id="malkuth-2-2(d)(d)(d)(d)(d)(d)(d)(d)" x="-30.75" y="-37.8" type="dept" />
+        <node id="malkuth-2-3(d)(d)(d)(d)(d)(d)(d)(d)" x="-27.5" y="-37.8" type="dept" />
+      </node_group>
+      <node_group x="-46.5" y="-23.8">
+        <node id="malkuth-1-1(d)(d)(d)(d)(d)(d)(d)(d)" x="-53.5" y="-19.8" type="dept" />
+        <node id="malkuth-1-2(d)(d)(d)(d)(d)(d)(d)(d)" x="-55.5" y="-19.8" type="dept" />
+        <node id="malkuth-1-3(d)(d)(d)(d)(d)(d)(d)(d)" x="-57.5" y="-19.8" type="dept" />
+        <node id="malkuth-1-4(d)(d)(d)(d)(d)(d)(d)(d)" x="-59.5" y="-19.8" type="dept" />
+        <node id="malkuth-1-5(d)(d)(d)(d)(d)(d)(d)(d)" x="-61.5" y="-19.8" type="dept" />
+        <node id="malkuth-1-6(d)(d)(d)(d)(d)(d)(d)(d)" x="-63.5" y="-19.8" type="dept" />
+      </node_group>
+      <node_group x="-58.5" y="-22.3" src="Map/Passage/PassageHallway">
+        <node id="left-upper-way1(d)(d)(d)(d)(d)(d)(d)(d)" x="-53.5" y="-22.8" />
+        <node id="left-upper-way2(d)(d)(d)(d)(d)(d)(d)(d)" x="-56" y="-22.8" />
+        <node id="left-upper-way3(d)(d)(d)(d)(d)(d)(d)(d)" x="-61" y="-22.8" />
+        <node id="left-upper-way4(d)(d)(d)(d)(d)(d)(d)(d)" x="-63.5" y="-22.8" />
+        <node id="left-upper-way2-door(d)(d)(d)(d)(d)(d)(d)(d)" x="-56" y="-22.3" />
+      </node_group>
+      <node_group x="-67.5" y="-30.8" src="Map/Passage/PassageElevatorLong">
+        <node id="left-way1(d)(d)(d)(d)(d)(d)(d)(d)" x="-64.5" y="-19.8" />
+        <node id="left-way2(d)(d)(d)(d)(d)(d)(d)(d)" x="-65.5" y="-19.8" />
+        <node id="left-way3(d)(d)(d)(d)(d)(d)(d)(d)" x="-67.5" y="-21.8" />
+        <node id="left-way4(d)(d)(d)(d)(d)(d)(d)(d)" x="-67.5" y="-22.8" />
+        <node id="left-way5(d)(d)(d)(d)(d)(d)(d)(d)" x="-67.5" y="-37.8" />
+      </node_group>
+      <node_group x="-52.82" y="-37.54" src="Map/Passage/PassageShort">
+        <node id="left-down-way1(d)(d)(d)(d)(d)(d)(d)(d)" x="-49" y="-37.8" />
+        <node id="left-down-way2(d)(d)(d)(d)(d)(d)(d)(d)" x="-52.75" y="-37.8" />
+        <node id="left-down-way3(d)(d)(d)(d)(d)(d)(d)(d)" x="-56.5" y="-37.8" />
+      </node_group>
+      <node_group x="-46.5" y="-23.8">
+        <node id="malkuth-3-1(d)(d)(d)(d)(d)(d)(d)(d)" x="-59" y="-37.8" type="dept" />
+        <node id="malkuth-3-2(d)(d)(d)(d)(d)(d)(d)(d)" x="-62.25" y="-37.8" type="dept" />
+        <node id="malkuth-3-3(d)(d)(d)(d)(d)(d)(d)(d)" x="-65.5" y="-37.8" type="dept" />
+      </node_group>
+    </area>
+  </node_list>
+  <edge_list>
+    <edge node1="sefira-malkuth-1" node2="sefira-malkuth-2" type="road" />
+    <edge node1="sefira-malkuth-2" node2="sefira-malkuth-3" type="road" />
+    <edge node1="sefira-malkuth-3" node2="sefira-malkuth-4" type="road" />
+    <edge node1="sefira-malkuth-4" node2="sefira-malkuth-5" type="road" />
+    <edge node1="sefira-malkuth-5" node2="sefira-malkuth-6" type="road" />
+    <edge node1="sefira-malkuth-6" node2="sefira-malkuth-7" type="road" />
+    <edge node1="sefira-malkuth-7" node2="sefira-malkuth-8" type="road" />
+    <edge node1="sefira-malkuth-8" node2="sefira-malkuth-9" type="road" />
+    <edge node1="center-way1" node2="center-way2" type="road" />
+    <edge node1="malkuth-0-1" node2="malkuth-0-2" type="road" />
+    <edge node1="malkuth-0-2" node2="malkuth-0-3" type="road" />
+    <edge node1="malkuth-0-3" node2="malkuth-0-4" type="road" />
+    <edge node1="malkuth-0-4" node2="malkuth-0-5" type="road" />
+    <edge node1="malkuth-0-5" node2="malkuth-0-6" type="road" />
+    <edge node1="malkuth-1-1" node2="malkuth-1-2" type="road" />
+    <edge node1="malkuth-1-2" node2="malkuth-1-3" type="road" />
+    <edge node1="malkuth-1-3" node2="malkuth-1-4" type="road" />
+    <edge node1="malkuth-1-4" node2="malkuth-1-5" type="road" />
+    <edge node1="malkuth-1-5" node2="malkuth-1-6" type="road" />
+    <edge node1="right-upper-way1" node2="right-upper-way2" type="road" />
+    <edge node1="right-upper-way2" node2="right-upper-way3" type="road" />
+    <edge node1="right-upper-way3" node2="right-upper-way4" type="road" />
+    <edge node1="left-upper-way1" node2="left-upper-way2" type="road" />
+    <edge node1="left-upper-way2" node2="left-upper-way3" type="road" />
+    <edge node1="left-upper-way3" node2="left-upper-way4" type="road" />
+    <edge node1="right-way4" node2="right-way5" type="road" />
+    <edge node1="right-down-way1" node2="right-down-way2" type="road" />
+    <edge node1="right-down-way2" node2="right-down-way3" type="road" />
+    <edge node1="malkuth-2-1" node2="malkuth-2-2" type="road" />
+    <edge node1="malkuth-2-2" node2="malkuth-2-3" type="road" />
+    <edge node1="left-way4" node2="left-way5" type="road" />
+    <edge node1="left-down-way1" node2="left-down-way2" type="road" />
+    <edge node1="left-down-way2" node2="left-down-way3" type="road" />
+    <edge node1="malkuth-3-1" node2="malkuth-3-2" type="road" />
+    <edge node1="malkuth-3-2" node2="malkuth-3-3" type="road" />
+    <edge node1="sefira-malkuth-5" node2="center-way1" type="door" />
+    <edge node1="sefira-malkuth-9" node2="malkuth-0-1" type="door" />
+    <edge node1="sefira-malkuth-9" node2="right-upper-way1" type="door" />
+    <edge node1="sefira-malkuth-1" node2="malkuth-1-1" type="door" />
+    <edge node1="sefira-malkuth-1" node2="left-upper-way1" type="door" />
+    <edge node1="center-way2" node2="right-down-way1" type="door" />
+    <edge node1="center-way2" node2="left-down-way1" type="door" />
+    <edge node1="right-down-way3" node2="malkuth-2-1" type="door" />
+    <edge node1="left-down-way3" node2="malkuth-3-1" type="door" />
+    <edge node1="malkuth-2-3" node2="right-way5" type="door" />
+    <edge node1="malkuth-3-3" node2="left-way5" type="door" />
+    <edge node1="malkuth-0-6" node2="right-way1" type="door" />
+    <edge node1="right-way1" node2="right-way2" type="road" />
+    <edge node1="right-way2" node2="right-way3" type="road" />
+    <edge node1="right-way3" node2="right-way4" type="door" />
+    <edge node1="malkuth-1-6" node2="left-way1" type="door" />
+    <edge node1="left-way1" node2="left-way2" type="road" />
+    <edge node1="left-way2" node2="left-way3" type="road" />
+    <edge node1="left-way3" node2="left-way4" type="door" />
+    <edge node1="sefira-malkuth-1(d)" node2="sefira-malkuth-2(d)" type="road" />
+    <edge node1="sefira-malkuth-2(d)" node2="sefira-malkuth-3(d)" type="road" />
+    <edge node1="sefira-malkuth-3(d)" node2="sefira-malkuth-4(d)" type="road" />
+    <edge node1="sefira-malkuth-4(d)" node2="sefira-malkuth-5(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)" node2="sefira-malkuth-6(d)" type="road" />
+    <edge node1="sefira-malkuth-6(d)" node2="sefira-malkuth-7(d)" type="road" />
+    <edge node1="sefira-malkuth-7(d)" node2="sefira-malkuth-8(d)" type="road" />
+    <edge node1="sefira-malkuth-8(d)" node2="sefira-malkuth-9(d)" type="road" />
+    <edge node1="center-way1(d)" node2="center-way2(d)" type="road" />
+    <edge node1="malkuth-0-1(d)" node2="malkuth-0-2(d)" type="road" />
+    <edge node1="malkuth-0-2(d)" node2="malkuth-0-3(d)" type="road" />
+    <edge node1="malkuth-0-3(d)" node2="malkuth-0-4(d)" type="road" />
+    <edge node1="malkuth-0-4(d)" node2="malkuth-0-5(d)" type="road" />
+    <edge node1="malkuth-0-5(d)" node2="malkuth-0-6(d)" type="road" />
+    <edge node1="malkuth-1-1(d)" node2="malkuth-1-2(d)" type="road" />
+    <edge node1="malkuth-1-2(d)" node2="malkuth-1-3(d)" type="road" />
+    <edge node1="malkuth-1-3(d)" node2="malkuth-1-4(d)" type="road" />
+    <edge node1="malkuth-1-4(d)" node2="malkuth-1-5(d)" type="road" />
+    <edge node1="malkuth-1-5(d)" node2="malkuth-1-6(d)" type="road" />
+    <edge node1="right-upper-way1(d)" node2="right-upper-way2(d)" type="road" />
+    <edge node1="right-upper-way2(d)" node2="right-upper-way3(d)" type="road" />
+    <edge node1="right-upper-way3(d)" node2="right-upper-way4(d)" type="road" />
+    <edge node1="left-upper-way1(d)" node2="left-upper-way2(d)" type="road" />
+    <edge node1="left-upper-way2(d)" node2="left-upper-way3(d)" type="road" />
+    <edge node1="left-upper-way3(d)" node2="left-upper-way4(d)" type="road" />
+    <edge node1="right-way4(d)" node2="right-way5(d)" type="road" />
+    <edge node1="right-down-way1(d)" node2="right-down-way2(d)" type="road" />
+    <edge node1="right-down-way2(d)" node2="right-down-way3(d)" type="road" />
+    <edge node1="malkuth-2-1(d)" node2="malkuth-2-2(d)" type="road" />
+    <edge node1="malkuth-2-2(d)" node2="malkuth-2-3(d)" type="road" />
+    <edge node1="left-way4(d)" node2="left-way5(d)" type="road" />
+    <edge node1="left-down-way1(d)" node2="left-down-way2(d)" type="road" />
+    <edge node1="left-down-way2(d)" node2="left-down-way3(d)" type="road" />
+    <edge node1="malkuth-3-1(d)" node2="malkuth-3-2(d)" type="road" />
+    <edge node1="malkuth-3-2(d)" node2="malkuth-3-3(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)" node2="center-way1(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)" node2="malkuth-0-1(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)" node2="right-upper-way1(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)" node2="malkuth-1-1(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)" node2="left-upper-way1(d)" type="door" />
+    <edge node1="center-way2(d)" node2="right-down-way1(d)" type="door" />
+    <edge node1="center-way2(d)" node2="left-down-way1(d)" type="door" />
+    <edge node1="right-down-way3(d)" node2="malkuth-2-1(d)" type="door" />
+    <edge node1="left-down-way3(d)" node2="malkuth-3-1(d)" type="door" />
+    <edge node1="malkuth-2-3(d)" node2="right-way5(d)" type="door" />
+    <edge node1="malkuth-3-3(d)" node2="left-way5(d)" type="door" />
+    <edge node1="malkuth-0-6(d)" node2="right-way1(d)" type="door" />
+    <edge node1="right-way1(d)" node2="right-way2(d)" type="road" />
+    <edge node1="right-way2(d)" node2="right-way3(d)" type="road" />
+    <edge node1="right-way3(d)" node2="right-way4(d)" type="door" />
+    <edge node1="malkuth-1-6(d)" node2="left-way1(d)" type="door" />
+    <edge node1="left-way1(d)" node2="left-way2(d)" type="road" />
+    <edge node1="left-way2(d)" node2="left-way3(d)" type="road" />
+    <edge node1="left-way3(d)" node2="left-way4(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)" node2="sefira-malkuth-2(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-2(d)(d)" node2="sefira-malkuth-3(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-3(d)(d)" node2="sefira-malkuth-4(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-4(d)(d)" node2="sefira-malkuth-5(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)" node2="sefira-malkuth-6(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-6(d)(d)" node2="sefira-malkuth-7(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-7(d)(d)" node2="sefira-malkuth-8(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-8(d)(d)" node2="sefira-malkuth-9(d)(d)" type="road" />
+    <edge node1="center-way1(d)(d)" node2="center-way2(d)(d)" type="road" />
+    <edge node1="malkuth-0-1(d)(d)" node2="malkuth-0-2(d)(d)" type="road" />
+    <edge node1="malkuth-0-2(d)(d)" node2="malkuth-0-3(d)(d)" type="road" />
+    <edge node1="malkuth-0-3(d)(d)" node2="malkuth-0-4(d)(d)" type="road" />
+    <edge node1="malkuth-0-4(d)(d)" node2="malkuth-0-5(d)(d)" type="road" />
+    <edge node1="malkuth-0-5(d)(d)" node2="malkuth-0-6(d)(d)" type="road" />
+    <edge node1="malkuth-1-1(d)(d)" node2="malkuth-1-2(d)(d)" type="road" />
+    <edge node1="malkuth-1-2(d)(d)" node2="malkuth-1-3(d)(d)" type="road" />
+    <edge node1="malkuth-1-3(d)(d)" node2="malkuth-1-4(d)(d)" type="road" />
+    <edge node1="malkuth-1-4(d)(d)" node2="malkuth-1-5(d)(d)" type="road" />
+    <edge node1="malkuth-1-5(d)(d)" node2="malkuth-1-6(d)(d)" type="road" />
+    <edge node1="right-upper-way1(d)(d)" node2="right-upper-way2(d)(d)" type="road" />
+    <edge node1="right-upper-way2(d)(d)" node2="right-upper-way3(d)(d)" type="road" />
+    <edge node1="right-upper-way3(d)(d)" node2="right-upper-way4(d)(d)" type="road" />
+    <edge node1="left-upper-way1(d)(d)" node2="left-upper-way2(d)(d)" type="road" />
+    <edge node1="left-upper-way2(d)(d)" node2="left-upper-way3(d)(d)" type="road" />
+    <edge node1="left-upper-way3(d)(d)" node2="left-upper-way4(d)(d)" type="road" />
+    <edge node1="right-way4(d)(d)" node2="right-way5(d)(d)" type="road" />
+    <edge node1="right-down-way1(d)(d)" node2="right-down-way2(d)(d)" type="road" />
+    <edge node1="right-down-way2(d)(d)" node2="right-down-way3(d)(d)" type="road" />
+    <edge node1="malkuth-2-1(d)(d)" node2="malkuth-2-2(d)(d)" type="road" />
+    <edge node1="malkuth-2-2(d)(d)" node2="malkuth-2-3(d)(d)" type="road" />
+    <edge node1="left-way4(d)(d)" node2="left-way5(d)(d)" type="road" />
+    <edge node1="left-down-way1(d)(d)" node2="left-down-way2(d)(d)" type="road" />
+    <edge node1="left-down-way2(d)(d)" node2="left-down-way3(d)(d)" type="road" />
+    <edge node1="malkuth-3-1(d)(d)" node2="malkuth-3-2(d)(d)" type="road" />
+    <edge node1="malkuth-3-2(d)(d)" node2="malkuth-3-3(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)" node2="center-way1(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)" node2="malkuth-0-1(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)" node2="right-upper-way1(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)" node2="malkuth-1-1(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)" node2="left-upper-way1(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)" node2="right-down-way1(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)" node2="left-down-way1(d)(d)" type="door" />
+    <edge node1="right-down-way3(d)(d)" node2="malkuth-2-1(d)(d)" type="door" />
+    <edge node1="left-down-way3(d)(d)" node2="malkuth-3-1(d)(d)" type="door" />
+    <edge node1="malkuth-2-3(d)(d)" node2="right-way5(d)(d)" type="door" />
+    <edge node1="malkuth-3-3(d)(d)" node2="left-way5(d)(d)" type="door" />
+    <edge node1="malkuth-0-6(d)(d)" node2="right-way1(d)(d)" type="door" />
+    <edge node1="right-way1(d)(d)" node2="right-way2(d)(d)" type="road" />
+    <edge node1="right-way2(d)(d)" node2="right-way3(d)(d)" type="road" />
+    <edge node1="right-way3(d)(d)" node2="right-way4(d)(d)" type="door" />
+    <edge node1="malkuth-1-6(d)(d)" node2="left-way1(d)(d)" type="door" />
+    <edge node1="left-way1(d)(d)" node2="left-way2(d)(d)" type="road" />
+    <edge node1="left-way2(d)(d)" node2="left-way3(d)(d)" type="road" />
+    <edge node1="left-way3(d)(d)" node2="left-way4(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)" node2="sefira-malkuth-2(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-2(d)(d)(d)" node2="sefira-malkuth-3(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-3(d)(d)(d)" node2="sefira-malkuth-4(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-4(d)(d)(d)" node2="sefira-malkuth-5(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)" node2="sefira-malkuth-6(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-6(d)(d)(d)" node2="sefira-malkuth-7(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-7(d)(d)(d)" node2="sefira-malkuth-8(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-8(d)(d)(d)" node2="sefira-malkuth-9(d)(d)(d)" type="road" />
+    <edge node1="center-way1(d)(d)(d)" node2="center-way2(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-1(d)(d)(d)" node2="malkuth-0-2(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-2(d)(d)(d)" node2="malkuth-0-3(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-3(d)(d)(d)" node2="malkuth-0-4(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-4(d)(d)(d)" node2="malkuth-0-5(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-5(d)(d)(d)" node2="malkuth-0-6(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-1(d)(d)(d)" node2="malkuth-1-2(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-2(d)(d)(d)" node2="malkuth-1-3(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-3(d)(d)(d)" node2="malkuth-1-4(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-4(d)(d)(d)" node2="malkuth-1-5(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-5(d)(d)(d)" node2="malkuth-1-6(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way1(d)(d)(d)" node2="right-upper-way2(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way2(d)(d)(d)" node2="right-upper-way3(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way3(d)(d)(d)" node2="right-upper-way4(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way1(d)(d)(d)" node2="left-upper-way2(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way2(d)(d)(d)" node2="left-upper-way3(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way3(d)(d)(d)" node2="left-upper-way4(d)(d)(d)" type="road" />
+    <edge node1="right-way4(d)(d)(d)" node2="right-way5(d)(d)(d)" type="road" />
+    <edge node1="right-down-way1(d)(d)(d)" node2="right-down-way2(d)(d)(d)" type="road" />
+    <edge node1="right-down-way2(d)(d)(d)" node2="right-down-way3(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-1(d)(d)(d)" node2="malkuth-2-2(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-2(d)(d)(d)" node2="malkuth-2-3(d)(d)(d)" type="road" />
+    <edge node1="left-way4(d)(d)(d)" node2="left-way5(d)(d)(d)" type="road" />
+    <edge node1="left-down-way1(d)(d)(d)" node2="left-down-way2(d)(d)(d)" type="road" />
+    <edge node1="left-down-way2(d)(d)(d)" node2="left-down-way3(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-1(d)(d)(d)" node2="malkuth-3-2(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-2(d)(d)(d)" node2="malkuth-3-3(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)" node2="center-way1(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)" node2="malkuth-0-1(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)" node2="right-upper-way1(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)" node2="malkuth-1-1(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)" node2="left-upper-way1(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)" node2="right-down-way1(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)" node2="left-down-way1(d)(d)(d)" type="door" />
+    <edge node1="right-down-way3(d)(d)(d)" node2="malkuth-2-1(d)(d)(d)" type="door" />
+    <edge node1="left-down-way3(d)(d)(d)" node2="malkuth-3-1(d)(d)(d)" type="door" />
+    <edge node1="malkuth-2-3(d)(d)(d)" node2="right-way5(d)(d)(d)" type="door" />
+    <edge node1="malkuth-3-3(d)(d)(d)" node2="left-way5(d)(d)(d)" type="door" />
+    <edge node1="malkuth-0-6(d)(d)(d)" node2="right-way1(d)(d)(d)" type="door" />
+    <edge node1="right-way1(d)(d)(d)" node2="right-way2(d)(d)(d)" type="road" />
+    <edge node1="right-way2(d)(d)(d)" node2="right-way3(d)(d)(d)" type="road" />
+    <edge node1="right-way3(d)(d)(d)" node2="right-way4(d)(d)(d)" type="door" />
+    <edge node1="malkuth-1-6(d)(d)(d)" node2="left-way1(d)(d)(d)" type="door" />
+    <edge node1="left-way1(d)(d)(d)" node2="left-way2(d)(d)(d)" type="road" />
+    <edge node1="left-way2(d)(d)(d)" node2="left-way3(d)(d)(d)" type="road" />
+    <edge node1="left-way3(d)(d)(d)" node2="left-way4(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)" node2="sefira-malkuth-2(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-2(d)(d)(d)(d)" node2="sefira-malkuth-3(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-3(d)(d)(d)(d)" node2="sefira-malkuth-4(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-4(d)(d)(d)(d)" node2="sefira-malkuth-5(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)" node2="sefira-malkuth-6(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-6(d)(d)(d)(d)" node2="sefira-malkuth-7(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-7(d)(d)(d)(d)" node2="sefira-malkuth-8(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-8(d)(d)(d)(d)" node2="sefira-malkuth-9(d)(d)(d)(d)" type="road" />
+    <edge node1="center-way1(d)(d)(d)(d)" node2="center-way2(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-1(d)(d)(d)(d)" node2="malkuth-0-2(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-2(d)(d)(d)(d)" node2="malkuth-0-3(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-3(d)(d)(d)(d)" node2="malkuth-0-4(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-4(d)(d)(d)(d)" node2="malkuth-0-5(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-5(d)(d)(d)(d)" node2="malkuth-0-6(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-1(d)(d)(d)(d)" node2="malkuth-1-2(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-2(d)(d)(d)(d)" node2="malkuth-1-3(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-3(d)(d)(d)(d)" node2="malkuth-1-4(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-4(d)(d)(d)(d)" node2="malkuth-1-5(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-5(d)(d)(d)(d)" node2="malkuth-1-6(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way1(d)(d)(d)(d)" node2="right-upper-way2(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way2(d)(d)(d)(d)" node2="right-upper-way3(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way3(d)(d)(d)(d)" node2="right-upper-way4(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way1(d)(d)(d)(d)" node2="left-upper-way2(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way2(d)(d)(d)(d)" node2="left-upper-way3(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way3(d)(d)(d)(d)" node2="left-upper-way4(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way4(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way1(d)(d)(d)(d)" node2="right-down-way2(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way2(d)(d)(d)(d)" node2="right-down-way3(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-1(d)(d)(d)(d)" node2="malkuth-2-2(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-2(d)(d)(d)(d)" node2="malkuth-2-3(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way4(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way1(d)(d)(d)(d)" node2="left-down-way2(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way2(d)(d)(d)(d)" node2="left-down-way3(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-1(d)(d)(d)(d)" node2="malkuth-3-2(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-2(d)(d)(d)(d)" node2="malkuth-3-3(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)" node2="center-way1(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)" node2="malkuth-0-1(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)" node2="right-upper-way1(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)" node2="malkuth-1-1(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)" node2="left-upper-way1(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)" node2="right-down-way1(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)" node2="left-down-way1(d)(d)(d)(d)" type="door" />
+    <edge node1="right-down-way3(d)(d)(d)(d)" node2="malkuth-2-1(d)(d)(d)(d)" type="door" />
+    <edge node1="left-down-way3(d)(d)(d)(d)" node2="malkuth-3-1(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-2-3(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-3-3(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-0-6(d)(d)(d)(d)" node2="right-way1(d)(d)(d)(d)" type="door" />
+    <edge node1="right-way1(d)(d)(d)(d)" node2="right-way2(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way2(d)(d)(d)(d)" node2="right-way3(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way3(d)(d)(d)(d)" node2="right-way4(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-1-6(d)(d)(d)(d)" node2="left-way1(d)(d)(d)(d)" type="door" />
+    <edge node1="left-way1(d)(d)(d)(d)" node2="left-way2(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way2(d)(d)(d)(d)" node2="left-way3(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way3(d)(d)(d)(d)" node2="left-way4(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)" node2="sefira-malkuth-2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-2(d)(d)(d)(d)(d)" node2="sefira-malkuth-3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-3(d)(d)(d)(d)(d)" node2="sefira-malkuth-4(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-4(d)(d)(d)(d)(d)" node2="sefira-malkuth-5(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)(d)" node2="sefira-malkuth-6(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-6(d)(d)(d)(d)(d)" node2="sefira-malkuth-7(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-7(d)(d)(d)(d)(d)" node2="sefira-malkuth-8(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-8(d)(d)(d)(d)(d)" node2="sefira-malkuth-9(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="center-way1(d)(d)(d)(d)(d)" node2="center-way2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-1(d)(d)(d)(d)(d)" node2="malkuth-0-2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-2(d)(d)(d)(d)(d)" node2="malkuth-0-3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-3(d)(d)(d)(d)(d)" node2="malkuth-0-4(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-4(d)(d)(d)(d)(d)" node2="malkuth-0-5(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-5(d)(d)(d)(d)(d)" node2="malkuth-0-6(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-1(d)(d)(d)(d)(d)" node2="malkuth-1-2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-2(d)(d)(d)(d)(d)" node2="malkuth-1-3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-3(d)(d)(d)(d)(d)" node2="malkuth-1-4(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-4(d)(d)(d)(d)(d)" node2="malkuth-1-5(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-5(d)(d)(d)(d)(d)" node2="malkuth-1-6(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way1(d)(d)(d)(d)(d)" node2="right-upper-way2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way2(d)(d)(d)(d)(d)" node2="right-upper-way3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way3(d)(d)(d)(d)(d)" node2="right-upper-way4(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way1(d)(d)(d)(d)(d)" node2="left-upper-way2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way2(d)(d)(d)(d)(d)" node2="left-upper-way3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way3(d)(d)(d)(d)(d)" node2="left-upper-way4(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way4(d)(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way1(d)(d)(d)(d)(d)" node2="right-down-way2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way2(d)(d)(d)(d)(d)" node2="right-down-way3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-1(d)(d)(d)(d)(d)" node2="malkuth-2-2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-2(d)(d)(d)(d)(d)" node2="malkuth-2-3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way4(d)(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way1(d)(d)(d)(d)(d)" node2="left-down-way2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way2(d)(d)(d)(d)(d)" node2="left-down-way3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-1(d)(d)(d)(d)(d)" node2="malkuth-3-2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-2(d)(d)(d)(d)(d)" node2="malkuth-3-3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)(d)" node2="center-way1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)(d)" node2="malkuth-0-1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)(d)" node2="right-upper-way1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)" node2="malkuth-1-1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)" node2="left-upper-way1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)(d)" node2="right-down-way1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)(d)" node2="left-down-way1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="right-down-way3(d)(d)(d)(d)(d)" node2="malkuth-2-1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="left-down-way3(d)(d)(d)(d)(d)" node2="malkuth-3-1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-2-3(d)(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-3-3(d)(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-0-6(d)(d)(d)(d)(d)" node2="right-way1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="right-way1(d)(d)(d)(d)(d)" node2="right-way2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way2(d)(d)(d)(d)(d)" node2="right-way3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way3(d)(d)(d)(d)(d)" node2="right-way4(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-1-6(d)(d)(d)(d)(d)" node2="left-way1(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="left-way1(d)(d)(d)(d)(d)" node2="left-way2(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way2(d)(d)(d)(d)(d)" node2="left-way3(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way3(d)(d)(d)(d)(d)" node2="left-way4(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-2(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-3(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-4(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-4(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-5(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-6(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-6(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-7(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-7(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-8(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-8(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-9(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="center-way1(d)(d)(d)(d)(d)(d)" node2="center-way2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-1(d)(d)(d)(d)(d)(d)" node2="malkuth-0-2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-2(d)(d)(d)(d)(d)(d)" node2="malkuth-0-3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-3(d)(d)(d)(d)(d)(d)" node2="malkuth-0-4(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-4(d)(d)(d)(d)(d)(d)" node2="malkuth-0-5(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-5(d)(d)(d)(d)(d)(d)" node2="malkuth-0-6(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-1(d)(d)(d)(d)(d)(d)" node2="malkuth-1-2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-2(d)(d)(d)(d)(d)(d)" node2="malkuth-1-3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-3(d)(d)(d)(d)(d)(d)" node2="malkuth-1-4(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-4(d)(d)(d)(d)(d)(d)" node2="malkuth-1-5(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-5(d)(d)(d)(d)(d)(d)" node2="malkuth-1-6(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way1(d)(d)(d)(d)(d)(d)" node2="right-upper-way2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way2(d)(d)(d)(d)(d)(d)" node2="right-upper-way3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way3(d)(d)(d)(d)(d)(d)" node2="right-upper-way4(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way1(d)(d)(d)(d)(d)(d)" node2="left-upper-way2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way2(d)(d)(d)(d)(d)(d)" node2="left-upper-way3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way3(d)(d)(d)(d)(d)(d)" node2="left-upper-way4(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way4(d)(d)(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way1(d)(d)(d)(d)(d)(d)" node2="right-down-way2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way2(d)(d)(d)(d)(d)(d)" node2="right-down-way3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-1(d)(d)(d)(d)(d)(d)" node2="malkuth-2-2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-2(d)(d)(d)(d)(d)(d)" node2="malkuth-2-3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way4(d)(d)(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way1(d)(d)(d)(d)(d)(d)" node2="left-down-way2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way2(d)(d)(d)(d)(d)(d)" node2="left-down-way3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-1(d)(d)(d)(d)(d)(d)" node2="malkuth-3-2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-2(d)(d)(d)(d)(d)(d)" node2="malkuth-3-3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)(d)(d)" node2="center-way1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)(d)(d)" node2="malkuth-0-1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)(d)(d)" node2="right-upper-way1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)" node2="malkuth-1-1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)" node2="left-upper-way1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)(d)(d)" node2="right-down-way1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)(d)(d)" node2="left-down-way1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="right-down-way3(d)(d)(d)(d)(d)(d)" node2="malkuth-2-1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="left-down-way3(d)(d)(d)(d)(d)(d)" node2="malkuth-3-1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-2-3(d)(d)(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-3-3(d)(d)(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-0-6(d)(d)(d)(d)(d)(d)" node2="right-way1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="right-way1(d)(d)(d)(d)(d)(d)" node2="right-way2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way2(d)(d)(d)(d)(d)(d)" node2="right-way3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way3(d)(d)(d)(d)(d)(d)" node2="right-way4(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-1-6(d)(d)(d)(d)(d)(d)" node2="left-way1(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="left-way1(d)(d)(d)(d)(d)(d)" node2="left-way2(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way2(d)(d)(d)(d)(d)(d)" node2="left-way3(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way3(d)(d)(d)(d)(d)(d)" node2="left-way4(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-2(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-3(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-4(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-4(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-5(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-6(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-6(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-7(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-7(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-8(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-8(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-9(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="center-way1(d)(d)(d)(d)(d)(d)(d)" node2="center-way2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-1(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-2(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-3(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-4(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-4(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-5(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-5(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-6(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-1(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-2(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-3(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-4(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-4(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-5(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-5(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-6(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way1(d)(d)(d)(d)(d)(d)(d)" node2="right-upper-way2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way2(d)(d)(d)(d)(d)(d)(d)" node2="right-upper-way3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way3(d)(d)(d)(d)(d)(d)(d)" node2="right-upper-way4(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way1(d)(d)(d)(d)(d)(d)(d)" node2="left-upper-way2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way2(d)(d)(d)(d)(d)(d)(d)" node2="left-upper-way3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way3(d)(d)(d)(d)(d)(d)(d)" node2="left-upper-way4(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way4(d)(d)(d)(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way1(d)(d)(d)(d)(d)(d)(d)" node2="right-down-way2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way2(d)(d)(d)(d)(d)(d)(d)" node2="right-down-way3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-1(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-2-2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-2(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-2-3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way4(d)(d)(d)(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way1(d)(d)(d)(d)(d)(d)(d)" node2="left-down-way2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way2(d)(d)(d)(d)(d)(d)(d)" node2="left-down-way3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-1(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-3-2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-2(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-3-3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)(d)(d)(d)" node2="center-way1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)(d)(d)(d)" node2="right-upper-way1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)(d)" node2="left-upper-way1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)(d)(d)(d)" node2="right-down-way1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)(d)(d)(d)" node2="left-down-way1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="right-down-way3(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-2-1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="left-down-way3(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-3-1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-2-3(d)(d)(d)(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-3-3(d)(d)(d)(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-0-6(d)(d)(d)(d)(d)(d)(d)" node2="right-way1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="right-way1(d)(d)(d)(d)(d)(d)(d)" node2="right-way2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way2(d)(d)(d)(d)(d)(d)(d)" node2="right-way3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way3(d)(d)(d)(d)(d)(d)(d)" node2="right-way4(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-1-6(d)(d)(d)(d)(d)(d)(d)" node2="left-way1(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="left-way1(d)(d)(d)(d)(d)(d)(d)" node2="left-way2(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way2(d)(d)(d)(d)(d)(d)(d)" node2="left-way3(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way3(d)(d)(d)(d)(d)(d)(d)" node2="left-way4(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-2(d)(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-3(d)(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-4(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-4(d)(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-5(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-6(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-6(d)(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-7(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-7(d)(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-8(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-8(d)(d)(d)(d)(d)(d)(d)(d)" node2="sefira-malkuth-9(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="center-way1(d)(d)(d)(d)(d)(d)(d)(d)" node2="center-way2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-1(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-2(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-3(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-4(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-4(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-5(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-0-5(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-6(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-1(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-2(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-3(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-4(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-4(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-5(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-1-5(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-6(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way1(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-upper-way2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way2(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-upper-way3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-upper-way3(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-upper-way4(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way1(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-upper-way2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way2(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-upper-way3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-upper-way3(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-upper-way4(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way4(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way1(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-down-way2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-down-way2(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-down-way3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-1(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-2-2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-2-2(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-2-3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way4(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way1(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-down-way2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-down-way2(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-down-way3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-1(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-3-2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="malkuth-3-2(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-3-3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="sefira-malkuth-5(d)(d)(d)(d)(d)(d)(d)(d)" node2="center-way1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-0-1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-9(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-upper-way1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-1-1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="sefira-malkuth-1(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-upper-way1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-down-way1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="center-way2(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-down-way1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="right-down-way3(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-2-1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="left-down-way3(d)(d)(d)(d)(d)(d)(d)(d)" node2="malkuth-3-1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-2-3(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-way5(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-3-3(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-way5(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-0-6(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-way1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="right-way1(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-way2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way2(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-way3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="right-way3(d)(d)(d)(d)(d)(d)(d)(d)" node2="right-way4(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="malkuth-1-6(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-way1(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+    <edge node1="left-way1(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-way2(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way2(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-way3(d)(d)(d)(d)(d)(d)(d)(d)" type="road" />
+    <edge node1="left-way3(d)(d)(d)(d)(d)(d)(d)(d)" node2="left-way4(d)(d)(d)(d)(d)(d)(d)(d)" type="door" />
+  </edge_list>
+</map_graph>

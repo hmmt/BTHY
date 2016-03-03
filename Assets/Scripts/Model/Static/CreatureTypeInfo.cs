@@ -120,5 +120,7 @@ public class CreatureTypeInfo
     public XmlNodeList nodeInfo;
     public XmlNodeList edgeInfo;
 
+	public GameObject workerAnim;
+
     public Sprite tempPortrait;
 }
