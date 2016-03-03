@@ -65,7 +65,8 @@ public class UseSkill : ActionClassBase
     {
         workCount = 0;
         totalTickNum = tickNum;
-        workSpeed = speed;
+        //workSpeed = speed;
+		workSpeed = 1f;
         //totalFeeling = feeling;
 
         // 성향에 따른 보너스
@@ -420,6 +421,9 @@ public class UseSkill : ActionClassBase
 
         agentView.showSkillIcon.turnOnDoingSkillIcon(true);
         agentView.showSkillIcon.showDoingSkillIcon(skillInfo, agent);
+
+		agentView.puppetAnim.speed = 6.0f; 
+		agentView.puppetAnim.SetBool("Memo", true);
 
         string speech;
         agent.speechTable.TryGetValue("work_start", out speech);

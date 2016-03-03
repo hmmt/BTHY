@@ -443,6 +443,10 @@ public class AgentUnit : MonoBehaviour {
         }
 	}
 
+	public void SetAgentAnimatorModel()
+	{
+	}
+
 	public void OpenStatusWindow()
 	{
         return;

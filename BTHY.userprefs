@@ -1,12 +1,20 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BackgroundTouchArea.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Map/MapGraph.cs">
     <Files>
-      <File FileName="Assets/OverlayObject.cs" Line="18" Column="2" />
-      <File FileName="Assets/Scripts/Model/AgentModel.cs" Line="806" Column="6" />
-      <File FileName="Assets/Scripts/AI/TempAgentAI.cs" Line="14" Column="50" />
-      <File FileName="Assets/Scripts/Model/CreatureModel.cs" Line="31" Column="25" />
-      <File FileName="Assets/Scripts/BackgroundTouchArea.cs" Line="22" Column="1" />
+      <File FileName="Assets/Tools/Map/ToolMapEdge.cs" Line="28" Column="3" />
+      <File FileName="Assets/Tools/ToolMapGraph_Editor.cs" Line="18" Column="3" />
+      <File FileName="Assets/Scripts/Map/MapGraph.cs" Line="132" Column="31" />
+      <File FileName="Assets/Scripts/GameStaticDataLoader.cs" Line="1" Column="1" />
+      <File FileName="Assets/Tools/Map/ToolMapRoot.cs" Line="138" Column="6" />
+      <File FileName="Assets/Tools/Map/ToolMapPassage.cs" Line="39" Column="37" />
+      <File FileName="Assets/Tools/Map/ToolMapSefiraArea.cs" Line="12" Column="3" />
+      <File FileName="Assets/Tools/Map/ToolMapNode.cs" Line="28" Column="15" />
+      <File FileName="Assets/Scripts/Unit/SefiraMapLayer.cs" Line="41" Column="3" />
+      <File FileName="Assets/Scripts/Unit/SefiraObject.cs" Line="83" Column="38" />
+      <File FileName="Assets/Scripts/Map/MapArea.cs" Line="49" Column="10" />
+      <File FileName="Assets/Resources/xml/MapGraphT2.xml" Line="20" Column="31" />
+      <File FileName="Assets/Scripts/Unknown/SefiraManager.cs" Line="630" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

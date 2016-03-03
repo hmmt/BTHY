@@ -122,18 +122,44 @@ public class MapGraph : IObserver
         }
     }
 
-    public void LoadMap()
+	public void LoadMap()
+	{
+		if (loaded)
+			return;
+		/*
+		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
+		XmlDocument doc = new XmlDocument();
+		doc.LoadXml(textAsset.text);
+
+		XmlNode nodeXml = doc.SelectSingleNode ("/node_list");
+
+		textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
+		doc = new XmlDocument();
+		doc.LoadXml(textAsset.text);
+
+		XmlNode edgeXml = doc.SelectSingleNode ("/edge_list");
+
+		*/
+
+		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph");
+		//TextAsset textAsset = Resources.Load<TextAsset>("xml/M_3");
+		XmlDocument doc = new XmlDocument();
+		doc.LoadXml(textAsset.text);
+
+		XmlNode nodeXml = doc.SelectSingleNode ("/map_graph/node_list");
+		XmlNode edgeXml = doc.SelectSingleNode ("/map_graph/edge_list");
+		LoadMap (nodeXml, edgeXml);
+	}
+	public void LoadMap(XmlNode nodeRoot, XmlNode edgeRoot)
     {
-        int groupCount = 1;
+		int groupCount = 1;
 
-        if (loaded)
-            return;
-        TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
-
+		/*
         XmlDocument doc = new XmlDocument();
-        doc.LoadXml(textAsset.text);
+		doc.LoadXml(xmlText);
+		*/
 
-        XmlNodeList areaNodes = doc.SelectNodes("/node_list/area");
+		XmlNodeList areaNodes = nodeRoot.SelectNodes("area");
 
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
         Dictionary<string, List<MapNode>> sefiraNodesDic = new Dictionary<string, List<MapNode>>();
@@ -162,17 +188,18 @@ public class MapGraph : IObserver
                     groupCount++;
 
                     XmlAttributeCollection attrs = nodeGroup.Attributes;
-                    XmlNode passageTypeIdNode = attrs.GetNamedItem("typeId");
+                    //XmlNode passageTypeIdNode = attrs.GetNamedItem("typeId");
+					XmlNode passageSrcNode = attrs.GetNamedItem("src");
                     XmlNode passageXNode = attrs.GetNamedItem("x");
                     XmlNode passageYNode = attrs.GetNamedItem("y");
                     PassageObjectModel passage = null;
-                    if (passageTypeIdNode != null)
+					if (passageSrcNode != null)
                     {
-                        long passageTypeId = long.Parse(passageTypeIdNode.InnerText);
+                        //long passageTypeId = long.Parse(passageTypeIdNode.InnerText);
                         float x = 0, y = 0;
                         if (passageXNode != null) x = float.Parse(passageXNode.InnerText);
                         if (passageYNode != null) y = float.Parse(passageYNode.InnerText);
-                        passage = new PassageObjectModel(groupName, areaName, PassageObjectTypeList.instance.GetData(passageTypeId));
+						passage = new PassageObjectModel(groupName, areaName, passageSrcNode.InnerText);
                         passage.position = new Vector3(x, y, 0);
                     }
                     
@@ -249,12 +276,8 @@ public class MapGraph : IObserver
             additionalSefiraDic.Add(areaName, additionalSefira);
         }
 
-        textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
 
-        doc = new XmlDocument();
-        doc.LoadXml(textAsset.text);
-
-        XmlNodeList nodes = doc.SelectNodes("/edge_list/edge");
+		XmlNodeList nodes = edgeRoot.SelectNodes("edge");
 
         List<MapEdge> edgeList = new List<MapEdge>();
 

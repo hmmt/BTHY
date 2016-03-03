@@ -164,7 +164,7 @@ public class CreatureManager : IObserver{
 
 		PassageObjectModel passage = null;
 
-		passage = new PassageObjectModel(nodeId+"@creature", entryNode.GetAreaName(), PassageObjectTypeList.instance.GetVoidData());
+		passage = new PassageObjectModel(nodeId+"@creature", entryNode.GetAreaName(), "Map/Passage/PassageEmpty");
 		passage.position = new Vector3(x, y, 0);
 		int doorCount = 1;
 
@@ -206,7 +206,7 @@ public class CreatureManager : IObserver{
 
 				string roomDoorId = passage.GetId() + "@" + doorCount;
 				outterNode.SetClosable(true);
-				DoorObjectModel outterDoor = new DoorObjectModel(roomDoorId, "DoorRight", passage, outterNode);
+				DoorObjectModel outterDoor = new DoorObjectModel(roomDoorId, "DoorMiddle", passage, outterNode);
 				outterDoor.position = new Vector3(outterNode.GetPosition().x, outterNode.GetPosition().y, -0.01f);
 				passage.AddDoor(outterDoor);
 				outterNode.SetDoor(outterDoor);
@@ -238,7 +238,7 @@ public class CreatureManager : IObserver{
 
 				string roomDoorId = passage.GetId() + "@" + doorCount;
 				innerNode.SetClosable(true);
-				DoorObjectModel innerDoor = new DoorObjectModel(roomDoorId, "DoorRight", passage, innerNode);
+				DoorObjectModel innerDoor = new DoorObjectModel(roomDoorId, "DoorIsolate", passage, innerNode);
 				innerDoor.position = new Vector3(innerNode.GetPosition().x, innerNode.GetPosition().y, -0.01f);
 				passage.AddDoor(innerDoor);
 				innerNode.SetDoor(innerDoor);

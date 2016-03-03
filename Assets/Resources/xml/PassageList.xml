@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <passage_list>
   <passage id="1">
-    <src>Map/Passage/PassageLong</src>
+    <src>Map/Passage/PassageHallway</src>
   </passage>
   <passage id="2">
     <src>Map/Passage/PassageShort</src>

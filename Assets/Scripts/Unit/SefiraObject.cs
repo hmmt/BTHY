@@ -55,7 +55,7 @@ public class SefiraObject : MonoBehaviour {
     public void AddPassageObject(PassageObjectModel model)
     {
         //passageObj.
-        GameObject passageObj = Prefab.LoadPrefab(model.GetMetaInfo().prefabSrc);
+		GameObject passageObj = Prefab.LoadPrefab(model.GetSrc());
 
         PassageObject passageScript = passageObj.GetComponent<PassageObject>();
 

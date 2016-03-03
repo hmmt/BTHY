@@ -113,6 +113,7 @@ public class TempAgentAI : MonoBehaviour, IObserver {
 				}
 			}
 		}
+		Notice.instance.Send ("nico");
 	}
 
 	private void OnChangeWorkPriority()
