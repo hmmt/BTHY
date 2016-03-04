@@ -37,6 +37,8 @@ public class CreatureManager : IObserver{
     public List<CreatureModel> HodCreature = new List<CreatureModel>();
     public List<CreatureModel> YessodCreature = new List<CreatureModel>();
 
+    public List<SefiraState> sefiraState = new List<SefiraState>();
+    
     public SefiraState malkuthState = SefiraState.NOT_ENOUGH_AGENT;
     public SefiraState nezzachState = SefiraState.NOT_ENOUGH_AGENT;
     public SefiraState hodState = SefiraState.NOT_ENOUGH_AGENT;
@@ -302,7 +304,13 @@ public class CreatureManager : IObserver{
 	public void Init()
 	{
 		creatureList = new List<CreatureModel> ();
-        
+
+        for (int i = 0; i < SefiraManager.instance.sefiraList.Count; i++) {
+            SefiraState state = new SefiraState();
+            state = SefiraState.NOT_ENOUGH_AGENT;
+            this.sefiraState.Add(state);
+        }
+
         Notice.instance.Observe(NoticeName.ChangeAgentSefira_Late, this);
 	}
 
@@ -448,6 +456,19 @@ public class CreatureManager : IObserver{
 
     private void OnChangeAgentSefira()
     {
+        foreach (Sefira sefira in SefiraManager.instance.sefiraList) {
+            SefiraState target = sefiraState[sefira.index-1];
+            if (sefira.agentList.Count == 0)
+            {
+                target = SefiraState.NOT_ENOUGH_AGENT;
+                creatureStateWorse(sefira.name);
+            }
+            else {
+                target = SefiraState.NORMAL;
+                creatureStateNormal(sefira.name);
+            }
+        }
+        /*
         if (AgentManager.instance.malkuthAgentList.Count == 0)
         {
             malkuthState = SefiraState.NOT_ENOUGH_AGENT;
@@ -491,6 +512,7 @@ public class CreatureManager : IObserver{
             yessodState = SefiraState.NORMAL;
             creatureStateNormal("Yessod");
         }
+         */
     }
 
     public void OnNotice(string notice, params object[] param)
