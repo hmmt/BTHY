@@ -83,7 +83,7 @@ public class AgentLayer : MonoBehaviour, IObserver {
     public void RemoveAgent(AgentModel model)
     {
         AgentUnit unit = GetAgent(model.instanceId);
-
+        if (unit == null) return;
         agentList.Remove(unit);
         Destroy(unit.gameObject);
     }

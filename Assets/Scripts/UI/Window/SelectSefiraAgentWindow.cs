@@ -70,6 +70,7 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
     public void addSefiraList(AgentModel agent)
     {
+        /*
         if (targetSefiraName == "1")
         {
             if (AgentManager.instance.malkuthAgentList.Count < 5)
@@ -109,6 +110,17 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
             else
                 Debug.Log("예소드 초과");
         }
+         */
+
+        Sefira sefira = SefiraManager.instance.getSefira(targetSefiraName);
+        if (sefira.agentList.Count < 5)
+        {
+            agent.SetCurrentSefira(targetSefiraName);
+        }
+        else {
+            Debug.Log(sefira.name + " 초과");
+        }
+
         listScript.ShowAgentListD();
     }
 

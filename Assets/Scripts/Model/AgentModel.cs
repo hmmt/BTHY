@@ -704,6 +704,7 @@ public class AgentModel : WorkerModel
     {
         string old = currentSefira;
         currentSefira = sefira;
+        /*
         switch (currentSefira)
         {
             case "0":
@@ -726,7 +727,7 @@ public class AgentModel : WorkerModel
             bodyImgSrc = "Sprites/Agent/Body/Body_1_S_00";
         else
             bodyImgSrc = "Sprites/Agent/Body/Body_" + currentSefira + "_S_00";
-
+        */
         waitTimer = 0;
         Notice.instance.Send(NoticeName.ChangeAgentSefira, this, old);
     }

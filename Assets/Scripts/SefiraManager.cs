@@ -283,11 +283,15 @@ public class Sefira
     }
 
     public void AddUnit(OfficerModel add) {
+        
         officerList.Add(add);
         officerCnt++;
     }
 
     public void AddAgent(AgentModel add) {
+        if (this.agentList.Contains(add)) {
+            return;
+        }
         agentList.Add(add); 
         //Debug.Log("agentList");
         /*
@@ -297,6 +301,7 @@ public class Sefira
     }
 
     public void RemoveAgent(AgentModel unit) {
+        
         agentList.Remove(unit);
     }
 

@@ -9,7 +9,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
     {
 		OnInit ();
     }
-
+#if FALSE
 	// temporary
 	void CancelSefiraAgent(AgentModel unit)
 	{
@@ -93,6 +93,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 			StartCoroutine(om.StartAction());
 		}
 	}
+#endif
 	public void OnInit()
 	{
 		OnLoadMapGraph();

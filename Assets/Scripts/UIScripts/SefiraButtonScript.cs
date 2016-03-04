@@ -30,55 +30,28 @@ public class SefiraButtonScript : MonoBehaviour {
     public void SetSefira(string sefira) {
         
         string current = model.currentSefira;
+        Sefira targetSefira = SefiraManager.instance.getSefira(sefira);
 
-        if (sefira.Equals(current))
+        if (targetSefira == null)
         {
-            Debug.Log("같은 부서");
+            Debug.Log("세피라 입력 에러");
+            return;
         }
-        else
-        {
-            if (sefira == "1")
+        else {
+            if (targetSefira == SefiraManager.instance.getSefira(model.currentSefira))
             {
-                if (AgentManager.instance.malkuthAgentList.Count < 5)
+                Debug.Log("같은 부서");
+            }
+            else
+            {
+                if (targetSefira.agentList.Count < 5)
                 {
-                    model.SetCurrentSefira(sefira);
+                    model.SetCurrentSefira(targetSefira.indexString);
                 }
                 else
-                    Debug.Log("말쿠트 초과");
+                    Debug.Log(targetSefira.name + " 수용 직원 인원 초과");
             }
-
-            else if (sefira == "2")
-            {
-                if (AgentManager.instance.nezzachAgentList.Count < 5)
-                {
-                    model.SetCurrentSefira(sefira);
-                }
-                else
-                    Debug.Log("네짜흐 초과");
-            }
-
-            else if (sefira == "3")
-            {
-                if (AgentManager.instance.hodAgentList.Count < 5)
-                {
-                    model.SetCurrentSefira(sefira);
-                }
-                else
-                    Debug.Log("호드 초과");
-            }
-
-            else if (sefira == "4")
-            {
-                if (AgentManager.instance.yesodAgentList.Count < 5)
-                {
-                    model.SetCurrentSefira(sefira);
-                }
-                else
-                    Debug.Log("예소드 초과");
-            }
-
         }
-
         sc.extended = -1;
         sc.ShowAgentListD();
     }
