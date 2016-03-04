@@ -20,19 +20,17 @@ public class OfficerModel : WorkerModel {
     private OfficerCmdState _state = OfficerCmdState.START;
 	public OfficerCmdState state {
 		get{ return _state;}
-		set{ _state = value; Debug.Log (_state); }
+		set{ _state = value; }
 	}
     private OfficerUnit _unit;
-
-    private WorkerCommandQueue commandQueue;
 
     public OfficerModel(int id, string area) {
         commandQueue = new WorkerCommandQueue(this);
 
         instanceId = id;
         currentSefira = sefira = area;
-        MovableNode = new MovableObjectNode(this);
-        MovableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
+        movableNode = new MovableObjectNode(this);
+        movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         recoveryRate = 2;
         elapsedTime = 0.0f;
         this.mentalReturn = SefiraManager.instance.getSefira(area).GetOfficerMentalRecoverValue();
@@ -58,9 +56,9 @@ public class OfficerModel : WorkerModel {
         }
 
         if (state == OfficerCmdState.DOCUMENT){
-            MovableNode.ProcessMoveNode(movement / 2);
+            movableNode.ProcessMoveNode(movement / 2);
         }
-        else    MovableNode.ProcessMoveNode(movement);
+        else    movableNode.ProcessMoveNode(movement);
 
     }
 
@@ -82,69 +80,80 @@ public class OfficerModel : WorkerModel {
             //make next status
             int randState = UnityEngine.Random.Range(0, 5);
             //int randState = 1;
-            switch (randState) { 
-                case 0:
-                    state = OfficerCmdState.IDLE;
-                    //Debug.Log(this.name+"멍때림");
+            switch (randState)
+			{ 
+            case 0:
+                state = OfficerCmdState.IDLE;
+                //Debug.Log(this.name+"멍때림");
+                waitTimer = 1.5f + 5 * UnityEngine.Random.value;
+                break;
+            case 1:
+                state = OfficerCmdState.MEMO_MOVE;
+                this.target = SefiraManager.instance.getSefira(currentSefira).GetIdleCreature();
+                if (this.target == null) {
+                    //Debug.Log("메모할 곳 없음");
                     waitTimer = 1.5f + 5 * UnityEngine.Random.value;
+                    state = OfficerCmdState.IDLE;
                     break;
-                case 1:
-                    state = OfficerCmdState.MEMO_MOVE;
-                    this.target = SefiraManager.instance.getSefira(currentSefira).GetIdleCreature();
-                    if (this.target == null) {
-                        //Debug.Log("메모할 곳 없음");
-                        waitTimer = 1.5f + 5 * UnityEngine.Random.value;
-                        state = OfficerCmdState.IDLE;
-                        break;
-                    }
-                    //this.MoveToCreatureRoom(this.target);
-                    this.isMoving = true;
-                    waitTimer = 90f;
-                    break;
-                case 2:
-                    state = OfficerCmdState.CHAT;
-                    //Debug.Log(this.name + "Chatting");
-                    waitTimer = 10f;
-                    this.chatWaiting = true;
-                    foreach (OfficerModel om in OfficeManager.instance.GetOfficerListBySefira(currentSefira)) {
-                        if (om.Equals(this)) continue;
-                        if (om.chatWaiting == true) {
-                            //Debug.Log(this.name + "있군");
-                            this.chatWaiting = om.chatWaiting = false;
-                            this.chatTarget = om;
-                            om.chatTarget = this;
-                            MapNode movetarget = om.GetConnectedNode(); 
-                            if (movetarget == null) {
-                                //Debug.Log("일단대기");
-                                state = OfficerCmdState.IDLE;
-                                break;
-                            }
-                            this.MovableNode.MoveToNode(om.GetConnectedNode());
-                            this.isMoving = true;
-                            om.isMoving = true;
+                }
+                //this.MoveToCreatureRoom(this.target);
+				MoveToNode(this.target.GetWorkspaceNode());
+
+                this.isMoving = true;
+                waitTimer = 90f;
+                break;
+            case 2:
+                state = OfficerCmdState.CHAT;
+                //Debug.Log(this.name + "Chatting");
+                waitTimer = 10f;
+                this.chatWaiting = true;
+                foreach (OfficerModel om in OfficeManager.instance.GetOfficerListBySefira(currentSefira)) {
+                    if (om.Equals(this)) continue;
+                    if (om.chatWaiting == true) {
+                        //Debug.Log(this.name + "있군");
+                        this.chatWaiting = om.chatWaiting = false;
+                        this.chatTarget = om;
+                        om.chatTarget = this;
+                        MapNode movetarget = om.GetConnectedNode(); 
+                        if (movetarget == null) {
+                            //Debug.Log("일단대기");
+                            state = OfficerCmdState.IDLE;
                             break;
                         }
+                        
+						//this.movableNode.MoveToNode(om.GetConnectedNode());
+						MoveToNode(om.GetConnectedNode());
+
+
+                        this.isMoving = true;
+                        om.isMoving = true;
+                        break;
                     }
-                    if (this.chatWaiting == true) {
-                        //Debug.Log(this.name + "없군");
-                    }
-                    break;
-                case 3:
-                    state = OfficerCmdState.DOCUMENT;
-                    //Debug.Log(this.name + "Document carrying");
-                    waitTimer = 90f;
-                    //MovableNode.MoveToNode(MapGraph.instance.GetSefiraDeptNodes(currentSefira));
-                    MovableNode.MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetOtherDepartNode(deptNum));
-                    _unit.puppetAnim.SetBool("Document", true);
-                    this.isMoving = true;
-                    break;
-                case 4:
-                    state = OfficerCmdState.IDLE;
-                   // Debug.Log(this.name + "이동멍");
-                    waitTimer = 1.5f + 5 * UnityEngine.Random.value;
-                   MovableNode.MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetDepartNodeByRandom(deptNum));
-                    ReturnToSefira();
-                    break;
+                }
+                if (this.chatWaiting == true) {
+                    //Debug.Log(this.name + "없군");
+                }
+                break;
+            case 3:
+                state = OfficerCmdState.DOCUMENT;
+                //Debug.Log(this.name + "Document carrying");
+                waitTimer = 90f;
+                //MovableNode.MoveToNode(MapGraph.instance.GetSefiraDeptNodes(currentSefira));
+                //movableNode.MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetOtherDepartNode(deptNum));
+				MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetOtherDepartNode(deptNum));
+
+                _unit.puppetAnim.SetBool("Document", true);
+                this.isMoving = true;
+                break;
+            case 4:
+                state = OfficerCmdState.IDLE;
+               // Debug.Log(this.name + "이동멍");
+                waitTimer = 1.5f + 5 * UnityEngine.Random.value;
+               //movableNode.MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetDepartNodeByRandom(deptNum));
+				MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetDepartNodeByRandom(deptNum));
+
+                ReturnToSefira();
+                break;
             }
         }
         else if(state == OfficerCmdState.CHAT){
@@ -154,7 +163,7 @@ public class OfficerModel : WorkerModel {
                 state = OfficerCmdState.IDLE;
             }
             else if (!chatWaiting){
-                if (!MovableNode.IsMoving() && isMoving) {
+                if (!movableNode.IsMoving() && isMoving) {
                     //Debug.Log(this.name + "도착");
                     isMoving = false;
                     chatTarget.isMoving = false;
@@ -169,7 +178,7 @@ public class OfficerModel : WorkerModel {
             }
         }
         else if (state == OfficerCmdState.DOCUMENT){
-            if (!MovableNode.IsMoving() && isMoving) {
+            if (!movableNode.IsMoving() && isMoving) {
                 isMoving = false;
                 waitTimer = 5f;
                 _unit.puppetAnim.SetBool("Document", false);
@@ -182,7 +191,7 @@ public class OfficerModel : WorkerModel {
         }
         else if (state == OfficerCmdState.MEMO_MOVE || state == OfficerCmdState.MEMO_STAY)
         {
-            if (!MovableNode.IsMoving() && isMoving) {
+            if (!movableNode.IsMoving() && isMoving) {
                 isMoving = false;
                 waitTimer = 10f;//can affected by Work Speed
                 _unit.puppetAnim.SetBool("Memo", true);
@@ -198,7 +207,7 @@ public class OfficerModel : WorkerModel {
             }
         }
         else if(state == OfficerCmdState.RETURN){
-            if (!MovableNode.IsMoving() && isMoving) {
+            if (!movableNode.IsMoving() && isMoving) {
                 isMoving = false;
                 state  =OfficerCmdState.IDLE;
                 waitTimer = 1.5f + 5 * UnityEngine.Random.value;
@@ -278,14 +287,6 @@ public class OfficerModel : WorkerModel {
                 CurrentPanicAction = new PanicReturn(this);
                 return;
         }
-    }
-
-    public override void InteractWithDoor(DoorObjectModel door)
-    {
-        base.InteractWithDoor(door);
-
-        if(commandQueue.GetCurrentCmd() == null)
-        commandQueue.AddFirst(WorkerCommand.MakeOpenDoor(door));
     }
 
     public void SetUnit(OfficerUnit unit) {

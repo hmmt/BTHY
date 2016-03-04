@@ -33,7 +33,7 @@ public class PanicOpenRoom : PanicAction {
                 {
                     if (targetCreature == null)
                     {
-                        CreatureModel[] creatureList = CreatureManager.instance.GetCreatureList();
+                        CreatureModel[] creatureList = CreatureManager.instance.GetCrea	tureList();
                         if (creatureList.Length > 0)
                         {
                             targetCreature = creatureList[Random.Range(0, creatureList.Length)];

@@ -23,9 +23,9 @@ public class PanicWander : PanicAction {
 
     public void Execute()
     {
-        if (worker.MovableNode.IsMoving() == false) { 
+        if (worker.movableNode.IsMoving() == false) { 
             Debug.Log("PanicAction");
-            worker.MovableNode.MoveToNode(GetRandomNodeByRandom());
+            worker.movableNode.MoveToNode(GetRandomNodeByRandom());
         }
     }
 }

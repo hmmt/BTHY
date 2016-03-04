@@ -66,7 +66,7 @@ public class AgentModel : WorkerModel
     // 이하 save 되지 않는 데이터들
     private ValueInfo levelSetting;
     private AgentCmdState state = AgentCmdState.IDLE;
-    private WorkerCommandQueue commandQueue;
+    
 
     public Sprite[] StatusSprites = new Sprite[4];
     public Sprite[] WorklistSprites = new Sprite[3];
@@ -94,7 +94,7 @@ public class AgentModel : WorkerModel
 
     public AgentModel(int id, string area)
     {
-        MovableNode = new MovableObjectNode(this);
+        movableNode = new MovableObjectNode(this);
         commandQueue = new WorkerCommandQueue(this);
 
         traitList = new List<TraitTypeInfo>();
@@ -104,7 +104,7 @@ public class AgentModel : WorkerModel
         //currentSefira = area;
         currentSefira = "0";
         SetCurrentSefira(area);
-        MovableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
+        movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         history = new AgentHistory();
 
         tempHairSprite = AgentLayer.currentLayer.GetAgentHair();
@@ -190,7 +190,7 @@ public class AgentModel : WorkerModel
             return;
         ProcessAction();
 
-        MovableNode.ProcessMoveNode(movement);
+        movableNode.ProcessMoveNode(movement);
     }
 
     public void checkAgentLifeValue(TraitTypeInfo addTrait)
@@ -485,9 +485,9 @@ public class AgentModel : WorkerModel
         }
         else if (state == AgentCmdState.SUPPRESS_WORKING)
         {
-            if (!MovableNode.CheckInRange(targetWorker.MovableNode) && waitTimer <= 0)
+            if (!movableNode.CheckInRange(targetWorker.movableNode) && waitTimer <= 0)
             {
-                MovableNode.MoveToMovableNode(targetWorker.MovableNode);
+                movableNode.MoveToMovableNode(targetWorker.movableNode);
                 waitTimer = 1.5f + Random.value;
             }
         }
@@ -528,7 +528,7 @@ public class AgentModel : WorkerModel
     {
         state = AgentCmdState.CAPTURE_BY_CREATURE;
         commandQueue.SetAgentCommand(WorkerCommand.MakeCaptureByCreatue());
-        MovableNode.StopMoving();
+        movableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void WorkEscape(CreatureModel target)
@@ -661,7 +661,7 @@ public class AgentModel : WorkerModel
     public void PanicSuppressed()
     {
         //state = AgentCmdState.PANIC_SUPPRESS_TARGET;
-        MovableNode.StopMoving();
+        movableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
@@ -669,12 +669,7 @@ public class AgentModel : WorkerModel
 
     // state 관련 함수들 end
 
-    public override void InteractWithDoor(DoorObjectModel door)
-    {
-        base.InteractWithDoor(door);
-
-        commandQueue.AddFirst(WorkerCommand.MakeOpenDoor(door));
-    }
+    
 
 	// method about managing
 	public float GetSuccessProb(SkillTypeInfo skill)

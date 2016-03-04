@@ -69,6 +69,7 @@ public class WorkEscapedCreature : ActionClassBase {
 
     void FixedUpdate()
     {
+		/*
         if (state == WorkState.MOVING)
         {
             if (creature.GetMovableNode().CheckInRange(agent.GetMovableNode(), 1.5f))
@@ -94,7 +95,7 @@ public class WorkEscapedCreature : ActionClassBase {
             timer -= 1;
             proccess();
         }
-
+        */
     }
 
     public static void Create(AgentModel agent, CreatureModel creature)

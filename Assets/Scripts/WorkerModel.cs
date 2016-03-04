@@ -5,6 +5,8 @@ using System;
 
 public class WorkerModel: ObjectModelBase, IObserver {
     public int instanceId;
+
+	protected WorkerCommandQueue commandQueue;
     
     public string name;
     public int hp;
@@ -49,13 +51,13 @@ public class WorkerModel: ObjectModelBase, IObserver {
             currentPanicAction = value;
         }
     }
-    private MovableObjectNode movableNode;
-    public MovableObjectNode MovableNode { 
+	private MovableObjectNode _movableNode;
+    public MovableObjectNode movableNode { 
         get{
-            return movableNode;
+            return _movableNode;
         }
         set {
-            movableNode = value;
+            _movableNode = value;
         }
     }
 
@@ -71,15 +73,15 @@ public class WorkerModel: ObjectModelBase, IObserver {
         this.currentSefira = area;
         this.sefira = area;
         this.instanceId = instanceId;
-        this.movableNode = new MovableObjectNode();
-        this.movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
+        this._movableNode = new MovableObjectNode();
+        this._movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
     }
 
     public WorkerModel(int instanceId, Sefira area) {
         this.sefira = area.indexString;
         this.instanceId = instanceId;
-        this.movableNode = new MovableObjectNode();
-        this.movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area.indexString));
+        this._movableNode = new MovableObjectNode();
+        this._movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area.indexString));
         this.currentSefira = area.indexString;
     }
 
@@ -165,7 +167,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
 
     public virtual void OnFixedUpdate() { 
         ProcessAction();
-        movableNode.ProcessMoveNode(movement);
+        _movableNode.ProcessMoveNode(movement);
     }
 
     public virtual void ProcessAction() { 
@@ -174,32 +176,32 @@ public class WorkerModel: ObjectModelBase, IObserver {
 
     public virtual MovableObjectNode GetMovableNode()
     {
-        return movableNode;
+        return _movableNode;
     }
 
     public virtual Vector3 GetCurrentViewPosition()
     {
-        return movableNode.GetCurrentViewPosition();
+        return _movableNode.GetCurrentViewPosition();
     }
 
     public virtual MapNode GetCurrentNode()
     {
-        return movableNode.GetCurrentNode();
+        return _movableNode.GetCurrentNode();
     }
 
     public virtual void SetCurrentNode(MapNode node)
     {
-        movableNode.SetCurrentNode(node);
+        _movableNode.SetCurrentNode(node);
     }
 
     public virtual MapEdge GetCurrentEdge()
     {
-        return movableNode.GetCurrentEdge();
+        return _movableNode.GetCurrentEdge();
     }
 
     public virtual int GetEdgeDirection()
     {
-        return movableNode.GetEdgeDirection();
+        return _movableNode.GetEdgeDirection();
     }
 
     //Get Command State
@@ -208,14 +210,15 @@ public class WorkerModel: ObjectModelBase, IObserver {
         SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
     }
 
-    public virtual void MoveToNode(string targetNodeID)
-    {
-        movableNode.MoveToNode(MapGraph.instance.GetNodeById(targetNodeID));
-    }
+	public void MoveToNode(MapNode targetNode)
+	{
+		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(targetNode));
+	}
 
-    public virtual void MoveToCreature(CreatureModel target)
-    { 
-        movableNode.MoveToMovableNode(target.GetMovableNode());
+    public void MoveToNode(string targetNodeID)
+    {
+        //movableNode.MoveToNode(MapGraph.instance.GetNodeById(targetNodeID));
+		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(MapGraph.instance.GetNodeById(targetNodeID)));
     }
 
     public virtual bool isDead()
@@ -243,7 +246,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
     }
 
     public MapNode GetConnectedNode() {
-        MapNode pos = this.movableNode.GetCurrentNode();
+        MapNode pos = this._movableNode.GetCurrentNode();
         //Debug.Log(pos);
         MapNode connected = null;
         if(pos == null) return null;
@@ -287,11 +290,12 @@ public class WorkerModel: ObjectModelBase, IObserver {
         //state setting
     }
 
-    public virtual void OnNotice(string notice, params object[] param){
-        if(notice == NoticeName.FixedUpdate){
-            OnFixedUpdate();
-        }
-    }
+	public override void InteractWithDoor(DoorObjectModel door)
+	{
+		base.InteractWithDoor(door);
+
+		commandQueue.AddFirst(WorkerCommand.MakeOpenDoor(door));
+	}
 
     public static int CompareByName(WorkerModel x, WorkerModel y)
     {
@@ -315,24 +319,6 @@ public class WorkerModel: ObjectModelBase, IObserver {
         }
     }
 
-    public static int CompareByID(WorkerModel x, WorkerModel y){
-        if (x == null || y == null){
-            Debug.Log("Error to compare");
-            return 0;
-        }
-        return x.instanceId.CompareTo(y.instanceId);
-    }
-
-    public static int CompareBySefira(WorkerModel x, WorkerModel y){
-        if (x == null || y == null){
-            Debug.Log("Error to compare");
-            return 0;
-        }
-        int xIndex = SefiraManager.instance.getSefira(x.sefira).index;
-        int yIndex = SefiraManager.instance.getSefira(y.sefira).index;
-        return xIndex.CompareTo(yIndex);
-    }
-
     public virtual void SetPanicState() {
         this.panicFlag = true;
     }
@@ -342,8 +328,8 @@ public class WorkerModel: ObjectModelBase, IObserver {
     }
 
     public virtual bool IsInSefira() {
-        MapNode node = MovableNode.GetCurrentNode();
-        MapEdge edge = MovableNode.GetCurrentEdge();
+        MapNode node = movableNode.GetCurrentNode();
+        MapEdge edge = movableNode.GetCurrentEdge();
         //MapNode[] sefiraNodes = SefiraManager.instance.getSefira(currentSefira)
         if (node != null)
         {
@@ -371,4 +357,31 @@ public class WorkerModel: ObjectModelBase, IObserver {
         return false;
     }
 
+
+	public virtual void OnNotice(string notice, params object[] param){
+		if(notice == NoticeName.FixedUpdate){
+			OnFixedUpdate();
+		}
+	}
+
+
+	//// static methods
+
+	public static int CompareByID(WorkerModel x, WorkerModel y){
+		if (x == null || y == null){
+			Debug.Log("Error to compare");
+			return 0;
+		}
+		return x.instanceId.CompareTo(y.instanceId);
+	}
+
+	public static int CompareBySefira(WorkerModel x, WorkerModel y){
+		if (x == null || y == null){
+			Debug.Log("Error to compare");
+			return 0;
+		}
+		int xIndex = SefiraManager.instance.getSefira(x.sefira).index;
+		int yIndex = SefiraManager.instance.getSefira(y.sefira).index;
+		return xIndex.CompareTo(yIndex);
+	}
 }
