@@ -73,7 +73,7 @@ public class OfficeManager : IObserver {
         unit.hp = unit.maxMental = info.hp;
         unit.mental = unit.maxMental = info.mental;
         unit.movement = info.movement;
-        unit.workSpeed = info.work;
+        //unit.workSpeed = info.work;
 
         unit.gender = info.gender;
 

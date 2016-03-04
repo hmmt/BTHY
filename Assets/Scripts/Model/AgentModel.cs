@@ -66,7 +66,7 @@ public class AgentModel : WorkerModel
     // 이하 save 되지 않는 데이터들
     private ValueInfo levelSetting;
     private AgentCmdState state = AgentCmdState.IDLE;
-    private AgentCommandQueue commandQueue;
+    private WorkerCommandQueue commandQueue;
 
     public Sprite[] StatusSprites = new Sprite[4];
     public Sprite[] WorklistSprites = new Sprite[3];
@@ -95,7 +95,7 @@ public class AgentModel : WorkerModel
     public AgentModel(int id, string area)
     {
         MovableNode = new MovableObjectNode(this);
-        commandQueue = new AgentCommandQueue(this);
+        commandQueue = new WorkerCommandQueue(this);
 
         traitList = new List<TraitTypeInfo>();
 		skillList = new List<SkillTypeInfo> ();
@@ -131,6 +131,8 @@ public class AgentModel : WorkerModel
         output.Add("preferBonus", preferBonus);
         output.Add("reject", reject);
         output.Add("rejectBonus", rejectBonus);
+
+		output.Add("workSpeed", workSpeed);
     /*
         output.Add("directSkillId", directSkill.id);
         output.Add("indirectSkillId", indirectSkill.id);
@@ -166,6 +168,8 @@ public class AgentModel : WorkerModel
         TryGetValue(dic, "preferBonus", ref preferBonus);
         TryGetValue(dic, "reject", ref reject);
         TryGetValue(dic, "rejectBonus", ref rejectBonus);
+
+		TryGetValue(dic, "workSpeed", ref workSpeed);
 		/*
         long id = 0;
         TryGetValue(dic, "directSkillId", ref id);
@@ -462,7 +466,7 @@ public class AgentModel : WorkerModel
             if (waitTimer <= 0)
             {
                 //MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
-                commandQueue.SetAgentCommand(AgentCommand.MakeMove(MapGraph.instance.GetSepiraNodeByRandom(currentSefira)));
+                commandQueue.SetAgentCommand(WorkerCommand.MakeMove(MapGraph.instance.GetSepiraNodeByRandom(currentSefira)));
                 waitTimer = 1.5f + Random.value;
             }
         }
@@ -504,13 +508,13 @@ public class AgentModel : WorkerModel
         return state;
     }
 
-	public AgentCommand GetCurrentCommand()
+	public WorkerCommand GetCurrentCommand()
 	{
 		return commandQueue.GetCurrentCmd ();
 	}
     public AgentCmdType GetCurrentCommandType()
     {
-        AgentCommand cmd = commandQueue.GetCurrentCmd();
+        WorkerCommand cmd = commandQueue.GetCurrentCmd();
         if (cmd == null)
             return AgentCmdType.NONE;
         return cmd.type;
@@ -523,14 +527,14 @@ public class AgentModel : WorkerModel
     public void AttackedByCreature()
     {
         state = AgentCmdState.CAPTURE_BY_CREATURE;
-        commandQueue.SetAgentCommand(AgentCommand.MakeCaptureByCreatue());
+        commandQueue.SetAgentCommand(WorkerCommand.MakeCaptureByCreatue());
         MovableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void WorkEscape(CreatureModel target)
     {
         state = AgentCmdState.ESCAPE_WORKING;
-        commandQueue.SetAgentCommand(AgentCommand.MakeEscapeWorking(target));
+        commandQueue.SetAgentCommand(WorkerCommand.MakeEscapeWorking(target));
         this.target = target;
         //MoveToCreture(target);
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
@@ -546,8 +550,8 @@ public class AgentModel : WorkerModel
 		state = AgentCmdState.WORKING;
 		this.target = target;
 		commandQueue.Clear ();
-		commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
-		commandQueue.AddLast(AgentCommand.MakeManageCreature(target, this, skill));
+		commandQueue.AddFirst(WorkerCommand.MakeMove(target.GetWorkspaceNode()));
+		commandQueue.AddLast(WorkerCommand.MakeManageCreature(target, this, skill));
 
         //send Message to work slot(SelectWorkAgentWindow)
         object[] sendMessage = new object[3];
@@ -562,8 +566,8 @@ public class AgentModel : WorkerModel
 		state = AgentCmdState.WORKING;
 		this.target = target;
 		commandQueue.Clear ();
-		commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
-		commandQueue.AddLast(AgentCommand.MakeObserveCreature(target));
+		commandQueue.AddFirst(WorkerCommand.MakeMove(target.GetWorkspaceNode()));
+		commandQueue.AddLast(WorkerCommand.MakeObserveCreature(target));
 	}
 
 
@@ -571,8 +575,8 @@ public class AgentModel : WorkerModel
     {
         state = AgentCmdState.WORKING;
         commandQueue.Clear();
-        commandQueue.AddFirst(AgentCommand.MakeMove(target.GetWorkspaceNode()));
-        commandQueue.AddLast(AgentCommand.MakeWorking(target));
+        commandQueue.AddFirst(WorkerCommand.MakeMove(target.GetWorkspaceNode()));
+        commandQueue.AddLast(WorkerCommand.MakeWorking(target));
         this.target = target;
         //base.MoveToCreatureRoom(target);
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
@@ -581,7 +585,7 @@ public class AgentModel : WorkerModel
     public void ReturnCreature()
     {
         state = AgentCmdState.RETURN_CREATURE;
-        commandQueue.SetAgentCommand(AgentCommand.MakeReturnCreature());
+        commandQueue.SetAgentCommand(WorkerCommand.MakeReturnCreature());
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void FinishWorking()
@@ -642,14 +646,14 @@ public class AgentModel : WorkerModel
     public void OpenIsolateRoom()
     {
         state = AgentCmdState.OPEN_ROOM;
-        commandQueue.SetAgentCommand(AgentCommand.MakeOpenRoom());
+        commandQueue.SetAgentCommand(WorkerCommand.MakeOpenRoom());
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     public void StartSuppressAgent(AgentModel targetWorker)
     {
         state = AgentCmdState.SUPPRESS_WORKING;
-        commandQueue.SetAgentCommand(AgentCommand.MakeSuppressWorking(targetWorker));
+        commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker));
         this.targetWorker = targetWorker;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
@@ -669,7 +673,7 @@ public class AgentModel : WorkerModel
     {
         base.InteractWithDoor(door);
 
-        commandQueue.AddFirst(AgentCommand.MakeOpenDoor(door));
+        commandQueue.AddFirst(WorkerCommand.MakeOpenDoor(door));
     }
 
 	// method about managing

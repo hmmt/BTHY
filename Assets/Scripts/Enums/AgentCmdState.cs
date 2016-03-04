@@ -84,16 +84,15 @@ public enum OfficerCmdState {
     DEAD
 }
 
-public class AgentCommand
+public class WorkerCommand
 {
     public AgentCmdType type;
 
     // parameters
     //public ObjectModelBase targetObject;
     public CreatureModel targetCreature;
-    public AgentModel targetAgent;
+    public WorkerModel targetAgent;
 
-    public MovableObjectNode targetNode;
     public DoorObjectModel targetDoor;
 
     public ActionClassBase action;
@@ -146,75 +145,75 @@ public class AgentCommand
         isFinished = true;
     }
 
-    public static AgentCommand MakeEscapeWorking(CreatureModel targetCreature)
+    public static WorkerCommand MakeEscapeWorking(CreatureModel targetCreature)
     {
-        AgentCommand cmd = new AgentCommand();
+        WorkerCommand cmd = new WorkerCommand();
         cmd.type = AgentCmdType.ESCAPE_WORKING;
         cmd.targetCreature = targetCreature;
         return cmd;
     }
-    public static AgentCommand MakeWorking(CreatureModel targetCreature)
+    public static WorkerCommand MakeWorking(CreatureModel targetCreature)
     {
-        AgentCommand cmd = new AgentCommand();
+        WorkerCommand cmd = new WorkerCommand();
         cmd.type = AgentCmdType.MANAGE_CREATURE;
         cmd.targetCreature = targetCreature;
         //cmd.action = action;
         return cmd;
     }
 		
-	public static AgentCommand MakeObserveCreature(CreatureModel targetCreature)
+	public static WorkerCommand MakeObserveCreature(CreatureModel targetCreature)
 	{
 		ObserveCreatureAgentCommand cmd = new ObserveCreatureAgentCommand (targetCreature);
 		cmd.type = AgentCmdType.OBSERVE_CREATURE;
 
 		return cmd;
 	}
-	public static AgentCommand MakeManageCreature(CreatureModel targetCreature, AgentModel agent, SkillTypeInfo skill)
+	public static WorkerCommand MakeManageCreature(CreatureModel targetCreature, AgentModel agent, SkillTypeInfo skill)
 	{
 		ManageCreatureAgentCommand cmd = new ManageCreatureAgentCommand (targetCreature, agent, skill);
 		cmd.type = AgentCmdType.MANAGE_CREATURE;
 
 		return cmd;
 	}
-    public static AgentCommand MakeReturnCreature()
+    public static WorkerCommand MakeReturnCreature()
     {
-        AgentCommand cmd = new AgentCommand();
+        WorkerCommand cmd = new WorkerCommand();
         cmd.type = AgentCmdType.RETURN_CREATURE;
         return cmd;
     }
 
-    public static AgentCommand MakeOpenRoom()
+    public static WorkerCommand MakeOpenRoom()
     {
-        AgentCommand cmd = new AgentCommand();
+        WorkerCommand cmd = new WorkerCommand();
         cmd.type = AgentCmdType.OPEN_ROOM;
         return cmd;
     }
 
-    public static AgentCommand MakeSuppressWorking(AgentModel targetAgent)
+    public static WorkerCommand MakeSuppressWorking(AgentModel targetAgent)
     {
-        AgentCommand cmd = new AgentCommand();
+        WorkerCommand cmd = new WorkerCommand();
         cmd.type = AgentCmdType.SUPPRESS_WORKING;
         cmd.targetAgent = targetAgent;
         return cmd;
     }
 
-    public static AgentCommand MakeOpenDoor(DoorObjectModel door)
+    public static WorkerCommand MakeOpenDoor(DoorObjectModel door)
     {
         OpenDoorAgnetCommand cmd = new OpenDoorAgnetCommand(door);
         cmd.type = AgentCmdType.OPEN_DOOR;
         return cmd;
     }
 
-    public static AgentCommand MakeCaptureByCreatue()
+    public static WorkerCommand MakeCaptureByCreatue()
     {
-        AgentCommand cmd = new AgentCommand();
+        WorkerCommand cmd = new WorkerCommand();
         cmd.type = AgentCmdType.CAPTURE_BY_CREATURE;
         return cmd;
     }
 
-    public static AgentCommand MakeMove(MapNode node)
+    public static WorkerCommand MakeMove(MapNode node)
     {
-        MoveAgentCommand cmd = new MoveAgentCommand(node);
+        MoveWorkerCommand cmd = new MoveWorkerCommand(node);
         cmd.type = AgentCmdType.MOVE;
         return cmd;
     }
@@ -222,12 +221,12 @@ public class AgentCommand
     //public static AgentCommand MakePanic
 }
 
-public class MoveAgentCommand : AgentCommand
+public class MoveWorkerCommand : WorkerCommand
 {
     //public MovableObjectNode targetNode;
     public MapNode targetNode;
 
-    public MoveAgentCommand(MapNode targetNode)
+    public MoveWorkerCommand(MapNode targetNode)
     {
         this.targetNode = targetNode;
     }
@@ -260,7 +259,7 @@ public class MoveAgentCommand : AgentCommand
     }
 }
 
-public class OpenDoorAgnetCommand : AgentCommand
+public class OpenDoorAgnetCommand : WorkerCommand
 {
     private DoorObjectModel door;
     private float elapsedTime;
@@ -293,7 +292,7 @@ public class OpenDoorAgnetCommand : AgentCommand
     }
 }
 
-public class ManageCreatureAgentCommand : AgentCommand
+public class ManageCreatureAgentCommand : WorkerCommand
 {
 	private AgentModel[] coopAgents;
 	private SkillTypeInfo skill;
@@ -373,7 +372,7 @@ public class ManageCreatureAgentCommand : AgentCommand
 	}
 }
 
-public class ObserveCreatureAgentCommand : AgentCommand
+public class ObserveCreatureAgentCommand : WorkerCommand
 {
 	public ObserveCreatureAgentCommand(CreatureModel targetCreature)
 	{
@@ -405,18 +404,18 @@ public class ObserveCreatureAgentCommand : AgentCommand
 
 }
 
-public class AgentCommandQueue
+public class WorkerCommandQueue
 {
-    private LinkedList<AgentCommand> queue;
+    private LinkedList<WorkerCommand> queue;
     private WorkerModel agent;
     
-    public AgentCommandQueue(WorkerModel agent)
+    public WorkerCommandQueue(WorkerModel agent)
     {
-        queue = new LinkedList<AgentCommand>();
+        queue = new LinkedList<WorkerCommand>();
         this.agent = agent;
     }
 
-    public AgentCommand GetCurrentCmd()
+    public WorkerCommand GetCurrentCmd()
     {
         if (queue.Count <= 0)
         {
@@ -432,7 +431,7 @@ public class AgentCommandQueue
     {
         if (queue.Count > 0)
         {
-            AgentCommand cmd = queue.First.Value;
+            WorkerCommand cmd = queue.First.Value;
 
             cmd.Execute(agent);
 
@@ -455,7 +454,7 @@ public class AgentCommandQueue
     /// </summary>
     public void Clear()
     {
-        foreach (AgentCommand cmd in queue)
+        foreach (WorkerCommand cmd in queue)
         {
             cmd.OnStop(agent);
 			cmd.OnDestroy (agent);
@@ -463,9 +462,9 @@ public class AgentCommandQueue
         queue.Clear();
     }
 
-    public void SetAgentCommand(AgentCommand cmd)
+    public void SetAgentCommand(WorkerCommand cmd)
     {
-        foreach (AgentCommand oldCmd in queue)
+        foreach (WorkerCommand oldCmd in queue)
         {
             oldCmd.OnStop(agent);
         }
@@ -475,7 +474,7 @@ public class AgentCommandQueue
         cmd.OnStart(agent);
     }
 
-    public void AddFirst(AgentCommand cmd)
+    public void AddFirst(WorkerCommand cmd)
     {
         if (queue.Count > 0)
         {
@@ -486,7 +485,7 @@ public class AgentCommandQueue
         cmd.OnStart(agent);
     }
 
-    public void AddLast(AgentCommand cmd)
+    public void AddLast(WorkerCommand cmd)
     {
         queue.AddLast(cmd);
 		cmd.OnInit (agent);

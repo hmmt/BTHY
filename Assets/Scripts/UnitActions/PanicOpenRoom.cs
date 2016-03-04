@@ -14,6 +14,7 @@ public class PanicOpenRoom : PanicAction {
 
     public void Execute()
     {
+		/*
         if (targetAgent.GetState() == AgentCmdState.IDLE)
         {
             if (targetAgent.GetMovableNode().IsMoving() == false)
@@ -42,5 +43,6 @@ public class PanicOpenRoom : PanicAction {
                 }
             }
         }
+        */
     }
 }

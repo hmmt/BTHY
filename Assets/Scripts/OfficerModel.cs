@@ -17,13 +17,17 @@ public class OfficerModel : WorkerModel {
     public int recoveryRate;
     public bool chatWaiting = false;
     public OfficerModel chatTarget;
-    private OfficerCmdState state = OfficerCmdState.START;
+    private OfficerCmdState _state = OfficerCmdState.START;
+	public OfficerCmdState state {
+		get{ return _state;}
+		set{ _state = value; Debug.Log (_state); }
+	}
     private OfficerUnit _unit;
 
-    private AgentCommandQueue commandQueue;
+    private WorkerCommandQueue commandQueue;
 
     public OfficerModel(int id, string area) {
-        commandQueue = new AgentCommandQueue(this);
+        commandQueue = new WorkerCommandQueue(this);
 
         instanceId = id;
         currentSefira = sefira = area;
@@ -76,7 +80,7 @@ public class OfficerModel : WorkerModel {
         else if (state == OfficerCmdState.IDLE && waitTimer <= 0 && !isMoving)
         {
             //make next status
-            int randState = UnityEngine.Random.Range(0, 1);
+            int randState = UnityEngine.Random.Range(0, 5);
             //int randState = 1;
             switch (randState) { 
                 case 0:
@@ -93,7 +97,7 @@ public class OfficerModel : WorkerModel {
                         state = OfficerCmdState.IDLE;
                         break;
                     }
-                    this.MoveToCreatureRoom(this.target);
+                    //this.MoveToCreatureRoom(this.target);
                     this.isMoving = true;
                     waitTimer = 90f;
                     break;
@@ -205,7 +209,9 @@ public class OfficerModel : WorkerModel {
 
     public void MoveToOtherDept() {
         //자신이 속한 구역 이외의 장소로 이동하게끔 수정
-        MoveToNode(MapGraph.instance.GetSefiraDeptNodes(currentSefira).GetId());
+
+        //MoveToNode(MapGraph.instance.GetSefiraDeptNodes(currentSefira).GetId());
+		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(MapGraph.instance.GetSefiraDeptNodes(currentSefira)));
     }
 
     public void ReturnToSefiraFromWork() {
@@ -252,10 +258,6 @@ public class OfficerModel : WorkerModel {
         MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetDepartNodeByRandom(deptNum).GetId());
     }
 
-    public override void MoveToCreatureRoom(CreatureModel target) {
-        MovableNode.MoveToNode(target.GetEntryNode());
-    }
-
     public override void PanicReadyComplete()
     {
         //
@@ -283,7 +285,7 @@ public class OfficerModel : WorkerModel {
         base.InteractWithDoor(door);
 
         if(commandQueue.GetCurrentCmd() == null)
-        commandQueue.AddFirst(AgentCommand.MakeOpenDoor(door));
+        commandQueue.AddFirst(WorkerCommand.MakeOpenDoor(door));
     }
 
     public void SetUnit(OfficerUnit unit) {

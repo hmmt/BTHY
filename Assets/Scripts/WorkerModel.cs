@@ -15,7 +15,6 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public int maxMental;
 
     public int movement;
-    public int workSpeed;
 
     public string sefira;//assigned
     public string currentSefira;//now position
@@ -33,7 +32,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public string faceImgSrc;
     public string bodyImgSrc;
 
-    public AgentHistory history;
+    //public AgentHistory history;
 
     public Dictionary<string, string> speechTable = new Dictionary<string, string>();
 
@@ -106,7 +105,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
         output.Add("maxHp", maxHp);
         output.Add("maxMental", maxMental);
         output.Add("sefira", sefira);
-        output.Add("workSpeed", workSpeed);
+        
         output.Add("imgsrc", imgsrc);
         output.Add("speechTable", speechTable);
         output.Add("panicType", panicType);
@@ -135,7 +134,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
         TryGetValue(dic, "speechTable", ref speechTable);
         TryGetValue(dic, "panicType", ref panicType);
         TryGetValue(dic, "currentSefira", ref currentSefira);
-        TryGetValue(dic, "workSpeed", ref workSpeed);
+        
         TryGetValue(dic, "maxHp", ref maxHp);
         TryGetValue(dic, "maxMental", ref maxMental);
         TryGetValue(dic, "sefira", ref sefira);
@@ -217,11 +216,6 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public virtual void MoveToCreature(CreatureModel target)
     { 
         movableNode.MoveToMovableNode(target.GetMovableNode());
-    }
-
-    public virtual void MoveToCreatureRoom(CreatureModel target)
-    {
-        movableNode.MoveToNode(target.GetWorkspaceNode());
     }
 
     public virtual bool isDead()
