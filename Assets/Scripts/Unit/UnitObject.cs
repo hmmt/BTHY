@@ -4,12 +4,8 @@ using System.Collections.Generic;
 public class ObjectModelBase
 {
     public Vector3 position;
-    public string GetType()
-    {
-        return "unknown";
-    }
 
-    public bool CanOpenDoor()
+    public virtual bool CanOpenDoor()
     {
         return true;
     }

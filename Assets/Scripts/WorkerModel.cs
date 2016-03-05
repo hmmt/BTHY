@@ -226,25 +226,6 @@ public class WorkerModel: ObjectModelBase, IObserver {
         return hp <= 0;
     }
 
-    public virtual void Attacked() { 
-        
-    }
-
-    public virtual void WorkEscape()
-    { 
-    
-    }
-
-    public virtual void Working()
-    { 
-    
-    }
-
-    public virtual void FinishWorking()
-    { 
-    
-    }
-
     public MapNode GetConnectedNode() {
         MapNode pos = this._movableNode.GetCurrentNode();
         //Debug.Log(pos);

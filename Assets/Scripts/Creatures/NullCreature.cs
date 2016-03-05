@@ -56,6 +56,7 @@ public class NullCreature : CreatureBase {
             creature.Escape();
         }
         */
+		creature.Escape();
     }
 
     public override SkillTypeInfo GetSpecialSkill()

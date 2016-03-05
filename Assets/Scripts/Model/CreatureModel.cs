@@ -27,9 +27,12 @@ public class Vector2Serializer
 
 // 
 [System.Serializable]
-public class CreatureModel : IObserver
+public class CreatureModel : ObjectModelBase, IObserver
 {
     public int instanceId;
+
+	MovableObjectNode movableNode;
+	CreatureCommandQueue commandQueue;
 
 	// lock
 	public int targetedCount = 0;
@@ -46,11 +49,11 @@ public class CreatureModel : IObserver
     public long metadataId; // metaInfo.id
 
     public Vector2 basePosition;
-    public Vector2 position;
+    //public Vector2 position;
 
     public string entryNodeId;
 
-    //환상체 도감 완성도
+    //?纂삐도감 완성도
     public int observeProgress = 0;
 
     public float feeling { get; private set; }
@@ -87,7 +90,6 @@ public class CreatureModel : IObserver
     private MapNode workspaceNode;
 
     private MapNode roomNode;
-    MovableObjectNode movableNode;
 
     public Dictionary<string, object> GetSaveData()
     {
@@ -128,7 +130,8 @@ public class CreatureModel : IObserver
 
     public CreatureModel(int instanceId)
     {
-        movableNode = new MovableObjectNode();
+        movableNode = new MovableObjectNode(this);
+		commandQueue = new CreatureCommandQueue (this);
 
         this.instanceId = instanceId;
         narrationList = new List<string>();
@@ -262,6 +265,8 @@ public class CreatureModel : IObserver
 
     public void OnFixedUpdate()
     {
+		commandQueue.Execute (this);
+
 		if (energyChangeTime > energyChangeElapsedTime)
 		{
 			ProcessWorkingBuf ();
@@ -288,9 +293,10 @@ public class CreatureModel : IObserver
             }
             else
             {
-                if (movableNode.IsMoving() == false)
+                //if (movableNode.IsMoving() == false)
+				if(commandQueue.GetCurrentCmd() == null)
                 {
-                    movableNode.MoveToNode(workspaceNode);
+                    MoveToNode(workspaceNode);
                 }
             }
         }
@@ -314,9 +320,11 @@ public class CreatureModel : IObserver
     {
         if (escapeAttackWait > 0)
             return;
-        if (movableNode.IsMoving() == false)
+        //if (movableNode.IsMoving() == false)
+		if(commandQueue.GetCurrentCmd() == null)
         {
-            movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+            //movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+			MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
         }
         else
         {
@@ -542,6 +550,7 @@ public class CreatureModel : IObserver
     {
         if (state == CreatureState.WAIT)
         {
+			Debug.Log ("CreatureModel >>> Try Escape ");
             state = CreatureState.ESCAPE;
         }
     }
@@ -557,7 +566,7 @@ public class CreatureModel : IObserver
         return output;
     }
 
-    //환상체 관찰 조건 갱신 함수
+    //환상체 관찰 조건 뻥콥함수
     /*
     public void CheckObserveCondition()
     {
@@ -647,6 +656,23 @@ public class CreatureModel : IObserver
 	public bool IsReady()
 	{
 		return energyChangeElapsedTime >= energyChangeTime;
+	}
+
+	public void MoveToNode(MapNode mapNode)
+	{
+		commandQueue.SetAgentCommand(CreatureCommand.MakeMove(mapNode));
+	}
+
+	public void MoveToNode(string targetNodeID)
+	{
+		commandQueue.SetAgentCommand(CreatureCommand.MakeMove(MapGraph.instance.GetNodeById(targetNodeID)));
+	}
+
+	public override void InteractWithDoor(DoorObjectModel door)
+	{
+		base.InteractWithDoor(door);
+
+		commandQueue.AddFirst(CreatureCommand.MakeOpenDoor(door));
 	}
 
     /*

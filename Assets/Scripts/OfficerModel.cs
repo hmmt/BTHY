@@ -231,11 +231,6 @@ public class OfficerModel : WorkerModel {
         return state;
     }
 
-    public override void FinishWorking() {
-        state = OfficerCmdState.IDLE;
-        this.target = null;
-    }
-
     public override void TakeMentalDamage(int damage)
     {
         base.TakeMentalDamage(damage);
