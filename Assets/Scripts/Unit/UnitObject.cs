@@ -15,6 +15,12 @@ public class ObjectModelBase
     }
 }
 
+public interface MovableObjectModel
+{
+    MovableObjectNode GetMovableObjectNode();
+    void InteractWithDoor(DoorObjectModel door);
+}
+
 
 public class PassageObjectModel : ObjectModelBase
 {

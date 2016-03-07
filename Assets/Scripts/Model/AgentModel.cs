@@ -65,7 +65,7 @@ public class AgentModel : WorkerModel
 
     // 이하 save 되지 않는 데이터들
     private ValueInfo levelSetting;
-    private AgentCmdState state = AgentCmdState.IDLE;
+    private AgentAIState state = AgentAIState.IDLE;
     
 
     public Sprite[] StatusSprites = new Sprite[4];
@@ -458,10 +458,10 @@ public class AgentModel : WorkerModel
 
         if (CurrentPanicAction != null)
         {
-            if (state != AgentCmdState.PANIC_SUPPRESS_TARGET)
+            if (state != AgentAIState.PANIC_SUPPRESS_TARGET)
                 CurrentPanicAction.Execute();
         }
-        else if (state == AgentCmdState.IDLE)
+        else if (state == AgentAIState.IDLE)
         {
             if (waitTimer <= 0)
             {
@@ -470,20 +470,21 @@ public class AgentModel : WorkerModel
                 waitTimer = 1.5f + Random.value;
             }
         }
-        else if (state == AgentCmdState.WORKING)
+            /*
+        else if (state == AgentAIState.MANAGE)
         {
-			/*
             if (MovableNode.GetCurrentEdge() == null && MovableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
                 //MoveToCreatureRoom(target);
                 //commandQueue.SetAgentCommand(AgentCommand.MakeMove(target.GetWorkspaceNode()));
-            }*/
+            }
         }
-        else if (state == AgentCmdState.ESCAPE_WORKING)
+             */
+        else if (state == AgentAIState.SUPPRESS_CREATURE)
         {
             // WorkEscapedCreature에서 실행
         }
-        else if (state == AgentCmdState.SUPPRESS_WORKING)
+        else if (state == AgentAIState.SUPPRESS_WORKER)
         {
             if (!movableNode.CheckInRange(targetWorker.movableNode) && waitTimer <= 0)
             {
@@ -492,7 +493,7 @@ public class AgentModel : WorkerModel
             }
         }
 
-        else if (state == AgentCmdState.DEAD)
+        else if (state == AgentAIState.DEAD)
         {
 
         }
@@ -503,7 +504,7 @@ public class AgentModel : WorkerModel
     /**
      * state 관련 함수들
      **/
-    public AgentCmdState GetState()
+    public AgentAIState GetState()
     {
         return state;
     }
@@ -526,14 +527,16 @@ public class AgentModel : WorkerModel
 	}
     public void AttackedByCreature()
     {
-        state = AgentCmdState.CAPTURE_BY_CREATURE;
+        state = AgentAIState.CAPTURE_BY_CREATURE;
+
         commandQueue.SetAgentCommand(WorkerCommand.MakeCaptureByCreatue());
         movableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
-    public void WorkEscape(CreatureModel target)
+    public void SuppressCreature(CreatureModel target)
     {
-        state = AgentCmdState.ESCAPE_WORKING;
+        state = AgentAIState.SUPPRESS_CREATURE;
+
         commandQueue.SetAgentCommand(WorkerCommand.MakeEscapeWorking(target));
         this.target = target;
         //MoveToCreture(target);
@@ -547,7 +550,7 @@ public class AgentModel : WorkerModel
 		{
 			Debug.LogError ("ManagerCreature >> invalid skill");
 		}
-		state = AgentCmdState.WORKING;
+		state = AgentAIState.MANAGE;
 		this.target = target;
 		commandQueue.Clear ();
 		commandQueue.AddFirst(WorkerCommand.MakeMove(target.GetWorkspaceNode()));
@@ -563,7 +566,8 @@ public class AgentModel : WorkerModel
 	}
 	public void ObserveCreature(CreatureModel target)
 	{
-		state = AgentCmdState.WORKING;
+		state = AgentAIState.OBSERVE;
+
 		this.target = target;
 		commandQueue.Clear ();
 		commandQueue.AddFirst(WorkerCommand.MakeMove(target.GetWorkspaceNode()));
@@ -573,7 +577,7 @@ public class AgentModel : WorkerModel
 
     public void Working(CreatureModel target)
     {
-        state = AgentCmdState.WORKING;
+        state = AgentAIState.MANAGE;
         commandQueue.Clear();
         commandQueue.AddFirst(WorkerCommand.MakeMove(target.GetWorkspaceNode()));
         commandQueue.AddLast(WorkerCommand.MakeWorking(target));
@@ -584,7 +588,7 @@ public class AgentModel : WorkerModel
 
     public void ReturnCreature()
     {
-        state = AgentCmdState.RETURN_CREATURE;
+        state = AgentAIState.RETURN_CREATURE;
         commandQueue.SetAgentCommand(WorkerCommand.MakeReturnCreature());
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
@@ -596,7 +600,7 @@ public class AgentModel : WorkerModel
     }
 	public void StopAction()
 	{
-		state = AgentCmdState.IDLE;
+		state = AgentAIState.IDLE;
 		commandQueue.Clear();
 		//AgentCommand cmd = GetCurrentCommand();
 		this.target = null;
@@ -604,7 +608,7 @@ public class AgentModel : WorkerModel
 	}
     public void UpdateStateIdle()
     {
-        state = AgentCmdState.IDLE;
+        state = AgentAIState.IDLE;
         commandQueue.Clear();
         this.target = null;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
@@ -630,14 +634,14 @@ public class AgentModel : WorkerModel
     /// </summary>
     public void StopPanicAttackAgent()
     {
-        state = AgentCmdState.IDLE;
+        state = AgentAIState.IDLE;
         commandQueue.Clear();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     public void StopSuppress()
     {
-        state = AgentCmdState.IDLE;
+        state = AgentAIState.IDLE;
         commandQueue.Clear();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
@@ -645,14 +649,14 @@ public class AgentModel : WorkerModel
 
     public void OpenIsolateRoom()
     {
-        state = AgentCmdState.OPEN_ROOM;
+        state = AgentAIState.OPEN_ROOM;
         commandQueue.SetAgentCommand(WorkerCommand.MakeOpenRoom());
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     public void StartSuppressAgent(AgentModel targetWorker)
     {
-        state = AgentCmdState.SUPPRESS_WORKING;
+        state = AgentAIState.SUPPRESS_WORKER;
         commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker));
         this.targetWorker = targetWorker;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));

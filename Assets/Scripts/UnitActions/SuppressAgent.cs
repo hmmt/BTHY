@@ -93,7 +93,7 @@ public class SuppressAgent : ActionClassBase {
     {
         if (actorAgent.GetMovableNode().CheckInRange(targetAgent.GetMovableNode()))
         {
-            if (targetAgent.GetState() != AgentCmdState.PANIC_SUPPRESS_TARGET)
+            if (targetAgent.GetState() != AgentAIState.PANIC_SUPPRESS_TARGET)
             {
                 actorAgent.GetMovableNode().StopMoving();
                 targetAgent.PanicSuppressed();
@@ -110,9 +110,9 @@ public class SuppressAgent : ActionClassBase {
 
     public void OnChangeTargetAgentState()
     {
-        if (targetAgent.GetState() != AgentCmdState.PANIC_SUPPRESS_TARGET)
+        if (targetAgent.GetState() != AgentAIState.PANIC_SUPPRESS_TARGET)
         {
-            if (actorAgent.GetState() == AgentCmdState.SUPPRESS_WORKING)
+            if (actorAgent.GetState() == AgentAIState.SUPPRESS_WORKER)
             {
                 actorAgent.StopSuppress();
             }
@@ -123,9 +123,9 @@ public class SuppressAgent : ActionClassBase {
 
     public void OnChangeActorAgentState()
     {
-        if (actorAgent.GetState() != AgentCmdState.SUPPRESS_WORKING)
+        if (actorAgent.GetState() != AgentAIState.SUPPRESS_WORKER)
         {
-            if (targetAgent.GetState() == AgentCmdState.PANIC_SUPPRESS_TARGET)
+            if (targetAgent.GetState() == AgentAIState.PANIC_SUPPRESS_TARGET)
             {
                 targetAgent.UpdateStateIdle();
             }

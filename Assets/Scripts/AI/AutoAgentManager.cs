@@ -22,10 +22,10 @@ public class WorkSettingElement
 }
 
 
-public class TempAgentAI : MonoBehaviour, IObserver {
+public class AutoCommandManager : MonoBehaviour, IObserver {
 
-	private static TempAgentAI _instance;
-	public static TempAgentAI instance
+	private static AutoCommandManager _instance;
+	public static AutoCommandManager instance
 	{
 		get{ return _instance; }
 	}
@@ -76,7 +76,7 @@ public class TempAgentAI : MonoBehaviour, IObserver {
 		List<AgentModel> output = new List<AgentModel> ();
 		foreach (AgentModel agent in agents)
 		{
-			if (agent.GetState () == AgentCmdState.IDLE && !agent.isDead())
+			if (agent.GetState () == AgentAIState.IDLE && !agent.isDead())
 			{
 				output.Add (agent);
 			}
@@ -106,7 +106,7 @@ public class TempAgentAI : MonoBehaviour, IObserver {
 		if (aiList.TryGetValue (targetCreature.instanceId, out setting))
 		{
 			foreach (AgentModel agent in AgentManager.instance.GetAgentList()) {
-				if (agent.GetState () == AgentCmdState.WORKING &&
+				if (agent.GetState () == AgentAIState.MANAGE &&
 				   agent.target != null && agent.target.instanceId == targetCreature.instanceId)
 				{
 					agent.FinishWorking();

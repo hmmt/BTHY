@@ -59,7 +59,8 @@ public class SelectObserveAgentWindow : MonoBehaviour
         int cnt = 0;
         foreach (AgentModel unit in agents)
         {
-            if (unit.GetState() == AgentCmdState.WORKING)
+            AgentAIState state = unit.GetState();
+            if (state == AgentAIState.MANAGE || state == AgentAIState.OBSERVE)
                 continue;
 
             GameObject slot = Prefab.LoadPrefab("AgentSlotPanelObserve");

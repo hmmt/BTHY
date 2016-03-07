@@ -12,31 +12,6 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// 직원의 상태
-/// AgentCmdState에 따라 AgentCommand들이 만들어진다.
-/// </summary>
-public enum AgentCmdState
-{
-    IDLE, // no command
-    WORKING, // working command
-    CAPTURE_BY_CREATURE, // 환상체에게 공격당함
-    CAPTURE_BY_AGENT, // 직원에게 공격당함
-
-    PANIC_SUPPRESS_TARGET, // 제압당하는 중
-
-    ESCAPE_WORKING,
-    SUPPRESS_WORKING, // 제압중
-    OPEN_ROOM,
-
-    OPEN_DOOR,
-
-    RETURN_CREATURE, // 환상체 돌려보내는 중
-
-    PANIC_VIOLENCE, // 직원 공격 중
-    RUN_AWAY, // 도망중
-    DEAD
-}
-/// <summary>
 /// AgentCommand 클래스에서 사용하는 명령어들.
 /// 이동, 작업 등 기본적인 명령어들로 이루어져 있다.
 /// 하나의 AgentCmdState는 일련의 AgentCommand들로 이루어져 있다.
@@ -94,8 +69,6 @@ public class WorkerCommand
     public WorkerModel targetAgent;
 
     public DoorObjectModel targetDoor;
-
-    public ActionClassBase action;
 
     public bool isFinished = false;
 

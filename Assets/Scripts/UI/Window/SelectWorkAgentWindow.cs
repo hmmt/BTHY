@@ -137,9 +137,9 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
     public void SelectEscapeWorkAgent(AgentModel agent)
     {
-        AgentCmdState agentState = agent.GetState();
+        AgentAIState agentState = agent.GetState();
 
-        if (agentState != AgentCmdState.IDLE)
+        if (agentState != AgentAIState.IDLE)
         {
             Debug.Log("agent's state must be IDLE");
             return;
@@ -245,7 +245,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		float posy = 0;
         foreach (AgentModel unit in agents)
 		{
-            if (unit.GetState() == AgentCmdState.WORKING)
+            AgentAIState state = unit.GetState();
+            if (state == AgentAIState.MANAGE || state == AgentAIState.OBSERVE)
                 continue;
 
             if (unit.currentSefira != targetCreature.sefiraNum)

@@ -70,8 +70,8 @@ public class GameManager : MonoBehaviour
 
 	void InitFirst()
 	{
-		if (TempAgentAI.instance == null) {
-			new GameObject ("AgentAI").AddComponent<TempAgentAI>();
+		if (AutoCommandManager.instance == null) {
+			new GameObject ("AgentAI").AddComponent<AutoCommandManager>();
 		}
 	}
 

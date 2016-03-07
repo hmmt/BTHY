@@ -351,7 +351,7 @@ public class AgentUnit : MonoBehaviour {
 
         int randLyricsTick = Random.Range(0, 3000);
         //&& !speechText.IsActive()제거
-        if (model.GetState() == AgentCmdState.IDLE && randLyricsTick == 0 && model.mental > 0 )
+        if (model.GetState() == AgentAIState.IDLE && randLyricsTick == 0 && model.mental > 0 )
         {
             int randLyricsStory = Random.Range(0, 10);
             if (randLyricsStory < 8)

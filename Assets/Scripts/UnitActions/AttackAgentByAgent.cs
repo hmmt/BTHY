@@ -65,9 +65,9 @@ public class AttackAgentByAgent : ActionClassBase {
 
     public void OnChangeTargetAgentState()
     {
-        if (targetAgent.GetState() != AgentCmdState.CAPTURE_BY_AGENT)
+        if (targetAgent.GetState() != AgentAIState.CAPTURE_BY_AGENT)
         {
-            if (panicAgent.GetState() == AgentCmdState.PANIC_VIOLENCE)
+            if (panicAgent.GetState() == AgentAIState.PANIC_VIOLENCE)
             {
                 panicAgent.StopPanicAttackAgent();
             }
@@ -78,9 +78,9 @@ public class AttackAgentByAgent : ActionClassBase {
 
     public void OnChangePanicAgentState()
     {
-        if (panicAgent.GetState() != AgentCmdState.PANIC_VIOLENCE)
+        if (panicAgent.GetState() != AgentAIState.PANIC_VIOLENCE)
         {
-            if (targetAgent.GetState() == AgentCmdState.CAPTURE_BY_AGENT)
+            if (targetAgent.GetState() == AgentAIState.CAPTURE_BY_AGENT)
             {
                 targetAgent.UpdateStateIdle();
             }

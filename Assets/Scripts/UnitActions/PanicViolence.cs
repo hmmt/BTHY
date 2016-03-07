@@ -12,7 +12,7 @@ public class PanicViolence : PanicAction {
 
 	public void Execute()
 	{
-        if (targetAgent.GetState() == AgentCmdState.IDLE)
+        if (targetAgent.GetState() == AgentAIState.IDLE)
         {
             if (targetAgent.GetMovableNode().IsMoving() == false)
             {

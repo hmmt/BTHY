@@ -143,7 +143,10 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
         float posy = 0;
         foreach (AgentModel unit in agents)
         {
-            if (unit.currentSefira == targetSefiraName || unit.GetState() == AgentCmdState.WORKING)
+            AgentAIState state = unit.GetState();
+            if (unit.currentSefira == targetSefiraName
+                || state == AgentAIState.MANAGE
+                || state == AgentAIState.OBSERVE)
                 continue;
             GameObject slot = Prefab.LoadPrefab("AgentSlotPanelSefira");
 

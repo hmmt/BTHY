@@ -92,6 +92,8 @@ public class MoveCreatureCommand : CreatureCommand
 	}
 }
 
+
+
 public class OpenDoorCreatureCommand : CreatureCommand
 {
 	private DoorObjectModel door;
@@ -124,6 +126,59 @@ public class OpenDoorCreatureCommand : CreatureCommand
 		base.OnStop(agent);
 	}
 }
+
+public class AttackWorkerCreatureCommand : CreatureCommand
+{
+    private WorkerModel targetWorker;
+    private float elapsedTime;
+
+    public AttackWorkerCreatureCommand(WorkerModel target)
+    {
+    }
+
+    public override void OnStart(CreatureModel creature)
+    {
+        base.OnStart(creature);
+    }
+    public override void Execute(CreatureModel creature)
+    {
+        base.Execute(creature);
+
+        
+    }
+    public override void OnStop(CreatureModel creature)
+    {
+        base.OnStop(creature);
+    }
+}
+
+public class PursueCreatureCommand : CreatureCommand
+{
+    private WorkerModel targetWorker;
+    private float elapsedTime;
+
+    public PursueCreatureCommand(WorkerModel target)
+    {
+        this.targetWorker = target;
+    }
+
+    public override void OnStart(CreatureModel creature)
+    {
+        base.OnStart(creature);
+    }
+    public override void Execute(CreatureModel creature)
+    {
+        base.Execute(creature);
+
+
+    }
+    public override void OnStop(CreatureModel creature)
+    {
+        base.OnStop(creature);
+    }
+}
+
+
 
 public class CreatureCommandQueue
 {

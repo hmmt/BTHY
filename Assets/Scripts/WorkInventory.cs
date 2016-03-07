@@ -62,7 +62,7 @@ public class WorkInventory : MonoBehaviour {
         WorkSlot script = newObj.GetComponent<WorkSlot>();
         //Debug.Log("createPanel"+ script.NormalState.childCount);
 
-		WorkSettingElement setting = TempAgentAI.instance.GetWorkSetting (targetCreature);
+		WorkSettingElement setting = AutoCommandManager.instance.GetWorkSetting (targetCreature);
 
         //script.ClearCurrentSkill();
 		script.Init(setting, index);

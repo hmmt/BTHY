@@ -658,6 +658,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 		return energyChangeElapsedTime >= energyChangeTime;
 	}
 
+    // commands
+
 	public void MoveToNode(MapNode mapNode)
 	{
 		commandQueue.SetAgentCommand(CreatureCommand.MakeMove(mapNode));
@@ -667,6 +669,11 @@ public class CreatureModel : ObjectModelBase, IObserver
 	{
 		commandQueue.SetAgentCommand(CreatureCommand.MakeMove(MapGraph.instance.GetNodeById(targetNodeID)));
 	}
+
+    public void AttackWorker(WorkerModel target)
+    {
+        
+    }
 
 	public override void InteractWithDoor(DoorObjectModel door)
 	{
