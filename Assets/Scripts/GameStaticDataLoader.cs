@@ -91,6 +91,33 @@ public class GameStaticDataLoader {
 
     }
 
+    public void LoadSkillInfo() {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Work");
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        XmlNodeList skillNodes = doc.SelectNodes("skill");
+
+        List<SkillUnit> skillList = new List<SkillUnit>();
+
+        foreach (XmlNode node in skillNodes) {
+            SkillUnit unit = new SkillUnit();
+            unit.name = node.Attributes.GetNamedItem("name").InnerText;
+            unit.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
+
+            string categoryText = node.Attributes.GetNamedItem("category").InnerText;
+            SkillCategory category = SkillManager.instance.GetCategoryByName(categoryText);
+            if (category == null) {
+                SkillCategory newItem = new SkillCategory(categoryText, int.Parse(node.Attributes.GetNamedItem("tier").InnerText));
+                SkillManager.instance.AddCategory(newItem);
+                category = newItem;
+            }
+
+            category.AddSkill(unit);
+        }
+        SkillManager.instance.SortList();
+    }
+
     public void LoadSystemMessage() {
         TextAsset textAsset = Resources.Load<TextAsset>("xml/Sysmessage");
         XmlDocument doc = new XmlDocument();
@@ -817,7 +844,7 @@ public class GameStaticDataLoader {
 
         PassageObjectTypeList.instance.Init(passsageTypeList.ToArray());
     }
-
+    
     public void LoadCreatureResourceData()
     {
     }

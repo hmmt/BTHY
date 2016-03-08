@@ -5,6 +5,9 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
     public static AgentLayer currentLayer { private set; get; }
 
+    public const int MAX_LEVEL = 5;
+
+    public int[] AgentPromotionCost;
     public Sprite[] hairListTemp;
     public Sprite[] faceListTemp;
     private List<AgentUnit> agentList;

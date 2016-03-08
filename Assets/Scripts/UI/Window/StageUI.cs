@@ -641,7 +641,8 @@ public class StageUI : MonoBehaviour, IObserver {
             Debug.Log("승급버튼 문제");
         }
     }
-
+    
+    //리스트 관련 재배치만 수행하도록
     public void PromoteAgent(AgentModel agent , Button button) {
         int index = agent.level - 1;
         if (EnergyModel.instance.GetLeftEnergy() < levelCost[index])
@@ -669,6 +670,15 @@ public class StageUI : MonoBehaviour, IObserver {
             listScript.SetExtended();
         }
         if (agent.level < 5) button.gameObject.SetActive(true);
+    }
+
+    public void PromoteApply(AgentModel target) {
+        ListSlotScript listSlot = listScript.findListSlotScript(target);
+        listSlot.SetChange();
+
+        if (listScript.extended) {
+            listScript.SetExtended();
+        }
     }
 
     // ok btn

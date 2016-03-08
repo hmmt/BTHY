@@ -89,4 +89,46 @@ public class PromotionPanelScript : MonoBehaviour {
         targetObject.SetActive(true);
         Deactivate();
     }
+
+    private void PromoteAgent() {
+        AgentModel target = this.model;
+        int levelIndex = target.level - 1;
+        
+        if (levelIndex < 0 | levelIndex >= 5) 
+            return;
+        
+        if (target == null)
+            return;
+
+        int cost = AgentLayer.currentLayer.AgentPromotionCost[levelIndex];
+        //energy value
+        if (EnergyModel.instance.GetLeftEnergy() < cost)//에너지 값
+        {
+            //Not enough energy
+            Debug.Log("Not enough Energy");
+            return;
+        }
+        else { 
+            //reduce energy
+            EnergyModel.instance.SetLeftEnergy(EnergyModel.instance.GetLeftEnergy() - cost);
+        }
+
+        TraitTypeInfo[] addList = TraitTypeList.instance.GetTrait(target);
+
+        //model level up
+        target.level = target.level++;
+
+        foreach (TraitTypeInfo trait in addList) {
+            target.applyTrait(trait);
+        }
+
+        target.calcLevel();
+
+        script.ui.promotion.gameObject.SetActive(false);
+
+        //StageUI에서 list 정리 시킬 것
+        StageUI.instance.PromoteApply(target);
+
+        if (target.level < 5) script.ui.promotion.gameObject.SetActive(true);
+    }
 }
