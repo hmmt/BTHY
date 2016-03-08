@@ -17,8 +17,8 @@ public class OfficerModel : WorkerModel {
     public int recoveryRate;
     public bool chatWaiting = false;
     public OfficerModel chatTarget;
-    private OfficerCmdState _state = OfficerCmdState.START;
-	public OfficerCmdState state {
+    private OfficerAIState _state = OfficerAIState.START;
+	public OfficerAIState state {
 		get{ return _state;}
 		set{ _state = value; }
 	}
@@ -55,7 +55,7 @@ public class OfficerModel : WorkerModel {
             else RecoverMental(recoveryRate);
         }
 
-        if (state == OfficerCmdState.DOCUMENT){
+        if (state == OfficerAIState.DOCUMENT){
             movableNode.ProcessMoveNode(movement / 2);
         }
         else    movableNode.ProcessMoveNode(movement);
@@ -64,7 +64,7 @@ public class OfficerModel : WorkerModel {
 
     public IEnumerator<WaitForSeconds> StartAction() {
         yield return new WaitForSeconds(5);
-        this.state = OfficerCmdState.IDLE;
+        this.state = OfficerAIState.IDLE;
     }
 
     public override void ProcessAction()
@@ -75,7 +75,7 @@ public class OfficerModel : WorkerModel {
         {
             CurrentPanicAction.Execute();
         }
-        else if (state == OfficerCmdState.IDLE && waitTimer <= 0 && !isMoving)
+        else if (state == OfficerAIState.IDLE && waitTimer <= 0 && !isMoving)
         {
             //make next status
             int randState = UnityEngine.Random.Range(0, 5);
@@ -83,17 +83,17 @@ public class OfficerModel : WorkerModel {
             switch (randState)
 			{ 
             case 0:
-                state = OfficerCmdState.IDLE;
+                state = OfficerAIState.IDLE;
                 //Debug.Log(this.name+"멍때림");
                 waitTimer = 1.5f + 5 * UnityEngine.Random.value;
                 break;
             case 1:
-                state = OfficerCmdState.MEMO_MOVE;
+                state = OfficerAIState.MEMO_MOVE;
                 this.target = SefiraManager.instance.getSefira(currentSefira).GetIdleCreature();
                 if (this.target == null) {
                     //Debug.Log("메모할 곳 없음");
                     waitTimer = 1.5f + 5 * UnityEngine.Random.value;
-                    state = OfficerCmdState.IDLE;
+                    state = OfficerAIState.IDLE;
                     break;
                 }
                 //this.MoveToCreatureRoom(this.target);
@@ -103,7 +103,7 @@ public class OfficerModel : WorkerModel {
                 waitTimer = 90f;
                 break;
             case 2:
-                state = OfficerCmdState.CHAT;
+                state = OfficerAIState.CHAT;
                 //Debug.Log(this.name + "Chatting");
                 waitTimer = 10f;
                 this.chatWaiting = true;
@@ -117,7 +117,7 @@ public class OfficerModel : WorkerModel {
                         MapNode movetarget = om.GetConnectedNode(); 
                         if (movetarget == null) {
                             //Debug.Log("일단대기");
-                            state = OfficerCmdState.IDLE;
+                            state = OfficerAIState.IDLE;
                             break;
                         }
                         
@@ -135,7 +135,7 @@ public class OfficerModel : WorkerModel {
                 }
                 break;
             case 3:
-                state = OfficerCmdState.DOCUMENT;
+                state = OfficerAIState.DOCUMENT;
                 //Debug.Log(this.name + "Document carrying");
                 waitTimer = 90f;
                 //MovableNode.MoveToNode(MapGraph.instance.GetSefiraDeptNodes(currentSefira));
@@ -146,7 +146,7 @@ public class OfficerModel : WorkerModel {
                 this.isMoving = true;
                 break;
             case 4:
-                state = OfficerCmdState.IDLE;
+                state = OfficerAIState.IDLE;
                // Debug.Log(this.name + "이동멍");
                 waitTimer = 1.5f + 5 * UnityEngine.Random.value;
                //movableNode.MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetDepartNodeByRandom(deptNum));
@@ -156,11 +156,11 @@ public class OfficerModel : WorkerModel {
                 break;
             }
         }
-        else if(state == OfficerCmdState.CHAT){
+        else if(state == OfficerAIState.CHAT){
             if (chatWaiting && waitTimer <= 0) {
                 chatWaiting = false;
                 //Debug.Log(this.name + "아무도없군");
-                state = OfficerCmdState.IDLE;
+                state = OfficerAIState.IDLE;
             }
             else if (!chatWaiting){
                 if (!movableNode.IsMoving() && isMoving) {
@@ -171,13 +171,13 @@ public class OfficerModel : WorkerModel {
                 }
                 else if (!isMoving && waitTimer<=0){
                     ReturnToSefiraFromWork();
-                    state = OfficerCmdState.RETURN;
-                    chatTarget.state = OfficerCmdState.IDLE;
+                    state = OfficerAIState.RETURN;
+                    chatTarget.state = OfficerAIState.IDLE;
                     this.isMoving = true;                    
                 }
             }
         }
-        else if (state == OfficerCmdState.DOCUMENT){
+        else if (state == OfficerAIState.DOCUMENT){
             if (!movableNode.IsMoving() && isMoving) {
                 isMoving = false;
                 waitTimer = 5f;
@@ -185,31 +185,31 @@ public class OfficerModel : WorkerModel {
             }
             else if (!isMoving && waitTimer <= 0) {
                 ReturnToSefiraFromWork();
-                state = OfficerCmdState.RETURN;
+                state = OfficerAIState.RETURN;
                 isMoving = true;
             }
         }
-        else if (state == OfficerCmdState.MEMO_MOVE || state == OfficerCmdState.MEMO_STAY)
+        else if (state == OfficerAIState.MEMO_MOVE || state == OfficerAIState.MEMO_STAY)
         {
             if (!movableNode.IsMoving() && isMoving) {
                 isMoving = false;
                 waitTimer = 10f;//can affected by Work Speed
                 _unit.puppetAnim.SetBool("Memo", true);
-                state = OfficerCmdState.MEMO_STAY;
+                state = OfficerAIState.MEMO_STAY;
             }
             else if(!isMoving && waitTimer <= 0){
                 ReturnToSefiraFromWork();
                 _unit.puppetAnim.SetBool("Memo", false);
                 SefiraManager.instance.getSefira(currentSefira).EndCreatureWork(target);
                 this.target = null;
-                state = OfficerCmdState.RETURN;
+                state = OfficerAIState.RETURN;
                 isMoving = true;
             }
         }
-        else if(state == OfficerCmdState.RETURN){
+        else if(state == OfficerAIState.RETURN){
             if (!movableNode.IsMoving() && isMoving) {
                 isMoving = false;
-                state  =OfficerCmdState.IDLE;
+                state  =OfficerAIState.IDLE;
                 waitTimer = 1.5f + 5 * UnityEngine.Random.value;
             }
         }
@@ -227,7 +227,7 @@ public class OfficerModel : WorkerModel {
         this.ReturnToSefira();
     }
 
-    public OfficerCmdState GetState() {
+    public OfficerAIState GetState() {
         return state;
     }
 
@@ -236,7 +236,7 @@ public class OfficerModel : WorkerModel {
         base.TakeMentalDamage(damage);
         if (mental < 0)
         {
-            state = OfficerCmdState.PANIC;
+            state = OfficerAIState.PANIC;
             Panic();
         }
     }
@@ -244,8 +244,8 @@ public class OfficerModel : WorkerModel {
     public override void RecoverMental(int amount)
     {
         base.RecoverMental(amount);
-        if (mental > mentalReturn && state == OfficerCmdState.PANIC) {
-            state = OfficerCmdState.IDLE;
+        if (mental > mentalReturn && state == OfficerAIState.PANIC) {
+            state = OfficerAIState.IDLE;
             this.CurrentPanicAction = null;
             ReturnToSefira();
         }

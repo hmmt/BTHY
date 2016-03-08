@@ -41,6 +41,9 @@ public class MovableObjectNode {
 
     private PathData pathData = new PathData();
 
+
+	public float currentScale = 1.0f;
+
     // 지울 예정
     public MovableObjectNode()
     {

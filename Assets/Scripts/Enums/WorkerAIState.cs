@@ -45,24 +45,17 @@ public enum AgentAIState
     DEAD
 }
 
-/// <summary>
-/// Officer의 현재 행동 상태
-/// </summary>
-public enum OfficerAIState
-{
-    START, //하루가 시작 될 때 상태
-    IDLE, //대기
-    MEMO_MOVE, //메모 상태
-    MEMO_STAY,
-    CHAT, //채팅
-    DOCUMENT, //문서를 들고 다른 부서로 이동
-    WORKING, //일하는 중?
-    PANIC, //패닉 상태
-    RETURN, //자신의 부서로 돌아가는 상태
-    /*
-    OPEN_DOOR, //문엶
-    RUN_AWAY, //도주
-    */
-
-    DEAD
+public enum OfficerAIState { 
+	START, //窍风啊 矫累 瞪 锭 惑怕
+	IDLE, //措扁
+	MEMO_MOVE, //皋葛 惑怕
+	MEMO_STAY,
+	CHAT, //盲泼
+	DOCUMENT, //巩辑甫 甸绊 促弗 何辑肺 捞悼
+	WORKING, //老窍绰 吝?
+	PANIC, //菩葱 惑怕
+	RETURN, //磊脚狼 何辑肺 倒酒啊绰 惑怕
+	OPEN_DOOR, //巩慨
+	RUN_AWAY, //档林
+	DEAD
 }

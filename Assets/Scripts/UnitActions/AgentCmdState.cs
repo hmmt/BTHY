@@ -44,21 +44,6 @@ public enum AgentCmdType
     DEAD
 }
 
-public enum OfficerCmdState { 
-    START, //하루가 시작 될 때 상태
-    IDLE, //대기
-    MEMO_MOVE, //메모 상태
-    MEMO_STAY,
-    CHAT, //채팅
-    DOCUMENT, //문서를 들고 다른 부서로 이동
-    WORKING, //일하는 중?
-    PANIC, //패닉 상태
-    RETURN, //자신의 부서로 돌아가는 상태
-    OPEN_DOOR, //문엶
-    RUN_AWAY, //도주
-    DEAD
-}
-
 public class WorkerCommand
 {
     public AgentCmdType type;

@@ -225,7 +225,7 @@ public class OfficerUnit : MonoBehaviour {
         oldPosY = transform.localPosition.y;
 
         int randLyricTick = Random.Range(0, 3000);
-        if (model.GetState() == OfficerCmdState.IDLE && randLyricTick == 0 && model.mental > 0 ) {
+        if (model.GetState() == OfficerAIState.IDLE && randLyricTick == 0 && model.mental > 0 ) {
             int randLyricsStroy = Random.Range(0, 10);
             if (randLyricsStroy < 8)
             {

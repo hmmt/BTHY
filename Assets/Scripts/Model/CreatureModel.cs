@@ -271,10 +271,6 @@ public class CreatureModel : ObjectModelBase, IObserver
 		{
 			ProcessWorkingBuf ();
 		}
-		else
-		{
-			GenerateEnergy ();
-		}
 		 
         if (escapeAttackWait > 0)
         {
@@ -306,12 +302,6 @@ public class CreatureModel : ObjectModelBase, IObserver
         }
         else if (state == CreatureState.WAIT)
         {
-            /*
-            if (feeling <= 0)
-            {
-                Escape();
-            }
-            */
         }
         movableNode.ProcessMoveNode(4);
     }
