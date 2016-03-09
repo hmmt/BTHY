@@ -23,9 +23,21 @@ public class MovableObjectNode {
     private MovableState state;
 
     private MapNode lastNode;
-    private MapNode currentNode;
 
-    private MapEdge currentEdge;
+    private MapNode _currentNode;
+    private MapEdge _currentEdge;
+
+	public MapNode currentNode
+	{
+		get{ return _currentNode; }
+	}
+	public MapEdge currentEdge
+	{
+		get{ return _currentEdge; }
+	}
+
+	private PassageObjectModel currentPassage;
+
     public float currentZValue;
 
     public float edgePosRate; // 0~1
@@ -90,6 +102,8 @@ public class MovableObjectNode {
     // 현재 있는 노드가 passage에 속해 있으면 그 passage 반환
     public PassageObjectModel GetPassage()
     {
+		return currentPassage;
+		/*
         if (currentNode != null)
         {
             return currentNode.GetAttachedPassage();
@@ -116,6 +130,7 @@ public class MovableObjectNode {
             Debug.Log("ERROR : invalid node state");
         }
         return null;
+        */
     }
 
     /**
@@ -126,6 +141,8 @@ public class MovableObjectNode {
      */
     public void ProcessMoveNode(int movement)
     {
+		bool stateChanged = false;
+
         // 문에 대한 처리
         if (currentNode != null)
         {
@@ -178,7 +195,7 @@ public class MovableObjectNode {
                     }
                     else
                     {
-                        currentEdge = nextEdge;
+                        /*
                         if (currentEdge.node1 == currentNode)
                         {
                             //edgeDirection = 1;
@@ -187,9 +204,13 @@ public class MovableObjectNode {
                         {
                             //edgeDirection = 0;
                         }
+                        */
                         edgeDirection = nextDirection;
                         edgePosRate = 0;
-                        currentNode = null;
+
+						//currentEdge = nextEdge;
+                        //currentNode = null;
+						UpdateNodeEdge (null, nextEdge);
                     }
                 }
             }
@@ -210,9 +231,11 @@ public class MovableObjectNode {
                             if (edgePosRateGoal == 1) // edge 중간이 아니라 노드로 이동
                             {
                                 if (edgeDirection == 1)
-                                    currentNode = currentEdge.node2;
+									//currentNode = currentEdge.node2;
+									UpdateNodeEdge (currentEdge.node2, null);
                                 else
-                                    currentNode = currentEdge.node1;
+                                    //currentNode = currentEdge.node1;
+									UpdateNodeEdge (currentEdge.node1, null);
                             }
                             pathInfo = null; // 이동 종료
                             state = MovableState.STOP;
@@ -224,12 +247,14 @@ public class MovableObjectNode {
                         if (edgePosRate >= 1)
                         {
                             if (edgeDirection == 1)
-                                currentNode = currentEdge.node2;
+                                //currentNode = currentEdge.node2;
+								UpdateNodeEdge (currentEdge.node2, null);
                             else
-                                currentNode = currentEdge.node1;
+                                //currentNode = currentEdge.node1;
+								UpdateNodeEdge (currentEdge.node1, null);
 
                             edgePosRate = 0;
-                            currentEdge = null;
+                            //currentEdge = null;
                             pathIndex++;
                         }
                     }
@@ -238,8 +263,11 @@ public class MovableObjectNode {
         }
 
 
-        if (currentNode != null)
-            lastNode = currentNode;
+		if (currentNode != null)
+		{
+			currentScale = currentNode.scaleFactor;
+			lastNode = currentNode;
+		}
     }
 
     public bool Equal(MovableObjectNode src)
@@ -263,13 +291,15 @@ public class MovableObjectNode {
     {
         pathInfo = null;
         state = MovableState.STOP;
-        currentNode = node;
-        currentEdge = null;
+        //currentNode = node;
+        //currentEdge = null;
+		UpdateNodeEdge (node, null);
     }
     public void Assign(MovableObjectNode src)
     {
-        currentEdge = src.currentEdge;
-        currentNode = src.currentNode;
+        //currentEdge = src.currentEdge;
+        //currentNode = src.currentNode;
+		UpdateNodeEdge (src.currentNode, src.currentEdge);
         if (src.pathInfo != null)
         {
             pathInfo = new PathResult((MapEdge[])src.pathInfo.pathEdges.Clone(), (int[])src.pathInfo.edgeDirections.Clone());
@@ -332,7 +362,8 @@ public class MovableObjectNode {
                 {
                     edgeDirection = 1;
                 }
-                currentEdge = baseEdge;
+                //currentEdge = baseEdge;
+				UpdateNodeEdge(null, baseEdge);
             }
             else if (currentEdge.node2.isTemporary)
             {
@@ -358,62 +389,69 @@ public class MovableObjectNode {
     }
     public bool CheckInRange(MovableObjectNode other, float range)
     {
-        float distance = -1;
-        if (currentNode != null && other.currentNode != null)
-        {
-            distance = GraphAstar.Distance(currentNode, other.currentNode, range+5);
-        }
-        else if (currentNode == null && currentEdge != null && other.currentNode != null)
-        {
-            MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
-            MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
-            MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
-
-            tempNode.AddEdge(tempEdge1);
-            tempNode.AddEdge(tempEdge2);
-
-            distance = GraphAstar.Distance(tempNode, other.currentNode, range+5);
-        }
-        else if (currentNode != null && other.currentNode == null && other.currentEdge != null)
-        {
-            MapNode tempNode = new MapNode("-1", other.GetCurrentViewPosition(), other.currentEdge.node1.GetAreaName());
-            MapEdge tempEdge1 = new MapEdge(tempNode, other.currentEdge.node1, other.currentEdge.type);
-            MapEdge tempEdge2 = new MapEdge(tempNode, other.currentEdge.node2, other.currentEdge.type);
-
-            tempNode.AddEdge(tempEdge1);
-            tempNode.AddEdge(tempEdge2);
-
-            distance = GraphAstar.Distance(currentNode, tempNode, range+5);
-        }
-        else if (currentNode == null && currentEdge != null
-            && other.currentNode == null && other.currentEdge != null)
-        {
-            MapNode leftTempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
-            MapEdge leftTempEdge1 = new MapEdge(leftTempNode, currentEdge.node1, currentEdge.type);
-            MapEdge leftTempEdge2 = new MapEdge(leftTempNode, currentEdge.node2, currentEdge.type);
-
-            leftTempNode.AddEdge(leftTempEdge1);
-            leftTempNode.AddEdge(leftTempEdge2);
-
-            MapNode rightTempNode = new MapNode("-1", other.GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
-            MapEdge rightTempEdge1 = new MapEdge(other.currentEdge.node1, rightTempNode, currentEdge.type);
-            MapEdge rightTempEdge2 = new MapEdge(other.currentEdge.node2, rightTempNode, currentEdge.type);
-
-            other.currentEdge.node1.AddEdge(rightTempEdge1);
-            other.currentEdge.node1.AddEdge(rightTempEdge2);
-
-            distance = GraphAstar.Distance(leftTempNode, rightTempNode, range+5);
-
-            other.currentEdge.node1.RemoveEdge(rightTempEdge1);
-            other.currentEdge.node1.RemoveEdge(rightTempEdge2);
-        }
-        else
-        {
-            Debug.Log("Current State invalid");
-        }
+		float distance = GetDistance (other, range);
 
         return distance != -1 && distance < range;
     }
+
+	public float GetDistance(MovableObjectNode other, float limit)
+	{
+		float distance = -1;
+		if (currentNode != null && other.currentNode != null)
+		{
+			distance = GraphAstar.Distance(currentNode, other.currentNode, limit+5);
+		}
+		else if (currentNode == null && currentEdge != null && other.currentNode != null)
+		{
+			MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
+			MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
+			MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
+
+			tempNode.AddEdge(tempEdge1);
+			tempNode.AddEdge(tempEdge2);
+
+			distance = GraphAstar.Distance(tempNode, other.currentNode, limit+5);
+		}
+		else if (currentNode != null && other.currentNode == null && other.currentEdge != null)
+		{
+			MapNode tempNode = new MapNode("-1", other.GetCurrentViewPosition(), other.currentEdge.node1.GetAreaName());
+			MapEdge tempEdge1 = new MapEdge(tempNode, other.currentEdge.node1, other.currentEdge.type);
+			MapEdge tempEdge2 = new MapEdge(tempNode, other.currentEdge.node2, other.currentEdge.type);
+
+			tempNode.AddEdge(tempEdge1);
+			tempNode.AddEdge(tempEdge2);
+
+			distance = GraphAstar.Distance(currentNode, tempNode, limit+5);
+		}
+		else if (currentNode == null && currentEdge != null
+			&& other.currentNode == null && other.currentEdge != null)
+		{
+			MapNode leftTempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
+			MapEdge leftTempEdge1 = new MapEdge(leftTempNode, currentEdge.node1, currentEdge.type);
+			MapEdge leftTempEdge2 = new MapEdge(leftTempNode, currentEdge.node2, currentEdge.type);
+
+			leftTempNode.AddEdge(leftTempEdge1);
+			leftTempNode.AddEdge(leftTempEdge2);
+
+			MapNode rightTempNode = new MapNode("-1", other.GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
+			MapEdge rightTempEdge1 = new MapEdge(other.currentEdge.node1, rightTempNode, currentEdge.type);
+			MapEdge rightTempEdge2 = new MapEdge(other.currentEdge.node2, rightTempNode, currentEdge.type);
+
+			other.currentEdge.node1.AddEdge(rightTempEdge1);
+			other.currentEdge.node1.AddEdge(rightTempEdge2);
+
+			distance = GraphAstar.Distance(leftTempNode, rightTempNode, limit+5);
+
+			other.currentEdge.node1.RemoveEdge(rightTempEdge1);
+			other.currentEdge.node1.RemoveEdge(rightTempEdge2);
+		}
+		else
+		{
+			Debug.Log("Current State invalid");
+		}
+
+		return distance;
+	}
 
     public void MoveToMovableNode(MovableObjectNode targetNode)
     {
@@ -534,15 +572,17 @@ public class MovableObjectNode {
 
                 MovableObjectNode old = new MovableObjectNode(model);
                 old.Assign(this);
-                currentNode = tempNode;
+                //currentNode = tempNode;
+				UpdateNodeEdge(tempNode, null);
 
                 MoveToMovableNode(targetNode);
 
                 tempNode.RemoveEdge(tempEdge1);
                 tempNode.RemoveEdge(tempEdge2);
 
-                currentNode = null;
-                currentEdge = old.currentEdge;
+                //currentNode = null;
+                //currentEdge = old.currentEdge;
+
                 pathIndex = 1;
 
                 if (pathInfo != null && pathInfo.pathEdges != null && pathInfo.pathEdges.Length > 0)
@@ -653,25 +693,49 @@ public class MovableObjectNode {
         return false;
     }
 
-    private void EnterNode(MapNode node)
-    {
-        if (model == null)
-            return;
-        PassageObjectModel passage = node.GetAttachedPassage();
-        if (passage != null)
-        {
-            // ???
-        }
-    }
+	private void UpdateNodeEdge(MapNode node, MapEdge edge)
+	{
+		_currentNode = node;
+		_currentEdge = edge;
+		UpdateCurrentPassage ();
+	}
 
-    private void ExitNode(MapNode node)
-    {
-        if (model == null)
-            return;
-        PassageObjectModel passage = node.GetAttachedPassage();
-        if (passage != null)
-        {
-            // ???
-        }
-    }
+	private void UpdateCurrentPassage()
+	{
+		PassageObjectModel oldPassage = currentPassage;
+		if (currentNode != null)
+		{
+			currentPassage = currentNode.GetAttachedPassage();
+		}
+		else if (currentEdge != null)
+		{
+			PassageObjectModel p1 = currentEdge.node1.GetAttachedPassage();
+			PassageObjectModel p2 = currentEdge.node1.GetAttachedPassage();
+
+			if (p1 != null && p2 != null)
+			{
+				if (p1 == p2)
+					currentPassage = p1;
+				else
+					currentPassage = null;
+			}
+			else
+			{
+				currentPassage = null;
+			}
+		}
+		else
+		{
+			Debug.Log("ERROR : invalid node state");
+		}
+
+		if (oldPassage != currentPassage) {
+			if (oldPassage != null) {
+				oldPassage.ExitUnit (this);
+			}
+			if (currentPassage != null) {
+				currentPassage.EnterUnit (this);
+			}
+		}
+	}
 }

@@ -14,6 +14,7 @@ public enum CreatureState
 	WAIT_COOLDOWN,
 
     ESCAPE,
+	ESCAPE_PURSUE,
     ESCAPE_ATTACK,
     ESCAPE_RETURN,
     ESCAPE_WORK,

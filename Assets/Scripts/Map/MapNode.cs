@@ -22,6 +22,8 @@ public class MapNode {
 
     private bool closable;
 
+	public float scaleFactor = 1.0f;
+
     public bool activate
     {
         get { return _activate; }

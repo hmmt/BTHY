@@ -142,7 +142,7 @@ public class MapGraph : IObserver
 		*/
 
 		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph");
-		//TextAsset textAsset = Resources.Load<TextAsset>("xml/M_3");
+		//TextAsset textAsset = Resources.Load<TextAsset>("xml/TrailerTest4");
 		XmlDocument doc = new XmlDocument();
 		doc.LoadXml(textAsset.text);
 
@@ -213,6 +213,12 @@ public class MapGraph : IObserver
                         XmlNode typeNode = node.Attributes.GetNamedItem("type");
 
                         MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName, passage);
+
+						XmlNode scaleAttr = node.Attributes.GetNamedItem ("scale");
+						if (scaleAttr != null)
+							newMapNode.scaleFactor = float.Parse (scaleAttr.InnerText);
+
+
                        
                         newMapNode.activate = false;
 
@@ -240,6 +246,27 @@ public class MapGraph : IObserver
 							}
                         }
                         XmlNode doorNode = node.SelectSingleNode("door");
+						// TEMP
+						if (id.Contains ("sefira-malkuth-1")) {
+							string doorId = passage.GetId() + "@" + doorCount;
+							newMapNode.SetClosable(true);
+							DoorObjectModel door = new DoorObjectModel(doorId, "DoorLeft", passage, newMapNode);
+							door.position = new Vector3(newMapNode.GetPosition().x,
+								newMapNode.GetPosition().y, -0.01f);
+							passage.AddDoor(door);
+							newMapNode.SetDoor(door);
+							door.Close();
+						} else if(id.Contains("sefira-malkuth-9")){
+							string doorId = passage.GetId() + "@" + doorCount;
+							newMapNode.SetClosable(true);
+							DoorObjectModel door = new DoorObjectModel(doorId, "DoorRight", passage, newMapNode);
+							door.position = new Vector3(newMapNode.GetPosition().x,
+								newMapNode.GetPosition().y, -0.01f);
+							passage.AddDoor(door);
+							newMapNode.SetDoor(door);
+							door.Close();
+						}
+
                         if (doorNode != null)
                         {
                             string doorId = passage.GetId() + "@" + doorCount;

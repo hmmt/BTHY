@@ -21,6 +21,10 @@ public interface MovableObjectModel
     void InteractWithDoor(DoorObjectModel door);
 }
 
+public class UnitObject
+{
+}
+
 
 public class PassageObjectModel : ObjectModelBase
 {
@@ -33,6 +37,8 @@ public class PassageObjectModel : ObjectModelBase
     private List<MapObjectModel> mapObjectList;
     private Dictionary<string, MapNode> mapNodeTable;
     private List<DoorObjectModel> doorObjectList;
+
+	private List<MovableObjectNode> enteredUnitList;
     //private
 
     public PassageObjectModel(string id, string sefiraName, string prefabSrc)
@@ -44,6 +50,7 @@ public class PassageObjectModel : ObjectModelBase
         mapObjectList = new List<MapObjectModel>();
         mapNodeTable = new Dictionary<string, MapNode>();
         doorObjectList = new List<DoorObjectModel>();
+		enteredUnitList = new List<MovableObjectNode> ();
     }
 
     public void CreateMapObject(long typeId)
@@ -70,6 +77,15 @@ public class PassageObjectModel : ObjectModelBase
         mapObjectList.Add(mapObject);
         Notice.instance.Send(NoticeName.AddMapObject, mapObject);
     }
+
+	public void EnterUnit(MovableObjectNode unit)
+	{
+		enteredUnitList.Add (unit);
+	}
+	public void ExitUnit(MovableObjectNode unit)
+	{
+		enteredUnitList.Remove (unit);
+	}
 
     public void AddNode(MapNode node)
     {

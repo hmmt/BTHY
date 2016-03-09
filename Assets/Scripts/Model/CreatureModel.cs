@@ -34,6 +34,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 	MovableObjectNode movableNode;
 	CreatureCommandQueue commandQueue;
 
+	public string escapeType = "attackWorker";
+
 	// lock
 	public int targetedCount = 0;
 
@@ -311,6 +313,23 @@ public class CreatureModel : ObjectModelBase, IObserver
         if (escapeAttackWait > 0)
             return;
         //if (movableNode.IsMoving() == false)
+		if (escapeType == "attackWorker")
+		{
+			if(commandQueue.GetCurrentCmd() == null)
+			{
+				//movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+				MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+			}
+			else
+			{
+				AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
+
+				if (detectedAgents.Length > 0) {
+					PursueWorker (detectedAgents [0]);
+				}
+			}
+		}
+		/*
 		if(commandQueue.GetCurrentCmd() == null)
         {
             //movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
@@ -318,15 +337,15 @@ public class CreatureModel : ObjectModelBase, IObserver
         }
         else
         {
-            /*
             AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
 
             if (detectedAgents.Length > 0)
             {
                 movableNode.StopMoving();
                 AttackAgent.Create(detectedAgents[0], this);
-            }*/
+            }
         }
+        */
     }
 
     public void OnNotice(string notice, params object[] param)
@@ -658,6 +677,12 @@ public class CreatureModel : ObjectModelBase, IObserver
 	public void MoveToNode(string targetNodeID)
 	{
 		commandQueue.SetAgentCommand(CreatureCommand.MakeMove(MapGraph.instance.GetNodeById(targetNodeID)));
+	}
+
+	public void PursueWorker(WorkerModel target)
+	{
+		state = CreatureState.ESCAPE_PURSUE;
+		commandQueue.SetAgentCommand (CreatureCommand.MakePursue (target));
 	}
 
     public void AttackWorker(WorkerModel target)

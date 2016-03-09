@@ -9,12 +9,17 @@ public enum CreatureCmdType
 
 public class CreatureCommand
 {
-	public CreatureCmdType type ;
+	public CreatureModel actor;
+	public CreatureCommandQueue cmdQueue;
+
+	public CreatureCmdType type;
 
 	public bool isFinished = false;
 
-	public virtual void OnInit(CreatureModel creature)
+	public virtual void OnInit(CreatureModel creature, CreatureCommandQueue cmdQueue)
 	{
+		actor = creature;
+		this.cmdQueue = cmdQueue;
 	}
 
 	public virtual void OnStart(CreatureModel creature)
@@ -48,6 +53,12 @@ public class CreatureCommand
 	public static CreatureCommand MakeOpenDoor(DoorObjectModel door)
 	{
 		OpenDoorCreatureCommand cmd = new OpenDoorCreatureCommand(door);
+		return cmd;
+	}
+
+	public static CreatureCommand MakePursue(WorkerModel worker)
+	{
+		PursueCreatureCommand cmd = new PursueCreatureCommand (worker);
 		return cmd;
 	}
 }
@@ -143,9 +154,8 @@ public class AttackWorkerCreatureCommand : CreatureCommand
     public override void Execute(CreatureModel creature)
     {
         base.Execute(creature);
-
-        
     }
+
     public override void OnStop(CreatureModel creature)
     {
         base.OnStop(creature);
@@ -170,12 +180,70 @@ public class PursueCreatureCommand : CreatureCommand
     {
         base.Execute(creature);
 
+		MovableObjectNode movable = creature.GetMovableNode();
 
+		if (!movable.IsMoving())
+		{
+			//Debug.Log ("asdfsdag");
+			movable.MoveToMovableNode(targetWorker.GetMovableNode());
+		}
+
+		CheckRanage ();
     }
     public override void OnStop(CreatureModel creature)
     {
         base.OnStop(creature);
+
+		MovableObjectNode movable = creature.GetMovableNode();
+		movable.StopMoving();
     }
+
+	void CheckRanage()
+	{
+		//actor.GetMovableNode ().GetPassage ();
+
+		if (targetWorker.GetMovableNode().GetDistance(actor.GetMovableNode(), 500) < 1)
+		{
+			//detectedAgents [0].TakePhysicalDamage (1);
+			//detectedAgents [0].TakePhysicalDamage (1);
+			//actor.GetMovableNode().StopMoving();
+			Debug.Log ("Attack?");
+		}
+		else
+		{
+			
+		}
+		/*
+		foreach(AgentModel model in detectedAgents)
+		{
+			
+		}
+*/
+	}
+}
+
+public class AttackCreatureCommand : CreatureCommand
+{
+	private ObjectModelBase target;
+	private float elapsedTime;
+
+	public AttackCreatureCommand(ObjectModelBase target)
+	{
+		this.target = target;
+	}
+
+	public override void OnStart(CreatureModel creature)
+	{
+		base.OnStart(creature);
+	}
+	public override void Execute(CreatureModel creature)
+	{
+		base.Execute(creature);
+	}
+	public override void OnStop(CreatureModel creature)
+	{
+		base.OnStop(creature);
+	}
 }
 
 
@@ -246,7 +314,7 @@ public class CreatureCommandQueue
 		}
 		queue.Clear();
 		queue.AddFirst(cmd);
-		cmd.OnInit (creature);
+		cmd.OnInit (creature, this);
 		cmd.OnStart(creature);
 	}
 
@@ -257,13 +325,13 @@ public class CreatureCommandQueue
 			queue.First.Value.OnStop(creature);
 		}
 		queue.AddFirst(cmd);
-		cmd.OnInit (creature);
+		cmd.OnInit (creature, this);
 		cmd.OnStart(creature);
 	}
 
 	public void AddLast(CreatureCommand cmd)
 	{
 		queue.AddLast(cmd);
-		cmd.OnInit (creature);
+		cmd.OnInit (creature, this);
 	}
 }
