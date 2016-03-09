@@ -85,7 +85,7 @@ public class InfoSlotScript : MonoBehaviour {
             tri.triggers.Add(enter);
             tri.triggers.Add(exit);
         }
-
+        /*
         foreach (Image temp in WorkImageList)
         {
 
@@ -108,7 +108,7 @@ public class InfoSlotScript : MonoBehaviour {
         foreach (Text temp in WorkDescription) {
             temp.gameObject.SetActive(true);
         }
-
+        */
 	}
     
     public void OnPointerEnter(GameObject target) {
@@ -147,14 +147,14 @@ public class InfoSlotScript : MonoBehaviour {
         for (int i = 0; i < InfoImageList.Length; i++) {
             InfoImageList[i].gameObject.SetActive(true);
         }
-
+        /*
         foreach (Image temp in WorkImageList)
         {
             temp.gameObject.SetActive(true);
         }
         foreach (Text temp in WorkDescription) {
             temp.gameObject.SetActive(true);
-        }
+        }*/
         TextListScript listScript = transform.GetComponent<TextListScript>();
 
         listScript.DeleteAll();
@@ -165,6 +165,10 @@ public class InfoSlotScript : MonoBehaviour {
             listScript.MakeTraits(t);
         }
         listScript.SortBgListWithTraits();
+
+        //SkillList작성
+        AgentSkillListScript skillListScript = transform.GetComponent<AgentSkillListScript>();
+        skillListScript.Init(model);
     }
 
     public void SetSprite(AgentModel model) {
@@ -184,12 +188,13 @@ public class InfoSlotScript : MonoBehaviour {
             OverlayObject script = InfoImageList[i].GetComponent<OverlayObject>();
             script.text = desc[i];
         }
+        /*
         for (int i = 0; i < WorkImageList.Length; i++) { 
             WorkImageList[i].GetComponent<Image>().sprite = model.WorklistSprites[i];
             OverlayObject script = WorkImageList[i].GetComponent<OverlayObject>();
             script.text = workDesc[i];
             
-        }
+        }*/
 		/*
         WorkDescription[0].text = model.directSkill.name;
         WorkDescription[1].text = model.indirectSkill.name;

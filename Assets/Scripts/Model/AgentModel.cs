@@ -57,6 +57,7 @@ public class AgentModel : WorkerModel
     public SkillTypeInfo blockSkill;
 */
 	private List<SkillTypeInfo> skillList;
+    private List<SkillCategory> skills;
 
     //
 
@@ -100,6 +101,8 @@ public class AgentModel : WorkerModel
         traitList = new List<TraitTypeInfo>();
 		skillList = new List<SkillTypeInfo> ();
 
+        skills = new List<SkillCategory>();
+
         instanceId = id;
         //currentSefira = area;
         currentSefira = "0";
@@ -111,6 +114,8 @@ public class AgentModel : WorkerModel
         tempFaceSprite = AgentLayer.currentLayer.GetAgentFace();
 
         successPercent = Random.Range(0, 90f);
+
+        this.AddNewCategory(1);//initial Skill
     }
 
     public override Dictionary<string, object> GetSaveData()
@@ -344,6 +349,111 @@ public class AgentModel : WorkerModel
 
 	// skill start
 
+    //레벨업 선처리
+    public void PrePromotion() {
+        switch (level) { 
+            case 2:
+                SkillCategory newSkill = SkillManager.instance.GetRandomCategory(2, this.skills).GetCopy();
+                this.skills.Add(newSkill);
+                break;
+            default:
+                return;
+        }
+    }
+
+    public void Promotion(SkillCategory target) {
+        SkillCategory temp = null;
+
+        if (CheckSkillContains(target, ref temp))
+        {
+            //레벨업
+            temp.SkillLevelUp();
+            return;
+        }
+        //새 스킬
+        temp = target.GetCopy();
+        skills.Add(temp);
+        /*
+        switch (this.level) { 
+            case 1://1->2
+                
+                break;
+            case 2://2->3
+                if (CheckSkillContains(target, ref temp)) { 
+                    //레벨업
+                    temp.SkillLevelUp();
+                }
+                //새 스킬
+                temp = target.GetCopy();
+                skills.Add(temp);
+                break;
+            case 3://3->4
+                return;
+            case 4://4->5
+                return;
+            default:
+                return;
+        }*/
+        //level up
+    }
+
+    private bool CheckSkillContains(SkillCategory check, ref SkillCategory outTarget) {
+        bool output = false;
+        foreach (SkillCategory skill in skills) {
+            if (skill.name.Equals(check.name)) {
+                outTarget = skill;
+                output = true;
+                break;
+            }
+        }
+
+        return output;
+    }
+
+    public SkillCategory[] GetSkillCategories() {
+        return this.skills.ToArray();
+    }
+
+    public void AddNewCategory(int tier) {
+        SkillCategory newCat = SkillManager.instance.GetRandomCategory(tier, skills);
+        if (newCat == null) {
+            Debug.Log("Add new Skill category Error");
+        }
+        this.skills.Add(newCat);
+        
+    }
+
+    public void AddNewCategory(SkillCategory target) {
+        SkillCategory newCat = SkillManager.instance.GetCategoryByName(target.name);
+        if (newCat == null)
+        {
+            Debug.Log("Add new Skill category Error");
+        }
+        this.skills.Add(newCat);
+    }
+
+    public void SkillLevelUp(string name) {
+        SkillCategory target = null;
+
+        foreach (SkillCategory item in skills) {
+            if (item.name.Equals(name))
+            {
+                target = item;
+                break;
+            }
+        }
+
+        if (target == null) {
+            Debug.Log("CannotFindTargetSkillCategory");
+            return;
+        }
+
+        if (!target.SkillLevelUp()) {
+            Debug.Log("Level Max");
+            return;
+        }
+    }
+
     public void promoteSkill(int skillClass)
     {
 		/*
@@ -404,6 +514,7 @@ public class AgentModel : WorkerModel
         }
     }
     */
+
 	public void AddSkill(SkillTypeInfo skill)
 	{
 		skillList.Add (skill);
@@ -424,6 +535,7 @@ public class AgentModel : WorkerModel
 		}
 		return output.ToArray ();
 	}
+
 	public SkillTypeInfo[] GetDirectSkillList()
 	{
 		return GetSkillListByType ("direct");
@@ -449,8 +561,6 @@ public class AgentModel : WorkerModel
 	}
 
 	// skill end
-
-
 
     public override void ProcessAction()
     {
@@ -678,6 +788,9 @@ public class AgentModel : WorkerModel
 	// method about managing
 	public float GetSuccessProb(SkillTypeInfo skill)
 	{
+
+
+
 		// 가치관, 등급 고려
 		return 0.5f + 0.2f;
 	}

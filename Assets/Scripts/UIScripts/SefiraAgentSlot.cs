@@ -53,11 +53,11 @@ public class SefiraAgentSlot : MonoBehaviour {
             EmptySefira();
             return;
         }
-
+        /*
         foreach (AgentModel am in targetSefira.agentList) {
             Debug.Log(am.name);
         }
-
+        */
         SetSefira(targetSefira.agentList);
     }
 

@@ -160,6 +160,7 @@ public class ListSlotScript : MonoBehaviour {
 
     public void ShowPromotionButton()
     {
+        if (this.model.level >= 3) return;
         AgentListScript.instance.ActivatePromotionPanel(this);
     }
 

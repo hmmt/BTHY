@@ -195,7 +195,7 @@ public class AgentManager : IObserver {
         //Debug.Log("activated");
         Sefira targetSefira = SefiraManager.instance.getSefira(unit.currentSefira);
         if (targetSefira != null) {
-            Debug.Log("AgentActivated");
+            //Debug.Log("AgentActivated");
             targetSefira.AddAgent(unit);
         }
         

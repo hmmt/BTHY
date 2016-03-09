@@ -27,6 +27,10 @@ public class GameStaticDataLoader {
 
         if (ConversationManager.instance.isLoaded() == false)
             loader.LoadDayScript();
+
+        if (SkillManager.instance.isLoaded == false) {
+            loader.LoadSkillInfo();
+        }
 	}
 
     public void LoadTraitData()
@@ -93,22 +97,26 @@ public class GameStaticDataLoader {
 
     public void LoadSkillInfo() {
         TextAsset textAsset = Resources.Load<TextAsset>("xml/Work");
+
         XmlDocument doc = new XmlDocument();
         doc.LoadXml(textAsset.text);
 
-        XmlNodeList skillNodes = doc.SelectNodes("skill");
+        XmlNode root = doc.SelectSingleNode("root");
+
+        XmlNodeList skillNodes = root.SelectNodes("skill");
 
         List<SkillUnit> skillList = new List<SkillUnit>();
 
         foreach (XmlNode node in skillNodes) {
             SkillUnit unit = new SkillUnit();
-            unit.name = node.Attributes.GetNamedItem("name").InnerText;
-            unit.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
+            unit.name = node.SelectSingleNode("name").InnerText;
+            unit.level = int.Parse(node.SelectSingleNode("level").InnerText);
 
-            string categoryText = node.Attributes.GetNamedItem("category").InnerText;
+            string categoryText = node.SelectSingleNode("category").InnerText;
             SkillCategory category = SkillManager.instance.GetCategoryByName(categoryText);
             if (category == null) {
-                SkillCategory newItem = new SkillCategory(categoryText, int.Parse(node.Attributes.GetNamedItem("tier").InnerText));
+                int tier =  int.Parse(node.SelectSingleNode("tier").InnerText);
+                SkillCategory newItem = new SkillCategory(categoryText, tier);
                 SkillManager.instance.AddCategory(newItem);
                 category = newItem;
             }

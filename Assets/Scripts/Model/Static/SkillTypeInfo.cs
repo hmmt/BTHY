@@ -44,17 +44,22 @@ public class SkillTypeInfo {
 public class SkillUnit {
     public string name;
     public int level;
+
 }
 
 public class SkillCategory {
     public string name;
     public int tier;//Tier
-    public List<SkillUnit> list;
+    public List<SkillUnit> list;//totalSkills
+    public List<SkillUnit> currentList;
     public int currentLevel;
     public int MaxLevel;
 
-    public SkillCategory(string name, int category) {
+    public long id;
+
+    public SkillCategory(string name, int tier) {
         this.name = name;
+        this.tier = tier;
         list = new List<SkillUnit>();
         currentLevel = 1;
         MaxLevel = 3;
@@ -123,6 +128,24 @@ public class SkillCategory {
         return output.ToArray();  
     }
 
+    public bool SkillLevelUp() {
+        if (this.currentLevel >= MaxLevel) {
+            Debug.Log("Error");
+            return false;
+            //error
+        }
+
+        currentLevel++;
+        return true;    
+    }
+
+    public SkillCategory GetCopy() {
+        SkillCategory newItem = new SkillCategory(this.name, this.tier);
+        newItem.list = new List<SkillUnit>(this.list.ToArray());
+        newItem.currentLevel = this.currentLevel;
+        newItem.MaxLevel = this.MaxLevel;
+        return newItem;
+    }
 }
 
 public class SkillManager {
@@ -137,12 +160,12 @@ public class SkillManager {
         }
     }
 
-    public bool isLoaded;
+    public bool isLoaded = false;
     public List<SkillCategory> list;
 
     public SkillManager() {
         this.list = new List<SkillCategory>();
-        isLoaded = false;
+        
     }
 
     public void AddCategory(SkillCategory item)
@@ -156,12 +179,14 @@ public class SkillManager {
         foreach (SkillCategory cat in list) {
             if (cat.name.Equals(name)) {
                 output = cat;
+                break;
             }
         }
         return output;
     }
 
-    public SkillCategory GetRandomCategory(int tier) {
+    public SkillCategory GetRandomCategory(int tier, List<SkillCategory> except)
+    {
         List<SkillCategory> tempList = new List<SkillCategory>();
 
         for (int i = 0; i < list.Count; i++) {
@@ -171,13 +196,19 @@ public class SkillManager {
             }
             else if (list[i].tier == tier)
             {
+                foreach (SkillCategory item in except) { 
+                    if(item.name.Equals(list[i].name)){
+                        continue;
+                    }
+                }
                 tempList.Add(list[i]);
             }
             else break;
         }
-
+        if (tempList.Count == 0) return null;
+        
         int randVal = Random.Range(0, tempList.Count);
-        return tempList[randVal];
+        return tempList[randVal].GetCopy();
     }
 
     public void SortList()
@@ -187,6 +218,8 @@ public class SkillManager {
         foreach (SkillCategory item in list) {
             item.SortList();
         }
+        this.isLoaded = true;
+        //PromotionSkillTree.instance.Init();
     }
 
     private int CompareByTier(SkillCategory a, SkillCategory b) {

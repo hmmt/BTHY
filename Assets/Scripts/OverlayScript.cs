@@ -52,7 +52,7 @@ public class OverlayScript : MonoBehaviour{
         box.localPosition = Vector3.zero;
         box.anchoredPosition = new Vector2(posRect.anchoredPosition.x,
                                             posRect.anchoredPosition.y + posRect.rect.height/2);
-        Debug.Log(box.anchoredPosition);
+        //Debug.Log(box.anchoredPosition);
         box.SetParent(parent);
         //Vector2 viewportPoint = Camera.main.WorldToViewportPoint(pos);
         //Vector2 world = Camera.main.ViewportToWorldPoint(viewportPoint);

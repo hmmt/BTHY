@@ -644,7 +644,8 @@ public class StageUI : MonoBehaviour, IObserver {
     
     //리스트 관련 재배치만 수행하도록
     public void PromoteAgent(AgentModel agent , Button button) {
-        int index = agent.level - 1;
+        //int index = agent.level - 1;
+        /*
         if (EnergyModel.instance.GetLeftEnergy() < levelCost[index])
         {
             Debug.Log("Not enough energy");
@@ -660,7 +661,7 @@ public class StageUI : MonoBehaviour, IObserver {
         foreach (TraitTypeInfo t in addList) {
             agent.applyTrait(t);
         }
-        agent.calcLevel();
+        agent.calcLevel();*/
         button.gameObject.SetActive(false);
         ListSlotScript listSlot = listScript.findListSlotScript(agent);
         listSlot.SetChange();
