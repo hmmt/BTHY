@@ -12,6 +12,9 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public int hp;
     public int mental;
 
+	// TODO : implement stun using buf state.
+	public float stunTime = 0f;
+
     public string gender;
     public int maxHp;
     public int maxMental;
@@ -260,6 +263,11 @@ public class WorkerModel: ObjectModelBase, IObserver {
         mental += amount;
         mental = mental> maxMental? maxMental: mental;
     }
+
+	public virtual void Stun(float time)
+	{
+		stunTime = time;
+	}
 
     public virtual void Panic() { 
         

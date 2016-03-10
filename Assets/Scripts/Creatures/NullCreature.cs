@@ -29,6 +29,7 @@ public class NullCreature : CreatureBase {
         unit.spriteRenderer.gameObject.transform.localScale = new Vector3(200f / tex.width, 200f / tex.height, 1);
     }
 
+	int count = 0;
     // 변신
     public override void OnFixedUpdate(CreatureModel creature)
     {
@@ -56,7 +57,15 @@ public class NullCreature : CreatureBase {
             creature.Escape();
         }
         */
-		//creature.Escape();
+		creature.Escape();
+
+		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+		{
+			if (model.GetMovableNode ().GetPassage ()	== agent.GetMovableNode ().GetPassage ())
+			{
+				//Debug.Log ("same passage");
+			}
+		}
     }
 
     public override SkillTypeInfo GetSpecialSkill()
