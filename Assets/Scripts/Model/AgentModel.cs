@@ -414,6 +414,17 @@ public class AgentModel : WorkerModel
         return this.skills.ToArray();
     }
 
+    public SkillCategory GetUniqueSkillCategory(string target) {
+        SkillCategory output = null;
+        foreach (SkillCategory cat in this.skills) {
+            if (cat.name.Equals(target)) {
+                output = cat;
+                break;
+            }
+        }
+        return output;
+    }
+
     public void AddNewCategory(int tier) {
         SkillCategory newCat = SkillManager.instance.GetRandomCategory(tier, skills);
         if (newCat == null) {
@@ -525,6 +536,7 @@ public class AgentModel : WorkerModel
 		return skillList.ToArray ();
 	}
 
+    /*
 	private SkillTypeInfo[] GetSkillListByType(string type)
 	{
 		List<SkillTypeInfo> output = new List<SkillTypeInfo>();
@@ -548,16 +560,17 @@ public class AgentModel : WorkerModel
 	{
 		return GetSkillListByType ("block");
 	}
+    */
 
 	public bool HasSkill(SkillTypeInfo skill)
 	{
 		//return directSkill.id == skill.id || indirectSkill.id == skill.id || blockSkill.id == skill.id;
-		foreach (SkillTypeInfo s in skillList)
-		{
-			if (s.id == skill.id)
-				return true;
-		}
-		return false;
+        foreach (SkillCategory cat in skills) { 
+            if (cat.list.Contains(skill)){
+                return true;
+            }
+        }
+        return false;
 	}
 
 	// skill end

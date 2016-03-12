@@ -89,10 +89,11 @@ public class AgentManager : IObserver {
         unit.indirectSkill = info.indirectSkill;
         unit.blockSkill = info.blockSkill;
 */
+        /*
 		unit.AddSkill (info.directSkill);
 		unit.AddSkill (info.indirectSkill);
 		unit.AddSkill (info.blockSkill);
-
+        */
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
 
         unit.panicType = info.panicType;

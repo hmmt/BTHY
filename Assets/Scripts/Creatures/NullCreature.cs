@@ -64,7 +64,8 @@ public class NullCreature : CreatureBase {
         if (changed)
         {
             // 임시
-            return SkillTypeList.instance.GetData(400010);
+            return null;
+            //return SkillTypeList.instance.GetData(400010);
         }
         else
         {
