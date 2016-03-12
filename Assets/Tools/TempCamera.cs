@@ -36,6 +36,14 @@ public class TempCamera : MonoBehaviour, IObserver {
 		Notice.instance.Send(NoticeName.FixedUpdate);
 
 
+		transform.position = new Vector3 (0, 0, transform.position.z);
+
+		float size = Camera.main.orthographicSize;
+		Camera.main.orthographicSize = size + Time.deltaTime * 1.5f;
+		if (true)
+			return;
+
+
 
 		if (start) {
 			/*
@@ -52,18 +60,18 @@ public class TempCamera : MonoBehaviour, IObserver {
 			elapsed += Time.deltaTime;
 
 
-			if (elapsed < 13f) {
+			if (elapsed < 15f) {
 				Vector3 cPos = new Vector3 (transform.position.x, transform.position.y, 0);
 				cPos = Vector3.SmoothDamp (cPos, agent.GetCurrentViewPosition (), 
 					ref vel, 0.3f);
 
 				transform.position = new Vector3 (cPos.x, cPos.y, transform.position.z);
 			} else {
-				float elapsed2 = elapsed - 13f;
+				float elapsed2 = elapsed;
 
 				transform.position = new Vector3 (0, 0, transform.position.z);
 
-				float size = Camera.main.orthographicSize;
+				size = Camera.main.orthographicSize;
 				Camera.main.orthographicSize = size + Time.deltaTime * 2;
 			}
 		}

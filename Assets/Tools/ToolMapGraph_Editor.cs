@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 using System.Xml;
 
-public class ToolMapGraph_Editor : EditorWindow {
+public class ToolMapGraph_Editor 
+#if UNITY_EDITOR
+	: EditorWindow 
+#endif
+{
 
 	public static bool nodeCreation = false;
-
+	#if UNITY_EDITOR
 	[MenuItem("Examples/Load Map")]
 	static void Apply()
 	{
@@ -62,7 +68,6 @@ public class ToolMapGraph_Editor : EditorWindow {
 			}
 		}
 	}
-
 	void OnGUI ()
 	{
 		GUILayout.Label(nodeCreation.ToString(), EditorStyles.boldLabel);
@@ -93,6 +98,7 @@ public class ToolMapGraph_Editor : EditorWindow {
 	}
 	void OnSceneGUI(SceneView sceneView)
 	{
+		
 		Event e = Event.current;
 
 		switch (e.type)
@@ -120,8 +126,9 @@ public class ToolMapGraph_Editor : EditorWindow {
 			}
 			break;
 		}
-	}
 
+	}
+	#endif
 	public static ToolMapRoot GetMapRoot()
 	{
 		ToolMapRoot root = Transform.FindObjectOfType<ToolMapRoot> ();
@@ -133,7 +140,9 @@ public class ToolMapGraph_Editor : EditorWindow {
 		else
 		{
 			GameObject g = new GameObject("ToolMapRoot");
+			#if UNITY_EDITOR
 			Undo.RegisterCreatedObjectUndo (g, "Created ToolMapRoot");
+			#endif
 
 			root = g.AddComponent<ToolMapRoot>();
 

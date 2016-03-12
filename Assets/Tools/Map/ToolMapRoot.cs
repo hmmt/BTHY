@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections.Generic;
 using System.Xml;
 
@@ -9,6 +11,7 @@ public class ToolMapRoot : MonoBehaviour {
 
 	public void SaveMap()
 	{
+		#if UNITY_EDITOR
 		string path = EditorUtility.SaveFilePanel(
 			"save File",
 			"",
@@ -74,6 +77,7 @@ public class ToolMapRoot : MonoBehaviour {
 						float nodeX = mapNode.transform.position.x;
 						float nodeY = mapNode.transform.position.y;
 						string nodeType = mapNode.type;
+						float scaleFactor = mapNode.scaleFactor;
 
 						if (dupChecker.ContainsKey (nodeId))
 						{
@@ -88,17 +92,21 @@ public class ToolMapRoot : MonoBehaviour {
 						XmlAttribute nodeAttrX = doc.CreateAttribute ("x");
 						XmlAttribute nodeAttrY = doc.CreateAttribute ("y");
 						XmlAttribute nodeAttrType = doc.CreateAttribute ("type");
+						XmlAttribute nodeAttrScale = doc.CreateAttribute ("scale");
 
 						nodeAttrId.InnerText = nodeId;
 						nodeAttrX.InnerText = nodeX.ToString ();
 						nodeAttrY.InnerText = nodeY.ToString ();
 						nodeAttrType.InnerText = nodeType;
+						nodeAttrScale.InnerText = scaleFactor.ToString ();
 
 						mapNodeElement.Attributes.Append (nodeAttrId);
 						mapNodeElement.Attributes.Append (nodeAttrX);
 						mapNodeElement.Attributes.Append (nodeAttrY);
 						if(nodeType != "")
 							mapNodeElement.Attributes.Append (nodeAttrType);
+						if (scaleFactor != 1.0f)
+							mapNodeElement.Attributes.Append (nodeAttrScale);
 
 						passageNode.AppendChild (mapNodeElement);
 						break;
@@ -136,9 +144,11 @@ public class ToolMapRoot : MonoBehaviour {
 
 		Debug.Log ("Save!!?");
 		doc.Save (path);
+		#endif
 	}
 	public void LoadMap()
 	{
+		#if UNITY_EDITOR
 		string path = EditorUtility.OpenFilePanel(
 			"Load File",
 			"",
@@ -228,11 +238,15 @@ public class ToolMapRoot : MonoBehaviour {
 						string id = node.Attributes.GetNamedItem("id").InnerText;
 						float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);
 						float y = float.Parse(node.Attributes.GetNamedItem("y").InnerText);
+						XmlNode scaleFactorNode = node.Attributes.GetNamedItem ("scale");
 
 						XmlNode typeNode = node.Attributes.GetNamedItem("type");
 
 						ToolMapNode newMapNode = ToolMapNode.AddMapNode(new Vector3(x, y, 0), passage);
 						newMapNode.id = id;
+
+						if (scaleFactorNode != null)
+							newMapNode.scaleFactor = float.Parse (scaleFactorNode.InnerText);
 
 						if (typeNode != null) {
 							newMapNode.type = typeNode.InnerText;
@@ -347,5 +361,6 @@ public class ToolMapRoot : MonoBehaviour {
 			node1.AddEdge(edge);
 			node2.AddEdge(edge);
 		}
+		#endif
 	}
 }
