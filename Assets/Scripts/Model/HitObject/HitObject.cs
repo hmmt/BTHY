@@ -47,6 +47,8 @@ public class HitObject : MonoBehaviour {
 			}
 		}
 
+		//GetComponent<LineRenderer>().SetColors(
+
 
 	}
 }

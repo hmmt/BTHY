@@ -57,7 +57,7 @@ public class NullCreature : CreatureBase {
             creature.Escape();
         }
         */
-		creature.Escape();
+		//model.Escape();
 
 		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 		{

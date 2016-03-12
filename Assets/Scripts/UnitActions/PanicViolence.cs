@@ -30,7 +30,7 @@ public class PanicViolence : PanicAction {
 
                     // TODO : 
                     targetAgent.GetMovableNode().StopMoving();
-                    AttackAgentByAgent.Create(detected, targetAgent);
+                    //AttackAgentByAgent.Create(detected, targetAgent);
                     break;
                 }
             }

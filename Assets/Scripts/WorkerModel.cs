@@ -15,6 +15,9 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	// TODO : implement stun using buf state.
 	public float stunTime = 0f;
 
+	// states
+	public bool isUnderAttack = false;
+
     public string gender;
     public int maxHp;
     public int maxMental;

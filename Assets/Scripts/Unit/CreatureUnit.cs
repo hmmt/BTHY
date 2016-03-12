@@ -18,8 +18,6 @@ public class CreatureUnit : MonoBehaviour {
 
     
     public Animator creatureAnimator;
-    public CreatureAnimBase script;
-    
 
     private Vector3 directionScaleFactor = new Vector3(1f, 1f, 1f);
     private Vector3 scaleFactor = new Vector3(1f, 1f, 1f);
@@ -143,11 +141,6 @@ public class CreatureUnit : MonoBehaviour {
     void Update()
     {
         
-        if (script != null)
-        {
-            script.Update();
-        }
-        
 
         if (oldState != model.state)
         {
@@ -158,13 +151,6 @@ public class CreatureUnit : MonoBehaviour {
 
     void LateUpdate()
     {
-        
-        if (script != null)
-        {
-            script.LateUpdate();
-        }
-        
-
         UpdateScale();
     }
 

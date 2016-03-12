@@ -35,7 +35,7 @@ public enum AgentAIState
     SUPPRESS_CREATURE,
     SUPPRESS_WORKER, // 제압중
 
-    OPEN_ROOM,
+    OPEN_ISOLATE,
 
     RETURN_CREATURE, // 환상체 돌려보내는 중
 

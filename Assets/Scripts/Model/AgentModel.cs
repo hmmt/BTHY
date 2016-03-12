@@ -733,18 +733,6 @@ public class AgentModel : WorkerModel
     // 패닉 관련  start
 
     /// <summary>
-    /// 다른 직원을 공격합니다.
-    /// 현재 살인상태인 경우에만 사용해야 합니다.
-    /// AttackAgentByAgent.cs 에서 사용합니다.
-    /// </summary>
-    public void StartPanicAttackAgent()
-    {
-        //state = AgentCmdState.PANIC_VIOLENCE;
-
-        //Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
-    }
-
-    /// <summary>
     /// 다른 직원을 공격하던 것을 중지합니다.
     /// AttackAgentByAgent.cs 에서 사용합니다.
     /// </summary>
@@ -763,10 +751,10 @@ public class AgentModel : WorkerModel
     }
 
 
-    public void OpenIsolateRoom()
+	public void OpenIsolateRoom(CreatureModel targetCreature)
     {
-        state = AgentAIState.OPEN_ROOM;
-        commandQueue.SetAgentCommand(WorkerCommand.MakeOpenRoom());
+        state = AgentAIState.OPEN_ISOLATE;
+		commandQueue.SetAgentCommand(WorkerCommand.MakeOpenRoom(targetCreature));
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
@@ -875,28 +863,25 @@ public class AgentModel : WorkerModel
     
     public override void PanicReadyComplete()
     {
-        // CurrentPanicAction'' = new PanicSuicideExecutor(this, 5);
-        //CurrentPanicAction = new PanicViolence(this);
-        //CurrentPanicAction = new PanicOpenRoom(this);
-        CurrentPanicAction = new PanicRoaming(this);
+		//CurrentPanicAction = new PanicRoaming (this);
+		CurrentPanicAction = new PanicOpenIsolate(this);
+		return;
         // 바꿔야 함
-        /*
         switch (agentLifeValue)
         {
-            case 1:
-                CurrentPanicAction = new PanicRoaming(this);
-                break;
-            case 2:
-                CurrentPanicAction = new PanicSuicideExecutor(this);
-                break;
-            case 3:
-                CurrentPanicAction = new PanicViolence(this);
-                break;
-            case 4:
-                break;
+        case 1:
+            CurrentPanicAction = new PanicRoaming(this);
+            break;
+        case 2:
+            CurrentPanicAction = new PanicSuicideExecutor(this);
+            break;
+        case 3:
+            CurrentPanicAction = new PanicViolence(this);
+            break;
+		case 4:
+			CurrentPanicAction = new PanicOpenIsolate (this);
+            break;
         }
-        */
-    
     }
     
     public void StopPanic()

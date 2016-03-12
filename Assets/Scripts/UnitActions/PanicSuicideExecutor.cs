@@ -1,50 +1,68 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class PanicSuicideExecutor : PanicAction
 {
 	private AgentModel targetAgent;
 
-	private float cooldown = 5;
+	private float suicideDelay = 5;
+	private float horrorDelay = 5;
 
 	private float elapsedTime;
+	private float horrorElapsedTime;
 
-    private int shield;
-
-    public PanicSuicideExecutor(AgentModel target, int shield)
+    public PanicSuicideExecutor(AgentModel target)
     {
         targetAgent = target;
-        this.shield = shield;
     }
 
 	public void Execute()
 	{
 		float deltaTime = Time.deltaTime;
+
 		elapsedTime += deltaTime;
-		if(elapsedTime > cooldown)
+		if(elapsedTime > suicideDelay)
 		{
-			elapsedTime -= cooldown;
+			elapsedTime -= suicideDelay;
 
 			TrySuicide();
+		}
+
+		horrorElapsedTime += deltaTime;
+		if(horrorElapsedTime > horrorDelay)
+		{
+			horrorElapsedTime -= horrorDelay;
+
+			SpreadHorror();
+		}
+	}
+
+	private void SpreadHorror()
+	{
+		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+		{
+			if (agent.GetMovableNode ().GetPassage () == targetAgent.GetMovableNode ().GetPassage ()) {
+				if (agent == targetAgent)
+					break;
+
+				agent.TakeMentalDamage (5);
+			}
+		}
+		foreach(OfficerModel officer in OfficeManager.instance.GetOfficerList())
+		{
+			if (officer.GetMovableNode ().GetPassage () == targetAgent.GetMovableNode ().GetPassage ()) {
+				officer.TakeMentalDamage (5);
+			}
 		}
 	}
 
 	private void TrySuicide()
 	{
-        if (shield > 0)
-        {
-            shield--;
-            Debug.Log("TrySuicide : stamina decrease by 1");
-        }
-        else
-        {
-            targetAgent.TakePhysicalDamage(1);
-            Debug.Log("TrySuicide : ü�� decrease by 1");
+        targetAgent.TakePhysicalDamage(1);
 
-            if (targetAgent.isDead())
-            {
+        if (targetAgent.isDead())
+        {
 
-            }
         }
 	}
 }

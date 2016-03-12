@@ -14,6 +14,8 @@ public class CreatureCommand
 
 	public CreatureCmdType type;
 
+	public bool isMoving = false;
+
 	public bool isFinished = false;
 
 	public virtual void OnInit(CreatureModel creature, CreatureCommandQueue cmdQueue)
@@ -71,6 +73,7 @@ public class MoveCreatureCommand : CreatureCommand
 
 	public MoveCreatureCommand(MapNode targetNode)
 	{
+		this.isMoving = true;
 		this.targetNode = targetNode;
 	}
 	public override void OnStart(CreatureModel creature)
@@ -187,6 +190,7 @@ public class PursueCreatureCommand : CreatureCommand
 			//Debug.Log ("asdfsdag");
 			movable.MoveToMovableNode(targetWorker.GetMovableNode());
 		}
+		this.isMoving = movable.IsMoving ();
 
 		CheckRanage ();
     }
@@ -218,8 +222,10 @@ public class PursueCreatureCommand : CreatureCommand
 			//Debug.Log ("Attack?");
 
 			if (actor.attackDelay <= 0) {
-				HitObjectManager.AddHitbox (actor.GetCurrentViewPosition (), 0.5f, 4.0f, 3);
-				actor.ResetAttackDelay ();
+				actor.AttackAction ();
+				isMoving = false;
+
+				// StopMoving
 			}
 		}
 		else
