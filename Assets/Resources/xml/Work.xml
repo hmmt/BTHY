@@ -135,7 +135,7 @@
 		<gomax>5</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>4</dmgmax>
-    <anim>0</anim>
+    <anim>5</anim>
     <imgsrc></imgsrc>
 	</skill>
 	<skill>
@@ -158,7 +158,7 @@
 		<gomax>4</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>3</dmgmax>
-    <anim>0</anim>
+    <anim>2</anim>
     <imgsrc></imgsrc>
 	</skill>
 	<skill>
@@ -181,7 +181,7 @@
 		<gomax>5</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>4</dmgmax>
-    <anim>0</anim>
+    <anim>4</anim>
     <imgsrc></imgsrc>
 	</skill>
 	<skill>
@@ -204,7 +204,7 @@
 		<gomax>4</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>3</dmgmax>
-    <anim>0</anim>
+    <anim>1</anim>
     <imgsrc></imgsrc>
 	</skill>
 	<skill>
@@ -388,7 +388,7 @@
 		<gomax>5</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>4</dmgmax>
-    <anim>0</anim>
+    <anim>3</anim>
     <imgsrc>disinfectant</imgsrc>
 	</skill>
 	<skill>
@@ -595,7 +595,7 @@
 		<gomax>5</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>5</dmgmax>
-    <anim>0</anim>
+    <anim>4</anim>
     <imgsrc></imgsrc>
 	</skill>
 	<skill>
@@ -618,7 +618,7 @@
 		<gomax>5</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>5</dmgmax>
-    <anim>0</anim>
+    <anim>5</anim>
     <imgsrc></imgsrc>
 	</skill>
 	<skill>
@@ -687,7 +687,7 @@
 		<gomax>5</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>5</dmgmax>
-    <anim>0</anim>
+    <anim>1</anim>
     <imgsrc></imgsrc>
 	</skill>
 	<skill>
@@ -710,7 +710,7 @@
 		<gomax>5</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>5</dmgmax>
-    <anim>0</anim>
+    <anim>2</anim>
     <imgsrc></imgsrc>
 	</skill>
 	<skill>
@@ -802,7 +802,7 @@
 		<gomax>5</gomax>
 		<dmgmin>1</dmgmin>
 		<dmgmax>5</dmgmax>
-    <anim>0</anim>
+    <anim>3</anim>
     <imgsrc></imgsrc>
 	</skill>
 </root>

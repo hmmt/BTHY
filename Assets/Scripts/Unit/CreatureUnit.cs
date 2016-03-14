@@ -234,6 +234,7 @@ public class CreatureUnit : MonoBehaviour {
 		if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
 		{
 			SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+            SuppressWindow.CreateWindow(model);
 		}
 		else
         //if (model.state == CreatureState.WAIT)
@@ -241,6 +242,10 @@ public class CreatureUnit : MonoBehaviour {
             SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
             //IsolateRoomStatus.CreateWindow(this);
         }
+
+        //Temporary Call Suppress window for Debug. Should Remove This line.
+        SuppressWindow.CreateWindow(model);
+
     }
 
     public void PointerEnter()

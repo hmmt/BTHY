@@ -109,6 +109,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
         touchButtonTransform.sizeDelta = new Vector2(sizex, sizey);
 
+
         if (targetUnit.model.sefiraNum == "1")
         {
             frameRedRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Red");
@@ -116,6 +117,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             frameGreenRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Green");
             workingOffRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Frame");
             workingOnRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Frame");
+
         }
 
         else if (targetUnit.model.sefiraNum == "2")

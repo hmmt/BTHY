@@ -244,7 +244,6 @@ public class SkillManager {
 
     public SkillCategory GetCategoryByName(string name) {
         SkillCategory output = null;
-        Debug.Log(list.Count);
 
         foreach (SkillCategory cat in list) {
             if (cat.name.Equals(name)) {
@@ -252,6 +251,19 @@ public class SkillManager {
                 break;
             }
         }
+        return output;
+    }
+
+    public SkillCategory GetCategoryBySkill(SkillTypeInfo skill) {
+        SkillCategory output = null;
+
+        foreach (SkillCategory cat in list) {
+            if (cat.FindByName(skill.name) != null) {
+                output = cat;
+                break;
+            }
+        }
+
         return output;
     }
 
@@ -303,4 +315,33 @@ public class SkillManager {
         return a.tier.CompareTo(b.tier);
     }
 
+}
+
+public class SkillCategoryName { 
+    public static string Food = "Food";
+    public static string Treat = "Treat";
+    public static string Clean = "Clean";
+    public static string Communication = "Communication";
+    public static string Restriction = "Restriction";
+
+    public static string GetCategoryName(SkillCategory target) {
+        switch (target.name) { 
+            case "영양":
+                return Food;
+            case "대우":
+                return Treat;
+            case "청결":
+                return Clean;
+            case "교감":
+                return Communication;
+            case "규제":
+                return Restriction;
+            default:
+                return "";
+        }
+    }
+
+    public static string GetCategoryName(SkillTypeInfo target) {
+        return GetCategoryName(SkillManager.instance.GetCategoryBySkill(target));
+    }
 }

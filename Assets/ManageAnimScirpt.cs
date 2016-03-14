@@ -30,11 +30,33 @@ public class ManageAnimScirpt : StateMachineBehaviour {
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        /*
         if (animator.GetInteger("Manage") != 0) {
             animator.SetInteger("Manage", 0);
         }
 
         if (animator.GetBool("Memo") == true) {
+            animator.SetBool("Memo", false);
+        }*/
+
+        if (animator.GetBool("Manage") != false) {
+            animator.SetBool("Manage", false);
+        }
+
+        if (animator.GetInteger("Food") != 0){
+            animator.SetInteger("Food", 0);
+        }
+
+        if (animator.GetInteger("Clean") != 0) {
+            animator.SetInteger("Clean", 0);
+        }
+
+        if (animator.GetInteger("Treat") != 0) {
+            animator.SetInteger("Treat", 0);
+        }
+
+        if (animator.GetBool("Memo") == true)
+        {
             animator.SetBool("Memo", false);
         }
     }

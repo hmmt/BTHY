@@ -426,7 +426,9 @@ public class UseSkill : ActionClassBase
         if (skillInfo.animID == 0)
             agentView.puppetAnim.SetBool("Memo", true);
         else {
-            agentView.puppetAnim.SetInteger("Manage", skillInfo.animID);
+            Debug.Log(SkillCategoryName.GetCategoryName(skillInfo));
+            agentView.puppetAnim.SetInteger( SkillCategoryName.GetCategoryName(skillInfo),
+                skillInfo.animID);
         }
 
         string speech;
