@@ -45,6 +45,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 	public float energyChangeElapsedTime;
 	//public float bufFeelingAddRate; // per second
 
+	public float attackDelay = 0;
+
     // 메타데이터
     public CreatureTypeInfo metaInfo;
     
@@ -267,6 +269,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 
     public void OnFixedUpdate()
     {
+		attackDelay -= Time.deltaTime;
+
 		commandQueue.Execute (this);
 
 		if (energyChangeTime > energyChangeElapsedTime)
@@ -494,39 +498,10 @@ public class CreatureModel : ObjectModelBase, IObserver
 		return CreatureAttackType.PHYSICS;
 	}
 
-	/*
-	// unused
-	public bool GetPreferSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
+	public void ResetAttackDelay()
 	{
-		FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
-		foreach (SkillBonusInfo bonusInfo in info.preferList)
-		{
-			if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
-			{
-				bonus = bonusInfo.bonus;
-				return true;
-			}
-		}
-		bonus = 0;
-		return false;
+		attackDelay = 4.0f;
 	}
-
-	// unused
-    public bool GetRejectSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
-    {
-        FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
-        foreach (SkillBonusInfo bonusInfo in info.rejectList)
-        {
-            if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
-            {
-                bonus = -bonusInfo.bonus;
-                return true;
-            }
-        }
-        bonus = 0;
-        return false;
-    }
-	*/
 
     public bool IsPreferSkill(SkillTypeInfo skillTypeInfo)
     {

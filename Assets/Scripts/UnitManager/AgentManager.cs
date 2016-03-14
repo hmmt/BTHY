@@ -354,6 +354,7 @@ public class AgentManager : IObserver {
         }
     }
 
+	/*
     public AgentModel[] GetNearAgents(MovableObjectNode node)
     {
         List<AgentModel> output = new List<AgentModel>();
@@ -367,6 +368,26 @@ public class AgentManager : IObserver {
         }
         return output.ToArray();
     }
+    */
+	public AgentModel[] GetNearAgents(MovableObjectNode node)
+	{
+		List<AgentModel> output = new List<AgentModel>();
+		foreach (AgentModel agent in agentList)
+		{
+			/*
+			if (node.CheckInRange(agent.GetMovableNode()))
+			{
+				output.Add(agent);
+			}
+*/
+			Vector3 dist = node.GetCurrentViewPosition () - agent.GetMovableNode ().GetCurrentViewPosition ();
+			if (node.GetPassage () == agent.GetMovableNode ().GetPassage () &&
+			   dist.sqrMagnitude <= 2) {
+				output.Add(agent);
+			}
+		}
+		return output.ToArray();
+	}
 
     private static string GetRandomName()
     {

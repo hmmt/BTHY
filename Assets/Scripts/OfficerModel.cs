@@ -97,7 +97,7 @@ public class OfficerModel : WorkerModel {
                     break;
                 }
                 //this.MoveToCreatureRoom(this.target);
-				MoveToNode(this.target.GetWorkspaceNode());
+				MoveToNode(this.target.GetEntryNode());
 
                 this.isMoving = true;
                 waitTimer = 90f;

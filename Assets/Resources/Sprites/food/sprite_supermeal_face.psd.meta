@@ -1,0 +1,234 @@
+fileFormatVersion: 2
+guid: c4c8279e777b1374fa88436416010fbc
+timeCreated: 1457679331
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: sprite_supermeal_face_eyebrow
+    21300002: sprite_supermeal_face_1
+    21300004: sprite_supermeal_face_2
+    21300006: sprite_supermeal_face_3
+    21300008: sprite_supermeal_face_eyecover2
+    21300010: sprite_supermeal_face_eyecover1
+    21300012: sprite_supermeal_face_mouth
+    21300014: sprite_supermeal_face_eye
+    21300016: sprite_supermeal_face_8
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 8192
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: sprite_supermeal_face_eyebrow
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 300
+        width: 207
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 102.5, y: -8}
+        - {x: 102.5, y: -3}
+        - {x: 101.5, y: 1}
+        - {x: 98.5, y: 6}
+        - {x: 10.5, y: 6}
+        - {x: 10.5, y: -14}
+        - {x: 19.5, y: -17}
+        - {x: 21.5, y: -13}
+        - {x: 21.5, y: -7}
+        - {x: 23.5, y: -15}
+        - {x: 27.5, y: -20}
+        - {x: 32.5, y: -23}
+        - {x: 37.5, y: -24}
+        - {x: 45.5, y: -24}
+        - {x: 52.5, y: -22}
+        - {x: 66.5, y: -17}
+        - {x: 100.5, y: -9}
+      - - {x: -83.5, y: 28}
+        - {x: -99.5, y: 28}
+        - {x: -100.5, y: 27}
+        - {x: -100.5, y: -3}
+        - {x: -47.5, y: -23}
+        - {x: -6.5, y: -23}
+        - {x: -6.5, y: 9}
+        - {x: -69.5, y: 26}
+    - name: sprite_supermeal_face_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 347
+        width: 61
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprite_supermeal_face_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 323
+        width: 47
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprite_supermeal_face_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 370
+        width: 76
+        height: 20
+      alignment: 9
+      pivot: {x: -3.2643795, y: 0.7264587}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprite_supermeal_face_eyecover2
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 175
+        width: 108
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -54, y: 40.5}
+        - {x: -54, y: -27.5}
+        - {x: -52, y: -38.5}
+        - {x: -34, y: -46.5}
+        - {x: 54, y: -46.5}
+        - {x: 54, y: 39.5}
+        - {x: 44, y: 40.5}
+      - - {x: -19, y: 44.5}
+        - {x: -19, y: 46.5}
+        - {x: -24, y: 46.5}
+        - {x: -22, y: 43.5}
+    - name: sprite_supermeal_face_eyecover1
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 164
+        width: 114
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36, y: 43.5}
+        - {x: -57, y: 40.5}
+        - {x: -57, y: -38.5}
+        - {x: -47, y: -43.5}
+        - {x: 46, y: -43.5}
+        - {x: 57, y: -30.5}
+        - {x: 57, y: 41.5}
+        - {x: 55, y: 43.5}
+    - name: sprite_supermeal_face_mouth
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 25
+        width: 84
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20, y: 18.5}
+        - {x: -25, y: 17.5}
+        - {x: -41, y: 0.5}
+        - {x: -41, y: -14.5}
+        - {x: -4, y: -16.5}
+        - {x: 40, y: -16.5}
+        - {x: 40, y: 3.5}
+        - {x: 30, y: 18.5}
+    - name: sprite_supermeal_face_eye
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 11
+        width: 236
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 20, y: 61}
+        - {x: 13, y: 36}
+        - {x: 13, y: -54}
+        - {x: 20, y: -63}
+        - {x: 89, y: -63}
+        - {x: 100, y: -62}
+        - {x: 118, y: -44}
+        - {x: 118, y: 31}
+        - {x: 111, y: 61}
+      - - {x: -101, y: 61}
+        - {x: -116, y: 52}
+        - {x: -116, y: -44}
+        - {x: -87, y: -61}
+        - {x: -45, y: -61}
+        - {x: -18, y: -36}
+        - {x: -18, y: 55}
+        - {x: -40, y: 61}
+    - name: sprite_supermeal_face_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 1
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

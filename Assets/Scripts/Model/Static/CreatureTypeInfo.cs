@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
+public enum CreatureType { 
+    BIO,//biology
+    ABS,//abstract
+    THING,//thing
+
+    NONE,//dummy
+    ALL,//for working type
+}
+
 public enum CreatureFeelingState
 {
     GOOD,

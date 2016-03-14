@@ -202,12 +202,25 @@ public class PursueCreatureCommand : CreatureCommand
 	{
 		//actor.GetMovableNode ().GetPassage ();
 
-		if (targetWorker.GetMovableNode().GetDistance(actor.GetMovableNode(), 500) < 1)
+		Vector3 dist = actor.GetMovableNode ().GetCurrentViewPosition () - targetWorker.GetMovableNode ().GetCurrentViewPosition ();
+
+		//dist.sqrMagnitude
+		if(actor.GetMovableNode().GetPassage() == targetWorker.GetMovableNode().GetPassage() &&
+			dist.sqrMagnitude <= 2)
+			
+			
+		//return;
+		//if (targetWorker.GetMovableNode().GetDistance(actor.GetMovableNode(), 500) < 1)
 		{
 			//detectedAgents [0].TakePhysicalDamage (1);
 			//detectedAgents [0].TakePhysicalDamage (1);
 			//actor.GetMovableNode().StopMoving();
-			Debug.Log ("Attack?");
+			//Debug.Log ("Attack?");
+
+			if (actor.attackDelay <= 0) {
+				HitObjectManager.AddHitbox (actor.GetCurrentViewPosition (), 0.5f, 4.0f, 3);
+				actor.ResetAttackDelay ();
+			}
 		}
 		else
 		{

@@ -193,9 +193,10 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
         slotPanel.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
 
-        slotPanel.agentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
-        slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
-        slotPanel.agentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
+        //slotPanel.agentBody.sprite =  
+        //slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
+        slotPanel.agentFace.sprite = unit.tempFaceSprite;
+        slotPanel.agentHair.sprite = unit.tempHairSprite;
         posy -= 100f;
 
         agentPanelList.Add(slotPanel);

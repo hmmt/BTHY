@@ -112,7 +112,7 @@ public class WorkSlot : MonoBehaviour, IObserver
         this.currentSkill = skill;
 
         GameObject icon = GetIcon();
-        icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("Sprites/" + skill.imgsrc);
+        icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("Sprites/UI/skill/" + skill.imgsrc);
         GameObject text = GetText();
         text.GetComponent<Text>().text = skill.name;
 

@@ -85,7 +85,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         IsolateRoom room = creatureRoom.GetComponent<IsolateRoom>();
         int rand = Random.Range(1, 4);
         tempIntforSprite.Add(rand);
-        string spriteDirectory = this.directory + rand;
+        string spriteDirectory = this.directory + 1;
         room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
 
 		GameObject g = Instantiate (room.roomSpriteRenderer.gameObject);
@@ -155,7 +155,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         {
             for (int i = 0; i < creatureList.Count; i++) {
                 CreatureUnit cu = creatureList[i];
-                spriteDirectory = this.directory + tempIntforSprite[i];
+                spriteDirectory = this.directory + tempIntforSprite[0] + dark;
                 //cu.spriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
                 cu.room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
                 cu.room.roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1f);
@@ -166,7 +166,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
             for (int i = 0; i < creatureList.Count; i++)
             {
                 CreatureUnit cu = creatureList[i];
-                spriteDirectory = this.directory + tempIntforSprite[i] + this.dark;
+                spriteDirectory = this.directory + tempIntforSprite[0];
                 //cu.spriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
                 cu.room.roomSpriteRenderer.sprite = ResourceCache.instance.GetSprite(spriteDirectory);
                 cu.room.roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1f);

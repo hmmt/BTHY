@@ -193,6 +193,12 @@ public class AgentModel : WorkerModel
     {
         if (isDead())
             return;
+
+		if (stunTime > 0) {
+			stunTime -= Time.deltaTime;
+			return;
+		}
+
         ProcessAction();
 
         movableNode.ProcessMoveNode(movement);

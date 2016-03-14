@@ -175,35 +175,66 @@ public class Sefira
     }
 
     public class AgentSkillCategory {
-        public string category;
-        public List<SkillTypeInfo> list;
+        public string name;
+        public SkillCategory category;
+        public List<AgentModel> agentList;
+        public int maxLevel;
+        public int index;
 
-        public AgentSkillCategory(string name)
+        public AgentSkillCategory(SkillCategory target, int index)
         {
-            this.category = name;
-            list = new List<SkillTypeInfo>();
-
+            maxLevel = 1;
+            this.name = target.name;
+            agentList = new List<AgentModel>();
+            this.index = index;
         }
 
-        public void AddSkill(SkillTypeInfo s){
-            list.Add(s);
+        public void SetCategory(SkillCategory cat) {
+            this.category = this.GetCategory().GetCopy();
         }
 
-        public SkillTypeInfo[] GetSkills() {
-            return list.ToArray();
+        /// <summary>
+        /// Add agent to this class's list
+        /// support duplication check 
+        /// </summary>
+        /// <param name="model"></param>
+        public void AddAgent(AgentModel model) {
+            if (!AgentDupCheck(model)) {
+                agentList.Add(model);
+            }
+            SkillCategory temp = model.GetUniqueSkillCategory(this.name);
+            if (this.maxLevel < temp.currentLevel) {
+                this.maxLevel = temp.currentLevel;
+            }
         }
 
-        public bool DupCheck(SkillTypeInfo s) {
-            bool output = false;
-            foreach (SkillTypeInfo skill in list) {
-                if (skill.Equals(s)) {
-                    output = true;
-                    break;
+        public SkillCategory GetCategory() {
+            return SkillManager.instance.GetCategoryByName(this.name);
+        }
+
+        public AgentModel[] GetAgentBySkillLevel(int level) {
+            if (level < 1 || level > 3) {
+                return null;
+            }
+
+            List<AgentModel> output = new List<AgentModel>();
+            foreach (AgentModel am in this.agentList) {
+                SkillCategory temp = am.GetUniqueSkillCategory(this.name);
+                if (temp != null) {
+                    output.Add(am);
                 }
             }
-            return output;
+
+            if (output.Count == 0) {
+                return null;
+            }
+            return output.ToArray();
         }
 
+        public bool AgentDupCheck(AgentModel model) {
+            return this.agentList.Contains(model);
+        }
+        
         public int GetIndex(string t) {
             int output = -1;
             switch (t) { 
@@ -453,7 +484,48 @@ public class Sefira
         }
     }
 
+    public AgentSkillCategory GetAgentSkillCategory(SkillCategory target) {
+        AgentSkillCategory output = null;
+        foreach (AgentSkillCategory asc in this.skillCategory) {
+            if (asc.name.Equals(target.name)) {
+                output = asc;
+                break;
+            }
+            
+        }
+        return output;
+    }
+    
+    /// <summary>
+    /// Initiate AgentSkillCategries
+    /// Called by SkillManager
+    /// </summary>
+    /// <param name="skillcategories"></param>
+    public void InitAgentSkillCategory(List<SkillCategory> skillcategories) {
+        int cnt = 0;
+        foreach (SkillCategory cat in skillcategories)
+        {
+            AgentSkillCategory asc = new AgentSkillCategory(cat, cnt);
+            asc.SetCategory(cat);
+            this.skillCategory.Add(asc);
+            cnt++;
+        }
+    }
+
     public void InitAgentSkillList() {
+        foreach (AgentModel am in agentList) {
+            foreach (SkillCategory cat in am.GetSkillCategories()) {
+                AgentSkillCategory asc = this.GetAgentSkillCategory(cat);
+                Debug.Log(" SkillCategory " +asc.name);
+                if (asc == null) {
+                    Debug.Log("Error");
+                    return;
+                }
+                asc.AddAgent(am);
+            }
+        }
+
+        /*
         foreach (AgentModel am in agentList) {
             SkillTypeInfo[] tempAry = am.GetSkillList();
             // Debug.Log("initagentskillList"+ tempAry.Length);
@@ -484,7 +556,7 @@ public class Sefira
                 }
             }
             
-        }
+        }*/
     }
 
     public AgentSkillCategory[] GetSkillCategories() {
@@ -496,7 +568,7 @@ public class Sefira
         bool output = false;
 
         foreach (AgentSkillCategory asc in skillCategory) {
-            if (asc.category.Equals(category)) {
+            if (asc.name.Equals(category)) {
                 output = true;
                 break;
             }

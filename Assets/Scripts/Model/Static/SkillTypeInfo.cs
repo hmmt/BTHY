@@ -3,55 +3,117 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SkillTypeInfo {
+    public class SkillTrait {
+        public string name;//not used
+        public float min;
+        public float max;
 
+        public SkillTrait() {
+            name = "";
+            min = 0;
+            max = 0;
+        }
+
+        public void SetValue(float min, float max) {
+            this.min = min;
+            this.max = max;
+        }
+    }
+    public string name;
+    public int level;
 	public long id;
-	public string name;
-	public string type;
-
     public string description;
+    public float amount;//작업량?
+    public float feeling;//기분수치 반영값
+    public float energy;//에너지생산량
+    public float coolTime;//쿨타임
 
-	public int amount;
+    public int animID;//애니메이션 id
+
+    public CreatureType type;
+
+    public SkillTrait intelligence;//정신
+    public SkillTrait size;//크기
+    public SkillTrait attack;//공격
+    public SkillTrait gorgeous;//고상한 정도 : 스킬 적용 대상 지정용
+    public SkillTrait damage;//피해량
 
     public string imgsrc;
 
-    public string bonusType;
-
-    public float amountBonusD;
-    public float feelingBonusD;
-    public int mentalReduceD;
-    public int mentalTickD;
-
-    public float amountBonusI;
-    public float feelingBonusI;
-    public int mentalReduceI;
-    public int mentalTickI;
-
-    public float amountBonusS;
-    public float feelingBonusS;
-    public int mentalReduceS;
-    public int mentalTickS;
-
-    public float amountBonusC;
-    public float feelingBonusC;
-    public int mentalReduceC;
-    public int mentalTickC;
-
-    public long[] nextSkillIdList;
-
-    public string category;
+    public SkillTypeInfo() {
+        this.name = "";
+        this.level = 0;
+        this.id = 0;
+        this.description = "";
+        this.type = CreatureType.NONE;
+        this.intelligence = new SkillTrait();
+        this.size = new SkillTrait();
+        this.attack = new SkillTrait();
+        this.gorgeous = new SkillTrait();
+        this.damage = new SkillTrait();
+        this.imgsrc = "";
+    }
 }
 
+/*
 public class SkillUnit {
+    public class SkillTrait {
+        public string name;//not used
+        public float min;
+        public float max;
+
+        public SkillTrait() {
+            name = "";
+            min = 0;
+            max = 0;
+        }
+
+        public void SetValue(float min, float max) {
+            this.min = min;
+            this.max = max;
+        }
+    }
     public string name;
     public int level;
 
-}
+    public float amount;//작업량?
+    public float feeling;//기분수치 반영값
+    public float energy;//에너지생산량
+    public float coolTime;//쿨타임
 
+    public CreatureType type;
+
+    public SkillTrait intelligence;//정신
+    public SkillTrait size;//크기
+    public SkillTrait attack;//공격
+    public SkillTrait gorgeous;//고상한 정도 : 스킬 적용 대상 지정용
+    public SkillTrait damage;//피해량
+
+    public string imgsrc;
+
+    public SkillUnit() {
+        this.name = "";
+        this.level = 0;
+
+        this.type = CreatureType.NONE;
+        this.intelligence = new SkillTrait();
+        this.size = new SkillTrait();
+        this.attack = new SkillTrait();
+        this.gorgeous = new SkillTrait();
+        this.damage = new SkillTrait();
+        imgsrc = "";
+    }
+}*/
+
+/// <summary>
+/// Collections of Skills for Agent Working.
+/// Each Agents has not each skills but categories.
+/// </summary>
 public class SkillCategory {
     public string name;
     public int tier;//Tier
-    public List<SkillUnit> list;//totalSkills
-    public List<SkillUnit> currentList;
+    public List<SkillTypeInfo> list;//totalSkills
+    //public List<SkillTypeInfo> currentList;
     public int currentLevel;
     public int MaxLevel;
 
@@ -60,16 +122,18 @@ public class SkillCategory {
     public SkillCategory(string name, int tier) {
         this.name = name;
         this.tier = tier;
-        list = new List<SkillUnit>();
+        list = new List<SkillTypeInfo>();
         currentLevel = 1;
         MaxLevel = 3;
     }
 
-    public void AddSkill(SkillUnit item) {
+    public void AddSkill(SkillTypeInfo item)
+    {
         this.list.Add(item);
     }
 
-    private int CompareByLevel(SkillUnit a, SkillUnit b) {
+    private int CompareByLevel(SkillTypeInfo a, SkillTypeInfo b)
+    {
         if (a == null || b == null) {
             return 0;
         }
@@ -81,8 +145,9 @@ public class SkillCategory {
         list.Sort(CompareByLevel);
     }
 
-    public SkillUnit[] GetAry() {
-        List<SkillUnit> output = new List<SkillUnit>();
+    public SkillTypeInfo[] GetAry()
+    {
+        List<SkillTypeInfo> output = new List<SkillTypeInfo>();
 
         for (int i = 0; i < list.Count; i++) {
             if (list[i].level <= currentLevel)
@@ -96,9 +161,11 @@ public class SkillCategory {
         return output.ToArray();
     }
 
-    public SkillUnit FindByName(string name) {
-        SkillUnit output = null;
-        foreach (SkillUnit unit in list) {
+    public SkillTypeInfo FindByName(string name)
+    {
+        SkillTypeInfo output = null;
+        foreach (SkillTypeInfo unit in list)
+        {
             if (unit.name.Equals(name)) {
                 output = unit;
                 break;
@@ -107,14 +174,16 @@ public class SkillCategory {
         return output;
     }
 
-    public SkillUnit[] GetByLevel(int level) {
+    public SkillTypeInfo[] GetByLevel(int level)
+    {
         if (level < 1 || level > MaxLevel) {
             return null;
         }
 
-        List<SkillUnit> output = new List<SkillUnit>();
+        List<SkillTypeInfo> output = new List<SkillTypeInfo>();
 
-        foreach (SkillUnit unit in list) {
+        foreach (SkillTypeInfo unit in list)
+        {
             if (unit.level < level) {
                 continue;
             }
@@ -141,7 +210,7 @@ public class SkillCategory {
 
     public SkillCategory GetCopy() {
         SkillCategory newItem = new SkillCategory(this.name, this.tier);
-        newItem.list = new List<SkillUnit>(this.list.ToArray());
+        newItem.list = new List<SkillTypeInfo>(this.list.ToArray());
         newItem.currentLevel = this.currentLevel;
         newItem.MaxLevel = this.MaxLevel;
         return newItem;
@@ -175,6 +244,7 @@ public class SkillManager {
 
     public SkillCategory GetCategoryByName(string name) {
         SkillCategory output = null;
+        Debug.Log(list.Count);
 
         foreach (SkillCategory cat in list) {
             if (cat.name.Equals(name)) {
@@ -220,6 +290,9 @@ public class SkillManager {
         }
         this.isLoaded = true;
         //PromotionSkillTree.instance.Init();
+        foreach (Sefira sefira in SefiraManager.instance.sefiraList) {
+            sefira.InitAgentSkillCategory(this.list);
+        }
     }
 
     private int CompareByTier(SkillCategory a, SkillCategory b) {

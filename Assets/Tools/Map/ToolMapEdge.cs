@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 
 public enum TOOL_MAP_EDGE
@@ -42,8 +41,9 @@ public class ToolMapEdge : MonoBehaviour {
 		g.transform.SetParent (root.transform);
 
 		SpriteRenderer r = g.AddComponent<SpriteRenderer> ();
-		r.sprite =  AssetDatabase.LoadAssetAtPath("Assets/Tools/EdgeImage.psd", typeof(Sprite)) as Sprite;
-
+		#if UNITY_EDITOR
+		r.sprite =  UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Tools/EdgeImage.psd", typeof(Sprite)) as Sprite;
+		#endif
 		ToolMapEdge edge = g.AddComponent<ToolMapEdge> ();
 
 		edge.node1 = node1;

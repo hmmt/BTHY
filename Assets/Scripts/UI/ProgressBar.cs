@@ -29,6 +29,7 @@ public class ProgressBar : MonoBehaviour {
             cnt += 0.1f;
             GameObject temp = Instantiate(Resources.Load<GameObject>("Prefabs/isloate_energy_item"));
             temp.transform.SetParent(this.transform);
+            temp.transform.localScale = Vector3.one;
         }
 		//bar.transform.localScale = new Vector3(rate, 1, 1);
 	}

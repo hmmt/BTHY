@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections.Generic;
 
 public enum TOOL_MAP_NODE
@@ -14,6 +16,7 @@ public class ToolMapNode : MonoBehaviour {
 	
 	public string id;
 	public string areaName;
+	public float scaleFactor = 1.0f;
 
 	[HideInInspector]
 	public ToolMapEdge[] edges;
@@ -50,7 +53,9 @@ public class ToolMapNode : MonoBehaviour {
 		GameObject g = new GameObject ("MapNode");
 
 		SpriteRenderer r = g.AddComponent<SpriteRenderer> ();
-		r.sprite = AssetDatabase.LoadAssetAtPath("Assets/Tools/NodeImage.psd", typeof(Sprite)) as Sprite;
+		#if UNITY_EDITOR
+		r.sprite = UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Tools/NodeImage.psd", typeof(Sprite)) as Sprite;
+		#endif
 
 		ToolMapNode newNode = g.AddComponent<ToolMapNode> ();
 
@@ -70,6 +75,7 @@ public class ToolMapNode : MonoBehaviour {
 
 	public static void CreateMapNode(Vector3 pos)
 	{
+		#if UNITY_EDITOR
 		ToolMapRoot root = ToolMapGraph_Editor.GetMapRoot ();
 
 		GameObject g = new GameObject ("MapNode");
@@ -93,5 +99,6 @@ public class ToolMapNode : MonoBehaviour {
 		}
 
 		Selection.activeGameObject = newNode.gameObject;
+		#endif
 	}
 }

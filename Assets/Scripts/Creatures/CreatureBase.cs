@@ -90,7 +90,6 @@ public class CreatureBase {
             );
     }*/
 
-
     public virtual SkillTypeInfo GetSpecialSkill()
     {
         return null;

@@ -115,10 +115,23 @@ public class WorkListScript : MonoBehaviour {
         skillList = new List<SkillTypeInfo>();
         currentSefira = SefiraManager.instance.getSefira(SefiraName.Malkut);
         category = new List<Sefira.AgentSkillCategory>(currentSefira.GetSkillCategories());
-        
-        foreach (Sefira.AgentSkillCategory temp in category) {
-            //Debug.Log(temp.category + " " + temp.GetIndex(temp.category).ToString() + " " + temp.list.Count);
-            SlotCall(temp.GetIndex(temp.category), temp.list);
+        Debug.Log("total category " + category.Count);
+
+        for (int i = 0; i < category.Count; i++) {
+            List<SkillTypeInfo> tempSkillList = new List<SkillTypeInfo>();
+            SkillCategory cat = category[i].category;
+            if (category[i].agentList.Count == 0) {
+                continue;
+            }
+
+            for (int j = 1; j <= category[i].maxLevel; j++) {
+                //tempSkillList.Add(cat.GetB0Level(j)); 
+                foreach (SkillTypeInfo item in cat.GetByLevel(j)) {
+                    tempSkillList.Add(item);
+                }
+            }
+            SlotCall(category[i].index, tempSkillList);
+            //SlotCall();
         }
     }
 

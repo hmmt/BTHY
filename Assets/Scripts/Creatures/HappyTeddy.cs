@@ -118,6 +118,7 @@ public class HappyTeddy  : CreatureBase {
 
     public override SkillTypeInfo GetSpecialSkill()
     {
-        return SkillTypeList.instance.GetData(400002);
+        return null;
+        //return SkillTypeList.instance.GetData(400002);
     }
 }

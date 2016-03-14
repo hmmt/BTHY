@@ -9,8 +9,8 @@ public class GameStaticDataLoader {
 	public static void LoadStaticData()
 	{
 		GameStaticDataLoader loader = new GameStaticDataLoader ();
-        if(SkillTypeList.instance.loaded == false)
-		    loader.LoadSKillData ();
+        //if(SkillTypeList.instance.loaded == false)
+		    //loader.LoadSKillData ();
         if (CreatureTypeList.instance.loaded == false)
 		    loader.LoadCreatureList ();
         if (AgentTypeList.instance.loaded == false)
@@ -105,12 +105,44 @@ public class GameStaticDataLoader {
 
         XmlNodeList skillNodes = root.SelectNodes("skill");
 
-        List<SkillUnit> skillList = new List<SkillUnit>();
-
+        List<SkillTypeInfo> skillList = new List<SkillTypeInfo>();
+        
         foreach (XmlNode node in skillNodes) {
-            SkillUnit unit = new SkillUnit();
+            SkillTypeInfo unit = new SkillTypeInfo();
             unit.name = node.SelectSingleNode("name").InnerText;
             unit.level = int.Parse(node.SelectSingleNode("level").InnerText);
+
+            unit.amount = float.Parse(node.SelectSingleNode("amount").InnerText);
+            unit.feeling = float.Parse(node.SelectSingleNode("feeling").InnerText);
+            unit.energy = float.Parse(node.SelectSingleNode("energy").InnerText);
+            unit.coolTime = float.Parse(node.SelectSingleNode("cooltime").InnerText);
+
+            unit.type = GetType(node.SelectSingleNode("type").InnerText);
+
+            float min, max;
+            min = float.Parse(node.SelectSingleNode("intmin").InnerText);
+            max = float.Parse(node.SelectSingleNode("intmax").InnerText);
+            unit.intelligence.SetValue(min, max);
+
+            min = float.Parse(node.SelectSingleNode("sizemin").InnerText);
+            max = float.Parse(node.SelectSingleNode("sizemax").InnerText);
+            unit.size.SetValue(min, max);
+
+            min = float.Parse(node.SelectSingleNode("atkmin").InnerText);
+            max = float.Parse(node.SelectSingleNode("atkmax").InnerText);
+            unit.attack.SetValue(min, max);
+
+            min = float.Parse(node.SelectSingleNode("gomin").InnerText);
+            max = float.Parse(node.SelectSingleNode("gomax").InnerText);
+            unit.gorgeous.SetValue(min, max);
+
+            min = float.Parse(node.SelectSingleNode("dmgmin").InnerText);
+            max = float.Parse(node.SelectSingleNode("dmgmax").InnerText);
+            unit.damage.SetValue(min, max);
+
+            unit.animID = int.Parse(node.SelectSingleNode("anim").InnerText);
+
+            unit.imgsrc = node.SelectSingleNode("imgsrc").InnerText;
 
             string categoryText = node.SelectSingleNode("category").InnerText;
             SkillCategory category = SkillManager.instance.GetCategoryByName(categoryText);
@@ -124,6 +156,21 @@ public class GameStaticDataLoader {
             category.AddSkill(unit);
         }
         SkillManager.instance.SortList();
+    }
+
+    private CreatureType GetType(string type) {
+        switch (type) { 
+            case "BIO":
+                return CreatureType.BIO;
+            case "THI":
+                return CreatureType.THING;
+            case "ALL":
+                return CreatureType.ALL;
+            case "ABS":
+                return CreatureType.ABS;
+            default:
+                return CreatureType.NONE;
+        }
     }
 
     public void LoadSystemMessage() {
@@ -267,6 +314,7 @@ public class GameStaticDataLoader {
         ConversationManager.instance.Init(list.ToArray(), endList.ToArray());
     }
 
+    /*
 	public void LoadSKillData()
 	{
         // skills
@@ -401,7 +449,7 @@ public class GameStaticDataLoader {
 		}
 		
 		SkillTypeList.instance.Init (skillTypeList.ToArray ());
-	}
+	}*/
 
 	public void LoadAgentData()
 	{
@@ -448,11 +496,11 @@ public class GameStaticDataLoader {
 			long directSkillId = long.Parse(node.Attributes.GetNamedItem("directSkillId").InnerText);
 			long indirectSkillId = long.Parse(node.Attributes.GetNamedItem("indirectSkillId").InnerText);
 			long blockSkillId = long.Parse(node.Attributes.GetNamedItem("blockSkillId").InnerText);
-			
+			/*
 			model.directSkill = SkillTypeList.instance.GetData(directSkillId);
 			model.indirectSkill = SkillTypeList.instance.GetData(indirectSkillId);
 			model.blockSkill = SkillTypeList.instance.GetData(blockSkillId);
-			
+			*/
             /*
 			XmlNode imgNode = node.SelectSingleNode("img");
 			model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;

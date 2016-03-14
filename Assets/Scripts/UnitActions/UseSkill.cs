@@ -422,8 +422,12 @@ public class UseSkill : ActionClassBase
         agentView.showSkillIcon.turnOnDoingSkillIcon(true);
         agentView.showSkillIcon.showDoingSkillIcon(skillInfo, agent);
 
-		agentView.puppetAnim.speed = 6.0f; 
-		agentView.puppetAnim.SetBool("Memo", true);
+		agentView.puppetAnim.speed = 6.0f;
+        if (skillInfo.animID == 0)
+            agentView.puppetAnim.SetBool("Memo", true);
+        else {
+            agentView.puppetAnim.SetInteger("Manage", skillInfo.animID);
+        }
 
         string speech;
         agent.speechTable.TryGetValue("work_start", out speech);
@@ -437,8 +441,9 @@ public class UseSkill : ActionClassBase
         //agent.Working(creature);
         //creature.ShowNarrationText("start", agent.name);
 
-        inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.workSpeed, skillInfo.amount); // 임시
-        
+        //inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.workSpeed, skillInfo.amount); // 임시
+        inst.Init(skillInfo, agent, 10, (int)skillInfo.amount, agent.workSpeed, skillInfo.amount);
+
         inst.agent = agent;
         inst.agentView = agentView;
 
@@ -461,6 +466,8 @@ public class UseSkill : ActionClassBase
         inst.progressBar = progressObj.GetComponent<ProgressBar>();
         inst.progressBar.SetVisible(true);
         inst.progressBar.SetRate(0);
+        inst.progressBar.transform.localScale = new Vector3(0.7692308f, 0.7692308f, 1f);
+        inst.progressBar.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1.763f, 0.6420423f);
 
         Notice.instance.Send("UpdateCreatureState_" + inst.targetCreature.instanceId);
 
