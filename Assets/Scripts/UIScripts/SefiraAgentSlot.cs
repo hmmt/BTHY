@@ -65,9 +65,11 @@ public class SefiraAgentSlot : MonoBehaviour {
         for (int i = 4; i >= 0; i--)
         {
             slot[i].Bg.sprite = bgImage[0];
+			/*
             slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentHair.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
+            */
             slot[i].agentLevel.text = "없음";
             slot[i].agentName.text = "없음";
             slot[i].cancelButton.gameObject.SetActive(false);
@@ -81,9 +83,11 @@ public class SefiraAgentSlot : MonoBehaviour {
         for (int i = 4; i >= model.Count; i--)
         {
             slot[i].Bg.sprite = bgImage[0];
+			/*
             slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentHair.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
+            */
             slot[i].agentLevel.text = "없음";
             slot[i].agentName.text = "없음";
             slot[i].cancelButton.gameObject.SetActive(false);

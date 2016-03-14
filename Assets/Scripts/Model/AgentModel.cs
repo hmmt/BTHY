@@ -13,6 +13,9 @@ public class AgentModel : WorkerModel
 
     public List<TraitTypeInfo> traitList;
 
+	public float attackDelay = 0;
+	//
+
     public int level;
     public int workDays;
 
@@ -188,18 +191,22 @@ public class AgentModel : WorkerModel
         */
     }
 
-    private bool tempPanic = false;
+    private static bool tempPanic = false;
     // notice로 호출됨
     public override void OnFixedUpdate()
     {
         if (isDead())
             return;
 
+		if(attackDelay > 0)
+			attackDelay -= Time.deltaTime;
+		/*
         if (!tempPanic)
         {
             tempPanic = true;
             Panic();
         }
+        */
 
 		if (stunTime > 0) {
 			stunTime -= Time.deltaTime;
@@ -589,7 +596,7 @@ public class AgentModel : WorkerModel
             if (waitTimer <= 0)
             {
                 //MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
-                commandQueue.SetAgentCommand(WorkerCommand.MakeMove(MapGraph.instance.GetSepiraNodeByRandom(currentSefira)));
+				MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
                 waitTimer = 1.5f + Random.value;
             }
         }
@@ -644,10 +651,19 @@ public class AgentModel : WorkerModel
         return cmd.type;
     }
 
-	public void MoveToCreatureForWorking()
+
+	public void MoveToNode(MapNode node)
 	{
-		
+		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(node));
 	}
+
+
+	public void PursueAgent(AgentModel agent)
+	{
+		state = AgentAIState.PANIC_VIOLENCE;
+		commandQueue.SetAgentCommand (WorkerCommand.MakePanicPursueAgent (agent));
+	}
+
     public void AttackedByCreature()
     {
         state = AgentAIState.CAPTURE_BY_CREATURE;
@@ -791,10 +807,28 @@ public class AgentModel : WorkerModel
         }
     }
 
+	public void FinishPursueAgent()
+	{
+		if (state == AgentAIState.PANIC_VIOLENCE)
+		{
+			state = AgentAIState.IDLE;
+		}
+	}
+
     // panic 관련 end
 
     // state 관련 함수들 end
 
+
+	public void AttackAction(AgentModel target)
+	{
+		HitObjectManager.AddPanicHitbox (GetCurrentViewPosition (), this, target);
+		ResetAttackDelay ();
+	}
+	public void ResetAttackDelay()
+	{
+		attackDelay = 4.0f;
+	}
     
 
 	// method about managing
@@ -882,7 +916,8 @@ public class AgentModel : WorkerModel
     public override void PanicReadyComplete()
     {
 		//CurrentPanicAction = new PanicRoaming (this);
-		CurrentPanicAction = new PanicOpenIsolate(this);
+		//CurrentPanicAction = new PanicOpenIsolate(this);
+		CurrentPanicAction = new PanicViolence(this);
 		return;
         // 바꿔야 함
         switch (agentLifeValue)

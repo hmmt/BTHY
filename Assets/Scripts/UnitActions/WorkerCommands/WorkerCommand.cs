@@ -16,6 +16,8 @@ public class WorkerCommand
 
 	public bool isFinished = false;
 
+	public bool isMoving = false;
+
 	/// <summary>
 	/// Raises the init event.
 	/// </summary>
@@ -135,6 +137,12 @@ public class WorkerCommand
 		return cmd;
 	}
 
+	public static WorkerCommand MakePanicPursueAgent(AgentModel targetAgent)
+	{
+		PanicPursueWorkerCommand cmd = new PanicPursueWorkerCommand (targetAgent);
+		cmd.type = AgentCmdType.PANIC_VIOLENCE;
+		return cmd;
+	}
 	//public static AgentCommand MakePanic
 }
 

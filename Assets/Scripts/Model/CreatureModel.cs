@@ -269,7 +269,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 
     public void OnFixedUpdate()
     {
-		attackDelay -= Time.deltaTime;
+		if(attackDelay > 0)
+			attackDelay -= Time.deltaTime;
 
 		commandQueue.Execute (this);
 
