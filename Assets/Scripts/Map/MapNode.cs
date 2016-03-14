@@ -17,6 +17,8 @@ public class MapNode {
 
     public bool closed = false;
 
+	public CreatureModel connectedCreature = null;
+
     private DoorObjectModel door = null;
     private PassageObjectModel attachedPassage;
 

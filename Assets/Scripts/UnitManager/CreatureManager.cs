@@ -159,6 +159,8 @@ public class CreatureManager : IObserver{
         model.entryNodeId = nodeId;
 
         MapNode entryNode = MapGraph.instance.GetNodeById(nodeId);
+		entryNode.connectedCreature = model;
+
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
         List<MapEdge> edgeList = new List<MapEdge>();
 
@@ -194,7 +196,7 @@ public class CreatureManager : IObserver{
             else if (typeNode != null && typeNode.InnerText == "entry")
             {
 				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
-				string entryNodeId = id + "@entry_door";
+				//string entryNodeId = id + "@entry_door";
 
                 MapEdge edge = new MapEdge(newNode, entryNode, "door");
 

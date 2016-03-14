@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HitObject : MonoBehaviour {
+public class HitObjectPanicAttack : MonoBehaviour {
+
+	public AgentModel actor;
+	public AgentModel target;
 
 	public float width;
 	public float height;
@@ -34,17 +37,13 @@ public class HitObject : MonoBehaviour {
 	{
 		Vector3 pos = transform.position;
 
-		foreach (AgentModel agent in AgentManager.instance.GetAgentList()) {
-			Vector3 agentPos = agent.GetCurrentViewPosition ();
+		Vector3 agentPos = target.GetCurrentViewPosition ();
 
-			if (pos.x - width / 2 < agentPos.x && pos.x + width / 2 > agentPos.x
-				&& pos.y - height / 2 < agentPos.y && pos.y + height / 2 > agentPos.y) {
-
-				//Debug.Log ("Hit");
-
-				agent.TakePhysicalDamage (1);
-				agent.Stun (1.0f);
-			}
+		if (pos.x - width / 2 < agentPos.x && pos.x + width / 2 > agentPos.x
+			&& pos.y - height / 2 < agentPos.y && pos.y + height / 2 > agentPos.y)
+		{
+			target.TakePhysicalDamage (1);
+			target.Stun (1.0f);
 		}
 
 		//GetComponent<LineRenderer>().SetColors(

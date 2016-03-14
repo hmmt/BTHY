@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class PanicViolence : PanicAction {
 
-    private AgentModel targetAgent;
+	private AgentModel actor;
 
-    public PanicViolence(AgentModel target)
+    public PanicViolence(AgentModel actor)
     {
-        targetAgent = target;
+		this.actor = actor;
     }
 
 	public void Execute()
 	{
+        /*
         if (targetAgent.GetState() == AgentAIState.IDLE)
         {
             if (targetAgent.GetMovableNode().IsMoving() == false)
@@ -30,10 +31,36 @@ public class PanicViolence : PanicAction {
 
                     // TODO : 
                     targetAgent.GetMovableNode().StopMoving();
-                    AttackAgentByAgent.Create(detected, targetAgent);
+                    //AttackAgentByAgent.Create(detected, targetAgent);
                     break;
                 }
             }
         }
+        */
+
+
+
+		if (actor.GetState () == AgentAIState.IDLE)
+		{
+			AgentModel[] nears = AgentManager.instance.GetNearAgents (actor.GetMovableNode ());
+
+			List<AgentModel> filteredAgents = new List<AgentModel> ();
+			foreach (AgentModel nearAgent in nears) {
+				if (nearAgent != actor)
+					filteredAgents.Add (nearAgent);
+			}
+
+			if (filteredAgents.Count > 0) {
+				actor.PursueAgent (filteredAgents [0]);
+			}
+		}
+
+
+		if (actor.GetMovableNode ().IsMoving () == false && actor.GetState() == AgentAIState.IDLE) {
+
+			actor.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (actor.currentSefira));
+
+		}
+
 	}
 }

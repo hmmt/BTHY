@@ -55,8 +55,6 @@ public class CreatureModel : ObjectModelBase, IObserver
     public Vector2 basePosition;
     //public Vector2 position;
 
-    public string entryNodeId;
-
     //?óÃ»ßµµ°¨ ¿Ï¼ºµµ
     public int observeProgress = 0;
 
@@ -91,6 +89,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 
 
     // graph
+	public string entryNodeId;
+
     private MapNode workspaceNode;
 
     private MapNode roomNode;
@@ -269,9 +269,15 @@ public class CreatureModel : ObjectModelBase, IObserver
 
     public void OnFixedUpdate()
     {
-		attackDelay -= Time.deltaTime;
+		if(attackDelay > 0)
+			attackDelay -= Time.deltaTime;
 
 		commandQueue.Execute (this);
+
+		CreatureCommand cmd = commandQueue.GetCurrentCmd ();
+		if (cmd != null && cmd.isMoving) {
+			SendAnimMessage ("Move");
+		}
 
 		if (energyChangeTime > energyChangeElapsedTime)
 		{
@@ -642,6 +648,16 @@ public class CreatureModel : ObjectModelBase, IObserver
 		return energyChangeElapsedTime >= energyChangeTime;
 	}
 
+	//
+	public void AttackAction()
+	{
+		
+
+		SendAnimMessage ("Attack");
+		HitObjectManager.AddHitbox (GetCurrentViewPosition (), 0.5f, 4.0f, 3);
+		ResetAttackDelay ();
+	}
+
     // commands
 
 	public void MoveToNode(MapNode mapNode)
@@ -664,6 +680,19 @@ public class CreatureModel : ObjectModelBase, IObserver
     {
         
     }
+
+	public void SendAnimMessage(string name)
+	{
+		CreatureUnit unit = CreatureLayer.currentLayer.GetCreature (instanceId);
+		if(unit != null)
+		{
+			CreatureAnimScript animTarget = unit.animTarget;
+			if (animTarget != null)
+			{
+				animTarget.SendMessage (name);
+			}
+		}
+	}
 
 	public override void InteractWithDoor(DoorObjectModel door)
 	{

@@ -302,7 +302,10 @@ public class MovableObjectNode {
 		UpdateNodeEdge (src.currentNode, src.currentEdge);
         if (src.pathInfo != null)
         {
-            pathInfo = new PathResult((MapEdge[])src.pathInfo.pathEdges.Clone(), (int[])src.pathInfo.edgeDirections.Clone());
+            pathInfo = new PathResult(
+				(MapEdge[])src.pathInfo.pathEdges.Clone(),
+				(int[])src.pathInfo.edgeDirections.Clone(),
+				src.pathInfo.totalCost);
         }
         else
             pathInfo = null;
@@ -394,6 +397,12 @@ public class MovableObjectNode {
         return distance != -1 && distance < range;
     }
 
+	public float GetDistance(MapNode other, float limit)
+	{
+		MovableObjectNode node = new MovableObjectNode ();
+		node.SetCurrentNode (other);
+		return GetDistance (node, limit);
+	}
 	public float GetDistance(MovableObjectNode other, float limit)
 	{
 		float distance = -1;
@@ -521,7 +530,8 @@ public class MovableObjectNode {
             {
                 float aPos, bPos;
 
-                pathInfo = new PathResult(new MapEdge[1], new int[1]);
+				pathInfo = new PathResult(new MapEdge[1], new int[1], currentEdge.cost); // cost??
+
                 pathInfo.pathEdges[0] = currentEdge;
                 pathInfo.edgeDirections[0] = edgeDirection;
                 state = MovableState.MOVE;
@@ -683,6 +693,73 @@ public class MovableObjectNode {
             Debug.Log("Current State invalid");
         }
     }
+	public void MoveToNodeTest(MapNode targetNode, float targetZ)
+	{
+		if (currentNode != null)
+		{
+			//MapEdge[] searchedPath = GraphAstar.SearchPath(currentNode, targetNode);
+			PathResult result = GraphAstar.SearchPath(currentNode, targetNode);
+
+			pathInfo = result;
+			state = MovableState.MOVE;
+
+			pathIndex = 0;
+			edgePosRateGoal = 1;
+		}
+		else if (currentEdge != null)
+		{
+			MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
+			MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
+			MapEdge tempEdge2 = new MapEdge(tempNode, currentEdge.node2, currentEdge.type);
+
+			tempNode.isTemporary = true;
+			tempEdge1.isTemporary = true;
+			tempEdge1.baseEdge = currentEdge;
+			tempEdge2.isTemporary = true;
+			tempEdge2.baseEdge = currentEdge;
+
+			tempNode.AddEdge(tempEdge1);
+			tempNode.AddEdge(tempEdge2);
+
+			//MapEdge[] searchedPath = GraphAstar.SearchPath(tempNode, targetNode);
+			PathResult result = GraphAstar.SearchPath(tempNode, targetNode);
+			pathInfo = result;
+			state = MovableState.MOVE;
+
+
+			MapEdge[] searchedPath = pathInfo.pathEdges;
+			pathIndex = 0;
+			if (searchedPath.Length > 0)
+			{
+				if (searchedPath[0].node2 == currentEdge.node1)
+				{
+					// direction이 1이었으면 방향이 반대이므로 rate를 뒤집는다.
+					if(edgeDirection == 1)
+					{
+						edgePosRate = 1 - edgePosRate;
+						edgeDirection = 0;
+					}
+				}
+				else // searchedPath[0].node2 == currentEdge.node2
+				{
+					// direction이 0이었으면 방향이 반대이므로 rate를 뒤집는다.
+					if(edgeDirection == 0)
+					{
+						edgePosRate = 1 - edgePosRate;
+						edgeDirection = 1;
+					}
+				}
+				searchedPath[0] = currentEdge;
+			}
+
+			edgePosRateGoal = 1;
+		}
+		else
+		{
+			Debug.Log("Current State invalid");
+		}
+	}
+
 
     public bool EqualPosition(MapNode node)
     {
@@ -738,4 +815,72 @@ public class MovableObjectNode {
 			}
 		}
 	}
+
+
+
+
+	/*
+
+	public void MoveToMovableNodeTest(MovableObjectNode targetNode)
+	{
+		if (targetNode.currentNode != null)
+		{
+			MoveToNode(targetNode.currentNode);
+			return;
+		}
+
+		if (currentNode != null)
+		{
+			PathResult result1 = GraphAstar.SearchPath(currentNode, targetNode.currentEdge.node1);
+			PathResult result2 = GraphAstar.SearchPath(currentNode, targetNode.currentEdge.node2);
+
+			if (result1.pathEdges.Length > 0 && result2.pathEdges.Length > 0) {
+				pathInfo = result;
+				state = MovableState.MOVE;
+
+				pathIndex = 0;
+				edgePosRateGoal = 1;
+			}
+
+
+			pathInfo = result;
+			state = MovableState.MOVE;
+
+			MapEdge[] searchedPath = result.pathEdges;
+			pathIndex = 0;
+			if (searchedPath.Length > 0)
+			{
+				MapEdge lastEdge = searchedPath[searchedPath.Length-1];
+				if (lastEdge.node1 == targetNode.currentEdge.node1) // current
+				{
+					searchedPath[searchedPath.Length - 1] = targetNode.currentEdge;
+
+					if (targetNode.edgeDirection == 1)
+						edgePosRateGoal = targetNode.edgePosRate;
+					else
+						edgePosRateGoal = 1 - targetNode.edgePosRate;
+				}
+				else if (lastEdge.node1 == targetNode.currentEdge.node2)
+				{
+					searchedPath[searchedPath.Length - 1] = targetNode.currentEdge;
+					edgePosRateGoal = targetNode.edgePosRate;
+
+					if (targetNode.edgeDirection == 1)
+						edgePosRateGoal = 1 - targetNode.edgePosRate;
+					else
+						edgePosRateGoal = targetNode.edgePosRate;
+				}
+				else
+				{
+					Debug.LogError("UNKNOWN ERROR : ???");
+				}
+			}
+			targetNode.currentEdge.node1.RemoveEdge(tempEdge1);
+			targetNode.currentEdge.node2.RemoveEdge(tempEdge2);
+		}
+		else if (currentEdge != null)
+		{
+		}
+	}
+	*/
 }

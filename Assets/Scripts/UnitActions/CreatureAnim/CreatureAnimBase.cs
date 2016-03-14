@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// unused
+
 public class CreatureAnimBase {
 
     protected CreatureUnit unit;
