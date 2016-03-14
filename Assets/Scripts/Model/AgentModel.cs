@@ -188,11 +188,18 @@ public class AgentModel : WorkerModel
         */
     }
 
+    private bool tempPanic = false;
     // notice로 호출됨
     public override void OnFixedUpdate()
     {
         if (isDead())
             return;
+
+        if (!tempPanic)
+        {
+            tempPanic = true;
+            Panic();
+        }
 
 		if (stunTime > 0) {
 			stunTime -= Time.deltaTime;
@@ -771,6 +778,17 @@ public class AgentModel : WorkerModel
         //state = AgentCmdState.PANIC_SUPPRESS_TARGET;
         movableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+    }
+
+    /// <summary>
+    /// Set AgentAIState to IDLE
+    /// </summary>
+    public void FinishOpenIolateRoom()
+    {
+        if (state == AgentAIState.OPEN_ISOLATE)
+        {
+            state = AgentAIState.IDLE;
+        }
     }
 
     // panic 관련 end

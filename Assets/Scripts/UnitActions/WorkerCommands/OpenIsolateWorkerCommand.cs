@@ -37,5 +37,7 @@ public class OpenIsolateWorkerCommand : WorkerCommand {
 	public override void OnDestroy(WorkerModel agent)
 	{
 		base.OnDestroy (agent);
+
+        ((AgentModel)agent).FinishOpenIolateRoom();
 	}
 }

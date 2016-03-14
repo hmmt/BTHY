@@ -45,7 +45,8 @@ public class PanicOpenIsolate : PanicAction {
 
 		if (targetAgent.GetMovableNode ().IsMoving () == false)
 		{
-			if (targetAgent.GetCurrentNode () != null && targetAgent.GetCurrentNode ().connectedCreature != null)
+			if (targetAgent.GetCurrentNode () != null && targetAgent.GetCurrentNode ().connectedCreature != null &&
+                targetAgent.GetCurrentNode().connectedCreature.state != CreatureState.ESCAPE)
 			{
 				if (targetAgent.GetState () != AgentAIState.OPEN_ISOLATE)
 				{
@@ -72,6 +73,8 @@ public class PanicOpenIsolate : PanicAction {
 				List<string> creatureEntryList = new List<string> ();
 				List<float> creatureEntryCost = new List<float> ();
 				foreach (CreatureModel creature in CreatureManager.instance.GetCreatureList()) {
+                    if (creature.state == CreatureState.ESCAPE)
+                        continue;
 					creatureEntryList.Add (creature.entryNodeId);
 					creatureEntryCost.Add (movable.GetDistance (MapGraph.instance.GetNodeById (creature.entryNodeId), 1000));
 				}
@@ -82,7 +85,8 @@ public class PanicOpenIsolate : PanicAction {
 						maxIndex = i;
 				}
 
-				targetAgent.MoveToNode (creatureEntryList [maxIndex]);
+                if(creatureEntryCost.Count > 0)
+				    targetAgent.MoveToNode (creatureEntryList [maxIndex]);
 
 				//targetAgent.MoveToNode
 			}

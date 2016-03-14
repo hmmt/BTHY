@@ -76,12 +76,12 @@ public class WorkerCommandQueue
 
             cmd.Execute(agent);
 
-            if (cmd.isFinished)
+            if (cmd.isFinished && queue.Count > 0 && queue.First.Value == cmd)
             {
-				queue.RemoveFirst();
+                queue.RemoveFirst();
                 cmd.OnStop(agent);
-				cmd.OnDestroy (agent);
-                
+                cmd.OnDestroy(agent);
+
                 if (queue.Count > 0)
                 {
                     queue.First.Value.OnStart(agent);

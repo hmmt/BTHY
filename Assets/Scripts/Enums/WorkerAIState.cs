@@ -19,11 +19,12 @@ public enum AgentAIState
 */
 /// <summary>
 /// 직원의 상태
-/// AgentCmdState에 따라 AgentCommand들이 만들어진다.
+/// AgentAIState에 따라 AgentCommand들이 만들어진다.
 /// </summary>
 public enum AgentAIState
 {
     IDLE, // no command
+
     MANAGE, // working command
     OBSERVE, // 
 

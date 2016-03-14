@@ -32,19 +32,18 @@ public class HitObjectManager {
 		lr.useWorldSpace = false;
 		lr.SetWidth (0.05f, 0.05f);
 		lr.SetVertexCount (8);
-		lr.SetPositions (new Vector3[]{ 
-			new Vector3(-width/2, -height/2, -2),
-			new Vector3(width/2, -height/2, -2),
+		//lr.SetPositions (new Vector3[]{ 
+		lr.SetPosition(0,new Vector3(-width/2, -height/2, -2));
+		lr.SetPosition(1,new Vector3(width/2, -height/2, -2));
 
-			new Vector3(width/2, -height/2, -2),
-			new Vector3(width/2, height/2, -2),
+		lr.SetPosition(2,new Vector3(width/2, -height/2, -2));
+		lr.SetPosition(3,new Vector3(width/2, height/2, -2));
 
-			new Vector3(width/2, height/2, -2),
-			new Vector3(-width/2, height/2, -2),
+		lr.SetPosition(4,new Vector3(width/2, height/2, -2));
+		lr.SetPosition(5,new Vector3(-width/2, height/2, -2));
 
-			new Vector3(-width/2, height/2, -2),
-			new Vector3(-width/2, -height/2, -2)
-		});
+		lr.SetPosition(6,new Vector3(-width/2, height/2, -2));
+        lr.SetPosition(7, new Vector3(-width / 2, -height / 2, -2));
 
 		//sr.sprite = Resources.Load<Sprite> ();
 
