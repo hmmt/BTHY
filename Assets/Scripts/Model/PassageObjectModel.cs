@@ -14,6 +14,8 @@ public class PassageObjectModel : ObjectModelBase
 	private List<DoorObjectModel> doorObjectList;
 
 	private List<MovableObjectNode> enteredUnitList;
+
+	private float scaleFactor = 1.0f;
 	//private
 
 	public PassageObjectModel(string id, string sefiraName, string prefabSrc)
@@ -46,6 +48,11 @@ public class PassageObjectModel : ObjectModelBase
 	public DoorObjectModel[] GetDoorList()
 	{
 		return doorObjectList.ToArray();
+	}
+
+	public float GetScaleFactor()
+	{
+		return scaleFactor;
 	}
 	private void AddMapObject(MapObjectModel mapObject)
 	{

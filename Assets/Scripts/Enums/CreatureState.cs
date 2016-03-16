@@ -21,5 +21,7 @@ public enum CreatureState
 
 	WORKING,
 
+	SUPPRESSED,
+
     OBSERVE
 }

@@ -111,7 +111,7 @@ public class WorkEscapedCreature : ActionClassBase {
         c.agentStack = c.agent.level;
         c.creatureStack = c.creature.metaInfo.stackLevel;
 
-        agent.SuppressCreature(creature);
+        //agent.SuppressCreature(creature);
         //agent.Attacked();
         //creature.state = CreatureState.ESCAPE_WO
     }

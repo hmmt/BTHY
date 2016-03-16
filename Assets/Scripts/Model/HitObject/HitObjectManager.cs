@@ -11,7 +11,6 @@ public class HitObjectManager {
 	}
 */
 
-
 	public static HitObject AddHitbox(Vector2 position, float hitTime, float width, float height)
 	{
 		//HitObject model = new HitObject ();
@@ -25,25 +24,7 @@ public class HitObjectManager {
 		hit.hitTime = hitTime;
 		hit.endTime = hitTime + 1;
 
-		//SpriteRenderer sr = g.AddComponent<SpriteRenderer> ();
-
-		LineRenderer lr = g.AddComponent<LineRenderer> ();
-
-		lr.useWorldSpace = false;
-		lr.SetWidth (0.05f, 0.05f);
-		lr.SetVertexCount (8);
-		//lr.SetPositions (new Vector3[]{ 
-		lr.SetPosition(0,new Vector3(-width/2, -height/2, -2));
-		lr.SetPosition(1,new Vector3(width/2, -height/2, -2));
-
-		lr.SetPosition(2,new Vector3(width/2, -height/2, -2));
-		lr.SetPosition(3,new Vector3(width/2, height/2, -2));
-
-		lr.SetPosition(4,new Vector3(width/2, height/2, -2));
-		lr.SetPosition(5,new Vector3(-width/2, height/2, -2));
-
-		lr.SetPosition(6,new Vector3(-width/2, height/2, -2));
-        lr.SetPosition(7, new Vector3(-width / 2, -height / 2, -2));
+		AddLineComponentForDebug (g, width, height);
 
 		//sr.sprite = Resources.Load<Sprite> ();
 
@@ -70,8 +51,43 @@ public class HitObjectManager {
 		hit.hitTime = hitTime;
 		hit.endTime = hitTime + 1;
 
+		AddLineComponentForDebug (g, width, height);
 		//SpriteRenderer sr = g.AddComponent<SpriteRenderer> ();
 
+		//sr.sprite = Resources.Load<Sprite> ();
+
+		return hit;
+	}
+
+	public static HitObjectSuppressWorker AddSuppressWorkerStickHitbox(AgentModel targetAgent)
+	{
+		//HitObject model = new HitObject ();
+		GameObject g = new GameObject("hitbox");
+		HitObjectSuppressWorker hit = g.AddComponent<HitObjectSuppressWorker> ();
+
+		float hitTime = 0.5f;
+		float width = 1;
+		float height = 1;
+
+		hit.targetAgent = targetAgent;
+
+		g.transform.localPosition = new Vector3 (targetAgent.GetCurrentViewPosition().x, targetAgent.GetCurrentViewPosition().y, 0);
+		hit.width = width;
+		hit.height = height;
+
+		hit.hitTime = hitTime;
+		hit.endTime = hitTime + 1;
+
+		AddLineComponentForDebug (g, width, height);
+		//SpriteRenderer sr = g.AddComponent<SpriteRenderer> ();
+
+		//sr.sprite = Resources.Load<Sprite> ();
+
+		return hit;
+	}
+
+	private static void AddLineComponentForDebug(GameObject g, float width, float height)
+	{
 		LineRenderer lr = g.AddComponent<LineRenderer> ();
 
 		lr.useWorldSpace = false;
@@ -89,9 +105,5 @@ public class HitObjectManager {
 
 		lr.SetPosition(6,new Vector3(-width/2, height/2, -2));
 		lr.SetPosition(7, new Vector3(-width / 2, -height / 2, -2));
-
-		//sr.sprite = Resources.Load<Sprite> ();
-
-		return hit;
 	}
 }

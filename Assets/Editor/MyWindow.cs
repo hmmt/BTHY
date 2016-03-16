@@ -36,12 +36,13 @@ public class MyWindow : EditorWindow
         GUILayout.Label("AGENT LIST", EditorStyles.boldLabel);
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
-            EditorGUILayout.BeginVertical();
-            GUILayout.Label("name : " + agent.name, EditorStyles.boldLabel);
+            EditorGUILayout.BeginVertical();            GUILayout.Label("name : " + agent.name, EditorStyles.boldLabel);
             GUILayout.Label("state : " + agent.GetState());
             GUILayout.Label("lifeValue : " + agent.agentLifeValue);
             GUILayout.Label("HP : " + agent.hp);
             GUILayout.Label("mental : " + agent.mental);
+			GUILayout.Label ("panicValue : " + agent.panicValue);
+			GUILayout.Label ("isMoving : " + agent.GetMovableNode ().IsMoving ());
 			/*
             GUILayout.Label("direct skill: " + agent.directSkill.id);
             GUILayout.Label("indirect skill: " + agent.indirectSkill.id);
@@ -50,6 +51,7 @@ public class MyWindow : EditorWindow
             
             EditorGUILayout.EndVertical();
         }
+		/*
         foreach (PassageObjectModel passage in MapGraph.instance.GetPassageObjectList())
         {
             if (passage.IsClosable())
@@ -67,6 +69,7 @@ public class MyWindow : EditorWindow
                 EditorGUILayout.EndVertical();
             }
         }
+        */
         /*
         myString = EditorGUILayout.TextField("Text Field", myString);
 

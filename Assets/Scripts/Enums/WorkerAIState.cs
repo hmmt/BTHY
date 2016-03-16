@@ -28,6 +28,9 @@ public enum AgentAIState
     MANAGE, // working command
     OBSERVE, // 
 
+	ENCOUNTER_CREATURE,
+	ENCOUNTER_PANIC_WORKER,
+
     CAPTURE_BY_CREATURE, // 환상체에게 공격당함
     CAPTURE_BY_AGENT, // 직원에게 공격당함
 

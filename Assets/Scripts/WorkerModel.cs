@@ -11,6 +11,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public string name;
     public int hp;
     public int mental;
+	public int panicValue = 0;
 
 	// TODO : implement stun using buf state.
 	public float stunTime = 0f;
@@ -244,6 +245,14 @@ public class WorkerModel: ObjectModelBase, IObserver {
         return connected;
     }
 
+	public virtual void TakePanicDamage(int damage)
+	{
+		panicValue -= damage;
+		if (panicValue <= 0) {
+			StopPanic ();
+		}
+	}
+
     public virtual void TakePhysicalDamage(int damage) {
         Debug.Log("TakePhysicalDamage : " + damage);
         hp -= damage;
@@ -275,6 +284,20 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public virtual void Panic() { 
         
     }
+
+	public virtual void StopPanic()
+	{
+	}
+
+	public virtual bool IsPanic()
+	{
+		return false;
+	}
+
+	public virtual void EncounterCreature()
+	{
+		
+	}
 
     public virtual void Die()
     {

@@ -51,7 +51,9 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 			dist.sqrMagnitude <= 2)
 		{
 			if (actor.attackDelay <= 0) {
-				actor.AttackAction ((AgentModel)targetAgent);
+				HitObjectManager.AddPanicHitbox (actor.GetCurrentViewPosition (), actor, (AgentModel)targetAgent);
+				//ResetAttackDelay ();
+				actor.SetAttackDelay(4.0f);
 				isMoving = false;
 
 				// StopMoving

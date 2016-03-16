@@ -32,7 +32,7 @@ public enum AgentCmdType
 
     PANIC_SUPPRESS_TARGET, // 제압당하는 중
 
-    ESCAPE_WORKING,
+    SUPPRESS_CREATURE,
     SUPPRESS_WORKING, // 제압중
     OPEN_ROOM,
 

@@ -47,6 +47,9 @@ public class CreatureModel : ObjectModelBase, IObserver
 
 	public float attackDelay = 0;
 
+	// for escape
+	public int hp;
+
     // 메타데이터
     public CreatureTypeInfo metaInfo;
     
@@ -312,6 +315,10 @@ public class CreatureModel : ObjectModelBase, IObserver
         {
             OnEscapeUpdate();
         }
+		else if(state == CreatureState.SUPPRESSED)
+		{
+			
+		}
         else if (state == CreatureState.WAIT)
         {
         }
@@ -336,6 +343,16 @@ public class CreatureModel : ObjectModelBase, IObserver
 
 				if (detectedAgents.Length > 0) {
 					PursueWorker (detectedAgents [0]);
+				}
+			}
+		}
+
+		PassageObjectModel currentPassage = movableNode.GetPassage ();
+		foreach (AgentModel agent in AgentManager.instance.GetAgentList()) {
+			if (agent.GetMovableNode ().GetPassage () == currentPassage) {
+				if (agent.GetState () != AgentAIState.ENCOUNTER_CREATURE) {
+
+					agent.EncounterCreature ();
 				}
 			}
 		}
@@ -509,6 +526,21 @@ public class CreatureModel : ObjectModelBase, IObserver
 		attackDelay = 4.0f;
 	}
 
+	public void TakeSuppressDamage(int damage)
+	{
+		if (hp > 0) {
+			hp -= damage;
+           			Debug.Log ("Creature  take suppress damage.. current HP : " + hp);
+
+		}
+		if ((state == CreatureState.ESCAPE || state == CreatureState.ESCAPE_PURSUE)
+			&& hp <= 0)
+		{
+			state = CreatureState.SUPPRESSED;
+			commandQueue.Clear ();
+		}
+	}
+
     public bool IsPreferSkill(SkillTypeInfo skillTypeInfo)
     {
 		/*
@@ -541,6 +573,7 @@ public class CreatureModel : ObjectModelBase, IObserver
         if (state == CreatureState.WAIT)
         {
 			Debug.Log ("CreatureModel >>> Try Escape ");
+			hp = 5;
             state = CreatureState.ESCAPE;
         }
     }
@@ -651,8 +684,6 @@ public class CreatureModel : ObjectModelBase, IObserver
 	//
 	public void AttackAction()
 	{
-		
-
 		SendAnimMessage ("Attack");
 		HitObjectManager.AddHitbox (GetCurrentViewPosition (), 0.5f, 4.0f, 3);
 		ResetAttackDelay ();

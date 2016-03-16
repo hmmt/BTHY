@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// unused
+
 public class SuppressAgent : ActionClassBase {
 
     public AgentModel actorAgent;
@@ -83,7 +85,7 @@ public class SuppressAgent : ActionClassBase {
     void Finish()
     {
         // TODO : 고쳐야 함
-        actorAgent.StopSuppress();
+        //actorAgent.StopSuppress();
         targetAgent.UpdateStateIdle();
 
         Destroy(gameObject);
@@ -114,7 +116,7 @@ public class SuppressAgent : ActionClassBase {
         {
             if (actorAgent.GetState() == AgentAIState.SUPPRESS_WORKER)
             {
-                actorAgent.StopSuppress();
+                //actorAgent.StopSuppress();
             }
 
             Destroy(gameObject);
@@ -147,7 +149,7 @@ public class SuppressAgent : ActionClassBase {
         c.targetStamina = 10;
         c.actorStamina = 10;
 
-        actorAgent.StartSuppressAgent(targetAgent);
+        actorAgent.StartSuppressAgent(targetAgent, null);
         //targetAgent.PanicSuppressed();
 
         c.noticeId1 = Notice.instance.Observe(NoticeName.MakeName(NoticeName.ChangeAgentState, c.targetAgent.instanceId.ToString()),

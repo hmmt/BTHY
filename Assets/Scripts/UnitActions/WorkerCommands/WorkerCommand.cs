@@ -5,6 +5,8 @@ using System.Collections;
 
 public class WorkerCommand
 {
+	public WorkerModel actor;
+
 	public AgentCmdType type;
 
 	// parameters
@@ -24,6 +26,7 @@ public class WorkerCommand
 	/// <param name="agent">Agent.</param>
 	public virtual void OnInit(WorkerModel agent)
 	{
+		actor = agent;
 	}
 
 	/// <summary>
@@ -64,13 +67,7 @@ public class WorkerCommand
 		isFinished = true;
 	}
 
-	public static WorkerCommand MakeEscapeWorking(CreatureModel targetCreature)
-	{
-		WorkerCommand cmd = new WorkerCommand();
-		cmd.type = AgentCmdType.ESCAPE_WORKING;
-		cmd.targetCreature = targetCreature;
-		return cmd;
-	}
+
 	public static WorkerCommand MakeWorking(CreatureModel targetCreature)
 	{
 		WorkerCommand cmd = new WorkerCommand();
@@ -108,11 +105,19 @@ public class WorkerCommand
 		return cmd;
 	}
 
-	public static WorkerCommand MakeSuppressWorking(AgentModel targetAgent)
+	public static WorkerCommand MakeSuppressWorking(AgentModel targetAgent, SuppressAction suppressAction)
 	{
-		WorkerCommand cmd = new WorkerCommand();
+		//WorkerCommand cmd = new WorkerCommand();
+		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetAgent, suppressAction);
 		cmd.type = AgentCmdType.SUPPRESS_WORKING;
 		cmd.targetAgent = targetAgent;
+		return cmd;
+	}
+	public static WorkerCommand MakeSuppressCreature(CreatureModel targetCreature, SuppressAction suppressAction)
+	{
+		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetCreature, suppressAction);
+		cmd.type = AgentCmdType.SUPPRESS_CREATURE;
+		cmd.targetCreature = targetCreature;
 		return cmd;
 	}
 
@@ -205,7 +210,8 @@ public class OpenDoorAgnetCommand : WorkerCommand
 
 		elapsedTime += Time.deltaTime;
 
-		if (elapsedTime >= 0.5f)
+		//if (elapsedTime >= 0.5f)
+		if (elapsedTime >= 0.0f)
 		{
 			door.Open();
 			Finish();

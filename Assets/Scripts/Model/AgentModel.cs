@@ -629,11 +629,6 @@ public class AgentModel : WorkerModel
         }
         else if (state == AgentAIState.SUPPRESS_WORKER)
         {
-            if (!movableNode.CheckInRange(targetWorker.movableNode) && waitTimer <= 0)
-            {
-                movableNode.MoveToMovableNode(targetWorker.movableNode);
-                waitTimer = 1.5f + Random.value;
-            }
         }
 
         else if (state == AgentAIState.DEAD)
@@ -670,7 +665,6 @@ public class AgentModel : WorkerModel
 		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(node));
 	}
 
-
 	public void PursueAgent(AgentModel agent)
 	{
 		state = AgentAIState.PANIC_VIOLENCE;
@@ -683,15 +677,6 @@ public class AgentModel : WorkerModel
 
         commandQueue.SetAgentCommand(WorkerCommand.MakeCaptureByCreatue());
         movableNode.StopMoving();
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
-    }
-    public void SuppressCreature(CreatureModel target)
-    {
-        state = AgentAIState.SUPPRESS_CREATURE;
-
-        commandQueue.SetAgentCommand(WorkerCommand.MakeEscapeWorking(target));
-        this.target = target;
-        //MoveToCreture(target);
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     //public void Working(CreatureModel target, UseSkill action)
@@ -779,12 +764,22 @@ public class AgentModel : WorkerModel
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
+	/*
     public void StopSuppress()
     {
         state = AgentAIState.IDLE;
         commandQueue.Clear();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
+    */
+
+	public void FinishSuppress()
+	{
+		if (state == AgentAIState.SUPPRESS_WORKER || state == AgentAIState.SUPPRESS_CREATURE)
+		{
+			state = AgentAIState.IDLE;
+		}
+	}
 
 
 	public void OpenIsolateRoom(CreatureModel targetCreature)
@@ -794,10 +789,20 @@ public class AgentModel : WorkerModel
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
-    public void StartSuppressAgent(AgentModel targetWorker)
+	public void SuppressCreature(CreatureModel target, SuppressAction suppressAction)
+	{
+		state = AgentAIState.SUPPRESS_CREATURE;
+
+		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressCreature(target, suppressAction));
+		this.target = target;
+		//MoveToCreture(target);
+		Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
+	}
+
+	public void StartSuppressAgent(AgentModel targetWorker, SuppressAction suppressAction)
     {
         state = AgentAIState.SUPPRESS_WORKER;
-        commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker));
+		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker, suppressAction));
         this.targetWorker = targetWorker;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
@@ -833,16 +838,16 @@ public class AgentModel : WorkerModel
     // state 관련 함수들 end
 
 
-	public void AttackAction(AgentModel target)
-	{
-		HitObjectManager.AddPanicHitbox (GetCurrentViewPosition (), this, target);
-		ResetAttackDelay ();
-	}
+	/*
 	public void ResetAttackDelay()
 	{
 		attackDelay = 4.0f;
 	}
-    
+	*/
+	public void SetAttackDelay(float attackDelay)
+	{
+		this.attackDelay = attackDelay;
+	}
 
 	// method about managing
 	public float GetSuccessProb(SkillTypeInfo skill)
@@ -909,20 +914,8 @@ public class AgentModel : WorkerModel
 
     public void Panic()
     {
-        /*
-        if (panicType == "default")
-        {
-            CurrentPanicAction = new PanicDefaultAction();
-            string narration = this.name + " (이)가 공황에 빠져 우두커니 서있습니다.";
-            Notice.instance.Send("AddSystemLog", narration);
-        }
-        else if (panicType == "roaming")
-        {
-            CurrentPanicAction' = new PanicRoaming(this);
-            string narration = this.name + " (이)가 공황에 빠져 방향을 잃고 배회합니다.";
-            Notice.instance.Send("AddSystemLog", narration);
-        }
-         * */
+		panicValue = 4;
+
         CurrentPanicAction = new PanicReady(this);
     }
     
@@ -950,10 +943,21 @@ public class AgentModel : WorkerModel
         }
     }
     
-    public void StopPanic()
+    public override void StopPanic()
     {
+		state = AgentAIState.IDLE;
         CurrentPanicAction = null;
     }
+
+	public override bool IsPanic()
+	{
+		return CurrentPanicAction != null;
+	}
+
+	public override void EncounterCreature()
+	{
+		state = AgentAIState.ENCOUNTER_CREATURE;
+	}
 
     public void Die()
     {
