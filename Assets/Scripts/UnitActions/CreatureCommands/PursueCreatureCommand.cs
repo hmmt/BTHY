@@ -61,8 +61,17 @@ public class PursueCreatureCommand : CreatureCommand
 			//actor.GetMovableNode().StopMoving();
 			//Debug.Log ("Attack?");
 
+			Vector3 directionAdder;
+			if (actor.GetDirection () == UnitDirection.RIGHT)
+				directionAdder = new Vector3 (2, 0, 0);
+			else
+				directionAdder = new Vector3 (-2, 0, 0);
+				
 			if (actor.attackDelay <= 0) {
-				actor.AttackAction ();
+				actor.SendAnimMessage ("Attack");
+				HitObjectManager.AddHitbox (actor.GetCurrentViewPosition ()+directionAdder, 0.5f, 4.0f, 3);
+				actor.ResetAttackDelay ();
+
 				isMoving = false;
 
 				// StopMoving

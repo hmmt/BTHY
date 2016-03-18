@@ -56,6 +56,31 @@ public class CreatureUnit : MonoBehaviour {
 
    private void UpdateDirection()
    {
+		MovableObjectNode movable = model.GetMovableNode ();
+		UnitDirection movableDirection = movable.GetDirection ();
+		/*
+		Transform puppet = puppetNode.transform;
+
+		Vector3 puppetScale = puppet.localScale;
+		*/
+		Vector3 scale = directionScaleFactor;
+
+		if (movableDirection == UnitDirection.RIGHT)
+		{
+			if (scale.x < 0) {
+				scale.x = -scale.x;
+			}
+		}
+		else
+		{
+			if (scale.x > 0) {
+				scale.x = -scale.x;
+			}
+		}
+		directionScaleFactor = scale;
+
+		return;
+		/*
        MapEdge currentEdge = model.GetCurrentEdge();
        int edgeDirection = model.GetMovableNode().GetEdgeDirection();
 
@@ -115,6 +140,7 @@ public class CreatureUnit : MonoBehaviour {
                }
            }
        }
+       */
    }
 
    private void UpdateScale()
@@ -130,6 +156,23 @@ public class CreatureUnit : MonoBehaviour {
            directionScaleFactor.y * scaleFactor.y * mouseScale.y,
            directionScaleFactor.z * scaleFactor.z * mouseScale.z
            );
+		if (animTarget != null)
+		{
+			Vector3 scale = animTarget.transform.localScale;
+			if (scale.x < 0 && directionScaleFactor.x > 0)
+				scale.x = -scale.x;
+			if (scale.x > 0 && directionScaleFactor.x < 0)
+				scale.x = -scale.x;
+			animTarget.transform.localScale = scale;
+				
+			/*
+			animTarget.transform.localScale = new Vector3 (
+				directionScaleFactor.x,
+				directionScaleFactor.y,
+				directionScaleFactor.z
+			);
+			*/
+		}
    }
     void FixedUpdate()
 	{

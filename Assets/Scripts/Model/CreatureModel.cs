@@ -259,6 +259,11 @@ public class CreatureModel : ObjectModelBase, IObserver
         return movableNode;
     }
 
+	public UnitDirection GetDirection()
+	{
+		return movableNode.GetDirection ();
+	}
+
     public void UpdateFeeling()
     {
         //if (Random.value < metaInfo.feelingDownProb)
@@ -342,16 +347,18 @@ public class CreatureModel : ObjectModelBase, IObserver
 				AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
 
 				if (detectedAgents.Length > 0) {
-					PursueWorker (detectedAgents [0]);
+					//PursueWorker (detectedAgents [0]);
 				}
 			}
 		}
 
 		PassageObjectModel currentPassage = movableNode.GetPassage ();
-		foreach (AgentModel agent in AgentManager.instance.GetAgentList()) {
-			if (agent.GetMovableNode ().GetPassage () == currentPassage) {
-				if (agent.GetState () != AgentAIState.ENCOUNTER_CREATURE) {
-
+		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+		{
+			if (agent.GetMovableNode ().GetPassage () == currentPassage)
+			{
+				if (agent.GetState () != AgentAIState.ENCOUNTER_CREATURE)
+				{
 					agent.EncounterCreature ();
 				}
 			}
@@ -681,13 +688,6 @@ public class CreatureModel : ObjectModelBase, IObserver
 		return energyChangeElapsedTime >= energyChangeTime;
 	}
 
-	//
-	public void AttackAction()
-	{
-		SendAnimMessage ("Attack");
-		HitObjectManager.AddHitbox (GetCurrentViewPosition (), 0.5f, 4.0f, 3);
-		ResetAttackDelay ();
-	}
 
     // commands
 

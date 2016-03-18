@@ -956,7 +956,8 @@ public class AgentModel : WorkerModel
 
 	public override void EncounterCreature()
 	{
-		state = AgentAIState.ENCOUNTER_CREATURE;
+		if(state != AgentAIState.SUPPRESS_CREATURE && state != AgentAIState.ENCOUNTER_PANIC_WORKER)
+			state = AgentAIState.ENCOUNTER_CREATURE;
 	}
 
     public void Die()

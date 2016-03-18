@@ -27,6 +27,8 @@ public class MovableObjectNode {
     private MapNode _currentNode;
     private MapEdge _currentEdge;
 
+	private UnitDirection unitDirection = UnitDirection.LEFT;
+
 	public MapNode currentNode
 	{
 		get{ return _currentNode; }
@@ -222,6 +224,30 @@ public class MovableObjectNode {
                     float oldPosRate = edgePosRate;
                     edgePosRate += deltaRate;
 
+					if (edgeDirection == 1)
+					{
+						if(currentEdge.node1.GetPosition().x < currentEdge.node2.GetPosition().x)
+						{
+							unitDirection = UnitDirection.RIGHT;
+						}
+						else if(currentEdge.node1.GetPosition().x > currentEdge.node2.GetPosition().x)
+						{
+							unitDirection = UnitDirection.LEFT;
+						}
+					}
+					else
+					{
+						if(currentEdge.node1.GetPosition().x > currentEdge.node2.GetPosition().x)
+						{
+							unitDirection = UnitDirection.RIGHT;
+						}
+						else if(currentEdge.node1.GetPosition().x < currentEdge.node2.GetPosition().x)
+						{
+							unitDirection = UnitDirection.LEFT;
+						}
+					}
+
+
                     if (pathIndex >= pathInfo.pathEdges.Length - 1) // 마지막 노드
                     {
                         // 목표 지점에 도착
@@ -295,6 +321,10 @@ public class MovableObjectNode {
         //currentEdge = null;
 		UpdateNodeEdge (node, null);
     }
+	public UnitDirection GetDirection()
+	{
+		return unitDirection;
+	}
     public void Assign(MovableObjectNode src)
     {
         //currentEdge = src.currentEdge;

@@ -79,6 +79,27 @@ public class OfficerUnit : MonoBehaviour {
     }
 
     private void UpdateDirection() {
+		MovableObjectNode movable = model.GetMovableNode ();
+		UnitDirection movableDirection = movable.GetDirection ();
+
+		Transform puppet = puppetNode.transform;
+
+		Vector3 puppetScale = puppet.localScale;
+
+		if (movableDirection == UnitDirection.RIGHT)
+		{
+			if (puppetScale.x < 0)
+				puppetScale.x = -puppetScale.x;
+		}
+		else
+		{
+			if (puppetScale.x > 0)
+				puppetScale.x = -puppetScale.x;
+		}
+		puppet.transform.localScale = puppetScale;
+
+		return;
+
         MapEdge currentEdge = model.GetCurrentEdge();
         int edgeDirection = model.GetEdgeDirection();
 
@@ -88,9 +109,6 @@ public class OfficerUnit : MonoBehaviour {
 
             Vector2 pos1 = node1.GetPosition();
             Vector2 pos2 = node2.GetPosition();
-
-            Transform puppetAnim = puppetNode.transform;
-            Vector3 puppetScale = puppetAnim.localScale;
 
             if (edgeDirection == 1)
             {

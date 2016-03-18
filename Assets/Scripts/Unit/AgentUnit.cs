@@ -166,60 +166,68 @@ public class AgentUnit : MonoBehaviour {
 
 	private void UpdateDirection()
 	{
+		MovableObjectNode movable = model.GetMovableNode ();
+		UnitDirection movableDirection = movable.GetDirection ();
+
+		Transform puppet = puppetNode.transform;
+
+		Vector3 puppetScale = puppet.localScale;
+
+		if (movableDirection == UnitDirection.RIGHT)
+		{
+			if (puppetScale.x < 0)
+				puppetScale.x = -puppetScale.x;
+		}
+		else
+		{
+			if (puppetScale.x > 0)
+				puppetScale.x = -puppetScale.x;
+		}
+		puppet.transform.localScale = puppetScale;
+
+		return;
+
         MapEdge currentEdge = model.GetCurrentEdge();
         int edgeDirection = model.GetEdgeDirection();
 
-            if (currentEdge != null)
+        if (currentEdge != null)
+        {
+            MapNode node1 = currentEdge.node1;
+            MapNode node2 = currentEdge.node2;
+            Vector2 pos1 = node1.GetPosition();
+            Vector2 pos2 = node2.GetPosition();
+
+            if (edgeDirection == 1)
             {
-                MapNode node1 = currentEdge.node1;
-                MapNode node2 = currentEdge.node2;
-                Vector2 pos1 = node1.GetPosition();
-                Vector2 pos2 = node2.GetPosition();
+                //Transform anim = renderNode.transform;
 
-                if (edgeDirection == 1)
+                //Transform puppet = puppetNode.transform;
+
+                //Vector3 puppetScale = puppet.localScale;
+
+                if (pos2.x - pos1.x > 0 && puppetScale.x < 0)
                 {
-                    //Transform anim = renderNode.transform;
-
-                    Transform puppet = puppetNode.transform;
-
-                    //Vector3 scale = anim.localScale;
-                    Vector3 puppetScale = puppet.localScale;
-
-                    if (pos2.x - pos1.x > 0 && puppetScale.x < 0)
-                    {
-                       // scale.x = -scale.x;
-                        puppetScale.x = -puppetScale.x;
-                    }
-                    else if (pos2.x - pos1.x < 0 && puppetScale.x > 0)
-                    {
-                    //    scale.x = -scale.x;
-                        puppetScale.x = -puppetScale.x;
-                    }
-                    //anim.transform.localScale = scale;
-                    puppet.transform.localScale = puppetScale;
+                    puppetScale.x = -puppetScale.x;
                 }
-                else
+                else if (pos2.x - pos1.x < 0 && puppetScale.x > 0)
                 {
-                   // Transform anim = renderNode.transform;
-                    Transform puppet = puppetNode.transform;
-
-                  //  Vector3 scale = anim.localScale;
-                    Vector3 puppetScale = puppet.localScale;
-
-                    if (pos2.x - pos1.x > 0 && puppetScale.x > 0)
-                    {
-                  //      scale.x = -scale.x;
-                        puppetScale.x = -puppetScale.x;
-                    }
-                    else if (pos2.x - pos1.x < 0 && puppetScale.x < 0)
-                    {
-                  //      scale.x = -scale.x;
-                        puppetScale.x = -puppetScale.x;
-                    }
-                  //  anim.transform.localScale = scale;
-                    puppet.transform.localScale = puppetScale;
+                    puppetScale.x = -puppetScale.x;
                 }
+                puppet.transform.localScale = puppetScale;
             }
+            else
+            {
+                if (pos2.x - pos1.x > 0 && puppetScale.x > 0)
+                {
+                    puppetScale.x = -puppetScale.x;
+                }
+                else if (pos2.x - pos1.x < 0 && puppetScale.x < 0)
+                {
+                    puppetScale.x = -puppetScale.x;
+                }
+                puppet.transform.localScale = puppetScale;
+            }
+        }
 	}
 
 	private bool visible = true;

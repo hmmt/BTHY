@@ -109,8 +109,34 @@ public class GameManager : MonoBehaviour
 			AgentManager.instance.activateAgent(a, "1");
 
 		a.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-5"));
+		/*
+		SuppressAction sa = new SuppressAction (a);
+		sa.weapon = SuppressAction.Weapon.GUN;
 
-		
+		foreach (CreatureModel creature in CreatureManager.instance.GetCreatureList()) {
+			if (creature.metaInfo.id == 100005) {
+				a.SuppressCreature (creature, sa);
+				break;
+			}
+		}
+*/
+		/*
+		// temp
+		AgentModel b = AgentManager.instance.AddAgentModel();
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
+		b.SetCurrentSefira("1");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "1");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
+
+		b.Panic ();
+
+
+
+		a.StartSuppressAgent (b, sa);
+		*/
         StartStage();
 		//stageUI.Close ();
 		//StartGame();
