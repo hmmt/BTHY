@@ -347,7 +347,7 @@ public class CreatureModel : ObjectModelBase, IObserver
 				AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
 
 				if (detectedAgents.Length > 0) {
-					//PursueWorker (detectedAgents [0]);
+					PursueWorker (detectedAgents [0]);
 				}
 			}
 		}

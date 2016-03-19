@@ -41,9 +41,13 @@ public class SuppressWorkerCommand : WorkerCommand {
 				Finish ();
 				return;
 			}
+
+			if (CheckRange ())
+				return;
+			
 			MovableObjectNode movable = actor.GetMovableNode();
 
-			if (!movable.IsMoving())
+			if (!movable.IsMoving() && ((AgentModel)actor).moveDelay <= 0)
 			{
 				movable.MoveToMovableNode(targetAgent.GetMovableNode());
 			}
@@ -56,16 +60,18 @@ public class SuppressWorkerCommand : WorkerCommand {
 				Finish ();
 				return;
 			}
+
+			if (CheckRange ())
+				return;
+
 			MovableObjectNode movable = actor.GetMovableNode();
 
-			if (!movable.IsMoving())
+			if (!movable.IsMoving() && ((AgentModel)actor).moveDelay <= 0)
 			{
 				movable.MoveToMovableNode(targetCreature.GetMovableNode());
 			}
 			this.isMoving = movable.IsMoving ();
 		}
-
-		CheckRange ();
 	}
 	public override void OnDestroy(WorkerModel agent)
 	{
@@ -74,11 +80,9 @@ public class SuppressWorkerCommand : WorkerCommand {
 		((AgentModel)actor).FinishSuppress();
 	}
 
-	void CheckRange()
+	bool CheckRange()
 	{
 		AgentModel agentActor = (AgentModel)actor;
-		if (agentActor.attackDelay > 0)
-			return;
 		
 		if (targetAgent != null)
 		{
@@ -89,21 +93,30 @@ public class SuppressWorkerCommand : WorkerCommand {
 				{
 					if (sqrDistance < 1)
 					{
+						if (agentActor.attackDelay > 0)
+							return true;
 						HitObjectManager.AddSuppressWorkerStickHitbox ((AgentModel) targetAgent);
 						agentActor.SetAttackDelay (4.0f);
+						agentActor.SetMoveDelay (0.5f);
+						agentActor.GetMovableNode ().StopMoving ();
+						return true;
 					}
 				}
 				else if (suppressAction.weapon == SuppressAction.Weapon.GUN)
 				{
 					if (sqrDistance < 5)
 					{
+						if (agentActor.attackDelay > 0)
+							return true;
 						// 일단 딜레이 없이
 						// TODO: call motion method
 						Debug.Log("Shot!");
 						agentActor.SetAttackDelay(4.0f);
+						agentActor.SetMoveDelay (0.5f);
 						targetAgent.TakePhysicalDamage (1);
 						targetAgent.TakePanicDamage (1);
-
+						agentActor.GetMovableNode ().StopMoving ();
+						return true;
 					}
 				}
 			}
@@ -117,18 +130,28 @@ public class SuppressWorkerCommand : WorkerCommand {
 				{
 					if (sqrDistance < 1)
 					{
+						if (agentActor.attackDelay > 0)
+							return true;
 						Debug.Log ("hit!");
 						agentActor.SetAttackDelay(4.0f);
+						agentActor.SetMoveDelay (0.5f);
 						targetCreature.TakeSuppressDamage (1);
+						agentActor.GetMovableNode ().StopMoving ();
+						return true;
 					}
 				}
 				else if (suppressAction.weapon == SuppressAction.Weapon.GUN)
 				{
 					if (sqrDistance < 5)
 					{
+						if (agentActor.attackDelay > 0)
+							return true;
 						Debug.Log ("Shoot!");
 						agentActor.SetAttackDelay(4.0f);
+						agentActor.SetMoveDelay (0.5f);
 						targetCreature.TakeSuppressDamage (1);
+						agentActor.GetMovableNode ().StopMoving ();
+						return true;
 					}
 				}
 			}
@@ -137,5 +160,6 @@ public class SuppressWorkerCommand : WorkerCommand {
 		{
 			Debug.Log ("unexpected condition");
 		}
+		return false;
 	}
 }

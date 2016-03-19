@@ -13,7 +13,11 @@ public class AgentModel : WorkerModel
 
     public List<TraitTypeInfo> traitList;
 
+	// motion variables
+
+
 	public float attackDelay = 0;
+	public float moveDelay = 0;
 	//
 
     public int level;
@@ -200,6 +204,8 @@ public class AgentModel : WorkerModel
 
 		if(attackDelay > 0)
 			attackDelay -= Time.deltaTime;
+		if (moveDelay > 0)
+			moveDelay -= Time.deltaTime;
 		/*
         if (!tempPanic)
         {
@@ -849,6 +855,11 @@ public class AgentModel : WorkerModel
 		this.attackDelay = attackDelay;
 	}
 
+	public void SetMoveDelay(float moveDelay)
+	{
+		this.moveDelay = moveDelay;
+	}
+
 	// method about managing
 	public float GetSuccessProb(SkillTypeInfo skill)
 	{
@@ -958,6 +969,13 @@ public class AgentModel : WorkerModel
 	{
 		if(state != AgentAIState.SUPPRESS_CREATURE && state != AgentAIState.ENCOUNTER_PANIC_WORKER)
 			state = AgentAIState.ENCOUNTER_CREATURE;
+	}
+
+	// motion
+
+	// ??
+	public void SetMotionState()
+	{
 	}
 
     public void Die()
