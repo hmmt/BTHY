@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<creature>
+  <!--
+    info - 관찰 레벨과는 관련 없는 정보들 ex)데미지, id, 이미지 소스 등
+    
+    observe - 관찰 정도에 따라 제공되는 정보들
+              각 정보들에는 정보가 제공되는 레벨을 표기
+              ex) <desc id="1" openLevel="1">"openLevel이 1일 때 이 정보가 제공됨"</desc>
+              
+              observe 노드 안의 level 은 관찰 단계의 갯수를 나타냄
+  -->
+  <info
+    id ="100005"
+
+    script="NullCreature"
+    >
+
+    <stat>
+      <horrorProb>0.1</horrorProb>
+      <horrorMin>2.0</horrorMin>
+      <horrorMax>2.0</horrorMax>
+
+      <physicsDmg>5.0</physicsDmg>
+      <mentalDmg>25.0</mentalDmg>
+
+      <feelingMax>150.0</feelingMax>
+      <feelingDownValue>4.0</feelingDownValue>
+      <energyPointChange>4</energyPointChange>
+
+      <energyGenSection>
+        <section bound="25" gen="0.4375"/>
+        <section bound="45" gen="0.3125"/>
+        <section bound="75" gen="-0.15"/>
+        <section bound="105" gen="-0.225"/>
+        <section bound="120" gen="-0.275"/>
+      </energyGenSection>
+    </stat>
+
+    <feeling max="100" downProb="0.44" downValue="1">
+      <section feelingValue="50" state="good" energy="0.5"/>
+      <section feelingValue="30" state="normal" energy="0.3"/>
+      <section feelingValue="0" state="bad" energy="-1.3"/>
+    </feeling>
+
+   <narration action="move">
+      -> #0 designated to 'Nothing there' isolation sector.
+    </narration>
+
+    <narration action="start">
+      -> [
+      {The appearance of ‘Nothing’ is just like a human being. However, employees with sharp eyes will feel a sense of incompatibility},
+      {‘Nothing’ is different from ordinary Abnormality.  The biggest difference is that it has never shown its true nature.},
+      {Nothing’ has no concept of ‘stress’. It just ‘exists’},
+      {Know the difference between ‘shell’ and ‘skin'}
+      ]
+    </narration>
+
+    <narration action="mid1">
+      -> [
+      {‘Nothing’ is meaninglessly grinding its teeth while staring at #0.},
+      {Bone which seems like rip of ‘Nothing’ is making crunching sound .},
+      {Shell of ‘Nothing’ ‘s twisted neck  is unnaturally snapping while staring at #0.},
+      {Organ which seems like mouth of ‘Nothing’ is occasionally dripping once human organ. }
+      ]
+    </narration>
+
+    <narration action="mid2">
+      -> [
+      {#0 is not trying to step on unknown secretion of this Abnormarlity.},
+      {Even though this Abnormailty is not making any threatening actions toward #0, #0’s whole body is shivering.},
+      {#0 understands that this 환상체  is not going to attack right now, but just being in this isolation sector is causing [Employee] to feel intense dread.}
+      ]
+      {#0 is trying one’s best not to look at ‘Nothing’}
+    </narration>
+
+    <narration action="mid3">
+      -> [
+      {While working, #0 finds a somewhat familiar look from ‘Nothing’},
+      {#0 finds something from ‘Nothing’.}
+      {Finally, #0 figures out the truth behind ‘Nothing’ ‘s shell.}
+      {Poor #0 has finally seen what ‘Nothing’ is wearing.}
+    </narration>
+
+    <narration action="mid4">
+      -> [
+      {She was #0’s superior. They never had spoken a word to each other, but they could have been great coworkers.},
+      {#0 had seen her employee profile. The reason why #0 could remember her is that she has distinguishable black spot on her face.}
+      {She was employed longer than #0, joining the company about four years ago. #0 recurred  what other employees have talked about her.}
+      ]
+    </narration>
+
+    <narration action="special_ability1">
+      -> [
+      {‘Nothing’ wears #0.}
+      ]
+    </narration>
+
+    <narration action="special_ability2">
+      -> [
+      {During the wearing procedure , #0’s bones are scattered around the floor.}
+      ]
+    </narration>
+
+    <narration action="special_ability3">
+      -> [
+      {Right arm is in a different place but ‘Nothing’ is not aware of it.}
+      ]
+    </narration>
+
+    <narration action="special_ability3_3">
+      -> [
+      {Now, as #0, ‘Nothing’ will make cracking noises of unsettled bones  whenever moving.}
+      ]
+    </narration>
+
+    <narration action="panic">
+      -> [
+      {#0 can’t face ‘Nothing’ anymore. ‘Nothing’ is not nothing  to #0, meaning nothing is nothing…},
+      {#0 senses helpless dread and disgust toward ‘Nothing’. Innate disgust of ‘Nothing’ infiltrates into whole body.}
+      ]
+    </narration>
+
+
+    <narration action="dead">
+      -> [
+      {Now #0 is new ‘Nothing’ ‘s shell. As what ‘Nothing’ will slough off , one day oneself could have a funeral.},
+      {#0 is now ‘Nothing’ ‘s Shell. Every employee will remember #0. Even though they don’t want to, they will have to.}
+      ]
+    </narration>
+
+    <anim prefab="Unit/CreatureAnimator/MagicalGirlAnim" x="-1" y="-2"/>
+
+    <!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
+    <img src="Unit/dummy" x="-1" y="-1"/>
+    <portrait src="Unit/creature/magicalGirl"/>
+    <room src="Unit/creature/isolate_room"/>
+    <frame src="Unit/creature/frame/MagicalGirl_frame"/>
+
+    <graph>
+      <node id="creature" x="-1.6" y="-1" type="creature"/>
+      <node id="workspace" x="1.9" y="-1" type="workspace"/>
+
+      <!--<node id="door"  x="2" y="-1" type="entry"/>-->
+      <node id="outter" x="0" y="0" type="outterDoor"/>
+      <node id="inner" x="2" y="-1" type="innerDoor"/>
+
+      <!--<edge node1="workspace" node2="door" type="road" />-->
+      <edge node1="workspace" node2="inner" type="road" />
+      <edge node1="creature" node2="workspace" type="road" />
+    </graph>
+
+    <sound action="attack" src="creature/onebad_good/oneBad_special_sry"/>
+    <sound action="enter" src="creature/onebad_good/oneBad_enter"/>
+  </info>
+  
+  <observe level ="4">
+    <collection>
+      <codeNo openLevel ="0">O-06-20-A</codeNo>
+      <portrait openLevel ="0"></portrait>
+     
+        <size openLevel ="0">
+  4
+  </size>
+
+      <weight openLevel ="0">
+  152kg (flexible) 
+  </weight>
+
+      <name openLevel ="1">
+Nothing There
+</name>
+      <attackType openLevel ="1">
+Blue
+</attackType>
+        
+      <creatureType openLevel ="1">
+       creature
+      </creatureType>
+
+      <horrorLevel openLevel ="1">
+       4
+      </horrorLevel>
+
+      <riskLevel openLevel ="1">
+        ALEPH
+      </riskLevel>
+
+      <intelligence openLevel ="1">
+        2
+      </intelligence>
+
+      <physical openLevel ="1">
+        4
+      </physical>
+
+      <mental openLevel ="2">
+        4
+      </mental>
+
+      <specialName openLevel ="2">
+  Take off your clothes
+  </specialName>
+
+      <specialInfo openLevel ="2">
+  It takes human skin, human body to cover itself up.
+  </specialInfo>
+
+      <aggression openLevel ="2">
+  2
+  </aggression>
+
+      <gorgeous openLevel ="4">
+  1
+  </gorgeous>
+      
+      <rejectWork openLevel ="4"></rejectWork>
+      
+      <preferWork openLevel ="5"></preferWork>
+      <solution openLevel ="2">
+      : It needs a human regularly to form its cover. Does not need to be done voluntarily. . </solution>
+    </collection>
+    
+    <desc id="1" openLevel="0">
+    -> [
+        {The creature does not have any level of stress. It has the shape of a human but it is surely not one.}
+       ]
+    </desc>
+
+    <desc id="2" openLevel="1">
+     -> [
+        {At a certain period of time it devours an employee and wears the skin. During that process that the bone structure and the organs are made a mess, so it takes a strange form }
+       ]
+    </desc>
+
+    <desc id="3" openLevel="2">
+    -> [
+        {In this unlike 'Human Sacrifice'  in that the employees must sacrifice their bodies voluntarily. The creature does have a tongue but it does not know how to talk, so therefore can only make meaningless sounds. There is no telling what is inside the shell but its skin wears out continuously, so there is a need to change and maintain the outer skin.} 
+        ]
+    </desc>
+
+    <desc id="4" openLevel="3">
+    -> [
+        {When ‘The skin or the shell is 80% damaged’, the creature attempts to escape. }
+       ]
+    </desc>
+
+      <desc id="5" openLevel="4">
+    -> [
+        {It does not feel regular pain so it does not care about broken bones. The creature may break its own bones and cut itself up in order to escape through a small route. }
+       ]
+    </desc>
+
+
+    <record openLevel="1">
+     -> [
+        {Excerpt from Interview Log #4-593
+        Employee F4055 : “If anyone of us turns out to be crazy, 80% of the blame is on that creature. Like most Abnormalities here, no one knows the reason for its existence. I don't know what's inside that makes it cover itself up with human skin, and I don't know how the skin wears out so quickly. I don't know why it wouldn't take care of its own skin, (Omitted)}
+        ]
+    </record>
+
+    <record openLevel="2">
+    ->[
+         {When it's eating one of us, it's so disgusting that it's psychologically damaging just to think of it. Anyway, going to the confinement zone to check on the skin status is real work. Just think of it. A colleague you talk to and laughed with a few days ago, now has a broken neck and organs sticking out while crawling with four legs. (Omitted)}
+         ]
+    </record>
+
+    <record openLevel="3">
+     -> [
+        {That's not all the creature does. When I was new here, no one wanted to go in that room, so I was sent in. It was worse than now. It took the shape of a human twisted into God knows what. It tried to act like a human and tried to talk to itself in the mirror. It tried to regain its proper structure. Its actions felt like it was mimicking ‘our’ behavior. You never know, it might be around us pretending to be human.
+        }
+        ]
+    </record>
+
+      <record openLevel="4">
+     -> [
+          { [Warning] Personnel clearance must be Level 3 or higher to read this document
+          ( (This recording is of a call from the creature confinement area’s emergency phone. Telephones are installed in rooms of creatures with HE or higher threat level to enable quick response in an urgent situation)
+
+          Employee M3120 : Respond, respond. This is the confinement zone of ‘Nothing There’
+          Emergency Response Department(ERD) : This is the emergency response team. How can I help you?
+          Employee M3120: I need a stun gun right now! I have an emergency situation here!
+          ERD : Can you specify the reason, please?
+          Employee M3120: The Abnormality...(noise, something breaking) It's ripping up the employee. 
+          ERD : Pardon?
+          Employee M3120: It's killing my colleague!
+          Employee M3120: Will respond immediately. Please identify the employee being attacked. 
+          Employee M3120: Uh… It’s M2658, no M26850. Name, [Redacted]. I’m M3120 [Redacted].
+          ERD : [Redacted], [Redacted]. ID confirmed. What is happening to your colleague at this moment? 
+          Employee M3120 : Yeah, just please hurry. We need a weapon to control the creature. (noise – presumably M2658’s scream)Oh god, this is…
+          ERD : Can you tell me what is happening?
+          Employee M3120 : An Abnormality is attacking my colleague. It is literally ripping apart my colleague. I can’t do anything. I repeat. I need a weapon to control the creature. 
+          ERD : Emergency Response Team has been dispatched. They will arrive shortly.
+          (Omitted) 
+          ERD : [Redacted], what’s happening? Is it still attacking your colleague?
+          Employee M3120: Yeah, oh no. I think it’s done now.
+          ERD : Has it stopped attacking your colleague?
+          Employee M3120 : No. My colleague is... he is dead. I repeat he is dead.
+          ERD : How can you be sure?
+          Employee M3120 : Because he looks… he is…
+          ERD : Has he been ripped? Which parts are damaged?
+          Employee M3120 : All of them.
+
+        ]
+
+    </record>
+    
+  </observe>
+</creature>

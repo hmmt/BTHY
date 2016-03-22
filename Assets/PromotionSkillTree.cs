@@ -37,7 +37,6 @@ public class PromotionSkillTree : MonoBehaviour {
     public void Init() {
         currentCategory = new List<SkillCategory>(SkillManager.instance.list.ToArray());
         for (int i = childTree.Length - 1; i >= 0; i--) {
-            Debug.Log(childTree[i].target);
             SkillCategory cat = SkillManager.instance.GetCategoryByName(childTree[i].target).GetCopy();
             childTree[i].SetCategory(cat);
             childTree[i].OnConfirm();

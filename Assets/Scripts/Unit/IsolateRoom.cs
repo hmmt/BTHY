@@ -49,6 +49,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public TextMesh creatureLevel;
     public TextMesh creatureName;
 
+    public UnityEngine.UI.Text FeelingTextForDebug;
+
     public void Awake()
     {
         workLog = GameObject.FindGameObjectWithTag("AnimationController");
@@ -165,7 +167,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 			feelingText.text = "";
 			creatureLevel.text = "";
 			creatureName.text = "";
-
+            FeelingTextForDebug.text =this.targetUnit.model.feeling + "/" + this.targetUnit.model.metaInfo.feelingMax + " " + this.targetUnit.model.GetFeelingPercent() + "%";
 
             //feelingText.text = "";
             

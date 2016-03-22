@@ -261,6 +261,16 @@ public class WorkerModel: ObjectModelBase, IObserver {
         }
     }
 
+    public virtual void TakePhysicalDamage(float damage)
+    {
+        Debug.Log("TakePhysicalDamage : " + damage);
+        hp -= (int)damage;
+        if (hp <= 0)
+        {
+            //dead
+        }
+    }
+
     public virtual void TakeMentalDamage(int damage) {
         mental -= damage;
         

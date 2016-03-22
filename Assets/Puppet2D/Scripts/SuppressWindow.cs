@@ -19,6 +19,22 @@ public class SuppressAction {
         this.model = target;
         this.weapon = Weapon.NONE;
     }
+
+    /*
+        정렬용 비교 함수 구역
+     */
+    public static int CompareByName(SuppressAction a, SuppressAction b){
+        return AgentModel.CompareByName(a.model, b.model);
+    }
+
+    public static int CompareByLevel(SuppressAction a, SuppressAction b) {
+        return AgentModel.CompareByLevel(a.model, b.model);
+    }
+
+    public static int CompareByLifestyle(SuppressAction a, SuppressAction b) {
+        return AgentModel.CompareByLifestyle(a.model, b.model);
+    }
+    //정렬용 비교함수 끝
 }
 
 public class SuppressWindow : MonoBehaviour
@@ -27,6 +43,8 @@ public class SuppressWindow : MonoBehaviour
         CREATURE,
         AGENT
     }
+
+    public GameObject slot;
     
     [System.Serializable]
     public class SuppressWindowUI {
@@ -92,7 +110,8 @@ public class SuppressWindow : MonoBehaviour
     public RectTransform anchor;
     public SuppressWindowUI ui;
 
-    public List<SuppressAction> agentList;
+    public List<SuppressAction> agentList;//현제 세피라에 배치되었으며, 패닉상태가 아닌 직원들
+    public List<SuppressAction> suppressingAgentList;//실제 제압을 하게되는 직원들의 리스트
 
     //Sort 에 관련된 UI 및 데이터 필요
 
@@ -121,16 +140,12 @@ public class SuppressWindow : MonoBehaviour
         inst.currentSefira = target.sefira;
         inst.agentList = new List<SuppressAction>();
 
-        inst.ShowAgentList();
-
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(target.instanceId);
         inst.attachedPos = unit.transform;
-
-        inst.InitAgentList();
         inst.ui.Init(target, inst.targetType);
 
-        Debug.Log(target.metaInfo.name);
-
+        inst.InitAgentList();
+        inst.ShowAgentList();
         currentWindow = inst;
         return inst;
     }
@@ -150,16 +165,12 @@ public class SuppressWindow : MonoBehaviour
         inst.currentSefira = SefiraManager.instance.getSefira(target.sefira);
         inst.agentList = new List<SuppressAction>();
 
-        inst.ShowAgentList();
-
         AgentUnit unit = AgentLayer.currentLayer.GetAgent(target.instanceId);
         inst.attachedPos = unit.transform;
-
-        inst.InitAgentList();
         inst.ui.Init(target, inst.targetType);
 
-        Debug.Log(target.name);
-
+        inst.InitAgentList();
+        inst.ShowAgentList();
         currentWindow = inst;
         return inst;
     }
@@ -175,24 +186,6 @@ public class SuppressWindow : MonoBehaviour
         }
         else {
             return null;
-        }
-    }
-
-    void Awake() { 
-        //UpdatePosition;
-    }
-
-    void FixedUpdate() { 
-        //Update
-    }
-    /// <summary>
-    /// Not used
-    /// </summary>
-    private void UpdatePosition() {
-        if (attachedPos != null)
-        {
-            Vector3 targetPos = attachedPos.position;
-            anchor.position = Camera.main.WorldToScreenPoint(targetPos + new Vector3(0, -3, 0));
         }
     }
 
@@ -216,6 +209,30 @@ public class SuppressWindow : MonoBehaviour
 
     public void ShowAgentList() { 
         //패닉상태가 아닌 직원들의 리스트가 필요
+        //정렬 기능을 구현해야 함
+        float posy = 0;
+        foreach (Transform child in AgentScrollTarget) {
+            Destroy(child.gameObject);
+        }
+        AgentScrollTarget.sizeDelta = new Vector2(AgentScrollTarget.sizeDelta.x, 0f);
+
+        foreach (SuppressAction agent in this.agentList) {
+            GameObject newObj = Instantiate(slot);
+            RectTransform rect = newObj.GetComponent<RectTransform>();
+            SuppressAgentSlot script = newObj.GetComponent<SuppressAgentSlot>();
+
+            rect.SetParent(this.AgentScrollTarget);
+            rect.localScale = Vector3.one;
+            rect.localPosition = Vector3.zero;
+
+            rect.anchoredPosition = new Vector2(0f, -posy);
+            
+            script.Init(agent.model);
+
+            posy += script.GetHeight();
+        }
+
+        AgentScrollTarget.sizeDelta = new Vector2(AgentScrollTarget.sizeDelta.x, posy);
     }
 
     public void CloseWindow() {
@@ -223,4 +240,20 @@ public class SuppressWindow : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// call agent list who operate suppress actions.
+    /// </summary>
+    /// <returns></returns>
+    public List<SuppressAction> GetSuppressingAgentList()
+    {
+        this.suppressingAgentList = new List<SuppressAction>();
+
+        foreach (SuppressAction action in this.agentList) {
+            if (action.weapon != SuppressAction.Weapon.NONE) {
+                suppressingAgentList.Add(action);
+            }
+        }
+
+        return this.suppressingAgentList;
+    }
 }

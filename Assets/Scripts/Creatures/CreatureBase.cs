@@ -21,6 +21,7 @@ public class CreatureAttackInfo
 public class CreatureBase {
 
     protected CreatureModel model;
+    public CreatureSpecialSkill skill;
 
     public void SetModel(CreatureModel model)
     {

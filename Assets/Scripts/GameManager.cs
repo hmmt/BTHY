@@ -190,9 +190,16 @@ public class GameManager : MonoBehaviour
         }
         */
         SefiraManager.instance.getSefira(SefiraName.Malkut).InitAgentSkillList();
+        CreatureManager.instance.OnStageStart();
+
         foreach (OfficerModel om in OfficeManager.instance.GetOfficerList()) {
             StartCoroutine(om.StartAction());
         }
+
+        foreach (AgentModel am in AgentManager.instance.GetAgentList()) {
+            am.MakeAccessoryByTraits();
+        }
+
     }
 
 	public void Pause()

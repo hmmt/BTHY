@@ -149,10 +149,12 @@ public class CreatureManager : IObserver{
     {
         CreatureTypeInfo typeInfo = CreatureTypeList.instance.GetData(metadataId);
 
+        Debug.Log(metadataId);
+
         model.metadataId = metadataId;
         model.metaInfo = typeInfo;
         model.basePosition = new Vector2(x, y);
-        //Debug.Log(typeInfo.script);
+
         model.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
         if(model.script != null)
             model.script.SetModel(model);
@@ -523,6 +525,15 @@ public class CreatureManager : IObserver{
         if (notice == NoticeName.ChangeAgentSefira_Late)
         {
             OnChangeAgentSefira();
+        }
+    }
+
+    public void OnStageStart() {
+        foreach (CreatureModel model in this.creatureList) {
+            if (model != null && model.script != null && model.script.skill != null) {
+
+                model.script.skill.OnStageStart();
+            }
         }
     }
 }

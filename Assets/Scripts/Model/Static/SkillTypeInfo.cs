@@ -319,10 +319,10 @@ public class SkillManager {
 
 public class SkillCategoryName { 
     public static string Food = "Food";
-    public static string Treat = "Treat";
+    public static string Treat = "Recept";
     public static string Clean = "Clean";
     public static string Communication = "Communication";
-    public static string Restriction = "Restriction";
+    public static string Restriction = "Restrick";
 
     public static string GetCategoryName(SkillCategory target) {
         switch (target.name) { 

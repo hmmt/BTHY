@@ -1,0 +1,341 @@
+fileFormatVersion: 2
+guid: 575405fa9f36c834698047ee2ebae583
+timeCreated: 1457932484
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: panic_0
+    21300002: panic_1
+    21300004: panic_2
+    21300006: panic_3
+    21300008: panic_4
+    21300010: panic_5
+    21300012: panic_6
+    21300014: panic_7
+    21300016: sprite_face_panic
+    21300018: panic_9
+    21300020: panic_10
+    21300022: panic_11
+    21300024: sprite_mouth_panic_1
+    21300026: sprite_mouth_panic_2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 8192
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: panic_0
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 362
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: panic_1
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 326
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: panic_2
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 309
+        width: 97
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 30.5, y: 18}
+        - {x: -48.5, y: -10}
+        - {x: -48.5, y: -18}
+        - {x: 48.5, y: -18}
+        - {x: 48.5, y: 18}
+      - - {x: -44.5, y: 13}
+        - {x: -46.5, y: 13}
+        - {x: -48.5, y: 11}
+        - {x: -48.5, y: -2}
+        - {x: -47.5, y: -2}
+        - {x: -43.5, y: 1}
+        - {x: -41.5, y: 6}
+        - {x: -41.5, y: 10}
+    - name: panic_3
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 311
+        width: 17
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: panic_4
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 332
+        width: 15
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: panic_5
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 295
+        width: 75
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17.5, y: -32.5}
+        - {x: -18.5, y: -29.5}
+        - {x: -28.5, y: -29.5}
+        - {x: -29.5, y: -32.5}
+      - - {x: -28.5, y: 32.5}
+        - {x: -37.5, y: 32.5}
+        - {x: -37.5, y: -0.5}
+        - {x: 22.5, y: -32.5}
+        - {x: 37.5, y: -32.5}
+        - {x: 37.5, y: -28.5}
+        - {x: 31.5, y: -22.5}
+    - name: panic_6
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 309
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: panic_7
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 277
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprite_face_panic
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 135
+        width: 293
+        height: 249
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 91.5, y: -96.5}
+        - {x: 91.5, y: -111.5}
+        - {x: 96.5, y: -114.5}
+        - {x: 104.5, y: -114.5}
+        - {x: 107.5, y: -113.5}
+        - {x: 107.5, y: -96.5}
+      - - {x: -97.5, y: 48.5}
+        - {x: -138.5, y: 32.5}
+        - {x: -140.5, y: 14.5}
+        - {x: -140.5, y: -93.5}
+        - {x: 119.5, y: -93.5}
+        - {x: 119.5, y: 8.5}
+        - {x: 63.5, y: 48.5}
+      - - {x: 128.5, y: -70.5}
+        - {x: 122.5, y: -70.5}
+        - {x: 116.5, y: -73.5}
+        - {x: 114.5, y: -75.5}
+        - {x: 114.5, y: -82.5}
+        - {x: 119.5, y: -89.5}
+        - {x: 125.5, y: -89.5}
+        - {x: 129.5, y: -84.5}
+        - {x: 129.5, y: -73.5}
+      - - {x: 119.5, y: 20.5}
+        - {x: 112.5, y: 16.5}
+        - {x: 112.5, y: 7.5}
+        - {x: 117.5, y: 1.5}
+        - {x: 126.5, y: 1.5}
+        - {x: 129.5, y: 6.5}
+        - {x: 129.5, y: 19.5}
+        - {x: 127.5, y: 20.5}
+      - - {x: -134.5, y: 32.5}
+        - {x: -141.5, y: 26.5}
+        - {x: -141.5, y: 19.5}
+        - {x: -139.5, y: 15.5}
+        - {x: -133.5, y: 15.5}
+        - {x: -128.5, y: 18.5}
+        - {x: -127.5, y: 19.5}
+        - {x: -127.5, y: 32.5}
+      - - {x: 25.5, y: 71.5}
+        - {x: 96.5, y: 33.5}
+        - {x: 113.5, y: 33.5}
+        - {x: 113.5, y: 41.5}
+        - {x: 54.5, y: 102.5}
+        - {x: 28.5, y: 102.5}
+        - {x: 25.5, y: 95.5}
+      - - {x: -48.5, y: 87.5}
+        - {x: -117.5, y: 58.5}
+        - {x: -117.5, y: 48.5}
+        - {x: -116.5, y: 47.5}
+        - {x: -14.5, y: 47.5}
+        - {x: -4.5, y: 61.5}
+        - {x: -4.5, y: 80.5}
+        - {x: -7.5, y: 87.5}
+      - - {x: 13.5, y: 59.5}
+        - {x: 13.5, y: 51.5}
+        - {x: 14.5, y: 47.5}
+        - {x: 25.5, y: 47.5}
+        - {x: 27.5, y: 48.5}
+        - {x: 27.5, y: 59.5}
+      - - {x: -119.5, y: 80.5}
+        - {x: -124.5, y: 77.5}
+        - {x: -124.5, y: 70.5}
+        - {x: -120.5, y: 64.5}
+        - {x: -115.5, y: 64.5}
+        - {x: -108.5, y: 67.5}
+        - {x: -108.5, y: 79.5}
+        - {x: -109.5, y: 80.5}
+      - - {x: -16.5, y: 100.5}
+        - {x: -9.5, y: 100.5}
+        - {x: -5.5, y: 102.5}
+        - {x: -5.5, y: 117.5}
+        - {x: -17.5, y: 117.5}
+        - {x: -19.5, y: 116.5}
+        - {x: -19.5, y: 104.5}
+    - name: panic_9
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 263
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: panic_10
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 172
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: panic_11
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 147
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprite_mouth_panic_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 22
+        width: 138
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -68, y: 38}
+        - {x: -69, y: 35}
+        - {x: -69, y: -21}
+        - {x: -47, y: -38}
+        - {x: 60, y: -38}
+        - {x: 69, y: -22}
+        - {x: 69, y: 32}
+        - {x: 64, y: 38}
+    - name: sprite_mouth_panic_2
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 11
+        width: 138
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -57, y: 43}
+        - {x: -59, y: 42}
+        - {x: -69, y: 21}
+        - {x: -69, y: -22}
+        - {x: -57, y: -32}
+        - {x: -28, y: -43}
+        - {x: 64, y: -43}
+        - {x: 69, y: -33}
+        - {x: 69, y: 32}
+        - {x: 35, y: 43}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

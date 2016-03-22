@@ -3,11 +3,28 @@ using System.Collections;
 
 public class RedShoes : CreatureBase {
 
+    public override void OnInit()
+    {
+        this.skill = new RedShoesSkill(this.model);
+    }
 
     // temporary
     public override void OnSkillFailWorkTick(UseSkill skill)
     {
         ActivateSkill(skill);
+    }
+
+    public override void OnFixedUpdate(CreatureModel creature)
+    {
+        if (creature.GetFeelingPercent() < 30f && this.skill.Activated == false)
+        {
+            this.skill.Activate();
+        }
+        else if (creature.GetFeelingPercent() > 30f && this.skill.Activated == true){
+            if (this.skill.Activated == true) {
+                this.skill.DeActivate();
+            }
+        }
     }
 
     public void ActivateSkill(UseSkill skill)

@@ -28,6 +28,7 @@ public class CollectionWindow : MonoBehaviour {
     public TextListScript observeScript;
     public RectTransform observeButton;
 
+    public static string nodata= "unknown";
 
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
@@ -36,6 +37,9 @@ public class CollectionWindow : MonoBehaviour {
     {
         Debug.Log("Work Count : "+creature.workCount+"Observe Condition : "+creature.observeCondition + "Observe Progress : "+creature.observeProgress+1);
 
+        SelectObserveAgentWindow.CreateWindow(creature);
+
+        return;
         if (creature.NoticeDoObserve())
         {
             SelectObserveAgentWindow.CreateWindow(creature);
@@ -72,23 +76,21 @@ public class CollectionWindow : MonoBehaviour {
         wnd.observeText.text = creature.GetObserveText();
         */
 
-		wnd.name.text = creature.metaInfo.name;
-		wnd.code.text = creature.metaInfo.codeId;
-		wnd.attackType.text = creature.metaInfo.attackType.ToString();
-		//wnd.intLevel.text = creature.metaInfo.intelligence.ToString();
-		wnd.dangerLevel.text = creature.metaInfo.level.ToString();
-        wnd.observePercent.text = (float)creature.observeProgress / creature.metaInfo.observeLevel * 100+"%";
-        wnd.nickname.text = wnd.name.text;
+        /*
+         from here, should display data by observe level
+         */
+
+        wnd.DisplayData(wnd);
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
         if (creature.metaInfo.tempPortrait != null) {
             wnd.profImage.sprite = creature.metaInfo.tempPortrait;
         }
-        wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
+        //wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
        // wnd.UpdateBg("default");
         //wnd.observeButton.gameObject.SetActive(false);
         
 
-        string descTextfull = creature.metaInfo.desc;
+        string descTextfull = creature.metaInfo.desc[0];
         char[] determine = {'*'};
         string[] descary = descTextfull.Split(determine);
         
@@ -100,7 +102,48 @@ public class CollectionWindow : MonoBehaviour {
         currentWindow = wnd;
         
         wnd.SetObserveText();
+    }
 
+    public void DisplayData(CollectionWindow wnd) {
+        CreatureTypeInfo info = wnd.GetCreature().metaInfo;
+        CreatureTypeInfo.ObserveTable table = info.observeTable;
+        int clevel = info.CurrentObserveLevel;
+
+        DisplayText(clevel, table.name, wnd.name, info.name);
+        DisplayText(clevel, table.attackType, wnd.attackType, info.attackType.ToString());
+        DisplayText(clevel, table.riskLevel, wnd.dangerLevel, info.level);
+        //DisplayText(clevel, nickname.text, 
+        string dangerRank = wnd.attackType.text + " " + wnd.dangerLevel.text;
+        wnd.DangerRank.text = dangerRank;
+
+        char[] determine = { '*' };
+        for (int i = 0; i < table.desc.Count; i++) {
+            if (clevel < table.desc[i]) {
+                continue;
+            }
+
+            string descTextFull = info.desc[i];
+            string[] descary = descTextFull.Split(determine);
+            foreach (string str in descary) {
+                if (str.Equals(" ") || str.Equals("")) continue;
+                wnd.listScirpt.MakeTextWithBg(str);
+            }
+            
+        }
+        wnd.listScirpt.SortBgList();
+        
+        //record(관찰기록 띄우기)
+    }
+
+    private void DisplayText(int current, int level, Text target, string data)
+    {
+        if (current >= level)
+        {
+            target.text = data;
+        }
+        else {
+            target.text = nodata;   
+        }
     }
 
     public void SetObserveText() {

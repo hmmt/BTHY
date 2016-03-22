@@ -178,6 +178,13 @@ public class CreatureUnit : MonoBehaviour {
 	{
 		UpdateViewPosition();
         UpdateDirection();
+
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            if (this.model.metadataId == 100003)
+            {
+                model.SubFeeling(10);
+            }
+        }
 	}
 
     private CreatureState oldState = CreatureState.WAIT;
@@ -286,4 +293,6 @@ public class CreatureUnit : MonoBehaviour {
     {
         mousePointEnter = false;
     }
+
+    
 }

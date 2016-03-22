@@ -31,10 +31,10 @@ public class AgentModel : WorkerModel
     public int traitMaxmental;
 
     public int defaultMovement;
-    public int traitmovement;
+    public float traitmovement;
 
     public int defaultWork;
-    public int traitWork;
+    public float traitWork;
     public int workSpeed; //
 
     public string prefer;
@@ -331,8 +331,8 @@ public class AgentModel : WorkerModel
 
         maxHp = defaultMaxHp + traitMaxHp;
         maxMental = defaultMaxMental + traitMaxmental;
-        movement = defaultMovement + traitmovement;
-        workSpeed = defaultWork + traitWork;
+        movement = (int)(defaultMovement + traitmovement);
+        workSpeed = (int)(defaultWork + traitWork);
 
         hp += addTrait.hp;
         mental += addTrait.mental;
@@ -365,6 +365,7 @@ public class AgentModel : WorkerModel
         Debug.Log("변경후 속도" + movement);
         Debug.Log("변경후 작업속도" + workSpeed);
          */
+
     }
 
 	// skill start
@@ -1024,6 +1025,21 @@ public class AgentModel : WorkerModel
         levelSetting = new ValueInfo(healthPoint, mentalPoint, workPoint, speedPoint);
         setSprite();
     }
+
+    public void MakeAccessoryByTraits() {
+        List<TraitTypeInfo> accessoryList = new List<TraitTypeInfo>();
+        foreach (TraitTypeInfo trait in this.traitList) {
+            if (trait.haveImg)
+            {
+                accessoryList.Add(trait);
+            }
+            else continue;
+        }
+        //Debug.Log(AgentLayer.currentLayer.GetAgent(this.instanceId));
+        AgentLayer.currentLayer.GetAgent(this.instanceId).MakeAccessory(accessoryList);
+        //call agentUnit to make accsseories
+    }
+
 
     public int calc(int value, int standard)
     {

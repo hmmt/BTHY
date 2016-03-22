@@ -26,4 +26,30 @@
 	
 		<panic action="roaming"/>
 	</agent>
+  <agent
+		id="2"
+		name="Default"
+		hp="500"
+		mental="10000"
+		movement="5"
+		work="1"
+		level="1"
+		gender="Male"
+		workDays="1"
+
+		directSkillId="10001"
+		indirectSkillId="20001"
+		blockSkillId="30001"
+		>
+    <preferSkill type="direct" bonus="15"/>
+    <rejectSkill type="indirect" bonus="-10"/>
+
+    <speech action="work_start" text="피곤하다……."/>
+    <speech action="work_hit" text="이럴 줄 알았어."/>
+    <speech action="work_complete" text="한 건 했다."/>
+    <speech action="dead" text="영원히 자자."/>
+    <speech action="panic" text="빼애애앸"/>
+
+    <panic action="roaming"/>
+  </agent>
 </agent_list>

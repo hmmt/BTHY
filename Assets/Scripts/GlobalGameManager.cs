@@ -12,6 +12,8 @@ public class GlobalGameManager : MonoBehaviour {
 		}
 	}
 
+    public string language = "en";
+
 	void Awake()
 	{
 		if (_instance != null) {

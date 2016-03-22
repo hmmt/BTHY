@@ -67,7 +67,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             inst.attachedNode = unit.transform;
         }
 
-        inst.ShowAgentList();
+        //inst.ShowAgentList();
         inst.priority = inst.gameObject.GetComponent<CreaturePriority>();
         inst.priority.Init(inst.targetCreature);
         currentWindow = inst;

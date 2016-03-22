@@ -47,11 +47,12 @@ public class GameStaticDataLoader {
         List<TraitTypeInfo> EIList = new List<TraitTypeInfo>();
         List<TraitTypeInfo>[] levelList = new List<TraitTypeInfo>[5];
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             levelList[i] = new List<TraitTypeInfo>();
         }
 
-		int r = 0;
+        int r = 0;
         foreach (XmlNode node in nodes)
         {
             TraitTypeInfo model = new TraitTypeInfo();
@@ -66,12 +67,33 @@ public class GameStaticDataLoader {
 			model.hp = (int)float.Parse(node.Attributes.GetNamedItem("hp").InnerText);
 			model.mental = (int)float.Parse(node.Attributes.GetNamedItem("mental").InnerText);
 
-			model.move = (int)float.Parse(node.Attributes.GetNamedItem("move").InnerText);
-			model.work = (int)float.Parse(node.Attributes.GetNamedItem("work").InnerText);
+			model.move = float.Parse(node.Attributes.GetNamedItem("move").InnerText);
+			model.work = float.Parse(node.Attributes.GetNamedItem("work").InnerText);
 
-			model.discType = (int)float.Parse(node.Attributes.GetNamedItem("discType").InnerText);
+            model.energy = float.Parse(node.Attributes.GetNamedItem("energy").InnerText);
+            model.attack = float.Parse(node.Attributes.GetNamedItem("attack").InnerText);
+            model.success = float.Parse(node.Attributes.GetNamedItem("success").InnerText);
+
+            model.upwork = node.Attributes.GetNamedItem("upwork").InnerText;
+
+			model.discType = (int)float.Parse(node.Attributes.GetNamedItem("type").InnerText);
 
             model.description = node.Attributes.GetNamedItem("description").InnerText;
+            model.effect = node.Attributes.GetNamedItem("effect").InnerText;
+            model.condition = node.Attributes.GetNamedItem("condition").InnerText;
+
+            int imgFlag = (int)float.Parse(node.Attributes.GetNamedItem("imgflag").InnerText);
+            if (imgFlag == 1)
+            {
+                model.haveImg = true;
+                model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
+                model.imgPos = node.Attributes.GetNamedItem("imgpos").InnerText;
+            }
+            else {
+                model.haveImg = false;
+                model.imgsrc = "";
+                model.imgPos = "";
+            }
 
             if (model.randomFlag == 1) {
                 levelList[model.level - 1].Add(model);
@@ -117,7 +139,7 @@ public class GameStaticDataLoader {
             unit.energy = float.Parse(node.SelectSingleNode("energy").InnerText);
             unit.coolTime = float.Parse(node.SelectSingleNode("cooltime").InnerText);
 
-            unit.type = GetType(node.SelectSingleNode("type").InnerText);
+            unit.type = GetCreatureType(node.SelectSingleNode("type").InnerText);
 
             float min, max;
             min = float.Parse(node.SelectSingleNode("intmin").InnerText);
@@ -158,7 +180,7 @@ public class GameStaticDataLoader {
         SkillManager.instance.SortList();
     }
 
-    private CreatureType GetType(string type) {
+    private CreatureType GetCreatureType(string type) {
         switch (type) { 
             case "BIO":
                 return CreatureType.BIO;
@@ -542,17 +564,133 @@ public class GameStaticDataLoader {
         foreach (XmlNode pathInfoNode in creature_list)
         {
             string src = pathInfoNode.Attributes.GetNamedItem("src").InnerText;
-			//Debug.Log ("load creature >> "+ src);
 
-            TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/"+src);
+            
+            TextAsset creatureTextAsset = Resources.Load<TextAsset>("xml/creatures/" + src + "_"+ GlobalGameManager.instance.language);
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(creatureTextAsset.text);
 
-            XmlNode node = doc.SelectSingleNode("/creature/info");
+            XmlNode info = doc.SelectSingleNode("/creature/info");
+
+            XmlNode observe = doc.SelectSingleNode("/creature/observe");
 
             CreatureTypeInfo model = new CreatureTypeInfo();
 
+            model.id = long.Parse(info.Attributes.GetNamedItem("id").InnerText);
+            model.script = info.Attributes.GetNamedItem("script").InnerText;
+
+            /*
+            if (info.Attributes.GetNamedItem("animatorScript") != null)
+            {
+                model.animatorScript = info.Attributes.GetNamedItem("animatorScript").InnerText;
+            }*/
+
+            XmlNode stat = info.SelectSingleNode("stat");
+            LoadCreatureStat(stat, model);
+
+            Dictionary<string, string> soundTable = new Dictionary<string, string>();
+            XmlNodeList soundNodeList = info.SelectNodes("sound");
+            foreach (XmlNode soundNode in soundNodeList)
+            {
+                string key = soundNode.Attributes.GetNamedItem("action").InnerText;
+                string stext = soundNode.Attributes.GetNamedItem("src").InnerText;
+
+                soundTable.Add(key, stext);
+            }
+            model.soundTable = soundTable;
+
+            Dictionary<string, string> narrationTable = new Dictionary<string, string>();
+            XmlNodeList narrationNodeList = info.SelectNodes("narration");
+            foreach (XmlNode narrationNode in narrationNodeList)
+            {
+                string key = narrationNode.Attributes.GetNamedItem("action").InnerText;
+                string ntext = narrationNode.InnerText.Trim();
+
+                narrationTable.Add(key, ntext);
+            }
+            model.narrationTable = narrationTable;
+
+            model.nodeInfo = info.SelectNodes("graph/node");
+            model.edgeInfo = info.SelectNodes("graph/edge");
+
+            XmlNode imgNode = info.SelectSingleNode("img");
+            if (imgNode != null)
+                model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
+            XmlNode roomNode = info.SelectSingleNode("room");
+            model.roomsrc = roomNode.Attributes.GetNamedItem("src").InnerText;
+            XmlNode frameNode = info.SelectSingleNode("frame");
+            model.framesrc = frameNode.Attributes.GetNamedItem("src").InnerText;
+            XmlNode animNode = info.SelectSingleNode("anim");
+            if (animNode != null)
+            {
+                model.animSrc = animNode.Attributes.GetNamedItem("prefab").InnerText;
+            }
+
+            XmlNode roomReturnSrcNode = info.SelectSingleNode("returnImg");
+            if (roomReturnSrcNode != null)
+            {
+                model.roomReturnSrc = roomReturnSrcNode.Attributes.GetNamedItem("src").InnerText;
+            }
+            else
+            {
+                model.roomReturnSrc = "";
+            }
+
+            /*
+                anim, img, portrait, room, frame, graph 읽어오기
+             */
+
+            model.CurrentObserveLevel = 0;
+            model.MaxObserveLevel = (int)float.Parse(observe.Attributes.GetNamedItem("level").InnerText);
+
+            XmlNode collection = observe.SelectSingleNode("collection");
+            LoadCreatureCollectionInfo(collection, model);
+
+            /*
+            XmlNode descNode = observe.SelectSingleNode("desc");
+            string descData = descNode.InnerText;
+            model.desc = TextConverter.TranslateDescData(descData);
+            */
+
+            XmlNodeList descList = observe.SelectNodes("desc");
+
+            foreach (XmlNode descNode in descList) {
+                int level = (int)float.Parse(descNode.Attributes.GetNamedItem("openLevel").InnerText);
+                string text = descNode.InnerText.Trim();
+
+                string input = TextConverter.GetTextFromFormatAlter(text);
+
+                model.desc.Add(input);
+                model.observeTable.desc.Add(level);
+            }
+
+            XmlNodeList recordList = observe.SelectNodes("record");
+
+            foreach (XmlNode record in recordList) {
+                string text = record.InnerText.Trim();
+                int openLevel = (int)float.Parse(record.Attributes.GetNamedItem("openLevel").InnerText);
+
+                string input = TextConverter.GetTextFromFormatAlter(text);
+
+                model.observeRecord.Add(input);
+                model.observeTable.record.Add(openLevel);
+            }
+
+            creatureTypeList.Add(model);
+            /*
+             XmlNodeList narrationNodeList = node.SelectNodes("narration");
+             foreach (XmlNode narrationNode in narrationNodeList)
+             {
+                 string key = narrationNode.Attributes.GetNamedItem("action").InnerText;
+                 string ntext = narrationNode.InnerText.Trim();
+
+                 narrationTable.Add(key, ntext);
+             }
+             model.narrationTable = narrationTable;
+             */
+
+            /*
             //model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
 			model.id = long.Parse(pathInfoNode.Attributes.GetNamedItem("id").InnerText);
             //model.name = node.Attributes.GetNamedItem("name").InnerText;
@@ -560,9 +698,9 @@ public class GameStaticDataLoader {
             //model.level = node.Attributes.GetNamedItem("level").InnerText;
             //model.attackType = node.Attributes.GetNamedItem("attackType").InnerText;
             model.intelligence = node.Attributes.GetNamedItem("intelligence").InnerText;
-
-            model.stackLevel = int.Parse(node.Attributes.GetNamedItem("stackLevel").InnerText);
-            model.observeLevel = int.Parse(node.Attributes.GetNamedItem("observeLevel").InnerText);
+            */
+           // model.stackLevel = int.Parse(node.Attributes.GetNamedItem("stackLevel").InnerText);
+          //  model.observeLevel = int.Parse(node.Attributes.GetNamedItem("observeLevel").InnerText);
             /*
             model.horrorProb = float.Parse(node.Attributes.GetNamedItem("horrorProb").InnerText);
             model.horrorDmg = int.Parse(node.Attributes.GetNamedItem("horrorDmg").InnerText);
@@ -573,7 +711,7 @@ public class GameStaticDataLoader {
             model.mentalProb = float.Parse(node.Attributes.GetNamedItem("mentalProb").InnerText);
             model.mentalDmg = int.Parse(node.Attributes.GetNamedItem("mentalDmg").InnerText);
             */
-            model.script = node.Attributes.GetNamedItem("script").InnerText;
+            //model.script = node.Attributes.GetNamedItem("script").InnerText;
             /*
             if (node.Attributes.GetNamedItem("animatorScript") != null)
             {
@@ -623,6 +761,7 @@ public class GameStaticDataLoader {
             items.Sort();
             model.genEnergy = items.ToArray();
             */
+            /*
             XmlNode portrait = node.SelectSingleNode("portrait");
             if (portrait != null) {
                 model.tempPortrait = ResourceCache.instance.GetSprite("Sprites/" + portrait.Attributes.GetNamedItem("src").InnerText);
@@ -697,9 +836,70 @@ public class GameStaticDataLoader {
 
             creatureTypeList.Add(model);
         }
-		
+		*/
+        }
 		CreatureTypeList.instance.Init (creatureTypeList.ToArray ());
 	}
+
+    public void LoadCreatureStat(XmlNode stat, CreatureTypeInfo model) {
+
+        
+        model.horrorProb = float.Parse(stat.SelectSingleNode("horrorProb").InnerText);
+        model.horrorMin = float.Parse(stat.SelectSingleNode("horrorMin").InnerText);
+        model.horrorMax = float.Parse(stat.SelectSingleNode("horrorMax").InnerText);
+        model.physicsDmg = (int)float.Parse(stat.SelectSingleNode("physicsDmg").InnerText);
+        model.mentalDmg = (int)float.Parse(stat.SelectSingleNode("mentalDmg").InnerText);
+        
+        model.feelingMax = (int)float.Parse(stat.SelectSingleNode("feelingMax").InnerText);
+        model.feelingDownValue = float.Parse(stat.SelectSingleNode("feelingDownValue").InnerText);
+        model.energyPointChange = (int)float.Parse(stat.SelectSingleNode("energyPointChange").InnerText);
+
+        List<EnergyGenInfo> energyItems = new List<EnergyGenInfo>();
+        XmlNode energyGenSection = stat.SelectSingleNode("energyGenSection");
+        XmlNodeList energySections = energyGenSection.SelectNodes("section");
+        foreach (XmlNode section in energySections)
+        {
+            int upperBound;
+            float value;
+
+            upperBound = int.Parse(section.Attributes.GetNamedItem("bound").InnerText);
+            value = float.Parse(section.Attributes.GetNamedItem("gen").InnerText);
+
+            EnergyGenInfo info = new EnergyGenInfo(upperBound, value);
+            energyItems.Add(info);
+        }
+
+        model.energyGenInfo = energyItems.ToArray();
+
+    }
+
+    public void LoadCreatureCollectionInfo(XmlNode collection, CreatureTypeInfo model) {
+        CreatureTypeInfo.ObserveTable table = model.observeTable;
+        model.codeId = LoadCollectionItem(collection, "codeNo", ref table.codeNo);
+        model.portraitSrc = LoadCollectionItem(collection, "portrait", ref table.portrait);
+        model.sizeLevel = (int)float.Parse(LoadCollectionItem(collection, "size", ref table.size));
+        model.weightLevel = LoadCollectionItem(collection, "weight", ref table.weight);
+        model.name = LoadCollectionItem(collection, "name", ref table.name);
+        //model.attackType = LoadCollectionItem(collection, "attackType", ref table.attackType);
+        model.creatureType = LoadCollectionItem(collection, "creatureType", ref table.creatureType);
+        model.horrorLevel = (int)float.Parse(LoadCollectionItem(collection, "horrorLevel", ref table.horrorLevel));
+        model.level = LoadCollectionItem(collection, "riskLevel", ref table.riskLevel);
+        model.intelligence = (int)float.Parse(LoadCollectionItem(collection, "intelligence", ref table.intelligence));
+        model.physicalAttackLevel = (int)float.Parse(LoadCollectionItem(collection, "physical", ref table.physical));
+
+        model.mentalAttackLevel = (int)float.Parse(LoadCollectionItem(collection, "mental", ref table.mental));
+        model.specialSkillName = LoadCollectionItem(collection, "specialName", ref table.specialName);
+        model.specialSkillInfo = LoadCollectionItem(collection, "specialInfo", ref table.specialInfo);
+        model.aggressionLevel = (int)float.Parse(LoadCollectionItem(collection, "aggression", ref table.aggression));
+        model.gorgeousLevel = (int)float.Parse(LoadCollectionItem(collection, "gorgeous", ref table.gorgeous));
+        //reject prefer work + solution
+        //end of collection info
+    }
+
+    private string LoadCollectionItem(XmlNode collection, string target , ref int level) {
+        level = (int)float.Parse(collection.SelectSingleNode(target).Attributes.GetNamedItem("openLevel").InnerText);
+        return collection.SelectSingleNode(target).InnerText;
+    }
 
     public void LoadCreatueStatData(CreatureTypeInfo model, string src)
     {
@@ -827,7 +1027,6 @@ public class GameStaticDataLoader {
 
         model.feelingSectionInfo = feelingSectionInfoList.ToArray();
 		*/
-
     }
 
     public List<SkillBonusInfo> GetSkillBonusInfo(XmlNode skillsNode, XmlNode valuesNode)

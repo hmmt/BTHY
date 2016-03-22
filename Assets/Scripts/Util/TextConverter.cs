@@ -122,5 +122,19 @@ public class TextConverter
 
         return output;
     }
+
+    public static string GetTextFromFormatAlter(string text) {
+        string output = "";
+        //\\[[^\\]]*\\]
+        Match match = Regex.Match(text, "\\{[^\\]]*\\}");
+
+        while (match.Success)
+        {
+            output += match.Value.Substring(1, match.Value.Length-2);
+            match = match.NextMatch();
+        }
+
+        return output;
+    }
 }
 

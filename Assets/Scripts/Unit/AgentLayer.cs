@@ -128,5 +128,6 @@ public class AgentLayer : MonoBehaviour, IObserver {
                 RemoveAgent((AgentModel)obj);
             }
         }
+        
     }
 }

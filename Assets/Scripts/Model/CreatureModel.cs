@@ -61,7 +61,7 @@ public class CreatureModel : ObjectModelBase, IObserver
     //?纂삐도감 완성도
     public int observeProgress = 0;
 
-    public float feeling { get; private set; }
+    
 
 	public float energyPoint = 100;
 	//public float feelingsPoint;
@@ -90,6 +90,8 @@ public class CreatureModel : ObjectModelBase, IObserver
     // 세피라에 직원 없을 시 발동됨
     public bool sefiraEmpty=false;
 
+    //환상체 기분 수치 관련
+    public float feeling { get; private set; }//currentFeeling
 
     // graph
 	public string entryNodeId;
@@ -97,7 +99,7 @@ public class CreatureModel : ObjectModelBase, IObserver
     private MapNode workspaceNode;
 
     private MapNode roomNode;
-
+    
     public Dictionary<string, object> GetSaveData()
     {
         Dictionary<string, object> output = new Dictionary<string, object>();
@@ -588,10 +590,12 @@ public class CreatureModel : ObjectModelBase, IObserver
     public string GetObserveText()
     {
         string output = "";
-        int level = Mathf.Clamp(observeProgress, 0, metaInfo.observeList.Length - 1);
+        Debug.Log(observeProgress);
+        Debug.Log(metaInfo);
+        int level = Mathf.Clamp(observeProgress, 0, metaInfo.observeRecord.Count-1);
         for (int i = 0; i <= level; i++)
         {
-            output += metaInfo.observeList[i];
+            output += metaInfo.observeRecord[i];
         }
         return output;
     }
@@ -743,5 +747,14 @@ public class CreatureModel : ObjectModelBase, IObserver
         }
     }
     */
+
+    public float GetFeelingPercent() {
+        float max = this.metaInfo.feelingMax;
+        float current = this.feeling;
+        if (max == 0f) return 1f;
+        float percent = (current / max) * 100f;
+
+        return percent;
+    }
 }
 

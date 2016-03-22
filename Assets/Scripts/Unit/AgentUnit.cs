@@ -168,24 +168,28 @@ public class AgentUnit : MonoBehaviour {
 	{
 		MovableObjectNode movable = model.GetMovableNode ();
 		UnitDirection movableDirection = movable.GetDirection ();
-
 		Transform puppet = puppetNode.transform;
 
-		Vector3 puppetScale = puppet.localScale;
-
+        
+        Vector3 puppetScale = puppet.localScale;
 		if (movableDirection == UnitDirection.RIGHT)
 		{
-			if (puppetScale.x < 0)
-				puppetScale.x = -puppetScale.x;
+            if (puppetScale.x < 0)
+            {
+                puppetScale.x = -puppetScale.x;
+            }
 		}
 		else
 		{
-			if (puppetScale.x > 0)
-				puppetScale.x = -puppetScale.x;
+            if (puppetScale.x > 0)
+            {
+                puppetScale.x = -puppetScale.x;
+            }
 		}
 		puppet.transform.localScale = puppetScale;
 
 		return;
+        /*
 
         MapEdge currentEdge = model.GetCurrentEdge();
         int edgeDirection = model.GetEdgeDirection();
@@ -227,7 +231,7 @@ public class AgentUnit : MonoBehaviour {
                 }
                 puppet.transform.localScale = puppetScale;
             }
-        }
+        }*/
 	}
 
 	private bool visible = true;
@@ -449,6 +453,8 @@ public class AgentUnit : MonoBehaviour {
                 GetComponentInChildren<MentalViewer>().gameObject.SetActive(false);
            
         }
+        
+
 	}
 
 	public void SetAgentAnimatorModel()
@@ -495,6 +501,33 @@ public class AgentUnit : MonoBehaviour {
         }
     }
 
+    public void MakeAccessory(List<TraitTypeInfo> input) { 
+        foreach(TraitTypeInfo trait in input){
+            GameObject newAcc = Prefab.LoadPrefab("AccessoryItem");
+            AccessoryModel model = newAcc.GetComponent<AccessoryModel>();
 
+            Transform accPos = GetAccessoryPos(trait.imgPos);
+            if (accPos == null)
+            {
+                Debug.Log("accessory position error");
+                continue;
+            }
+
+            model.Init(trait, accPos);
+        }
+    }
+
+    private Transform GetAccessoryPos(string pos) {
+        switch (pos) { 
+            case "FACE":
+                return this.animTarget.face.transform.parent.transform;
+            case "LEFTLEG":
+                return this.animTarget.B_up_leg.transform;
+            case "BODY":
+                return this.animTarget.body.transform;
+            default:
+                return null;
+        }
+    }
 
 }

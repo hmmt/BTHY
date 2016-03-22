@@ -1,0 +1,287 @@
+fileFormatVersion: 2
+guid: 55b9f9d6a4b5667459a29f4517c41b2d
+timeCreated: 1457933301
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: clean_mop_someotherface_0
+    21300002: clean_mop_someotherface_1
+    21300004: clean_mop_someotherface_2
+    21300006: sprite_face_hide
+    21300008: clean_mop_someotherface_4
+    21300010: clean_mop_someotherface_5
+    21300012: clean_mop_someotherface_6
+    21300014: clean_mop_someotherface_7
+    21300016: clean_mop_someotherface_8
+    21300018: clean_mop_someotherface_9
+    21300020: clean_mop_someotherface_10
+    21300022: clean_mop_someotherface_11
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 8192
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: clean_mop_someotherface_0
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 110
+        width: 35
+        height: 571
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17.5, y: 285.5}
+        - {x: -17.5, y: -284.5}
+        - {x: -16.5, y: -285.5}
+        - {x: 17.5, y: -285.5}
+        - {x: 17.5, y: 285.5}
+    - name: clean_mop_someotherface_1
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 594
+        width: 285
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -58.5, y: 50}
+        - {x: -132.5, y: 13}
+        - {x: -142.5, y: 2}
+        - {x: -142.5, y: -50}
+        - {x: 50.5, y: -50}
+        - {x: 142.5, y: -43}
+        - {x: 142.5, y: 14}
+        - {x: 30.5, y: 50}
+    - name: clean_mop_someotherface_2
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 433
+        width: 336
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 168, y: 15}
+        - {x: 165, y: 47}
+        - {x: 148, y: 69}
+        - {x: -40, y: 69}
+        - {x: -67, y: 67}
+        - {x: -111, y: 53}
+        - {x: -118, y: 43}
+        - {x: -115, y: -2}
+        - {x: -168, y: -46}
+        - {x: -168, y: -69}
+        - {x: -79, y: -69}
+        - {x: -26, y: -66}
+        - {x: 102, y: -68}
+        - {x: 160, y: -56}
+        - {x: 168, y: -42}
+    - name: sprite_face_hide
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 319
+        width: 232
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -105, y: 45.5}
+        - {x: -116, y: 25.5}
+        - {x: -116, y: -16.5}
+        - {x: -77, y: -45.5}
+        - {x: 94, y: -45.5}
+        - {x: 116, y: -26.5}
+        - {x: 116, y: 25.5}
+        - {x: 92, y: 45.5}
+    - name: clean_mop_someotherface_4
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 207
+        width: 84
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -42, y: 42.5}
+        - {x: -42, y: 0.5}
+        - {x: -25, y: -42.5}
+        - {x: -8, y: -42.5}
+        - {x: 42, y: -21.5}
+        - {x: 42, y: -4.5}
+        - {x: -12, y: 42.5}
+    - name: clean_mop_someotherface_5
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 196
+        width: 77
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 38.5, y: 40}
+        - {x: 38.5, y: 49}
+        - {x: 25.5, y: 49}
+        - {x: -1.5, y: 41}
+        - {x: -25.5, y: 25}
+        - {x: -38.5, y: 0}
+        - {x: -38.5, y: -26}
+        - {x: 3.5, y: -49}
+        - {x: 25.5, y: -49}
+        - {x: 25.5, y: -44}
+        - {x: 19.5, y: -38}
+        - {x: 5.5, y: -27}
+    - name: clean_mop_someotherface_6
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 101
+        width: 94
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: clean_mop_someotherface_7
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 108
+        width: 94
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: clean_mop_someotherface_8
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 19
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 33}
+        - {x: -32, y: 27}
+        - {x: -32, y: -31}
+        - {x: -25, y: -33}
+        - {x: 32, y: -33}
+        - {x: 32, y: 27}
+        - {x: 27, y: 33}
+    - name: clean_mop_someotherface_9
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 14
+        width: 71
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35.5, y: 21.5}
+        - {x: 26.5, y: 21.5}
+        - {x: -35.5, y: 2.5}
+        - {x: -35.5, y: -21.5}
+        - {x: -11.5, y: -21.5}
+        - {x: 9.5, y: -7.5}
+        - {x: 21.5, y: 1.5}
+        - {x: 35.5, y: 14.5}
+    - name: clean_mop_someotherface_10
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 11
+        width: 54
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 25.5}
+        - {x: -27, y: 18.5}
+        - {x: -27, y: -23.5}
+        - {x: -20, y: -25.5}
+        - {x: 19, y: -25.5}
+        - {x: 27, y: -16.5}
+        - {x: 27, y: 22.5}
+        - {x: 18, y: 25.5}
+    - name: clean_mop_someotherface_11
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 15
+        width: 94
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 28, y: 26}
+        - {x: -44, y: 26}
+        - {x: -47, y: 16}
+        - {x: -47, y: -26}
+        - {x: 45, y: -26}
+        - {x: 47, y: -23}
+        - {x: 47, y: 8}
+        - {x: 43, y: 21}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

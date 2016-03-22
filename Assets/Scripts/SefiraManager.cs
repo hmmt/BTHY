@@ -459,6 +459,21 @@ public class Sefira
         return this.OfficerMentalReturn;
     }
 
+    public OfficerModel GetOfficerByRandom() {
+        int randVal = Random.Range(0, this.officerList.Count);
+        return officerList[randVal];
+    }
+
+    public int GetNumberOfOfficer() {
+        int cnt = 0;
+        foreach (OfficerModel model in officerList) {
+            if (model.isDead() == false) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+
     public void initOfficerGroup() {
         List<MapNode>[] tempList = new List<MapNode>[departmentList.Length];
         for (int i = 0; i < departmentList.Length; i++) {

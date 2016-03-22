@@ -107,35 +107,54 @@ public class WorkListScript : MonoBehaviour {
     private WorkSlot targetSlot;
 
     public List<SkillTypeInfo> skillList;
-    public List<Sefira.AgentSkillCategory> category;
+    public List<Sefira.AgentSkillCategory> categories;
     public RectTransform[] parentAry;
-
 
     public void Init() {
         skillList = new List<SkillTypeInfo>();
         currentSefira = SefiraManager.instance.getSefira(SefiraName.Malkut);
-        category = new List<Sefira.AgentSkillCategory>(currentSefira.GetSkillCategories());
-        Debug.Log("total category " + category.Count);
+        categories = new List<Sefira.AgentSkillCategory>(currentSefira.GetSkillCategories());
 
-        for (int i = 0; i < category.Count; i++) {
+        for (int i = 0; i < categories.Count; i++)
+        {
             List<SkillTypeInfo> tempSkillList = new List<SkillTypeInfo>();
-            SkillCategory cat = category[i].category;
-            if (category[i].agentList.Count == 0) {
+            SkillCategory cat = categories[i].category;
+            
+            int currentIndex = GetIndex(cat);
+            if (currentIndex == -1) { 
+                //not have category
+                continue;
+            }
+            if (categories[i].agentList.Count == 0)
+            {
                 continue;
             }
 
-            for (int j = 1; j <= category[i].maxLevel; j++) {
-                //tempSkillList.Add(cat.GetB0Level(j)); 
+            for (int j = 1; j <= categories[i].maxLevel; j++)
+            {
                 foreach (SkillTypeInfo item in cat.GetByLevel(j)) {
                     tempSkillList.Add(item);
                 }
             }
-            SlotCall(category[i].index, tempSkillList);
+            SlotCall(currentIndex, tempSkillList);
             //SlotCall();
         }
     }
 
-    public void Start() { 
+    public int GetIndex(SkillCategory target) {
+        int output = -1;
+        for (int i = 0; i < parentAry.Length; i++) {
+            WorkSlotListScript script = parentAry[i].GetComponent<WorkSlotListScript>();
+            if (target.name.Equals(script.CategoryName)) {
+                output = i;
+                break;
+            }
+        }
+        return output;
+    }
+
+    public void Start()
+    { 
         
     }
 

@@ -51,9 +51,23 @@ public class ManageAnimScirpt : StateMachineBehaviour {
             animator.SetInteger("Clean", 0);
         }
 
+        if (animator.GetInteger("Communication") != 0) {
+            animator.SetInteger("Communication", 0);
+        }
+
+        if (animator.GetInteger("Recept") != 0) {
+            animator.SetInteger("Recept", 0);
+        }
+
+        if (animator.GetInteger("Restrick") != 0) {
+            animator.SetInteger("Restrick", 0);
+        }
+
         if (animator.GetInteger("Treat") != 0) {
             animator.SetInteger("Treat", 0);
         }
+
+
 
         if (animator.GetBool("Memo") == true)
         {
