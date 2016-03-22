@@ -51,6 +51,19 @@ public class MapEdge {
 		return null;
 	}
 
+	public MapNode ConnectedNodeIgoreActivate(MapNode node)
+	{
+		if(node == node1)
+		{
+			return node2;
+		}
+		if(node == node2)
+		{
+			return node1;
+		}
+		return null;
+	}
+
     public MapNode GetGoalNode(int direction)
     {
         if (direction == 1)

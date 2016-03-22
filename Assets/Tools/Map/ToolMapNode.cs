@@ -23,6 +23,8 @@ public class ToolMapNode : MonoBehaviour {
 
 	public string type = "";
 
+	public bool isElevator = false;
+
 
 	void OnDestroy()
 	{

@@ -34,6 +34,8 @@ public class MapGraph : IObserver
 
     private List<MapEdge> edges;
 
+	private List<ElevatorPassageModel> elevatorList;
+
     public bool loaded { private set; get; }
 
     public MapGraph()
@@ -168,6 +170,8 @@ public class MapGraph : IObserver
         Dictionary<string, MapSefiraArea> mapAreaDic = new Dictionary<string, MapSefiraArea>();
         Dictionary<string, PassageObjectModel> passageDic = new Dictionary<string, PassageObjectModel>();
 
+		List<MapNode> elevatorNodes = new List<MapNode> ();
+
         foreach (XmlNode areaNode in areaNodes)
         {
             MapSefiraArea mapArea = new MapSefiraArea();
@@ -217,6 +221,33 @@ public class MapGraph : IObserver
 						XmlNode scaleAttr = node.Attributes.GetNamedItem ("scale");
 						if (scaleAttr != null)
 							newMapNode.scaleFactor = float.Parse (scaleAttr.InnerText);
+
+						XmlNode elevatorAttr = node.Attributes.GetNamedItem ("elevator");
+						if (elevatorAttr != null) {
+
+							ElevatorPassageModel elevatorModel = new ElevatorPassageModel (newMapNode);
+
+							MapNode eNode1 = new MapNode ("elevator1-" + id, new Vector3 (-1, 0, 0), areaName);
+							MapNode eNode2 = new MapNode ("elevator2-" + id, new Vector3 (-0.5f, 0, 0), areaName);
+							MapNode eNode3 = new MapNode ("elevator3-" + id, new Vector3 (0, 0, 0), areaName);
+							MapNode eNode4 = new MapNode ("elevator4-" + id, new Vector3 (0.5f, 0, 0), areaName);
+							MapNode eNode5 = new MapNode ("elevator5-" + id, new Vector3 (1, 0, 0), areaName);
+							eNode1.scaleFactor = 0.8f;
+							eNode2.scaleFactor = 0.8f;
+							eNode3.scaleFactor = 0.8f;
+							eNode4.scaleFactor = 0.8f;
+							eNode5.scaleFactor = 0.8f;
+							elevatorModel.AddNode(eNode1);
+							elevatorModel.AddNode(eNode2);
+							elevatorModel.AddNode(eNode3);
+							elevatorModel.AddNode(eNode4);
+							elevatorModel.AddNode(eNode5);
+
+							newMapNode.AttachElevator (elevatorModel);
+
+							elevatorNodes.Add (newMapNode);
+							//MapNode node1 = new MapNode ("elevator1", new Vector3 (0, 0, 0), areaName);
+						}
 
 
                        
@@ -350,6 +381,39 @@ public class MapGraph : IObserver
         additionalSefiraTable = additionalSefiraDic;
 
         passageTable = passageDic;
+
+		// elevator
+
+		elevatorList = new List<ElevatorPassageModel> ();
+
+		foreach(MapNode elevatorNode in elevatorNodes)
+		{
+			MapEdge[] elevatorEdges = elevatorNode.GetEdges ();
+
+			if (elevatorEdges.Length > 1) {
+				if (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode).GetPosition ().y > elevatorNode.GetPosition ().y)
+				{
+					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
+
+
+					elevator.AddFloorInfo (elevatorEdges [1].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, -4, 0) + elevatorNode.GetPosition());
+					elevator.AddFloorInfo (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, 4, 0) + elevatorNode.GetPosition());
+
+					elevatorList.Add (elevator);
+				} else {
+					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
+
+
+					elevator.AddFloorInfo (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, -4, 0) + elevatorNode.GetPosition());
+					elevator.AddFloorInfo (elevatorEdges [1].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, 4, 0) + elevatorNode.GetPosition());
+
+					elevatorList.Add (elevator);
+				}
+
+			} else {
+				elevatorNode.AttachElevator (null);
+			}
+		}
         
         ///
 
@@ -393,6 +457,11 @@ public class MapGraph : IObserver
         return new List<PassageObjectModel>(passageTable.Values).ToArray();
     }
 
+	public ElevatorPassageModel[] GetElevatorPassageList()
+	{
+		return elevatorList.ToArray ();
+	}
+
 
     private void FixedUpdate()
     {
@@ -400,6 +469,11 @@ public class MapGraph : IObserver
         {
             passage.FixedUpdate();
         }
+
+		foreach (ElevatorPassageModel elevator in elevatorList)
+		{
+			elevator.OnFixedUpdate ();
+		}
     }
 
     public void OnNotice(string name, params object[] param)

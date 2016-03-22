@@ -110,6 +110,10 @@ public class MapNode {
 	{
 		return pos;
 	}
+	public void SetPosition(Vector3 pos)
+	{
+		this.pos = pos;
+	}
 
 	public string GetId()
 	{

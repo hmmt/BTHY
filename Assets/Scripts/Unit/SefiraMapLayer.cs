@@ -401,6 +401,17 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
                 }
             }
         }
+		foreach (ElevatorPassageModel e in MapGraph.instance.GetElevatorPassageList())
+		{
+			foreach (SefiraObject sefira in sefiras)
+			{
+				if (sefira.sefiraName == e.GetNode().GetAreaName())
+				{
+					sefira.AddElevatorPassage(e);
+					break;
+				}
+			}
+		}
     }
 
     public void OnNotice(string notice, params object[] param)

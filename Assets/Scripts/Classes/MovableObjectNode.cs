@@ -199,6 +199,21 @@ public class MovableObjectNode {
                             StopMoving();
                         }
                     }
+					else if(nextGoalNode.GetElevator() != null)
+					{
+						if(pathIndex+1 < pathInfo.pathEdges.Length)
+						{
+							MapEdge destEdge = pathInfo.pathEdges[pathIndex+1];
+							int destDirection = pathInfo.edgeDirections[pathIndex+1];
+							MapNode destGoalNode = destEdge.GetGoalNode(destDirection);
+
+							EnterElevator (nextGoalNode, destGoalNode);
+						}
+						else
+						{
+							Debug.Log ("Elevator.. .....");
+						}
+					}
                     else
                     {
                         /*
@@ -841,14 +856,27 @@ public class MovableObjectNode {
 		}
 	}
 
-	public void EnterElevator(MapNode nextNode)
+	private MapNode elevatorNextDest = null;
+	private MovableObjectNode elevatorNextDest2 = null;
+
+	public void EnterElevator(MapNode elevatorNode, MapNode nextNode)
 	{
 		if(model != null && model is WorkerModel)
 		{
-			if (currentNode != null && currentNode.GetElevator () != null)
+			if (currentNode != null && elevatorNode.GetElevator () != null)
 			{
-				currentElevator = currentNode.GetElevator ();
-				currentElevator.OnUnitEnter ((WorkerModel)model, nextNode);
+				if (elevatorNode.GetElevator ().GetCurrentFloorNode () == currentNode)
+				{
+					elevatorNextDest = destinationNode;
+					elevatorNextDest2 = destinationNode2;
+
+					currentElevator = elevatorNode.GetElevator ();
+					currentElevator.OnUnitEnter ((WorkerModel)model, nextNode);
+				}
+				else
+				{
+					elevatorNode.GetElevator ().ClickButton (currentNode);
+				}
 			}
 		}
 	}
@@ -857,12 +885,17 @@ public class MovableObjectNode {
 	{
 		if (currentElevator != null)
 		{
+			SetCurrentNode (node);
+			/*
 			_currentNode = node;
 			_currentEdge = null;
-			if (destinationNode != null) {
-				MoveToNode (destinationNode);
-			} else if (destinationNode2 != null) {
-				MoveToMovableNode(destinationNode2);
+			*/
+			if (elevatorNextDest != null) {
+				MoveToNode (elevatorNextDest);
+			} else if (elevatorNextDest2 != null) {
+				MoveToMovableNode (elevatorNextDest2);
+			} else {
+				
 			}
 		}
 	}

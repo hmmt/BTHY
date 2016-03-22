@@ -15,6 +15,7 @@
       </node_group>
       <node_group x="0" y="-8.71" src="Map/Passage/PassageElevator">
         <node id="center-way1" x="0" y="-1.71" />
+        <node id="center-way-elevator" x="0" y="-8.71" elevator="true"/>
         <node id="center-way2" x="0" y="-14.71" />
       </node_group>
       <node_group x="20.2" y="6.05" src="Map/Passage/Dept/PassageRU_DEPT">
@@ -185,7 +186,10 @@
     <edge node1="sefira-malkuth-6" node2="sefira-malkuth-7" type="road" />
     <edge node1="sefira-malkuth-7" node2="sefira-malkuth-8" type="road" />
     <edge node1="sefira-malkuth-8" node2="sefira-malkuth-9" type="road" />
-    <edge node1="center-way1" node2="center-way2" type="road" />
+    <!--<edge node1="center-way1" node2="center-way2" type="road" />-->
+    <edge node1="sefira-malkuth-5" node2="center-way-elevator" type="road" />
+    <edge node1="center-way-elevator" node2="center-way2" type="road" />
+
     <edge node1="malkuth-0-1" node2="malkuth-0-2" type="road" />
     <edge node1="malkuth-0-2" node2="malkuth-0-3" type="road" />
     <edge node1="malkuth-0-3" node2="malkuth-0-4" type="road" />
