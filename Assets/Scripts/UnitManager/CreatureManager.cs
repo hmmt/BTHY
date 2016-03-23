@@ -149,7 +149,7 @@ public class CreatureManager : IObserver{
     {
         CreatureTypeInfo typeInfo = CreatureTypeList.instance.GetData(metadataId);
 
-        Debug.Log(metadataId);
+        //Debug.Log(metadataId);
 
         model.metadataId = metadataId;
         model.metaInfo = typeInfo;

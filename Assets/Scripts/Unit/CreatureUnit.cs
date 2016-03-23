@@ -185,6 +185,15 @@ public class CreatureUnit : MonoBehaviour {
                 model.SubFeeling(10);
             }
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            AnimatorManager.instance.ChangeAnimatorByName(SefiraManager.instance.getSefira("1").agentList[0].instanceId , AnimatorName.RedShoes,
+                AgentLayer.currentLayer.GetAgent(SefiraManager.instance.getSefira("1").agentList[0].instanceId).puppetAnim, true, false);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            AnimatorManager.instance.ChangeAnimatorByName(SefiraManager.instance.getSefira("1").agentList[0].instanceId, AnimatorName.RedShoes,
+               AgentLayer.currentLayer.GetAgent(SefiraManager.instance.getSefira("1").agentList[0].instanceId).puppetAnim, true, true);
+        }
 	}
 
     private CreatureState oldState = CreatureState.WAIT;

@@ -5,7 +5,13 @@ using System.Text;
 using UnityEngine;
 
 public class AnimatorName {
+    public static string AgentCtrl = "AgentCtrl";
+    public static string OfficerCtrl = "AgentCtrl";
     public static string RedShoes = "RedShoes";
+
+    public static long id_AgentCtrl = 50001;
+    public static long id_OfficerCtrl = 50002;
+    public static long id_RedShoes = 50003;
 }
 
 public class AnimatorManager : MonoBehaviour{
@@ -24,6 +30,7 @@ public class AnimatorManager : MonoBehaviour{
         public string name;
         public long id;
         public RuntimeAnimatorController controller;
+        
     }
 
     public List<AnimatorComponet> staticLib;//참고용
@@ -40,6 +47,7 @@ public class AnimatorManager : MonoBehaviour{
         component.id = id;
         component.controller = animator.runtimeAnimatorController;
         component.name = "";
+        this.dynamicLib.Add(component);
     }
 
     public void SaveAnimator(long id, Animator animator, string name)
@@ -48,6 +56,7 @@ public class AnimatorManager : MonoBehaviour{
         component.id = id;
         component.controller = animator.runtimeAnimatorController;
         component.name = name;
+        this.dynamicLib.Add(component);
     }
 
     public void ChangeAnimatorWithSave(long id, Animator animator, string target) {
@@ -78,7 +87,7 @@ public class AnimatorManager : MonoBehaviour{
            
         }
         else {
-             target = GetSavedAnimator(targetID);
+             target = GetSavedAnimator(targetID,false);
         }
         if (target == null)
         {
@@ -97,11 +106,10 @@ public class AnimatorManager : MonoBehaviour{
         if (isStatic)
         {
             target = GetStaticAnimator(targetStr);
-
         }
         else
         {
-            target = GetSavedAnimator(targetStr);
+            target = GetSavedAnimator(targetStr,false);
         }
         if (target == null)
         {
@@ -115,19 +123,22 @@ public class AnimatorManager : MonoBehaviour{
         animator.runtimeAnimatorController = target.controller;
     }
 
-    public AnimatorComponet GetSavedAnimator(long id) {
+    public AnimatorComponet GetSavedAnimator(long id, bool isDeleted) {
         AnimatorComponet output = null;
 
         foreach (AnimatorComponet c in this.dynamicLib) {
             if (c.id == id) {
                 output = c;
+                if (isDeleted) {
+                    dynamicLib.Remove(c);
+                }
                 break;
             }
         }
         return output;
     }
 
-    public AnimatorComponet GetSavedAnimator(string name)
+    public AnimatorComponet GetSavedAnimator(string name, bool isDeleted)
     {
         AnimatorComponet output = null;
 
@@ -136,6 +147,10 @@ public class AnimatorManager : MonoBehaviour{
             if (c.name == name) 
             {
                 output = c;
+                if (isDeleted)
+                {
+                    dynamicLib.Remove(c);
+                }
                 break;
             }
         }

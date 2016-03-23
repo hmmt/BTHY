@@ -59,7 +59,8 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
     List<AgentModel> targetList;
     const float frequencey = 5f;
     float elapsed = 0f;
-    bool Attracted = false;
+    bool Attracted = false;//직원이 환상체에 매혹당했는가
+    bool isAcquired = false;//직원이 빨간구두를 습득하였는가
 
     public RedShoesSkill(CreatureModel model) {
         this.model = model;
@@ -87,7 +88,7 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         if (this.Attracted)
         {
             //Call targeted Agent to Creature room and try 
-
+            
         }
         else {
 
@@ -136,6 +137,47 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         }
     }
 
+    public void GetRedShoes() {
+        if (isAcquired) {
+            return;
+        }
+        isAcquired = true;
+        attractTargetAgent.MoveToNode(this.model.GetWorkspaceNode());
+        //도착하면 animator change
+
+        AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes,
+                AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId).puppetAnim, true, false);
+
+        //감염행동 시작 -> AgentModel에서 처리해야 할 듯?
+        //행동은 DISC 타입에서 다른 직원을 살해하는 패닉 패턴을 이용하면 그럭저럭 작업을 줄일 수 있지 않을까
+        //직원 처리는 패닉으로 처리하고, 해당 직원은 패닉 상태에서 제압될 경우 무조건 사망 판정으로 만들 것
+        //StartAttractedBehaviour()->이런 식으로?
+    }
+
+    /*
+        환상체에 지배당하는 직원을 제압하였을 때 호출
+     */
+    public void SetSuppressed(List<AgentModel> suppressors) {
+        AgentModel nextTarget = null;
+
+        foreach (AgentModel am in suppressors) {
+            if (am.gender == "Female") {
+                nextTarget = am;
+
+                /*
+                 여기서도 판정을 걸어야하는가? 무조건 감염되는 상태인가?
+                 */
+            }
+        }
+
+        if (nextTarget == null) {
+            this.Attracted = false;
+            /*
+                운반? 되는 도중에도 계속해서 유혹을 시도해야 하는가?
+             */
+        }
+
+    }
 
     void IObserver.OnNotice(string notice, params object[] param)
     {
