@@ -14,7 +14,7 @@ public class ToolMapRoot : MonoBehaviour {
 		#if UNITY_EDITOR
 		string path = EditorUtility.SaveFilePanel(
 			"save File",
-			"",
+			"Assets/Resources/xml",
 			"MapGraph2.xml",
 			"xml");
 		XmlDocument doc = new XmlDocument();
@@ -78,6 +78,7 @@ public class ToolMapRoot : MonoBehaviour {
 						float nodeY = mapNode.transform.position.y;
 						string nodeType = mapNode.type;
 						float scaleFactor = mapNode.scaleFactor;
+						bool isElvator = mapNode.isElevator;
 
 						if (dupChecker.ContainsKey (nodeId))
 						{
@@ -93,6 +94,7 @@ public class ToolMapRoot : MonoBehaviour {
 						XmlAttribute nodeAttrY = doc.CreateAttribute ("y");
 						XmlAttribute nodeAttrType = doc.CreateAttribute ("type");
 						XmlAttribute nodeAttrScale = doc.CreateAttribute ("scale");
+						XmlAttribute nodeAttrElevator = doc.CreateAttribute("elevator");
 
 						nodeAttrId.InnerText = nodeId;
 						nodeAttrX.InnerText = nodeX.ToString ();
@@ -107,6 +109,8 @@ public class ToolMapRoot : MonoBehaviour {
 							mapNodeElement.Attributes.Append (nodeAttrType);
 						if (scaleFactor != 1.0f)
 							mapNodeElement.Attributes.Append (nodeAttrScale);
+						if(isElvator)
+							mapNodeElement.Attributes.Append(nodeAttrElevator);
 
 						passageNode.AppendChild (mapNodeElement);
 						break;
@@ -151,7 +155,7 @@ public class ToolMapRoot : MonoBehaviour {
 		#if UNITY_EDITOR
 		string path = EditorUtility.OpenFilePanel(
 			"Load File",
-			"",
+			"Assets/Resources/xml",
 			"xml");
 		
 		Dictionary<string, ToolMapNode> nodeDic = new Dictionary<string, ToolMapNode>();
@@ -251,6 +255,12 @@ public class ToolMapRoot : MonoBehaviour {
 						if (typeNode != null) {
 							newMapNode.type = typeNode.InnerText;
 						}
+
+						XmlNode elevatorAttr = node.Attributes.GetNamedItem ("elevator");
+						if (elevatorAttr != null) {
+							newMapNode.isElevator = true;
+						}
+
 
 						/*
 						MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName, passage);

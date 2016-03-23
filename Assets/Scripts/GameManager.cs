@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
 				break;
 			}
 		}
-*/
+		*/
 		/*
 		// temp
 		AgentModel b = AgentManager.instance.AddAgentModel();

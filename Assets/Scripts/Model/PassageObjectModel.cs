@@ -141,7 +141,7 @@ public class PassageObjectModel : ObjectModelBase
 		return sefiraName;
 	}
 
-	public void FixedUpdate()
+	public virtual void FixedUpdate()
 	{
 		foreach (DoorObjectModel door in doorObjectList)
 		{

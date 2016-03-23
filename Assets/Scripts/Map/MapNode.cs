@@ -21,6 +21,7 @@ public class MapNode {
 
     private DoorObjectModel door = null;
     private PassageObjectModel attachedPassage;
+	private ElevatorPassageModel attachedElevator;
 
     private bool closable;
 
@@ -54,6 +55,15 @@ public class MapNode {
         _activate = true;
 		edges = new List<MapEdge>();
         zNodes = new List<MapNode>();
+	}
+
+	public void AttachElevator(ElevatorPassageModel elevator)
+	{
+		attachedElevator = elevator;
+	}
+	public ElevatorPassageModel GetElevator()
+	{
+		return attachedElevator;
 	}
 
     public void AddZNode(MapNode node)
@@ -99,6 +109,10 @@ public class MapNode {
 	public Vector3 GetPosition()
 	{
 		return pos;
+	}
+	public void SetPosition(Vector3 pos)
+	{
+		this.pos = pos;
 	}
 
 	public string GetId()

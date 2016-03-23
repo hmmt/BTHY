@@ -21,6 +21,8 @@ public class SefiraObject : MonoBehaviour {
 
     private List<PassageObject> passageList;
 
+	private List<ElevatorPassageObject> elevatorList;
+
 
     void Awake()
     {
@@ -87,6 +89,20 @@ public class SefiraObject : MonoBehaviour {
         doorObj.transform.localPosition = doorPos - model.position;
         doorObj.transform.SetParent(passage.transform, false);
     }
+
+	public void AddElevatorPassage(ElevatorPassageModel model)
+	{
+		//GameObject g = new GameObject ("ElevatorPassage");
+
+		GameObject g = Prefab.LoadPrefab ("Map/Passage/ElevatorPassage");
+
+		ElevatorPassageObject e = g.GetComponent<ElevatorPassageObject> ();
+
+		e.model = model;
+
+		g.transform.localPosition = model.GetNode ().GetPosition ();
+		g.transform.SetParent(transform, false);
+	}
 
     public void AddMapObject(MapObjectModel mapObjModel)
     {
