@@ -117,7 +117,7 @@
       <!--차례차례 나와야 합니다>-->
     </narration>
 
-    <anim prefab="Unit/CreatureAnimator/RedShoesAnim" x="0" y="-0.9"/>
+    <anim prefab="Unit/CreatureAnimator/RedShoes_Creature" x="0" y="-0.9"/>
 
     <!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
     <img src="Unit/dummy" x="-1" y="-1"/>
