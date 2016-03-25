@@ -22,6 +22,10 @@ public class CassetteRotation : MonoBehaviour {
             realSpeed = speed * -0.05f;
         }
 
+        //StartCoroutine(Acceleration());
+    }
+
+    public void Activate() {
         StartCoroutine(Acceleration());
     }
 

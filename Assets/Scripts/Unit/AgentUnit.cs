@@ -77,6 +77,8 @@ public class AgentUnit : MonoBehaviour {
 
     private bool uiOpened = false;
 
+    public AccessoryUnit accessoryUnit;
+
     //직원 대사
     string speech = "";
 
@@ -150,6 +152,9 @@ public class AgentUnit : MonoBehaviour {
             ui.activateUI(model);
         }
         ChangeAgentUniform();
+
+        accessoryUnit = new AccessoryUnit();
+        accessoryUnit.Init(this.animTarget);
     }
 
     /*
@@ -503,31 +508,9 @@ public class AgentUnit : MonoBehaviour {
 
     public void MakeAccessory(List<TraitTypeInfo> input) { 
         foreach(TraitTypeInfo trait in input){
-            GameObject newAcc = Prefab.LoadPrefab("AccessoryItem");
-            AccessoryModel model = newAcc.GetComponent<AccessoryModel>();
-
-            Transform accPos = GetAccessoryPos(trait.imgPos);
-            if (accPos == null)
-            {
-                Debug.Log("accessory position error");
-                continue;
-            }
-
-            model.Init(trait, accPos);
+            this.accessoryUnit.SetAccessoryByTrait(trait);
         }
     }
 
-    private Transform GetAccessoryPos(string pos) {
-        switch (pos) { 
-            case "FACE":
-                return this.animTarget.face.transform.parent.transform;
-            case "LEFTLEG":
-                return this.animTarget.B_up_leg.transform;
-            case "BODY":
-                return this.animTarget.body.transform;
-            default:
-                return null;
-        }
-    }
 
 }

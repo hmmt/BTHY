@@ -195,4 +195,12 @@ public class ConversationUnit : MonoBehaviour {
             script.enabled = false;
         }
     }
+
+    public void StartCassette() {
+        foreach (CassetteRotation script in cassette)
+        {
+            //script.rotate = false;
+            script.Activate();
+        }
+    }
 }
