@@ -51,6 +51,7 @@ public class AgentUnit : MonoBehaviour {
 
     public GameObject puppetNode;
     public Animator puppetAnim;
+	public bool animatorChanged = false;
 
     public AgentAnim animTarget;
 
@@ -283,7 +284,7 @@ public class AgentUnit : MonoBehaviour {
             }
         }
         //agentAnimator.SetBool("Change", true);
-
+		/*
         puppetAnim.SetBool("Change", true);
 
         if (model.currentSefira == "1")
@@ -312,12 +313,10 @@ public class AgentUnit : MonoBehaviour {
 
         TimerCallback.Create(1, delegate()
         {
-            /*if (agentAnimator.GetBool("Change"))
-                agentAnimator.SetBool("Change", false);
-            */
             if (puppetAnim.GetBool("Change"))
                 puppetAnim.SetBool("Change", false);
         });
+        */
         oldSefira = model.currentSefira;
     }
 
@@ -329,24 +328,27 @@ public class AgentUnit : MonoBehaviour {
             ChangeAgentUniform();
         }
 
-        if (oldPos != transform.localPosition.x)
-        {
-            //agentAnimator.SetBool("AgentMove", true);
-           // faceSprite.GetComponent<Animator>().SetBool("Move", true);
-           // hairSprite.GetComponent<Animator>().SetBool("Move", true);
+		if(animatorChanged == false)
+		{
+	        if (oldPos != transform.localPosition.x)
+	        {
+	            //agentAnimator.SetBool("AgentMove", true);
+	           // faceSprite.GetComponent<Animator>().SetBool("Move", true);
+	           // hairSprite.GetComponent<Animator>().SetBool("Move", true);
 
-            animTarget.SetSpeed(model.movement / 4.0f);
-            puppetAnim.SetBool("Move", true);
-        }
-        else
-        {
-          //  agentAnimator.SetBool("AgentMove", false);
-         //   faceSprite.GetComponent<Animator>().SetBool("Move", false);
-          //  hairSprite.GetComponent<Animator>().SetBool("Move", false);
+	            animTarget.SetSpeed(model.movement / 4.0f);
+	            puppetAnim.SetBool("Move", true);
+	        }
+	        else
+	        {
+	          //  agentAnimator.SetBool("AgentMove", false);
+	         //   faceSprite.GetComponent<Animator>().SetBool("Move", false);
+	          //  hairSprite.GetComponent<Animator>().SetBool("Move", false);
 
-            animTarget.SetSpeed(1);
-            puppetAnim.SetBool("Move", false);
-        }
+	            animTarget.SetSpeed(1);
+	            puppetAnim.SetBool("Move", false);
+	        }
+		}
         /*
         if (oldPosY != transform.localPosition.y)
         {
@@ -457,7 +459,16 @@ public class AgentUnit : MonoBehaviour {
 
 	}
 
+	public void SetAnimatorChanged(bool b)
+	{
+		animatorChanged = b;
+	}
+
 	public void SetAgentAnimatorModel()
+	{
+	}
+
+	public void OnClick()
 	{
 	}
 
