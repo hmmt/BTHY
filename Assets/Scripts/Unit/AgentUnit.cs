@@ -475,6 +475,7 @@ public class AgentUnit : MonoBehaviour {
 
 	public void OnClick()
 	{
+		model.OnClick ();
 	}
 
 	public void OpenStatusWindow()

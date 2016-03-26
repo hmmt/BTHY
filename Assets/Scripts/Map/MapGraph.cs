@@ -143,7 +143,7 @@ public class MapGraph : IObserver
 
 		*/
 
-		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph");
+		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph2");
 		//TextAsset textAsset = Resources.Load<TextAsset>("xml/TrailerTest4");
 		XmlDocument doc = new XmlDocument();
 		doc.LoadXml(textAsset.text);

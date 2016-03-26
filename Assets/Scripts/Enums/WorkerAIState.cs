@@ -36,6 +36,8 @@ public enum AgentAIState
 
     PANIC_SUPPRESS_TARGET, // 제압당하는 중
 
+	CANNOT_CONTROLL,
+
     SUPPRESS_CREATURE,
     SUPPRESS_WORKER, // 제압중
 

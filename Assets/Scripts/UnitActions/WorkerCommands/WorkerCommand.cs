@@ -148,6 +148,13 @@ public class WorkerCommand
 		cmd.type = AgentCmdType.PANIC_VIOLENCE;
 		return cmd;
 	}
+
+	public static WorkerCommand MakeUnconPursueAgent(AgentModel targetAgent)
+	{
+		UnconPursueWorkerCommand cmd = new UnconPursueWorkerCommand (targetAgent);
+		cmd.type = AgentCmdType.PANIC_VIOLENCE;
+		return cmd;
+	}
 	//public static AgentCommand MakePanic
 }
 

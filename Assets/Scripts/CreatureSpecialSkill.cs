@@ -88,20 +88,41 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         if (this.Attracted)
         {
             //Call targeted Agent to Creature room and try 
-            
-        }
-        else {
+			if (this.attractTargetAgent != null && !isAcquired)
+			{
+				if (this.attractTargetAgent.GetState () != AgentAIState.CANNOT_CONTROLL)
+				{
+					MapNode destination = model.GetWorkspaceNode ();
+					this.attractTargetAgent.LoseControl ();
+					this.attractTargetAgent.MoveToNode (destination);
+				}
 
+				if (this.attractTargetAgent.GetCurrentNode () == model.GetWorkspaceNode ())
+				{
+					GetRedShoes ();
+				}
+			}
+			else
+			{
+				
+			}
+        }
+        else
+		{
             elapsed += Time.deltaTime;
             if (elapsed > frequencey)
             {
-                
                 elapsed = 0f;
                 TryAttract();
             }
         }
         
     }
+
+	public void FreeAttractedAgent(AgentModel target)
+	{
+		// TODO:
+	}
 
     public override void OnStageStart()
     {
@@ -124,11 +145,22 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
             20%확률로 매혹 판정
          */
         float randval = UnityEngine.Random.Range(0, 5);
-        if (randval == 0)
+        //if (randval == 0)
+		if(true)
         {
             Debug.Log("걸림" + randval);
             this.attractTargetAgent = target;
             this.Attracted = true;
+
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
+
+			AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_attract,
+				agentView.puppetAnim, true, false);
+			
+			target.LoseControl ();
+			target.SetUncontrollableAction (new Uncontrollable_RedShoesAttract (target, this));
+
+			agentView.puppetAnim.SetBool ("Notice", true);
             return;
         }
         else {
@@ -142,11 +174,20 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
             return;
         }
         isAcquired = true;
-        attractTargetAgent.MoveToNode(this.model.GetWorkspaceNode());
+        //attractTargetAgent.MoveToNode(this.model.GetWorkspaceNode());
         //도착하면 animator change
+		Debug.Log("Get Red Shoes");
+		// TODO: motion 
 
-        AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes,
-                AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId).puppetAnim, true, false);
+
+
+		attractTargetAgent.SetUncontrollableAction(new Uncontrollable_RedShoes(attractTargetAgent));
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
+
+		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_infected,
+				agentView.puppetAnim, true, false);
+		agentView.SetAnimatorChanged (true);
 
         //감염행동 시작 -> AgentModel에서 처리해야 할 듯?
         //행동은 DISC 타입에서 다른 직원을 살해하는 패닉 패턴을 이용하면 그럭저럭 작업을 줄일 수 있지 않을까

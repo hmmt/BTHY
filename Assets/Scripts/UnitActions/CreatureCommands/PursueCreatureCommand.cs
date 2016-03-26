@@ -20,7 +20,7 @@ public class PursueCreatureCommand : CreatureCommand
 	{
 		base.Execute(creature);
 
-		if (actor.state != CreatureState.ESCAPE)
+		if (actor.state != CreatureState.ESCAPE && actor.state != CreatureState.ESCAPE_PURSUE)
 			Finish ();
 
 		MovableObjectNode movable = creature.GetMovableNode();
@@ -34,12 +34,15 @@ public class PursueCreatureCommand : CreatureCommand
 
 		CheckRange ();
 	}
-	public override void OnStop(CreatureModel creature)
+	public override void OnDestroy(CreatureModel creature)
 	{
 		base.OnStop(creature);
 
 		MovableObjectNode movable = creature.GetMovableNode();
 		movable.StopMoving();
+
+		if (actor.state == CreatureState.ESCAPE_PURSUE)
+			actor.state = CreatureState.ESCAPE;
 	}
 
 	void CheckRange()
@@ -60,6 +63,8 @@ public class PursueCreatureCommand : CreatureCommand
 			//detectedAgents [0].TakePhysicalDamage (1);
 			//actor.GetMovableNode().StopMoving();
 			//Debug.Log ("Attack?");
+			MovableObjectNode movable = actor.GetMovableNode();
+			movable.StopMoving();
 
 			Vector3 directionAdder;
 			if (actor.GetDirection () == UnitDirection.RIGHT)
