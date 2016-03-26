@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		*/
-		/*
+
 		// temp
 		AgentModel b = AgentManager.instance.AddAgentModel();
 		stageUI.CancelSefiraAgent(b);
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
 			AgentManager.instance.activateAgent(b, "1");
 
 		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
-
+		/*
 		b.Panic ();
 
 

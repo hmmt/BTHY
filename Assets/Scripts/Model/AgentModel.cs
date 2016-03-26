@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
+public enum AgentMotion
+{
+	ATTACK_MOTION
+}
+
 
 // 직원 데이터
 public class AgentModel : WorkerModel
@@ -74,6 +79,8 @@ public class AgentModel : WorkerModel
     // 이하 save 되지 않는 데이터들
     private ValueInfo levelSetting;
     private AgentAIState state = AgentAIState.IDLE;
+
+	private UncontrollableAction unconAction = null;
     
 
     public Sprite[] StatusSprites = new Sprite[4];
@@ -221,7 +228,7 @@ public class AgentModel : WorkerModel
 
         ProcessAction();
 
-        movableNode.ProcessMoveNode(movement);
+		movableNode.ProcessMoveNode((int)(movement * movementMul));
     }
 
     public void checkAgentLifeValue(TraitTypeInfo addTrait)
@@ -637,11 +644,17 @@ public class AgentModel : WorkerModel
         else if (state == AgentAIState.SUPPRESS_WORKER)
         {
         }
-
         else if (state == AgentAIState.DEAD)
         {
 
         }
+		else if(state == AgentAIState.CANNOT_CONTROLL)
+		{
+			if (unconAction != null)
+			{
+				unconAction.Execute ();
+			}
+		}
         waitTimer -= Time.deltaTime;
     }
 
@@ -676,6 +689,11 @@ public class AgentModel : WorkerModel
 	{
 		state = AgentAIState.PANIC_VIOLENCE;
 		commandQueue.SetAgentCommand (WorkerCommand.MakePanicPursueAgent (agent));
+	}
+
+	public void PursueUnconAgent(AgentModel agent)
+	{
+		commandQueue.SetAgentCommand (WorkerCommand.MakeUnconPursueAgent (agent));
 	}
 
     public void AttackedByCreature()
@@ -820,6 +838,33 @@ public class AgentModel : WorkerModel
         movableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
+
+	public void LoseControl()
+	{
+		state = AgentAIState.CANNOT_CONTROLL;
+		commandQueue.Clear ();
+	}
+
+	public void GetControl()
+	{
+		if (state == AgentAIState.CANNOT_CONTROLL)
+		{
+			state = AgentAIState.IDLE;
+			commandQueue.Clear ();
+		}
+	}
+
+	public void SetUncontrollableAction(UncontrollableAction uncon)
+	{
+		unconAction = uncon;
+	}
+
+	public void OnClick()
+	{
+		if (unconAction != null) {
+			unconAction.OnClick ();
+		}
+	}
 
     /// <summary>
     /// Set AgentAIState to IDLE
@@ -975,8 +1020,9 @@ public class AgentModel : WorkerModel
 	// motion
 
 	// ??
-	public void SetMotionState()
+	public void SetMotionState(AgentMotion motion)
 	{
+		
 	}
 
     public void Die()

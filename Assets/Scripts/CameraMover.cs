@@ -1,18 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public interface IScrollTarget {
+    void Regist();
+    void DeRegist();
+    void AddTrigger();
+}
+
 public class CameraMover : MonoBehaviour
 {
-
+    private static CameraMover _instance;
+    public static CameraMover instance {
+        get {
+            return _instance;
+        }
+    }
+   
     public GameObject player;
     public GameObject escapeButton;
     public float scrollSpeed;
+
+    private IScrollTarget _target = null;
 
     private Vector3 ResetCamera;
     private Vector3 Origin;
     private Vector3 Diference;
     private bool Drag = false;
-    
+
+    void Awake() {
+        _instance = this;
+    }
 
     void Start()
     {
@@ -43,10 +60,11 @@ public class CameraMover : MonoBehaviour
         //float a = Camera.main.aspect * Camera.main.orthographicSize;
         Vector3 pos = Input.mousePosition;
 
+        /*
         if (Input.GetKey(KeyCode.P))
         {
             Application.LoadLevel("Menu");
-        }
+        }*/
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
@@ -77,13 +95,19 @@ public class CameraMover : MonoBehaviour
             newPos.y += 0.1f;
             Camera.main.transform.localPosition = newPos;
         }
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+
+        if (this._target == null)
         {
-            Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f*scrollSpeed, 1.5f, 50.5f);
-            //Camera.allCameras. = Mathf.Clamp(Camera.main.orthographicSize - 0.1f, 1.5f, 16.5f);
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - 0.1f * scrollSpeed, 1.5f, 50.5f);
+
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f * scrollSpeed, 1.5f, 50.5f);
+            }
         }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-            Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + 0.1f*scrollSpeed, 1.5f, 50.5f);
     }
 
     void LateUpdate()
@@ -110,6 +134,14 @@ public class CameraMover : MonoBehaviour
         {
             Camera.main.transform.position = ResetCamera;
         }*/
+    }
+
+    public void Registration(IScrollTarget target) {
+        this._target = target;
+    }
+
+    public void DeRegistration() {
+        this._target = null;
     }
 }
 

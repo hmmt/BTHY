@@ -24,6 +24,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public int maxMental;
 
     public int movement;
+	public float movementMul = 1f;
 
     public string sefira;//assigned
     public string currentSefira;//now position
@@ -174,7 +175,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
 
     public virtual void OnFixedUpdate() { 
         ProcessAction();
-        _movableNode.ProcessMoveNode(movement);
+		_movableNode.ProcessMoveNode((int)(movement * movementMul));
     }
 
     public virtual void ProcessAction() { 

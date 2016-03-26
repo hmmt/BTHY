@@ -54,13 +54,13 @@ public class CreatureManager : IObserver{
     {
         CreatureModel model = new CreatureModel(nextInstId++);
 
+		model.sefira = SefiraManager.instance.getSefira(sefiraNum);
+		model.sefiraNum = model.sefira.indexString;
+		//model.AddFeeling(model.metaInfo.feelingMax / 2);
+
+		model.position = new Vector2(x, y);
+
         BuildCreatureModel(model, metadataId, nodeId, x, y);
-
-        model.sefira = SefiraManager.instance.getSefira(sefiraNum);
-        model.sefiraNum = model.sefira.indexString;
-        model.AddFeeling(model.metaInfo.feelingMax / 2);
-
-        model.position = new Vector2(x, y);
 
         AddCreatureInSepira(model, sefiraNum);
 

@@ -8,6 +8,8 @@ public class AnimatorName {
     public static string AgentCtrl = "AgentCtrl";
     public static string OfficerCtrl = "AgentCtrl";
     public static string RedShoes = "RedShoes";
+	public static string RedShoes_attract = "RedShoes_attracted";
+	public static string RedShoes_infected = "RedShoes_infected";
 
     public static long id_AgentCtrl = 50001;
     public static long id_OfficerCtrl = 50002;

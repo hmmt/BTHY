@@ -41,7 +41,13 @@ public enum AgentCmdType
     OPEN_DOOR,
 
     PANIC_VIOLENCE, // 직원 패닉상태에서 공격 중
+	UNCON_VIOLENCE,
     DEAD
+}
+
+// unused
+public enum WorkerCmdState
+{
 }
 
 
@@ -64,6 +70,12 @@ public class WorkerCommandQueue
         }
         return queue.First.Value;
     }
+
+	// unused
+	public AgentCmdType GetCommandType()
+	{
+		return AgentCmdType.NONE;
+	}
 
     /// <summary>
     /// command를 실행한다.
@@ -105,11 +117,7 @@ public class WorkerCommandQueue
 
     public void SetAgentCommand(WorkerCommand cmd)
     {
-        foreach (WorkerCommand oldCmd in queue)
-        {
-            oldCmd.OnStop(agent);
-        }
-        queue.Clear();
+		Clear ();
         queue.AddFirst(cmd);
 		cmd.OnInit (agent);
         cmd.OnStart(agent);

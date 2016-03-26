@@ -29,6 +29,9 @@ public class SuppressWorkerCommand : WorkerCommand {
 	public override void OnStart(WorkerModel agent)
 	{
 		base.OnStart (agent);
+
+		AgentUnit au = AgentLayer.currentLayer.GetAgent (agent.instanceId);
+		au.puppetAnim.SetInteger ("AttackCount", 1);
 	}
 	public override void Execute(WorkerModel agent)
 	{
@@ -77,6 +80,8 @@ public class SuppressWorkerCommand : WorkerCommand {
 	{
 		base.OnDestroy (agent);
 
+		AgentUnit au = AgentLayer.currentLayer.GetAgent (agent.instanceId);
+		au.puppetAnim.SetInteger ("AttackCount", 0);
 		((AgentModel)actor).FinishSuppress();
 	}
 
@@ -151,6 +156,9 @@ public class SuppressWorkerCommand : WorkerCommand {
 						agentActor.SetMoveDelay (0.5f);
 						targetCreature.TakeSuppressDamage (1);
 						agentActor.GetMovableNode ().StopMoving ();
+
+						GameObject ge = Prefab.LoadPrefab ("Effect/HitEffectGun");
+						ge.transform.localPosition = targetCreature.GetCurrentViewPosition ();
 						return true;
 					}
 				}
