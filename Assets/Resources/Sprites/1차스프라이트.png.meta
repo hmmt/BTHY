@@ -1,0 +1,438 @@
+fileFormatVersion: 2
+guid: cc398472c105aa34a9d1975d2387420d
+timeCreated: 1454225807
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: CHA_head
+    21300002: CHA_what
+    21300004: CHA_mouth1
+    21300006: CHA_eye1
+    21300008: CHA_mouth2
+    21300010: CHA_eye
+    21300012: CHA_arm
+    21300014: CHA_gut
+    21300016: CHA_body
+    21300018: CHA_foot
+    21300020: CHA_foot2
+    21300022: CHA_arm2
+    21300024: CHA_arm1
+    21300026: CHA_gutsarm
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 8192
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: CHA_head
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 603
+        width: 429
+        height: 362
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 131.5, y: -167}
+        - {x: 151.5, y: -163}
+        - {x: 163.5, y: -153}
+        - {x: 176.5, y: -128}
+        - {x: 183.5, y: -105}
+        - {x: 191.5, y: -67}
+        - {x: 193.5, y: -48}
+        - {x: 193.5, y: 27}
+        - {x: 188.5, y: 68}
+        - {x: 183.5, y: 86}
+        - {x: 175.5, y: 99}
+        - {x: 148.5, y: 124}
+        - {x: 123.5, y: 143}
+        - {x: 107.5, y: 150}
+        - {x: 48.5, y: 165}
+        - {x: 31.5, y: 166}
+        - {x: -3.5, y: 166}
+        - {x: -14.5, y: 165}
+        - {x: -36.5, y: 159}
+        - {x: -77.5, y: 134}
+        - {x: -94.5, y: 122}
+        - {x: -129.5, y: 109}
+        - {x: -138.5, y: 105}
+        - {x: -169.5, y: 77}
+        - {x: -175.5, y: 63}
+        - {x: -186.5, y: 10}
+        - {x: -193.5, y: -20}
+        - {x: -197.5, y: -55}
+        - {x: -197.5, y: -97}
+        - {x: -195.5, y: -106}
+        - {x: -186.5, y: -119}
+        - {x: -174.5, y: -124}
+        - {x: -147.5, y: -129}
+        - {x: -116.5, y: -144}
+        - {x: -92.5, y: -156}
+        - {x: -73.5, y: -161}
+        - {x: -49.5, y: -166}
+        - {x: -20.5, y: -172}
+        - {x: 4.5, y: -175}
+        - {x: 52.5, y: -175}
+        - {x: 66.5, y: -174}
+        - {x: 77.5, y: -173}
+        - {x: 96.5, y: -171}
+    - name: CHA_what
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 888
+        width: 84
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5, y: 22.5}
+        - {x: -31, y: 22.5}
+        - {x: -31, y: 5.5}
+        - {x: -11, y: -19.5}
+        - {x: 12, y: -19.5}
+        - {x: 24, y: -8.5}
+        - {x: 24, y: 11.5}
+        - {x: 20, y: 20.5}
+    - name: CHA_mouth1
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 842
+        width: 224
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -91, y: 26}
+        - {x: -101, y: 18}
+        - {x: -101, y: -2}
+        - {x: -98, y: -8}
+        - {x: -2, y: -23}
+        - {x: 94, y: -23}
+        - {x: 96, y: -20}
+        - {x: 96, y: -1}
+        - {x: -52, y: 26}
+    - name: CHA_eye1
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 811
+        width: 40
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: CHA_mouth2
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 561
+        width: 256
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -79, y: 35.5}
+        - {x: -94, y: 18.5}
+        - {x: -100, y: 9.5}
+        - {x: -100, y: -16.5}
+        - {x: -90, y: -35.5}
+        - {x: 107, y: -35.5}
+        - {x: 113, y: -20.5}
+        - {x: 113, y: 9.5}
+        - {x: -64, y: 35.5}
+    - name: CHA_eye
+      rect:
+        serializedVersion: 2
+        x: 819
+        y: 640
+        width: 113
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15.5, y: 40.5}
+        - {x: -30.5, y: 40.5}
+        - {x: -45.5, y: 33.5}
+        - {x: -45.5, y: -48.5}
+        - {x: 14.5, y: -48.5}
+        - {x: 36.5, y: -21.5}
+        - {x: 36.5, y: 21.5}
+        - {x: 34.5, y: 31.5}
+    - name: CHA_arm
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 249
+        width: 69
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13.5, y: 90}
+        - {x: -13.5, y: 90}
+        - {x: -30.5, y: -13}
+        - {x: -30.5, y: -86}
+        - {x: -23.5, y: -97}
+        - {x: 29.5, y: -97}
+        - {x: 29.5, y: 7}
+        - {x: 16.5, y: 86}
+    - name: CHA_gut
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 199
+        width: 283
+        height: 312
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.5, y: -145}
+        - {x: -13.5, y: -148}
+        - {x: -10.5, y: -148}
+        - {x: -8.5, y: -146}
+        - {x: -9.5, y: -143}
+        - {x: -12.5, y: -143}
+      - - {x: 124.5, y: -106}
+        - {x: 124.5, y: -54}
+        - {x: 122.5, y: -29}
+        - {x: 113.5, y: 15}
+        - {x: 106.5, y: 82}
+        - {x: 94.5, y: 108}
+        - {x: 75.5, y: 133}
+        - {x: 58.5, y: 147}
+        - {x: 39.5, y: 150}
+        - {x: -13.5, y: 153}
+        - {x: -65.5, y: 153}
+        - {x: -90.5, y: 138}
+        - {x: -100.5, y: 97}
+        - {x: -112.5, y: 66}
+        - {x: -118.5, y: 8}
+        - {x: -135.5, y: -32}
+        - {x: -140.5, y: -80}
+        - {x: -140.5, y: -123}
+        - {x: -138.5, y: -126}
+        - {x: -117.5, y: -138}
+        - {x: -70.5, y: -142}
+        - {x: 0.5, y: -142}
+        - {x: 47.5, y: -136}
+        - {x: 77.5, y: -130}
+        - {x: 116.5, y: -112}
+    - name: CHA_body
+      rect:
+        serializedVersion: 2
+        x: 692
+        y: 208
+        width: 283
+        height: 351
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 131.5, y: -114.5}
+        - {x: 134.5, y: -110.5}
+        - {x: 134.5, y: -99.5}
+        - {x: 133.5, y: -67.5}
+        - {x: 128.5, y: -19.5}
+        - {x: 120.5, y: 30.5}
+        - {x: 113.5, y: 70.5}
+        - {x: 97.5, y: 131.5}
+        - {x: 85.5, y: 152.5}
+        - {x: 75.5, y: 154.5}
+        - {x: 63.5, y: 156.5}
+        - {x: 44.5, y: 158.5}
+        - {x: -13.5, y: 158.5}
+        - {x: -73.5, y: 153.5}
+        - {x: -88.5, y: 139.5}
+        - {x: -110.5, y: 70.5}
+        - {x: -120.5, y: 28.5}
+        - {x: -133.5, y: -40.5}
+        - {x: -141.5, y: -76.5}
+        - {x: -141.5, y: -119.5}
+        - {x: -139.5, y: -124.5}
+        - {x: -123.5, y: -130.5}
+        - {x: -94.5, y: -140.5}
+        - {x: -60.5, y: -149.5}
+        - {x: -31.5, y: -152.5}
+        - {x: -1.5, y: -152.5}
+        - {x: 17.5, y: -150.5}
+        - {x: 67.5, y: -142.5}
+        - {x: 99.5, y: -131.5}
+      - - {x: -98.5, y: 133.5}
+        - {x: -95.5, y: 132.5}
+        - {x: -89.5, y: 132.5}
+        - {x: -88.5, y: 134.5}
+        - {x: -89.5, y: 138.5}
+        - {x: -93.5, y: 139.5}
+        - {x: -96.5, y: 139.5}
+        - {x: -98.5, y: 137.5}
+    - name: CHA_foot
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 24
+        width: 138
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 37, y: -46}
+        - {x: 37, y: -48}
+        - {x: 39, y: -50}
+        - {x: 40, y: -50}
+        - {x: 43, y: -47}
+        - {x: 42, y: -44}
+        - {x: 39, y: -44}
+      - - {x: -40, y: 41}
+        - {x: -52, y: 40}
+        - {x: -61, y: 33}
+        - {x: -61, y: 7}
+        - {x: -56, y: -46}
+        - {x: -44, y: -49}
+        - {x: 37, y: -49}
+        - {x: 58, y: -38}
+        - {x: 58, y: 32}
+        - {x: 50, y: 41}
+      - - {x: -33, y: 49}
+        - {x: -40, y: 46}
+        - {x: -40, y: 42}
+        - {x: -39, y: 41}
+        - {x: -28, y: 41}
+        - {x: -27, y: 44}
+        - {x: -27, y: 48}
+        - {x: -28, y: 49}
+    - name: CHA_foot2
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 7
+        width: 156
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -71, y: -42.5}
+        - {x: -68, y: -52.5}
+        - {x: -38, y: -59.5}
+        - {x: 42, y: -59.5}
+        - {x: 68, y: -49.5}
+        - {x: 68, y: 15.5}
+        - {x: 62, y: 53.5}
+        - {x: -68, y: 53.5}
+        - {x: -71, y: 30.5}
+    - name: CHA_arm2
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 28
+        width: 114
+        height: 121
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16, y: 48.5}
+        - {x: -44, y: 48.5}
+        - {x: -44, y: -24.5}
+        - {x: -36, y: -57.5}
+        - {x: 27, y: -57.5}
+        - {x: 55, y: -33.5}
+        - {x: 55, y: 13.5}
+        - {x: 37, y: 42.5}
+    - name: CHA_arm1
+      rect:
+        serializedVersion: 2
+        x: 642
+        y: 32
+        width: 94
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 68}
+        - {x: -24, y: 48}
+        - {x: -35, y: -1}
+        - {x: -35, y: -70}
+        - {x: -25, y: -74}
+        - {x: 35, y: -74}
+        - {x: 38, y: -67}
+        - {x: 38, y: 15}
+        - {x: 7, y: 68}
+    - name: CHA_gutsarm
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 32
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 19, y: 68}
+        - {x: 18, y: 69}
+        - {x: -3, y: 69}
+        - {x: -37, y: 26}
+        - {x: -37, y: -61}
+        - {x: -23, y: -69}
+        - {x: 4, y: -69}
+        - {x: 39, y: -58}
+        - {x: 39, y: -18}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
