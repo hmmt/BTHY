@@ -188,8 +188,6 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		Debug.Log("Get Red Shoes");
 		// TODO: motion 
 
-
-
 		attractTargetAgent.SetUncontrollableAction(new Uncontrollable_RedShoes(attractTargetAgent));
 
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
