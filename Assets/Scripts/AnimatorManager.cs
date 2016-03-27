@@ -29,10 +29,63 @@ public class AnimatorManager : MonoBehaviour{
 
     [System.Serializable]
     public class AnimatorComponet {
+        public class TransformElement {
+            public class Element {
+                public Vector3 position;
+                public Quaternion rotation;
+                public Vector3 scale;
+
+                public Transform target;
+
+                public Element(Transform transform) {
+                    this.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                    this.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+                    this.scale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    this.target = transform;
+                }
+
+                public void Reset() {
+                    target.position = this.position;
+                    target.rotation = this.rotation;
+                    target.localScale = this.scale;
+                }
+            }
+
+            public List<Element> list = new List<Element>();
+
+            public TransformElement(Animator target) {
+                SaveTransform(target.transform);
+            }
+
+            public void SaveTransform(Transform transform) {
+                foreach (Transform t in transform) {
+                    if (t.childCount > 0) {
+                        SaveTransform(t);
+                    }
+                    Element element = new Element(t);
+                    this.list.Add(element);
+                }
+            }
+
+            public void GetTransform() {
+                foreach (Element e in this.list) {
+                    e.Reset();
+                }
+            }
+        }
+        public TransformElement element;
+
         public string name;
         public long id;
         public RuntimeAnimatorController controller;
-        
+
+        public void InitTransform(Animator animator) {
+            this.element = new TransformElement(animator);
+        }
+
+        public void ResetTransform() {
+            element.GetTransform();
+        }
     }
 
     public List<AnimatorComponet> staticLib;//참고용
@@ -49,6 +102,7 @@ public class AnimatorManager : MonoBehaviour{
         component.id = id;
         component.controller = animator.runtimeAnimatorController;
         component.name = "";
+        component.InitTransform(animator);
         this.dynamicLib.Add(component);
     }
 
@@ -58,6 +112,7 @@ public class AnimatorManager : MonoBehaviour{
         component.id = id;
         component.controller = animator.runtimeAnimatorController;
         component.name = name;
+        component.InitTransform(animator);
         this.dynamicLib.Add(component);
     }
 
@@ -131,6 +186,7 @@ public class AnimatorManager : MonoBehaviour{
         foreach (AnimatorComponet c in this.dynamicLib) {
             if (c.id == id) {
                 output = c;
+                output.ResetTransform();
                 if (isDeleted) {
                     dynamicLib.Remove(c);
                 }
@@ -149,6 +205,7 @@ public class AnimatorManager : MonoBehaviour{
             if (c.name == name) 
             {
                 output = c;
+                output.ResetTransform();
                 if (isDeleted)
                 {
                     dynamicLib.Remove(c);
