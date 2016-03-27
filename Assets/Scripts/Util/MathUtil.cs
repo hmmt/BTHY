@@ -1,3 +1,4 @@
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -21,4 +22,17 @@ public class GameUtil
         }
         return false;
     }
+}
+
+
+public class AnimatorUtil
+{
+	public static bool HasParameter(Animator animator, string name)
+	{
+		foreach (AnimatorControllerParameter param in animator.parameters) {
+			if (param.name == name)
+				return true;
+		}
+		return false;
+	}
 }

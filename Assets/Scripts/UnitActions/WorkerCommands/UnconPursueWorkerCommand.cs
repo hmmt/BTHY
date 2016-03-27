@@ -24,15 +24,6 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 	{
 		base.Execute(agent);
 
-		MovableObjectNode movable = agent.GetMovableNode();
-
-		if (!movable.IsMoving())
-		{
-			//Debug.Log ("asdfsdag");
-			movable.MoveToMovableNode(targetAgent.GetMovableNode());
-		}
-		this.isMoving = movable.IsMoving ();
-
 		CheckRanage ((AgentModel) agent);
 	}
 	public override void OnDestroy(WorkerModel agent)
@@ -58,12 +49,22 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
 
 				actor.SetAttackDelay(4.0f);
+
+				MovableObjectNode movable = actor.GetMovableNode();
+				movable.StopMoving ();
 				isMoving = false;
 			}
 		}
 		else
 		{
+			MovableObjectNode movable = actor.GetMovableNode();
 
+			if (!movable.IsMoving())
+			{
+				//Debug.Log ("asdfsdag");
+				movable.MoveToMovableNode(targetAgent.GetMovableNode());
+			}
+			this.isMoving = movable.IsMoving ();
 		}
 	}
 }

@@ -1,18 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum SuppressType
+{
+	PANIC,
+	UNCONTROLLABLE
+}
+
 public class SuppressWorkerCommand : WorkerCommand {
 
 
 	private static float preDelayGun = 0.5f;
 	private float preDelay;
+	private SuppressType supType;
 
 	SuppressAction suppressAction;
 
-	public SuppressWorkerCommand(AgentModel targetAgent, SuppressAction suppressAction)
+	public SuppressWorkerCommand(AgentModel targetAgent, SuppressAction suppressAction, SuppressType supType)
 	{
 		this.targetAgent = targetAgent;
 		this.suppressAction = suppressAction;
+		this.supType = supType;
 	}
 
 	public SuppressWorkerCommand(CreatureModel targetCreature, SuppressAction suppressAction)
@@ -39,10 +47,20 @@ public class SuppressWorkerCommand : WorkerCommand {
 
 		if (targetAgent != null)
 		{
-			if(targetAgent.IsPanic() == false)
-			{
+			if (targetAgent.isDead ()) {
 				Finish ();
 				return;
+			}
+			if (supType == SuppressType.PANIC) {
+				if (targetAgent.IsPanic () == false) {
+					Finish ();
+					return;
+				}
+			} else {
+				if (((AgentModel)targetAgent).GetState() != AgentAIState.CANNOT_CONTROLL) {
+					Finish ();
+					return;
+				}
 			}
 
 			if (CheckRange ())
@@ -118,8 +136,9 @@ public class SuppressWorkerCommand : WorkerCommand {
 						Debug.Log("Shot!");
 						agentActor.SetAttackDelay(4.0f);
 						agentActor.SetMoveDelay (0.5f);
-						targetAgent.TakePhysicalDamage (1);
-						targetAgent.TakePanicDamage (1);
+						targetAgent.TakePhysicalDamage (100);
+						if(supType == SuppressType.PANIC)
+							targetAgent.TakePanicDamage (1);
 						agentActor.GetMovableNode ().StopMoving ();
 						return true;
 					}

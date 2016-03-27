@@ -149,6 +149,9 @@ public class MovableObjectNode {
     {
 		bool stateChanged = false;
 
+		if (movement <= 0)
+			return;
+
         // 문에 대한 처리
         if (currentNode != null)
         {

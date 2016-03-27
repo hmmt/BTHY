@@ -105,10 +105,10 @@ public class WorkerCommand
 		return cmd;
 	}
 
-	public static WorkerCommand MakeSuppressWorking(AgentModel targetAgent, SuppressAction suppressAction)
+	public static WorkerCommand MakeSuppressWorking(AgentModel targetAgent, SuppressAction suppressAction, SuppressType supType)
 	{
 		//WorkerCommand cmd = new WorkerCommand();
-		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetAgent, suppressAction);
+		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetAgent, suppressAction, supType);
 		cmd.type = AgentCmdType.SUPPRESS_WORKING;
 		cmd.targetAgent = targetAgent;
 		return cmd;

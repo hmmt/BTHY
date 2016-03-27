@@ -10,6 +10,7 @@ public enum AgentMotion
 
 
 // 직원 데이터
+[System.Serializable]
 public class AgentModel : WorkerModel
 {
 
@@ -824,10 +825,10 @@ public class AgentModel : WorkerModel
 		Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
 	}
 
-	public void StartSuppressAgent(AgentModel targetWorker, SuppressAction suppressAction)
+	public void StartSuppressAgent(AgentModel targetWorker, SuppressAction suppressAction, SuppressType supType)
     {
         state = AgentAIState.SUPPRESS_WORKER;
-		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker, suppressAction));
+		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker, suppressAction, supType));
         this.targetWorker = targetWorker;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
@@ -849,6 +850,7 @@ public class AgentModel : WorkerModel
 	{
 		if (state == AgentAIState.CANNOT_CONTROLL)
 		{
+			Debug.Log ("get Control....");
 			state = AgentAIState.IDLE;
 			commandQueue.Clear ();
 		}

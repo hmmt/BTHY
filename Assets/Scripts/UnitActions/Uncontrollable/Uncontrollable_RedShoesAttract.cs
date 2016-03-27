@@ -10,6 +10,9 @@ public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 
 	private float waitTimer = 3.0f;
 
+	private bool wakeUp = false;
+	private float wakeUpTimer = 5.0f;
+
 	public Uncontrollable_RedShoesAttract(AgentModel model, RedShoesSkill redShoesSkill)
 	{
 		this.model = model;
@@ -30,15 +33,43 @@ public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 		if (waitTimer > 0)
 			waitTimer -= Time.deltaTime;
 
+		if (wakeUp)
+		{
+			wakeUpTimer -= Time.deltaTime;
+			if (wakeUpTimer <= 0)
+			{
+				model.movementMul = 1;
+				redShoesSkill.FreeAttractedAgent (model);
+			}
+		}
 	}
 
 	public override void OnClick()
 	{
+		if (wakeUp)
+			return;
+		
 		remainClicked--;
+
+		model.movementMul = 0.8f;
 
 		if (remainClicked <= 0)
 		{
-			model.GetControl ();
+			//model.GetControl ();
+			//redShoesSkill.FreeAttractedAgent (model);
+			WakeUp();
 		}
+
+
+	}
+
+	private void WakeUp()
+	{
+		wakeUp = true;
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
+		agentView.puppetAnim.SetBool ("Cancel", true);
+		//redShoesSkill.FreeAttractedAgent (model);
+
+		model.movementMul = 0;
 	}
 }

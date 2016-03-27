@@ -38,15 +38,15 @@ public class AnimatorManager : MonoBehaviour{
                 public Transform target;
 
                 public Element(Transform transform) {
-                    this.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-                    this.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+					this.position = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+					this.rotation = new Quaternion(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z, transform.localRotation.w);
                     this.scale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
                     this.target = transform;
                 }
 
                 public void Reset() {
-                    target.position = this.position;
-                    target.rotation = this.rotation;
+					target.localPosition = this.position;
+                    target.localRotation = this.rotation;
                     target.localScale = this.scale;
                 }
             }

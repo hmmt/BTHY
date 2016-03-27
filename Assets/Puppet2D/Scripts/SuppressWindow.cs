@@ -162,7 +162,8 @@ public class SuppressWindow : MonoBehaviour
         SuppressWindow inst = newObj.GetComponent<SuppressWindow>();
         inst.target = target;
         inst.targetType = TargetType.AGENT;
-        inst.currentSefira = SefiraManager.instance.getSefira(target.sefira);
+		inst.currentSefira = SefiraManager.instance.getSefira(target.currentSefira);
+		//inst.currentSefira = SefiraManager.instance.getSefira("1");
         inst.agentList = new List<SuppressAction>();
 
         AgentUnit unit = AgentLayer.currentLayer.GetAgent(target.instanceId);
@@ -194,7 +195,7 @@ public class SuppressWindow : MonoBehaviour
 
         foreach (AgentModel model in list) {
             //패닉 상태인지 확인하는 과정이 필요함
-            if (model.panicFlag != true) {
+			if (model.panicFlag != true && model.GetState() != AgentAIState.CANNOT_CONTROLL) {
                 SuppressAction action = new SuppressAction(model);
                 this.agentList.Add(action);
             }
@@ -234,6 +235,17 @@ public class SuppressWindow : MonoBehaviour
 
         AgentScrollTarget.sizeDelta = new Vector2(AgentScrollTarget.sizeDelta.x, posy);
     }
+
+	public void OnSetSuppression(AgentModel actor)
+	{
+		if(target is AgentModel)
+		{
+			SuppressAction sa = new SuppressAction ((AgentModel)target);
+			sa.weapon = SuppressAction.Weapon.GUN;
+
+			actor.StartSuppressAgent((AgentModel)target, sa, SuppressType.UNCONTROLLABLE);
+		}
+	}
 
     public void CloseWindow() {
         currentWindow = null;

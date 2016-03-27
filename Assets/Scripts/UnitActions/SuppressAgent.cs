@@ -149,7 +149,7 @@ public class SuppressAgent : ActionClassBase {
         c.targetStamina = 10;
         c.actorStamina = 10;
 
-        actorAgent.StartSuppressAgent(targetAgent, null);
+		actorAgent.StartSuppressAgent(targetAgent, null, SuppressType.PANIC);
         //targetAgent.PanicSuppressed();
 
         c.noticeId1 = Notice.instance.Observe(NoticeName.MakeName(NoticeName.ChangeAgentState, c.targetAgent.instanceId.ToString()),

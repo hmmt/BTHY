@@ -125,8 +125,12 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
 
+		/*
 		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.AgentCtrl,
 			agentView.puppetAnim, true, false);
+		*/
+		AnimatorManager.instance.ChangeAnimatorByID(attractTargetAgent.instanceId, attractTargetAgent.instanceId,
+			agentView.puppetAnim, false, false);
 		this.Attracted = false;
 		this.attractTargetAgent = null;
 		this.isAcquired = false;

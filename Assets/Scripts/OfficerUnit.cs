@@ -88,12 +88,12 @@ public class OfficerUnit : MonoBehaviour {
 
 		if (movableDirection == UnitDirection.RIGHT)
 		{
-			if (puppetScale.x < 0)
+			if (puppetScale.x > 0)
 				puppetScale.x = -puppetScale.x;
 		}
 		else
 		{
-			if (puppetScale.x > 0)
+			if (puppetScale.x < 0)
 				puppetScale.x = -puppetScale.x;
 		}
 		puppet.transform.localScale = puppetScale;

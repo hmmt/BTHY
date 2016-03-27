@@ -29,12 +29,14 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 			AgentModel[] nears = AgentManager.instance.GetNearAgents (model.GetMovableNode ());
 
 			List<AgentModel> filteredAgents = new List<AgentModel> ();
-			foreach (AgentModel nearAgent in nears) {
+			foreach (AgentModel nearAgent in nears)
+			{
 				if (nearAgent != model)
 					filteredAgents.Add (nearAgent);
 			}
 
-			if (filteredAgents.Count > 0) {
+			if (filteredAgents.Count > 0)
+			{
 				target = filteredAgents [0];
 				model.PursueUnconAgent (target);
 			}
@@ -47,5 +49,10 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	private void Attack()
 	{
+	}
+
+	public override void OnClick()
+	{
+		SuppressWindow.CreateWindow (model);
 	}
 }

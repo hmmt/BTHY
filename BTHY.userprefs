@@ -1,21 +1,24 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Model/AgentModel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitActions/Uncontrollable/Uncontrollable_RedShoes.cs">
     <Files>
-      <File FileName="Assets/Scripts/UnitActions/WorkerCommands/WorkerCommand.cs" Line="102" Column="2" />
-      <File FileName="Assets/Scripts/Map/MapGraph.cs" Line="96" Column="6" />
-      <File FileName="Assets/Scripts/Classes/MovableObjectNode.cs" Line="400" Column="2" />
-      <File FileName="Assets/Scripts/UnitActions/UseSkill.cs" Line="361" Column="19" />
-      <File FileName="Assets/Scripts/OfficerModel.cs" Line="257" Column="6" />
-      <File FileName="Assets/Scripts/Model/AgentModel.cs" Line="190" Column="2" />
-      <File FileName="Assets/Scripts/UnitActions/WorkerCommands/OpenIsolateWorkerCommand.cs" Line="4" Column="32" />
-      <File FileName="Assets/Scripts/UnitActions/PanicOpenIsolate.cs" Line="57" Column="5" />
-      <File FileName="Assets/Scripts/UnitActions/PanicRoaming.cs" Line="32" Column="26" />
-      <File FileName="Assets/Scripts/Enums/WorkerAIState.cs" Line="38" Column="17" />
+      <File FileName="Assets/Scripts/Model/AgentModel.cs" Line="840" Column="23" />
+      <File FileName="Assets/Scripts/CreatureSpecialSkill.cs" Line="168" Column="58" />
+      <File FileName="Assets/Scripts/Creatures/RedShoes.cs" Line="8" Column="32" />
+      <File FileName="Assets/Scripts/Enums/WorkerAIState.cs" Line="39" Column="18" />
+      <File FileName="Assets/Scripts/WorkerModel.cs" Line="77" Column="29" />
+      <File FileName="Assets/Scripts/UnitActions/UncontrollableAction.cs" Line="9" Column="1" />
+      <File FileName="Assets/Scripts/UnitActions/Uncontrollable/Uncontrollable_RedShoes.cs" Line="26" Column="3" />
+      <File FileName="Assets/Scripts/UnitActions/PanicRoaming.cs" Line="31" Column="3" />
+      <File FileName="Assets/Scripts/AnimatorManager.cs" Line="124" Column="1" />
+      <File FileName="Assets/Scripts/Model/CreatureModel.cs" Line="757" Column="1" />
+      <File FileName="Assets/Scripts/UnitManager/CreatureManager.cs" Line="59" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/lmicc625/BTHY/Assets/Scripts/CreatureSpecialSkill.cs" line="170" column="103" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets\Scripts\Unit\SefiraMapLayer.cs" line="54" offsetX="216" offsetY="896" expression="fogRenderer" liveUpdate="False" />

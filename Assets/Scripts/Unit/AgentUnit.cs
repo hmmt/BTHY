@@ -125,8 +125,15 @@ public class AgentUnit : MonoBehaviour {
          */
     }
 
+	void Awake()
+	{
+		
+	}
+
     void  Start()
     {
+		AnimatorManager.instance.SaveAnimator (model.instanceId, puppetAnim);
+
         //agentAnimator.SetInteger("Sepira", 1);
         //agentAnimator.SetBool("Change", false);
 
@@ -180,14 +187,14 @@ public class AgentUnit : MonoBehaviour {
         Vector3 puppetScale = puppet.localScale;
 		if (movableDirection == UnitDirection.RIGHT)
 		{
-            if (puppetScale.x < 0)
+            if (puppetScale.x > 0)
             {
                 puppetScale.x = -puppetScale.x;
             }
 		}
 		else
 		{
-            if (puppetScale.x > 0)
+            if (puppetScale.x < 0)
             {
                 puppetScale.x = -puppetScale.x;
             }
@@ -333,7 +340,7 @@ public class AgentUnit : MonoBehaviour {
             ChangeAgentUniform();
         }
 
-		if(animatorChanged == false)
+		if(AnimatorUtil.HasParameter(puppetAnim, "Move"))
 		{
 	        if (oldPos != transform.localPosition.x)
 	        {
@@ -480,6 +487,7 @@ public class AgentUnit : MonoBehaviour {
 
 	public void OpenStatusWindow()
 	{
+		OnClick ();
         return;
         AgentModel oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
 		AgentStatusWindow.CreateWindow (model);

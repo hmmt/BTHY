@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class SuppressAgentSlot : MonoBehaviour {
+
+	private AgentModel model;
+
     public Image face;
     public Image hair;
 
@@ -25,6 +28,9 @@ public class SuppressAgentSlot : MonoBehaviour {
     }
 
     public void Init(AgentModel model) {
+		this.model = model;
+
+
         index = -1;
         face.sprite = model.tempFaceSprite;
         hair.sprite = model.tempHairSprite;
@@ -58,6 +64,7 @@ public class SuppressAgentSlot : MonoBehaviour {
             this.index = -1;
             return;
         }
+		SuppressWindow.currentWindow.OnSetSuppression (model);
         this.index = i;
         SetSelected(i);
     }

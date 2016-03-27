@@ -3,6 +3,13 @@ using System.Collections;
 
 public class RedShoes : CreatureBase {
 
+	private bool dropped = false;
+	private Vector3 droppedShoesPosition;
+	private PassageObjectModel droppedPassage;
+	private AgentModel targetAgent;
+
+	// 
+
     public override void OnInit()
     {
         this.skill = new RedShoesSkill(this.model);
@@ -25,6 +32,21 @@ public class RedShoes : CreatureBase {
                 this.skill.DeActivate();
             }
         }
+
+		if (dropped)
+		{
+			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+			{
+				if (agent.GetMovableNode ().GetPassage () == droppedPassage)
+				{
+					if ((agent.GetCurrentViewPosition () - droppedShoesPosition).sqrMagnitude < 2) {
+
+
+					}
+				}
+			}
+			//if(droppedPassage == 
+		}
     }
 
     public void ActivateSkill(UseSkill skill)
