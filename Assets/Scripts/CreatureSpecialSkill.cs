@@ -84,7 +84,7 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
     
     public override void FixedUpdate()
     {
-        
+		//return;
         if (this.Attracted)
         {
             //Call targeted Agent to Creature room and try 
@@ -121,7 +121,16 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 
 	public void FreeAttractedAgent(AgentModel target)
 	{
-		// TODO:
+		target.GetControl ();
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
+
+		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.AgentCtrl,
+			agentView.puppetAnim, true, false);
+		this.Attracted = false;
+		this.attractTargetAgent = null;
+		this.isAcquired = false;
+		agentView.SetAnimatorChanged (false);
 	}
 
     public override void OnStageStart()
