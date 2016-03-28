@@ -59,8 +59,11 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
     List<AgentModel> targetList;
     const float frequencey = 5f;
     float elapsed = 0f;
-    bool Attracted = false;//직원이 환상체에 매혹당했는가
+	bool attracted = false;//직원이 환상체에 매혹당했는가
     bool isAcquired = false;//직원이 빨간구두를 습득하였는가
+
+	// 나중에 분리
+
 
     public RedShoesSkill(CreatureModel model) {
         this.model = model;
@@ -85,7 +88,37 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
     public override void FixedUpdate()
     {
 		//return;
-        if (this.Attracted)
+
+		RedShoes shoes = (RedShoes)model.script;
+
+		if (shoes.dropped && !this.attracted)
+		{
+			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+			{
+				if (agent.isDead ())
+					continue;
+				if (agent.gender == "Female")
+				//if (agent.GetMovableNode ().GetPassage () == droppedPassage)
+				{
+					if ((agent.GetCurrentViewPosition () - shoes.droppedShoesPosition).sqrMagnitude < 2)
+					{	
+						Debug.Log ("infect!!!!");
+						Attract (agent);
+						GetRedShoes (2);
+
+						shoes.dropped = false;
+						break;
+					}
+				}
+				else
+				{
+					//if()
+					{
+					}
+				}
+			}
+		}
+		else if (this.attracted)
         {
             //Call targeted Agent to Creature room and try 
 			if (this.attractTargetAgent != null && !isAcquired)
@@ -99,7 +132,7 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 
 				if (this.attractTargetAgent.GetCurrentNode () == model.GetWorkspaceNode ())
 				{
-					GetRedShoes ();
+					GetRedShoes (1);
 				}
 			}
 			else
@@ -131,10 +164,30 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		*/
 		AnimatorManager.instance.ChangeAnimatorByID(attractTargetAgent.instanceId, attractTargetAgent.instanceId,
 			agentView.puppetAnim, false, false);
-		this.Attracted = false;
+		this.attracted = false;
 		this.attractTargetAgent = null;
 		this.isAcquired = false;
 		agentView.SetAnimatorChanged (false);
+	}
+
+	public void OnInfectedTargetTerminated()
+	{
+		if (!isAcquired)
+		{
+			Debug.Log ("OnInfectedTargetTerminated() : Invalid Access");
+			return;
+		}
+		RedShoes shoes = (RedShoes)model.script;
+
+		shoes.dropped = true;
+		shoes.droppedPassage = attractTargetAgent.GetMovableNode ().GetPassage ();
+		shoes.droppedShoesPosition = attractTargetAgent.GetCurrentViewPosition ();
+		MovableObjectNode node = new MovableObjectNode ();
+		node.Assign (attractTargetAgent.GetMovableNode ());
+		shoes.droppedPositionNode = node;
+
+		attracted = false;
+		isAcquired = false;
 	}
 
     public override void OnStageStart()
@@ -163,17 +216,9 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         {
             Debug.Log("걸림" + randval);
             this.attractTargetAgent = target;
-            this.Attracted = true;
+            this.attracted = true;
 
-			AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
-
-			AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_attract,
-				agentView.puppetAnim, true, false);
-			
-			target.LoseControl ();
-			target.SetUncontrollableAction (new Uncontrollable_RedShoesAttract (target, this));
-
-			agentView.puppetAnim.SetBool ("Notice", true);
+			Attract (target);
             return;
         }
         else {
@@ -182,7 +227,41 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         }
     }
 
-    public void GetRedShoes() {
+	private void Attract(AgentModel target)
+	{
+		this.attractTargetAgent = target;
+		this.attracted = true;
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
+
+		AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
+		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_attract,
+			agentView.puppetAnim, true, false);
+
+		target.LoseControl ();
+		target.SetUncontrollableAction (new Uncontrollable_RedShoesAttract (target, this));
+
+		agentView.puppetAnim.SetBool ("Notice", true);
+	}
+
+	private void Attract(OfficerModel target)
+	{
+		this.attractTargetAgent = target;
+		this.attracted = true;
+
+		OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(attractTargetAgent.instanceId);
+
+		AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
+		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_attract,
+			officerView.puppetAnim, true, false);
+
+		target.LoseControl ();
+		target.SetUncontrollableAction (new Uncontrollable_RedShoesAttract (target, this));
+
+		officerView.puppetAnim.SetBool ("Notice", true);
+	}
+
+	public void GetRedShoes(int startType) {
         if (isAcquired) {
             return;
         }
@@ -192,14 +271,16 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		Debug.Log("Get Red Shoes");
 		// TODO: motion 
 
-		attractTargetAgent.SetUncontrollableAction(new Uncontrollable_RedShoes(attractTargetAgent));
-
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
 
+		AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
 		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_infected,
 				agentView.puppetAnim, true, false);
 		agentView.SetAnimatorChanged (true);
 
+		attractTargetAgent.SetUncontrollableAction(new Uncontrollable_RedShoes(attractTargetAgent, this, startType));
+
+		model.SendAnimMessage ("GetRedShoesAnim");
         //감염행동 시작 -> AgentModel에서 처리해야 할 듯?
         //행동은 DISC 타입에서 다른 직원을 살해하는 패닉 패턴을 이용하면 그럭저럭 작업을 줄일 수 있지 않을까
         //직원 처리는 패닉으로 처리하고, 해당 직원은 패닉 상태에서 제압될 경우 무조건 사망 판정으로 만들 것
@@ -223,7 +304,7 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         }
 
         if (nextTarget == null) {
-            this.Attracted = false;
+            this.attracted = false;
             /*
                 운반? 되는 도중에도 계속해서 유혹을 시도해야 하는가?
              */

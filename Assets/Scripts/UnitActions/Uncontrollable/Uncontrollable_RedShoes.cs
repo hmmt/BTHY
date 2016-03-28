@@ -4,18 +4,36 @@ using System.Collections.Generic;
 public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	private AgentModel model;
+	private RedShoesSkill redShoesSkill;
 
 	private float waitTimer = 0;
 
 	private AgentModel target = null;
 
-	public Uncontrollable_RedShoes(AgentModel model)
+	private float startWaitTimer = 6f;
+
+	private int startType;
+
+	public Uncontrollable_RedShoes(AgentModel model, RedShoesSkill redShoesSkill, int startType)
 	{
 		this.model = model;
+		this.redShoesSkill = redShoesSkill;
+		this.startType = startType;
+	}
+
+	public override void Init()
+	{
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
+
+		agentView.puppetAnim.SetInteger ("Type", startType);
 	}
 
 	public override void Execute()
 	{
+		if (startWaitTimer > 0) {
+			startWaitTimer -= Time.deltaTime;
+			return;
+		}
 		if ((waitTimer <= 0 && target == null)
 			|| model.GetCurrentCommand() == null) {
 			model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
@@ -49,6 +67,15 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	private void Attack()
 	{
+	}
+
+	public override void OnDie()
+	{
+		redShoesSkill.OnInfectedTargetTerminated ();
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
+
+		agentView.SetParameterOnce ("Suppressed", true);
 	}
 
 	public override void OnClick()

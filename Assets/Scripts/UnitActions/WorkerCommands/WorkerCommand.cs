@@ -91,9 +91,9 @@ public class WorkerCommand
 
 		return cmd;
 	}
-	public static WorkerCommand MakeReturnCreature()
+	public static WorkerCommand MakeReturnCreature(CreatureModel target)
 	{
-		WorkerCommand cmd = new WorkerCommand();
+		ReturnCreatureWorkerCommand cmd = new ReturnCreatureWorkerCommand(target);
 		cmd.type = AgentCmdType.RETURN_CREATURE;
 		return cmd;
 	}
@@ -142,6 +142,13 @@ public class WorkerCommand
 		return cmd;
 	}
 
+	public static WorkerCommand MakeMove(MovableObjectNode movable)
+	{
+		MoveWorkerCommand cmd = new MoveWorkerCommand(movable);
+		cmd.type = AgentCmdType.MOVE;
+		return cmd;
+	}
+
 	public static WorkerCommand MakePanicPursueAgent(AgentModel targetAgent)
 	{
 		PanicPursueWorkerCommand cmd = new PanicPursueWorkerCommand (targetAgent);
@@ -167,6 +174,10 @@ public class MoveWorkerCommand : WorkerCommand
 	{
 		this.targetNode = targetNode;
 	}
+	public MoveWorkerCommand(MovableObjectNode movableNode)
+	{
+	}
+
 	public override void OnStart(WorkerModel agent)
 	{
 		base.OnStart(agent);

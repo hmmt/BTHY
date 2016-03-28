@@ -63,6 +63,11 @@ public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 
 	}
 
+	public override void OnDie()
+	{
+		//redShoesSkill.OnInfectedTargetTerminated ();
+	}
+
 	private void WakeUp()
 	{
 		wakeUp = true;

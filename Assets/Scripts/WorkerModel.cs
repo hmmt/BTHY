@@ -255,20 +255,26 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	}
 
     public virtual void TakePhysicalDamage(int damage) {
+		if (isDead ())
+			return;
         Debug.Log("TakePhysicalDamage : " + damage);
         hp -= damage;
         if (hp <= 0) { 
             //dead
+			OnDie ();
         }
     }
 
     public virtual void TakePhysicalDamage(float damage)
     {
+		if (isDead ())
+			return;
         Debug.Log("TakePhysicalDamage : " + damage);
         hp -= (int)damage;
         if (hp <= 0)
         {
             //dead
+			OnDie ();
         }
     }
 
@@ -312,9 +318,18 @@ public class WorkerModel: ObjectModelBase, IObserver {
 
     public virtual void Die()
     {
+		if (isDead ())
+			return;
         this.hp = 0;
         //state setting
+
+		OnDie ();
     }
+
+	public virtual void OnDie()
+	{
+		
+	}
 
 	public override void InteractWithDoor(DoorObjectModel door)
 	{

@@ -258,7 +258,7 @@ public class CreatureUnit : MonoBehaviour {
     void OnDestroy()
     {
         Destroy(room.gameObject);
-    }
+    } 
 
     public void PlaySound(string soundKey)
     {

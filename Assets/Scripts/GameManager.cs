@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
 
 		// temp
 		AgentModel b = AgentManager.instance.AddAgentModel();
+		b.gender = "Male";
 		stageUI.CancelSefiraAgent(b);
 		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
 		b.SetCurrentSefira("1");

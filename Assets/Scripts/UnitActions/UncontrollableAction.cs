@@ -18,6 +18,10 @@ public class UncontrollableAction {
 		// ?
 	}
 
+	public virtual void OnDie()
+	{
+	}
+
 	public virtual void OnClick()
 	{
 	}

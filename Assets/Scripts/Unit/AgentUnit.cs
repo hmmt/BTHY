@@ -480,6 +480,21 @@ public class AgentUnit : MonoBehaviour {
 	{
 	}
 
+	public void SetParameterOnce(string pname, int value)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterOnce (pname, value);
+		}
+	}
+	public void SetParameterOnce(string pname, bool value)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterOnce (pname, value);
+		}
+	}
+
 	public void OnClick()
 	{
 		model.OnClick ();

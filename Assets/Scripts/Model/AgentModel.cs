@@ -749,10 +749,10 @@ public class AgentModel : WorkerModel
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
-    public void ReturnCreature()
+	public void ReturnCreature(CreatureModel target)
     {
         state = AgentAIState.RETURN_CREATURE;
-        commandQueue.SetAgentCommand(WorkerCommand.MakeReturnCreature());
+        commandQueue.SetAgentCommand(WorkerCommand.MakeReturnCreature(target));
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void FinishWorking()
@@ -859,12 +859,22 @@ public class AgentModel : WorkerModel
 	public void SetUncontrollableAction(UncontrollableAction uncon)
 	{
 		unconAction = uncon;
+
+		if (unconAction != null)
+			unconAction.Init ();
 	}
 
 	public void OnClick()
 	{
 		if (unconAction != null) {
 			unconAction.OnClick ();
+		}
+	}
+
+	public override void OnDie()
+	{
+		if (unconAction != null) {
+			unconAction.OnDie ();
 		}
 	}
 
@@ -882,6 +892,14 @@ public class AgentModel : WorkerModel
 	public void FinishPursueAgent()
 	{
 		if (state == AgentAIState.PANIC_VIOLENCE)
+		{
+			state = AgentAIState.IDLE;
+		}
+	}
+
+	public void FinishReturnCreature()
+	{
+		if(state == AgentAIState.RETURN_CREATURE)
 		{
 			state = AgentAIState.IDLE;
 		}
@@ -1024,8 +1042,22 @@ public class AgentModel : WorkerModel
 	// ??
 	public void SetMotionState(AgentMotion motion)
 	{
-		
+		if (motion == AgentMotion.ATTACK_MOTION)
+		{
+			if(unconAction is Uncontrollable_RedShoes)
+			{
+				AgentUnit agentView = AgentLayer.currentLayer.GetAgent(instanceId);
+
+				agentView.SetParameterOnce ("Attack", Random.Range (1, 4));
+
+				//agentView.puppetAnim.SetInteger("Attack", Random.Range(1, 4));
+			}
+			else
+			{
+			}
+		}
 	}
+
 
     public void Die()
     {
