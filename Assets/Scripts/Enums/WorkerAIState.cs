@@ -63,5 +63,8 @@ public enum OfficerAIState {
 	RETURN, //磊脚狼 何辑肺 倒酒啊绰 惑怕
 	OPEN_DOOR, //巩慨
 	RUN_AWAY, //档林
+
+	CANNOT_CONTROLL,
+
 	DEAD
 }

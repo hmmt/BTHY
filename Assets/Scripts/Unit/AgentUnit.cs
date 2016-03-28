@@ -51,7 +51,6 @@ public class AgentUnit : MonoBehaviour {
 
     public GameObject puppetNode;
     public Animator puppetAnim;
-	public bool animatorChanged = false;
 
     public AgentAnim animTarget;
 
@@ -469,11 +468,6 @@ public class AgentUnit : MonoBehaviour {
         }
         
 
-	}
-
-	public void SetAnimatorChanged(bool b)
-	{
-		animatorChanged = b;
 	}
 
 	public void SetAgentAnimatorModel()

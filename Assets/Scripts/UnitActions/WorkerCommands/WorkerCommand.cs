@@ -156,7 +156,7 @@ public class WorkerCommand
 		return cmd;
 	}
 
-	public static WorkerCommand MakeUnconPursueAgent(AgentModel targetAgent)
+	public static WorkerCommand MakeUnconPursueAgent(WorkerModel targetAgent)
 	{
 		UnconPursueWorkerCommand cmd = new UnconPursueWorkerCommand (targetAgent);
 		cmd.type = AgentCmdType.PANIC_VIOLENCE;

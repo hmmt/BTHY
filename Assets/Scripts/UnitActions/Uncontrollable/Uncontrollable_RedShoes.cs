@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Uncontrollable_RedShoes : UncontrollableAction {
 
-	private AgentModel model;
+	private WorkerModel model;
 	private RedShoesSkill redShoesSkill;
 
 	private float waitTimer = 0;
@@ -14,7 +14,7 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	private int startType;
 
-	public Uncontrollable_RedShoes(AgentModel model, RedShoesSkill redShoesSkill, int startType)
+	public Uncontrollable_RedShoes(WorkerModel model, RedShoesSkill redShoesSkill, int startType)
 	{
 		this.model = model;
 		this.redShoesSkill = redShoesSkill;
@@ -23,9 +23,16 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	public override void Init()
 	{
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
-
-		agentView.puppetAnim.SetInteger ("Type", startType);
+		if (model is AgentModel)
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (model.instanceId);
+			agentView.puppetAnim.SetInteger ("Type", startType);
+		}
+		else
+		{
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (model.instanceId);
+			officerView.puppetAnim.SetInteger ("Type", startType);
+		}
 	}
 
 	public override void Execute()
@@ -34,10 +41,22 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 			startWaitTimer -= Time.deltaTime;
 			return;
 		}
-		if ((waitTimer <= 0 && target == null)
-			|| model.GetCurrentCommand() == null) {
-			model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
-			waitTimer = 1.5f + Random.value;
+
+		if(model is AgentModel)
+		{	
+			if ((waitTimer <= 0 && target == null)
+				|| ((AgentModel)model).GetCurrentCommand() == null) {
+				model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
+				waitTimer = 1.5f + Random.value;
+			}
+		}
+		else
+		{
+			if ((waitTimer <= 0 && target == null)
+				|| ((OfficerModel)model).GetCurrentCommand() == null) {
+				model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
+				waitTimer = 1.5f + Random.value;
+			}
 		}
 
 		waitTimer -= Time.deltaTime;
@@ -56,7 +75,10 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 			if (filteredAgents.Count > 0)
 			{
 				target = filteredAgents [0];
-				model.PursueUnconAgent (target);
+				if(model is AgentModel)
+					((AgentModel)model).PursueUnconAgent (target);
+				else
+					((OfficerModel)model).PursueUnconAgent (target);
 			}
 		}
 	}
@@ -80,6 +102,10 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	public override void OnClick()
 	{
-		SuppressWindow.CreateWindow (model);
+		if (model is OfficerModel) {
+			Debug.Log ("officer model is not ready");
+			return;
+		}
+		SuppressWindow.CreateWindow ((AgentModel)model);
 	}
 }

@@ -55,8 +55,8 @@ public class CreatureSpecialSkill : IObserver{
 }
 
 public class RedShoesSkill : CreatureSpecialSkill, IObserver{
-    public AgentModel attractTargetAgent;
-    List<AgentModel> targetList;
+	public WorkerModel attractTargetAgent;
+	List<WorkerModel> targetList;
     const float frequencey = 5f;
     float elapsed = 0f;
 	bool attracted = false;//직원이 환상체에 매혹당했는가
@@ -71,9 +71,14 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         Notice.instance.Observe(NoticeName.FixedUpdate, this);
     }
 
-    private List<AgentModel> GetTargetList() {
-        List<AgentModel> output = new List<AgentModel>();
+	private List<WorkerModel> GetTargetList() {
+		List<WorkerModel> output = new List<WorkerModel>();
         
+		foreach (OfficerModel om in this.sefira.officerList) {
+			if (om.gender == "Female") {
+				output.Add(om);
+			}
+		}
         foreach (AgentModel am in this.sefira.agentList) {
             if (am.gender == "Female") {
                 output.Add(am);
@@ -123,16 +128,35 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
             //Call targeted Agent to Creature room and try 
 			if (this.attractTargetAgent != null && !isAcquired)
 			{
-				if (this.attractTargetAgent.GetState () != AgentAIState.CANNOT_CONTROLL)
+				if (this.attractTargetAgent is AgentModel)
 				{
-					MapNode destination = model.GetWorkspaceNode ();
-					this.attractTargetAgent.LoseControl ();
-					this.attractTargetAgent.MoveToNode (destination);
-				}
+					AgentModel agent = (AgentModel)this.attractTargetAgent;
+					if (agent.GetState() != AgentAIState.CANNOT_CONTROLL)
+					{
+						MapNode destination = model.GetWorkspaceNode ();
+						this.attractTargetAgent.LoseControl ();
+						this.attractTargetAgent.MoveToNode (destination);
+					}
 
-				if (this.attractTargetAgent.GetCurrentNode () == model.GetWorkspaceNode ())
+					if (this.attractTargetAgent.GetCurrentNode () == model.GetWorkspaceNode ())
+					{
+						GetRedShoes (1);
+					}
+				}
+				else
 				{
-					GetRedShoes (1);
+					OfficerModel officer = (OfficerModel)this.attractTargetAgent;
+					if (officer.GetState() != OfficerAIState.CANNOT_CONTROLL)
+					{
+						MapNode destination = model.GetWorkspaceNode ();
+						this.attractTargetAgent.LoseControl ();
+						this.attractTargetAgent.MoveToNode (destination);
+					}
+
+					if (this.attractTargetAgent.GetCurrentNode () == model.GetWorkspaceNode ())
+					{
+						GetRedShoes (1);
+					}
 				}
 			}
 			else
@@ -152,22 +176,34 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         
     }
 
-	public void FreeAttractedAgent(AgentModel target)
+	public void FreeAttractedAgent(WorkerModel target)
 	{
 		target.GetControl ();
 
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
-
-		/*
-		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.AgentCtrl,
-			agentView.puppetAnim, true, false);
-		*/
-		AnimatorManager.instance.ChangeAnimatorByID(attractTargetAgent.instanceId, attractTargetAgent.instanceId,
-			agentView.puppetAnim, false, false);
 		this.attracted = false;
 		this.attractTargetAgent = null;
 		this.isAcquired = false;
-		agentView.SetAnimatorChanged (false);
+
+		if (target is AgentModel)
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (attractTargetAgent.instanceId);
+
+			AnimatorManager.instance.ChangeAnimatorByID (attractTargetAgent.instanceId, attractTargetAgent.instanceId,
+				agentView.puppetAnim, false, false);
+
+			//agentView.SetAnimatorChanged (false);
+		}
+		else
+		{
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (attractTargetAgent.instanceId);
+
+			AnimatorManager.instance.ChangeAnimatorByID (attractTargetAgent.instanceId, attractTargetAgent.instanceId,
+				officerView.puppetAnim, false, false);
+
+			//officerView.SetAnimatorChanged (false);
+		}
+
+
 	}
 
 	public void OnInfectedTargetTerminated()
@@ -203,7 +239,7 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
     }
 
     private void TryAttract() {
-        AgentModel target = null;
+        WorkerModel target = null;
         if (this.targetList.Count == 0) return;
         int randIndex = UnityEngine.Random.Range(0, this.targetList.Count);
         target = targetList[randIndex];
@@ -227,38 +263,37 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         }
     }
 
-	private void Attract(AgentModel target)
+	private void Attract(WorkerModel target)
 	{
 		this.attractTargetAgent = target;
 		this.attracted = true;
 
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
+		if (target is AgentModel)
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (attractTargetAgent.instanceId);
 
-		AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
-		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_attract,
-			agentView.puppetAnim, true, false);
+			AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
+			AnimatorManager.instance.ChangeAnimatorByName (attractTargetAgent.instanceId, AnimatorName.RedShoes_attract,
+				agentView.puppetAnim, true, false);
 
-		target.LoseControl ();
-		target.SetUncontrollableAction (new Uncontrollable_RedShoesAttract (target, this));
+			target.LoseControl ();
+			target.SetUncontrollableAction (new Uncontrollable_RedShoesAttract (target, this));
 
-		agentView.puppetAnim.SetBool ("Notice", true);
-	}
+			agentView.puppetAnim.SetBool ("Notice", true);
+		}
+		else
+		{
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (attractTargetAgent.instanceId);
 
-	private void Attract(OfficerModel target)
-	{
-		this.attractTargetAgent = target;
-		this.attracted = true;
+			AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
+			AnimatorManager.instance.ChangeAnimatorByName (attractTargetAgent.instanceId, AnimatorName.RedShoes_attract,
+				officerView.puppetAnim, true, false);
 
-		OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(attractTargetAgent.instanceId);
+			target.LoseControl ();
+			target.SetUncontrollableAction (new Uncontrollable_RedShoesAttract (target, this));
 
-		AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
-		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_attract,
-			officerView.puppetAnim, true, false);
-
-		target.LoseControl ();
-		target.SetUncontrollableAction (new Uncontrollable_RedShoesAttract (target, this));
-
-		officerView.puppetAnim.SetBool ("Notice", true);
+			officerView.puppetAnim.SetBool ("Notice", true);
+		}
 	}
 
 	public void GetRedShoes(int startType) {
@@ -271,12 +306,23 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		Debug.Log("Get Red Shoes");
 		// TODO: motion 
 
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(attractTargetAgent.instanceId);
+		if (attractTargetAgent is AgentModel)
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (attractTargetAgent.instanceId);
 
-		AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
-		AnimatorManager.instance.ChangeAnimatorByName(attractTargetAgent.instanceId, AnimatorName.RedShoes_infected,
+			AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
+			AnimatorManager.instance.ChangeAnimatorByName (attractTargetAgent.instanceId, AnimatorName.RedShoes_infected,
 				agentView.puppetAnim, true, false);
-		agentView.SetAnimatorChanged (true);
+		}
+		else
+		{
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (attractTargetAgent.instanceId);
+
+			AnimatorManager.instance.ResetAnimatorTransform (attractTargetAgent.instanceId);
+			AnimatorManager.instance.ChangeAnimatorByName (attractTargetAgent.instanceId, AnimatorName.RedShoes_infected,
+				officerView.puppetAnim, true, false);
+		}
+		//agentView.SetAnimatorChanged (true);
 
 		attractTargetAgent.SetUncontrollableAction(new Uncontrollable_RedShoes(attractTargetAgent, this, startType));
 

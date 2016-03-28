@@ -29,7 +29,7 @@ public class OfficeManager : IObserver {
         }
     }
     private string[] nameRandomList = {"A", "B", "C", "D", "E", "F", "G", "H", "I" ,"J"};
-    private int nextInstId = 1;
+    private int nextInstId = 10000;
     private List<OfficerModel> officeList;
     public List<OfficerModel> malkuthList;
     public List<OfficerModel> hodList;

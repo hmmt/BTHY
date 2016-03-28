@@ -13,6 +13,8 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public int mental;
 	public int panicValue = 0;
 
+	public float attackDelay = 0;
+
 	// TODO : implement stun using buf state.
 	public float stunTime = 0f;
 
@@ -68,6 +70,8 @@ public class WorkerModel: ObjectModelBase, IObserver {
             _movableNode = value;
         }
     }
+
+	protected UncontrollableAction unconAction = null;
 
 
     public bool visible = true;
@@ -314,6 +318,51 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	public virtual void EncounterCreature()
 	{
 		
+	}
+
+	public virtual void LoseControl()
+	{
+	}
+
+	public virtual void GetControl()
+	{
+	}
+
+	public virtual void SetUncontrollableAction(UncontrollableAction uncon)
+	{
+	}
+
+	public void SetAttackDelay(float attackDelay)
+	{
+		this.attackDelay = attackDelay;
+	}
+
+	// ??
+	public void SetMotionState(AgentMotion motion)
+	{
+		if (motion == AgentMotion.ATTACK_MOTION)
+		{
+			if(unconAction is Uncontrollable_RedShoes)
+			{
+				if (this is AgentModel)
+				{
+					AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
+
+					agentView.SetParameterOnce ("Attack", UnityEngine.Random.Range (1, 4));
+				}
+				else
+				{
+					OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(instanceId);
+
+					officerView.SetParameterOnce ("Attack", UnityEngine.Random.Range (1, 4));
+				}
+				//agentView.puppetAnim.SetInteger("Attack", Random.Range(1, 4));
+			}
+			else
+			{
+				
+			}
+		}
 	}
 
     public virtual void Die()

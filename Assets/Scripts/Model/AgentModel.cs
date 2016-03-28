@@ -22,7 +22,6 @@ public class AgentModel : WorkerModel
 	// motion variables
 
 
-	public float attackDelay = 0;
 	public float moveDelay = 0;
 	//
 
@@ -80,8 +79,6 @@ public class AgentModel : WorkerModel
     // 이하 save 되지 않는 데이터들
     private ValueInfo levelSetting;
     private AgentAIState state = AgentAIState.IDLE;
-
-	private UncontrollableAction unconAction = null;
     
 
     public Sprite[] StatusSprites = new Sprite[4];
@@ -840,13 +837,13 @@ public class AgentModel : WorkerModel
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
-	public void LoseControl()
+	public override void LoseControl()
 	{
 		state = AgentAIState.CANNOT_CONTROLL;
 		commandQueue.Clear ();
 	}
 
-	public void GetControl()
+	public override void GetControl()
 	{
 		if (state == AgentAIState.CANNOT_CONTROLL)
 		{
@@ -856,7 +853,7 @@ public class AgentModel : WorkerModel
 		}
 	}
 
-	public void SetUncontrollableAction(UncontrollableAction uncon)
+	public override void SetUncontrollableAction(UncontrollableAction uncon)
 	{
 		unconAction = uncon;
 
@@ -916,10 +913,6 @@ public class AgentModel : WorkerModel
 		attackDelay = 4.0f;
 	}
 	*/
-	public void SetAttackDelay(float attackDelay)
-	{
-		this.attackDelay = attackDelay;
-	}
 
 	public void SetMoveDelay(float moveDelay)
 	{
@@ -1038,25 +1031,6 @@ public class AgentModel : WorkerModel
 	}
 
 	// motion
-
-	// ??
-	public void SetMotionState(AgentMotion motion)
-	{
-		if (motion == AgentMotion.ATTACK_MOTION)
-		{
-			if(unconAction is Uncontrollable_RedShoes)
-			{
-				AgentUnit agentView = AgentLayer.currentLayer.GetAgent(instanceId);
-
-				agentView.SetParameterOnce ("Attack", Random.Range (1, 4));
-
-				//agentView.puppetAnim.SetInteger("Attack", Random.Range(1, 4));
-			}
-			else
-			{
-			}
-		}
-	}
 
 
     public void Die()
