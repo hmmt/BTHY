@@ -5,7 +5,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 
 	public float elapsedTime = 0;
 
-	public UnconPursueWorkerCommand(AgentModel targetAgent)
+	public UnconPursueWorkerCommand(WorkerModel targetAgent)
 	{
 		//this.targetCreature = targetCreature;
 		this.targetAgent = targetAgent;
@@ -24,7 +24,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 	{
 		base.Execute(agent);
 
-		CheckRanage ((AgentModel) agent);
+		CheckRanage (agent);
 	}
 	public override void OnDestroy(WorkerModel agent)
 	{
@@ -33,7 +33,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 		((AgentModel)agent).FinishOpenIolateRoom();
 	}
 
-	void CheckRanage(AgentModel actor)
+	void CheckRanage(WorkerModel actor)
 	{
 
 		Vector3 dist = actor.GetMovableNode ().GetCurrentViewPosition () - targetAgent.GetMovableNode ().GetCurrentViewPosition ();

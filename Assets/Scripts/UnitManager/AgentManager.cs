@@ -374,6 +374,8 @@ public class AgentManager : IObserver {
 		List<AgentModel> output = new List<AgentModel>();
 		foreach (AgentModel agent in agentList)
 		{
+			if (agent.isDead ())
+				continue;
 			/*
 			if (node.CheckInRange(agent.GetMovableNode()))
 			{

@@ -79,7 +79,8 @@ public class ReturnCreatureAction : ActionClassBase {
         c.queueSize++;
 
         //creature.state = CreatureState.ESCAPE_RETURN;
-        c.agent.ReturnCreature();
+
+        c.agent.ReturnCreature(creature);
         c.creature.ReturnEscape();
 
         //agent.WorkEscape(creature);

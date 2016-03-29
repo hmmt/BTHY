@@ -51,7 +51,6 @@ public class AgentUnit : MonoBehaviour {
 
     public GameObject puppetNode;
     public Animator puppetAnim;
-	public bool animatorChanged = false;
 
     public AgentAnim animTarget;
 
@@ -471,13 +470,23 @@ public class AgentUnit : MonoBehaviour {
 
 	}
 
-	public void SetAnimatorChanged(bool b)
-	{
-		animatorChanged = b;
-	}
-
 	public void SetAgentAnimatorModel()
 	{
+	}
+
+	public void SetParameterOnce(string pname, int value)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterOnce (pname, value);
+		}
+	}
+	public void SetParameterOnce(string pname, bool value)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterOnce (pname, value);
+		}
 	}
 
 	public void OnClick()

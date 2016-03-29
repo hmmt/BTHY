@@ -22,7 +22,6 @@ public class AgentModel : WorkerModel
 	// motion variables
 
 
-	public float attackDelay = 0;
 	public float moveDelay = 0;
 	//
 
@@ -80,8 +79,6 @@ public class AgentModel : WorkerModel
     // 이하 save 되지 않는 데이터들
     private ValueInfo levelSetting;
     private AgentAIState state = AgentAIState.IDLE;
-
-	private UncontrollableAction unconAction = null;
     
 
     public Sprite[] StatusSprites = new Sprite[4];
@@ -749,10 +746,10 @@ public class AgentModel : WorkerModel
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
-    public void ReturnCreature()
+	public void ReturnCreature(CreatureModel target)
     {
         state = AgentAIState.RETURN_CREATURE;
-        commandQueue.SetAgentCommand(WorkerCommand.MakeReturnCreature());
+        commandQueue.SetAgentCommand(WorkerCommand.MakeReturnCreature(target));
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void FinishWorking()
@@ -840,13 +837,13 @@ public class AgentModel : WorkerModel
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
-	public void LoseControl()
+	public override void LoseControl()
 	{
 		state = AgentAIState.CANNOT_CONTROLL;
 		commandQueue.Clear ();
 	}
 
-	public void GetControl()
+	public override void GetControl()
 	{
 		if (state == AgentAIState.CANNOT_CONTROLL)
 		{
@@ -856,15 +853,25 @@ public class AgentModel : WorkerModel
 		}
 	}
 
-	public void SetUncontrollableAction(UncontrollableAction uncon)
+	public override void SetUncontrollableAction(UncontrollableAction uncon)
 	{
 		unconAction = uncon;
+
+		if (unconAction != null)
+			unconAction.Init ();
 	}
 
 	public void OnClick()
 	{
 		if (unconAction != null) {
 			unconAction.OnClick ();
+		}
+	}
+
+	public override void OnDie()
+	{
+		if (unconAction != null) {
+			unconAction.OnDie ();
 		}
 	}
 
@@ -887,6 +894,14 @@ public class AgentModel : WorkerModel
 		}
 	}
 
+	public void FinishReturnCreature()
+	{
+		if(state == AgentAIState.RETURN_CREATURE)
+		{
+			state = AgentAIState.IDLE;
+		}
+	}
+
     // panic 관련 end
 
     // state 관련 함수들 end
@@ -898,10 +913,6 @@ public class AgentModel : WorkerModel
 		attackDelay = 4.0f;
 	}
 	*/
-	public void SetAttackDelay(float attackDelay)
-	{
-		this.attackDelay = attackDelay;
-	}
 
 	public void SetMoveDelay(float moveDelay)
 	{
@@ -1021,11 +1032,6 @@ public class AgentModel : WorkerModel
 
 	// motion
 
-	// ??
-	public void SetMotionState(AgentMotion motion)
-	{
-		
-	}
 
     public void Die()
     {

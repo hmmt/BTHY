@@ -88,12 +88,12 @@ public class OfficerUnit : MonoBehaviour {
 
 		if (movableDirection == UnitDirection.RIGHT)
 		{
-			if (puppetScale.x > 0)
+			if (puppetScale.x < 0)
 				puppetScale.x = -puppetScale.x;
 		}
 		else
 		{
-			if (puppetScale.x < 0)
+			if (puppetScale.x > 0)
 				puppetScale.x = -puppetScale.x;
 		}
 		puppet.transform.localScale = puppetScale;
@@ -280,5 +280,19 @@ public class OfficerUnit : MonoBehaviour {
 
     
 
+	public void SetParameterOnce(string pname, int value)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterOnce (pname, value);
+		}
+	}
+	public void SetParameterOnce(string pname, bool value)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterOnce (pname, value);
+		}
+	}
 
 }

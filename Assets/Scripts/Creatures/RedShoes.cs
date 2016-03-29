@@ -3,10 +3,14 @@ using System.Collections;
 
 public class RedShoes : CreatureBase {
 
-	private bool dropped = false;
-	private Vector3 droppedShoesPosition;
-	private PassageObjectModel droppedPassage;
-	private AgentModel targetAgent;
+	public bool dropped = false;
+
+	public Vector3 droppedShoesPosition;
+	public MovableObjectNode droppedPositionNode;
+	public PassageObjectModel droppedPassage;
+
+
+	public AgentModel owner = null;
 
 	// 
 
@@ -38,17 +42,40 @@ public class RedShoes : CreatureBase {
 		{
 			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 			{
-				if (agent.GetMovableNode ().GetPassage () == droppedPassage)
+			}
+				
+			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+			{
+				if (agent.gender == "Female")
+					continue;
+				//if (agent.GetMovableNode ().GetPassage () == droppedPassage)
 				{
-					if ((agent.GetCurrentViewPosition () - droppedShoesPosition).sqrMagnitude < 2) {
-
-
+					if (agent.GetState () == AgentAIState.RETURN_CREATURE)
+						continue;
+					if ((agent.GetCurrentViewPosition () - droppedShoesPosition).sqrMagnitude < 2)
+					{
+						agent.ReturnCreature (model);
+						break;
 					}
 				}
 			}
 			//if(droppedPassage == 
 		}
     }
+
+	public void ReturnShoesByAgent(AgentModel agent)
+	{
+		owner = agent;
+	}
+
+	public void ReturnFinish()
+	{
+		dropped = false;
+		owner = null;
+
+		model.AddFeeling (100f);
+		this.skill.DeActivate();
+	}
 
     public void ActivateSkill(UseSkill skill)
     {

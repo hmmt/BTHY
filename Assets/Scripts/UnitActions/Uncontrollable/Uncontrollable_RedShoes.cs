@@ -3,23 +3,60 @@ using System.Collections.Generic;
 
 public class Uncontrollable_RedShoes : UncontrollableAction {
 
-	private AgentModel model;
+	private WorkerModel model;
+	private RedShoesSkill redShoesSkill;
 
 	private float waitTimer = 0;
 
 	private AgentModel target = null;
 
-	public Uncontrollable_RedShoes(AgentModel model)
+	private float startWaitTimer = 6f;
+
+	private int startType;
+
+	public Uncontrollable_RedShoes(WorkerModel model, RedShoesSkill redShoesSkill, int startType)
 	{
 		this.model = model;
+		this.redShoesSkill = redShoesSkill;
+		this.startType = startType;
+	}
+
+	public override void Init()
+	{
+		if (model is AgentModel)
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (model.instanceId);
+			agentView.puppetAnim.SetInteger ("Type", startType);
+		}
+		else
+		{
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (model.instanceId);
+			officerView.puppetAnim.SetInteger ("Type", startType);
+		}
 	}
 
 	public override void Execute()
 	{
-		if ((waitTimer <= 0 && target == null)
-			|| model.GetCurrentCommand() == null) {
-			model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
-			waitTimer = 1.5f + Random.value;
+		if (startWaitTimer > 0) {
+			startWaitTimer -= Time.deltaTime;
+			return;
+		}
+
+		if(model is AgentModel)
+		{	
+			if ((waitTimer <= 0 && target == null)
+				|| ((AgentModel)model).GetCurrentCommand() == null) {
+				model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
+				waitTimer = 1.5f + Random.value;
+			}
+		}
+		else
+		{
+			if ((waitTimer <= 0 && target == null)
+				|| ((OfficerModel)model).GetCurrentCommand() == null) {
+				model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
+				waitTimer = 1.5f + Random.value;
+			}
 		}
 
 		waitTimer -= Time.deltaTime;
@@ -38,7 +75,10 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 			if (filteredAgents.Count > 0)
 			{
 				target = filteredAgents [0];
-				model.PursueUnconAgent (target);
+				if(model is AgentModel)
+					((AgentModel)model).PursueUnconAgent (target);
+				else
+					((OfficerModel)model).PursueUnconAgent (target);
 			}
 		}
 	}
@@ -51,8 +91,21 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 	{
 	}
 
+	public override void OnDie()
+	{
+		redShoesSkill.OnInfectedTargetTerminated ();
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
+
+		agentView.SetParameterOnce ("Suppressed", true);
+	}
+
 	public override void OnClick()
 	{
-		SuppressWindow.CreateWindow (model);
+		if (model is OfficerModel) {
+			Debug.Log ("officer model is not ready");
+			return;
+		}
+		SuppressWindow.CreateWindow ((AgentModel)model);
 	}
 }

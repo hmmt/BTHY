@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 
-	private AgentModel model;
+	private WorkerModel model;
 	private RedShoesSkill redShoesSkill;
 
 	private int remainClicked;
@@ -13,7 +13,7 @@ public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 	private bool wakeUp = false;
 	private float wakeUpTimer = 5.0f;
 
-	public Uncontrollable_RedShoesAttract(AgentModel model, RedShoesSkill redShoesSkill)
+	public Uncontrollable_RedShoesAttract(WorkerModel model, RedShoesSkill redShoesSkill)
 	{
 		this.model = model;
 		this.redShoesSkill = redShoesSkill;
@@ -63,11 +63,23 @@ public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 
 	}
 
+	public override void OnDie()
+	{
+		//redShoesSkill.OnInfectedTargetTerminated ();
+	}
+
 	private void WakeUp()
 	{
 		wakeUp = true;
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
-		agentView.puppetAnim.SetBool ("Cancel", true);
+
+		if (model is AgentModel) {
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (model.instanceId);
+			agentView.puppetAnim.SetBool ("Cancel", true);
+		} else {
+
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (model.instanceId);
+			officerView.puppetAnim.SetBool ("Cancel", true);
+		}
 		//redShoesSkill.FreeAttractedAgent (model);
 
 		model.movementMul = 0;

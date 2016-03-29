@@ -41,6 +41,8 @@ public class AnimatorManager : MonoBehaviour{
                 public Vector3 position;
                 public Quaternion rotation;
                 public Vector3 scale;
+				public bool active;
+				public float alpha;
 
                 public Transform target;
 
@@ -48,6 +50,13 @@ public class AnimatorManager : MonoBehaviour{
 					this.position = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
 					this.rotation = new Quaternion(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z, transform.localRotation.w);
                     this.scale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+					this.active = transform.gameObject.activeSelf;
+					SpriteRenderer r = transform.GetComponent<SpriteRenderer>();
+					if(r != null)
+					{
+						this.alpha = r.color.a;
+					}
+
                     this.target = transform;
                 }
 
@@ -55,6 +64,12 @@ public class AnimatorManager : MonoBehaviour{
 					target.localPosition = this.position;
                     target.localRotation = this.rotation;
                     target.localScale = this.scale;
+
+					SpriteRenderer r = target.GetComponent<SpriteRenderer>();
+					if(r != null)
+					{
+						r.color = new Color (r.color.r, r.color.g, r.color.b, alpha);
+					}
                 }
             }
 
@@ -252,4 +267,17 @@ public class AnimatorManager : MonoBehaviour{
         }
         return output;
     }
+
+	public void ResetAnimatorTransform(long id)
+	{
+		AnimatorComponet output = null;
+
+		foreach (AnimatorComponet c in this.dynamicLib) {
+			if (c.id == id) {
+				output = c;
+				output.ResetTransform();
+				break;
+			}
+		}
+	}
 }

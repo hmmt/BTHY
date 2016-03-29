@@ -43,6 +43,9 @@ public class OfficerModel : WorkerModel {
         elapsedTime += Time.deltaTime;
         if (isDead()) return;
 
+		if(attackDelay > 0)
+			attackDelay -= Time.deltaTime;
+
         ProcessAction();
 
         if (elapsedTime > recoveryTerm)
@@ -75,6 +78,10 @@ public class OfficerModel : WorkerModel {
         {
             CurrentPanicAction.Execute();
         }
+		else if(unconAction != null)
+		{
+			unconAction.Execute ();
+		}
         else if (state == OfficerAIState.IDLE && waitTimer <= 0 && !isMoving)
         {
             //make next status
@@ -216,12 +223,22 @@ public class OfficerModel : WorkerModel {
         waitTimer -= Time.deltaTime;
     }
 
+	public WorkerCommand GetCurrentCommand()
+	{
+		return commandQueue.GetCurrentCmd ();
+	}
+
     public void MoveToOtherDept() {
         //자신이 속한 구역 이외의 장소로 이동하게끔 수정
 
         //MoveToNode(MapGraph.instance.GetSefiraDeptNodes(currentSefira).GetId());
 		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(MapGraph.instance.GetSefiraDeptNodes(currentSefira)));
     }
+
+	public void PursueUnconAgent(AgentModel agent)
+	{
+		commandQueue.SetAgentCommand (WorkerCommand.MakeUnconPursueAgent (agent));
+	}
 
     public void ReturnToSefiraFromWork() {
         this.ReturnToSefira();
@@ -261,6 +278,30 @@ public class OfficerModel : WorkerModel {
 
         MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetDepartNodeByRandom(deptNum).GetId());
     }
+
+	public override void LoseControl()
+	{
+		state = OfficerAIState.CANNOT_CONTROLL;
+		commandQueue.Clear ();
+	}
+
+	public override void GetControl()
+	{
+		if (state == OfficerAIState.CANNOT_CONTROLL)
+		{
+			Debug.Log ("get Control....");
+			state = OfficerAIState.IDLE;
+			commandQueue.Clear ();
+		}
+	}
+
+	public override void SetUncontrollableAction(UncontrollableAction uncon)
+	{
+		unconAction = uncon;
+
+		if (unconAction != null)
+			unconAction.Init ();
+	}
 
     public override void PanicReadyComplete()
     {

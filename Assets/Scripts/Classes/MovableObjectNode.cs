@@ -750,6 +750,7 @@ public class MovableObjectNode {
 
 			pathIndex = 0;
 			state = MovableState.MOVE;
+			edgePosRateGoal = 1;
 			/*
             MapNode tempNode = new MapNode("-1", GetCurrentViewPosition(), currentEdge.node1.GetAreaName());
             MapEdge tempEdge1 = new MapEdge(tempNode, currentEdge.node1, currentEdge.type);
