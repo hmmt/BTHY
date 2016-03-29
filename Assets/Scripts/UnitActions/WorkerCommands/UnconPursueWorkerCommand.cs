@@ -35,7 +35,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 	{
 		base.OnDestroy (agent);
 
-		((AgentModel)agent).FinishOpenIolateRoom();
+
 	}
 
 	void OnDieTarget(WorkerModel actor)
@@ -44,6 +44,14 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 			// blabla
 			//Finish();
 		}
+
+        if (actor.unconAction is Uncontrollable_Machine)
+        {
+            Finish();
+            //끌고가는걸 시작
+            (actor.unconAction as Uncontrollable_Machine).StartDrag(targetAgent);
+
+        }
 	}
 
 	void CheckRanage(WorkerModel actor)
@@ -57,7 +65,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 			if (actor.attackDelay <= 0)
 			{
 				//actor.
-				targetAgent.TakePhysicalDamage (5);
+				targetAgent.TakePhysicalDamage (250);
 
 				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
 

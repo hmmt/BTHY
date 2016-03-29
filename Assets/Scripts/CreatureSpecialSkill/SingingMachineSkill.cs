@@ -144,10 +144,14 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         if (agent is AgentModel) {
             (agent as AgentModel).LoseControl();
         }
-        this.SpecialSkill(agent);
+        this.SpecialSkill(agent, 1);
     }
 
-    private void SpecialSkill(WorkerModel target) {
+    public void AttractSkillActivate(WorkerModel target) {
+        this.SpecialSkill(target, 2);
+    }
+
+    private void SpecialSkill(WorkerModel target, int type) {
         Animator targetAnim;
         Debug.Log(target.name);
         if (target is AgentModel) {
@@ -166,6 +170,7 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         //AnimatorManager.instance.ChangeAnimatorByID();
         CreatureLayer.currentLayer.GetCreature(model.instanceId).creatureAnimator.SetBool("Kill", true);
         AnimatorManager.instance.ChangeAnimatorByID(target.instanceId, AnimatorName.id_Machine_victim, targetAnim, true, false);
+        targetAnim.SetInteger("Type", type);
         MakeNote();
         //add feeling 80% 
         this.model.AddFeeling((float)this.model.metaInfo.feelingMax * 0.8f);

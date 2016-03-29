@@ -227,6 +227,10 @@ public class WorkerModel: ObjectModelBase, IObserver {
 		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(targetNode));
 	}
 
+    public void MoveToMovable(MovableObjectNode targetNode)
+    {
+    }
+
     public void MoveToNode(string targetNodeID)
     {
         //movableNode.MoveToNode(MapGraph.instance.GetNodeById(targetNodeID));
