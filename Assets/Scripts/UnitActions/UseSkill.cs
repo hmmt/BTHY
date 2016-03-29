@@ -140,6 +140,7 @@ public class UseSkill : ActionClassBase
                 faceCreature = true;
                 targetCreature.ShowProcessNarrationText("start", agent.name);
                 targetCreatureView.PlaySound("enter");
+                Debug.Log("Enter");
                 targetCreature.script.OnEnterRoom(this);
             }
         }

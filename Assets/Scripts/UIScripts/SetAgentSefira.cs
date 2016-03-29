@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class SetAgentSefira : MonoBehaviour {
     private AgentModel model;
+
     public AgentModel Model {
         get { return model; }
         set { model = value; }

@@ -64,7 +64,6 @@ public class AgentListScript : MonoBehaviour {
     }
     */
     public void Init() {
-        Debug.Log("Initializing Agent List");
         
         foreach (RectTransform rt in agentScrollTarget) {
             if(rt.tag.Equals("AgentListSlot"))  Destroy(rt.gameObject);

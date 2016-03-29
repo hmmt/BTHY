@@ -44,6 +44,7 @@ public class OfficeManager : IObserver {
     public int yesodCount = 15;
 
     private static int agentImgRange = 9;
+    public static AgentModel statReference;
 
     public OfficeManager() {
         Init();    
@@ -58,6 +59,14 @@ public class OfficeManager : IObserver {
         yesodList = new List<OfficerModel>();
         deadList = new List<OfficerModel>();
 
+        statReference = new AgentModel(-1, SefiraName.Malkut);
+        AgentTypeInfo info = AgentTypeList.instance.GetData(1);
+        statReference.defaultMaxHp = info.hp;
+        statReference.defaultMaxMental = info.mental;
+        statReference.defaultMovement = info.movement;
+        statReference.defaultWork = info.work;
+        statReference.level = 1;
+        statReference.SetCurrentSefira("0");
     }
 
     public OfficerModel CreateOfficerModel(string sefira)
@@ -288,12 +297,19 @@ public class OfficeManager : IObserver {
         return output.ToArray();
     }
 
-
-
     public void OnNotice(string notice, params object[] param)
     {
         if (notice == NoticeName.AddOfficer) {
             Debug.Log("nonstop");
         }
+    }
+
+    public AgentModel GetReferenceStat(float scale) {
+        AgentModel output = new AgentModel(statReference.instanceId, statReference.sefira);
+        output.defaultMaxHp = (int)(output.defaultMaxHp * scale);
+        output.defaultMaxMental = (int)(output.defaultMaxMental * scale);
+        output.defaultMovement = (int)(output.defaultMovement * scale);
+        output.defaultWork = (int)(output.defaultWork * scale);
+        return output;
     }
 }

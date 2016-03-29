@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
             officer.ReturnToSefira();
         }
         
-
+        
 		stageUI.CancelSefiraAgent(a);
 		a.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
 		a.SetCurrentSefira("1");

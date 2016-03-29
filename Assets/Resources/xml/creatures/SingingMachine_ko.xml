@@ -12,7 +12,7 @@
   <info
     id ="100006"
 
-    script="MatchGirl"
+    script="SingingMachine"
     >
 
     <stat>
@@ -103,7 +103,7 @@
     </narration>
 
 
-    <anim prefab="Unit/CreatureAnimator/MagicalGirlAnim" x="-1" y="-2"/>
+    <anim prefab="Unit/CreatureAnimator/machine" x="-1" y="-2"/>
 
     <!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
     <img src="Unit/dummy" x="-1" y="-1"/>

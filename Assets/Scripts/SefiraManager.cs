@@ -323,6 +323,7 @@ public class Sefira
         if (this.agentList.Contains(add)) {
             return;
         }
+        Debug.Log(add.name);
         agentList.Add(add); 
         //Debug.Log("agentList");
         /*

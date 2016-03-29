@@ -145,6 +145,7 @@ public class CreatureUnit : MonoBehaviour {
 
    private void UpdateScale()
    {
+       return;
        Vector3 mouseScale = new Vector3(1, 1, 1);
        if (mousePointEnter)
        {
@@ -156,6 +157,12 @@ public class CreatureUnit : MonoBehaviour {
            directionScaleFactor.y * scaleFactor.y * mouseScale.y,
            directionScaleFactor.z * scaleFactor.z * mouseScale.z
            );
+
+       Debug.Log(creatureAnimator.transform.localScale
+           +" " +directionScaleFactor + " " + scaleFactor + " " + mouseScale
+           
+           );
+
 		if (animTarget != null)
 		{
 			Vector3 scale = animTarget.transform.localScale;
@@ -185,6 +192,12 @@ public class CreatureUnit : MonoBehaviour {
                 model.SubFeeling(10);
             }
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && this.model.script is SingingMachine) {
+            this.model.SubFeeling(200);
+            
+            //this.model.script.skill.SkillActivate();
+        }
+        /*
         else if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             AnimatorManager.instance.ChangeAnimatorByName(SefiraManager.instance.getSefira("1").agentList[0].instanceId , AnimatorName.RedShoes,
@@ -194,6 +207,7 @@ public class CreatureUnit : MonoBehaviour {
             AnimatorManager.instance.ChangeAnimatorByName(SefiraManager.instance.getSefira("1").agentList[0].instanceId, AnimatorName.RedShoes,
                AgentLayer.currentLayer.GetAgent(SefiraManager.instance.getSefira("1").agentList[0].instanceId).puppetAnim, true, true);
         }
+         */
 	}
 
     private CreatureState oldState = CreatureState.WAIT;

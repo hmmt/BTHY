@@ -64,6 +64,7 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         {
             GameObject animatorObject = Prefab.LoadPrefab(model.metaInfo.animSrc);
             unit.animTarget = animatorObject.GetComponent<CreatureAnimScript>();
+            unit.creatureAnimator = animatorObject.GetComponent<Animator>();
             animatorObject.transform.SetParent(unit.transform, false);
         }
 

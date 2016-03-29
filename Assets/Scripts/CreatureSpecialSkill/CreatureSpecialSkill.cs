@@ -21,6 +21,10 @@ public class CreatureSpecialSkill : IObserver{
         
     }
 
+    public virtual void SkillActivate(WorkerModel target) { 
+        
+    }
+
     public virtual void FixedUpdate() { 
         
     }

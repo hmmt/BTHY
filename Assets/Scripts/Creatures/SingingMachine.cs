@@ -6,9 +6,11 @@ using UnityEngine;
 
 public class SingingMachine : CreatureBase {
 
+    
+
     public override void OnInit()
     {
-        base.OnInit();
+        this.skill = new SingingMachineSkill(this.model);
     }
 
     public override void OnSkillFailWorkTick(UseSkill skill)
@@ -18,8 +20,16 @@ public class SingingMachine : CreatureBase {
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
-        base.OnFixedUpdate(creature);
+        if (creature.GetFeelingPercent() < 30f && this.skill.Activated == false) {
+            this.skill.Activate();
+        }
     }
 
-    
+    public override void OnEnterRoom(UseSkill skill)
+    {
+        if (this.skill.Activated) {
+            Debug.Log("Found");
+            (this.skill as SingingMachineSkill).SkillActivate(skill.agent);
+        }
+    }
 }

@@ -7,13 +7,20 @@ using UnityEngine;
 public class AnimatorName {
     public static string AgentCtrl = "AgentCtrl";
     public static string OfficerCtrl = "AgentCtrl";
-    public static string RedShoes = "RedShoes";
 	public static string RedShoes_attract = "RedShoes_attracted";
 	public static string RedShoes_infected = "RedShoes_infected";
+    public static string RedShoes_victim = "RedShoes_victim";
+    public static string Machine_attract = "Machine_attracted";
+    public static string Machine_victim = "Machine_victim";
+    
 
     public static long id_AgentCtrl = 50001;
     public static long id_OfficerCtrl = 50002;
-    public static long id_RedShoes = 50003;
+    public static long id_RedShoes_attract = 60001;
+    public static long id_RedShoes_infected = 60002;
+    public static long id_RedShoes_victim = 60003;
+    public static long id_Machine_attract = 70001;
+    public static long id_Machine_victim = 70002;
 }
 
 public class AnimatorManager : MonoBehaviour{
@@ -239,6 +246,7 @@ public class AnimatorManager : MonoBehaviour{
             if (c.name == name)
             {
                 output = c;
+                
                 break;
             }
         }

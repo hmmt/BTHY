@@ -531,7 +531,6 @@ public class CreatureManager : IObserver{
     public void OnStageStart() {
         foreach (CreatureModel model in this.creatureList) {
             if (model != null && model.script != null && model.script.skill != null) {
-
                 model.script.skill.OnStageStart();
             }
         }

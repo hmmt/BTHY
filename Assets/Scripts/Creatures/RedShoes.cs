@@ -23,6 +23,7 @@ public class RedShoes : CreatureBase {
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
+        return;
         if (creature.GetFeelingPercent() < 30f && this.skill.Activated == false)
         {
             this.skill.Activate();
