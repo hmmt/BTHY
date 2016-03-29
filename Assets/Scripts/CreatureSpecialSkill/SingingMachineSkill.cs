@@ -54,18 +54,74 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
             }
         }
 
-        if (Activated) { 
-            
+        foreach (WorkerModel target in this.attractTarget) {
+            /*
+                1. 주위 직원을 습격한다
+             *  2. 해당 직원과의 전투에서 승리할 경우 그 직원을 격리실로 끌고온다
+             *  3. 끌고온 직원을 기계에 넣으면서 즐거워하는 모션을 띄운다
+             *      -> 이 때 다수의 직원이 다수를 끌고올 경우?
+             *      
+             */
+
+            if (target is AgentModel)
+            {
+                
+            }
         }
     }
 
     //직원 제압 성공
     public void FreeAttractedAgent(WorkerModel target) {
-        
+        if (this.attractTarget.Contains(target) == false) {
+            Debug.Log("Don't contains " + target.name);
+            return;
+        }
         //패닉에서 돌아옴
         
         //agentView.SetAnimatorChanged(false);
+        target.GetControl();
+        this.attractTarget.Remove(target);
+        Animator puppet = null;
+        if (target is AgentModel) {
+            AgentUnit agentView = AgentLayer.currentLayer.GetAgent(target.instanceId);
+            puppet = agentView.puppetAnim;
+        }
+        else if (target is OfficerModel) {
+            OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(target.instanceId);
+            puppet = officerView.puppetAnim;
+        }
+        AnimatorManager.instance.ChangeAnimatorByID(target.instanceId, target.instanceId,
+                puppet, false, false);
 
+    }
+
+    public void OnAttractedTargetTerminated(WorkerModel target) {
+        SingingMachine machine = (SingingMachine)model.script;
+
+
+        if (this.attractTarget.Contains(target) == false)
+        {
+            Debug.Log("Don't contains " + target.name);
+            return;
+        }
+        //패닉에서 돌아옴
+
+        //agentView.SetAnimatorChanged(false);
+        this.attractTarget.Remove(target);
+        Animator puppet = null;
+        if (target is AgentModel)
+        {
+            AgentUnit agentView = AgentLayer.currentLayer.GetAgent(target.instanceId);
+            puppet = agentView.puppetAnim;
+        }
+        else if (target is OfficerModel)
+        {
+            OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(target.instanceId);
+            puppet = officerView.puppetAnim;
+        }
+        AnimatorManager.instance.ChangeAnimatorByID(target.instanceId, target.instanceId,
+                puppet, false, false);
+        //죽은 애니메이션 필요
     }
 
     public override void OnStageStart()
@@ -88,10 +144,14 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         if (agent is AgentModel) {
             (agent as AgentModel).LoseControl();
         }
-        this.SpecialSkill(agent);
+        this.SpecialSkill(agent, 1);
     }
 
-    private void SpecialSkill(WorkerModel target) {
+    public void AttractSkillActivate(WorkerModel target) {
+        this.SpecialSkill(target, 2);
+    }
+
+    private void SpecialSkill(WorkerModel target, int type) {
         Animator targetAnim;
         Debug.Log(target.name);
         if (target is AgentModel) {
@@ -110,6 +170,7 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         //AnimatorManager.instance.ChangeAnimatorByID();
         CreatureLayer.currentLayer.GetCreature(model.instanceId).creatureAnimator.SetBool("Kill", true);
         AnimatorManager.instance.ChangeAnimatorByID(target.instanceId, AnimatorName.id_Machine_victim, targetAnim, true, false);
+        targetAnim.SetInteger("Type", type);
         MakeNote();
         //add feeling 80% 
         this.model.AddFeeling((float)this.model.metaInfo.feelingMax * 0.8f);
@@ -171,13 +232,29 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
     public void AttractInitialMovement(WorkerModel target) {
         Animator targetAnim = null;
         if (target is OfficerModel) {
+            (target as OfficerModel).LoseControl();
             targetAnim = OfficerLayer.currentLayer.GetOfficer(target.instanceId).puppetAnim;
+
+            
         }
         else if (target is AgentModel) {
             (target as AgentModel).LoseControl();
             targetAnim = AgentLayer.currentLayer.GetAgent(target.instanceId).puppetAnim;
         }
-        
+
+        AnimatorManager.instance.ResetAnimatorTransform(target.instanceId);
         AnimatorManager.instance.ChangeAnimatorByName(target.instanceId, AnimatorName.Machine_attract, targetAnim, true, false);
+        target.SetUncontrollableAction(new Uncontrollable_Machine(target, this));
+        //애니메이션줄필요없음
+
+    }
+
+    public override void DeActivate()
+    {
+        if (this.attractTarget.Count > 0 || PlayingMusic) {
+            return;
+        }
+        Debug.Log("Deactivate");
+        base.DeActivate();
     }
 }
