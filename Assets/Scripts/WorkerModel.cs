@@ -71,7 +71,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
         }
     }
 
-	protected UncontrollableAction unconAction = null;
+	public UncontrollableAction unconAction = null;
 
 
     public bool visible = true;
