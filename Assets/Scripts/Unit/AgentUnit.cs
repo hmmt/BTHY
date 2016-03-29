@@ -46,8 +46,10 @@ public class AgentUnit : MonoBehaviour {
     public agentSkillDoing showSkillIcon;
     public AgentSpeech showSpeech;
 
+    /*
     public Animator agentAnimator;
     public GameObject renderNode;
+    */
 
     public GameObject puppetNode;
     public Animator puppetAnim;
@@ -180,10 +182,11 @@ public class AgentUnit : MonoBehaviour {
 	{
 		MovableObjectNode movable = model.GetMovableNode ();
 		UnitDirection movableDirection = movable.GetDirection ();
+
 		Transform puppet = puppetNode.transform;
 
-        
         Vector3 puppetScale = puppet.localScale;
+
 		if (movableDirection == UnitDirection.RIGHT)
 		{
             if (puppetScale.x > 0)
@@ -198,7 +201,7 @@ public class AgentUnit : MonoBehaviour {
                 puppetScale.x = -puppetScale.x;
             }
 		}
-		puppet.transform.localScale = puppetScale;
+		puppetNode.transform.localScale = puppetScale;
 
 		return;
         /*
@@ -409,12 +412,13 @@ public class AgentUnit : MonoBehaviour {
 		UpdateDirection();
 		///SetCurrentHP (model.hp);
 		//UpdateMentalView ();
+        /*
         if (PlayerModel.instance.IsOpenedArea("4") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
         {
             uiOpened = true;
         }
         else uiOpened = false;
-
+        */
         if (uiOpened)
         {
             ui.activateUI(model);
