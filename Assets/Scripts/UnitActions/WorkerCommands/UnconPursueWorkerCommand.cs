@@ -24,6 +24,11 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 	{
 		base.Execute(agent);
 
+		if (targetAgent.isDead ()) {
+			OnDieTarget (agent);
+			return;
+		}
+
 		CheckRanage (agent);
 	}
 	public override void OnDestroy(WorkerModel agent)
@@ -31,6 +36,14 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 		base.OnDestroy (agent);
 
 		((AgentModel)agent).FinishOpenIolateRoom();
+	}
+
+	void OnDieTarget(WorkerModel actor)
+	{
+		if (actor.unconAction is Uncontrollable_RedShoes) {
+			// blabla
+			//Finish();
+		}
 	}
 
 	void CheckRanage(WorkerModel actor)
