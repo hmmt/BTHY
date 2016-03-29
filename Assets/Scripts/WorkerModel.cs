@@ -13,6 +13,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public int mental;
 	public int panicValue = 0;
 
+	public float moveDelay = 0;
 	public float attackDelay = 0;
 
 	// TODO : implement stun using buf state.
@@ -332,6 +333,10 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	{
 	}
 
+	public void SetMoveDelay(float moveDelay)
+	{
+		this.moveDelay = moveDelay;
+	}
 	public void SetAttackDelay(float attackDelay)
 	{
 		this.attackDelay = attackDelay;
