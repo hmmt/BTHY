@@ -358,9 +358,21 @@ public class WorkerModel: ObjectModelBase, IObserver {
 				}
 				//agentView.puppetAnim.SetInteger("Attack", Random.Range(1, 4));
 			}
-			else
+			else if(unconAction is Uncontrollable_Machine)
 			{
-				
+                if (this is AgentModel)
+                {
+                    AgentUnit agentView = AgentLayer.currentLayer.GetAgent(instanceId);
+
+                    agentView.SetParameterOnce("Attack", true);
+                }
+                else
+                {
+                    OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(instanceId);
+
+                    Debug.Log("공격");
+                    officerView.SetParameterOnce("Attack", true);
+                }
 			}
 		}
 	}
