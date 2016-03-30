@@ -141,6 +141,7 @@ public class OfficerUnit : MonoBehaviour {
     private bool visible = true;
 
     private void UpdateViewPosition() {
+		transform.localScale = new Vector3 (model.GetMovableNode ().currentScale, model.GetMovableNode ().currentScale, transform.localScale.z);
         MapEdge currentEdge = model.GetCurrentEdge();
 
         if (currentEdge != null && currentEdge.type == "door") {

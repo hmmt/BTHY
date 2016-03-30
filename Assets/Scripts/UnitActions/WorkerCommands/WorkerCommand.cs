@@ -311,7 +311,12 @@ public class ManageCreatureAgentCommand : WorkerCommand
 	}
 	public override void OnDestroy(WorkerModel agent)
 	{
+		if (useSkill != null && useSkill.IsFinished () == false)
+		{
+			useSkill.FinishForcely ();
+		}
 		targetCreature.ReleaseTargetedCount ();
+
 	}
 
 	public void Cancle()

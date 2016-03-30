@@ -143,7 +143,7 @@ public class MapGraph : IObserver
 
 		*/
 
-		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph2");
+		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph3");
 		//TextAsset textAsset = Resources.Load<TextAsset>("xml/TrailerTest4");
 		XmlDocument doc = new XmlDocument();
 		doc.LoadXml(textAsset.text);
@@ -391,24 +391,51 @@ public class MapGraph : IObserver
 			MapEdge[] elevatorEdges = elevatorNode.GetEdges ();
 
 			if (elevatorEdges.Length > 1) {
+				List<MapNode> upFloorList = new List<MapNode> ();
+				List<MapNode> downFloorList = new List<MapNode> ();
+
+				foreach(MapEdge e in elevatorEdges)
+				{
+					MapNode exitNode = e.ConnectedNodeIgoreActivate (elevatorNode);
+					if (exitNode.GetPosition ().y > elevatorNode.GetPosition ().y)
+						upFloorList.Add (exitNode);
+					else
+						downFloorList.Add (exitNode);
+				}
+
+				if (upFloorList.Count > 0 && downFloorList.Count > 0)
+				{
+					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
+
+					elevator.AddFloorInfo (upFloorList.ToArray (), new Vector3 (0, 6, 0) + elevatorNode.GetPosition ());
+					elevator.AddFloorInfo (downFloorList.ToArray (), new Vector3 (0, -6, 0) + elevatorNode.GetPosition ());
+
+					elevatorList.Add (elevator);
+				}
+				else
+				{
+					elevatorNode.AttachElevator (null);
+				}
+				/*
 				if (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode).GetPosition ().y > elevatorNode.GetPosition ().y)
 				{
 					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
 
 
-					elevator.AddFloorInfo (elevatorEdges [1].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, -4, 0) + elevatorNode.GetPosition());
-					elevator.AddFloorInfo (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, 4, 0) + elevatorNode.GetPosition());
+					elevator.AddFloorInfo (elevatorEdges [1].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, -6, 0) + elevatorNode.GetPosition());
+					elevator.AddFloorInfo (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, 6, 0) + elevatorNode.GetPosition());
 
 					elevatorList.Add (elevator);
 				} else {
 					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
 
 
-					elevator.AddFloorInfo (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, -4, 0) + elevatorNode.GetPosition());
-					elevator.AddFloorInfo (elevatorEdges [1].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, 4, 0) + elevatorNode.GetPosition());
+					elevator.AddFloorInfo (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, -6, 0) + elevatorNode.GetPosition());
+					elevator.AddFloorInfo (elevatorEdges [1].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, 6, 0) + elevatorNode.GetPosition());
 
 					elevatorList.Add (elevator);
 				}
+				*/
 
 			} else {
 				elevatorNode.AttachElevator (null);

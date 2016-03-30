@@ -27,11 +27,12 @@ public class ElevatorPassageModel {
 	}
 	private class FloorInfo
 	{
-		public MapNode exitNode;
+		//public MapNode exitNode;
+		public MapNode[] exitNodes;
 		public Vector3 position;
-		public FloorInfo(MapNode exitNode, Vector3 position)
+		public FloorInfo(MapNode[] exitNodes, Vector3 position)
 		{
-			this.exitNode = exitNode;
+			this.exitNodes = exitNodes;
 			this.position = position;
 		}
 	}
@@ -81,20 +82,20 @@ public class ElevatorPassageModel {
 		nodeOrigin.Add (node.GetPosition ());
 	}
 
-	public void AddFloorInfo(MapNode node, Vector3 position)
+	public void AddFloorInfo(MapNode[] node, Vector3 position)
 	{
 		floorList.Add (new FloorInfo (node, position));
 		buttonClicked.Add (false);
 	}
 
-	public MapNode GetCurrentFloorNode()
+	public MapNode[] GetCurrentFloorNodes()
 	{
 		if (currentPos <= 0) {
-			return floorList [0].exitNode;
+			return floorList [0].exitNodes;
 		} else if (currentPos >= 1) {
-			return floorList [1].exitNode;
+			return floorList [1].exitNodes;
 		}
-		return null;
+		return new MapNode[]{};
 	}
 
 	public Vector3 GetElevatorPosition()
@@ -141,11 +142,20 @@ public class ElevatorPassageModel {
 
 	public void FinishMove(int floor)
 	{
-		MapNode floorNode = floorList [floor].exitNode;
+		MapNode[] floorNodes = floorList [floor].exitNodes;
 		List<EnteredUnit> outList = new List<EnteredUnit> ();
 		foreach (EnteredUnit u in enteredList)
 		{
-			if (u.destination == floorNode) {
+			bool isExitNode = false;
+			foreach (MapNode exitNode in floorNodes)
+			{
+				if (exitNode == u.destination)
+				{
+					isExitNode = true;
+					break;
+				}
+			}
+			if (isExitNode) {
 				outList.Add (u);
 			}
 		}
@@ -169,11 +179,30 @@ public class ElevatorPassageModel {
 
 	public void ClickButton(MapNode callNode)
 	{
-		if (floorList [0].exitNode == callNode)
+		bool isExitNode1 = false;
+		bool isExitNode2 = false;
+		foreach (MapNode exitNode in floorList [0].exitNodes)
+		{
+			if (exitNode == callNode)
+			{
+				isExitNode1 = true;
+				break;
+			}
+		}
+		foreach (MapNode exitNode in floorList [1].exitNodes)
+		{
+			if (exitNode == callNode)
+			{
+				isExitNode2 = true;
+				break;
+			}
+		}
+
+		if (isExitNode1)
 		{
 			buttonClicked [0] = true;
 		}
-		else if (floorList [1].exitNode == callNode)
+		else if (isExitNode2)
 		{
 			buttonClicked [1] = true;
 		}

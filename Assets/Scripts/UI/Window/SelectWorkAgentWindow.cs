@@ -71,11 +71,15 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         inst.priority = inst.gameObject.GetComponent<CreaturePriority>();
         inst.priority.Init(inst.targetCreature);
         currentWindow = inst;
+
         return inst;
     }
 	
 	// Use this for initialization
 	void Awake () {
+		//UpdatePosition ();
+	}
+	void Start() {
 		UpdatePosition ();
 	}
 	

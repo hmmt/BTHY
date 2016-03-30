@@ -156,6 +156,8 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         Debug.Log(target.name);
         if (target is AgentModel) {
             targetAnim = AgentLayer.currentLayer.GetAgent(target.instanceId).puppetAnim;
+
+			(target as AgentModel).FinishWorking ();
         }
         else if(target is OfficerModel){
             targetAnim = OfficerLayer.currentLayer.GetOfficer(target.instanceId).puppetAnim;

@@ -149,6 +149,12 @@ public class MovableObjectNode {
     {
 		bool stateChanged = false;
 
+		if (currentNode != null)
+		{
+			currentScale = currentNode.scaleFactor;
+			//lastNode = currentNode;
+		}
+
 		if (movement <= 0)
 			return;
 
@@ -874,7 +880,16 @@ public class MovableObjectNode {
 		{
 			if (currentNode != null && elevatorNode.GetElevator () != null)
 			{
-				if (elevatorNode.GetElevator ().GetCurrentFloorNode () == currentNode)
+				bool isExitNode = false;
+				foreach (MapNode exitNode in elevatorNode.GetElevator ().GetCurrentFloorNodes ())
+				{
+					if (exitNode == currentNode)
+					{
+						isExitNode = true;
+						break;
+					}
+				}
+				if (isExitNode)
 				{
 					elevatorNextDest = destinationNode;
 					elevatorNextDest2 = destinationNode2;

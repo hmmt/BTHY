@@ -292,7 +292,7 @@ public class CreatureUnit : MonoBehaviour {
 		Debug.Log ("onClick");
 		if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
 		{
-			SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+			//SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
             SuppressWindow.CreateWindow(model);
 		}
 		else
@@ -303,7 +303,7 @@ public class CreatureUnit : MonoBehaviour {
         }
 
         //Temporary Call Suppress window for Debug. Should Remove This line.
-        SuppressWindow.CreateWindow(model);
+        //SuppressWindow.CreateWindow(model);
 
     }
 

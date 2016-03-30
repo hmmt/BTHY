@@ -286,6 +286,11 @@ public class UseSkill : ActionClassBase
         Destroy(progressBar.gameObject);
     }
 
+	public void FinishForcely()
+	{
+		FinshWork ();
+	}
+
     private void ProcessWorkTick()
     {
         targetCreature.script.OnSkillTickUpdate(this);
@@ -402,6 +407,11 @@ public class UseSkill : ActionClassBase
             Notice.instance.Send("AddSystemLog", narration);
         }
     }
+
+	public bool IsFinished()
+	{
+		return finished;
+	}
 
     public static UseSkill InitUseSkillAction(SkillTypeInfo skillInfo, AgentModel agent, CreatureModel creature)
     {
