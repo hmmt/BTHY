@@ -31,7 +31,11 @@ public class FollowWorkerCommand : WorkerCommand {
 
 		MovableObjectNode movable = agent.GetMovableNode();
 
-		if (!movable.IsMoving())
+		if((movable.GetCurrentViewPosition() - targetMovable.GetCurrentViewPosition()).sqrMagnitude < 1)
+		{
+			movable.StopMoving ();
+		}
+		else if (!movable.IsMoving())
 		{
 			//Debug.Log ("asdfsdag");
 			movable.MoveToMovableNode(targetMovable);
