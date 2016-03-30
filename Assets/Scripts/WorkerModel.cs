@@ -13,6 +13,9 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public int mental;
 	public int panicValue = 0;
 
+	public bool invincible = false;
+
+	public float moveDelay = 0;
 	public float attackDelay = 0;
 
 	// TODO : implement stun using buf state.
@@ -229,7 +232,18 @@ public class WorkerModel: ObjectModelBase, IObserver {
 
     public void MoveToMovable(MovableObjectNode targetNode)
     {
+		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(targetNode));
     }
+
+	public void FollowMovable(MovableObjectNode targetNode)
+	{
+		commandQueue.SetAgentCommand(WorkerCommand.MakeFollowAgent(targetNode));
+	}
+
+	public virtual void ClearUnconCommand()
+	{
+		
+	}
 
     public void MoveToNode(string targetNodeID)
     {
@@ -239,6 +253,8 @@ public class WorkerModel: ObjectModelBase, IObserver {
 
     public virtual bool isDead()
     {
+		if (invincible)
+			return false;
         return hp <= 0;
     }
 
@@ -301,6 +317,11 @@ public class WorkerModel: ObjectModelBase, IObserver {
         mental = mental> maxMental? maxMental: mental;
     }
 
+	public virtual void SetInvincible(bool b)
+	{
+		invincible = b;
+	}
+
 	public virtual void Stun(float time)
 	{
 		stunTime = time;
@@ -336,6 +357,10 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	{
 	}
 
+	public void SetMoveDelay(float moveDelay)
+	{
+		this.moveDelay = moveDelay;
+	}
 	public void SetAttackDelay(float attackDelay)
 	{
 		this.attackDelay = attackDelay;

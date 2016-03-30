@@ -10,7 +10,7 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	private AgentModel target = null;
 
-	private float startWaitTimer = 6f;
+	private float startWaitTimer = 10f;
 
 	private int startType;
 
@@ -91,21 +91,39 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 	{
 	}
 
+	public void OnKill()
+	{
+		target = null;
+	}
+
 	public override void OnDie()
 	{
 		redShoesSkill.OnInfectedTargetTerminated ();
 
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
+		if (model is AgentModel)
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (model.instanceId);
 
-		agentView.SetParameterOnce ("Suppressed", true);
+			agentView.SetParameterOnce ("Suppressed", true);
+		}
+		else
+		{
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (model.instanceId);
+
+			officerView.SetParameterOnce ("Suppressed", true);
+		}
 	}
 
 	public override void OnClick()
 	{
-		if (model is OfficerModel) {
-			Debug.Log ("officer model is not ready");
-			return;
+		if (model is AgentModel)
+		{
+			SuppressWindow.CreateWindow ((AgentModel)model);
 		}
-		SuppressWindow.CreateWindow ((AgentModel)model);
+		else if (model is OfficerModel)
+		{
+			SuppressWindow.CreateWindow ((OfficerModel)model);
+		}
+
 	}
 }

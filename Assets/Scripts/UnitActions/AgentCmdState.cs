@@ -42,6 +42,9 @@ public enum AgentCmdType
 
     PANIC_VIOLENCE, // 직원 패닉상태에서 공격 중
 	UNCON_VIOLENCE,
+
+	FOLLOW,
+
     DEAD
 }
 

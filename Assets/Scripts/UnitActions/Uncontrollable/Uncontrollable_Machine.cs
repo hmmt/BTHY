@@ -140,6 +140,9 @@ public class Uncontrollable_Machine : UncontrollableAction {
         if (moveDelayTimer <= 0)
         {
             model.MoveToNode(machineSkill.model.GetWorkspaceNode());
+			//victim.MoveToMovable (model.GetMovableNode ());
+			victim.FollowMovable(model.GetMovableNode());
+
             moveDelayTimer = 1.5f;
         }
 
@@ -163,6 +166,14 @@ public class Uncontrollable_Machine : UncontrollableAction {
             OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(model.instanceId);
             officerView.SetParameterOnce("Drop", true);
         }
+
+		AnimatorManager.instance.ChangeAnimatorByID(this.victim.instanceId, AnimatorName.id_Machine_victim, victimAnim, true, false);
+		//victimAnim.SetInteger("Type", 1);
+		victimAnim.SetBool("Drop", true);
+		this.victim.invincible = false;
+		this.victim.ClearUnconCommand ();
+
+
         this.machineSkill.AttractSkillActivate(this.victim);
         this.puppetAnim.SetBool("Kill", true);
         this.drag = false;

@@ -34,19 +34,20 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 	public override void OnDestroy(WorkerModel agent)
 	{
 		base.OnDestroy (agent);
-
-
 	}
 
 	void OnDieTarget(WorkerModel actor)
 	{
 		if (actor.unconAction is Uncontrollable_RedShoes) {
 			// blabla
-			//Finish();
+			Finish();
+			(actor.unconAction as Uncontrollable_RedShoes).OnKill ();
 		}
 
         if (actor.unconAction is Uncontrollable_Machine)
         {
+			targetAgent.SetInvincible (true);
+			targetAgent.LoseControl ();
             Finish();
             //끌고가는걸 시작
             (actor.unconAction as Uncontrollable_Machine).StartDrag(targetAgent);
@@ -62,6 +63,17 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 		if(actor.GetMovableNode().GetPassage() == targetAgent.GetMovableNode().GetPassage() &&
 			dist.sqrMagnitude <= 2)
 		{
+			float actorX = actor.GetCurrentViewPosition ().x;
+			float targetX = targetAgent.GetCurrentViewPosition ().x;
+			if (actorX > targetX)
+			{
+				actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
+			}
+			if (actorX < targetX)
+			{
+				actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
+			}
+
 			if (actor.attackDelay <= 0)
 			{
 				//actor.
@@ -69,15 +81,17 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 
 				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
 
+				actor.SetMoveDelay (2.0f);
 				actor.SetAttackDelay(4.0f);
 
 				MovableObjectNode movable = actor.GetMovableNode();
 				movable.StopMoving ();
-				isMoving = false;
 			}
 		}
 		else
 		{
+			if (actor.moveDelay > 0)
+				return;
 			MovableObjectNode movable = actor.GetMovableNode();
 
 			if (!movable.IsMoving())
@@ -85,7 +99,6 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 				//Debug.Log ("asdfsdag");
 				movable.MoveToMovableNode(targetAgent.GetMovableNode());
 			}
-			this.isMoving = movable.IsMoving ();
 		}
 	}
 }

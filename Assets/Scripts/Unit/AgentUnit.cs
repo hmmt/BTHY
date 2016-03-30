@@ -182,8 +182,7 @@ public class AgentUnit : MonoBehaviour {
 	{
 		MovableObjectNode movable = model.GetMovableNode ();
 		UnitDirection movableDirection = movable.GetDirection ();
-
-		Transform puppet = puppetNode.transform;
+		Transform puppet = puppetNode.transform.parent;
 
         Vector3 puppetScale = puppet.localScale;
 
@@ -201,7 +200,7 @@ public class AgentUnit : MonoBehaviour {
                 puppetScale.x = -puppetScale.x;
             }
 		}
-		puppetNode.transform.localScale = puppetScale;
+		puppetNode.transform.parent.localScale = puppetScale;
 
 		return;
         /*

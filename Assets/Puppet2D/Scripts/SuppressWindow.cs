@@ -12,7 +12,7 @@ public class SuppressAction {
         GUN
     }
 
-    public AgentModel model;
+	public AgentModel model;
     public Weapon weapon;
 
     public SuppressAction(AgentModel target) {
@@ -41,7 +41,8 @@ public class SuppressWindow : MonoBehaviour
 {
     public enum TargetType { 
         CREATURE,
-        AGENT
+        AGENT,
+		OFFICER
     }
 
     [System.Serializable]
@@ -243,6 +244,32 @@ public class SuppressWindow : MonoBehaviour
         return inst;
     }
 
+	public static SuppressWindow CreateWindow(OfficerModel target)
+	{
+		if (currentWindow != null)
+		{
+			currentWindow.CloseWindow();
+		}
+
+		GameObject newObj = Prefab.LoadPrefab("SuppressionWindow");
+
+		SuppressWindow inst = newObj.GetComponent<SuppressWindow>();
+		inst.target = target;
+		inst.targetType = TargetType.OFFICER;
+		inst.currentSefira = SefiraManager.instance.getSefira(target.currentSefira);
+		//inst.currentSefira = SefiraManager.instance.getSefira("1");
+		inst.agentList = new List<SuppressAction>();
+
+		OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(target.instanceId);
+		inst.attachedPos = unit.transform;
+		inst.ui.Init(target, inst.targetType);
+
+		inst.InitAgentList();
+		inst.ShowAgentList();
+		currentWindow = inst;
+		return inst;
+	}
+
     private object GetTarget() {
         if (currentWindow.targetType == TargetType.CREATURE)
         {
@@ -252,6 +279,10 @@ public class SuppressWindow : MonoBehaviour
         {
             return currentWindow.target as AgentModel;
         }
+		else if (currentWindow.targetType == TargetType.OFFICER)
+		{
+			return currentWindow.target as OfficerModel;
+		}
         else {
             return null;
         }
@@ -307,10 +338,17 @@ public class SuppressWindow : MonoBehaviour
 	{
 		if(target is AgentModel)
 		{
-			SuppressAction sa = new SuppressAction ((AgentModel)target);
+			SuppressAction sa = new SuppressAction (actor);
 			sa.weapon = SuppressAction.Weapon.GUN;
 
 			actor.StartSuppressAgent((AgentModel)target, sa, SuppressType.UNCONTROLLABLE);
+		}
+		else if(target is OfficerModel)
+		{
+			SuppressAction sa = new SuppressAction (actor);
+			sa.weapon = SuppressAction.Weapon.GUN;
+
+			actor.StartSuppressAgent((OfficerModel)target, sa, SuppressType.UNCONTROLLABLE);
 		}
 	}
 

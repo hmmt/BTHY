@@ -347,6 +347,10 @@ public class MovableObjectNode {
 	{
 		return unitDirection;
 	}
+	public void SetDirection(UnitDirection direction)
+	{
+		unitDirection = direction;
+	}
     public void Assign(MovableObjectNode src)
     {
         //currentEdge = src.currentEdge;
@@ -862,6 +866,7 @@ public class MovableObjectNode {
 
 	private MapNode elevatorNextDest = null;
 	private MovableObjectNode elevatorNextDest2 = null;
+	private bool isEnteredElevator = false;
 
 	public void EnterElevator(MapNode elevatorNode, MapNode nextNode)
 	{
@@ -876,6 +881,7 @@ public class MovableObjectNode {
 
 					currentElevator = elevatorNode.GetElevator ();
 					currentElevator.OnUnitEnter ((WorkerModel)model, nextNode);
+					isEnteredElevator = true;
 				}
 				else
 				{
@@ -902,6 +908,7 @@ public class MovableObjectNode {
 				
 			}
 		}
+		isEnteredElevator = false;
 	}
 
 }
