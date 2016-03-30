@@ -23,9 +23,17 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
     public Image AgentHair;
     public Image AgentBody;
 
+    public Sprite[] MentalImage;
+
     public AgentIcons icons;
     public string[] statusDesc;
     public string[] worklistDesc;
+
+    public Slider Health;
+    public Image MentalIcon;
+    public Image[] HasWork;
+
+    public Sprite HasWorkSelected;
 
 	[HideInInspector]
 	public static AgentStatusWindow currentWindow = null;
@@ -99,13 +107,14 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
                 trigger.triggers.Add(exit);
             }
         }
-		
-		inst.target = unit;
+
         
+		inst.target = unit;
+        inst.Health.maxValue = inst.target.defaultMaxHp;
 		inst.UpdateCreatureStatus ();
-        inst.AgentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
+        inst.SetHasWorkIcon(inst.target);
+        AgentModel.SetPortraitSprite(inst.target, inst.AgentFace.sprite, inst.AgentHair.sprite);
         inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
-        inst.AgentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
         
 		currentWindow = inst;
 
@@ -173,11 +182,15 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	{
         DepartMent.text = "" + GetSefiraName( target.currentSefira);
 		NameText.text =  ""+target.name;
-		LevelText.text = ""+target.level + "등급";
+        LevelText.text = AgentModel.GetLevelGradeText(target);
         statusDesc[0] = target.hp + "";
         statusDesc[1] = target.mental + "";
         statusDesc[2] = target.movement + "";
         statusDesc[3] = target.workSpeed + "";
+
+        Health.value = target.hp;
+
+        MentalIcon.sprite = GetMentalSprite(target);
 		/*
         worklistDesc[0] = target.directSkill.name;
         worklistDesc[1] = target.indirectSkill.name;
@@ -262,4 +275,41 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         Camera.main.transform.position = new Vector3( pos.x, pos.y, -20f);        
     }
 
+    public Sprite GetMentalSprite(AgentModel target)
+    {
+        int value = target.mental / target.defaultMaxMental;
+
+        if (value >= 0 && value < 25)
+        {
+            return this.MentalImage[0];
+        }
+        else if (value >= 25 && value < 50)
+        {
+            return this.MentalImage[1];
+        }
+        else if (value >= 50 && value < 75)
+        {
+            return this.MentalImage[2];
+        }
+        else if (value >= 75 && value < 100)
+        {
+            return this.MentalImage[3];
+        }
+        else
+        {
+            Debug.Log("Error");
+        }
+        return this.MentalImage[0];
+    }
+
+    public void SetHasWorkIcon(AgentModel model) {
+        List<SkillCategory> skillList = new List<SkillCategory>(SkillManager.instance.list.ToArray());
+        int max = 5;
+        if (skillList.Count < 5) max = skillList.Count;
+        for (int i = 0; i < max; i++) {
+            if (model.GetUniqueSkillCategory(skillList[i].name) != null) {
+                this.HasWork[i].sprite = this.HasWorkSelected;
+            }
+        }
+    }
 }

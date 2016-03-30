@@ -1,0 +1,291 @@
+fileFormatVersion: 2
+guid: e8cbe40ae1b17354ea00383e125d48cd
+timeCreated: 1459314986
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 5
+    21300002: 2
+    21300004: 4
+    21300006: 1
+    21300008: 3
+    21300010: 0
+    21300012: MentalBall
+    21300014: HealthBg
+    21300016: HealthInner
+    21300018: HealthMAsk
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 300
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: Standalone
+    maxTextureSize: 8192
+    textureFormat: -1
+    compressionQuality: 50
+    allowsAlphaSplitting: 0
+  spriteSheet:
+    sprites:
+    - name: 5
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 751
+        width: 677
+        height: 301
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 185.86078, y: -65.316925}
+        - {x: 186.86078, y: -61.316925}
+        - {x: 186.86078, y: 62.683075}
+        - {x: 182.86078, y: 70.683075}
+        - {x: 176.86078, y: 77.683075}
+        - {x: 167.86078, y: 82.683075}
+        - {x: 164.86078, y: 83.683075}
+        - {x: -162.13922, y: 83.683075}
+        - {x: -165.13922, y: 82.683075}
+        - {x: -171.13922, y: 79.683075}
+        - {x: -177.13922, y: 74.683075}
+        - {x: -184.13922, y: 65.683075}
+        - {x: -185.13922, y: 58.683075}
+        - {x: -185.13922, y: -59.316925}
+        - {x: -180.13922, y: -70.316925}
+        - {x: -173.13922, y: -76.316925}
+        - {x: -162.13922, y: -82.316925}
+        - {x: 161.86078, y: -82.316925}
+        - {x: 170.86078, y: -80.316925}
+        - {x: 182.86078, y: -70.316925}
+    - name: 2
+      rect:
+        serializedVersion: 2
+        x: 1762
+        y: 848
+        width: 677
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 172.39294, y: 57.356537}
+        - {x: -165.60706, y: 57.356537}
+        - {x: -173.60706, y: 53.356537}
+        - {x: -183.60706, y: 40.356537}
+        - {x: -185.60706, y: 33.356537}
+        - {x: -185.60706, y: -35.643463}
+        - {x: -173.60706, y: -52.643463}
+        - {x: -162.60706, y: -55.643463}
+        - {x: 161.39294, y: -55.643463}
+        - {x: 175.39294, y: -52.643463}
+        - {x: 187.39294, y: -35.643463}
+        - {x: 187.39294, y: 40.356537}
+    - name: 4
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 452
+        width: 677
+        height: 264
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 186.86078, y: 52.777298}
+        - {x: 183.86078, y: 60.777298}
+        - {x: 170.86078, y: 72.7773}
+        - {x: 164.86078, y: 73.7773}
+        - {x: -161.13922, y: 73.7773}
+        - {x: -169.13922, y: 70.7773}
+        - {x: -178.13922, y: 63.777298}
+        - {x: -184.13922, y: 55.777298}
+        - {x: -185.13922, y: 49.777298}
+        - {x: -185.13922, y: -50.222702}
+        - {x: -179.13922, y: -60.222702}
+        - {x: -172.13922, y: -67.2227}
+        - {x: -163.13922, y: -72.2227}
+        - {x: 166.86078, y: -72.2227}
+        - {x: 184.86078, y: -60.222702}
+        - {x: 186.86078, y: -53.222702}
+    - name: 1
+      rect:
+        serializedVersion: 2
+        x: 1762
+        y: 614
+        width: 677
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 172.39294, y: 46.082428}
+        - {x: -166.60706, y: 46.082428}
+        - {x: -180.60706, y: 39.082428}
+        - {x: -185.60706, y: 30.082428}
+        - {x: -185.60706, y: -29.917572}
+        - {x: -184.60706, y: -33.917572}
+        - {x: -171.60706, y: -41.917572}
+        - {x: -161.60706, y: -44.917572}
+        - {x: 167.39294, y: -44.917572}
+        - {x: 183.39294, y: -33.917572}
+        - {x: 187.39294, y: -20.917572}
+        - {x: 187.39294, y: 29.082428}
+    - name: 3
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 164
+        width: 677
+        height: 241
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 186.86078, y: 45.901497}
+        - {x: 184.86078, y: 52.901497}
+        - {x: 170.86078, y: 65.9015}
+        - {x: 164.86078, y: 67.9015}
+        - {x: -161.13922, y: 67.9015}
+        - {x: -166.13922, y: 66.9015}
+        - {x: -182.13922, y: 54.901497}
+        - {x: -185.13922, y: 48.901497}
+        - {x: -185.13922, y: -42.098503}
+        - {x: -180.13922, y: -54.098503}
+        - {x: -173.13922, y: -60.098503}
+        - {x: -162.13922, y: -66.0985}
+        - {x: 166.86078, y: -66.0985}
+        - {x: 184.86078, y: -56.098503}
+        - {x: 186.86078, y: -49.098503}
+    - name: 0
+      rect:
+        serializedVersion: 2
+        x: 1934
+        y: 292
+        width: 363
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 83.17981, y: 47.568527}
+        - {x: -82.82019, y: 47.568527}
+        - {x: -99.82019, y: 36.568527}
+        - {x: -99.82019, y: -35.431473}
+        - {x: -88.82019, y: -47.431473}
+        - {x: 88.17981, y: -47.431473}
+        - {x: 100.17981, y: -37.431473}
+        - {x: 100.17981, y: 33.568527}
+        - {x: 98.17981, y: 41.568527}
+    - name: MentalBall
+      rect:
+        serializedVersion: 2
+        x: 2800
+        y: 346
+        width: 135
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28.596436, y: 38.170227}
+        - {x: -36.596436, y: 25.170227}
+        - {x: -36.596436, y: -15.829773}
+        - {x: -20.596436, y: -36.829773}
+        - {x: 23.403564, y: -36.829773}
+        - {x: 38.403564, y: -21.829773}
+        - {x: 38.403564, y: 29.170227}
+        - {x: 20.403564, y: 38.170227}
+    - name: HealthBg
+      rect:
+        serializedVersion: 2
+        x: 2944
+        y: 359
+        width: 354
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -88.65845, y: 32.29657}
+        - {x: -96.65845, y: 25.29657}
+        - {x: -96.65845, y: -23.70343}
+        - {x: -91.65845, y: -30.70343}
+        - {x: 91.34155, y: -30.70343}
+        - {x: 98.34155, y: -23.70343}
+        - {x: 98.34155, y: 15.29657}
+        - {x: 85.34155, y: 32.29657}
+    - name: HealthInner
+      rect:
+        serializedVersion: 2
+        x: 2958
+        y: 223
+        width: 173
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47.48401, y: 17.74411}
+        - {x: -47.48401, y: -17.25589}
+        - {x: 48.51599, y: -17.25589}
+        - {x: 48.51599, y: 17.74411}
+    - name: HealthMAsk
+      rect:
+        serializedVersion: 2
+        x: 3190
+        y: 223
+        width: 299
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -81.806274, y: 17.74411}
+        - {x: -81.806274, y: -17.25589}
+        - {x: 83.193726, y: -17.25589}
+        - {x: 83.193726, y: 16.74411}
+        - {x: 81.193726, y: 17.74411}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

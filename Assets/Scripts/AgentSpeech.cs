@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using UnityEngine; 
 using System.Collections;
 using UnityEngine.UI;
 
@@ -15,6 +15,9 @@ public class AgentSpeech : MonoBehaviour {
     private Vector2 init_size;
     private Vector2 mini_size;
     private Vector2 bg_size;
+    private static float length = 240f;
+    public Sprite[] BgSprite;
+    private Image Bg;
 
     public void Start() {
         textRect = textObject.GetChild(0).GetComponent<RectTransform>();
@@ -24,8 +27,11 @@ public class AgentSpeech : MonoBehaviour {
         size = speechText.fontSize;
         standard = speechText.alignment;
         init_size = textRect.sizeDelta;
+
         mini_size = new Vector2(init_size.x / 2, init_size.y);
         textObject.gameObject.SetActive(false);
+        Bg = textObject.GetComponent<Image>();
+
     }
 
     public void FixedUpdate() {
@@ -36,15 +42,27 @@ public class AgentSpeech : MonoBehaviour {
                 speechText.alignment = standard;
                 speechText.fontSize = size;
                 SetSpeech(copy);
-                textRect.sizeDelta = init_size;
-                bgRect.sizeDelta = bg_size;
+                int index = 1;
+                if (speechText.preferredWidth > length) {
+                    int head = (int)(speechText.preferredWidth / length);
+                    index += head;
+                    
+                }
+                if (index > BgSprite.Length) index = BgSprite.Length-1;
+
+                Bg.sprite = BgSprite[index];
+                textRect.sizeDelta = new Vector2(speechText.preferredWidth, (speechText.fontSize + 2f) * index);
+                bgRect.sizeDelta = new Vector2(textRect.sizeDelta.x + 20f, textRect.sizeDelta.y + 20f);
+                //textRect.sizeDelta = init_size;
+                //bgRect.sizeDelta = bg_size;
             }
             else {
                 speechText.alignment = TextAnchor.MiddleCenter;
                 speechText.fontSize = size * 3;
                 SetSpeech(". . .");
                 textRect.sizeDelta = mini_size;
-                bgRect.sizeDelta = mini_size;
+                //bgRect.sizeDelta = mini_size;
+                Bg.sprite = BgSprite[0];
             }
         }
     }
