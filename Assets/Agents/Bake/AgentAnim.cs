@@ -14,19 +14,23 @@ public class AgentAnim : MonoBehaviour {
 		public string name;
 		public int ivalue;
 		public bool bvalue;
+		public int state;
+
 		public ParameterType type;
 
-		public ParameterInfo(string name, int value)
+		public ParameterInfo(string name, int value, int state)
 		{
 			this.name = name;
 			this.ivalue = value;
+			this.state = state;
 			this.type = ParameterType.INT;
 		}
 
-		public ParameterInfo(string name, bool value)
+		public ParameterInfo(string name, bool value, int state)
 		{
 			this.name = name;
 			this.bvalue = value;
+			this.state = state;
 			this.type = ParameterType.BOOL;
 		}
 	}
@@ -123,13 +127,13 @@ public class AgentAnim : MonoBehaviour {
 
 	public void SetParameterOnce(string pname, int value)
 	{
-		updatedParameters.Push (new ParameterInfo (pname, animator.GetInteger (pname)));
+		updatedParameters.Push (new ParameterInfo (pname, animator.GetInteger (pname), animator.GetAnimatorTransitionInfo(0).nameHash));
 		animator.SetInteger (pname, value);
 	}
 
 	public void SetParameterOnce(string pname, bool value)
 	{
-		updatedParameters.Push (new ParameterInfo (pname, animator.GetBool (pname)));
+		updatedParameters.Push (new ParameterInfo (pname, animator.GetBool (pname), animator.GetAnimatorTransitionInfo(0).nameHash));
 		animator.SetBool (pname, value);
 	}
 

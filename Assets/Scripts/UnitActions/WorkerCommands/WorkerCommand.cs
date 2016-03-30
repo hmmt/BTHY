@@ -105,12 +105,12 @@ public class WorkerCommand
 		return cmd;
 	}
 
-	public static WorkerCommand MakeSuppressWorking(AgentModel targetAgent, SuppressAction suppressAction, SuppressType supType)
+	public static WorkerCommand MakeSuppressWorking(WorkerModel targetWorker, SuppressAction suppressAction, SuppressType supType)
 	{
 		//WorkerCommand cmd = new WorkerCommand();
-		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetAgent, suppressAction, supType);
+		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetWorker, suppressAction, supType);
 		cmd.type = AgentCmdType.SUPPRESS_WORKING;
-		cmd.targetAgent = targetAgent;
+		cmd.targetAgent = targetWorker;
 		return cmd;
 	}
 	public static WorkerCommand MakeSuppressCreature(CreatureModel targetCreature, SuppressAction suppressAction)
@@ -162,6 +162,14 @@ public class WorkerCommand
 		cmd.type = AgentCmdType.PANIC_VIOLENCE;
 		return cmd;
 	}
+
+	public static WorkerCommand MakeFollowAgent(MovableObjectNode targetNode)
+	{
+		FollowWorkerCommand cmd = new FollowWorkerCommand (targetNode);
+		cmd.type = AgentCmdType.FOLLOW;
+		return cmd;
+	}
+
 	//public static AgentCommand MakePanic
 }
 
@@ -169,6 +177,7 @@ public class MoveWorkerCommand : WorkerCommand
 {
 	//public MovableObjectNode targetNode;
 	public MapNode targetNode;
+	public MovableObjectNode targetMovable;
 
 	public MoveWorkerCommand(MapNode targetNode)
 	{
@@ -176,28 +185,53 @@ public class MoveWorkerCommand : WorkerCommand
 	}
 	public MoveWorkerCommand(MovableObjectNode movableNode)
 	{
+		this.targetMovable = movableNode;
 	}
 
 	public override void OnStart(WorkerModel agent)
 	{
 		base.OnStart(agent);
 		MovableObjectNode movable = agent.GetMovableNode();
-		movable.MoveToNode(targetNode);
+		if (targetNode != null)
+		{
+			movable.MoveToNode (targetNode);
+		}
+		else
+		{
+			movable.MoveToMovableNode (targetMovable);
+		}
+			
 	}
 	public override void Execute(WorkerModel agent)
 	{
 		base.Execute(agent);
 		MovableObjectNode movable = agent.GetMovableNode();
 
-		if (!movable.IsMoving())
+		if(targetNode != null)
 		{
-			movable.MoveToNode(targetNode);
+			if (!movable.IsMoving())
+			{
+				movable.MoveToNode(targetNode);
+			}
+
+			if (movable.GetCurrentNode() != null && movable.GetCurrentNode().GetId() == targetNode.GetId())
+			{
+				Finish(); 
+			}
+		}
+		else
+		{
+			if (!movable.IsMoving())
+			{
+				movable.MoveToMovableNode (targetMovable);
+			}
+
+			if ((movable.GetCurrentViewPosition() - targetMovable.GetCurrentViewPosition()).sqrMagnitude < 1)
+			{
+				Finish(); 
+			}
 		}
 
-		if (movable.GetCurrentNode() != null && movable.GetCurrentNode().GetId() == targetNode.GetId())
-		{
-			Finish(); 
-		}
 	}
 	public override void OnStop(WorkerModel agent)
 	{

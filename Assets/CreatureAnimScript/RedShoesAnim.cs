@@ -19,5 +19,14 @@ public class RedShoesAnim : CreatureAnimScript {
 		//model.GetMovableNode().GetPassage() == passage
 
 		SetParameter ("Find", true);
+		SetParameter ("Return", false);
 	}
+
+	public void ReturnRedShoesAnim()
+	{
+		SetParameter ("Find", false);
+		SetParameter ("Return", true);
+	}
+
+
 }

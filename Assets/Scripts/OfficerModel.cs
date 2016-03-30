@@ -43,6 +43,8 @@ public class OfficerModel : WorkerModel {
         elapsedTime += Time.deltaTime;
         if (isDead()) return;
 
+		if (moveDelay > 0)
+			moveDelay -= Time.deltaTime;
 		if(attackDelay > 0)
 			attackDelay -= Time.deltaTime;
 
@@ -295,6 +297,14 @@ public class OfficerModel : WorkerModel {
 		}
 	}
 
+	public override void ClearUnconCommand()
+	{
+		if (state == OfficerAIState.CANNOT_CONTROLL)
+		{
+			commandQueue.Clear ();
+		}
+	}
+
 	public override void SetUncontrollableAction(UncontrollableAction uncon)
 	{
 		unconAction = uncon;
@@ -328,4 +338,18 @@ public class OfficerModel : WorkerModel {
     public void SetUnit(OfficerUnit unit) {
         this._unit = unit;
     }
+
+	public void OnClick()
+	{
+		if (unconAction != null) {
+			unconAction.OnClick ();
+		}
+	}
+
+	public override void OnDie()
+	{
+		if (unconAction != null) {
+			unconAction.OnDie ();
+		}
+	}
 }

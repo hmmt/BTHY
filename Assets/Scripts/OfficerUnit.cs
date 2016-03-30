@@ -295,4 +295,9 @@ public class OfficerUnit : MonoBehaviour {
 		}
 	}
 
+
+	public void OnClick()
+	{
+		model.OnClick ();
+	}
 }

@@ -80,7 +80,7 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         
 		foreach (OfficerModel om in this.sefira.officerList) {
 			if (om.gender == "Female") {
-				output.Add(om);
+				//output.Add(om);
 			}
 		}
         foreach (AgentModel am in this.sefira.agentList) {
@@ -217,6 +217,12 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 			Debug.Log ("OnInfectedTargetTerminated() : Invalid Access");
 			return;
 		}
+
+		DropShoes ();
+	}
+
+	public void DropShoes()
+	{
 		RedShoes shoes = (RedShoes)model.script;
 
 		shoes.dropped = true;

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class RedShoes : CreatureBase {
+	
 
 	public bool dropped = false;
 
@@ -27,7 +28,7 @@ public class RedShoes : CreatureBase {
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
-        return;
+		return;
         if (creature.GetFeelingPercent() < 30f && this.skill.Activated == false)
         {
             this.skill.Activate();
@@ -54,12 +55,12 @@ public class RedShoes : CreatureBase {
 						continue;
 					if ((agent.GetCurrentViewPosition () - droppedShoesPosition).sqrMagnitude < 2)
 					{
+						dropped = false;
 						agent.ReturnCreature (model);
 						break;
 					}
 				}
 			}
-			//if(droppedPassage == 
 		}
     }
 
@@ -75,6 +76,8 @@ public class RedShoes : CreatureBase {
 
 		model.AddFeeling (100f);
 		this.skill.DeActivate();
+
+		model.SendAnimMessage ("ReturnRedShoesAnim");
 	}
 
     public void ActivateSkill(UseSkill skill)

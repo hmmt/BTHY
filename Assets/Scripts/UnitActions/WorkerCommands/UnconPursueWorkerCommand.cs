@@ -46,6 +46,8 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 
         if (actor.unconAction is Uncontrollable_Machine)
         {
+			targetAgent.SetInvincible (true);
+			targetAgent.LoseControl ();
             Finish();
             //끌고가는걸 시작
             (actor.unconAction as Uncontrollable_Machine).StartDrag(targetAgent);
@@ -84,11 +86,12 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 
 				MovableObjectNode movable = actor.GetMovableNode();
 				movable.StopMoving ();
-				isMoving = false;
 			}
 		}
 		else
 		{
+			if (actor.moveDelay > 0)
+				return;
 			MovableObjectNode movable = actor.GetMovableNode();
 
 			if (!movable.IsMoving())
@@ -96,7 +99,6 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 				//Debug.Log ("asdfsdag");
 				movable.MoveToMovableNode(targetAgent.GetMovableNode());
 			}
-			this.isMoving = movable.IsMoving ();
 		}
 	}
 }

@@ -22,7 +22,7 @@ public class AgentModel : WorkerModel
 	// motion variables
 
 
-	public float moveDelay = 0;
+
 	//
 
     public int level;
@@ -677,10 +677,29 @@ public class AgentModel : WorkerModel
         return cmd.type;
     }
 
-
+	/*
 	public void MoveToNode(MapNode node)
 	{
 		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(node));
+	}
+
+	public void MoveToMovable(MovableObjectNode node)
+	{
+		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(node));
+	}
+	*/
+
+	public virtual void ClearUnconCommand()
+	{
+		if (state == AgentAIState.CANNOT_CONTROLL)
+		{
+			commandQueue.Clear ();
+		}
+	}
+
+	public void FollowMovable(MovableObjectNode node)
+	{
+		commandQueue.SetAgentCommand (WorkerCommand.MakeFollowAgent (node));
 	}
 
 	public void PursueAgent(AgentModel agent)
@@ -822,7 +841,7 @@ public class AgentModel : WorkerModel
 		Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
 	}
 
-	public void StartSuppressAgent(AgentModel targetWorker, SuppressAction suppressAction, SuppressType supType)
+	public void StartSuppressAgent(WorkerModel targetWorker, SuppressAction suppressAction, SuppressType supType)
     {
         state = AgentAIState.SUPPRESS_WORKER;
 		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker, suppressAction, supType));
@@ -913,11 +932,6 @@ public class AgentModel : WorkerModel
 		attackDelay = 4.0f;
 	}
 	*/
-
-	public void SetMoveDelay(float moveDelay)
-	{
-		this.moveDelay = moveDelay;
-	}
 
 	// method about managing
 	public float GetSuccessProb(SkillTypeInfo skill)

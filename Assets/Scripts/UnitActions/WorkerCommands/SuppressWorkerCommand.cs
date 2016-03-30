@@ -16,7 +16,7 @@ public class SuppressWorkerCommand : WorkerCommand {
 
 	SuppressAction suppressAction;
 
-	public SuppressWorkerCommand(AgentModel targetAgent, SuppressAction suppressAction, SuppressType supType)
+	public SuppressWorkerCommand(WorkerModel targetAgent, SuppressAction suppressAction, SuppressType supType)
 	{
 		this.targetAgent = targetAgent;
 		this.suppressAction = suppressAction;
@@ -57,9 +57,18 @@ public class SuppressWorkerCommand : WorkerCommand {
 					return;
 				}
 			} else {
-				if (((AgentModel)targetAgent).GetState() != AgentAIState.CANNOT_CONTROLL) {
-					Finish ();
-					return;
+				if (targetAgent is AgentModel) {
+					if (((AgentModel)targetAgent).GetState () != AgentAIState.CANNOT_CONTROLL) {
+						Finish ();
+						return;
+					}
+				}
+				else
+				{
+					if (((OfficerModel)targetAgent).GetState () != OfficerAIState.CANNOT_CONTROLL) {
+						Finish ();
+						return;
+					}
 				}
 			}
 
@@ -116,11 +125,23 @@ public class SuppressWorkerCommand : WorkerCommand {
 				{
 					if (sqrDistance < 1)
 					{
+						float actorX = actor.GetCurrentViewPosition ().x;
+						float targetX = targetAgent.GetCurrentViewPosition ().x;
+						if (actorX > targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
+						}
+						if (actorX < targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
+						}
+
 						if (agentActor.attackDelay > 0)
 							return true;
+						
 						HitObjectManager.AddSuppressWorkerStickHitbox ((AgentModel) targetAgent);
 						agentActor.SetAttackDelay (4.0f);
-						agentActor.SetMoveDelay (0.5f);
+						agentActor.SetMoveDelay (1.0f);
 						agentActor.GetMovableNode ().StopMoving ();
 						return true;
 					}
@@ -129,6 +150,17 @@ public class SuppressWorkerCommand : WorkerCommand {
 				{
 					if (sqrDistance < 5)
 					{
+						float actorX = actor.GetCurrentViewPosition ().x;
+						float targetX = targetAgent.GetCurrentViewPosition ().x;
+						if (actorX > targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
+						}
+						if (actorX < targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
+						}
+
 						if (agentActor.attackDelay > 0)
 							return true;
 						// 일단 딜레이 없이
@@ -136,7 +168,7 @@ public class SuppressWorkerCommand : WorkerCommand {
 						Debug.Log("Shot!");
 						agentActor.SetAttackDelay(4.0f);
 						agentActor.SetMoveDelay (0.5f);
-						targetAgent.TakePhysicalDamage (100);
+						targetAgent.TakePhysicalDamage (1);
 						if(supType == SuppressType.PANIC)
 							targetAgent.TakePanicDamage (1);
 						agentActor.GetMovableNode ().StopMoving ();
@@ -154,6 +186,17 @@ public class SuppressWorkerCommand : WorkerCommand {
 				{
 					if (sqrDistance < 1)
 					{
+						float actorX = actor.GetCurrentViewPosition ().x;
+						float targetX = targetCreature.GetCurrentViewPosition ().x;
+						if (actorX > targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
+						}
+						if (actorX < targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
+						}
+
 						if (agentActor.attackDelay > 0)
 							return true;
 						Debug.Log ("hit!");
@@ -168,6 +211,17 @@ public class SuppressWorkerCommand : WorkerCommand {
 				{
 					if (sqrDistance < 5)
 					{
+						float actorX = actor.GetCurrentViewPosition ().x;
+						float targetX = targetCreature.GetCurrentViewPosition ().x;
+						if (actorX > targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
+						}
+						if (actorX < targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
+						}
+
 						if (agentActor.attackDelay > 0)
 							return true;
 						Debug.Log ("Shoot!");
