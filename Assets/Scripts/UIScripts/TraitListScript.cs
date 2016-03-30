@@ -47,6 +47,7 @@ public class TraitListScript : MonoBehaviour {
             GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
             iconObject.GetComponent<Image>().sprite = icon[i];
 
+            /*
             OverlayObject icons = iconObject.AddComponent<OverlayObject>();
             icons.text = desc[i];
             EventTrigger trigger = iconObject.AddComponent<EventTrigger>();
@@ -60,6 +61,7 @@ public class TraitListScript : MonoBehaviour {
             exit.callback.AddListener((eventdata) => { icons.Hide(); });
             trigger.triggers.Add(enter);
             trigger.triggers.Add(exit);
+             */
             output.Add(iconObject);
         }
         

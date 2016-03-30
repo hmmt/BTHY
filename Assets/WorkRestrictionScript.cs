@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class RestrictionContent {
-    public static string Woman = "woman";
-    public static string Man = "man";
+    public static string Woman = "Female";
+    public static string Man = "Male";
+    /*
     public static string Lifestyle_D = "life_d";
     public static string Lifestyle_I = "life_i";
     public static string Lifestyle_S = "life_s";
@@ -14,6 +15,7 @@ public class RestrictionContent {
     public static string Maxmental = "maxmental";
     public static string Minhealth = "minhealth";
     public static string Minmental = "minmental";
+    */
 
     public static int cnt = 10;
 
@@ -21,6 +23,7 @@ public class RestrictionContent {
         List<string> output = new List<string>();
         output.Add(Woman);
         output.Add(Man);
+        /*
         output.Add(Lifestyle_D);
         output.Add(Lifestyle_I);
         output.Add(Lifestyle_S);
@@ -29,6 +32,7 @@ public class RestrictionContent {
         output.Add(Maxmental);
         output.Add(Minhealth);
         output.Add(Minmental);
+         */
         return output;
     }
 }
@@ -55,6 +59,8 @@ public class RestrictionTable {
                 this.list.Add(item);
             }
         }
+
+        
     }
 
     private static RestrictionTable _instance;
@@ -104,10 +110,9 @@ public class WorkRestrictionScript : MonoBehaviour {
     public class RestrictionItem {
         public Toggle button;
         public Text desc;
-        public string descText;
 
-        public void Init(bool state) { 
-            
+        public void Init(RestrictionTable.TableElement.Restriction item) {
+            this.button.isOn = item.isRestricted;
         }
     }
 
@@ -117,6 +122,33 @@ public class WorkRestrictionScript : MonoBehaviour {
 
     public void Init(CreatureModel target) {
         _target = target;
+
+        Matching();
     }
+
+    public void Matching() {
+        RestrictionTable.TableElement table = RestrictionTable.instance.GetTableByCreature(_target);
+
+        foreach (RestrictionTable.TableElement.Restriction item in table.list) {
+            RestrictionItem target = GetItem(item.desc);
+            if (target == null) {
+                continue;
+            }
+            target.Init(item);
+        }
+    }
+
+    public RestrictionItem GetItem(string desc) {
+        RestrictionItem output = null;
+        foreach (RestrictionItem item in this.list) {
+            if (output.desc.text == desc) {
+                output = item;
+                break;
+            }
+
+        }
+        return output;
+    }
+
     
 }

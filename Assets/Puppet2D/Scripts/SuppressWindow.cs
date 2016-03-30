@@ -44,6 +44,82 @@ public class SuppressWindow : MonoBehaviour
         AGENT
     }
 
+    [System.Serializable]
+    public class SuppressUIAgent :SuppressUI{
+        public Slider Health;
+        public Text Name;
+        public Text Grade;
+
+        public Image face;
+        public Image hair;
+        
+        AgentModel model;
+
+        public override void Init(object target)
+        {
+            if (!(target is AgentModel)) {
+                Debug.Log("Error");
+                return;
+            }
+            base.Init(target);
+            this.model = target as AgentModel;
+
+            Health.maxValue = this.model.defaultMaxHp;
+            Health.value = this.model.hp;
+            this.Name.text = this.model.name;
+            this.Grade.text = AgentModel.GetLevelGradeText(this.model);
+
+            AgentModel.SetPortraitSprite(this.model, this.face.sprite, this.hair.sprite);
+
+        }
+
+        public override void ChangeValue()
+        {
+            Health.value = this.model.hp;
+        }
+    }
+
+    [System.Serializable]
+    public class SuppressUICreature :SuppressUI{
+        public Image Portrait;
+        public Text Name;
+        public Text Fear;
+        public Text Phyisc;
+        public Text Mental;
+
+        CreatureModel model;
+
+        public override void Init(object target)
+        {
+            if (!(target is CreatureModel)) {
+                Debug.Log("Error");
+                return;
+            }
+            base.Init(target);
+            this.model = target as CreatureModel;
+            this.Name.text = model.metaInfo.name;
+            this.Fear.text = model.metaInfo.level;
+            this.Phyisc.text = model.metaInfo.physicalAttackLevel.ToString();
+            this.Mental.text = model.metaInfo.mentalAttackLevel.ToString();
+        }
+
+        public override void ChangeValue()
+        {
+            return;
+        }
+    }
+
+    public class SuppressUI {
+        public GameObject thisObject;
+        public virtual void Init(object target) {
+            thisObject.gameObject.SetActive(true);
+        }
+
+        public virtual void ChangeValue() { 
+            
+        }
+    }
+
     public GameObject slot;
     
     [System.Serializable]
@@ -62,46 +138,37 @@ public class SuppressWindow : MonoBehaviour
         public Text currentMental;
         public Text movementSpeed;
 
+        public SuppressUI currentUi;
+
+        public SuppressUIAgent agentUi;
+        public SuppressUICreature creatureUi;
+        
+
         public void Init(object target, TargetType type) {
             this.type = type;
             this.target = target;
             switch(type){
                 case TargetType.CREATURE:
                     {
-                        this.currentHealth.gameObject.SetActive(false);
-                        this.currentMental.gameObject.SetActive(false);
-                        this.movementSpeed.gameObject.SetActive(false);
-
                         CreatureModel model = target as CreatureModel;
-                        this.name.text = model.metaInfo.name;
-                        this.grade.text = model.metaInfo.level;
-                        this.fear.text = model.metaInfo.level;//?
-                        this.physical.text = model.metaInfo.physicsDmg.ToString();
-                        this.mental.text = model.metaInfo.mentalDmg.ToString();
+                        this.currentUi = creatureUi;
+                        agentUi.thisObject.SetActive(false);
+                        this.currentUi.Init(target);
                         break;
                     }
                 case TargetType.AGENT:
                     {
-                        this.fear.gameObject.SetActive(false);
-                        this.physical.gameObject.SetActive(false);
-                        this.mental.gameObject.SetActive(false);
-
                         AgentModel model = target as AgentModel;
-                        this.name.text = model.name;
-                        this.grade.text = model.level.ToString() ;
-                        this.currentHealth.text = model.hp.ToString() ;
-                        this.currentMental.text = model.mental.ToString();
-                        this.movementSpeed.text = model.movement.ToString();
+                        this.currentUi = agentUi;
+                        creatureUi.thisObject.SetActive(false);
+                        this.currentUi.Init(target);
                     }
                     break;
             }
         }
 
         public void Update() {
-            if (type != TargetType.AGENT) return;
-            this.currentHealth.text = (target as AgentModel).hp.ToString();
-            this.currentMental.text = (target as AgentModel).mental.ToString();
-            this.movementSpeed.text = (target as AgentModel).movement.ToString();
+            //Change 적용
         }
 
     }

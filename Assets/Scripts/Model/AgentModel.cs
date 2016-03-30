@@ -1216,4 +1216,26 @@ public class AgentModel : WorkerModel
         return s;
     }
 
+    public static void SetPortraitSprite(AgentModel target, Sprite face, Sprite hair)
+    {
+        face = target.tempFaceSprite;
+        hair = target.tempHairSprite;
+    }
+
+    public static string GetLevelGradeText(AgentModel target) {
+        switch (target.level) { 
+            case 1:
+                return "I";
+            case 2:
+                return "II";
+            case 3:
+                return "IIV";
+            case 4:
+                return "IV";
+            case 5:
+                return "V";
+            default:
+                return "I";
+        }
+    }
 }

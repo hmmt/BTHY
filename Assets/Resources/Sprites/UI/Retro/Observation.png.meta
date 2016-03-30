@@ -1,0 +1,268 @@
+fileFormatVersion: 2
+guid: 795e27501a7ca0a41a14df2fcdc2e444
+timeCreated: 1459314457
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: CreatueInfo
+    21300002: Observe_Selected
+    21300004: Observe_Notselected
+    21300006: BackGround
+    21300008: Icon
+    21300010: SlotNotselected
+    21300012: SlotSelected
+    21300014: AgentSelected
+    21300016: AgentNotselected
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: Standalone
+    maxTextureSize: 8192
+    textureFormat: -1
+    compressionQuality: 50
+    allowsAlphaSplitting: 0
+  spriteSheet:
+    sprites:
+    - name: CreatueInfo
+      rect:
+        serializedVersion: 2
+        x: 2198
+        y: 6024
+        width: 1508
+        height: 1296
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 176.5, y: -151}
+        - {x: 179.5, y: -144}
+        - {x: 180.5, y: -141}
+        - {x: 180.5, y: -136}
+        - {x: 181.5, y: -135}
+        - {x: 181.5, y: 93}
+        - {x: 188.5, y: 93}
+        - {x: 189.5, y: 94}
+        - {x: 189.5, y: 97}
+        - {x: 188.5, y: 100}
+        - {x: 185.5, y: 103}
+        - {x: 181.5, y: 108}
+        - {x: 181.5, y: 124}
+        - {x: 180.5, y: 126}
+        - {x: 185.5, y: 132}
+        - {x: 188.5, y: 135}
+        - {x: 189.5, y: 138}
+        - {x: 189.5, y: 141}
+        - {x: 188.5, y: 142}
+        - {x: 175.5, y: 142}
+        - {x: 172.5, y: 148}
+        - {x: 163.5, y: 156}
+        - {x: 161.5, y: 158}
+        - {x: 154.5, y: 161}
+        - {x: 151.5, y: 162}
+        - {x: -151.5, y: 162}
+        - {x: -153.5, y: 161}
+        - {x: -156.5, y: 161}
+        - {x: -159.5, y: 159}
+        - {x: -162.5, y: 158}
+        - {x: -164.5, y: 156}
+        - {x: -174.5, y: 147}
+        - {x: -179.5, y: 137}
+        - {x: -188.5, y: 127}
+        - {x: -188.5, y: 94}
+        - {x: -183.5, y: 89}
+        - {x: -183.5, y: -129}
+        - {x: -182.5, y: -130}
+        - {x: -182.5, y: -139}
+        - {x: -181.5, y: -140}
+        - {x: -179.5, y: -148}
+        - {x: -177.5, y: -151}
+        - {x: -170.5, y: -158}
+        - {x: -165.5, y: -161}
+        - {x: -159.5, y: -162}
+        - {x: 161.5, y: -162}
+        - {x: 168.5, y: -159}
+    - name: Observe_Selected
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 3742
+        width: 196
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24.5, y: 25.5}
+        - {x: -24.5, y: -16.5}
+        - {x: -16.5, y: -24.5}
+        - {x: 17.5, y: -24.5}
+        - {x: 24.5, y: -20.5}
+        - {x: 24.5, y: 25.5}
+    - name: Observe_Notselected
+      rect:
+        serializedVersion: 2
+        x: 1318
+        y: 3742
+        width: 196
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16.5, y: 25.5}
+        - {x: -24.5, y: 17.5}
+        - {x: -24.5, y: -15.5}
+        - {x: -15.5, y: -24.5}
+        - {x: 17.5, y: -24.5}
+        - {x: 25.5, y: -16.5}
+        - {x: 25.5, y: 18.5}
+        - {x: 18.5, y: 25.5}
+    - name: BackGround
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 2974
+        width: 1364
+        height: 2436
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -170.5, y: 305.5}
+        - {x: -170.5, y: -302.5}
+        - {x: -151.5, y: -304.5}
+        - {x: 152.5, y: -304.5}
+        - {x: 171.5, y: -285.5}
+        - {x: 171.5, y: 288.5}
+        - {x: 154.5, y: 305.5}
+    - name: Icon
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 3378
+        width: 196
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.5, y: 25.5}
+        - {x: -24.5, y: 24.5}
+        - {x: -24.5, y: -17.5}
+        - {x: -17.5, y: -24.5}
+        - {x: 24.5, y: -24.5}
+        - {x: 25.5, y: -20.5}
+        - {x: 25.5, y: 25.5}
+    - name: SlotNotselected
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 3118
+        width: 196
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.5, y: 25.5}
+        - {x: -24.5, y: 24.5}
+        - {x: -24.5, y: -17.5}
+        - {x: -17.5, y: -24.5}
+        - {x: 24.5, y: -24.5}
+        - {x: 25.5, y: -20.5}
+        - {x: 25.5, y: 25.5}
+    - name: SlotSelected
+      rect:
+        serializedVersion: 2
+        x: 1322
+        y: 3118
+        width: 196
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17.5, y: 25.5}
+        - {x: -24.5, y: 18.5}
+        - {x: -24.5, y: -16.5}
+        - {x: -16.5, y: -24.5}
+        - {x: 17.5, y: -24.5}
+        - {x: 25.5, y: -16.5}
+        - {x: 25.5, y: 18.5}
+        - {x: 18.5, y: 25.5}
+    - name: AgentSelected
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 2394
+        width: 1268
+        height: 356
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -158.5, y: 45.5}
+        - {x: -158.5, y: -44.5}
+        - {x: 159.5, y: -44.5}
+        - {x: 159.5, y: 45.5}
+    - name: AgentNotselected
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 2018
+        width: 1268
+        height: 356
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -158.5, y: 45.5}
+        - {x: -158.5, y: -44.5}
+        - {x: 159.5, y: -44.5}
+        - {x: 159.5, y: 45.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

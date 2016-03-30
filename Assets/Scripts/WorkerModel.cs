@@ -490,4 +490,6 @@ public class WorkerModel: ObjectModelBase, IObserver {
 		int yIndex = SefiraManager.instance.getSefira(y.sefira).index;
 		return xIndex.CompareTo(yIndex);
 	}
+
+    
 }
