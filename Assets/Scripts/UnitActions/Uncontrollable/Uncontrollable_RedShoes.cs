@@ -39,6 +39,7 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	public override void Execute()
 	{
+		Notice.instance.Send (NoticeName.EscapeCreature);
 		if (startWaitTimer > 0) {
 			startWaitTimer -= Time.deltaTime;
 			return;

@@ -69,6 +69,9 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 				actor.SetAttackDelay(3.0f);
 				targetAgent.OnHitByWorker (actor);
 				targetAgent.SetMoveDelay (3.5f);
+
+				AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+				agentView.SetParameterForSecond ("Attack", true, 0.3f);
 			}
 		}
 		else

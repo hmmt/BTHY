@@ -397,7 +397,7 @@ public class AgentUnit : MonoBehaviour {
             showSpeech.showSpeech(speech);
         }
 
-        if (model.mental <= 0 && !speechText.IsActive())
+		if (model.mental <= 0 && speechText != null && !speechText.IsActive())
         {
             speech = AgentLyrics.instance.getPanicLyrics();
             Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);

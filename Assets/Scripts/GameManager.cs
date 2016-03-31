@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
 			AgentManager.instance.activateAgent(a, "1");
 
 		a.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-5"));
+		//a.Panic ();
 		/*
 		SuppressAction sa = new SuppressAction (a);
 		sa.weapon = SuppressAction.Weapon.GUN;
