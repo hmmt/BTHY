@@ -78,7 +78,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 			if (actor.attackDelay <= 0)
 			{
 				//actor.
-				targetAgent.TakePhysicalDamage (250, DamageType.NORMAL);
+				targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
 
 				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
 

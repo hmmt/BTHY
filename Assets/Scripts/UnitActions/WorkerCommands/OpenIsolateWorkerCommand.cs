@@ -30,7 +30,10 @@ public class OpenIsolateWorkerCommand : WorkerCommand {
 		elapsedTime += Time.deltaTime;
 
 		if (elapsedTime > openIsolateTime) {
-			this.targetCreature.Escape ();
+			if (targetCreature.IsEscapable ())
+				targetCreature.Escape ();
+			else
+				targetCreature.SubFeeling (50);
 			Finish ();
 		}
 	}

@@ -5,7 +5,7 @@ public class PanicSuicideExecutor : PanicAction
 {
 	private AgentModel targetAgent;
 
-	private float suicideDelay = 5;
+	private float suicideDelay = 7;
 	private float horrorDelay = 5;
 
 	private float elapsedTime;
@@ -58,11 +58,20 @@ public class PanicSuicideExecutor : PanicAction
 
 	private void TrySuicide()
 	{
+		/*
         targetAgent.TakePhysicalDamage(1);
 
         if (targetAgent.isDead())
         {
 
         }
+        */
+		int r = Random.Range (0, 10);
+
+		if (r < 7)
+		{
+			targetAgent.TakePhysicalDamage (targetAgent.hp, DamageType.CUSTOM);
+			// set motion
+		}
 	}
 }

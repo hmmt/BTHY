@@ -190,6 +190,11 @@ public class CreatureManager : IObserver{
 				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
                 model.SetWorkspaceNode(newNode);
             }
+			else if (typeNode != null && typeNode.InnerText == "custom")
+			{
+				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
+				model.SetCustomNode(newNode);
+			}
             else if (typeNode != null && typeNode.InnerText == "creature")
             {
 				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());

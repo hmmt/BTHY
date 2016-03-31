@@ -32,14 +32,18 @@ public class SuppressWorkerCommand : WorkerCommand {
 	public override void OnInit(WorkerModel agent)
 	{
 		base.OnInit (agent);
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (agent.instanceId);
+		if(suppressAction.weapon == SuppressAction.Weapon.STICK)
+			agentView.puppetAnim.SetInteger("Suppress", 1);
+		else
+			agentView.puppetAnim.SetInteger("Suppress", 2);
+		agentView.puppetAnim.SetInteger ("SuppressAction", 0);
 	}
 
 	public override void OnStart(WorkerModel agent)
 	{
 		base.OnStart (agent);
-
-		AgentUnit au = AgentLayer.currentLayer.GetAgent (agent.instanceId);
-		au.puppetAnim.SetInteger ("AttackCount", 1);
 	}
 	public override void Execute(WorkerModel agent)
 	{
@@ -108,7 +112,9 @@ public class SuppressWorkerCommand : WorkerCommand {
 		base.OnDestroy (agent);
 
 		AgentUnit au = AgentLayer.currentLayer.GetAgent (agent.instanceId);
-		au.puppetAnim.SetInteger ("AttackCount", 0);
+		au.puppetAnim.SetInteger ("Suppress", 0);
+		au.SetParameterForSecond ("Return", true, 0.3f);
+
 		((AgentModel)actor).FinishSuppress();
 	}
 
@@ -141,13 +147,16 @@ public class SuppressWorkerCommand : WorkerCommand {
 						
 						//HitObjectManager.AddSuppressWorkerStickHitbox ((AgentModel) targetAgent);
 
-
+						AgentUnit au = AgentLayer.currentLayer.GetAgent (agentActor.instanceId);
+						au.SetParameterForSecond ("SuppressAction", Random.Range(1, 4), 0.3f);
 
 						agentActor.SetAttackDelay (4.0f);
 						agentActor.SetMoveDelay (1.0f);
 						targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
 						if(supType == SuppressType.PANIC)
 							targetAgent.TakePanicDamage (1);
+
+
 						agentActor.GetMovableNode ().StopMoving ();
 						return true;
 					}
@@ -171,9 +180,11 @@ public class SuppressWorkerCommand : WorkerCommand {
 							return true;
 						// 일단 딜레이 없이
 						// TODO: call motion method
-						Debug.Log("Shot!");
+						AgentUnit au = AgentLayer.currentLayer.GetAgent (agentActor.instanceId);
+						au.SetParameterForSecond ("SuppressAction", Random.Range(1, 3), 0.3f);
+
 						agentActor.SetAttackDelay(4.0f);
-						agentActor.SetMoveDelay (0.5f);
+						agentActor.SetMoveDelay (1f);
 						targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
 						if(supType == SuppressType.PANIC)
 							targetAgent.TakePanicDamage (1);
@@ -205,9 +216,12 @@ public class SuppressWorkerCommand : WorkerCommand {
 
 						if (agentActor.attackDelay > 0)
 							return true;
-						Debug.Log ("hit!");
+						
+						AgentUnit au = AgentLayer.currentLayer.GetAgent (agentActor.instanceId);
+						au.SetParameterForSecond ("SuppressAction", Random.Range(1, 4), 0.3f);
+
 						agentActor.SetAttackDelay(4.0f);
-						agentActor.SetMoveDelay (0.5f);
+						agentActor.SetMoveDelay (1f);
 						targetCreature.TakeSuppressDamage (1);
 						agentActor.GetMovableNode ().StopMoving ();
 						return true;
@@ -230,9 +244,12 @@ public class SuppressWorkerCommand : WorkerCommand {
 
 						if (agentActor.attackDelay > 0)
 							return true;
-						Debug.Log ("Shoot!");
+
+						AgentUnit au = AgentLayer.currentLayer.GetAgent (agentActor.instanceId);
+						au.SetParameterForSecond ("SuppressAction", Random.Range(1, 3), 0.3f);
+
 						agentActor.SetAttackDelay(4.0f);
-						agentActor.SetMoveDelay (0.5f);
+						agentActor.SetMoveDelay (1f);
 						targetCreature.TakeSuppressDamage (1);
 						agentActor.GetMovableNode ().StopMoving ();
 

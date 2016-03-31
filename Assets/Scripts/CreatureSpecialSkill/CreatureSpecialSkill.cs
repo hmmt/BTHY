@@ -332,6 +332,8 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 			AnimatorManager.instance.ChangeAnimatorByName (attractTargetAgent.instanceId, AnimatorName.RedShoes_infected,
 				officerView.puppetAnim, true, false);
 		}
+
+		attractTargetAgent.MoveToNode (model.GetCustomNode ());
 		//agentView.SetAnimatorChanged (true);
 
 		attractTargetAgent.SetUncontrollableAction(new Uncontrollable_RedShoes(attractTargetAgent, this, startType));

@@ -52,6 +52,8 @@ public class PanicOpenIsolate : PanicAction {
 				{
 					Debug.Log ("OPEN...");
 					targetAgent.OpenIsolateRoom (targetAgent.GetCurrentNode ().connectedCreature);
+
+					// set motion
 				}
 			}
 			else

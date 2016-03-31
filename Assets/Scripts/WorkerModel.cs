@@ -353,6 +353,15 @@ public class WorkerModel: ObjectModelBase, IObserver {
 		return false;
 	}
 
+	public virtual bool IsSuppable()
+	{
+		if (IsPanic ())
+			return true;
+		if (unconAction is Uncontrollable_RedShoes || unconAction is Uncontrollable_Machine)
+			return true;
+		return false;
+	}
+
 	public virtual void EncounterCreature()
 	{
 		
@@ -382,7 +391,13 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	// ??
 	public void SetMotionState(AgentMotion motion)
 	{
-		if (motion == AgentMotion.ATTACK_MOTION)
+		if(motion == AgentMotion.PANIC_ATTACK_MOTION)
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
+
+			//agentView.SetParameterForSecond ("Attack", UnityEngine.Random.Range (1, 4), 0.3f);
+		}	
+		else if (motion == AgentMotion.ATTACK_MOTION)
 		{
 			if(unconAction is Uncontrollable_RedShoes)
 			{

@@ -31,7 +31,6 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 			//Debug.Log ("asdfsdag");
 			movable.MoveToMovableNode(targetAgent.GetMovableNode());
 		}
-		this.isMoving = movable.IsMoving ();
 
 		CheckRanage ((AgentModel) agent);
 	}
@@ -52,12 +51,24 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 			dist.sqrMagnitude <= 2)
 		{
 			if (actor.attackDelay <= 0) {
+				/*
 				HitObjectManager.AddPanicHitbox (actor.GetCurrentViewPosition (), actor, (AgentModel)targetAgent);
 				//ResetAttackDelay ();
 				actor.SetAttackDelay(4.0f);
 				isMoving = false;
-
+				*/
 				// StopMoving
+
+				// 
+
+				targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
+
+				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
+
+				actor.SetMoveDelay (2.0f);
+				actor.SetAttackDelay(3.0f);
+				targetAgent.OnHitByWorker (actor);
+				targetAgent.SetMoveDelay (3.5f);
 			}
 		}
 		else

@@ -91,6 +91,11 @@ public class CreatureBase {
             );
     }*/
 
+	public virtual bool IsEscapable()
+	{
+		return true;
+	}
+
     public virtual SkillTypeInfo GetSpecialSkill()
     {
         return null;

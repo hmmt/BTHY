@@ -5,7 +5,8 @@ using System.IO;
 
 public enum AgentMotion
 {
-	ATTACK_MOTION
+	ATTACK_MOTION,
+	PANIC_ATTACK_MOTION
 }
 
 

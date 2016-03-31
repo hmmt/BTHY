@@ -38,4 +38,9 @@ public class SingingMachine : CreatureBase {
             (this.skill as SingingMachineSkill).SkillActivate(skill.agent);
         }
     }
+
+	public override bool IsEscapable()
+	{
+		return false;
+	}
 }

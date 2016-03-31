@@ -99,6 +99,7 @@ public class CreatureModel : ObjectModelBase, IObserver
     private MapNode workspaceNode;
 
     private MapNode roomNode;
+	private MapNode customNode;
     
     public Dictionary<string, object> GetSaveData()
     {
@@ -228,6 +229,11 @@ public class CreatureModel : ObjectModelBase, IObserver
         roomNode = node;
     }
 
+	public void SetCustomNode(MapNode node)
+	{
+		customNode = node;
+	}
+
     public void SetCurrentNode(MapNode node)
     {
         movableNode.SetCurrentNode(node);
@@ -255,6 +261,11 @@ public class CreatureModel : ObjectModelBase, IObserver
     {
         return MapGraph.instance.GetNodeById(entryNodeId);
     }
+
+	public MapNode GetCustomNode()
+	{
+		return customNode;
+	}
 
     public MovableObjectNode GetMovableNode()
     {
@@ -690,6 +701,13 @@ public class CreatureModel : ObjectModelBase, IObserver
 	public bool IsReady()
 	{
 		return energyChangeElapsedTime >= energyChangeTime;
+	}
+
+	public bool IsEscapable()
+	{
+		if (script != null)
+			return script.IsEscapable ();
+		return false;
 	}
 
 

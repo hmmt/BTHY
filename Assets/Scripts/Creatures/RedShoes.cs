@@ -130,4 +130,9 @@ public class RedShoes : CreatureBase {
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         */
     }
+
+	public override bool IsEscapable()
+	{
+		return false;
+	}
 }

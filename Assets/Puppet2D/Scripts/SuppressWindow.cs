@@ -165,6 +165,14 @@ public class SuppressWindow : MonoBehaviour
                         this.currentUi.Init(target);
                     }
                     break;
+				case TargetType.OFFICER:
+					{
+						OfficerModel model = target as OfficerModel;
+						this.currentUi = agentUi;
+						creatureUi.thisObject.SetActive(false);
+						this.currentUi.Init(target);
+					}
+					break;
             }
         }
 
@@ -336,6 +344,7 @@ public class SuppressWindow : MonoBehaviour
 
 	public void OnSetSuppression(AgentModel actor)
 	{
+		
 		if(target is AgentModel)
 		{
 			SuppressAction sa = new SuppressAction (actor);
@@ -350,7 +359,14 @@ public class SuppressWindow : MonoBehaviour
 
 			actor.StartSuppressAgent((OfficerModel)target, sa, SuppressType.UNCONTROLLABLE);
 		}
+
+		/*
+		SuppressAction sa = new SuppressAction (actor);
+		sa.weapon = SuppressAction.Weapon.GUN;
+		AutoCommandManager.instance.SetSuppressAgent(target, sa);
+		*/
 	}
+
 
     public void CloseWindow() {
         currentWindow = null;
