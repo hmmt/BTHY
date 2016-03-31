@@ -31,6 +31,12 @@ public class GameStaticDataLoader {
         if (SkillManager.instance.isLoaded == false) {
             loader.LoadSkillInfo();
         }
+
+        if (AgentLyrics.instance.IsLoaded() == false) {
+            loader.LoadLyricData();
+        }
+
+
 	}
 
     public void LoadTraitData()
@@ -334,6 +340,58 @@ public class GameStaticDataLoader {
             list.Add(model);
         }
         ConversationManager.instance.Init(list.ToArray(), endList.ToArray());
+    }
+
+    public void LoadLyricData() {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/AgentLyrics");
+        List<AgentLyrics.LyricList> lyricList = new List<AgentLyrics.LyricList>();
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        //XmlNode rootNode = doc.SelectSingleNode("root/chat");
+        XmlNodeList typeList = doc.SelectNodes("root/chat/type");
+        foreach (XmlNode node in typeList) {
+            List<AgentLyrics.AgentLyric> templist = new List<AgentLyrics.AgentLyric>();
+
+            int type = (int)float.Parse(node.Attributes.GetNamedItem("num").InnerText);
+            XmlNodeList itemList = node.SelectNodes("item");
+
+            foreach (XmlNode item in itemList) {
+
+                AgentLyrics.AgentLyric unitItem = new AgentLyrics.AgentLyric(
+                    (int)float.Parse(item.Attributes.GetNamedItem("id").InnerText),
+                    item.Attributes.GetNamedItem("desc").InnerText);
+                templist.Add(unitItem);
+            }
+            AgentLyrics.LyricList lyric = new AgentLyrics.LyricList(GetLyricType(type), templist.ToArray());
+            lyricList.Add(lyric);
+        }
+
+        AgentLyrics.instance.Init(lyricList);
+    }
+
+    private LyricType GetLyricType(int type) {
+        switch (type) { 
+            case 1:
+                return LyricType.DAY1;
+            case 2:
+                return LyricType.DAY;
+            case 3:
+                return LyricType.DAYSMALL;
+            case 4:
+                return LyricType.CHAT;
+            case 5:
+                return LyricType.MENTALBAD;
+            case 6:
+                return LyricType.LEVELUP;
+            case 7:
+                return LyricType.ESCAPE;
+            case 8:
+                return LyricType.SAD;
+            default:
+                return LyricType.CHAT;
+        }
     }
 
     /*

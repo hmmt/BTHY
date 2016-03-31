@@ -1,7 +1,78 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+public enum LyricType { 
+    DAY1,
+    DAY,
+    DAYSMALL,
+    CHAT,
+    MENTALBAD,
+    LEVELUP,
+    ESCAPE,
+    SAD
+}
 
 public class AgentLyrics {
+    public class AgentLyric {
+        public int id;
+        public string desc;
+
+        public AgentLyric( int id, string desc) {
+            this.id = id;
+            this.desc = desc;
+        }
+
+    }
+    public class LyricList {
+        public List<AgentLyric> list;
+
+        public LyricType type;
+
+        //default : Error
+
+        public LyricList(LyricType type, AgentLyric[] ary) {
+            this.type = type;
+            this.list = new List<AgentLyric>(ary);
+        }
+
+        public LyricList(LyricType type, List<AgentLyric> list)
+        {
+            this.type = type;
+            this.list = new List<AgentLyric>(list.ToArray());
+        }
+
+        public List<AgentLyric> GetAllLyrics() {
+            return this.list;
+        }
+
+        public AgentLyric GetRandomLyric() {
+            int randIndex = UnityEngine.Random.Range(0, list.Count);
+            return list[randIndex];
+        }
+
+        public AgentLyric GetUniqueLyricById(int id) {
+            AgentLyric output = null;
+            foreach (AgentLyric item in list) {
+                if (item.id.Equals(id)) {
+                    output = item;
+                    break;
+                }
+            }
+            return output;
+        }
+
+        public AgentLyric GetUniqueLyricByIndex(int index)
+        {
+            AgentLyric output = null;
+            if (index < 0 || index >= list.Count) {
+                Debug.Log("Error");
+                return null;
+            }
+            output = list[index];
+            return output;
+        }
+    }
 
     private static AgentLyrics _instance = null;
 
@@ -17,7 +88,37 @@ public class AgentLyrics {
         }
     }
 
+    public List<LyricList> list;
+   
+    private bool isLoaded = false;
 
+    public void Init(List<LyricList> inputList) {
+        list = new List<LyricList>(inputList.ToArray());
+        this.isLoaded = true;
+    }
+
+    public bool IsLoaded() {
+        return isLoaded;
+    }
+
+    public string getLyricsByDay(int day) {
+        string output = null;
+
+        if (day == 1)
+        {
+            output = this.GetLyricByType(LyricType.DAY1).GetRandomLyric().desc;
+        }
+        else {
+            int randVal = UnityEngine.Random.Range(0, 10);
+            if (randVal <= 3)
+                output = this.GetLyricByType(LyricType.DAYSMALL).GetRandomLyric().desc;
+            else
+                output = this.GetLyricByType(LyricType.DAY).GetRandomLyric().desc;
+        }
+        return output;
+    }
+
+    /*
     public string getLyricsByDay(int day)
     {
         int randFlag = 0;
@@ -225,7 +326,13 @@ public class AgentLyrics {
        return lyrics;
 
     }
+     */
 
+    public string getStoryLyrics(){
+        return getLyricsByDay(2);
+    }
+
+    /*
     public string getStoryLyrics()
     {
         string lyrics = "";
@@ -305,7 +412,13 @@ public class AgentLyrics {
 
         return lyrics;
     }
-
+     */
+    public string getPanicLyrics() {
+        string output = null;
+        output = this.GetLyricByType(LyricType.MENTALBAD).GetRandomLyric().desc;
+        return output;
+    }
+    /*
     public string getPanicLyrics()
     {
         string speach = "";
@@ -387,8 +500,15 @@ public class AgentLyrics {
         }
 
       return speach;
+    }*/
+
+    public string getOnClickLyrics() {
+        string output = null;
+        output = this.GetLyricByType(LyricType.CHAT).GetRandomLyric().desc;
+        return output;
     }
 
+    /*
     public string getOnClickLyrics()
     {
         string speach = "";
@@ -546,8 +666,27 @@ public class AgentLyrics {
 
         return speach;
 
+    }*/
+
+    public string getEscapePanicLyrics() {
+        string output = null;
+        output = this.GetLyricByType(LyricType.ESCAPE).GetRandomLyric().desc;
+        return output;
     }
 
+    public LyricList GetLyricByType(LyricType type) {
+        LyricList output = null;
+
+        foreach (LyricList target in this.list) {
+            if (target.type == type) {
+                output = target;
+                break;
+            }
+        }
+        return output;
+    }
+
+    /*
     public string getEscapePanicLyrics()
     {
         string speach = "";
@@ -631,5 +770,5 @@ public class AgentLyrics {
         return speach;
 
     }
-
+    */
 }
