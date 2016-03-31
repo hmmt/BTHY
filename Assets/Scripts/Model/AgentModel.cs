@@ -226,7 +226,10 @@ public class AgentModel : WorkerModel
 
         ProcessAction();
 
-		movableNode.ProcessMoveNode((int)(movement * movementMul));
+		if(moveDelay > 0)
+			movableNode.ProcessMoveNode(0);
+		else
+			movableNode.ProcessMoveNode((int)(movement * movementMul));
     }
 
     public void checkAgentLifeValue(TraitTypeInfo addTrait)
@@ -708,7 +711,7 @@ public class AgentModel : WorkerModel
 		commandQueue.SetAgentCommand (WorkerCommand.MakePanicPursueAgent (agent));
 	}
 
-	public void PursueUnconAgent(AgentModel agent)
+	public void PursueUnconAgent(WorkerModel agent)
 	{
 		commandQueue.SetAgentCommand (WorkerCommand.MakeUnconPursueAgent (agent));
 	}
@@ -857,6 +860,30 @@ public class AgentModel : WorkerModel
         movableNode.StopMoving();
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
+
+	public override void OnHitByWorker(WorkerModel worker)
+	{
+		//if(agentLifeValue == 1)
+		{
+			if (state == AgentAIState.MANAGE || state == AgentAIState.OBSERVE)
+			{
+				FinishWorking ();
+			}
+			else if(state == AgentAIState.IDLE)
+			{
+				SuppressAction sa = new SuppressAction (this);
+				sa.weapon = SuppressAction.Weapon.STICK;
+				if(worker.IsPanic())
+					StartSuppressAgent (worker, sa, SuppressType.PANIC);
+				else
+					StartSuppressAgent (worker, sa, SuppressType.UNCONTROLLABLE);
+			}
+		}
+	}
+	public override void OnHitByCreature(CreatureModel creature)
+	{
+		
+	}
 
 	public override void LoseControl()
 	{

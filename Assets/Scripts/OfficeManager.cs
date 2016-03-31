@@ -290,9 +290,20 @@ public class OfficeManager : IObserver {
     public OfficerModel[] GetNearOfficers(MovableObjectNode node) {
         List<OfficerModel> output = new List<OfficerModel>();
         foreach (OfficerModel officer in officeList) {
+			if (officer.isDead ())
+				continue;
+			
+			/*
             if (node.CheckInRange(officer.GetMovableNode())) {
                 output.Add(officer);
             }
+            */
+
+			Vector3 dist = node.GetCurrentViewPosition () - officer.GetMovableNode ().GetCurrentViewPosition ();
+			if (node.GetPassage () == officer.GetMovableNode ().GetPassage () &&
+				dist.sqrMagnitude <= 3) {
+				output.Add(officer);
+			}
         }
         return output.ToArray();
     }

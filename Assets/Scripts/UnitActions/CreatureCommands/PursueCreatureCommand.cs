@@ -52,7 +52,8 @@ public class PursueCreatureCommand : CreatureCommand
 		Vector3 dist = actor.GetMovableNode ().GetCurrentViewPosition () - targetWorker.GetMovableNode ().GetCurrentViewPosition ();
 
 		//dist.sqrMagnitude
-		if(actor.GetMovableNode().GetPassage() == targetWorker.GetMovableNode().GetPassage() &&
+		if(actor.GetMovableNode().GetPassage() != null &&
+			actor.GetMovableNode().GetPassage() == targetWorker.GetMovableNode().GetPassage() &&
 			dist.sqrMagnitude <= 2)
 
 

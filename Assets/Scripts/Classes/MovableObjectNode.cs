@@ -22,7 +22,7 @@ public class MovableObjectNode {
 
     private MovableState state;
 
-    private MapNode lastNode;
+    private MapNode lastNode; // for debug
 
     private MapNode _currentNode;
     private MapEdge _currentEdge;
@@ -148,15 +148,20 @@ public class MovableObjectNode {
     public void ProcessMoveNode(int movement)
     {
 		bool stateChanged = false;
-
+		/*
 		if (currentNode != null)
 		{
 			currentScale = currentNode.scaleFactor;
 			//lastNode = currentNode;
 		}
+		else if(lastNode != null)
+		{
+			currentScale = lastNode.scaleFactor;
+		}
+		*/
 
-		if (movement <= 0)
-			return;
+		//if (movement <= 0)
+		//	return;
 
         // 문에 대한 처리
         if (currentNode != null)
@@ -316,12 +321,13 @@ public class MovableObjectNode {
             }
         }
 
-
+		/*
 		if (currentNode != null)
 		{
 			currentScale = currentNode.scaleFactor;
 			lastNode = currentNode;
 		}
+		*/
     }
 
     public bool Equal(MovableObjectNode src)
@@ -671,6 +677,8 @@ public class MovableObjectNode {
                             edgePosRate = 1 - old.edgePosRate;
                         else
                             edgePosRate = old.edgePosRate;
+
+						UpdateNodeEdge (null, old.currentEdge);
                     }
                     else if (pathInfo.pathEdges[0] == tempEdge2)
                     {
@@ -681,6 +689,7 @@ public class MovableObjectNode {
                             edgePosRate = old.edgePosRate;
                         else
                             edgePosRate = 1 - old.edgePosRate;
+						UpdateNodeEdge (null, old.currentEdge);
                     }
                     else
                     {
@@ -828,6 +837,11 @@ public class MovableObjectNode {
 	{
 		_currentNode = node;
 		_currentEdge = edge;
+		if (node != null && !node.isTemporary)
+		{
+			currentScale = node.scaleFactor;
+			lastNode = node;
+		}
 		UpdateCurrentPassage ();
 	}
 

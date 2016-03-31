@@ -47,7 +47,8 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 
 		Vector3 dist = actor.GetMovableNode ().GetCurrentViewPosition () - targetAgent.GetMovableNode ().GetCurrentViewPosition ();
 
-		if(actor.GetMovableNode().GetPassage() == targetAgent.GetMovableNode().GetPassage() &&
+		if(actor.GetMovableNode().GetPassage() != null &&
+			actor.GetMovableNode().GetPassage() == targetAgent.GetMovableNode().GetPassage() &&
 			dist.sqrMagnitude <= 2)
 		{
 			if (actor.attackDelay <= 0) {

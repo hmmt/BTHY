@@ -211,25 +211,27 @@ public class OfficerUnit : MonoBehaviour {
         }
         */
         
-        if (oldPos != transform.localPosition.x)
-        {
-            /*
-            puppetAnim.SetBool("Move", true);
-            faceSprite.GetComponent<Animator>().SetBool("Move", true);
-            hairSprite.GetComponent<Animator>().SetBool("Move", true);
-            //officerAnimator.SetBool();
-            */
-            puppetAnim.SetBool("Move", true);
-        }
-        else {
-            /*
-            officerAnimator.SetBool("AgentMove", false);
-            faceSprite.GetComponent<Animator>().SetBool("Move", false);
-            hairSprite.GetComponent<Animator>().SetBool("Move", false);
-             */
-            puppetAnim.SetBool("Move", false);
-        }
-        
+		if(AnimatorUtil.HasParameter(puppetAnim, "Move"))
+		{
+	        if (oldPos != transform.localPosition.x)
+	        {
+	            /*
+	            puppetAnim.SetBool("Move", true);
+	            faceSprite.GetComponent<Animator>().SetBool("Move", true);
+	            hairSprite.GetComponent<Animator>().SetBool("Move", true);
+	            //officerAnimator.SetBool();
+	            */
+	            puppetAnim.SetBool("Move", true);
+	        }
+	        else {
+	            /*
+	            officerAnimator.SetBool("AgentMove", false);
+	            faceSprite.GetComponent<Animator>().SetBool("Move", false);
+	            hairSprite.GetComponent<Animator>().SetBool("Move", false);
+	             */
+	            puppetAnim.SetBool("Move", false);
+	        }
+		}
         
 
         if (oldPosY != transform.localPosition.y)
@@ -293,6 +295,20 @@ public class OfficerUnit : MonoBehaviour {
 		if (animTarget != null)
 		{
 			animTarget.SetParameterOnce (pname, value);
+		}
+	}
+	public void SetParameterForSecond(string pname, bool value, float time)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterForSecond (pname, value, time);
+		}
+	}
+	public void SetParameterForSecond(string pname, int value, float time)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterForSecond (pname, value, time);
 		}
 	}
 

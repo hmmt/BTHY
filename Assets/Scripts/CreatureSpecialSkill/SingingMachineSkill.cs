@@ -256,7 +256,7 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         if (this.attractTarget.Count > 0 || PlayingMusic) {
             return;
         }
-        Debug.Log("Deactivate");
+        //Debug.Log("Deactivate");
         base.DeActivate();
     }
 }

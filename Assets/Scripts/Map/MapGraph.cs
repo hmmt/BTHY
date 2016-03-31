@@ -408,7 +408,7 @@ public class MapGraph : IObserver
 					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
 
 					elevator.AddFloorInfo (upFloorList.ToArray (), new Vector3 (0, 6, 0) + elevatorNode.GetPosition ());
-					elevator.AddFloorInfo (downFloorList.ToArray (), new Vector3 (0, -6, 0) + elevatorNode.GetPosition ());
+					elevator.AddFloorInfo (downFloorList.ToArray (), new Vector3 (0, -7, 0) + elevatorNode.GetPosition ());
 
 					elevatorList.Add (elevator);
 				}

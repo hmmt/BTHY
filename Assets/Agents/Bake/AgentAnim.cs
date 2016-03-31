@@ -15,6 +15,7 @@ public class AgentAnim : MonoBehaviour {
 		public int ivalue;
 		public bool bvalue;
 		public int state;
+		public float remainTimer;
 
 		public ParameterType type;
 
@@ -31,6 +32,24 @@ public class AgentAnim : MonoBehaviour {
 			this.name = name;
 			this.bvalue = value;
 			this.state = state;
+			this.type = ParameterType.BOOL;
+		}
+
+		public ParameterInfo(string name, int value, int state, float remainTimer)
+		{
+			this.name = name;
+			this.ivalue = value;
+			this.state = state;
+			this.remainTimer = remainTimer;
+			this.type = ParameterType.INT;
+		}
+
+		public ParameterInfo(string name, bool value, int state, float remainTimer)
+		{
+			this.name = name;
+			this.bvalue = value;
+			this.state = state;
+			this.remainTimer = remainTimer;
 			this.type = ParameterType.BOOL;
 		}
 	}
@@ -62,12 +81,14 @@ public class AgentAnim : MonoBehaviour {
 	private Dictionary<string, SpriteRenderer> clothesRendererTable;
 
 	private Stack<ParameterInfo> updatedParameters;
+	private List<ParameterInfo> updatedParametersMoment;
 
 	
 	
 	void Awake()
 	{
 		updatedParameters = new Stack<ParameterInfo> ();
+		updatedParametersMoment = new List<ParameterInfo> ();
 
 		animator = GetComponent<Animator> ();
 		if (animator == null) {
@@ -137,6 +158,17 @@ public class AgentAnim : MonoBehaviour {
 		animator.SetBool (pname, value);
 	}
 
+	public void SetParameterForSecond(string pname, int value, float time)
+	{
+		updatedParametersMoment.Add (new ParameterInfo (pname, animator.GetInteger (pname), animator.GetAnimatorTransitionInfo(0).nameHash, time));
+		animator.SetInteger (pname, value);
+	}
+	public void SetParameterForSecond(string pname, bool value, float time)
+	{
+		updatedParametersMoment.Add (new ParameterInfo (pname, animator.GetBool (pname), animator.GetAnimatorTransitionInfo(0).nameHash, time));
+		animator.SetBool (pname, value);
+	}
+
 	void LateUpdate()
 	{
 		while (updatedParameters.Count > 0) {
@@ -145,6 +177,26 @@ public class AgentAnim : MonoBehaviour {
 				animator.SetInteger(info.name, info.ivalue);
 			else
 				animator.SetBool(info.name, info.bvalue);
+		}
+
+		List<ParameterInfo> rmList = new List<ParameterInfo> ();
+		foreach (ParameterInfo info in updatedParametersMoment)
+		{
+			info.remainTimer -= Time.deltaTime;
+
+			if (info.remainTimer <= 0)
+			{
+				if(info.type == ParameterInfo.ParameterType.INT)
+					animator.SetInteger(info.name, info.ivalue);
+				else
+					animator.SetBool(info.name, info.bvalue);
+				
+				rmList.Add (info);
+			}
+		}
+
+		foreach (ParameterInfo info in rmList) {
+			updatedParametersMoment.Remove (info);
 		}
 	}
 }

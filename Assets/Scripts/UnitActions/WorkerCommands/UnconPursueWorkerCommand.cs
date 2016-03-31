@@ -60,7 +60,8 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 
 		Vector3 dist = actor.GetMovableNode ().GetCurrentViewPosition () - targetAgent.GetMovableNode ().GetCurrentViewPosition ();
 
-		if(actor.GetMovableNode().GetPassage() == targetAgent.GetMovableNode().GetPassage() &&
+		if(actor.GetMovableNode().GetPassage() != null &&
+			actor.GetMovableNode().GetPassage() == targetAgent.GetMovableNode().GetPassage() &&
 			dist.sqrMagnitude <= 2)
 		{
 			float actorX = actor.GetCurrentViewPosition ().x;
@@ -77,12 +78,14 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 			if (actor.attackDelay <= 0)
 			{
 				//actor.
-				targetAgent.TakePhysicalDamage (250);
+				targetAgent.TakePhysicalDamage (250, DamageType.NORMAL);
 
 				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
 
 				actor.SetMoveDelay (2.0f);
 				actor.SetAttackDelay(4.0f);
+				targetAgent.OnHitByWorker (actor);
+				targetAgent.SetMoveDelay (1.5f);
 
 				MovableObjectNode movable = actor.GetMovableNode();
 				movable.StopMoving ();

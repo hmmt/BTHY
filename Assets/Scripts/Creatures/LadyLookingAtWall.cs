@@ -25,7 +25,7 @@ public class LadyLookingAtWall : CreatureBase {
     {
         Debug.Log("LadyLookingAtWall ActivateSkill()");
         // 스킬: 뒤를 돌아보지 마
-        skill.agent.TakePhysicalDamage(skillPhysicsDmg);
+		skill.agent.TakePhysicalDamage(skillPhysicsDmg, DamageType.CUSTOM);
         skill.agent.TakeMentalDamage(skillMentalDmg);
     }
 
