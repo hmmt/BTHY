@@ -437,7 +437,7 @@ public class UseSkill : ActionClassBase
         if (skillInfo.animID == 0)
             agentView.puppetAnim.SetBool("Memo", true);
         else {
-            Debug.Log(SkillCategoryName.GetCategoryName(skillInfo));
+            //Debug.Log(SkillCategoryName.GetCategoryName(skillInfo));
             agentView.puppetAnim.SetInteger( SkillCategoryName.GetCategoryName(skillInfo),
                 skillInfo.animID);
         }

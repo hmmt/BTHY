@@ -935,6 +935,7 @@ public class GameStaticDataLoader {
         CreatureTypeInfo.ObserveTable table = model.observeTable;
         model.codeId = LoadCollectionItem(collection, "codeNo", ref table.codeNo);
         model.portraitSrc = LoadCollectionItem(collection, "portrait", ref table.portrait);
+        
         model.sizeLevel = (int)float.Parse(LoadCollectionItem(collection, "size", ref table.size));
         model.weightLevel = LoadCollectionItem(collection, "weight", ref table.weight);
         model.name = LoadCollectionItem(collection, "name", ref table.name);

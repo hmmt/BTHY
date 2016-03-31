@@ -43,30 +43,35 @@ public class ManageAnimScirpt : StateMachineBehaviour {
             animator.SetBool("Manage", false);
         }
 
-        if (animator.GetInteger("Food") != 0){
-            animator.SetInteger("Food", 0);
+        if (animator.GetInteger("Nutrition") != 0)
+        {
+            animator.SetInteger("Nutrition", 0);
         }
 
         if (animator.GetInteger("Clean") != 0) {
             animator.SetInteger("Clean", 0);
         }
 
-        if (animator.GetInteger("Communication") != 0) {
-            animator.SetInteger("Communication", 0);
+        if (animator.GetInteger("Communion") != 0)
+        {
+            animator.SetInteger("Communion", 0);
         }
 
-        if (animator.GetInteger("Recept") != 0) {
-            animator.SetInteger("Recept", 0);
+        if (animator.GetInteger("Treatment") != 0)
+        {
+            animator.SetInteger("Treatment", 0);
         }
 
-        if (animator.GetInteger("Restrick") != 0) {
-            animator.SetInteger("Restrick", 0);
+        if (animator.GetInteger("Control") != 0)
+        {
+            animator.SetInteger("Control", 0);
         }
 
+        /*
         if (animator.GetInteger("Treat") != 0) {
             animator.SetInteger("Treat", 0);
         }
-
+*/
 
 
         if (animator.GetBool("Memo") == true)

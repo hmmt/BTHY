@@ -72,9 +72,10 @@ public class TextListScript : MonoBehaviour{
         //Debug.Log(desc.Length);
 
         for (int i = 0; i < iconList.Length; i++) {
-            GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
-            iconObject.GetComponent<Image>().sprite = iconList[i];
-            OverlayObject icons = iconObject.GetComponent<OverlayObject>();
+            /*
+            //GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
+           // iconObject.GetComponent<Image>().sprite = iconList[i];
+            //OverlayObject icons = iconObject.GetComponent<OverlayObject>();
             int tempindex = i;
             if (tempindex < desc.Length) {
                 icons.text = desc[tempindex];
@@ -94,7 +95,7 @@ public class TextListScript : MonoBehaviour{
             exit.callback.AddListener((eventdata) => { icons.Hide(); });
             tri.triggers.Add(enter);
             tri.triggers.Add(exit);
-            iconObjectList.Add(iconObject);
+            iconObjectList.Add(iconObject);*/
         }
         
         if ((child.Count % 2) == 0)

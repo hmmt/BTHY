@@ -44,8 +44,8 @@ public class TraitListScript : MonoBehaviour {
         Transform iconGrid = traitPanel.transform.GetChild(1);
 
         for (int i = 0; i < icon.Length; i++) {
-            GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
-            iconObject.GetComponent<Image>().sprite = icon[i];
+            //GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
+            //iconObject.GetComponent<Image>().sprite = icon[i];
 
             /*
             OverlayObject icons = iconObject.AddComponent<OverlayObject>();
@@ -62,7 +62,7 @@ public class TraitListScript : MonoBehaviour {
             trigger.triggers.Add(enter);
             trigger.triggers.Add(exit);
              */
-            output.Add(iconObject);
+            //output.Add(iconObject);
         }
         
         textPanel.text = trait.name;

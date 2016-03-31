@@ -317,25 +317,25 @@ public class SkillManager {
 
 }
 
-public class SkillCategoryName { 
-    public static string Food = "Food";
-    public static string Treat = "Recept";
+public class SkillCategoryName {
+    public static string Nutrition = "Nutrition";
+    public static string Treatment = "Treatment";
     public static string Clean = "Clean";
-    public static string Communication = "Treat";
-    public static string Restriction = "Restrick";
+    public static string Communion = "Communion";
+    public static string Control = "Control";
 
     public static string GetCategoryName(SkillCategory target) {
-        switch (target.name) { 
-            case "영양":
-                return Food;
-            case "대우":
-                return Treat;
-            case "청결":
+        switch (target.name) {
+            case "Nutrition":
+                return Nutrition;
+            case "Treatment":
+                return Treatment;
+            case "Clean":
                 return Clean;
-            case "교감":
-                return Communication;
-            case "규제":
-                return Restriction;
+            case "Communion":
+                return Communion;
+            case "Control":
+                return Control;
             default:
                 return "";
         }

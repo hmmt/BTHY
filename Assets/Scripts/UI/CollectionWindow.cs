@@ -81,10 +81,13 @@ public class CollectionWindow : MonoBehaviour {
          */
 
         wnd.DisplayData(wnd);
+        /*
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
         if (creature.metaInfo.tempPortrait != null) {
             wnd.profImage.sprite = creature.metaInfo.tempPortrait;
-        }
+        }*/
+
+
         //wnd.DangerRank.text =wnd.attackType.text + " " + wnd.dangerLevel.text;
        // wnd.UpdateBg("default");
         //wnd.observeButton.gameObject.SetActive(false);
@@ -115,6 +118,11 @@ public class CollectionWindow : MonoBehaviour {
         //DisplayText(clevel, nickname.text, 
         string dangerRank = wnd.attackType.text + " " + wnd.dangerLevel.text;
         wnd.DangerRank.text = dangerRank;
+
+        if (clevel >= table.portrait) { 
+            profImage.sprite = Resources.Load<Sprite>("Sprites/"+info.portraitSrc);
+            
+        }
 
         char[] determine = { '*' };
         for (int i = 0; i < table.desc.Count; i++) {

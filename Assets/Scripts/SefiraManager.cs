@@ -332,7 +332,6 @@ public class Sefira
         if (this.agentList.Contains(add)) {
             return;
         }
-        Debug.Log(add.name + " " + add.gender);
         agentList.Add(add); 
         //Debug.Log("agentList");
         /*
@@ -528,6 +527,7 @@ public class Sefira
     /// <param name="skillcategories"></param>
     public void InitAgentSkillCategory(List<SkillCategory> skillcategories) {
         int cnt = 0;
+
         foreach (SkillCategory cat in skillcategories)
         {
             AgentSkillCategory asc = new AgentSkillCategory(cat, cnt);

@@ -30,7 +30,7 @@ public class AgentSpeech : MonoBehaviour {
 
         mini_size = new Vector2(init_size.x / 2, init_size.y);
         textObject.gameObject.SetActive(false);
-        Bg = textObject.GetComponent<Image>();
+        //Bg = textObject.GetComponent<Image>();
 
     }
 
@@ -42,6 +42,7 @@ public class AgentSpeech : MonoBehaviour {
                 speechText.alignment = standard;
                 speechText.fontSize = size;
                 SetSpeech(copy);
+                /*
                 int index = 1;
                 if (speechText.preferredWidth > length) {
                     int head = (int)(speechText.preferredWidth / length);
@@ -49,31 +50,28 @@ public class AgentSpeech : MonoBehaviour {
                     
                 }
                 if (index > BgSprite.Length) index = BgSprite.Length-1;
-
-                Bg.sprite = BgSprite[index];
-                textRect.sizeDelta = new Vector2(speechText.preferredWidth, (speechText.fontSize + 2f) * index);
-                bgRect.sizeDelta = new Vector2(textRect.sizeDelta.x + 20f, textRect.sizeDelta.y + 20f);
-                //textRect.sizeDelta = init_size;
-                //bgRect.sizeDelta = bg_size;
+                */
+               // Bg.sprite = BgSprite[index];
+                //textRect.sizeDelta = new Vector2(speechText.preferredWidth, (speechText.fontSize + 2f) * index);
+                //bgRect.sizeDelta = new Vector2(textRect.sizeDelta.x + 20f, textRect.sizeDelta.y + 20f);
+                
             }
             else {
                 speechText.alignment = TextAnchor.MiddleCenter;
                 speechText.fontSize = size * 3;
                 SetSpeech(". . .");
                 textRect.sizeDelta = mini_size;
-                //bgRect.sizeDelta = mini_size;
-                Bg.sprite = BgSprite[0];
+                bgRect.sizeDelta = mini_size;
+                //Bg.sprite = BgSprite[0];
             }
         }
     }
 
     private void SetSpeech(string text) {
         speechText.text = text;
-        float h = speechText.preferredHeight;
-        textRect.sizeDelta = new Vector2(textRect.sizeDelta.x, h);
-        init_size = new Vector2(textRect.sizeDelta.x, textRect.sizeDelta.y);
-        bgRect.sizeDelta = new Vector2(textRect.sizeDelta.x + 10f, h + 10f);
-        bg_size = new Vector2(bgRect.sizeDelta.x, bgRect.sizeDelta.y);
+        //bgRect.sizeDelta = new Vector2(textRect.sizeDelta.x + 100f, h + 10f);
+        bgRect.sizeDelta = new Vector2(speechText.rectTransform.sizeDelta.x + 10f,
+                                    speechText.rectTransform.sizeDelta.y + 10f);
     }
 
     public void showSpeech(string speech)

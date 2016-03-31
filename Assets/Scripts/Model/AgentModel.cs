@@ -1171,13 +1171,20 @@ public class AgentModel : WorkerModel
     }
 
     public void setSprite() {
-        string loc = "UIResource/Icons/";
-        
+        string loc = "UIResource/Icons/Icons";
+        Sprite[] icons = Resources.LoadAll<Sprite>(loc);
+
+        for (int i = 0; i < StatusSprites.Length; i++) {
+            Debug.Log((i * 3 + levelSetting.stats[i]).ToString());
+            StatusSprites[i] = icons[i * 3 + levelSetting.stats[i]];
+        }
+        /*
+
         for (int i = 0; i < StatusSprites.Length; i++) {
             string fullpath = loc + i + levelSetting.stats[i];
             StatusSprites[i] = ResourceCache.instance.GetSprite(fullpath);
         }
-
+        */
         for (int i = 0; i < WorklistSprites.Length; i++) {
             string fullpath = loc + "Work_" + i;
             WorklistSprites[i] = ResourceCache.instance.GetSprite(fullpath);
