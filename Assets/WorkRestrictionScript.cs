@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class RestrictionContent {
     public static string Woman = "Female";
@@ -43,6 +44,10 @@ public class RestrictionTable {
         public class Restriction {
             public string desc;
             public bool isRestricted;
+
+            public void OnChange() {
+                isRestricted = !isRestricted;
+            }
         }
 
         public long creatureID;
@@ -60,7 +65,21 @@ public class RestrictionTable {
             }
         }
 
-        
+        public List<string> GetRestrictionString() {
+            List<string> output = new List<string>();
+
+            foreach (Restriction r in this.list) {
+
+                if (r.isRestricted == true) {
+                    output.Add(r.desc);
+                }
+            }
+            return output;
+        }
+
+        public Restriction[] GetRestriction() {
+            return list.ToArray();
+        }
     }
 
     private static RestrictionTable _instance;
@@ -96,9 +115,10 @@ public class RestrictionTable {
                 break;
             }
         }
-        if (table == null) {
-            Debug.Log("Finding error in restriction");
-
+        if (table == null)
+        {
+            AddCreature(model);
+            return GetTableByCreature(model);
         }
         return table;
     }
@@ -111,8 +131,18 @@ public class WorkRestrictionScript : MonoBehaviour {
         public Toggle button;
         public Text desc;
 
+        [HideInInspector]
+        public RestrictionTable.TableElement.Restriction target;
+
         public void Init(RestrictionTable.TableElement.Restriction item) {
-            this.button.isOn = item.isRestricted;
+            target = item;
+
+            this.button.isOn = !item.isRestricted;
+        }
+
+        public void OnClick() {
+
+            target.OnChange();
         }
     }
 
@@ -122,13 +152,13 @@ public class WorkRestrictionScript : MonoBehaviour {
 
     public void Init(CreatureModel target) {
         _target = target;
-
+        
         Matching();
     }
 
     public void Matching() {
         RestrictionTable.TableElement table = RestrictionTable.instance.GetTableByCreature(_target);
-
+        
         foreach (RestrictionTable.TableElement.Restriction item in table.list) {
             RestrictionItem target = GetItem(item.desc);
             if (target == null) {
@@ -141,7 +171,7 @@ public class WorkRestrictionScript : MonoBehaviour {
     public RestrictionItem GetItem(string desc) {
         RestrictionItem output = null;
         foreach (RestrictionItem item in this.list) {
-            if (output.desc.text == desc) {
+            if (item.desc.text == desc) {
                 output = item;
                 break;
             }
@@ -150,5 +180,33 @@ public class WorkRestrictionScript : MonoBehaviour {
         return output;
     }
 
-    
+    public void OnClick(Toggle target) {
+        RestrictionItem current = null;
+
+        foreach (RestrictionItem item in this.list) {
+            if (item.button.Equals(target)) {
+                current = item;
+                break;
+            }
+        }
+        if (current == null) {
+            Debug.Log("Error");
+            return;
+        }
+        current.OnClick();
+        if (SelectWorkAgentWindow.currentWindow != null) {
+            SelectWorkAgentWindow.currentWindow.OnRestrictionChanged();
+        }
+        
+    }
+
+    public void OnClick(int i) { 
+        if(i < 0 || i >= this.list.Count) return;
+        RestrictionItem current = this.list[i];
+        current.OnClick();
+        if (SelectWorkAgentWindow.currentWindow != null)
+        {
+            SelectWorkAgentWindow.currentWindow.OnRestrictionChanged();
+        }
+    }
 }

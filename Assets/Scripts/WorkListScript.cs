@@ -109,19 +109,37 @@ public class WorkListScript : MonoBehaviour {
     public List<SkillTypeInfo> skillList;
     public List<Sefira.AgentSkillCategory> categories;
     public RectTransform[] parentAry;
+    private CreatureModel _target;
 
-    public void Init() {
+    public void Init(CreatureModel target) {
+        this._target = target;
         skillList = new List<SkillTypeInfo>();
         currentSefira = SefiraManager.instance.getSefira(SefiraName.Malkut);
-        categories = new List<Sefira.AgentSkillCategory>(currentSefira.GetSkillCategories());
+        SetWorkList(RestrictionTable.instance.GetTableByCreature(_target));
+
+    }
+
+    public void SetWorkList(RestrictionTable.TableElement element) {
+
+        List<string> condition = element.GetRestrictionString();
+        
+        categories = new List<Sefira.AgentSkillCategory>(currentSefira.GetSkillCategoriesWithCondition(condition));
+        
+
+        for (int i = 0; i < parentAry.Length; i++) {
+            foreach (Transform t in parentAry[i]) {
+                Destroy(t.gameObject);
+            }
+        }
 
         for (int i = 0; i < categories.Count; i++)
         {
             List<SkillTypeInfo> tempSkillList = new List<SkillTypeInfo>();
             SkillCategory cat = categories[i].category;
-            
+
             int currentIndex = GetIndex(cat);
-            if (currentIndex == -1) { 
+            if (currentIndex == -1)
+            {
                 //not have category
                 continue;
             }
@@ -132,7 +150,8 @@ public class WorkListScript : MonoBehaviour {
 
             for (int j = 1; j <= categories[i].maxLevel; j++)
             {
-                foreach (SkillTypeInfo item in cat.GetByLevel(j)) {
+                foreach (SkillTypeInfo item in cat.GetByLevel(j))
+                {
                     tempSkillList.Add(item);
                 }
             }
@@ -161,6 +180,7 @@ public class WorkListScript : MonoBehaviour {
     public void SlotCall(int index, List<SkillTypeInfo> skillList)
     {
         float posy = 0.0f;
+        
         foreach (SkillTypeInfo s in skillList)
         {
             //Debug.Log("slot call " + s.name);
@@ -226,6 +246,11 @@ public class WorkListScript : MonoBehaviour {
         this.targetSlot = null;
         this.GetComponent<WorkInventory>().Close();
         //this.gameObject.SetActive(false);
+    }
+
+    public void OnChanged() {
+
+        this.SetWorkList(RestrictionTable.instance.GetTableByCreature(_target));
     }
 
 }

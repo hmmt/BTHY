@@ -29,7 +29,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
     private WorkListScript workListScript;
 
     private CreaturePriority priority;
-
+    public WorkRestrictionScript workRestrictionScript;
 
 
 	public static SelectWorkAgentWindow currentWindow = null;
@@ -53,7 +53,9 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         inst.inventory.Init();
 
         inst.workListScript = inst.GetComponent<WorkListScript>();
-        inst.workListScript.Init();
+        inst.workListScript.Init(creature);
+        
+        inst.workRestrictionScript.Init(creature);
         if (type == WorkType.NORMAL)
         {
             CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
@@ -355,5 +357,10 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         {
             return "신체 : ???";
         }
+    }
+
+    public void OnRestrictionChanged() {
+
+        this.workListScript.OnChanged();
     }
 }

@@ -9,14 +9,14 @@ public class OverlayObject : MonoBehaviour, IOverlay
 
     public void Overlay()
     {
-        
+        return;
         OverlayScript.instance.Overlay(this.gameObject, text);
     }
 
 
     public void Hide()
     {
-        
+        return;
         OverlayScript.instance.Hide();
     }
 }

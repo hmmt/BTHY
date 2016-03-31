@@ -189,6 +189,15 @@ public class Sefira
             this.index = index;
         }
 
+        public AgentSkillCategory GetCopy() {
+            AgentSkillCategory newItem = new AgentSkillCategory(this.category.GetCopy(), this.index);
+            newItem.SetCategory(this.category);
+            foreach (AgentModel model in this.agentList) {
+                newItem.AddAgent(model);
+            }
+            return newItem;
+        }
+
         public void SetCategory(SkillCategory cat) {
             this.category = this.GetCategory().GetCopy();
         }
@@ -323,7 +332,7 @@ public class Sefira
         if (this.agentList.Contains(add)) {
             return;
         }
-
+        Debug.Log(add.name + " " + add.gender);
         agentList.Add(add); 
         //Debug.Log("agentList");
         /*
@@ -578,6 +587,60 @@ public class Sefira
     public AgentSkillCategory[] GetSkillCategories() {
         //Debug.Log("길이 : " + skillCategory.Count);
         return skillCategory.ToArray();
+    }
+
+    /// <summary>
+    /// 입력받은 조건을 제외한 작업 카테고리들을 배출
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    public AgentSkillCategory[] GetSkillCategoriesWithCondition(List<string> condition) {
+        
+        List<AgentSkillCategory> tempList = new List<AgentSkillCategory>();
+
+        foreach (AgentSkillCategory tempAsc in this.GetSkillCategories()) {
+            tempList.Add(tempAsc.GetCopy());
+        }
+        
+        List<AgentModel> deleteList = new List<AgentModel>();
+        
+        foreach (AgentSkillCategory asc in tempList) {
+            if (condition.Contains(RestrictionContent.Woman)) {
+                foreach (AgentModel model in asc.agentList) {
+                    if (model.gender == RestrictionContent.Woman) {
+                        deleteList.Add(model);
+                    }
+                }
+            }
+
+            if (condition.Contains(RestrictionContent.Man))
+            {
+                foreach (AgentModel model in asc.agentList)
+                {
+                    if (model.gender == RestrictionContent.Man)
+                    {
+                        deleteList.Add(model);
+                    }
+                }
+            }
+        }
+
+        List<AgentSkillCategory> deleteAsc = new List<AgentSkillCategory>();
+
+        foreach (AgentSkillCategory asc in tempList) {
+            foreach (AgentModel am in deleteList) {
+                asc.agentList.Remove(am);
+            }
+            if (asc.agentList.Count == 0) {
+                deleteAsc.Add(asc);
+            }
+        }
+
+        foreach (AgentSkillCategory asc in deleteAsc) {
+            tempList.Remove(asc);
+        }
+
+        return tempList.ToArray();
     }
 
     private bool CheckCategoryExist(string category) {

@@ -148,7 +148,6 @@ public class WorkInventory : MonoBehaviour {
 
     public void Reduce()
     {
-        Debug.Log("눌리긴함");
         extended = false;
         for (int i = 0; i < list.Count; i++) {
             RectTransform rect = list[i].GetComponent<RectTransform>();
