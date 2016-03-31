@@ -148,7 +148,7 @@
   <observe level ="3">
     <collection>
       <codeNo openLevel ="0">O-04-08-H</codeNo>
-      <portrait openLevel ="0"></portrait>
+      <portrait openLevel ="0">Unit/Creature/RedShoes</portrait>
      
         <size openLevel ="0">
   1

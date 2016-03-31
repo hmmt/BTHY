@@ -1175,7 +1175,7 @@ public class AgentModel : WorkerModel
         Sprite[] icons = Resources.LoadAll<Sprite>(loc);
 
         for (int i = 0; i < StatusSprites.Length; i++) {
-            Debug.Log((i * 3 + levelSetting.stats[i]).ToString());
+
             StatusSprites[i] = icons[i * 3 + levelSetting.stats[i]];
         }
         /*

@@ -601,8 +601,6 @@ public class CreatureModel : ObjectModelBase, IObserver
     public string GetObserveText()
     {
         string output = "";
-        Debug.Log(observeProgress);
-        Debug.Log(metaInfo);
         int level = Mathf.Clamp(observeProgress, 0, metaInfo.observeRecord.Count-1);
         for (int i = 0; i <= level; i++)
         {

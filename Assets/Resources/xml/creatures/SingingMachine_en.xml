@@ -122,7 +122,7 @@
   <observe level ="4">
     <collection>
       <codeNo openLevel ="0">O-05-30-H</codeNo>
-      <portrait openLevel ="0"></portrait>
+      <portrait openLevel ="0">Unit/Creature/Machine</portrait>
      
       <size openLevel ="0">4</size>
 

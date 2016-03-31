@@ -139,21 +139,18 @@ public class WorkListScript : MonoBehaviour {
             if (currentIndex == -1)
             {
                 //not have category
-                Debug.Log("afdfa2");
                 continue;
             }
             if (categories[i].agentList.Count == 0)
             {
-                Debug.Log("afdfa");
                 continue;
             }
 
             for (int j = 1; j <= categories[i].maxLevel; j++)
             {
-                Debug.Log("koko");
+
                 foreach (SkillTypeInfo item in cat.GetByLevel(j))
                 {
-                    Debug.Log(item.name);
                     tempSkillList.Add(item);
                 }
             }
@@ -181,12 +178,10 @@ public class WorkListScript : MonoBehaviour {
 
     public void SlotCall(int index, List<SkillTypeInfo> skillList)
     {
-        Debug.Log("SlotCAll");
         float posy = 0.0f;
         
         foreach (SkillTypeInfo s in skillList)
         {
-            Debug.Log("slot call " + s.name);
             GameObject slot = CreateItem(s);
             slot.transform.SetParent(parentAry[index]);
             RectTransform rect = slot.GetComponent<RectTransform>();

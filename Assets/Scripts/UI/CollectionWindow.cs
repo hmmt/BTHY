@@ -81,6 +81,7 @@ public class CollectionWindow : MonoBehaviour {
          */
 
         wnd.DisplayData(wnd);
+
         /*
 		wnd.profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.imgsrc);
         if (creature.metaInfo.tempPortrait != null) {
@@ -92,16 +93,19 @@ public class CollectionWindow : MonoBehaviour {
        // wnd.UpdateBg("default");
         //wnd.observeButton.gameObject.SetActive(false);
         
-
+        /*
         string descTextfull = creature.metaInfo.desc[0];
         char[] determine = {'*'};
         string[] descary = descTextfull.Split(determine);
         
         foreach (string str in descary) {
+            Debug.Log(str);
             if (str.Equals(" ") || str.Equals("")) continue;
             wnd.listScirpt.MakeTextWithBg(str);
         }
         wnd.listScirpt.SortBgList();
+         * 
+         */
         currentWindow = wnd;
         
         wnd.SetObserveText();
@@ -119,9 +123,15 @@ public class CollectionWindow : MonoBehaviour {
         string dangerRank = wnd.attackType.text + " " + wnd.dangerLevel.text;
         wnd.DangerRank.text = dangerRank;
 
-        if (clevel >= table.portrait) { 
-            profImage.sprite = Resources.Load<Sprite>("Sprites/"+info.portraitSrc);
-            
+        if (clevel >= table.portrait)
+        {
+            profImage.color = new Color(1, 1, 1, 1);
+            //Debug.Log("Sprites/" + info.portraitSrc);
+            profImage.sprite = Resources.Load<Sprite>("Sprites/" + info.portraitSrc);
+
+        }
+        else {
+            profImage.color = new Color(1, 1, 1, 0);
         }
 
         char[] determine = { '*' };
