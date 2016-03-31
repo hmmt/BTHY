@@ -3,7 +3,7 @@
 	<agent
 		id="1"
 		name="Default"
-		hp="500"
+		hp="7"
 		mental="10000"
 		movement="5"
 		work="1"
@@ -29,7 +29,7 @@
   <agent
 		id="2"
 		name="Default"
-		hp="500"
+		hp="7"
 		mental="10000"
 		movement="5"
 		work="1"

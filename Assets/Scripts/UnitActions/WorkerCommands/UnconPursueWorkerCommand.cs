@@ -78,7 +78,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 			if (actor.attackDelay <= 0)
 			{
 				//actor.
-				targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
+				targetAgent.TakePhysicalDamage (3, DamageType.NORMAL);
 
 				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
 
@@ -86,6 +86,9 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 				actor.SetAttackDelay(4.0f);
 				targetAgent.OnHitByWorker (actor);
 				targetAgent.SetMoveDelay (1.5f);
+
+				if (targetAgent is OfficerModel)
+					targetAgent.Stun (4.0f);
 
 				MovableObjectNode movable = actor.GetMovableNode();
 				movable.StopMoving ();

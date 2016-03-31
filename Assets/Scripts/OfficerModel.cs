@@ -47,6 +47,10 @@ public class OfficerModel : WorkerModel {
 			moveDelay -= Time.deltaTime;
 		if(attackDelay > 0)
 			attackDelay -= Time.deltaTime;
+		if (stunTime > 0) {
+			stunTime -= Time.deltaTime;
+			return;
+		}
 
         ProcessAction();
 
