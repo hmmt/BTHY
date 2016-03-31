@@ -34,6 +34,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
     public Image[] HasWork;
 
     public Sprite HasWorkSelected;
+    public Sprite HasWorkNotSelected;
 
 	[HideInInspector]
 	public static AgentStatusWindow currentWindow = null;
@@ -68,6 +69,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         }
         else
         {
+            
             newObj = Prefab.LoadPrefab("AgentStatusWindow");
             
             inst = newObj.GetComponent<AgentStatusWindow>();
@@ -110,11 +112,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
         
 		inst.target = unit;
-        inst.Health.maxValue = inst.target.defaultMaxHp;
-		inst.UpdateCreatureStatus ();
-        inst.SetHasWorkIcon(inst.target);
-        AgentModel.SetPortraitSprite(inst.target, inst.AgentFace.sprite, inst.AgentHair.sprite);
-        inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
+        inst.UpdateModel(inst.target);
+        //inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
         
 		currentWindow = inst;
 
@@ -176,6 +175,15 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         
         }
         return temp;
+    }
+
+    public void UpdateModel(AgentModel newTarget) {
+        Health.maxValue = target.defaultMaxHp;
+        UpdateCreatureStatus();
+        SetHasWorkIcon(target);
+        AgentHair.sprite = newTarget.tempHairSprite;
+        AgentFace.sprite = newTarget.tempFaceSprite;
+        this._target = newTarget;
     }
 	
 	public void UpdateCreatureStatus()
@@ -277,7 +285,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
     public Sprite GetMentalSprite(AgentModel target)
     {
-        int value = target.mental / target.defaultMaxMental;
+        int value = target.mental / target.defaultMaxMental * 100;
 
         if (value >= 0 && value < 25)
         {
@@ -291,7 +299,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         {
             return this.MentalImage[2];
         }
-        else if (value >= 75 && value < 100)
+        else if (value >= 75 && value <= 100)
         {
             return this.MentalImage[3];
         }
@@ -307,8 +315,12 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         int max = 5;
         if (skillList.Count < 5) max = skillList.Count;
         for (int i = 0; i < max; i++) {
-            if (model.GetUniqueSkillCategory(skillList[i].name) != null) {
+            if (model.GetUniqueSkillCategory(skillList[i].name) != null)
+            {
                 this.HasWork[i].sprite = this.HasWorkSelected;
+            }
+            else {
+                this.HasWork[i].sprite = this.HasWorkNotSelected;
             }
         }
     }

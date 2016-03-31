@@ -152,10 +152,12 @@ public class AgentUnit : MonoBehaviour {
         //hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
         
         ui.initUI();
+        /*
         if (PlayerModel.instance.IsOpenedArea("yessod") && CreatureManager.instance.yessodState == SefiraState.NORMAL)
         {
             uiOpened = true;
-        }
+        }*/
+        uiOpened = true;
 
         if (uiOpened) {
             ui.activateUI(model);

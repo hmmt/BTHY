@@ -1234,6 +1234,7 @@ public class AgentModel : WorkerModel
 
     public static void SetPortraitSprite(AgentModel target, Sprite face, Sprite hair)
     {
+        Debug.Log("In PortraitSetting");
         face = target.tempFaceSprite;
         hair = target.tempHairSprite;
     }

@@ -323,7 +323,7 @@ public class Sefira
         if (this.agentList.Contains(add)) {
             return;
         }
-        Debug.Log(add.name);
+
         agentList.Add(add); 
         //Debug.Log("agentList");
         /*
@@ -532,7 +532,7 @@ public class Sefira
         foreach (AgentModel am in agentList) {
             foreach (SkillCategory cat in am.GetSkillCategories()) {
                 AgentSkillCategory asc = this.GetAgentSkillCategory(cat);
-                Debug.Log(" SkillCategory " +asc.name);
+
                 if (asc == null) {
                     Debug.Log("Error");
                     return;
@@ -676,7 +676,7 @@ public class SefiraManager {
     
     private SefiraManager() {
         Init();
-        Debug.Log("sefiraManager initialized");
+
     }
 
     private void Init() {
