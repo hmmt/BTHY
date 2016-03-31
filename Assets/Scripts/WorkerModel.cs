@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+public enum DamageType
+{
+	NORMAL,
+	CUSTOM
+}
+
 public class WorkerModel: ObjectModelBase, IObserver {
     public int instanceId;
 
@@ -278,7 +284,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
 		}
 	}
 
-    public virtual void TakePhysicalDamage(int damage) {
+	public virtual void TakePhysicalDamage(int damage, DamageType dmgType) {
 		if (isDead ())
 			return;
         Debug.Log("TakePhysicalDamage : " + damage);
@@ -325,6 +331,13 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	public virtual void Stun(float time)
 	{
 		stunTime = time;
+	}
+
+	public virtual void OnHitByWorker(WorkerModel worker)
+	{
+	}
+	public virtual void OnHitByCreature(CreatureModel creature)
+	{
 	}
 
     public virtual void Panic() { 
@@ -377,13 +390,13 @@ public class WorkerModel: ObjectModelBase, IObserver {
 				{
 					AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
 
-					agentView.SetParameterOnce ("Attack", UnityEngine.Random.Range (1, 4));
+					agentView.SetParameterForSecond ("Attack", UnityEngine.Random.Range (1, 4), 0.3f);
 				}
 				else
 				{
 					OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(instanceId);
 
-					officerView.SetParameterOnce ("Attack", UnityEngine.Random.Range (1, 4));
+					officerView.SetParameterForSecond ("Attack", UnityEngine.Random.Range (1, 4), 0.3f);
 				}
 				//agentView.puppetAnim.SetInteger("Attack", Random.Range(1, 4));
 			}
@@ -393,14 +406,14 @@ public class WorkerModel: ObjectModelBase, IObserver {
                 {
                     AgentUnit agentView = AgentLayer.currentLayer.GetAgent(instanceId);
 
-                    agentView.SetParameterOnce("Attack", true);
+					agentView.SetParameterForSecond("Attack", true, 0.2f);
                 }
                 else
                 {
                     OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(instanceId);
 
                     Debug.Log("공격");
-                    officerView.SetParameterOnce("Attack", true);
+					officerView.SetParameterForSecond("Attack", true, 0.2f);
                 }
 			}
 		}

@@ -494,6 +494,20 @@ public class AgentUnit : MonoBehaviour {
 			animTarget.SetParameterOnce (pname, value);
 		}
 	}
+	public void SetParameterForSecond(string pname, bool value, float time)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterForSecond (pname, value, time);
+		}
+	}
+	public void SetParameterForSecond(string pname, int value, float time)
+	{
+		if (animTarget != null)
+		{
+			animTarget.SetParameterForSecond (pname, value, time);
+		}
+	}
 
 	public void OnClick()
 	{

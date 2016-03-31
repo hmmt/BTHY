@@ -80,7 +80,7 @@ public class MatchGirl  : CreatureBase {
                     "typo/matchgirl/01_matchGirl_commonAttack_01",
                     "typo/matchgirl/01_matchGirl_commonAttack_02"};
 
-        skill.agent.TakePhysicalDamage(1);
+		skill.agent.TakePhysicalDamage(1, DamageType.CUSTOM);
         skill.CheckLive();
         if (skill.agent.isDead())
         {

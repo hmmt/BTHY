@@ -60,7 +60,11 @@ public class OfficerModel : WorkerModel {
             else RecoverMental(recoveryRate);
         }
 
-        if (state == OfficerAIState.DOCUMENT){
+		if (moveDelay > 0)
+		{
+			movableNode.ProcessMoveNode(0);
+		}
+		else if (state == OfficerAIState.DOCUMENT){
             movableNode.ProcessMoveNode(movement / 2);
         }
         else    movableNode.ProcessMoveNode(movement);
@@ -237,7 +241,7 @@ public class OfficerModel : WorkerModel {
 		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(MapGraph.instance.GetSefiraDeptNodes(currentSefira)));
     }
 
-	public void PursueUnconAgent(AgentModel agent)
+	public void PursueUnconAgent(WorkerModel agent)
 	{
 		commandQueue.SetAgentCommand (WorkerCommand.MakeUnconPursueAgent (agent));
 	}

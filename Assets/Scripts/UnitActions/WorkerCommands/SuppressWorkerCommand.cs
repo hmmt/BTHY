@@ -139,9 +139,15 @@ public class SuppressWorkerCommand : WorkerCommand {
 						if (agentActor.attackDelay > 0)
 							return true;
 						
-						HitObjectManager.AddSuppressWorkerStickHitbox ((AgentModel) targetAgent);
+						//HitObjectManager.AddSuppressWorkerStickHitbox ((AgentModel) targetAgent);
+
+
+
 						agentActor.SetAttackDelay (4.0f);
 						agentActor.SetMoveDelay (1.0f);
+						targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
+						if(supType == SuppressType.PANIC)
+							targetAgent.TakePanicDamage (1);
 						agentActor.GetMovableNode ().StopMoving ();
 						return true;
 					}
@@ -168,7 +174,7 @@ public class SuppressWorkerCommand : WorkerCommand {
 						Debug.Log("Shot!");
 						agentActor.SetAttackDelay(4.0f);
 						agentActor.SetMoveDelay (0.5f);
-						targetAgent.TakePhysicalDamage (1);
+						targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
 						if(supType == SuppressType.PANIC)
 							targetAgent.TakePanicDamage (1);
 						agentActor.GetMovableNode ().StopMoving ();
