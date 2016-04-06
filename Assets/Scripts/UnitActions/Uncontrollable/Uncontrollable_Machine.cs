@@ -44,6 +44,7 @@ public class Uncontrollable_Machine : UncontrollableAction {
 
     public override void Execute()
     {
+		Notice.instance.Send (NoticeName.EscapeCreature);
         if (startWaitTimer > 0) {
             startWaitTimer -= Time.deltaTime;
             return;

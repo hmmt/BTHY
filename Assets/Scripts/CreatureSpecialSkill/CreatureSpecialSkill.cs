@@ -104,7 +104,7 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		{
 			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 			{
-				if (agent.isDead ())
+				if (agent.isDead () || agent.IsPanic())
 					continue;
 				if (agent.gender == "Female")
 				//if (agent.GetMovableNode ().GetPassage () == droppedPassage)

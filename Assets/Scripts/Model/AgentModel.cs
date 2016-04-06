@@ -1038,6 +1038,11 @@ public class AgentModel : WorkerModel
 		//CurrentPanicAction = new PanicRoaming (this);
 		//CurrentPanicAction = new PanicOpenIsolate(this);
 		CurrentPanicAction = new PanicViolence(this);
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
+		agentView.puppetAnim.SetBool ("Panic", true);
+		agentView.puppetAnim.SetInteger ("PanicType", 1);
+
 		return;
         // 바꿔야 함
         switch (agentLifeValue)
@@ -1061,6 +1066,10 @@ public class AgentModel : WorkerModel
     {
 		state = AgentAIState.IDLE;
         CurrentPanicAction = null;
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
+		agentView.puppetAnim.SetBool ("Panic", false);
+		agentView.SetParameterForSecond ("Return", true, 0.3f);
     }
 
 	public override bool IsPanic()

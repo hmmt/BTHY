@@ -23,8 +23,11 @@ public class AlarmScreen : MonoBehaviour, IObserver {
 
     void Alarm()
     {
-        alarmOn = true;
-        elapsedTime = 0;
+		if (!alarmOn)
+		{
+			alarmOn = true;
+			elapsedTime = 0;
+		}
     }
 
     void Update()
@@ -33,7 +36,7 @@ public class AlarmScreen : MonoBehaviour, IObserver {
         {
             float alpha;
 
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * 2;
 
             if (elapsedTime >= finishTime)
             {
@@ -59,6 +62,12 @@ public class AlarmScreen : MonoBehaviour, IObserver {
                 targetImage.color = c;
             }
         }
+		else
+		{
+			Color c = targetImage.color;
+			c.a = 0;
+			targetImage.color = c;
+		}
     }
 
     public void OnNotice(string notice, params object[] param)
