@@ -125,13 +125,12 @@ public class CollectionWindow : MonoBehaviour {
 
         if (clevel >= table.portrait)
         {
-            profImage.color = new Color(1, 1, 1, 1);
             //Debug.Log("Sprites/" + info.portraitSrc);
             profImage.sprite = Resources.Load<Sprite>("Sprites/" + info.portraitSrc);
 
         }
         else {
-            profImage.color = new Color(1, 1, 1, 0);
+            profImage.sprite = ResourceCache.instance.GetSprite("Sprites/Unit/creature/dummy");
         }
 
         char[] determine = { '*' };

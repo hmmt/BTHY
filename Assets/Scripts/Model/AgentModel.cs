@@ -1278,7 +1278,6 @@ public class AgentModel : WorkerModel
 
     public static void SetPortraitSprite(AgentModel target, Sprite face, Sprite hair)
     {
-        Debug.Log("In PortraitSetting");
         face = target.tempFaceSprite;
         hair = target.tempHairSprite;
     }
@@ -1290,7 +1289,7 @@ public class AgentModel : WorkerModel
             case 2:
                 return "II";
             case 3:
-                return "IIV";
+                return "III";
             case 4:
                 return "IV";
             case 5:
