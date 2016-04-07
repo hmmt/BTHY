@@ -18,7 +18,6 @@ public class LoggingScript : MonoBehaviour {
     }
 
     public void MakeText(string context) {
-        Debug.Log(context);
         GameObject target = Instantiate(item);
         LogItemScript script = target.GetComponent<LogItemScript>();
         RectTransform rect = target.GetComponent<RectTransform>();
