@@ -298,6 +298,7 @@ public class CreatureUnit : MonoBehaviour {
         //if (model.state == CreatureState.WAIT)
         {
             SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
+            WorkAllocateWindow.CreateWindow(model, WorkType.NORMAL);
             //IsolateRoomStatus.CreateWindow(this);
         }
 

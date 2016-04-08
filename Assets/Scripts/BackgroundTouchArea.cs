@@ -12,6 +12,10 @@ public class BackgroundTouchArea : MonoBehaviour {
 		if (SelectWorkAgentWindow.currentWindow != null)
 			SelectWorkAgentWindow.currentWindow.CloseWindow ();
 
+        if (WorkAllocateWindow.currentWindow != null) {
+            WorkAllocateWindow.currentWindow.CloseWindow();
+        }
+
         if(CollectionWindow.currentWindow != null)
             CollectionWindow.currentWindow.CloseWindow();
 
