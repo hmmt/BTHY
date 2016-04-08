@@ -263,12 +263,17 @@ public class UseSkill : ActionClassBase
 		float energyAdd = agent.GetEnergyAbility(skillTypeInfo)*successCount/workCount;
 
 		if (targetCreature.IsPreferSkill (skillTypeInfo)) {
-			targetCreature.AddFeeling(skillTypeInfo.amount*successCount/workCount);
+			targetCreature.AddFeeling(skillTypeInfo.amount*successCount/workCount * targetCreature.GetWorkEfficient(skillTypeInfo));
 		} else if (targetCreature.IsRejectSkill (skillTypeInfo)) {
+			// unused
 			targetCreature.SubFeeling (skillTypeInfo.amount*successCount/workCount);
 		}
 
-		targetCreature.SetEnergyChange (5, energyAdd);
+		// temp comment
+		//targetCreature.SetEnergyChange (5, energyAdd);
+
+		// temp for proto
+		targetCreature.SetEnergyChange (5, skillTypeInfo.amount*successCount/workCount * targetCreature.GetWorkEfficient(skillTypeInfo));
 
 
 
@@ -320,7 +325,8 @@ public class UseSkill : ActionClassBase
                 // It can be skipped when changed in SkillFailWorkTick
                 if (workPlaying)
                 {
-					float attackProb = targetCreature.GetAttackProb () - agent.GetEvasionProb();
+					// current 20% + 30%
+					float attackProb = targetCreature.GetAttackProb () - agent.GetEvasionProb() + 0.3f;
 
 					if (Random.value <= attackProb) {
 						if (targetCreature.GetAttackType () == CreatureAttackType.PHYSICS)
@@ -466,6 +472,10 @@ public class UseSkill : ActionClassBase
         inst.skillTypeInfo = skillInfo;
 
         creature.state = CreatureState.WORKING;
+
+		agent.SetSkillDelay (skillInfo, 30);
+
+		creature.manageDelay = 15;
 
         //관찰 조건을 위한 환상체 작업 횟수추가
         creature.workCount++;

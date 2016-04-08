@@ -14,6 +14,17 @@ public enum AgentMotion
 [System.Serializable]
 public class AgentModel : WorkerModel
 {
+	public class SkillInfo
+	{
+		public SkillTypeInfo skill;
+		public float delay;
+
+		public SkillInfo(SkillTypeInfo info)
+		{
+			skill = info;
+			delay = 0;
+		}
+	}
 
     // 초기화 이외에는 사용하지 않고 있다.
     //public AgentTypeInfo metadata;
@@ -72,6 +83,9 @@ public class AgentModel : WorkerModel
 	private List<SkillTypeInfo> skillList;
     private List<SkillCategory> skills;
 
+	// proto 
+	private List<SkillInfo> skillInfos;
+
     //
 
     //활성화된 직원인가 체크
@@ -113,6 +127,7 @@ public class AgentModel : WorkerModel
 
         traitList = new List<TraitTypeInfo>();
 		skillList = new List<SkillTypeInfo> ();
+		skillInfos = new List<SkillInfo> ();
 
         skills = new List<SkillCategory>();
 
@@ -129,6 +144,28 @@ public class AgentModel : WorkerModel
         successPercent = Random.Range(0, 90f);
 
         this.AddNewCategory(1);//initial Skill
+		/*
+		skillList.Add (SkillTypeList.instance.GetData (1));
+		skillList.Add (SkillTypeList.instance.GetData (2));
+		skillList.Add (SkillTypeList.instance.GetData (3));
+
+		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (1)));
+		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (2)));
+		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (3)));
+		*/
+
+		//List<int> values = new List<int> (new int[]{ 1, 2, 3, 4, 5 });
+		List<int> values = new List<int> (new int[]{ 1, 2, 3});
+
+		for(int i=0; i<3; i++)
+		{
+			int index = Random.Range (0, values.Count);
+			int skillId = values [index];
+			values.RemoveAt (index);
+
+			skillList.Add (SkillTypeList.instance.GetData (skillId));
+			skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (skillId)));
+		}
     }
 
     public override Dictionary<string, object> GetSaveData()
@@ -208,6 +245,13 @@ public class AgentModel : WorkerModel
         if (isDead())
             return;
 
+		foreach(SkillInfo info in skillInfos)
+		{
+			if (info.delay > 0)
+			{
+				info.delay -= Time.deltaTime;
+			}
+		}
 		if(attackDelay > 0)
 			attackDelay -= Time.deltaTime;
 		if (moveDelay > 0)
@@ -606,7 +650,55 @@ public class AgentModel : WorkerModel
                 return true;
             }
         }
+		foreach (SkillInfo info in skillInfos)
+		{
+			if (info.skill == skill)
+			{
+				return true;
+			}
+		}
         return false;
+	}
+
+	public bool IsReadyToUseSkill(SkillTypeInfo skill)
+	{
+		foreach (SkillInfo info in skillInfos)
+		{
+			if (info.skill == skill)
+			{
+				if (info.delay <= 0)
+					return true;
+				else
+					return false;
+			}
+		}
+		return false;
+	}
+
+	public float GetSkillDelay(SkillTypeInfo skill)
+	{
+		foreach (SkillInfo info in skillInfos)
+		{
+			if (info.skill == skill)
+			{
+				return info.delay;
+			}
+		}
+		return -1;
+	}
+
+	public void SetSkillDelay(SkillTypeInfo skill, float delay)
+	{
+		foreach (SkillInfo info in skillInfos)
+		{
+			if (info.skill == skill)
+			{
+				info.delay = delay;
+				return;
+			}
+		}
+
+		Debug.Log ("skill not found");
 	}
 
 	// skill end
