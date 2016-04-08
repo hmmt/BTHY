@@ -448,6 +448,7 @@ public class UseSkill : ActionClassBase
                 skillInfo.animID);
         }
 
+
         string speech;
         agent.speechTable.TryGetValue("work_start", out speech);
         Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);

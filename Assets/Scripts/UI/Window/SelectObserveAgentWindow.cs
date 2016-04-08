@@ -13,12 +13,39 @@ public class SelectObserveAgentWindow : MonoBehaviour
         public Text physical;
         public Text mental;
 
+        int currentLevel;
+        CreatureTypeInfo info;
+        CreatureTypeInfo.ObserveTable table;
+
         public void Init(CreatureModel model) {
-            this.portrait.sprite = model.metaInfo.tempPortrait;
-            this.name.text = model.metaInfo.name;
-            this.grade.text = model.metaInfo.level;
-            this.physical.text = model.metaInfo.physicsDmg.ToString();
-            this.mental.text = model.metaInfo.mentalDmg.ToString();
+            this.info = model.metaInfo;
+            this.table = model.metaInfo.observeTable;
+            this.currentLevel = model.metaInfo.CurrentObserveLevel;
+
+            if (currentLevel >= table.portrait)
+            {
+                this.portrait.sprite = ResourceCache.instance.GetSprite("Sprites/" + info.portraitSrc);
+            }
+            else {
+                this.portrait.sprite = ResourceCache.instance.GetSprite("Sprites/Unit/creature/dummy");
+            }
+
+
+            DisplayText(this.name, table.name, info.name);
+            DisplayText(this.grade, table.riskLevel, info.level);
+            DisplayText(this.physical, table.physical, info.physicalAttackLevel.ToString());
+            DisplayText(this.mental, table.mental, info.mentalAttackLevel.ToString());
+
+        }
+
+        public void DisplayText(Text target, int level, string desc) {
+            if (currentLevel >= level)
+            {
+                target.text = desc;
+            }
+            else {
+                target.text = "Unknown";
+            }
         }
     }
 
@@ -67,7 +94,7 @@ public class SelectObserveAgentWindow : MonoBehaviour
         GameObject newObj = Prefab.LoadPrefab("SelectObserveAgentWindow");
 
         SelectObserveAgentWindow inst = newObj.GetComponent<SelectObserveAgentWindow>();
-
+        
         inst.targetCreature = unit;
         //Initialize attributes
         inst.currentAgentCnt = inst.currentOfficerCnt = 0;
