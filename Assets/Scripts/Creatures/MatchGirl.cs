@@ -9,6 +9,21 @@ public class MatchGirl  : CreatureBase {
 		//model.SetCurrentNode (MapGraph.instance.GetNodeById("malkuth-1-4"));
 	}
 
+	public override void OnFixedUpdate (CreatureModel creature)
+	{
+		base.OnFixedUpdate (creature);
+
+		if (model.energyPoint < 80)
+		{
+			model.Escape ();
+		}
+	}
+
+	public override void OnReturn ()
+	{
+		model.energyPoint = 130;
+	}
+
     public override void OnSkillFailWorkTick(UseSkill skill)
 	{
 		if(Random.value <= 0.4)

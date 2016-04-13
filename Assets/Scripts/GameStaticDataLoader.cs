@@ -9,8 +9,8 @@ public class GameStaticDataLoader {
 	public static void LoadStaticData()
 	{
 		GameStaticDataLoader loader = new GameStaticDataLoader ();
-        //if(SkillTypeList.instance.loaded == false)
-		    //loader.LoadSKillData ();
+        if(SkillTypeList.instance.loaded == false)
+		    loader.LoadSKillData ();
         if (CreatureTypeList.instance.loaded == false)
 		    loader.LoadCreatureList ();
         if (AgentTypeList.instance.loaded == false)
@@ -394,7 +394,7 @@ public class GameStaticDataLoader {
         }
     }
 
-    /*
+    
 	public void LoadSKillData()
 	{
         // skills
@@ -413,12 +413,12 @@ public class GameStaticDataLoader {
 			
 			model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
 			model.name = node.Attributes.GetNamedItem("name").InnerText;
-			model.type = node.Attributes.GetNamedItem("type").InnerText;
+			//model.type = node.Attributes.GetNamedItem("type").InnerText;
 			model.amount = int.Parse(node.Attributes.GetNamedItem("amount").InnerText);
             model.description = node.Attributes.GetNamedItem("desc").InnerText;
-            model.category = node.Attributes.GetNamedItem("category").InnerText;
+            //model.category = node.Attributes.GetNamedItem("category").InnerText;
             model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
-
+			/*
             XmlNodeList bonusType= node.SelectNodes("bonus");
             foreach (XmlNode bonusNode in bonusType)
             {
@@ -524,12 +524,12 @@ public class GameStaticDataLoader {
             }
 
             model.nextSkillIdList = nextSkillList.ToArray();
-			
+			*/
 			skillTypeList.Add(model);
 		}
 		
 		SkillTypeList.instance.Init (skillTypeList.ToArray ());
-	}*/
+	}
 
 	public void LoadAgentData()
 	{
@@ -735,6 +735,9 @@ public class GameStaticDataLoader {
                 model.observeTable.record.Add(openLevel);
             }
 
+
+
+
             creatureTypeList.Add(model);
             /*
              XmlNodeList narrationNodeList = node.SelectNodes("narration");
@@ -928,6 +931,16 @@ public class GameStaticDataLoader {
         }
 
         model.energyGenInfo = energyItems.ToArray();
+
+		XmlNodeList preferList = stat.SelectNodes("prefer");
+
+		foreach (XmlNode pref in preferList) {
+
+			long preId = long.Parse (pref.Attributes.GetNamedItem ("id").InnerText);
+			float preInner = float.Parse (pref.InnerText);
+
+			model.workEfficiency.Add (preId, preInner);
+		}
 
     }
 

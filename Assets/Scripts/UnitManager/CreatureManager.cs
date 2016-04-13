@@ -526,6 +526,23 @@ public class CreatureManager : IObserver{
          */
     }
 
+	public CreatureModel[] GetNearSuppressedCreatures(MovableObjectNode node)
+	{
+		List<CreatureModel> output = new List<CreatureModel>();
+		foreach (CreatureModel creature in creatureList)
+		{
+			if (creature.state != CreatureState.SUPPRESSED)
+				continue;
+			
+			Vector3 dist = node.GetCurrentViewPosition () - creature.GetMovableNode ().GetCurrentViewPosition ();
+			if (node.GetPassage () == creature.GetMovableNode ().GetPassage () &&
+				dist.sqrMagnitude <= 3) {
+				output.Add(creature);
+			}
+		}
+		return output.ToArray();
+	}
+
     public void OnNotice(string notice, params object[] param)
     {
         if (notice == NoticeName.ChangeAgentSefira_Late)

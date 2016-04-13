@@ -53,10 +53,12 @@ public class CameraMover : MonoBehaviour
                 Time.timeScale = 0;
             }
         }
+		/*
     }
 
     void FixedUpdate()
     {
+    */
         //float a = Camera.main.aspect * Camera.main.orthographicSize;
         Vector3 pos = Input.mousePosition;
 
@@ -69,7 +71,7 @@ public class CameraMover : MonoBehaviour
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             Vector3 newPos = Camera.main.transform.localPosition;
-            newPos.x -= 0.1f;
+			newPos.x -= Time.unscaledDeltaTime*10;
             Camera.main.transform.localPosition = newPos;
         }
 
@@ -77,14 +79,14 @@ public class CameraMover : MonoBehaviour
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             Vector3 newPos = Camera.main.transform.localPosition;
-            newPos.x += 0.1f;
+			newPos.x += Time.unscaledDeltaTime*10;
             Camera.main.transform.localPosition = newPos;
         }
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             Vector3 newPos = Camera.main.transform.localPosition;
-            newPos.y -= 0.1f;
+			newPos.y -= Time.unscaledDeltaTime*10;
             Camera.main.transform.localPosition = newPos;
         }
 
@@ -92,7 +94,7 @@ public class CameraMover : MonoBehaviour
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             Vector3 newPos = Camera.main.transform.localPosition;
-            newPos.y += 0.1f;
+			newPos.y += Time.unscaledDeltaTime*10;
             Camera.main.transform.localPosition = newPos;
         }
 

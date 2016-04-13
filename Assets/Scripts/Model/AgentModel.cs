@@ -154,8 +154,8 @@ public class AgentModel : WorkerModel
 		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (3)));
 		*/
 
-		//List<int> values = new List<int> (new int[]{ 1, 2, 3, 4, 5 });
-		List<int> values = new List<int> (new int[]{ 1, 2, 3});
+		List<int> values = new List<int> (new int[]{ 1, 2, 3, 4, 5 });
+		//List<int> values = new List<int> (new int[]{ 1, 2, 3});
 
 		for(int i=0; i<3; i++)
 		{
@@ -616,6 +616,11 @@ public class AgentModel : WorkerModel
 		return skillList.ToArray ();
 	}
 
+	public SkillInfo[] GetSkillInfos()
+	{
+		return skillInfos.ToArray ();
+	}
+
     /*
 	private SkillTypeInfo[] GetSkillListByType(string type)
 	{
@@ -714,6 +719,14 @@ public class AgentModel : WorkerModel
         }
         else if (state == AgentAIState.IDLE)
         {
+			//if()
+
+			CreatureModel[] suppressedList = CreatureManager.instance.GetNearSuppressedCreatures (movableNode);
+			foreach (CreatureModel creature in suppressedList)
+			{
+				ReturnCreature (creature);
+			}
+
             if (waitTimer <= 0)
             {
                 //MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
@@ -863,7 +876,12 @@ public class AgentModel : WorkerModel
 
 	public void ReturnCreature(CreatureModel target)
     {
+		if (target.state != CreatureState.SUPPRESSED) {
+			Debug.Log ("ReturnCreature >> Invalid state");
+			return;
+		}
         state = AgentAIState.RETURN_CREATURE;
+		target.state = CreatureState.SUPPRESSED_RETURN;
         commandQueue.SetAgentCommand(WorkerCommand.MakeReturnCreature(target));
         Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
@@ -1368,10 +1386,10 @@ public class AgentModel : WorkerModel
         return s;
     }
 
-    public static void SetPortraitSprite(AgentModel target, Sprite face, Sprite hair)
+	public static void SetPortraitSprite(AgentModel target, UnityEngine.UI.Image face, UnityEngine.UI.Image hair)
     {
-        face = target.tempFaceSprite;
-        hair = target.tempHairSprite;
+		face.sprite = target.tempFaceSprite;
+		hair.sprite = target.tempHairSprite;
     }
 
     public static string GetLevelGradeText(AgentModel target) {

@@ -157,6 +157,14 @@ public class WorkListScript : MonoBehaviour {
             SlotCall(currentIndex, tempSkillList);
             //SlotCall();
         }
+
+		List<SkillTypeInfo> _list = new List<SkillTypeInfo> ();
+		_list.Add (SkillTypeList.instance.GetData (1));
+		_list.Add (SkillTypeList.instance.GetData (2));
+		_list.Add (SkillTypeList.instance.GetData (3));
+		_list.Add (SkillTypeList.instance.GetData (4));
+		_list.Add (SkillTypeList.instance.GetData (5));
+		SlotCall (0, _list);
     }
 
     public int GetIndex(SkillCategory target) {

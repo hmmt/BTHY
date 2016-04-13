@@ -247,6 +247,7 @@ public class UseSkill : ActionClassBase
     {
         agent.FinishWorking();
         targetCreature.state = CreatureState.WAIT;
+		targetCreature.currentSkill = null;
 		//targetCreature.bufRemainingTime = 5f;
     }
 
@@ -273,7 +274,7 @@ public class UseSkill : ActionClassBase
 		//targetCreature.SetEnergyChange (5, energyAdd);
 
 		// temp for proto
-		targetCreature.SetEnergyChange (5, skillTypeInfo.amount*successCount/workCount * targetCreature.GetWorkEfficient(skillTypeInfo));
+		targetCreature.SetEnergyChange (5, skillTypeInfo.amount*successCount/workCount * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
 
 
 
@@ -307,7 +308,13 @@ public class UseSkill : ActionClassBase
             bool agentUpdated = false;
             
 
-			float workProb = agent.GetSuccessProb (skillTypeInfo);
+			//float workProb = agent.GetSuccessProb (skillTypeInfo);
+
+			float workProb = 0.7f;
+			if (targetCreature.GetWorkEfficient (skillTypeInfo) > 1f)
+				workProb += 0.2f;
+			else if (targetCreature.GetWorkEfficient (skillTypeInfo) >= 0f)
+				workProb += 0.1f;
 
             if (Random.value < workProb)
                 success = true;
@@ -326,7 +333,7 @@ public class UseSkill : ActionClassBase
                 if (workPlaying)
                 {
 					// current 20% + 30%
-					float attackProb = targetCreature.GetAttackProb () - agent.GetEvasionProb() + 0.3f;
+					float attackProb = targetCreature.GetAttackProb () - agent.GetEvasionProb() + 0.2f;
 
 					if (Random.value <= attackProb) {
 						if (targetCreature.GetAttackType () == CreatureAttackType.PHYSICS)
@@ -462,7 +469,7 @@ public class UseSkill : ActionClassBase
         //creature.ShowNarrationText("start", agent.name);
 
         //inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.workSpeed, skillInfo.amount); // 임시
-        inst.Init(skillInfo, agent, 10, (int)skillInfo.amount, agent.workSpeed, skillInfo.amount);
+        inst.Init(skillInfo, agent, 20, (int)skillInfo.amount, agent.workSpeed, skillInfo.amount);
 
         inst.agent = agent;
         inst.agentView = agentView;
@@ -473,10 +480,11 @@ public class UseSkill : ActionClassBase
         inst.skillTypeInfo = skillInfo;
 
         creature.state = CreatureState.WORKING;
+		creature.currentSkill = inst;
 
-		agent.SetSkillDelay (skillInfo, 30);
+		agent.SetSkillDelay (skillInfo, 40);
 
-		creature.manageDelay = 15;
+		creature.manageDelay = 21;
 
         //관찰 조건을 위한 환상체 작업 횟수추가
         creature.workCount++;

@@ -26,12 +26,18 @@
       <feelingMax>200.0</feelingMax>
       <feelingDownValue>3.7</feelingDownValue>
 
-      <energyPointChange>-10</energyPointChange>
+      <energyPointChange>-3</energyPointChange>
 
       <energyGenSection>
         <section bound="250" gen="0.225"/>
         <section bound="300" gen="-0.1625"/>
       </energyGenSection>
+
+      <prefer id="2">0.5</prefer>
+      <prefer id="3">1.0</prefer>
+      <prefer id="1">-0.5</prefer>
+      <prefer id="4">2</prefer>
+      <prefer id="5">1.0</prefer>
     </stat>
 
     <feeling max="100" downProb="0.44" downValue="1">

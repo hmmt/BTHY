@@ -36,6 +36,9 @@ public class CreatureModel : ObjectModelBase, IObserver
 
 	public string escapeType = "attackWorker";
 
+	// temp for proto
+	public float manageDelay = 0;
+
 	// lock
 	public int targetedCount = 0;
 
@@ -72,6 +75,7 @@ public class CreatureModel : ObjectModelBase, IObserver
     // 이하 save 프錘않는 데이터들
 
     public CreatureState state = CreatureState.WAIT;
+	public UseSkill currentSkill = null;
 
     public float escapeAttackWait = 0;
 
@@ -149,7 +153,13 @@ public class CreatureModel : ObjectModelBase, IObserver
 
     public CreatureFeelingState GetFeelingState()
     {
-		return CreatureFeelingState.GOOD;
+		if (energyPoint >= 110)
+			return CreatureFeelingState.GOOD;
+		else if (energyPoint >= 90)
+			return CreatureFeelingState.NORM;
+		else
+			return CreatureFeelingState.BAD;
+		//return CreatureFeelingState.GOOD;
 		/*
         CreatureFeelingState feelingState = CreatureFeelingState.BAD;
         float sectionMax = 0;
@@ -190,7 +200,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 		EnergyGenInfo selected = metaInfo.energyGenInfo [0];
 		foreach (EnergyGenInfo info in metaInfo.energyGenInfo)
 		{
-			if (energyPoint <= info.upperBound)
+			//if (energyPoint <= info.upperBound)
+			if(feeling <= info.upperBound)
 			{
 				selected = info;
 			}
@@ -279,6 +290,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 
     public void UpdateFeeling()
     {
+		if (state == CreatureState.WORKING || state == CreatureState.OBSERVE)
+			return;
         //if (Random.value < metaInfo.feelingDownProb)
         {
 			energyPoint += metaInfo.energyPointChange;
@@ -292,6 +305,8 @@ public class CreatureModel : ObjectModelBase, IObserver
     {
 		if(attackDelay > 0)
 			attackDelay -= Time.deltaTime;
+		if (manageDelay > 0)
+			manageDelay -= Time.deltaTime;
 
 		commandQueue.Execute (this);
 
@@ -313,7 +328,7 @@ public class CreatureModel : ObjectModelBase, IObserver
         {
             script.OnFixedUpdate(this);
         }
-
+		/*
         if (state == CreatureState.ESCAPE_RETURN)
         {
             if (movableNode.GetCurrentNode() == workspaceNode)
@@ -329,7 +344,9 @@ public class CreatureModel : ObjectModelBase, IObserver
                 }
             }
         }
-        else if (state == CreatureState.ESCAPE)
+        else
+        */
+        if (state == CreatureState.ESCAPE)
         {
             OnEscapeUpdate();
         }
@@ -518,11 +535,6 @@ public class CreatureModel : ObjectModelBase, IObserver
 		state = CreatureState.ESCAPE;
 	}
 
-    public void ReturnEscape()
-    {
-        state = CreatureState.ESCAPE_RETURN;
-    }
-
 	public float GetAttackProb()
 	{
 		return 0.3f;
@@ -633,7 +645,7 @@ public class CreatureModel : ObjectModelBase, IObserver
 
         else if (workCount == 10 && genEnergyCount >= 100 && observeCondition == 3)
         {
-            Debug.Log("관찰 컨디션 4단계로 갱신");
+            Debug.Log("관찰 컨셕?계로 갱신");
             observeCondition = 4;
         }
         else
@@ -732,6 +744,18 @@ public class CreatureModel : ObjectModelBase, IObserver
         
     }
 
+	public void FinishReturn()
+	{
+		if (state == CreatureState.SUPPRESSED_RETURN)
+		{
+			state = CreatureState.WAIT;
+			//MoveToNode (roomNode);
+			if (script != null)
+				script.OnReturn ();
+			SetCurrentNode(roomNode);
+		}
+	}
+
 	public void SendAnimMessage(string name)
 	{
 		CreatureUnit unit = CreatureLayer.currentLayer.GetCreature (instanceId);
@@ -772,5 +796,20 @@ public class CreatureModel : ObjectModelBase, IObserver
 
         return percent;
     }
+
+
+	// temp for proto
+	public float GetWorkEfficient(SkillTypeInfo skill)
+	{
+		float value ;
+		if (metaInfo.workEfficiency.TryGetValue (skill.id, out value))
+		{
+			return value;
+		}
+
+		return 1;
+	}
+
+
 }
 

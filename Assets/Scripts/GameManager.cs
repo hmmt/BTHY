@@ -132,6 +132,15 @@ public class GameManager : MonoBehaviour
 			AgentManager.instance.activateAgent(b, "1");
 
 		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
+
+		b = AgentManager.instance.AddAgentModel();
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
+		b.SetCurrentSefira("1");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "1");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
 		/*
 		b.Panic ();
 

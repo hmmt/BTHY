@@ -664,7 +664,7 @@ public class MovableObjectNode {
                 //currentNode = null;
                 //currentEdge = old.currentEdge;
 
-                pathIndex = 1;
+                pathIndex = 0;
 
                 if (pathInfo != null && pathInfo.pathEdges != null && pathInfo.pathEdges.Length > 0)
                 {

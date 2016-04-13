@@ -40,7 +40,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         {
             currentWindow.CloseWindow();
         }
-        GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
+        //GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
+		GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindowProto");
 
         SelectWorkAgentWindow inst = newObj.GetComponent<SelectWorkAgentWindow>();
         //inst.ShowSelectAgent (unit.gameObject);

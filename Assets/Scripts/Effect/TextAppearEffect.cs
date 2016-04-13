@@ -21,7 +21,7 @@ public class TextAppearEffect : MonoBehaviour {
 
 		transform.position = Camera.main.WorldToScreenPoint ((Vector3)worldPos);
 
-		if (elapsedTime > 1f)
+		if (elapsedTime > 6f)
 			Destroy (gameObject);
 	}
 

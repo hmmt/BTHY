@@ -159,12 +159,28 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		{
             // 잠시 안 띄움
 			//feelingText.text = targetUnit.model.feeling.ToString ();
-			//feelingText.text = targetUnit.model.energyPoint.ToString();
+			feelingText.text = "";//targetUnit.model.energyPoint.ToString() +"\n";
             creatureLevel.text = targetUnit.model.metaInfo.level;
             creatureName.text = targetUnit.model.metaInfo.name;
 
+			feelingText.alignment = TextAlignment.Center;
 
-			feelingText.text = "";
+			if (targetUnit.model.currentSkill != null)
+			{
+				feelingText.text = feelingText.text + "SKILL : " + targetUnit.model.currentSkill.skillTypeInfo.name + "\n";
+
+				float efficient = targetUnit.model.GetWorkEfficient (targetUnit.model.currentSkill.skillTypeInfo);
+				if (efficient > 1) {
+					feelingText.text = feelingText.text + "Great!";
+				} else if (efficient < 0) {
+					feelingText.text = feelingText.text + "Bad...";
+				} else {
+					feelingText.text = feelingText.text + "Not bad";
+				}
+			}
+
+
+			//feelingText.text = "";
 			creatureLevel.text = "";
 			creatureName.text = "";
             FeelingTextForDebug.text =this.targetUnit.model.feeling + "/" + this.targetUnit.model.metaInfo.feelingMax + " " + this.targetUnit.model.GetFeelingPercent() + "%";
@@ -277,7 +293,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void OnClick()
     {
-        targetUnit.OnClick();
+        targetUnit.OnClickByRoom();
         
     }
 

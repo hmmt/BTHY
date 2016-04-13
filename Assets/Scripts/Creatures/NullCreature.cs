@@ -57,6 +57,12 @@ public class NullCreature : CreatureBase {
             creature.Escape();
         }
         */
+
+		if (creature.energyPoint < 80)
+		{
+			creature.Escape ();
+		}
+
 		//creature.Escape();
 
 		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
@@ -64,9 +70,15 @@ public class NullCreature : CreatureBase {
 			if (model.GetMovableNode ().GetPassage ()	== agent.GetMovableNode ().GetPassage ())
 			{
 				//Debug.Log ("same passage");
+
 			}
 		}
     }
+
+	public override void OnReturn ()
+	{
+		model.energyPoint = 130;
+	}
 
     public override SkillTypeInfo GetSpecialSkill()
     {

@@ -70,7 +70,7 @@ public class SuppressWindow : MonoBehaviour
             this.Name.text = this.model.name;
             this.Grade.text = AgentModel.GetLevelGradeText(this.model);
 
-            AgentModel.SetPortraitSprite(this.model, this.face.sprite, this.hair.sprite);
+            AgentModel.SetPortraitSprite(this.model, this.face, this.hair);
 
         }
 
@@ -358,6 +358,13 @@ public class SuppressWindow : MonoBehaviour
 			sa.weapon = SuppressAction.Weapon.GUN;
 
 			actor.StartSuppressAgent((OfficerModel)target, sa, SuppressType.UNCONTROLLABLE);
+		}
+		else if(target is CreatureModel)
+		{
+			SuppressAction sa = new SuppressAction (actor);
+			sa.weapon = SuppressAction.Weapon.GUN;
+
+			actor.SuppressCreature((CreatureModel)target, sa);
 		}
 
 		/*

@@ -67,7 +67,8 @@ public class WorkAllocateWindow : MonoBehaviour {
         return currentWindow;    
     }
 
-    void Awake(){
+    //void Awake(){
+	void Start(){
         currentWindow = this;
         currentWindow.gameObject.SetActive(false);
         currentWindow.Init();
@@ -91,6 +92,12 @@ public class WorkAllocateWindow : MonoBehaviour {
         this.agentList = new List<AgentModel>();
         this.slotList = new List<WorkAllocateSlot>();
         //스킬 계열 초기화 필요
+
+		this.skillList.Add (SkillTypeList.instance.GetData (1));
+		this.skillList.Add (SkillTypeList.instance.GetData (2));
+		this.skillList.Add (SkillTypeList.instance.GetData (3));
+		this.skillList.Add (SkillTypeList.instance.GetData (4));
+		this.skillList.Add (SkillTypeList.instance.GetData (5));
 
         for (int i = 0; i < this.skillList.Count; i++) {
             if (i > this.skillCategoryTraget.Count) break;
@@ -167,6 +174,7 @@ public class WorkAllocateWindow : MonoBehaviour {
             return;
         }
         this.selectedSkillId = targetSkill.id;
+		Debug.Log ("Click skill : " + selectedSkillId);
         ShowAgentList();
     }
 
@@ -195,7 +203,24 @@ public class WorkAllocateWindow : MonoBehaviour {
             return;
         }
 
+		SkillTypeInfo skillTypeInfo = SkillTypeList.instance.GetData (selectedSkillId);
+		if (targetCreature.manageDelay > 0)
+		{
+			Debug.Log ("not ready creature.. remain : " + targetCreature.manageDelay);
+			return;
+		}
+
+		if (target.IsReadyToUseSkill (skillTypeInfo) == false)
+		{
+			Debug.Log ("not ready skill.. remain : " + target.GetSkillDelay(skillTypeInfo));
+			return;
+		}
+
         //Clicked Event
+
+		target.ManageCreature (targetCreature, SkillTypeList.instance.GetData (selectedSkillId));
+
+		CloseWindow ();
     }
 
     public AgentModel GetAgent(long id) {

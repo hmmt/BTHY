@@ -28,6 +28,8 @@ public class WorkInventory : MonoBehaviour {
         sizex = parent.GetComponent<RectTransform>().rect.width;
         list = new List<WorkSlot>();
 
+		workCnt = AgentManager.instance.GetAgentList ().Length;
+
         //init 일단 여기서 불러놓음
         //Init();
         //delete;
@@ -79,6 +81,7 @@ public class WorkInventory : MonoBehaviour {
         SetPos(rect, index);
 
         AddEventTrigger(script);
+		script.agentTargetForProto = AgentManager.instance.GetAgentList () [index];
         list.Add(script);
     }
 

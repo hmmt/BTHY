@@ -208,4 +208,6 @@ public class CreatureTypeInfo
     //도감정보 끝
 
 
+	// temp for proto
+	public Dictionary<long, float> workEfficiency = new Dictionary<long, float>();
 }

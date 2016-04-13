@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class EnergyGatheringScript : MonoBehaviour {
     public Slider left;
     public Slider right;
+	public Text text;
 
     private float max;
 
@@ -40,7 +41,7 @@ public class EnergyGatheringScript : MonoBehaviour {
         if (!gathered)
         {
             //left
-            left.value = EnergyModel.instance.GetEnergy();
+			left.value = EnergyModel.instance.GetEnergy();
         }
         else { 
             //right
@@ -55,5 +56,9 @@ public class EnergyGatheringScript : MonoBehaviour {
             }
             right.value = value;
         }
+
+		if (text != null) {
+			text.text = EnergyModel.instance.GetEnergy ().ToString();
+		}
 	}
 }

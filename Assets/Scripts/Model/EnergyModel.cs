@@ -88,8 +88,23 @@ public class EnergyModel : IObserver {
                 addedEnergy = unit.GetEnergyTick();
             }
 
+			// temp for proto
+			//addedEnergy = (unit.energyPoint-100) / 5f;
+
+			if (unit.energyPoint < 90)
+				addedEnergy = (unit.energyPoint - 90) / 5f;
+			else if (unit.energyPoint >= 110)
+				addedEnergy = (unit.energyPoint - 110) / 5f;
+			else
+				addedEnergy = 0;
+
+			//if(addedEnergy
+
 			AddEnergy(addedEnergy);
             unit.genEnergyCount += addedEnergy;
+
+			if (unit.genEnergyCount < 0)
+				unit.genEnergyCount = 0;
 			if(addedEnergy > 0)
 			{
 				TextAppearEffect.Create((Vector2)unit.GetCurrentViewPosition(), "+" + addedEnergy.ToString(), Color.white);

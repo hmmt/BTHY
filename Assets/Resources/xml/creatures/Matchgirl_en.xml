@@ -27,6 +27,12 @@
         <section bound="120" gen="0.2"/>
         <section bound="200" gen="0.1375"/>
       </energyGenSection>
+
+      <prefer id="1">-0.5</prefer>
+      <prefer id="3">1.0</prefer>
+      <prefer id="2">1.5</prefer>
+      <prefer id="4">0.5</prefer>
+      <prefer id="5">1.0</prefer>
     </stat>
 
     <feeling max="100" downProb="0.44" downValue="1">
@@ -123,7 +129,7 @@
     </narration>
 
 
-    <anim prefab="Unit/CreatureAnimator/MagicalGirlAnim" x="-1" y="-2"/>
+    <anim prefab="Unit/CreatureAnimator/NothingAnim" x="-1" y="-2"/>
 
     <!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
     <img src="Unit/dummy" x="-1" y="-1"/>

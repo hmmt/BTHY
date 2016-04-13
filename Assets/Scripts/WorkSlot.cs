@@ -31,6 +31,8 @@ public class WorkSlot : MonoBehaviour, IObserver
 
     public string test = "";
 
+	// temp for proto
+	public AgentModel agentTargetForProto;
 	/*
     public void Awake() {
         agentcnt = 0;
@@ -61,6 +63,8 @@ public class WorkSlot : MonoBehaviour, IObserver
         SetLockImage();
         SelectImage.gameObject.SetActive(false);
         AgentPortrait.gameObject.SetActive(false);
+
+		SetAgentPortrait (AgentManager.instance.GetAgentList () [index]);
 	}
 
     public void SetLockImage() {
@@ -109,8 +113,20 @@ public class WorkSlot : MonoBehaviour, IObserver
     }
 
     public void SetCurrentSkill(SkillTypeInfo skill) {
-        this.currentSkill = skill;
+		if (targetCreature.manageDelay > 0)
+		{
+			Debug.Log ("not ready creature.. remain : " + targetCreature.manageDelay);
+			return;
+		}
 
+		if (agentTargetForProto.IsReadyToUseSkill (skill) == false)
+		{
+			Debug.Log ("not ready skill.. remain : " + agentTargetForProto.GetSkillDelay(skill));
+			return;
+		}
+
+        this.currentSkill = skill;
+		/*
         GameObject icon = GetIcon();
         icon.GetComponent<Image>().sprite = ResourceCache.instance.GetSprite("Sprites/UI/skill/" + skill.imgsrc);
         GameObject text = GetText();
@@ -119,6 +135,13 @@ public class WorkSlot : MonoBehaviour, IObserver
         text.GetComponent<Text>().fontSize = 14;
 
 		UpdateWorkSetting ();
+		*/
+
+		agentTargetForProto.ManageCreature(targetCreature, skill);
+		//CloseWindow ();
+
+		SelectWorkAgentWindow.currentWindow.CloseWindow ();
+
     }
 
     public bool IsLocked() {
@@ -191,6 +214,7 @@ public class WorkSlot : MonoBehaviour, IObserver
 
 	private void UpdateWorkSetting()
 	{
+		return;
 		WorkSettingElement setting = AutoCommandManager.instance.GetWorkSetting (targetCreature);
 		setting.slots [index].agentCnt = agentcnt;
 		setting.slots [index].skill = currentSkill;
@@ -204,7 +228,7 @@ public class WorkSlot : MonoBehaviour, IObserver
                 && (param[2] as SkillTypeInfo).Equals(this.currentSkill)) {
                 this.agentList.Add((AgentModel)param[0]);
 
-                SetAgentPortrait(agentList[0]);
+                //SetAgentPortrait(agentList[0]);
             }
             //calc success percentage
             CalcSuccessPossibility();

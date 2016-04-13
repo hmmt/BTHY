@@ -55,6 +55,27 @@ public class ReturnCreatureWorkerCommand : WorkerCommand {
 
 			CheckRanage ((AgentModel)agent);
 		}
+		else
+		{
+			MovableObjectNode movable = agent.GetMovableNode ();
+			/*
+			if (!creatureGet && target.state != CreatureState.SUPPRESSED)
+			{
+				Finish ();
+				return;
+			}
+			*/
+				
+			if (!movable.IsMoving ()) {
+				if (creatureGet) {
+					movable.MoveToNode (target.GetWorkspaceNode());
+				} else {	
+					movable.MoveToMovableNode (target.GetMovableNode ());
+				}
+			}
+
+			CheckRanage ((AgentModel)agent);
+		}
 	}
 	public override void OnDestroy(WorkerModel agent)
 	{
@@ -63,6 +84,9 @@ public class ReturnCreatureWorkerCommand : WorkerCommand {
 		AgentModel actor = (AgentModel)agent;
 		if (actor.GetState () == AgentAIState.RETURN_CREATURE)
 			actor.FinishReturnCreature ();
+
+		if (target.state == CreatureState.SUPPRESSED_RETURN)
+			target.state = CreatureState.SUPPRESSED;
 	}
 
 	void CheckRanage(AgentModel actor)
@@ -95,10 +119,26 @@ public class ReturnCreatureWorkerCommand : WorkerCommand {
 				}
 			}
 		}
-	}
+		else
+		{
+			if(creatureGet)
+			{
+				if (actor.GetCurrentNode () == target.GetWorkspaceNode ())
+				{
+					target.FinishReturn ();
+					Finish ();
+					return;
+				}
+			}
+			else
+			{
+				Vector3 dist = actor.GetMovableNode ().GetCurrentViewPosition () - target.GetMovableNode().GetCurrentViewPosition();
 
-	void GetCreature()
-	{
+				if (dist.sqrMagnitude <= 2) {
+					//shoes.ReturnShoesByAgent (actor);
+					creatureGet = true;
+				}
+			}
+		}
 	}
-	
 }

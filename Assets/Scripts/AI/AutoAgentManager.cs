@@ -14,10 +14,12 @@ public class WorkSettingElement
 
 	public WorkSettingElement()
 	{
-		slots = new Slot[3];
+		slots = new Slot[5];
 		slots [0] = new Slot ();
 		slots [1] = new Slot ();
 		slots [2] = new Slot ();
+		slots [3] = new Slot ();
+		slots [4] = new Slot ();
 	}
 }
 

@@ -48,6 +48,7 @@
   -->
 
   <day date="1">
+
     <desc id ="0" speaker="0" select="1">
       [
       {Good morning, Mr./Mrs. ‘Manager.’ I am AI Angella and I am here to support your management job and make the workflow easier.}
@@ -78,6 +79,7 @@
       ]
       <sys call ="2" target ="0"/>
       <sys call ="1"/>
+      <end id ="X"/>
     </desc>
 
     <desc id="2" speaker="0" select="2">
@@ -127,6 +129,7 @@
       ]
       <sys call ="2" target ="1"/>
       <sys call ="1"/>
+      <end id ="X"/>
     </desc>
 
     <desc id="5" speaker="0" select="0">
@@ -135,6 +138,7 @@
       {I think I can do my best to support you.}
       ]
       <sys call="1"/>
+      <end id ="X"/>
     </desc>
 
     <desc id="6" speaker="0" select="0">
@@ -145,9 +149,31 @@
       {I promise you when I am there with you at those moments you would feel better.}
       ]
       <sys call="1"/>
+      <end id ="X"/>
     </desc>
   </day>
 
+
+  <day date="2">
+	  <ending id ="X">
+	  	<desc id="0" speaker="0" select="0">
+	  		[
+	  		{Ending Second story is none.}
+	  		]
+	  		<sys call="1"/>
+	  	</desc>
+
+	  </ending>
+
+	  <desc id="0" speaker="0" select="0">
+	  		[
+	  		{Second story is none.}
+	  		]
+	  		<sys call="1"/>
+	  	</desc>
+
+
+  </day>
 
  </script>
 

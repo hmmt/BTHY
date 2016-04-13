@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GlobalGameManager : MonoBehaviour {
@@ -12,7 +13,7 @@ public class GlobalGameManager : MonoBehaviour {
 		}
 	}
 
-    public string language = "en";
+	public string language = "en";
 
 	void Awake()
 	{
@@ -31,10 +32,12 @@ public class GlobalGameManager : MonoBehaviour {
 
 	void Update()
 	{
-		if (Application.loadedLevelName == "StartScene")
+		//if (Application.loadedLevelName == "StartScene")
+		if (SceneManager.GetActiveScene ().name == "StartScene")
 		{
 			Debug.Log ("load....");
-			Application.LoadLevel ("Main");
+			//Application.LoadLevel ("Main");
+			SceneManager.LoadScene("StorySceneTemp");
 		}
 	}
 }

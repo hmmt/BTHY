@@ -17,6 +17,7 @@ public class MagicalGirl : CreatureBase {
         base.OnInit();
 		//model.SetCurrentNode (MapGraph.instance.GetNodeById("malkuth-0-5"));
     }
+
 	/*
     public override CreatureAttackInfo GetAttackInfo(UseSkill skill)
     {
@@ -75,7 +76,19 @@ public class MagicalGirl : CreatureBase {
         {
             creature.Escape();
         }*/
+
+		base.OnFixedUpdate (creature);
+
+		if (model.energyPoint < 80)
+		{
+			model.Escape ();
+		}
     }
+
+	public override void OnReturn ()
+	{
+		model.energyPoint = 130;
+	}
 
     private void SkillDarkAttack(UseSkill skill)
     {

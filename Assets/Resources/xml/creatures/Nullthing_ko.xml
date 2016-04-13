@@ -34,6 +34,10 @@
         <section bound="105" gen="-0.225"/>
         <section bound="120" gen="-0.275"/>
       </energyGenSection>
+
+      <prefer id="1">1.0</prefer>
+      <prefer id="2">1.0</prefer>
+      <prefer id="3">1.0</prefer>
     </stat>
 
     <feeling max="100" downProb="0.44" downValue="1">

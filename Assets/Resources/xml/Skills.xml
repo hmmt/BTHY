@@ -205,5 +205,11 @@
 	<skill id="400002" category ="A" type="unique" tier="1" name="포옹하기" desc="으헝헝" amount="30" imgsrc="UI/skill/Work_Commu"/>
 
 	<skill id="400010" category ="A" type="unique" tier="1" name="(아무것도없는)전용스킬" desc="아무것도 없네" amount="30" imgsrc="UI/skill/Work_Commu"/>
-	
+
+
+	<skill id="1" category ="P" type="direct" tier="1" name="먹이" desc="밥을 AA" amount="20" feeling="15" imgsrc="disinfectant"/>
+	<skill id="2" category ="P" type="direct" tier="1" name="청소" desc="밥을 BB" amount="20" feeling="15" imgsrc="Communication"/>
+	<skill id="3" category ="P" type="direct" tier="1" name="칭찬" desc="밥을 CC" amount="20" feeling="15" imgsrc="EggBroken"/>
+	<skill id="4" category ="P" type="direct" tier="1" name="유희" desc="밥을 DD" amount="20" feeling="15" imgsrc="Meat"/>
+	<skill id="5" category ="P" type="direct" tier="1" name="매도" desc="밥을 EE" amount="20" feeling="15" imgsrc="Pill"/>
 </skills>

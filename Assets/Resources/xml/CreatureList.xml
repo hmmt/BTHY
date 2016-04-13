@@ -15,6 +15,7 @@
   <creature name="NullThing" src="Nullthing" id="100005">
     <stat>NullThing_stat</stat>
   </creature>
+
   <creature name="SingingMachine" src="SingingMachine" id="100006">
     <stat>SingingMachine_stat</stat>
   </creature>

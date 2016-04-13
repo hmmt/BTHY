@@ -30,7 +30,7 @@ public class AgentUnitUI {
         c.a = (float)model.mental / model.maxMental;
 
         workIcon.GetChild(1).GetComponent<Image>().color = c;
-        hp.value = model.hp;
+		hp.value = model.hp / (float)model.maxHp;
     }
    
 }

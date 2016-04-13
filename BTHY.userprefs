@@ -1,23 +1,26 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitActions/Uncontrollable/Uncontrollable_RedShoes.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit/CreatureUnit.cs">
     <Files>
-      <File FileName="Assets/Scripts/Model/AgentModel.cs" Line="840" Column="23" />
-      <File FileName="Assets/Scripts/CreatureSpecialSkill.cs" Line="168" Column="58" />
-      <File FileName="Assets/Scripts/Creatures/RedShoes.cs" Line="8" Column="32" />
-      <File FileName="Assets/Scripts/Enums/WorkerAIState.cs" Line="39" Column="18" />
-      <File FileName="Assets/Scripts/WorkerModel.cs" Line="77" Column="29" />
-      <File FileName="Assets/Scripts/UnitActions/UncontrollableAction.cs" Line="9" Column="1" />
-      <File FileName="Assets/Scripts/UnitActions/Uncontrollable/Uncontrollable_RedShoes.cs" Line="26" Column="3" />
-      <File FileName="Assets/Scripts/UnitActions/PanicRoaming.cs" Line="31" Column="3" />
-      <File FileName="Assets/Scripts/AnimatorManager.cs" Line="124" Column="1" />
-      <File FileName="Assets/Scripts/Model/CreatureModel.cs" Line="757" Column="1" />
-      <File FileName="Assets/Scripts/UnitManager/CreatureManager.cs" Line="59" Column="5" />
+      <File FileName="Assets/Scripts/Creatures/NullCreature.cs" Line="61" Column="3" />
+      <File FileName="Assets/CreatureAnimScript/NothingAnim.cs" Line="33" Column="3" />
+      <File FileName="Assets/Scripts/UnitActions/CreatureCommands/CreatureCommand.cs" Line="63" Column="44" />
+      <File FileName="Assets/Scripts/UnitActions/CreatureCommands/PursueCreatureCommand.cs" Line="77" Column="18" />
+      <File FileName="Assets/Scripts/Model/CreatureModel.cs" Line="569" Column="4" />
+      <File FileName="Assets/Scripts/WorkerModel.cs" Line="302" Column="1" />
+      <File FileName="Assets/Scripts/Unit/CreatureUnit.cs" Line="335" Column="10" />
+      <File FileName="Assets/Scripts/Unit/IsolateRoom.cs" Line="296" Column="33" />
+      <File FileName="Assets/Puppet2D/Scripts/SuppressWindow.cs" Line="353" Column="28" />
+      <File FileName="Assets/Scripts/UnitActions/WorkerCommands/SuppressWorkerCommand.cs" Line="186" Column="39" />
+      <File FileName="Assets/Scripts/UnitActions/WorkerCommands/WorkerCommand.cs" Line="116" Column="36" />
+      <File FileName="Assets/Scripts/Model/AgentModel.cs" Line="977" Column="6" />
+      <File FileName="Assets/Scripts/UnitActions/SuppressAgent.cs" Line="152" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/lmicc625/BTHY/Assets/Scripts/CreatureSpecialSkill.cs" line="170" column="103" />
+      <Breakpoint file="/Users/lmicc625/BTHY/Assets/Scripts/Model/AgentModel.cs" line="433" column="21" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

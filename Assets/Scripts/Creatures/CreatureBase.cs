@@ -80,6 +80,10 @@ public class CreatureBase {
 	{
 		
 	}
+
+	public virtual void OnReturn()
+	{
+	}
 	/*
     public virtual CreatureAttackInfo GetAttackInfo(UseSkill skill)
     {

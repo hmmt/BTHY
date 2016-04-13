@@ -83,6 +83,8 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
 	public void Pause()
 	{
 		pauseTime = Time.time;
+		Time.timeScale = 0;
+
 		pause = true;
 	}
 
@@ -92,6 +94,8 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
 		{
 			goalTime += Time.time - pauseTime;
 			pause = false;
+
+			Time.timeScale = 1;
 		}
 	}
 
