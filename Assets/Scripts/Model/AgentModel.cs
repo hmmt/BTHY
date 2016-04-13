@@ -1194,10 +1194,11 @@ public class AgentModel : WorkerModel
             StatusSprites[i] = ResourceCache.instance.GetSprite(fullpath);
         }
         */
+        /*
         for (int i = 0; i < WorklistSprites.Length; i++) {
             string fullpath = loc + "Work_" + i;
             WorklistSprites[i] = ResourceCache.instance.GetSprite(fullpath);
-        }
+        }*/
     }
 
     public static int CompareByID(AgentModel x, AgentModel y)

@@ -27,6 +27,10 @@ public class PromotionSkillTree : MonoBehaviour {
         level = -1;
     }
 
+    public void Start() {
+        PromotionSkillTreeInit();
+    }
+
     public void PromotionSkillTreeInit() {
         if (isLoaded == false) {
             isLoaded = true;

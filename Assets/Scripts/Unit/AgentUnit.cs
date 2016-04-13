@@ -164,6 +164,10 @@ public class AgentUnit : MonoBehaviour {
         }
         ChangeAgentUniform();
 
+        Canvas canvas = this.showSpeech.GetComponent<Canvas>();
+        canvas.worldCamera = Camera.main;
+        
+
         accessoryUnit = new AccessoryUnit();
         accessoryUnit.Init(this.animTarget);
     }

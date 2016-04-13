@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         Screen.fullScreen = true;
         _currentGameManager = this;
 
-        Camera.main.orthographicSize += 5;
+        //Camera.main.orthographicSize += 5;
 
 
         // 옮겨야 한다.

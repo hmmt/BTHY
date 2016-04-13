@@ -24,7 +24,7 @@ public class LoggingScript : MonoBehaviour {
 
         script.SetText(context, fontSize, horizontalSpacing, verticalSpacing);
         rect.SetParent(parent);
-
+        rect.localPosition = Vector3.zero;
         rect.anchoredPosition = new Vector2(leftSpacing, 0f);
         rect.localScale = Vector3.one;
         script.index = list.Count;

@@ -17,6 +17,7 @@ public class GlobalGameManager : MonoBehaviour {
 	void Awake()
 	{
 		if (_instance != null) {
+            Debug.Log(gameObject.name);
 			Destroy (gameObject);
 			return;
 		}
@@ -29,8 +30,22 @@ public class GlobalGameManager : MonoBehaviour {
 		MapGraph.instance.LoadMap ();
 	}
 
+    void Start() {
+
+    }
+
 	void Update()
 	{
+        /*
+        foreach (AudioListener listener in GameObject.FindObjectsOfType<AudioListener>())
+        {
+            if (listener.gameObject == Camera.main.gameObject) {
+                Debug.Log("not this");
+                continue;
+            }
+            Destroy(listener.gameObject);
+        }*/
+
 		if (Application.loadedLevelName == "StartScene")
 		{
 			Debug.Log ("load....");
