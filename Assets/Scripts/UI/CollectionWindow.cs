@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
-public class CollectionWindow : MonoBehaviour {
+public class CollectionWindow : MonoBehaviour, IActivatableObject {
 
     private CreatureModel creature;
     public Text[] low;
@@ -29,6 +30,13 @@ public class CollectionWindow : MonoBehaviour {
     public RectTransform observeButton;
 
     public static string nodata= "unknown";
+
+    [HideInInspector]
+    public ActivatableObjectPos windowPos = ActivatableObjectPos.RIGHTUPPER;
+
+    public RectTransform eventTriggerTarget;
+
+    bool activatableObjectInitiated = false;
 
     [HideInInspector]
     public static CollectionWindow currentWindow = null;
@@ -106,6 +114,15 @@ public class CollectionWindow : MonoBehaviour {
         wnd.listScirpt.SortBgList();
          * 
          */
+        if (wnd.activatableObjectInitiated == false) {
+            wnd.UIActivateInit();
+        }
+
+        wnd.Activate();
+
+        Canvas canvas = wnd.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
+
         currentWindow = wnd;
         
         wnd.SetObserveText();
@@ -178,8 +195,8 @@ public class CollectionWindow : MonoBehaviour {
     public void CloseWindow()
     {
         //currentWindow = null;
-        
 
+        Deactivate();
         GameObject.FindGameObjectWithTag("AnimCollectionController")
             .GetComponent<Animator>().SetBool("isTrue", true);
         //Destroy(gameObject);
@@ -206,5 +223,52 @@ public class CollectionWindow : MonoBehaviour {
     public void OnClickPortrait() {
         Vector2 pos = currentWindow.creature.position;
         Camera.main.transform.position = new Vector3(pos.x, pos.y, -20f);
+    }
+
+    public void Activate()
+    {
+        UIActivateManager.instance.Activate(this, this.windowPos);
+    }
+
+    public void Deactivate()
+    {
+        UIActivateManager.instance.Deactivate(this.windowPos);
+    }
+
+    public void OnEnter()
+    {
+        UIActivateManager.instance.OnEnter(this);
+    }
+
+    public void OnExit()
+    {
+        UIActivateManager.instance.OnExit();
+    }
+
+    public void UIActivateInit()
+    {
+        activatableObjectInitiated = true;
+        EventTrigger eventTrigger = this.eventTriggerTarget.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = this.eventTriggerTarget.gameObject.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry enter = new EventTrigger.Entry();
+        EventTrigger.Entry exit = new EventTrigger.Entry();
+
+        enter.eventID = EventTriggerType.PointerEnter;
+        exit.eventID = EventTriggerType.PointerExit;
+
+        enter.callback.AddListener((eventData) => { OnEnter(); });
+        exit.callback.AddListener((eventData) => { OnExit(); });
+
+        eventTrigger.triggers.Add(enter);
+        eventTrigger.triggers.Add(exit);
+    }
+
+    public void Close()
+    {
+        this.CloseWindow();
     }
 }

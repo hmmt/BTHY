@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ public class SuppressAction {
     //정렬용 비교함수 끝
 }
 
-public class SuppressWindow : MonoBehaviour
+public class SuppressWindow : MonoBehaviour, IActivatableObject
 {
     public enum TargetType { 
         CREATURE,
@@ -191,6 +192,12 @@ public class SuppressWindow : MonoBehaviour
 
     //Sort 에 관련된 UI 및 데이터 필요
 
+    [HideInInspector]
+    public ActivatableObjectPos windowPos = ActivatableObjectPos.LEFTUPPER;
+
+    public RectTransform eventTriggerTarget;
+    bool activatableObjectInitiated = false;
+
     private object target;
 
     public object Target {
@@ -220,9 +227,18 @@ public class SuppressWindow : MonoBehaviour
         inst.attachedPos = unit.transform;
         inst.ui.Init(target, inst.targetType);
 
+        if (inst.activatableObjectInitiated == false) {
+            inst.UIActivateInit();
+        }
+
         inst.InitAgentList();
         inst.ShowAgentList();
+        inst.Activate();
+        Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
+
         currentWindow = inst;
+
         return inst;
     }
 
@@ -248,6 +264,11 @@ public class SuppressWindow : MonoBehaviour
 
         inst.InitAgentList();
         inst.ShowAgentList();
+        inst.Activate();
+
+        Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
+
         currentWindow = inst;
         return inst;
     }
@@ -376,6 +397,7 @@ public class SuppressWindow : MonoBehaviour
 
 
     public void CloseWindow() {
+        Deactivate();
         currentWindow = null;
         Destroy(gameObject);
     }
@@ -395,5 +417,52 @@ public class SuppressWindow : MonoBehaviour
         }
 
         return this.suppressingAgentList;
+    }
+
+    public void Activate()
+    {
+        UIActivateManager.instance.Activate(this, this.windowPos);
+    }
+
+    public void Deactivate()
+    {
+        UIActivateManager.instance.Deactivate(this.windowPos);
+    }
+
+    public void OnEnter()
+    {
+        UIActivateManager.instance.OnEnter(this);
+    }
+
+    public void OnExit()
+    {
+        UIActivateManager.instance.OnExit();
+    }
+
+    public void UIActivateInit()
+    {
+        activatableObjectInitiated = true;
+        EventTrigger eventTrigger = this.eventTriggerTarget.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = this.eventTriggerTarget.gameObject.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry enter = new EventTrigger.Entry();
+        EventTrigger.Entry exit = new EventTrigger.Entry();
+
+        enter.eventID = EventTriggerType.PointerEnter;
+        exit.eventID = EventTriggerType.PointerExit;
+
+        enter.callback.AddListener((eventData) => { OnEnter(); });
+        exit.callback.AddListener((eventData) => { OnExit(); });
+
+        eventTrigger.triggers.Add(enter);
+        eventTrigger.triggers.Add(exit);
+    }
+
+    public void Close()
+    {
+        this.CloseWindow();
     }
 }

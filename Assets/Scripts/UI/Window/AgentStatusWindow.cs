@@ -11,7 +11,7 @@ public class AgentIcons {
     
 }
 
-public class AgentStatusWindow : MonoBehaviour, IObserver {
+public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
 	public Text NameText;
 	public Text LevelText;
     public Text DepartMent;
@@ -38,6 +38,13 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 
 	[HideInInspector]
 	public static AgentStatusWindow currentWindow = null;
+
+    [HideInInspector]
+    public ActivatableObjectPos windowPos = ActivatableObjectPos.RIGHTUPPER;
+
+    public RectTransform eventTriggerTarget;
+
+    bool activatableObjectInitiated = false;
 
 	private AgentModel _target = null;
 	private bool enabled = false;
@@ -110,11 +117,18 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
             }
         }
 
+        if (inst.activatableObjectInitiated == false) {
+            inst.UIActivateInit();
+        }
         
 		inst.target = unit;
         inst.UpdateModel(inst.target);
         //inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
-        
+        inst.Activate();
+
+        Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
+
 		currentWindow = inst;
 
 		return inst;
@@ -274,6 +288,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	
 	public void CloseWindow()
 	{
+        Deactivate();
         GameObject.FindGameObjectWithTag("AnimAgentController")
             .GetComponent<Animator>().SetBool("isTrue", true);
 	}
@@ -323,5 +338,52 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
                 this.HasWork[i].sprite = this.HasWorkNotSelected;
             }
         }
+    }
+
+    public void Activate()
+    {
+        UIActivateManager.instance.Activate(this, this.windowPos);
+    }
+
+    public void Deactivate()
+    {
+        UIActivateManager.instance.Deactivate(this.windowPos);
+    }
+
+    public void OnEnter()
+    {
+        UIActivateManager.instance.OnEnter(this);
+    }
+
+    public void OnExit()
+    {
+        UIActivateManager.instance.OnExit();
+    }
+
+    public void UIActivateInit()
+    {
+        activatableObjectInitiated = true;
+        EventTrigger eventTrigger = this.eventTriggerTarget.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = this.eventTriggerTarget.gameObject.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry enter = new EventTrigger.Entry();
+        EventTrigger.Entry exit = new EventTrigger.Entry();
+
+        enter.eventID = EventTriggerType.PointerEnter;
+        exit.eventID = EventTriggerType.PointerExit;
+
+        enter.callback.AddListener((eventData) => { OnEnter(); });
+        exit.callback.AddListener((eventData) => { OnExit(); });
+
+        eventTrigger.triggers.Add(enter);
+        eventTrigger.triggers.Add(exit);
+    }
+
+    public void Close()
+    {
+        this.CloseWindow();
     }
 }

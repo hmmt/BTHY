@@ -2,8 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
-public class SelectObserveAgentWindow : MonoBehaviour
+public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
 {
     [System.Serializable]
     public class ObserveWindowUI {
@@ -67,6 +68,12 @@ public class SelectObserveAgentWindow : MonoBehaviour
     public ObserveWindowUI ui;
     public ConditionUI conditionUI;
 
+    [HideInInspector]
+    public ActivatableObjectPos windowPos = ActivatableObjectPos.LEFTUPPER;
+
+    public RectTransform eventTriggerTarget;
+    bool activatableObjectInitiated = false;
+
     private int state1 = 0;
     private CreatureModel targetCreature = null;
     List<GameObject> selectedAgentList = new List<GameObject>();
@@ -110,9 +117,14 @@ public class SelectObserveAgentWindow : MonoBehaviour
         inst.ui.Init(inst.targetCreature);
         inst.conditionUI.Init(inst);
         
+        
+        if (currentWindow.activatableObjectInitiated == false) {
+            currentWindow.UIActivateInit();
+        }
+
         //make AgentSlot
         inst.ShowAgentList();
-
+        inst.Activate();
         currentWindow = inst;
 
         return inst;
@@ -250,7 +262,55 @@ public class SelectObserveAgentWindow : MonoBehaviour
     public void CloseWindow()
     {
         //gameObject.SetActive (false);
+        Deactivate();
         currentWindow = null;
         Destroy(gameObject);
+    }
+
+    public void Activate()
+    {
+        UIActivateManager.instance.Activate(this, this.windowPos);
+    }
+
+    public void Deactivate()
+    {
+        UIActivateManager.instance.Deactivate(this.windowPos);
+    }
+
+    public void OnEnter()
+    {
+        UIActivateManager.instance.OnEnter(this);
+    }
+
+    public void OnExit()
+    {
+        UIActivateManager.instance.OnExit();
+    }
+
+    public void UIActivateInit()
+    {
+        activatableObjectInitiated = true;
+        EventTrigger eventTrigger = this.eventTriggerTarget.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = this.eventTriggerTarget.gameObject.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry enter = new EventTrigger.Entry();
+        EventTrigger.Entry exit = new EventTrigger.Entry();
+
+        enter.eventID = EventTriggerType.PointerEnter;
+        exit.eventID = EventTriggerType.PointerExit;
+
+        enter.callback.AddListener((eventData) => { OnEnter(); });
+        exit.callback.AddListener((eventData) => { OnExit(); });
+
+        eventTrigger.triggers.Add(enter);
+        eventTrigger.triggers.Add(exit);
+    }
+
+    public void Close()
+    {
+        this.CloseWindow();
     }
 }

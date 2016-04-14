@@ -36,7 +36,7 @@ public class GameStaticDataLoader {
             loader.LoadLyricData();
         }
 
-        PromotionSkillTree.instance.PromotionSkillTreeInit();
+        //PromotionSkillTree.instance.PromotionSkillTreeInit();
 	}
 
     public void LoadTraitData()

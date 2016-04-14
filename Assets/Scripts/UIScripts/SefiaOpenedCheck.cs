@@ -29,6 +29,11 @@ public class SefiaOpenedCheck : MonoBehaviour {
         for (int i = 0; i < 10; i++)
         {
             isopend[i] = PlayerModel.instance.IsOpenedArea(list[i]);
+            /*
+            Debug.Log(instance);
+            Debug.Log(instance.sefira[i]);
+            Debug.Log(instance.sefira[i].gameObject);
+            */
             instance.sefira[i].gameObject.SetActive(isopend[i]);
         }
         instance.SetSprites();

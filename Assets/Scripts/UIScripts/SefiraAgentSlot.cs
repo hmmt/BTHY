@@ -38,8 +38,10 @@ public class SefiraAgentSlot : MonoBehaviour {
 
     public void CancelSefiraAgent(AgentModel unit, int index)
     {
+        /*
         Debug.Log(index);
         Debug.Log(unit.name);
+         */
         ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
         AgentManager._instance.deactivateAgent(unit);
         ShowAgentSefira(StageUI.instance.currentSefriaUi);
@@ -81,7 +83,7 @@ public class SefiraAgentSlot : MonoBehaviour {
     }
 
     public void SetSefira(List<AgentModel> model) {
-        Debug.Log(model.Count);
+        //Debug.Log(model.Count);
         for (int i = 4; i >= model.Count; i--)
         {
             

@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
-public class WorkAllocateWindow : MonoBehaviour {
+public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 
     public Transform anchor;
     public RectTransform agentScrollTarget;
@@ -30,11 +30,14 @@ public class WorkAllocateWindow : MonoBehaviour {
     
     public long selectedSkillId;
     public AgentModel selectedAgent;
+
+    public ActivatableObjectPos windowPos = ActivatableObjectPos.ISOLATE;
+    public RectTransform eventTriggerTarget;
+    bool activatableObjectInitiated = false;
     
     public delegate void ClickedEvent(long id);
 
     public static WorkAllocateWindow CreateWindow(CreatureModel creature, WorkType workType){
-
         if (currentWindow.gameObject.activeSelf)
         {
             //현재 창이 켜져있는 상태 -> 다시 누르면 꺼지게 해야된다?
@@ -61,8 +64,17 @@ public class WorkAllocateWindow : MonoBehaviour {
             currentWindow.GetAgentList();
         }
 
+        if (currentWindow.activatableObjectInitiated == false)
+        {
+            currentWindow.UIActivateInit();
+        }
+
         currentWindow.targetCreature = creature;
         currentWindow.workType = workType;
+        currentWindow.Activate();
+
+        Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
 
         return currentWindow;    
     }
@@ -107,6 +119,7 @@ public class WorkAllocateWindow : MonoBehaviour {
 
     public void CloseWindow()
     {
+        Deactivate();
         this.CloseAgentList();
         this.targetCreature = null;
         this.selectedSkillId = -1;
@@ -239,5 +252,52 @@ public class WorkAllocateWindow : MonoBehaviour {
         foreach (WorkAllocateSlot slot in this.slotList) {
             slot.SetCoolTime();
         }
+    }
+
+    public void Activate()
+    {
+        UIActivateManager.instance.Activate(this, this.windowPos);
+    }
+
+    public void Deactivate()
+    {
+        UIActivateManager.instance.Deactivate(this.windowPos);
+    }
+
+    public void OnEnter()
+    {
+        UIActivateManager.instance.OnEnter(this);
+    }
+
+    public void OnExit()
+    {
+        UIActivateManager.instance.OnExit();
+    }
+
+    public void UIActivateInit()
+    {
+        activatableObjectInitiated = true;
+        EventTrigger eventTrigger = this.eventTriggerTarget.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = this.eventTriggerTarget.gameObject.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry enter = new EventTrigger.Entry();
+        EventTrigger.Entry exit = new EventTrigger.Entry();
+
+        enter.eventID = EventTriggerType.PointerEnter;
+        exit.eventID = EventTriggerType.PointerExit;
+
+        enter.callback.AddListener((eventData) => { OnEnter(); });
+        exit.callback.AddListener((eventData) => { OnExit(); });
+
+        eventTrigger.triggers.Add(enter);
+        eventTrigger.triggers.Add(exit);
+    }
+
+    public void Close()
+    {
+        this.CloseWindow();
     }
 }
