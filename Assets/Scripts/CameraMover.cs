@@ -68,10 +68,15 @@ public class CameraMover : MonoBehaviour
             Application.LoadLevel("Menu");
         }*/
 
+		float unscaledDeltaTime = Time.unscaledDeltaTime;
+
+		if (unscaledDeltaTime > 1)
+			unscaledDeltaTime = 1;
+
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             Vector3 newPos = Camera.main.transform.localPosition;
-			newPos.x -= Time.unscaledDeltaTime*10;
+			newPos.x -= unscaledDeltaTime*10;
             Camera.main.transform.localPosition = newPos;
         }
 
@@ -79,7 +84,7 @@ public class CameraMover : MonoBehaviour
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             Vector3 newPos = Camera.main.transform.localPosition;
-			newPos.x += Time.unscaledDeltaTime*10;
+			newPos.x += unscaledDeltaTime*10;
             Camera.main.transform.localPosition = newPos;
         }
 
@@ -94,7 +99,7 @@ public class CameraMover : MonoBehaviour
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             Vector3 newPos = Camera.main.transform.localPosition;
-			newPos.y += Time.unscaledDeltaTime*10;
+			newPos.y += unscaledDeltaTime*10;
             Camera.main.transform.localPosition = newPos;
         }
 

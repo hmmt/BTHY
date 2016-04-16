@@ -308,6 +308,9 @@ public class CreatureModel : ObjectModelBase, IObserver
 		if (manageDelay > 0)
 			manageDelay -= Time.deltaTime;
 
+		if (GetCurrentNode () == roomNode)
+			movableNode.SetDirection (UnitDirection.RIGHT);
+
 		commandQueue.Execute (this);
 
 		CreatureCommand cmd = commandQueue.GetCurrentCmd ();
@@ -645,7 +648,7 @@ public class CreatureModel : ObjectModelBase, IObserver
 
         else if (workCount == 10 && genEnergyCount >= 100 && observeCondition == 3)
         {
-            Debug.Log("관찰 컨셕?계로 갱신");
+            Debug.Log("관찰 컨퉜계로 갱신");
             observeCondition = 4;
         }
         else
