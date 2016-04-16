@@ -731,6 +731,7 @@ public class AgentModel : WorkerModel
             {
                 //MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
 				MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
+                //MoveToNode(MapGraph.instance.GetSefiraNodes(currentSefira)[0]);
                 waitTimer = 1.5f + Random.value;
             }
         }

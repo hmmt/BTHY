@@ -38,6 +38,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public delegate void ClickedEvent(long id);
 
     public static WorkAllocateWindow CreateWindow(CreatureModel creature, WorkType workType){
+        
         if (currentWindow.gameObject.activeSelf)
         {
             //현재 창이 켜져있는 상태 -> 다시 누르면 꺼지게 해야된다?
@@ -53,6 +54,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         else {
             currentWindow.gameObject.SetActive(true);
             currentWindow.CloseAgentList();
+            currentWindow.Activate();
         }
 
         if (!creature.sefira.Equals(currentWindow.currentSefira))
@@ -64,14 +66,8 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             currentWindow.GetAgentList();
         }
 
-        if (currentWindow.activatableObjectInitiated == false)
-        {
-            currentWindow.UIActivateInit();
-        }
-
         currentWindow.targetCreature = creature;
         currentWindow.workType = workType;
-        currentWindow.Activate();
 
         Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
@@ -83,6 +79,12 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 	void Start(){
         currentWindow = this;
         currentWindow.gameObject.SetActive(false);
+
+        if (currentWindow.activatableObjectInitiated == false)
+        {
+            currentWindow.UIActivateInit();
+        }
+
         currentWindow.Init();
         //->부르는 시점을 약간 늦춰서 스킬 리스트가 완성되면 부르게 해야될듯;
     }

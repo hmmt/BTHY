@@ -66,11 +66,15 @@ public class UIActivateManager : MonoBehaviour {
 
     public void Awake() {
         _instance = this;
+    }
+
+    public void Update() {
         
     }
 
     public void Activate(IActivatableObject target, ActivatableObjectPos pos)
     {
+        if (this.activated[(int)pos] != null) this.activated[(int)pos].Close();
         this.activated[(int)pos] = target;
     }
 
@@ -88,8 +92,7 @@ public class UIActivateManager : MonoBehaviour {
     }
 
     public void OnClickBackGround() {
-        if (currentTarget != null) {
-            Debug.Log("Current Target is Exist");
+        if (currentTarget != null) {            
             return;
         }
 

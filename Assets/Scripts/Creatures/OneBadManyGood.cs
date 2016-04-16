@@ -5,6 +5,11 @@ public class OneBadManyGood : CreatureBase {
 
     private int skillDamage = 20;
 
+    public override void OnInit()
+    {
+        this.skill = new OneBadManyGoodSkill(this.model);
+    }
+
     // temporary
     public override void OnSkillFailWorkTick(UseSkill skill)
     {
@@ -88,5 +93,21 @@ public class OneBadManyGood : CreatureBase {
         OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/goodbad/oneGoodManyBad_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 2)
             .transform.localScale = new Vector3(1.1f, 1.1f, 1);
         */
+    }
+
+    public override void OnFixedUpdate(CreatureModel creature)
+    {
+        if (creature.GetFeelingState() == CreatureFeelingState.BAD)
+        {
+            (this.skill as OneBadManyGoodSkill).ReadySkill(false);
+        }
+
+        if (creature.GetFeelingState() == CreatureFeelingState.GOOD
+            && !(this.skill as OneBadManyGoodSkill).GetSkillState()
+            ) {
+                (this.skill as OneBadManyGoodSkill).ReadySkill(true);
+        }
+
+
     }
 }

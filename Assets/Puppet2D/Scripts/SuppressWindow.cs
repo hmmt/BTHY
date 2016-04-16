@@ -211,17 +211,24 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
     public static SuppressWindow currentWindow = null;
     
     public static SuppressWindow CreateWindow(CreatureModel target) {
-        if (currentWindow != null) {
-            currentWindow.CloseWindow();
+        if (currentWindow.gameObject.activeSelf)
+        {
+            if (currentWindow.target == target)
+            {
+                return currentWindow;
+            }
         }
-
-        GameObject newObj = Prefab.LoadPrefab("SuppressionWindow");
-
-        SuppressWindow inst = newObj.GetComponent<SuppressWindow>();
+        else {
+            currentWindow.gameObject.SetActive(true);
+            currentWindow.Activate();
+        }
+        
+        SuppressWindow inst = currentWindow;
         inst.target = target;
         inst.targetType = TargetType.CREATURE;
         inst.currentSefira = target.sefira;
-        inst.agentList = new List<SuppressAction>();
+
+        inst.agentList.Clear();
 
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(target.instanceId);
         inst.attachedPos = unit.transform;
@@ -233,7 +240,6 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 
         inst.InitAgentList();
         inst.ShowAgentList();
-        inst.Activate();
         Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
 
@@ -244,19 +250,24 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 
     public static SuppressWindow CreateWindow(AgentModel target)
     {
-        if (currentWindow != null)
+        if (currentWindow.gameObject.activeSelf)
         {
-            currentWindow.CloseWindow();
+            if (currentWindow.target == target)
+            {
+                return currentWindow;
+            }
+        }
+        else {
+            currentWindow.gameObject.SetActive(true);
+            currentWindow.Activate();
         }
 
-        GameObject newObj = Prefab.LoadPrefab("SuppressionWindow");
-
-        SuppressWindow inst = newObj.GetComponent<SuppressWindow>();
+        SuppressWindow inst = currentWindow;
         inst.target = target;
         inst.targetType = TargetType.AGENT;
 		inst.currentSefira = SefiraManager.instance.getSefira(target.currentSefira);
 		//inst.currentSefira = SefiraManager.instance.getSefira("1");
-        inst.agentList = new List<SuppressAction>();
+        inst.agentList.Clear();
 
         AgentUnit unit = AgentLayer.currentLayer.GetAgent(target.instanceId);
         inst.attachedPos = unit.transform;
@@ -264,7 +275,6 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 
         inst.InitAgentList();
         inst.ShowAgentList();
-        inst.Activate();
 
         Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
@@ -275,19 +285,25 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 
 	public static SuppressWindow CreateWindow(OfficerModel target)
 	{
-		if (currentWindow != null)
-		{
-			currentWindow.CloseWindow();
-		}
+        if (currentWindow.gameObject.activeSelf)
+        {
+            if (currentWindow.target == target)
+            {
+                return currentWindow;
+            }
+        }
+        else {
+            currentWindow.gameObject.SetActive(true);
+            currentWindow.Activate();
+        }
 
-		GameObject newObj = Prefab.LoadPrefab("SuppressionWindow");
 
-		SuppressWindow inst = newObj.GetComponent<SuppressWindow>();
+        SuppressWindow inst = currentWindow;
 		inst.target = target;
 		inst.targetType = TargetType.OFFICER;
 		inst.currentSefira = SefiraManager.instance.getSefira(target.currentSefira);
 		//inst.currentSefira = SefiraManager.instance.getSefira("1");
-		inst.agentList = new List<SuppressAction>();
+        inst.agentList.Clear();
 
 		OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(target.instanceId);
 		inst.attachedPos = unit.transform;
@@ -295,9 +311,20 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 
 		inst.InitAgentList();
 		inst.ShowAgentList();
+
+        Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
+
 		currentWindow = inst;
 		return inst;
 	}
+
+    public void Start()
+    {
+        currentWindow = this;
+        currentWindow.agentList = new List<SuppressAction>();
+        currentWindow.gameObject.SetActive(false);
+    }
 
     private object GetTarget() {
         if (currentWindow.targetType == TargetType.CREATURE)
@@ -395,11 +422,9 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 		*/
 	}
 
-
     public void CloseWindow() {
         Deactivate();
-        currentWindow = null;
-        Destroy(gameObject);
+        currentWindow.gameObject.SetActive(false);//ANimations?
     }
 
     /// <summary>
