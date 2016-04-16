@@ -33,9 +33,9 @@
         <section bound="200" gen="-0.2375"/>
       </energyGenSection>
 
-      <prefer id="3">-0.5</prefer>
       <prefer id="1">1.0</prefer>
       <prefer id="2">2.0</prefer>
+      <prefer id="3">-0.5</prefer>
       <prefer id="5">0.5</prefer>
       <prefer id="4">1.0</prefer>
     </stat>
@@ -112,7 +112,7 @@
     </narration>
 
 
-    <anim prefab="Unit/CreatureAnimator/NothingAnim" x="-1" y="-2"/>
+    <anim prefab="Unit/CreatureAnimator/TeddyAnim" x="-1" y="-2"/>
 
     <!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
     <img src="Unit/dummy" x="-1" y="-1"/>

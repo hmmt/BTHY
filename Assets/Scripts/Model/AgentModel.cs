@@ -734,16 +734,20 @@ public class AgentModel : WorkerModel
                 waitTimer = 1.5f + Random.value;
             }
         }
-            /*
-        else if (state == AgentAIState.MANAGE)
+		else if (state == AgentAIState.MANAGE || state == AgentAIState.OBSERVE)
         {
+			/*
             if (MovableNode.GetCurrentEdge() == null && MovableNode.GetCurrentNode() != target.GetWorkspaceNode())
             {
                 //MoveToCreatureRoom(target);
                 //commandQueue.SetAgentCommand(AgentCommand.MakeMove(target.GetWorkspaceNode()));
             }
+            */
+			if (target.state == CreatureState.ESCAPE || target.state == CreatureState.ESCAPE_PURSUE)
+			{
+				FinishWorking ();
+			}
         }
-             */
         else if (state == AgentAIState.SUPPRESS_CREATURE)
         {
             // WorkEscapedCreature에서 실행

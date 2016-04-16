@@ -4,6 +4,11 @@ using System.Collections;
 public class HappyTeddy  : CreatureBase {
 
     private bool b = false;
+
+	AgentModel lastAgent;
+	int teddyWorkNum;
+	int noHugNum;
+	int normalWorkCount;
     
 	public override void OnFixedUpdate (CreatureModel creature)
 	{
@@ -11,7 +16,7 @@ public class HappyTeddy  : CreatureBase {
 
 		if (model.energyPoint < 80)
 		{
-			model.Escape ();
+			//model.Escape ();
 		}
 	}
 
@@ -60,72 +65,66 @@ public class HappyTeddy  : CreatureBase {
         */
 	}
 
-    // temporary
-    public override void OnSkillFailWorkTick(UseSkill skill)
-    {
-        //ActivateSkill(skill);
-    }
-
-    public void ActivateSkill(UseSkill skill, int feelingUp)
-    {
-        // show effect
-		/*
-        skill.PauseWorking();
-        ///SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
-
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4.5f);
-        effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
-        // skill이 이미 release 될 상황 고려 필요
-        effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
-
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 4.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.0f, 3.5f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.5f, 3.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 2.0f, 2.5f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 2.5f, 2.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
-        skill.targetCreature.ShowNarrationText("special_ability1", skill.agent.name);
-		SoundEffectPlayer.PlayOnce("creature/happy_teddy/happyTeddy_Ability_Special", skill.targetCreatureView.transform.position);
-
-        TimerCallback.Create(4.0f, delegate() {
-			
-            //skill.agent.TakePhysicalDamage(Mathf.Max(skill.agent.maxHp / 3, 1));
-
-            model.AddFeeling(feelingUp);
-        });
-        */
-    }
-
     //
 
     public override void OnEnterRoom(UseSkill skill)
     {
-		/*
-        skill.PauseWorking();
-
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4);
-        effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
-        // skill이 이미 release 될 상황 고려 필요
-        effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
+		ActivateSkillInWork (skill);
+		return;
 
 
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 3)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 2)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        */
+		if (skill.skillTypeInfo != GetSpecialSkill ())
+		{
+			normalWorkCount++;
+
+			if (normalWorkCount >= 2)
+			{
+				normalWorkCount -= 2;
+				noHugNum++;
+			}
+		}
+
+		if (lastAgent == skill.agent)
+		{
+			teddyWorkNum++;
+		}
+
+		float hugProb = 0;
+		float agentProb = 0.1f * teddyWorkNum;
+
+		if (skill.skillTypeInfo == GetSpecialSkill ())
+		{
+			hugProb = 0.1f + agentProb;
+		}
+		else
+		{
+			hugProb = 0.2f * noHugNum + agentProb;
+		}
+
+		if (Random.value < hugProb)
+		{
+			ActivateSkillInWork (skill);
+		}
     }
+
+	void ActivateSkillInWork(UseSkill skill)
+	{
+		// play animator
+
+		//CreatureUnit unit = CreatureLayer.currentLayer.GetCreature (model.instanceId);
+		//uni
+
+		model.SendAnimMessage ("SpecialAttack");
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (skill.agent.instanceId);
+
+		AnimatorManager.instance.ResetAnimatorTransform (skill.agent.instanceId);
+		AnimatorManager.instance.ChangeAnimatorByName (skill.agent.instanceId, AnimatorName.Teddy_agent,
+			agentView.puppetAnim, true, false);
+	}
 
     public override SkillTypeInfo GetSpecialSkill()
     {
-        return null;
-        //return SkillTypeList.instance.GetData(400002);
+        //return null;
+        return SkillTypeList.instance.GetData(40002);
     }
 }

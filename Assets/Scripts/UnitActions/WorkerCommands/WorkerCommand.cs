@@ -306,6 +306,10 @@ public class ManageCreatureAgentCommand : WorkerCommand
 	public override void Execute(WorkerModel agent)
 	{
 		base.Execute(agent);
+		if (targetCreature.state == CreatureState.ESCAPE || targetCreature.state == CreatureState.ESCAPE_PURSUE) {
+			Finish ();
+			return;
+		}
 		if(useSkill == null)
 			CheckStarting ((AgentModel)agent);
 	}

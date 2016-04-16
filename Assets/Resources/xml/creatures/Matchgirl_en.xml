@@ -29,8 +29,8 @@
       </energyGenSection>
 
       <prefer id="1">-0.5</prefer>
-      <prefer id="3">1.0</prefer>
       <prefer id="2">1.5</prefer>
+      <prefer id="3">1.0</prefer>
       <prefer id="4">0.5</prefer>
       <prefer id="5">1.0</prefer>
     </stat>

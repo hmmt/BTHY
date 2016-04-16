@@ -9,6 +9,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public Transform anchor;
     public RectTransform agentScrollTarget;
     public List<RectTransform> skillCategoryTraget;
+	public RectTransform specialSkillTarget;
 
     public GameObject agentSlot;
 
@@ -99,6 +100,24 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         attachedTrigger.triggers.Add(entry);
     }
 
+	public void InitSpecialSkillEventTrigger(long clickedInfo)
+	{
+		RectTransform target = specialSkillTarget;
+		ClickedEvent eventMethod = new ClickedEvent (OnClickSkill);
+
+		EventTrigger attachedTrigger = target.GetComponent<EventTrigger>();
+		if (attachedTrigger == null) {
+			attachedTrigger = target.gameObject.AddComponent<EventTrigger>();
+		}
+
+		EventTrigger.Entry entry = new EventTrigger.Entry();
+		entry.eventID = EventTriggerType.PointerClick;
+		entry.callback.RemoveAllListeners ();
+		entry.callback.AddListener((eventData) => { eventMethod(clickedInfo); });
+		attachedTrigger.triggers.Clear ();
+		attachedTrigger.triggers.Add(entry);
+	}
+
     public void Init() {
         this.skillList = new List<SkillTypeInfo>();
         this.agentList = new List<AgentModel>();
@@ -110,9 +129,12 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 		this.skillList.Add (SkillTypeList.instance.GetData (3));
 		this.skillList.Add (SkillTypeList.instance.GetData (4));
 		this.skillList.Add (SkillTypeList.instance.GetData (5));
+		this.skillList.Add (null);
 
         for (int i = 0; i < this.skillList.Count; i++) {
             if (i > this.skillCategoryTraget.Count) break;
+			if (skillList [i] == null)
+				continue;
             AddingEventTrigger(skillCategoryTraget[i], skillList[i].id, new ClickedEvent(OnClickSkill));
         }
     }
@@ -256,6 +278,15 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 
     public void Activate()
     {
+		if (targetCreature.script != null && targetCreature.script.GetSpecialSkill () != null)
+		{
+			specialSkillTarget.gameObject.SetActive (true);
+			InitSpecialSkillEventTrigger (targetCreature.script.GetSpecialSkill ().id);
+		}
+		else
+		{
+			specialSkillTarget.gameObject.SetActive (false);
+		}
         UIActivateManager.instance.Activate(this, this.windowPos);
     }
 
