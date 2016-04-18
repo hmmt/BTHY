@@ -166,6 +166,9 @@ public class AgentModel : WorkerModel
 			skillList.Add (SkillTypeList.instance.GetData (skillId));
 			skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (skillId)));
 		}
+
+        //Special Skill Add
+        skillInfos.Add(new SkillInfo(SkillTypeList.instance.GetData(40003)));
     }
 
     public override Dictionary<string, object> GetSaveData()

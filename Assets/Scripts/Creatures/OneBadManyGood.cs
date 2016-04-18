@@ -13,6 +13,7 @@ public class OneBadManyGood : CreatureBase {
     // temporary
     public override void OnSkillFailWorkTick(UseSkill skill)
     {
+        return;
         if (skill.skillTypeInfo.id == 40001)
         {
             ActivateSkill(skill);
@@ -21,6 +22,7 @@ public class OneBadManyGood : CreatureBase {
 
     public override void OnSkillSucceedWorkTick(UseSkill skill)
     {
+        return;
         skill.targetCreature.AddFeeling(100);
     }
 
@@ -78,6 +80,14 @@ public class OneBadManyGood : CreatureBase {
 
     public override void OnEnterRoom(UseSkill skill)
     {
+        if (skill.skillTypeInfo == GetSpecialSkill()) {
+            //SpecialSkill
+            Debug.Log("special skill");
+            this.skill.SkillActivate(skill.agent);
+            return;
+        }
+        
+
 		/*
         skill.PauseWorking();
 
@@ -97,17 +107,31 @@ public class OneBadManyGood : CreatureBase {
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
-        if (creature.GetFeelingState() == CreatureFeelingState.BAD)
+
+        
+        if (creature.GetFeelingPercent() < 50f)
         {
             (this.skill as OneBadManyGoodSkill).ReadySkill(false);
         }
 
-        if (creature.GetFeelingState() == CreatureFeelingState.GOOD
+        if (creature.GetFeelingPercent() >= 50f
             && !(this.skill as OneBadManyGoodSkill).GetSkillState()
             ) {
                 (this.skill as OneBadManyGoodSkill).ReadySkill(true);
         }
 
+    }
 
+    public override SkillTypeInfo GetSpecialSkill()
+    {
+        OneBadManyGoodSkill currentSkill = this.skill as OneBadManyGoodSkill;
+
+        if (currentSkill.GetSkillState())
+        {
+            return SkillTypeList.instance.GetData(40003);
+        }
+        else {
+            return null;
+        }
     }
 }

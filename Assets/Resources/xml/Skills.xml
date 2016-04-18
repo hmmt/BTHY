@@ -214,4 +214,5 @@
 	<skill id="5" category ="P" type="direct" tier="1" name="매도" desc="밥을 EE" amount="20" feeling="15" imgsrc="Pill"/>
 
 	<skill id="40002" category ="P" type="direct" tier="1" name="포옹" desc="밥을 EE" amount="20" feeling="15" imgsrc="Pill"/>
+  <skill id="40003" category ="P" type="direct" tier="1" name="고해성사" desc="고해" amount="0" feeling ="0" imgsrc="Pill"/>
 </skills>

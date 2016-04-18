@@ -119,6 +119,7 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
             OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(target.instanceId);
             puppet = officerView.puppetAnim;
         }
+        AnimatorManager.instance.ResetAnimatorTransform(target.instanceId);
         AnimatorManager.instance.ChangeAnimatorByID(target.instanceId, target.instanceId,
                 puppet, false, false);
         //죽은 애니메이션 필요
@@ -171,6 +172,7 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         //targetAnimChangeAnimator
         //AnimatorManager.instance.ChangeAnimatorByID();
         CreatureLayer.currentLayer.GetCreature(model.instanceId).creatureAnimator.SetBool("Kill", true);
+        AnimatorManager.instance.ResetAnimatorTransform(target.instanceId);
         AnimatorManager.instance.ChangeAnimatorByID(target.instanceId, AnimatorName.id_Machine_victim, targetAnim, true, false);
         targetAnim.SetInteger("Type", type);
         MakeNote();
