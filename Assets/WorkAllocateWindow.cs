@@ -282,6 +282,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 		{
 			specialSkillTarget.gameObject.SetActive (true);
 			InitSpecialSkillEventTrigger (targetCreature.script.GetSpecialSkill ().id);
+			skillList [5] = targetCreature.script.GetSpecialSkill ();
 		}
 		else
 		{

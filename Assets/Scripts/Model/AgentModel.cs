@@ -166,6 +166,10 @@ public class AgentModel : WorkerModel
 			skillList.Add (SkillTypeList.instance.GetData (skillId));
 			skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (skillId)));
 		}
+
+		// special skill
+		skillList.Add (SkillTypeList.instance.GetData (40002));
+		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (40002)));
     }
 
     public override Dictionary<string, object> GetSaveData()
@@ -1195,6 +1199,14 @@ public class AgentModel : WorkerModel
 	{
 		if(state != AgentAIState.SUPPRESS_CREATURE && state != AgentAIState.ENCOUNTER_PANIC_WORKER)
 			state = AgentAIState.ENCOUNTER_CREATURE;
+	}
+
+	public void ResetAnimator()
+	{
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
+
+		AnimatorManager.instance.ChangeAnimatorByID (instanceId, instanceId,
+			agentView.puppetAnim, false, false);
 	}
 
 	// motion

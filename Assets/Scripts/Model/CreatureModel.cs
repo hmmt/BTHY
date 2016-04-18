@@ -605,6 +605,9 @@ public class CreatureModel : ObjectModelBase, IObserver
      */
     public void Escape()
     {
+		return;
+
+
         if (state == CreatureState.WAIT)
         {
 			Debug.Log ("CreatureModel >>> Try Escape ");
@@ -770,6 +773,16 @@ public class CreatureModel : ObjectModelBase, IObserver
 				animTarget.SendMessage (name);
 			}
 		}
+	}
+
+	public CreatureAnimScript GetAnimScript()
+	{
+		CreatureUnit unit = CreatureLayer.currentLayer.GetCreature (instanceId);
+		if(unit != null)
+		{
+			return unit.animTarget;
+		}
+		return null;
 	}
 
 	public override void InteractWithDoor(DoorObjectModel door)

@@ -242,6 +242,9 @@ public class CreatureUnit : MonoBehaviour {
 				animTarget.gameObject.SetActive(true);
             returnSpriteRenderer.gameObject.SetActive(false);
         }
+
+		if (model.script != null)
+			model.script.OnViewInit (this);
     }
 
     void OnChangeState()
