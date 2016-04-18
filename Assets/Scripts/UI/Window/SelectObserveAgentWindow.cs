@@ -93,14 +93,19 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
 
     public static SelectObserveAgentWindow CreateWindow(CreatureModel unit)
     {
-        if (currentWindow != null)
+        if (currentWindow.gameObject.activeSelf)
         {
-            currentWindow.CloseWindow();
+            if (currentWindow.targetCreature == unit)
+            {
+                return currentWindow;
+            }
         }
-
-        GameObject newObj = Prefab.LoadPrefab("SelectObserveAgentWindow");
-
-        SelectObserveAgentWindow inst = newObj.GetComponent<SelectObserveAgentWindow>();
+        else {
+            currentWindow.gameObject.SetActive(true);
+            currentWindow.Activate();
+        }
+        
+        SelectObserveAgentWindow inst = currentWindow;
         
         inst.targetCreature = unit;
         //Initialize attributes
@@ -109,25 +114,35 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
         inst.needAgentCnt = 1;
         inst.needOfficerCnt = 2;
 
-        inst.officerList = new List<OfficerModel>();
-        inst.agentList = new List<AgentModel>();
+        inst.officerList.Clear();
+        inst.agentList.Clear();
         inst.GetRandomOfficer(inst.needOfficerCnt);
 
         //Initialize UI
         inst.ui.Init(inst.targetCreature);
         inst.conditionUI.Init(inst);
         
-        
-        if (currentWindow.activatableObjectInitiated == false) {
-            currentWindow.UIActivateInit();
-        }
+
+        Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
 
         //make AgentSlot
         inst.ShowAgentList();
-        inst.Activate();
         currentWindow = inst;
 
         return inst;
+    }
+
+    public void Start() {
+        currentWindow = this;
+        currentWindow.officerList = new List<OfficerModel>();
+        currentWindow.agentList = new List<AgentModel>();
+
+        if (currentWindow.activatableObjectInitiated == false)
+        {
+            currentWindow.UIActivateInit();
+        }
+        currentWindow.gameObject.SetActive(false);
     }
 
     public void GetRandomOfficer(int cnt) {
@@ -263,8 +278,7 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
     {
         //gameObject.SetActive (false);
         Deactivate();
-        currentWindow = null;
-        Destroy(gameObject);
+        currentWindow.gameObject.SetActive(false);
     }
 
     public void Activate()

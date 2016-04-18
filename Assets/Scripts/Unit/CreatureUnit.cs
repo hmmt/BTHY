@@ -304,13 +304,15 @@ public class CreatureUnit : MonoBehaviour {
         //room.OnClickedCreatureRoom();
 		CreatureModel oldCreature = (CollectionWindow.currentWindow != null) ? CollectionWindow.currentWindow.GetCreature() : null;
 
+        /*
 		if (SelectWorkAgentWindow.currentWindow != null)
 			SelectWorkAgentWindow.currentWindow.CloseWindow();
-
+        */
+        /*
 		if (WorkAllocateWindow.currentWindow != null)
 		{
 			WorkAllocateWindow.currentWindow.CloseWindow();
-		}
+		}*/
 
 
 		CollectionWindow.Create(model);
@@ -319,7 +321,7 @@ public class CreatureUnit : MonoBehaviour {
 		// TODO : 최적화 필요
 		GameObject collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
 
-
+        /*
 		if (collection.GetComponent<Animator>().GetBool("isTrue"))
 		{
 			//Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
@@ -329,7 +331,7 @@ public class CreatureUnit : MonoBehaviour {
 		{
 			//Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
 			collection.GetComponent<Animator>().SetBool("isTrue", true);
-		}
+		}*/
 	}
 
     public void OnClickByRoom() {

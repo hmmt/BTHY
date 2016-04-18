@@ -213,5 +213,6 @@
 	<skill id="4" tier="1" name="유희" desc="밥을 DD" amount="20" feeling="15" imgsrc="Meat"/>
 	<skill id="5" tier="1" name="매도" desc="밥을 EE" amount="20" feeling="15" imgsrc="Pill"/>
 
-	<skill id="40002" ttier="1" name="포옹" desc="포옹" amount="20" feeling="15" imgsrc="Pill" anim="-1"/>
+	<skill id="40002" tier="1" name="포옹" desc="포옹" amount="20" feeling="15" imgsrc="Pill" anim="-1"/>
+  	<skill id="40003" tier="1" name="고해성사" desc="고해" amount="0" feeling ="0" imgsrc="Pill"/>
 </skills>

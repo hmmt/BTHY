@@ -103,9 +103,29 @@ public class UseSkill : ActionClassBase
 
     public void FixedUpdate()
     {
+		if (agent.GetCurrentNode() != null && agent.GetCurrentNode().GetId() == targetCreature.GetWorkspaceNode().GetId())
+		{
+			if (!faceCreature)
+			{
+				faceCreature = true;
+				targetCreature.ShowProcessNarrationText("start", agent.name);
+				targetCreatureView.PlaySound("enter");
+				Debug.Log("Enter");
+				targetCreature.script.OnEnterRoom(this);
+			}
+		}
+
+		CheckLive();
+		if (finished)
+			return;	
+
         ProcessWorkNarration();
 
         ProgressWork();
+
+		CheckLive();
+		if (finished)
+			return;
 
 		if (workCount >= totalTickNum && !readyToFinish)
         {
@@ -123,26 +143,14 @@ public class UseSkill : ActionClassBase
             //StatusView.instance.Hide ();
 
             readyToFinish = true;
-            return;
+  
+			return;
         }
         if (workPlaying && readyToFinish)
-        {
-            FinshWork();
+		{
+			FinshWork();
 
-            ProcessTraitExp();
-        }
-
-
-        if (agent.GetCurrentNode() != null && agent.GetCurrentNode().GetId() == targetCreature.GetWorkspaceNode().GetId())
-        {
-            if (!faceCreature)
-            {
-                faceCreature = true;
-                targetCreature.ShowProcessNarrationText("start", agent.name);
-                targetCreatureView.PlaySound("enter");
-                Debug.Log("Enter");
-                targetCreature.script.OnEnterRoom(this);
-            }
+			ProcessTraitExp();
         }
 
         if (workPlaying && IsWorkingState())
@@ -245,6 +253,8 @@ public class UseSkill : ActionClassBase
 
     private void Release()
     {
+		targetCreature.script.OnRelease (this);
+
         agent.FinishWorking();
         targetCreature.state = CreatureState.WAIT;
 		targetCreature.currentSkill = null;
@@ -261,20 +271,20 @@ public class UseSkill : ActionClassBase
 
 		//workCount
 		//successCount
-		float energyAdd = agent.GetEnergyAbility(skillTypeInfo)*successCount/workCount;
+		float energyAdd = agent.GetEnergyAbility(skillTypeInfo)*successCount/totalTickNum;
 
 		if (targetCreature.IsPreferSkill (skillTypeInfo)) {
-			targetCreature.AddFeeling(skillTypeInfo.amount*successCount/workCount * targetCreature.GetWorkEfficient(skillTypeInfo));
+			targetCreature.AddFeeling(skillTypeInfo.amount*successCount/totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo));
 		} else if (targetCreature.IsRejectSkill (skillTypeInfo)) {
 			// unused
-			targetCreature.SubFeeling (skillTypeInfo.amount*successCount/workCount);
+			targetCreature.SubFeeling (skillTypeInfo.amount*successCount/totalTickNum);
 		}
 
 		// temp comment
 		//targetCreature.SetEnergyChange (5, energyAdd);
 
 		// temp for proto
-		targetCreature.SetEnergyChange (5, skillTypeInfo.amount*successCount/workCount * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
+		targetCreature.SetEnergyChange (5, skillTypeInfo.amount*successCount/totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
 
 
 
@@ -358,7 +368,8 @@ public class UseSkill : ActionClassBase
             {
                 Notice.instance.Send("UpdateAgentState_" + agent.instanceId);
             }
-            CheckLive();
+
+			CheckLive ();
         }
     }
 
@@ -403,7 +414,8 @@ public class UseSkill : ActionClassBase
             string narration = agent.name + " (이)가 공황에 빠져 " + skillTypeInfo.name + " 작업에 실패하였습니다.";
             Notice.instance.Send("AddSystemLog", narration);
         }
-        if (agent.hp <= 0)
+        //if (agent.hp <= 0)
+		if(agent.isDead())
         {
             string speech;
             if (agent.speechTable.TryGetValue("dead", out speech))
@@ -415,7 +427,7 @@ public class UseSkill : ActionClassBase
 
             targetCreature.ShowNarrationText("dead", agent.name);
             FinshWork();
-            agent.Die();
+            //agent.Die();
             string narration = this.name + " (이)가 사망하여 안타깝게도 " + skillTypeInfo.name + " 작업에 실패하였습니다.";
             Notice.instance.Send("AddSystemLog", narration);
         }

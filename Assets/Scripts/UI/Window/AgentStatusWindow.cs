@@ -64,10 +64,25 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
 		}
 	}
 
+    public delegate void ClickedEvent();
+
     public static AgentStatusWindow CreateWindow(AgentModel unit)
-	{
-        GameObject newObj;
-        AgentStatusWindow inst;
+    {
+        if (currentWindow.gameObject.activeSelf)
+        {
+            if (currentWindow.target == unit)
+            {
+                //may be need data update
+                return currentWindow;
+            }
+        }
+        else {
+            currentWindow.gameObject.SetActive(true);
+            currentWindow.Activate();
+        }
+
+
+        /*
         if (currentWindow != null)
         {
             newObj = currentWindow.gameObject;
@@ -80,10 +95,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
             newObj = Prefab.LoadPrefab("AgentStatusWindow");
             
             inst = newObj.GetComponent<AgentStatusWindow>();
-            inst.iconList = new List<List<GameObject>>();
-            inst.worklistDesc = new string[inst.icons.worklist.Length];
-            inst.statusDesc = new string[inst.icons.statuslist.Length];
-
+            
+            
             for (int i = 0; i < inst.icons.statuslist.Length; i++)
             {
                 GameObject target = inst.icons.statuslist[i].gameObject;
@@ -115,24 +128,36 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
                 trigger.triggers.Add(enter);
                 trigger.triggers.Add(exit);
             }
+             
         }
-
-        if (inst.activatableObjectInitiated == false) {
-            inst.UIActivateInit();
-        }
-        
-		inst.target = unit;
-        inst.UpdateModel(inst.target);
+        */
+        currentWindow.target = unit;
+        currentWindow.UpdateModel(currentWindow.target);
         //inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
-        inst.Activate();
 
-        Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
+        Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
 
-		currentWindow = inst;
-
-		return inst;
+        return currentWindow;
 	}
+
+    public void Awake() {
+        currentWindow = this;
+        currentWindow.Init();
+        currentWindow.gameObject.SetActive(false);
+    }
+
+    public void Init()
+    {
+        if (currentWindow.activatableObjectInitiated == false)
+        {
+            currentWindow.UIActivateInit();
+        }
+        currentWindow.iconList = new List<List<GameObject>>();
+        currentWindow.worklistDesc = new string[currentWindow.icons.worklist.Length];
+        currentWindow.statusDesc = new string[currentWindow.icons.statuslist.Length];
+        
+    }
 
 	void OnEnable()
 	{
@@ -217,6 +242,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
         worklistDesc[0] = target.directSkill.name;
         worklistDesc[1] = target.indirectSkill.name;
         worklistDesc[2] = target.blockSkill.name;*/
+        /*
         OverlayObject[] mannualAry = new OverlayObject[4];
         for (int i = 0; i < icons.statuslist.Length; i++) {
             icons.statuslist[i].sprite = target.StatusSprites[i];
@@ -229,7 +255,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
             icons.worklist[i].sprite = target.WorklistSprites[i];
             icons.worklist[i].GetComponent<OverlayObject>().text = worklistDesc[i];
         }
-
+        */
         //ShowTraitList();
         ShowTrait();    
 	}
@@ -289,8 +315,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
 	public void CloseWindow()
 	{
         Deactivate();
-        GameObject.FindGameObjectWithTag("AnimAgentController")
-            .GetComponent<Animator>().SetBool("isTrue", true);
+        currentWindow.gameObject.SetActive(false);
 	}
 
     public void OnClickPortrait() {
@@ -342,6 +367,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
 
     public void Activate()
     {
+
         UIActivateManager.instance.Activate(this, this.windowPos);
     }
 

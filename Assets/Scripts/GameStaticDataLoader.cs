@@ -416,8 +416,16 @@ public class GameStaticDataLoader {
 			//model.type = node.Attributes.GetNamedItem("type").InnerText;
 			model.amount = int.Parse(node.Attributes.GetNamedItem("amount").InnerText);
             model.description = node.Attributes.GetNamedItem("desc").InnerText;
-            //model.category = node.Attributes.GetNamedItem("category").InnerText;
             model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
+
+			if (node.Attributes.GetNamedItem ("type") != null)
+			{
+				string skillType = node.Attributes.GetNamedItem ("type").InnerText;
+
+				if (skillType == "special") {
+					model.skillType = SkillType.SPECIAL;
+				}
+			}
 			/*
             XmlNodeList bonusType= node.SelectNodes("bonus");
             foreach (XmlNode bonusNode in bonusType)

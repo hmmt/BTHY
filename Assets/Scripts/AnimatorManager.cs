@@ -13,6 +13,7 @@ public class AnimatorName {
     public static string Machine_attract = "Machine_attracted";
     public static string Machine_victim = "Machine_victim";
 	public static string Teddy_agent = "Teddy_agent";
+    public static string OneBad = "OneBad";
     
 
     public static long id_AgentCtrl = 50001;
@@ -22,6 +23,7 @@ public class AnimatorName {
     public static long id_RedShoes_victim = 60003;
     public static long id_Machine_attract = 70001;
     public static long id_Machine_victim = 70002;
+    public static long id_OneBad = 70003;
 	public static long id_Teddy_agent = 80001;
 }
 

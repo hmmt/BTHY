@@ -32,20 +32,15 @@ public class CreatureBase {
     {
     }
 
+	public virtual void OnViewInit(CreatureUnit unit)
+	{
+	}
+
     public virtual void OnFixedUpdate(CreatureModel creature)
 	{
 
 	}
 
-    public virtual void OnIdleFixedUpdate(CreatureModel creature)
-	{
-		
-	}
-
-    public virtual void OnFeelingUpdate(CreatureModel creature)
-    {
-    }
-	
 	public virtual void OnSkillStart(UseSkill skill)
 	{
 	}
@@ -79,6 +74,10 @@ public class CreatureBase {
 	public virtual void OnEnterRoom(UseSkill skill)
 	{
 		
+	}
+
+	public virtual void OnRelease(UseSkill skill)
+	{
 	}
 
 	public virtual void OnReturn()

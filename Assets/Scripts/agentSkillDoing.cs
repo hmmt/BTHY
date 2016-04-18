@@ -39,6 +39,6 @@ public class agentSkillDoing : MonoBehaviour {
 
     public void turnOnDoingSkillIcon(bool turnOn)
     {
-        skillIcon.gameObject.SetActive(turnOn);
+        //skillIcon.gameObject.SetActive(turnOn);
     }
 }

@@ -57,4 +57,5 @@
 	<trait name="Inclemency" id="2015" imgflag="1" randomflag="0" level="1" hp="0" mental="0" move="0" work="0" energy="0" attack="0" success="0.02" type="3" upwork="규제" description="딱히 그 작업들이 잔인하다거나 끔직하단 생각을 해본 적은 없어요." effect="규제 작업 성공확률 +2%" condition="규제계열 작업15회" imgsrc="coldblooded" imgpos="RIGHTHAIR"/>
 	<trait name="Stout body" id="2016" imgflag="1" randomflag="0" level="2" hp="2" mental="0" move="0" work="0" energy="0" attack="-0.01" success="0" type="0" upwork="0" description="40번 씩이나 맞다보니까 맷집이 상당히 늘어난 것 같다." effect="none" condition="환상체 작업에서 물리피해를 40번입음" imgsrc="reassuredbody" imgpos="LEFTHAIR"/>
 	<trait name="Mental steel" id="2017" imgflag="1" randomflag="0" level="2" hp="0" mental="10" move="0" work="0" energy="1" attack="0" success="0" type="0" upwork="0" description="40번 넘게 정신 공격 받아본 적 있어? 이젠 덤덤하다고~" effect="none" condition="환상체 작업에서 정신피해를 40번 입음" imgsrc="hardmental" imgpos="HAIR"/>
+  <trait name="Lier" id="62" imgflag="0" randomflag="0" level="1" hp="0" mental="10" move="0" work="0" energy="1" attack="0" success="0" type="0" upwork="0" description="암쏘쏘리벗알러뷰다 거짓말" imgsrc="" effect="none" condition="" imgpos="HAIR"/>
 </traits>

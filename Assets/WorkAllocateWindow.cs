@@ -35,25 +35,41 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public ActivatableObjectPos windowPos = ActivatableObjectPos.ISOLATE;
     public RectTransform eventTriggerTarget;
     bool activatableObjectInitiated = false;
+    SkillTypeInfo specialSkill = null;
     
     public delegate void ClickedEvent(long id);
 
     public static WorkAllocateWindow CreateWindow(CreatureModel creature, WorkType workType){
         if (currentWindow.gameObject.activeSelf)
         {
-            //현재 창이 켜져있는 상태 -> 다시 누르면 꺼지게 해야된다?
-            // 위의 상황이 맞다면
-            // currentWindow.CloseWindow();
 
-            //환상체 교체 필요
-            if (creature == currentWindow.targetCreature)
+            if (currentWindow.targetCreature == creature)
             {
                 return currentWindow;
+            }
+            else {
+                currentWindow.targetCreature = creature;
             }
         }
         else {
             currentWindow.gameObject.SetActive(true);
+            currentWindow.targetCreature = creature;
+            currentWindow.Activate();
             currentWindow.CloseAgentList();
+            
+        }
+
+        if (currentWindow.targetCreature.script != null
+            && currentWindow.targetCreature.script.GetSpecialSkill() != null)
+        {
+            currentWindow.specialSkillTarget.gameObject.SetActive(true);
+            currentWindow.specialSkill = currentWindow.targetCreature.script.GetSpecialSkill();
+            currentWindow.skillList.Add(currentWindow.specialSkill);
+            currentWindow.InitSpecialSkillEventTrigger(currentWindow.specialSkill.id);
+        }
+        else
+        {
+            currentWindow.specialSkillTarget.gameObject.SetActive(false);
         }
 
         if (!creature.sefira.Equals(currentWindow.currentSefira))
@@ -65,14 +81,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             currentWindow.GetAgentList();
         }
 
-        if (currentWindow.activatableObjectInitiated == false)
-        {
-            currentWindow.UIActivateInit();
-        }
-
-        currentWindow.targetCreature = creature;
         currentWindow.workType = workType;
-        currentWindow.Activate();
 
         Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
@@ -84,6 +93,12 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 	void Start(){
         currentWindow = this;
         currentWindow.gameObject.SetActive(false);
+
+        if (currentWindow.activatableObjectInitiated == false)
+        {
+            currentWindow.UIActivateInit();
+        }
+
         currentWindow.Init();
         //->부르는 시점을 약간 늦춰서 스킬 리스트가 완성되면 부르게 해야될듯;
     }
@@ -147,6 +162,10 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         this.selectedSkillId = -1;
         this.selectedAgent = null;
         this.attachedNode = null;
+        if (this.specialSkill != null) {
+            this.skillList.Remove(this.specialSkill);
+            this.specialSkill = null;
+        }
         this.gameObject.SetActive(false);
     }
 
@@ -203,6 +222,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     /// </summary>
     /// <param name="id"></param>
     public void OnClickSkill(long id) {
+
         SkillTypeInfo targetSkill = GetSkill(id);
         if (targetSkill == null) {
             Debug.Log("Getting skill was failed");
@@ -218,6 +238,10 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 
         foreach (SkillTypeInfo info in this.skillList)
         {
+            if (info == null) {
+
+                continue;
+            }
             if (info.id == id) {
                 output = info;
                 break;
@@ -288,6 +312,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 		{
 			specialSkillTarget.gameObject.SetActive (false);
 		}
+
         UIActivateManager.instance.Activate(this, this.windowPos);
     }
 

@@ -64,8 +64,6 @@ public class CreatureModel : ObjectModelBase, IObserver
     //?óÃ»ßµµ°¨ ¿Ï¼ºµµ
     public int observeProgress = 0;
 
-    
-
 	public float energyPoint = 100;
 	//public float feelingsPoint;
 
@@ -451,6 +449,7 @@ public class CreatureModel : ObjectModelBase, IObserver
         {
             string[] narration = TextConverter.GetTextFromFormatProcessText(narrationFormat, param);
             string selected = "";
+
             if (observeProgress < 40)
             {
                 selected = narration[0];

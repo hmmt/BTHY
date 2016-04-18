@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class AgentUnitUI {
+public class AgentUnitUI
+{
     public Slider hp;
     public RectTransform workIcon;
     public bool Activated = false;
@@ -32,10 +33,11 @@ public class AgentUnitUI {
         workIcon.GetChild(1).GetComponent<Image>().color = c;
 		hp.value = model.hp / (float)model.maxHp;
     }
-   
+
+
 }
 
-public class AgentUnit : MonoBehaviour {
+public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
     public AgentModel model;
 
@@ -515,17 +517,19 @@ public class AgentUnit : MonoBehaviour {
 
 	public void OnClick()
 	{
-		model.OnClick ();
+        OpenStatusWindow();
 	}
 
 	public void OpenStatusWindow()
 	{
-		OnClick ();
+        model.OnClick();
+        
         AgentModel oldUnit = (AgentStatusWindow.currentWindow != null) ? AgentStatusWindow.currentWindow.target : null;
 		AgentStatusWindow.CreateWindow (model);
+        /*
         if (CollectionWindow.currentWindow != null)
         CollectionWindow.currentWindow.CloseWindow();
-
+        */
         speech = AgentLyrics.instance.getOnClickLyrics();
         Notice.instance.Send("AddPlayerLog", model.name + " : " + speech);
         Notice.instance.Send("AddSystemLog", model.name + " : " + speech);
@@ -534,6 +538,7 @@ public class AgentUnit : MonoBehaviour {
         
 
         // TODO : 최적화 필요
+        /*
         agentWindow = GameObject.FindGameObjectWithTag("AnimAgentController");
 
         if (agentWindow.GetComponent<Animator>().GetBool("isTrue"))
@@ -546,6 +551,7 @@ public class AgentUnit : MonoBehaviour {
             //Debug.Log(agentWindow.GetComponent<Animator>().GetBool("isTrue"));
             agentWindow.GetComponent<Animator>().SetBool("isTrue", true);
         }
+         */
 	}
 
     public void Speech(string speechKey)

@@ -170,6 +170,9 @@ public class AgentModel : WorkerModel
 		// special skill
 		skillList.Add (SkillTypeList.instance.GetData (40002));
 		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (40002)));
+        //Special Skill Add
+		skillList.Add (SkillTypeList.instance.GetData (40003));
+        skillInfos.Add(new SkillInfo(SkillTypeList.instance.GetData(40003)));
     }
 
     public override Dictionary<string, object> GetSaveData()
@@ -735,6 +738,7 @@ public class AgentModel : WorkerModel
             {
                 //MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
 				MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
+                //MoveToNode(MapGraph.instance.GetSefiraNodes(currentSefira)[0]);
                 waitTimer = 1.5f + Random.value;
             }
         }

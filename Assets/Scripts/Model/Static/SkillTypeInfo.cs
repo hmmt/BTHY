@@ -2,6 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum SkillType
+{
+	NONE,
+	SPECIAL
+}
+
 public class SkillTypeInfo {
     public class SkillTrait {
         public string name;//not used
@@ -31,6 +37,7 @@ public class SkillTypeInfo {
     public int animID;//애니메이션 id
 
     public CreatureType type;
+	public SkillType skillType = SkillType.NONE;
 
     public SkillTrait intelligence;//정신
     public SkillTrait size;//크기

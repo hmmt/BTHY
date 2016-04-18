@@ -29,6 +29,8 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
     public TextListScript observeScript;
     public RectTransform observeButton;
 
+    public Animator windowAnim;
+
     public static string nodata= "unknown";
 
     [HideInInspector]
@@ -60,19 +62,22 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
 
 	public static void Create(CreatureModel creature)
     {
-        GameObject wndObject;
-        CollectionWindow wnd;
-       
-        if (currentWindow != null)
+
+        //currentWindow.windowAnim.SetBool("isTrue", false);
+        
+        if (currentWindow.gameObject.activeSelf)
         {
-            wndObject = currentWindow.gameObject;
-            //currentWindow.CloseWindow();
+            if (currentWindow.creature == creature)
+            {
+                return;
+            }
         }
-        else
-        {
-            wndObject = Prefab.LoadPrefab("CollectionWindow");
+        else {
+            currentWindow.gameObject.SetActive(true);
+            currentWindow.Activate();
         }
-        wnd = wndObject.GetComponent<CollectionWindow>();
+
+        CollectionWindow wnd = currentWindow;
 
         wnd.listScirpt = wnd.descList.GetComponent<TextListScript>();
         wnd.observeScript = wnd.observeList.GetComponent<TextListScript>();
@@ -118,7 +123,7 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
             wnd.UIActivateInit();
         }
 
-        wnd.Activate();
+        
 
         Canvas canvas = wnd.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
@@ -126,6 +131,11 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
         currentWindow = wnd;
         
         wnd.SetObserveText();
+    }
+
+    public void Start() {
+        currentWindow = this;
+        currentWindow.gameObject.SetActive(false);
     }
 
     public void DisplayData(CollectionWindow wnd) {
@@ -197,8 +207,12 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
         //currentWindow = null;
 
         Deactivate();
+        /*
         GameObject.FindGameObjectWithTag("AnimCollectionController")
             .GetComponent<Animator>().SetBool("isTrue", true);
+         */
+        currentWindow.gameObject.SetActive(false);
+        //currentWindow.windowAnim.SetBool("isTrue", true);
         //Destroy(gameObject);
     }
 
@@ -227,17 +241,17 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
 
     public void Activate()
     {
-        UIActivateManager.instance.Activate(this, this.windowPos);
+        UIActivateManager.instance.Activate(currentWindow, currentWindow.windowPos);
     }
 
     public void Deactivate()
     {
-        UIActivateManager.instance.Deactivate(this.windowPos);
+        UIActivateManager.instance.Deactivate(currentWindow.windowPos);
     }
 
     public void OnEnter()
     {
-        UIActivateManager.instance.OnEnter(this);
+        UIActivateManager.instance.OnEnter(currentWindow);
     }
 
     public void OnExit()
