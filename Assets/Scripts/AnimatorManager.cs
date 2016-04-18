@@ -38,6 +38,8 @@ public class AnimatorManager : MonoBehaviour{
         }
     }
 
+    private static bool isLoaded;
+
     [System.Serializable]
     public class AnimatorComponet {
         public class TransformElement {
@@ -51,9 +53,16 @@ public class AnimatorManager : MonoBehaviour{
                 public Transform target;
 
                 public Element(Transform transform) {
-					this.position = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-					this.rotation = new Quaternion(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z, transform.localRotation.w);
-                    this.scale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+					this.position = new Vector3(transform.localPosition.x, 
+                                                transform.localPosition.y, 
+                                                transform.localPosition.z);
+					this.rotation = new Quaternion(transform.localRotation.x, 
+                                                   transform.localRotation.y, 
+                                                   transform.localRotation.z, 
+                                                   transform.localRotation.w);
+                    this.scale = new Vector3(transform.localScale.x, 
+                                             transform.localScale.y, 
+                                             transform.localScale.z);
 					this.active = transform.gameObject.activeSelf;
 					SpriteRenderer r = transform.GetComponent<SpriteRenderer>();
 					if(r != null)
@@ -121,6 +130,16 @@ public class AnimatorManager : MonoBehaviour{
         _instance = this;
         staticLib = new List<AnimatorComponet>();
         dynamicLib = new List<AnimatorComponet>();
+        isLoaded = false;
+    }
+
+    public bool IsLoaded() {
+        return isLoaded;
+    }
+
+    public void Init(AnimatorComponet[] ary) {
+        this.staticLib = new List<AnimatorComponet>(ary);
+        isLoaded = true;
     }
 
     public void SaveAnimator(long id, Animator animator) {

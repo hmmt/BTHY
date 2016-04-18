@@ -36,6 +36,10 @@ public class GameStaticDataLoader {
             loader.LoadLyricData();
         }
 
+        if (AnimatorManager.instance.IsLoaded() == false) {
+            loader.LoadAnimatorData();
+        }
+
         //PromotionSkillTree.instance.PromotionSkillTreeInit();
 	}
 
@@ -394,6 +398,25 @@ public class GameStaticDataLoader {
         }
     }
 
+    private void LoadAnimatorData(){
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/Animator");
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        XmlNodeList nodes = doc.SelectNodes("root/node");
+        List<AnimatorManager.AnimatorComponet> list = new List<AnimatorManager.AnimatorComponet>();
+        foreach (XmlNode node in nodes) {
+            AnimatorManager.AnimatorComponet model = new AnimatorManager.AnimatorComponet();
+            model.id = (long)float.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            model.name = node.Attributes.GetNamedItem("name").InnerText;
+            Debug.Log("Animators/" + node.Attributes.GetNamedItem("src").InnerText);
+            //model.controller = Resources.Load<Animator>("Animators/" + node.Attributes.GetNamedItem("src").InnerText).runtimeAnimatorController;
+            model.controller = Resources.Load<RuntimeAnimatorController>("Animators/" + node.Attributes.GetNamedItem("src").InnerText);
+            list.Add(model);
+            Debug.Log(model.id + " " + model.name + " " + model.controller.name);
+        }
+        AnimatorManager.instance.Init(list.ToArray());
+    }
     
 	public void LoadSKillData()
 	{
