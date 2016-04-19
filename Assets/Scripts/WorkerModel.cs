@@ -230,16 +230,25 @@ public class WorkerModel: ObjectModelBase, IObserver {
     public virtual void ReturnToSefira() {
         SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
     }
-
+		
 	public void MoveToNode(MapNode targetNode)
 	{
-		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(targetNode));
+		//commandQueue.SetAgentCommand(WorkerCommand.MakeMove(targetNode));
+		MoveToNode(targetNode, true);
+	}
+	public void MoveToNode(MapNode targetNode, bool resetCommand)
+	{
+		if (resetCommand)
+			commandQueue.SetAgentCommand (WorkerCommand.MakeMove (targetNode));
+		else
+			commandQueue.AddFirst (WorkerCommand.MakeMove (targetNode));
 	}
 
-    public void MoveToMovable(MovableObjectNode targetNode)
-    {
-		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(targetNode));
-    }
+	public void MoveToNode(string targetNodeID)
+	{
+		//movableNode.MoveToNode(MapGraph.instance.GetNodeById(targetNodeID));
+		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(MapGraph.instance.GetNodeById(targetNodeID)));
+	}
 
 	public void FollowMovable(MovableObjectNode targetNode)
 	{
@@ -250,12 +259,6 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	{
 		
 	}
-
-    public void MoveToNode(string targetNodeID)
-    {
-        //movableNode.MoveToNode(MapGraph.instance.GetNodeById(targetNodeID));
-		commandQueue.SetAgentCommand(WorkerCommand.MakeMove(MapGraph.instance.GetNodeById(targetNodeID)));
-    }
 
     public virtual bool isDead()
     {

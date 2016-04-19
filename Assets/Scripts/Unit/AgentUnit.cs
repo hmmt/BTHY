@@ -77,6 +77,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
     public AgentUnitUI ui;
 
     // layer에서 z값 순서 정하기 위한 값.
+	private float zValueDefault;
     public float zValue;
 
     private bool uiOpened = false;
@@ -173,6 +174,16 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         accessoryUnit = new AccessoryUnit();
         accessoryUnit.Init(this.animTarget);
     }
+
+	public void SetDefaultZValue(float value)
+	{
+		zValueDefault = value;
+		zValue = value;
+	}
+	public void ResetZValue()
+	{
+		zValue = zValueDefault;
+	}
 
     /*
     public void DeadAgent()

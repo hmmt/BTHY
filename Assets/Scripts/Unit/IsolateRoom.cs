@@ -159,7 +159,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		{
             // 잠시 안 띄움
 			//feelingText.text = targetUnit.model.feeling.ToString ();
-			feelingText.text = targetUnit.model.energyPoint.ToString() +"\n";
+			feelingText.text = targetUnit.model.script.GetDebugText() + "\n\n";//targetUnit.model.energyPoint.ToString() +"\n";
             creatureLevel.text = targetUnit.model.metaInfo.level;
             creatureName.text = targetUnit.model.metaInfo.name;
 
@@ -253,7 +253,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                 frameGreenRenderer.gameObject.SetActive(false);
             }
 
-            if (targetUnit.model.state == CreatureState.WORKING)
+			if (targetUnit.model.state == CreatureState.WORKING)
             {
                 //workingOnRenderer.gameObject.SetActive(true);
                 //workingOffRenderer.gameObject.SetActive(false);
@@ -352,13 +352,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 			color.a = 0f;
 			roomFogRenderer.color = color;
 		}
-        else if (_targetUnit.model.state == CreatureState.WORKING)
-        {
-            color.a = 0f;
-            roomFogRenderer.color = color;
-        }
-
-        else if (_targetUnit.model.state == CreatureState.OBSERVE)
+		else if (_targetUnit.model.IsWorkingState())
         {
             color.a = 0f;
             roomFogRenderer.color = color;

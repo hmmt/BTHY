@@ -288,7 +288,7 @@ public class CreatureModel : ObjectModelBase, IObserver
 
     public void UpdateFeeling()
     {
-		if (state == CreatureState.WORKING || state == CreatureState.OBSERVE)
+		if (IsWorkingState())
 			return;
         //if (Random.value < metaInfo.feelingDownProb)
         {
@@ -298,6 +298,11 @@ public class CreatureModel : ObjectModelBase, IObserver
             Notice.instance.Send("UpdateCreatureState_" + instanceId);
         }
     }
+
+	public bool IsWorkingState()
+	{
+		return state == CreatureState.WORKING || state == CreatureState.WORKING_SCENE || state == CreatureState.OBSERVE;
+	}
 
     public void OnFixedUpdate()
     {

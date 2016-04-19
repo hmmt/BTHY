@@ -320,7 +320,6 @@ public class ManageCreatureAgentCommand : WorkerCommand
 			useSkill.FinishForcely ();
 		}
 		targetCreature.ReleaseTargetedCount ();
-
 	}
 
 	public void Cancle()

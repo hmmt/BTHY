@@ -115,6 +115,9 @@ public class UseSkill : ActionClassBase
 			}
 		}
 
+
+		targetCreature.script.OnFixedUpdateInSkill (this);
+
 		CheckLive();
 		if (finished)
 			return;	
@@ -251,12 +254,19 @@ public class UseSkill : ActionClassBase
         workPlaying = true;
     }
 
+	public bool IsWorking()
+	{
+		return workPlaying;
+	}
+
     private void Release()
     {
 		targetCreature.script.OnRelease (this);
 
         agent.FinishWorking();
-        targetCreature.state = CreatureState.WAIT;
+		if(targetCreature.state == CreatureState.WORKING)
+        	targetCreature.state = CreatureState.WAIT;
+		
 		targetCreature.currentSkill = null;
 		//targetCreature.bufRemainingTime = 5f;
     }

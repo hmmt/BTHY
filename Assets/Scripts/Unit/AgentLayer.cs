@@ -58,11 +58,11 @@ public class AgentLayer : MonoBehaviour, IObserver {
         agentList.Add(unit);
 
         // set Z value
-        unit.zValue = -zCount;
+		unit.SetDefaultZValue(-zCount * 0.01f);
 
         // 다른 유닛의 Z값 범위를 침범하지 않도록 z스케일을 낮춘다.
         Vector3 unitScale = unit.transform.localScale;
-        unitScale.z = 0.0005f;
+        unitScale.z = 0.001f;
         unit.transform.localScale = unitScale;
 
         zCount = (zCount + 1) % 1000;

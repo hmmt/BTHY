@@ -20,6 +20,7 @@ public enum CreatureState
     ESCAPE_WORK,
 
 	WORKING,
+	WORKING_SCENE,
 
 	SUPPRESSED,
 	SUPPRESSED_RETURN,

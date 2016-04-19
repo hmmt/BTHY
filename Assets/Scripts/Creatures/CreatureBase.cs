@@ -41,6 +41,10 @@ public class CreatureBase {
 
 	}
 
+	public virtual void OnFixedUpdateInSkill(UseSkill skill)
+	{
+	}
+
 	public virtual void OnSkillStart(UseSkill skill)
 	{
 	}
@@ -103,4 +107,9 @@ public class CreatureBase {
     {
         return null;
     }
+
+	public virtual string GetDebugText()
+	{
+		return "";
+	}
 }

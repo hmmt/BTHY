@@ -10,22 +10,43 @@ public class HappyTeddy  : CreatureBase {
 	int noHugNum;
 	int normalWorkCount;
 
+
+	bool huging = false;
+
+	bool isPlayingDeadScene = false;
 	bool isKilling = false;
 	AgentModel killTarget = null;
 
 	public override void OnViewInit (CreatureUnit unit)
 	{
+		//GameObject g = new GameObject ();
+		//g.AddComponent<UnityEngine.UI.Text>()
 	}
     
+	public override void OnFixedUpdateInSkill (UseSkill skill)
+	{
+		base.OnFixedUpdateInSkill (skill);
+
+		if (huging && skill.IsWorking() == false &&
+			skill.agent.GetCurrentNode() == model.GetCustomNode())
+		{
+			skill.ResumeWorking ();
+
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (skill.agent.instanceId);
+
+			AnimatorManager.instance.ResetAnimatorTransform (skill.agent.instanceId);
+			AnimatorManager.instance.ChangeAnimatorByName (skill.agent.instanceId, AnimatorName.Teddy_agent,
+				agentView.puppetAnim, true, false);
+
+			agentView.puppetAnim.SetBool ("Work", true);
+			agentView.puppetAnim.SetBool ("Dead", false);
+
+			noHugNum = 0;
+		}
+	}
 	public override void OnFixedUpdate (CreatureModel creature)
 	{
 		base.OnFixedUpdate (creature);
-
-		if (model.energyPoint < 80)
-		{
-			//model.Escape ();
-		}
-		//anim.animator
 
 		if (isKilling)
 		{
@@ -47,23 +68,18 @@ public class HappyTeddy  : CreatureBase {
 
 				isKilling = false;
 				killTarget = null;
+				isPlayingDeadScene = true;
 			}
-			/*
-			CreatureAnimScript anim = model.GetAnimScript ();
-			int killMoment = anim.animator.GetInteger ("KillMoment");
-			if (killMoment == 1) {
-				anim.animator.SetInteger ("KillMoment", 0);
+		}
 
-				if (model.currentSkill == null)
-				{
-					Debug.Log ("INVALID STATE : the creature must have UseSkill");
-					return;
-				}
-
-				//model.currentSkill.agent.Die ();
-				isKilling = false;
+		if (isPlayingDeadScene)
+		{
+			if (model.GetAnimScript ().animator.GetInteger ("KillMoment") == 1)
+			{
+				isPlayingDeadScene = false;
+				if(model.state == CreatureState.WORKING_SCENE)
+					model.state = CreatureState.WAIT;
 			}
-			*/
 		}
 	}
 
@@ -71,47 +87,6 @@ public class HappyTeddy  : CreatureBase {
 	{
 		model.energyPoint = 130;
 	}
-
-	public override void OnSkillStart(UseSkill skill)
-	{
-		/*
-		if(skill.skillTypeInfo.id == 40002) // 
-		{
-			if(skill.targetCreature.feeling <= 50)
-			{
-				if(Random.value <= 0.65)
-				{
-					//skill.agent.hp -= 1; // temp
-				}
-			}
-		}
-		*/
-	}
-
-    public override void OnSkillTickUpdate(UseSkill skill)
-	{
-        bool isSpecialSkill = skill.skillTypeInfo.id == 40002;
-        float prob = 0;
-        int feelingUp = 0;
-		/*
-        CreatureFeelingState feelingState = model.GetFeelingState();
-        if (feelingState == CreatureFeelingState.BAD)
-        {
-            prob = isSpecialSkill ? 0.4f : 0.9f;
-            feelingUp = 50;
-        }
-        else
-        {
-            prob = isSpecialSkill ? 0.1f : 0.3f;
-            feelingUp = 100;
-        }
-        if (Random.Range(0,100) < prob*100)
-        {
-            ActivateSkill(skill, feelingUp);
-        }
-        */
-	}
-
     //
 
     public override void OnEnterRoom(UseSkill skill)
@@ -131,19 +106,25 @@ public class HappyTeddy  : CreatureBase {
 		{
 			teddyWorkNum++;
 		}
+		else
+		{
+			teddyWorkNum = 0;
+		}
+		lastAgent = skill.agent;
 
 		float hugProb = 0;
 		float agentProb = 0.1f * teddyWorkNum;
 
 		if (skill.skillTypeInfo == GetSpecialSkill ())
 		{
-			hugProb = 0.1f + agentProb + 0.8f;
+			hugProb = 0.1f + agentProb;// + 0.8f;
 		}
 		else
 		{
-			hugProb = 0.2f * noHugNum + agentProb + 0.8f;
+			hugProb = 0.2f * noHugNum + agentProb + 1.9f;// + 0.8f;
 		}
 
+		Debug.Log ("hug prob : " + hugProb + "(teddyWorkNum:"+teddyWorkNum+", noHugNum:"+noHugNum+")");
 		if (Random.value < hugProb)
 		{
 			ActivateSkillInWork (skill);
@@ -156,41 +137,34 @@ public class HappyTeddy  : CreatureBase {
 
 	public override void OnRelease (UseSkill skill)
 	{
-		if(skill.agent.isDead() == false)
+		if (skill.agent.isDead () == false && huging)
+		{
+			skill.agentView.ResetZValue ();
 			skill.agent.ResetAnimator ();
+		}
+
+		huging = false;
 	}
 
 	void HugSkill(UseSkill skill)
 	{
 		//model.SendAnimMessage ("SpecialAttack");
 
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (skill.agent.instanceId);
+		huging = true;
+		skill.agentView.zValue = -1.1f;
 
-		AnimatorManager.instance.ResetAnimatorTransform (skill.agent.instanceId);
-		AnimatorManager.instance.ChangeAnimatorByName (skill.agent.instanceId, AnimatorName.Teddy_agent,
-			agentView.puppetAnim, true, false);
+		skill.PauseWorking ();
 
-		agentView.puppetAnim.SetBool ("Work", true);
-		agentView.puppetAnim.SetBool ("Dead", false);
-
-		noHugNum = 0;
+		skill.agent.MoveToNode (model.GetCustomNode (), false);
 	}
 
 	void ActivateSkillInWork(UseSkill skill)
 	{
-		// play animator
-
-		//CreatureUnit unit = CreatureLayer.currentLayer.GetCreature (model.instanceId);
-		//uni
-		//skill.agent.LoseControl ();
-
-		//skill.PauseWorking ();
 		isKilling = true;
-
-		//skill.agent.Die ();
 
 		killTarget = skill.agent;
 
+		model.state = CreatureState.WORKING_SCENE;
 		skill.agent.LoseControl ();
 		skill.agent.MoveToNode (model.GetCustomNode ());
 	}
@@ -200,4 +174,10 @@ public class HappyTeddy  : CreatureBase {
         //return null;
         return SkillTypeList.instance.GetData(40002);
     }
+
+	public override string GetDebugText ()
+	{
+		//return base.GetDebugText ();
+		return "teddyWorkNum:"+teddyWorkNum + ", " + "noHugNum:" + noHugNum;
+	}
 }
