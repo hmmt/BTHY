@@ -36,6 +36,7 @@ public class OneBadBehaviour : StateMachineBehaviour {
 
         if (animator.GetBool("Kill"))
         {
+            Debug.Log("adsfadfs");
             animator.SetBool("Kill", false);
         }
     }

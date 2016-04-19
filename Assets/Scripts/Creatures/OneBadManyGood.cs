@@ -83,10 +83,11 @@ public class OneBadManyGood : CreatureBase {
         if (skill.skillTypeInfo == GetSpecialSkill()) {
             //SpecialSkill
             Debug.Log("special skill");
+
             this.skill.SkillActivate(skill.agent);
             return;
         }
-        
+        this.skill.SkillActivate(skill.agent);
 
 		/*
         skill.PauseWorking();
@@ -133,5 +134,21 @@ public class OneBadManyGood : CreatureBase {
         else {
             return null;
         }
+    }
+
+    public override void OnRelease(UseSkill skill)
+    {
+        /*
+        OneBadManyGoodSkill currentSkill = this.skill as OneBadManyGoodSkill;
+
+        if (currentSkill.GetSuccessState()) {
+            
+        }*/
+        if (skill.agent.isDead()) {
+
+            return;
+        }
+
+        skill.agent.ResetAnimator();
     }
 }

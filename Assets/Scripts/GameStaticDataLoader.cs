@@ -409,11 +409,9 @@ public class GameStaticDataLoader {
             AnimatorManager.AnimatorComponet model = new AnimatorManager.AnimatorComponet();
             model.id = (long)float.Parse(node.Attributes.GetNamedItem("id").InnerText);
             model.name = node.Attributes.GetNamedItem("name").InnerText;
-            Debug.Log("Animators/" + node.Attributes.GetNamedItem("src").InnerText);
             //model.controller = Resources.Load<Animator>("Animators/" + node.Attributes.GetNamedItem("src").InnerText).runtimeAnimatorController;
             model.controller = Resources.Load<RuntimeAnimatorController>("Animators/" + node.Attributes.GetNamedItem("src").InnerText);
             list.Add(model);
-            Debug.Log(model.id + " " + model.name + " " + model.controller.name);
         }
         AnimatorManager.instance.Init(list.ToArray());
     }

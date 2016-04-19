@@ -10,9 +10,18 @@ public class ParamSetterBehavior : StateMachineBehaviour {
 		public int value;
 	}
 
+    [System.Serializable]
+    public class BoolParamData {
+        public string paramName;
+        public bool value;
+    }
+
+
 	public List<ParamData> onStateEnter;
 	public List<ParamData> onStateExit;
 	public List<ParamData> onStateMove;
+
+    public List<BoolParamData> onStateEnterBool;
 
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -20,6 +29,10 @@ public class ParamSetterBehavior : StateMachineBehaviour {
 		foreach (ParamData param in onStateEnter) {
 			animator.SetInteger (param.paramName, param.value);
 		}
+
+        foreach (BoolParamData param in onStateEnterBool) {
+            animator.SetBool(param.paramName, param.value);
+        }
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
