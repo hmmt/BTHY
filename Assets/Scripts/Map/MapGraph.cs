@@ -89,6 +89,12 @@ public class MapGraph : IObserver
         return new MapNode[]{ };
     }
 
+	public PassageObjectModel GetSefiraPassage(string area)
+	{
+		MapNode[] node = GetSefiraNodes (area);
+		return node [0].GetAttachedPassage ();
+	}
+
     public MapNode[] GetAdditionalSefira(string area) {
         List<MapNode> output;
         if (additionalSefiraTable.TryGetValue(area, out output)) {
