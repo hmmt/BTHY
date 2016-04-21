@@ -521,6 +521,8 @@ public class UseSkill : ActionClassBase
         inst.progressBar.SetVisible(true);
         inst.progressBar.SetRate(0);
         inst.progressBar.transform.localScale = new Vector3(0.7692308f, 0.7692308f, 1f);
+        float posy = inst.targetCreatureView.transform.localPosition.y;
+        posy = 1 + posy;
         inst.progressBar.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1.763f, 0.6420423f);
 
         Notice.instance.Send("UpdateCreatureState_" + inst.targetCreature.instanceId);

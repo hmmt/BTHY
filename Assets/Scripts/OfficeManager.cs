@@ -249,7 +249,7 @@ public class OfficeManager : IObserver {
     public Dictionary<string, object> GetSaveData() {
         Dictionary<string, object> dic = new Dictionary<string, object>();
 
-        dic.Add("nextInstId", nextInstId);
+        dic.Add("nextInstId", nextInstId); 
 
         List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
         foreach (OfficerModel officer in officeList) {

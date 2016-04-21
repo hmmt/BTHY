@@ -22,6 +22,7 @@ public class CreatureBase {
 
     protected CreatureModel model;
     public CreatureSpecialSkill skill;
+    public bool hasUniqueEscapeLogic;
 
     public void SetModel(CreatureModel model)
     {
@@ -102,6 +103,14 @@ public class CreatureBase {
 	{
 		return true;
 	}
+
+    public virtual bool hasUniqueEscape() {
+        return false;
+    }
+
+    public virtual void UniqueEscape() { 
+        
+    }
 
     public virtual SkillTypeInfo GetSpecialSkill()
     {

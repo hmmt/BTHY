@@ -10,6 +10,9 @@ public class AgentUnitUI
     public RectTransform workIcon;
     public bool Activated = false;
 
+    public RecoilEffectUI healthRecoil;
+    public RecoilEffectUI mentalRecoil;
+
     public void initUI() {
         hp.gameObject.SetActive(false);
         workIcon.gameObject.SetActive(false);
@@ -34,6 +37,88 @@ public class AgentUnitUI
 		hp.value = model.hp / (float)model.maxHp;
     }
 
+
+}
+
+[System.Serializable]
+public class RecoilEffectUI {
+    public enum RecoilArrow { 
+        LEFTUP, UP, RIGHTUP, RIGHT, RIGHTDOWN, DOWN, LEFTDOWN, LEFT
+    }
+
+    public RectTransform rect;
+    public float maxTime = 0.1f;
+    public int scale = 2;
+    public int recoilCount = 5;
+
+    public static List<RecoilArrow> MakeRecoilArrow(int level)
+    {
+        List<RecoilArrow> list = new List<RecoilArrow>();
+        int former = -1;
+        for (int i = 0; i < level; i++)
+        {
+            int randVal;
+            while (former == (randVal = Random.Range(0, 8))) ;
+            former = randVal;
+            RecoilArrow arrow = GetArrow(randVal);
+
+            list.Add(arrow);
+
+        }
+        return list;
+        //call recoil coroutine
+    }
+
+    public static Vector2 GetVector(RecoilArrow arrow, Vector2 initial)
+    {
+        float x;
+        float y;
+        int index = (int)arrow % 4;
+        switch (index)
+        {
+            case 0:
+                x = -1; y = 1;
+                break;
+            case 1:
+                x = 0; y = 1;
+                break;
+            case 2:
+                x = 1; y = 1;
+                break;
+            case 3:
+                x = 1; y = 0;
+                break;
+            default:
+                Debug.LogError("??");
+                x = 0; y = 0;
+                break;
+        }
+        int sign = 1;
+        if ((int)arrow > 3)
+        {
+            sign = -1;
+        }
+
+        Vector2 output = new Vector2(initial.x + (x * sign),
+                                     initial.y + (y * sign));
+        return output;
+    }
+
+    public static RecoilArrow GetArrow(int index)
+    {
+        switch (index)
+        {
+            case 0: return RecoilArrow.LEFTUP;
+            case 1: return RecoilArrow.UP;
+            case 2: return RecoilArrow.RIGHTUP;
+            case 3: return RecoilArrow.RIGHT;
+            case 4: return RecoilArrow.RIGHTDOWN;
+            case 5: return RecoilArrow.DOWN;
+            case 6: return RecoilArrow.LEFTDOWN;
+            case 7: return RecoilArrow.LEFT;
+            default: return RecoilArrow.LEFTUP;
+        }
+    }
 
 }
 
@@ -581,5 +666,47 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         }
     }
 
+    public void UIRecoilInput(int level, int target) {
+        RectTransform targetRect = null;
+        RecoilEffectUI recoil = null;
+        switch (target)
+        {
+            case 0:
+                recoil = ui.healthRecoil;
+                targetRect = ui.healthRecoil.rect;
+                break;
+            case 1:
+                recoil = ui.mentalRecoil;
+                targetRect = ui.mentalRecoil.rect;
+                break;
+            default:
+                Debug.LogError("Error in recoil");
+                return;
+        }
 
+        List<RecoilEffectUI.RecoilArrow> arrowList = 
+            RecoilEffectUI.MakeRecoilArrow(level * recoil.recoilCount);
+       
+        Vector2 initalPos = targetRect.localPosition;
+        Queue<Vector2> queue = new Queue<Vector2>();
+        foreach (RecoilEffectUI.RecoilArrow arrow in arrowList) {
+            queue.Enqueue(RecoilEffectUI.GetVector(arrow, initalPos));
+        }
+        queue.Enqueue(initalPos);
+
+        StartCoroutine(UIRecoil(queue, recoil));
+    }
+
+    IEnumerator UIRecoil(Queue<Vector2> queue, RecoilEffectUI recoil) {
+        int val = queue.Count;
+        float step = 0.1f / val;
+
+        print(recoil.scale);
+        while (queue.Count > 1)
+        {
+            yield return new WaitForSeconds(step);
+            recoil.rect.localPosition = 1f * queue.Dequeue();
+        }
+        recoil.rect.localPosition = queue.Dequeue();
+    }
 }

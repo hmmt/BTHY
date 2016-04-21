@@ -15,4 +15,14 @@ public class MatchGirlAnim : CreatureAnimScript {
 	void Attack(){
 		animator.SetBool ("attack", true);
 	}
+
+    void SefiraExplosion()
+    {
+        Debug.Log("Boom Anim");
+    }
+
+    void Move()
+    {
+        animator.SetBool("Move", true);
+    }
 }

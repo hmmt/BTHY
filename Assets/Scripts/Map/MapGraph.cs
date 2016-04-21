@@ -89,6 +89,15 @@ public class MapGraph : IObserver
         return new MapNode[]{ };
     }
 
+    public MapNode[] GetSefiraNodes(Sefira sefira) {
+        List<MapNode> output;
+
+        if (sefiraCoreNodesTable.TryGetValue(sefira.indexString, out output)) {
+            return output.ToArray();
+        }
+        return new MapNode[] { };
+    }
+
     public MapNode[] GetAdditionalSefira(string area) {
         List<MapNode> output;
         if (additionalSefiraTable.TryGetValue(area, out output)) {

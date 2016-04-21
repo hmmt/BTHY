@@ -1429,4 +1429,39 @@ public class AgentModel : WorkerModel
                 return "I";
         }
     }
+
+    public override void TakePhysicalDamage(float damage)
+    {
+        base.TakePhysicalDamage(damage);
+        AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.instanceId);
+        //
+        int damageLevel;
+        float unitValue = this.defaultMaxHp / 5f;
+        damageLevel = (int)(damage / unitValue);
+        if (damageLevel < 1) damageLevel = 1;
+        unit.UIRecoilInput(damageLevel, 0);
+    }
+
+    public override void TakePhysicalDamage(int damage, DamageType dmgType)
+    {
+        base.TakePhysicalDamage(damage, dmgType); 
+        AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.instanceId);
+        int damageLevel;
+        float unitValue = this.defaultMaxHp / 5f;
+        damageLevel = (int)(damage / unitValue);
+        if (damageLevel < 1) damageLevel = 1;
+        unit.UIRecoilInput(damageLevel, 0);
+    }
+
+    public override void TakeMentalDamage(int damage)
+    {
+        base.TakeMentalDamage(damage);
+        AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.instanceId);
+        int damageLevel;
+        float unitValue = this.defaultMaxMental / 5f;
+        damageLevel = (int)(damage / unitValue);
+        if (damageLevel < 1) damageLevel = 1;
+        unit.UIRecoilInput(damageLevel, 1);
+    }
+
 }

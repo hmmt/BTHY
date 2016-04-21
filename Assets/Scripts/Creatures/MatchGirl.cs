@@ -2,21 +2,160 @@
 using System.Collections;
 
 public class MatchGirl  : CreatureBase {
+    public class MatchGirlEffect {
+        public GameObject small = null;
+        public GameObject big = null;
+        Vector3 smallSize;
+        Vector3 bigSize;
+        bool init = false;
+
+        public ParticleSystem currentParticle;
+
+        public void SetEffect(int level) {
+            float scaleFactor = 1f;
+            if (level < 3)
+            {
+                if(!small.activeSelf)
+                    small.gameObject.SetActive(true);
+                if(big.activeSelf)
+                    big.gameObject.SetActive(false);
+
+                if (level != 0) {
+                    //scaleFactor = scaleFactor + ( 0.1f * level );
+                    scaleFactor += 0.5f * level;
+                }
+
+                small.transform.localScale = smallSize * scaleFactor;
+            }
+            else {
+                if(!big.activeSelf)
+                    big.gameObject.SetActive(true);
+                if(small.activeSelf)
+                    small.gameObject.SetActive(false);
+
+                //scaleFactor = scaleFactor + (0.1f * (level - 2));
+                scaleFactor += 0.5f * (level-2);
+
+                big.transform.localScale = bigSize * scaleFactor;
+            }
+        }
+
+        public void Init(Transform parent)
+        {
+            if (this.init) return;
+            this.init = true;
+
+            foreach (Transform t in parent)
+            {
+                if (t.name == "BigFire")
+                {
+                    big = t.gameObject;
+                }
+                else if (t.name == "SmallFire")
+                {
+                    small = t.gameObject;
+                    currentParticle = small.GetComponent<ParticleSystem>();
+                }
+
+                if (big != null && small != null)
+                {
+
+                    break;
+                }
+            }
+
+            smallSize = new Vector3(small.transform.localScale.x,
+                                    small.transform.localScale.y,
+                                    small.transform.localScale.z);
+            bigSize = new Vector3(big.transform.localScale.x,
+                                  big.transform.localScale.y,
+                                  big.transform.localScale.z);
+
+            SetEffect(0);
+        }
+
+        public bool isInitiated() {
+            return this.init;
+        }
+
+        public void EffectDisabled() {
+            this.small.SetActive(false);
+            this.big.SetActive(false);
+        }
+
+        public void EffectEnabled() {
+            this.SetEffect(0);
+        }
+    }
+    public class MatchGirlTimer {
+        public bool activated = false;
+        public float elapsed = 0f;
+        public static float maxTime = 6f;
+
+        public void StartTimer() {
+            if (this.activated) return;
+            this.activated = true;
+            this.elapsed = 0f;
+        }
+
+        public void StopTimer() {
+            if (!this.activated) return;
+            this.activated = false;
+            this.elapsed = 0f;
+        }
+
+        public void AddElapsed(float value) {
+            this.elapsed += value;
+        }
+
+        public float GetElpased() {
+            return this.elapsed;
+        }
+
+    }
+
+    float maxTime = 6f;
+    float currentTime = 0f;
+    
+    int explosionStack = 0;
+    bool exploded = false;
+    bool panicStartMove = false;
+    MatchGirlEffect effectSystem = new MatchGirlEffect();
+    MatchGirlTimer timer = new MatchGirlTimer();
+    
 
 	public override void OnInit()
 	{
-		base.OnInit();
 		//model.SetCurrentNode (MapGraph.instance.GetNodeById("malkuth-1-4"));
+        //effectSystem initialize
+
+        model.escapeType = CreatureEscapeType.FACETOSEFIRA;
 	}
 
 	public override void OnFixedUpdate (CreatureModel creature)
 	{
-		base.OnFixedUpdate (creature);
+        if (!effectSystem.isInitiated()) {
+            CreatureUnit currentUnit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
+            GameObject effectParent = currentUnit.creatureAnimator.gameObject;
+            effectSystem.Init(effectParent.transform);
+        }
 
-		if (model.energyPoint < 80)
-		{
-			model.Escape ();
-		}
+        if (model.GetFeelingPercent() < 100f )
+        {
+            if (this.explosionStack < 4)
+                timer.StartTimer();
+        }
+        else {
+            timer.StopTimer();
+        }
+
+        if (timer.activated) {
+            timer.AddElapsed(Time.deltaTime);
+            if (timer.GetElpased() > MatchGirlTimer.maxTime) {
+                timer.StopTimer();
+                AddExplosionLevel();
+            }
+        }
 	}
 
 	public override void OnReturn ()
@@ -110,6 +249,11 @@ public class MatchGirl  : CreatureBase {
 	public override void OnEnterRoom(UseSkill skill)
 	{
         CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
+        if (this.explosionStack == 4) {
+            Explode(skill);
+            return;
+        }
+
         //unit.animTarget.SendMessage("Attack");
 		/*
 		skill.PauseWorking ();
@@ -136,11 +280,105 @@ public class MatchGirl  : CreatureBase {
 		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
 			.transform.localScale = new Vector3(1.1f,1.1f,1);
 		*/
+
+        /*
         skill.CheckLive();
         if (skill.agent.isDead())
         {
             AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
             //agentUnit.animTarget.PlayMatchGirlDead();
-        }
+        }*/
 	}
+
+    public void AddExplosionLevel() {
+        if (explosionStack > 4) {
+            return;
+        }
+        explosionStack++;
+        effectSystem.SetEffect(explosionStack);
+    }
+
+    public void Explode(UseSkill skill) {
+        Debug.Log("터진다");
+        bool escapeCall = false;
+        if (exploded)
+        {
+            //탈출해야됨
+            escapeCall = true;
+        }
+        else {
+            exploded = true;
+        }
+
+        //애니메이션 및 이펙트 재생
+        GameObject boom = Prefab.LoadPrefab("Effect/Creature/MatchGirl/Match_IsolateBoom");
+        boom.transform.position = model.GetWorkspaceNode().GetPosition();
+        ParticleDestroy pd = boom.GetComponent<ParticleDestroy>();
+        pd.DelayedDestroy(5);
+
+        skill.agent.StopAction();
+        
+        skill.agent.TakePhysicalDamage(5);
+        
+        //직원 작업의 종료
+        if (skill.agent.isDead())
+        {
+            Debug.Log("직원사망");
+        }
+        else {
+
+        }
+
+
+        if (escapeCall) {
+            model.StopEscapeWork();
+            return;
+        }
+        
+        InitExplosionLevel();
+    }
+
+    public void InitExplosionLevel() {
+
+        explosionStack = 0;
+        effectSystem.SetEffect(explosionStack);
+    }
+
+    public override string GetDebugText()
+    {
+        return this.explosionStack.ToString();
+    }
+
+    public override bool hasUniqueEscape()
+    {
+        return true;
+    }
+
+    public override void UniqueEscape()
+    {
+        if (model.GetCreatureCurrentCmd() == null)
+        {
+            if (panicStartMove) {
+
+                Debug.Log("boom");
+                model.SendAnimMessage("SefiraExplosion");
+                ResetAfterPanic();
+            }
+
+            panicStartMove = true;
+            MapNode[] graph = MapGraph.instance.GetSefiraNodes(model.sefira);
+            model.MoveToNode(graph[graph.Length / 2]);
+
+        }
+        else {
+            
+        }
+    }
+
+    void ResetAfterPanic() {
+        panicStartMove = false;
+        model.state = CreatureState.SUPPRESSED;
+        InitExplosionLevel();
+        effectSystem.EffectDisabled();
+    }
 }

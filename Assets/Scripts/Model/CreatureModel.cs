@@ -25,16 +25,23 @@ public class Vector2Serializer
     public Vector3 V2 { get { return new Vector2(x, y); } set { Fill(value); } }
 }
 
+public enum CreatureEscapeType { 
+    ATTACKWORKER,
+    FACETOSEFIRA
+}
+
 // 
 [System.Serializable]
 public class CreatureModel : ObjectModelBase, IObserver
 {
+    
     public int instanceId;
 
 	MovableObjectNode movableNode;
 	CreatureCommandQueue commandQueue;
 
-	public string escapeType = "attackWorker";
+	//public string escapeType = "attackWorker";
+    public CreatureEscapeType escapeType = CreatureEscapeType.ATTACKWORKER;
 
 	// temp for proto
 	public float manageDelay = 0;
@@ -371,22 +378,28 @@ public class CreatureModel : ObjectModelBase, IObserver
         if (escapeAttackWait > 0)
             return;
         //if (movableNode.IsMoving() == false)
-		if (escapeType == "attackWorker")
-		{
-			if(commandQueue.GetCurrentCmd() == null)
-			{
-				//movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
-				MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
-			}
-			else
-			{
-				AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
+        if (escapeType == CreatureEscapeType.ATTACKWORKER)
+        {
+            if (commandQueue.GetCurrentCmd() == null)
+            {
+                //movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+                MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+            }
+            else
+            {
+                AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
 
-				if (detectedAgents.Length > 0) {
-					PursueWorker (detectedAgents [0]);
-				}
-			}
-		}
+                if (detectedAgents.Length > 0)
+                {
+                    PursueWorker(detectedAgents[0]);
+                }
+            }
+        }
+        else {
+            if (script != null && script.hasUniqueEscape()) {
+                script.UniqueEscape();
+            }
+        }
 
 		PassageObjectModel currentPassage = movableNode.GetPassage ();
 		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
@@ -830,6 +843,8 @@ public class CreatureModel : ObjectModelBase, IObserver
 		return 1;
 	}
 
-
+    public CreatureCommand GetCreatureCurrentCmd() {
+        return this.commandQueue.GetCurrentCmd();
+    } 
 }
 
