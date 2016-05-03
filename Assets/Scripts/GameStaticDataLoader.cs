@@ -732,6 +732,7 @@ public class GameStaticDataLoader {
             model.MaxObserveLevel = (int)float.Parse(observe.Attributes.GetNamedItem("level").InnerText);
 
             XmlNode collection = observe.SelectSingleNode("collection");
+
             LoadCreatureCollectionInfo(collection, model);
 
             /*
@@ -763,8 +764,6 @@ public class GameStaticDataLoader {
                 model.observeRecord.Add(input);
                 model.observeTable.record.Add(openLevel);
             }
-
-
 
 
             creatureTypeList.Add(model);
@@ -973,14 +972,64 @@ public class GameStaticDataLoader {
 
     }
 
+    private string LoadCollectionStringItem(XmlNode node, ref int level) {
+        level = (int)float.Parse(node.Attributes.GetNamedItem("openLevel").InnerText);
+        return node.InnerText;
+    }
+
+    private int LoadCollectionIntegerItem(XmlNode node, ref int level) {
+        level = (int)float.Parse(node.Attributes.GetNamedItem("openLevel").InnerText);
+        return (int)float.Parse(node.InnerText);
+    }
+
+    private CreatureTypeInfo.CreatureDataList GetCreatureDataList(XmlNodeList nodes, string itemName, bool isInt) {
+        CreatureTypeInfo.CreatureDataList list = new CreatureTypeInfo.CreatureDataList();
+        list.itemName = itemName;
+        foreach (XmlNode node in nodes) {
+            CreatureTypeInfo.CreatureData element = new CreatureTypeInfo.CreatureData();
+            int level = -1;
+            if (isInt)
+            {
+                int data = LoadCollectionIntegerItem(node, ref level);
+                element.data = data;
+            }
+            else {
+                string data = LoadCollectionStringItem(node, ref level);
+                element.data = data;
+            }
+            element.openLevel = level;
+            list.AddData(element);
+        }
+        return list;
+    }
+
     public void LoadCreatureCollectionInfo(XmlNode collection, CreatureTypeInfo model) {
+        CreatureTypeInfo.CreatureDataTable infoTable = new CreatureTypeInfo.CreatureDataTable();
+       
+        foreach (string str in CreatureTypeInfo.stringData) {
+            CreatureTypeInfo.CreatureDataList output = null;
+            XmlNodeList nodes = collection.SelectNodes(str);
+            output = GetCreatureDataList(nodes, str, false);
+            infoTable.dictionary.Add(str, output);
+        }
+        foreach (string str in CreatureTypeInfo.intData)
+        {
+            CreatureTypeInfo.CreatureDataList output = null;
+            XmlNodeList nodes = collection.SelectNodes(str);
+            output = GetCreatureDataList(nodes, str, true);
+            infoTable.dictionary.Add(str, output);
+        }
+
+        model.dataTable = infoTable;
+        //model.dataTable.PrintElementName();
+        /*
         CreatureTypeInfo.ObserveTable table = model.observeTable;
         model.codeId = LoadCollectionItem(collection, "codeNo", ref table.codeNo);
         model.portraitSrc = LoadCollectionItem(collection, "portrait", ref table.portrait);
 
         model.sizeLevel = (int)float.Parse(LoadCollectionItem(collection, "size", ref table.size));
         model.weightLevel = LoadCollectionItem(collection, "weight", ref table.weight);
-        model.name = LoadCollectionItem(collection, "name", ref table.name);
+        //model. = LoadCollectionItem(collection, "name", ref table.name);
         //model.attackType = LoadCollectionItem(collection, "attackType", ref table.attackType);
         model.creatureType = LoadCollectionItem(collection, "creatureType", ref table.creatureType);
         model.horrorLevel = (int)float.Parse(LoadCollectionItem(collection, "horrorLevel", ref table.horrorLevel));
@@ -993,6 +1042,7 @@ public class GameStaticDataLoader {
         model.specialSkillInfo = LoadCollectionItem(collection, "specialInfo", ref table.specialInfo);
         model.aggressionLevel = (int)float.Parse(LoadCollectionItem(collection, "aggression", ref table.aggression));
         model.gorgeousLevel = (int)float.Parse(LoadCollectionItem(collection, "gorgeous", ref table.gorgeous));
+        */
         //reject prefer work + solution
         //end of collection info
     }
@@ -1016,7 +1066,7 @@ public class GameStaticDataLoader {
         //model.id = long.Parse(node.Attributes.GetNamedItem("id").InnerText);
         model.name = node.SelectSingleNode("name").InnerText;
         //model.codeId = node.Attributes.GetNamedItem("codeId").InnerText;
-        model.level = node.SelectSingleNode("level").InnerText;
+        //model.level = node.SelectSingleNode("level").InnerText;
         
 		//model.attackType = node.SelectSingleNode("attackType").InnerText;
 		model.attackType = CreatureAttackType.PHYSICS;

@@ -53,6 +53,11 @@ public class UseSkill : ActionClassBase
 
     private bool finished = false;
 
+    //타이머 관련 변수
+    float elapsed;
+    float maxTime;
+    bool timerStart = false;
+
     void OnDisable()
     {
         if (finished == false)
@@ -160,6 +165,13 @@ public class UseSkill : ActionClassBase
         {
             workProgress += Time.deltaTime * workSpeed;
         }
+
+        if (timerStart) {
+            elapsed += Time.deltaTime;
+            if (elapsed > maxTime) {
+                EndTimer();
+            }
+        }
     }
     public bool IsWorkingState()
     {
@@ -249,6 +261,23 @@ public class UseSkill : ActionClassBase
         workPlaying = false;
     }
 
+    
+    public void PauseWorking(float time) {
+        workPlaying = false;
+        SetTimer(time);
+    }
+
+    public void SetTimer(float duration) {
+        timerStart = true;
+        elapsed = 0f;
+        maxTime = duration;
+    }
+
+    public void EndTimer() {
+        timerStart = false;
+        this.targetCreature.script.OnTimerEnd();
+    }
+    
     public void ResumeWorking()
     {
         workPlaying = true;
@@ -274,6 +303,30 @@ public class UseSkill : ActionClassBase
     private void FinshWork()
     {
         finished = true;
+        int result = -1;
+        if (workPlaying) {
+            float eff = targetCreature.GetWorkEfficient(targetCreature.currentSkill.skillTypeInfo);
+            if (eff > 1)
+            {
+                result = 0;
+            }
+            else if (eff < 0)
+            {
+                result = 2;
+            }
+            else
+            {
+                result = 1;
+            }
+            if (targetCreature.script != null)
+            {
+                targetCreature.script.SetCurrentSkillResult(result);
+                targetCreature.script.MakeEffect(targetCreatureView.room);
+                targetCreature.script.ResetCurrentSkillResult();
+            }
+        }
+        
+
         /*
         tempView.Hide();
         tempCreView.Hide();
@@ -350,15 +403,16 @@ public class UseSkill : ActionClassBase
                 targetCreature.script.OnSkillFailWorkTick(this);
 
                 // It can be skipped when changed in SkillFailWorkTick
-                if (workPlaying)
+                if (workPlaying && targetCreature.script.isAttackInWorkProcess())
                 {
 					// current 20% + 30%
 					float attackProb = targetCreature.GetAttackProb () - agent.GetEvasionProb() + 0.2f;
 
+                    
 					if (Random.value <= attackProb) {
 						if (targetCreature.GetAttackType () == CreatureAttackType.PHYSICS)
 						{
-							agent.TakePhysicalDamage(targetCreature.GetPhysicsDmg ());
+							agent.TakePhysicalDamageByCreature(targetCreature.GetPhysicsDmg ());
 						}
 						else if (targetCreature.GetAttackType () == CreatureAttackType.MENTAL)
 						{
@@ -366,7 +420,7 @@ public class UseSkill : ActionClassBase
 						}
 						else // COMPLEX
 						{
-							agent.TakePhysicalDamage(targetCreature.GetPhysicsDmg ());
+							agent.TakePhysicalDamageByCreature(targetCreature.GetPhysicsDmg ());
 							agent.TakeMentalDamage (targetCreature.GetMentalDmg ());
 						}
 					}
@@ -529,4 +583,5 @@ public class UseSkill : ActionClassBase
 
         return inst;
     }
+
 }

@@ -3,6 +3,7 @@ using System.Collections;
 
 public interface IAnimatorEventCalled {
     void OnCalled();
+    void OnCalled(int i);
     void AnimatorEventInit();
 }
 
@@ -28,11 +29,14 @@ public class AnimatorEventScript : MonoBehaviour {
 
     public void SetTarget(IAnimatorEventCalled target) {
         this.target = target;
-        print(target);
     }
 
     public void EventCalled() {
         target.OnCalled();
+    }
+    
+    public void EventCalledInt(int i) {
+        target.OnCalled(i);
     }
 
 }

@@ -95,11 +95,12 @@ public class AgentModel : WorkerModel
     private ValueInfo levelSetting;
     private AgentAIState state = AgentAIState.IDLE;
     
-
     public Sprite[] StatusSprites = new Sprite[4];
     public Sprite[] WorklistSprites = new Sprite[3];
     public Sprite tempHairSprite;
     public Sprite tempFaceSprite;
+
+    public Sprite currentActionIcon;
 
     /// <summary>
     /// 임시 값, 성공확률
@@ -1201,6 +1202,7 @@ public class AgentModel : WorkerModel
 
 	public override void EncounterCreature()
 	{
+        return;
 		if(state != AgentAIState.SUPPRESS_CREATURE && state != AgentAIState.ENCOUNTER_PANIC_WORKER)
 			state = AgentAIState.ENCOUNTER_CREATURE;
 	}
@@ -1430,15 +1432,16 @@ public class AgentModel : WorkerModel
         }
     }
 
-    public override void TakePhysicalDamage(float damage)
+    public override void TakePhysicalDamageByCreature(float damage)
     {
-        base.TakePhysicalDamage(damage);
+        base.TakePhysicalDamageByCreature(damage);
         AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.instanceId);
         //
         int damageLevel;
         float unitValue = this.defaultMaxHp / 5f;
         damageLevel = (int)(damage / unitValue);
         if (damageLevel < 1) damageLevel = 1;
+        if (damageLevel > 5) damageLevel = 5;
         unit.UIRecoilInput(damageLevel, 0);
     }
 
@@ -1450,6 +1453,7 @@ public class AgentModel : WorkerModel
         float unitValue = this.defaultMaxHp / 5f;
         damageLevel = (int)(damage / unitValue);
         if (damageLevel < 1) damageLevel = 1;
+        if (damageLevel > 5) damageLevel = 5;
         unit.UIRecoilInput(damageLevel, 0);
     }
 
@@ -1461,6 +1465,7 @@ public class AgentModel : WorkerModel
         float unitValue = this.defaultMaxMental / 5f;
         damageLevel = (int)(damage / unitValue);
         if (damageLevel < 1) damageLevel = 1;
+        if (damageLevel > 5) damageLevel = 5;
         unit.UIRecoilInput(damageLevel, 1);
     }
 

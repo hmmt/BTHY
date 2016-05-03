@@ -16,7 +16,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     private CreatureModel targetCreature = null;
     private Transform attachedNode = null;
     private WorkType workType;
-    private List<WorkAllocateSlot> slotList;
+    public List<WorkAllocateSlot> slotList;
     
     public static WorkAllocateWindow currentWindow;
     bool agentListDisplayed = false;
@@ -136,7 +136,6 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public void Init() {
         this.skillList = new List<SkillTypeInfo>();
         this.agentList = new List<AgentModel>();
-        this.slotList = new List<WorkAllocateSlot>();
         //스킬 계열 초기화 필요
 
 		this.skillList.Add (SkillTypeList.instance.GetData (1));
@@ -191,14 +190,21 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 
     public void ResetAgentList() {
         posy = 0f;
-        foreach (RectTransform rect in this.agentScrollTarget) {
-            Destroy(rect.gameObject);
+        foreach (WorkAllocateSlot slot in this.slotList) {
+            slot.Reset();
         }
     }
 
     public void GetAgentList() {
         this.agentList.Clear();
-        this.slotList.Clear();
+        int i = 0;
+        foreach (AgentModel model in this.currentSefira.agentList) {
+            this.agentList.Add(model);
+            this.slotList[i].SetModel(model);
+            i++;
+        }
+
+        /*
         foreach (AgentModel model in this.currentSefira.agentList) {
             this.agentList.Add(model);
             GameObject slot = Instantiate(this.agentSlot);
@@ -215,6 +221,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             slotScript.Init(model);
         }
         this.agentScrollTarget.sizeDelta = new Vector2(this.agentScrollTarget.sizeDelta.x, posy);
+         */
     }
 
     /// <summary>

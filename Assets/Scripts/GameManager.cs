@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         AgentLayer.currentLayer.Init();
         CreatureLayer.currentLayer.Init();
         OfficerLayer.currentLayer.Init();
-        AgentListScript.instance.Init();
+        //AgentListScript.instance.Init();
 
 		AgentModel a = null;
         if (PlayerModel.instance.GetDay() == 0)

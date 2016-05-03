@@ -243,13 +243,13 @@
       ]
     </record>
 
-     <record openLevel="1">
-     -> [
-          {Employees’ Tale 
-         “She is like a ticking time bomb. It is really difficult to read her mood. We need to keep the work going, knowing that she might explode at any moment. She isn’t going to get better, but at least try not to upset her more.”
+    <record openLevel="1">
+      -> [
+      {Employees’ Tale
+      “She is like a ticking time bomb. It is really difficult to read her mood. We need to keep the work going, knowing that she might explode at any moment. She isn’t going to get better, but at least try not to upset her more.”
 
-          }
-        ]
+      }
+      ]
     </record>
 
   </observe>

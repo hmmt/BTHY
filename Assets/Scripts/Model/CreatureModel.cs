@@ -27,7 +27,8 @@ public class Vector2Serializer
 
 public enum CreatureEscapeType { 
     ATTACKWORKER,
-    FACETOSEFIRA
+    FACETOSEFIRA,
+    WANDER
 }
 
 // 
@@ -745,6 +746,12 @@ public class CreatureModel : ObjectModelBase, IObserver
 
 
     // commands
+
+    public void ClearCommand()
+    {
+       // if(state == CreatureState.ESCAPE_PURSUE)
+        commandQueue.Clear();
+    }
 
 	public void MoveToNode(MapNode mapNode)
 	{

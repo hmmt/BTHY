@@ -16,7 +16,7 @@ public class CreatureAttackBase : MonoBehaviour {
         {
             if (agent.hp > 0)
             {
-                agent.TakePhysicalDamage(creature.metaInfo.physicsDmg);
+                agent.TakePhysicalDamageByCreature(creature.metaInfo.physicsDmg);
                 agent.TakeMentalDamage(creature.metaInfo.mentalDmg);
             }
 

@@ -14,7 +14,9 @@ public class AnimatorName {
     public static string Machine_victim = "Machine_victim";
 	public static string Teddy_agent = "Teddy_agent";
     public static string OneBad = "OneBad";
-    
+    public static string MatchedGirl_AgentCTRL = "MatchedGirl_AgentCTRL";
+    public static string BigBird_AgentCTRL = "BigBird_AgentCTRL";
+    public static string OldLady_AgentCTRL = "OldLady_AgentCTRL";
 
     public static long id_AgentCtrl = 50001;
     public static long id_OfficerCtrl = 50002;
@@ -25,6 +27,9 @@ public class AnimatorName {
     public static long id_Machine_victim = 70002;
     public static long id_OneBad = 70003;
 	public static long id_Teddy_agent = 80001;
+    public static long id_MatchGirl_agent = 90001;
+    public static long id_BigBird_agent = 100001;
+    public static long id_OldLady_agent = 100011;
 }
 
 public class AnimatorManager : MonoBehaviour{

@@ -207,4 +207,5 @@ public class Uncontrollable_Machine : UncontrollableAction {
 
         AnimatorManager.instance.ChangeAnimatorByName(victim.instanceId, "Machine_victim", victimAnim, true, false);
     }
+
 }

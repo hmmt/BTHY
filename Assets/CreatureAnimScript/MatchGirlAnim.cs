@@ -13,7 +13,7 @@ public class MatchGirlAnim : CreatureAnimScript {
 	}
 
 	void Attack(){
-		animator.SetBool ("attack", true);
+		animator.SetBool ("Attack", true);
 	}
 
     void SefiraExplosion()
@@ -25,4 +25,6 @@ public class MatchGirlAnim : CreatureAnimScript {
     {
         animator.SetBool("Move", true);
     }
+
+    
 }

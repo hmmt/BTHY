@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public enum PassageType { 
+    SEFIRA,//main sefira
+    DEPARTMENT,//subsefira
+    VERTICAL,//vertical Way
+    HORIZONTAL,//horizontal Way
+    NONE//for debug
+}
+
 public class PassageObjectModel : ObjectModelBase
 {
 	// 메타데이터
 	//private PassageObjectTypeInfo metaInfo;
-
 	private string id;
 	private string src;
 	private string sefiraName;
@@ -16,7 +23,26 @@ public class PassageObjectModel : ObjectModelBase
 	private List<MovableObjectNode> enteredUnitList;
 
 	private float scaleFactor = 1.0f;
+    public PassageType type = PassageType.NONE;
 	//private
+
+    public static PassageType GetPassageTypeByString(string str) {
+        switch (str) {
+            case "sefira": return PassageType.SEFIRA;
+            case "dept": return PassageType.DEPARTMENT;
+            case "vertical": return PassageType.VERTICAL;
+            case "horizontal": return PassageType.HORIZONTAL;
+            default: return PassageType.NONE;
+        }
+    }
+
+    public void SetPassageType(PassageType type) {
+        this.type = type;
+    }
+
+    public PassageType GetPassageType() {
+        return this.type;
+    }
 
 	public PassageObjectModel(string id, string sefiraName, string prefabSrc)
 	{
@@ -148,4 +174,5 @@ public class PassageObjectModel : ObjectModelBase
 			door.FixedUpdate();
 		}
 	}
+
 }

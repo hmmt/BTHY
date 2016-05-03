@@ -16,7 +16,7 @@ public class AgentManager : IObserver {
               "Alyssa", "Ashley"
           };
 
-	public static AgentManager _instance;
+	private static AgentManager _instance;
 	
 	public static AgentManager instance
 	{
@@ -118,8 +118,12 @@ public class AgentManager : IObserver {
         unit.applyTrait(RandomNfTrait);
         unit.applyTrait(RandomNormalTrait);
 
+        /*
 		if(AgentListScript.instance != null)
         	AgentListScript.instance.SetAgentList(unit);
+        */
+
+        AgentAllocateWindow.instance.AddAgent(unit);
         /*
         Debug.Log("EI Trait "+RandomEiTrait.name);
         Debug.Log("Nf Trait " + RandomNfTrait.name);

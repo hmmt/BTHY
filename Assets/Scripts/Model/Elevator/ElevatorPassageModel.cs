@@ -12,14 +12,14 @@ public class ElevatorPassageModel {
 
 	private class EnteredUnit
 	{
-		public WorkerModel unit;
+		public MovableObjectNode unit;
 		public MapNode destination;
 
 		public EnteredUnit()
 		{
 		}
 
-		public EnteredUnit(WorkerModel unit, MapNode destination)
+        public EnteredUnit(MovableObjectNode unit, MapNode destination)
 		{
 			this.unit = unit;
 			this.destination = destination;
@@ -108,19 +108,19 @@ public class ElevatorPassageModel {
 
 
 
-	public void OnUnitEnter(WorkerModel unit, MapNode destination)
+    public void OnUnitEnter(MovableObjectNode unit, MapNode destination)
 	{
 		enteredList.Add (new EnteredUnit (unit, destination));
 		unit.SetCurrentNode (innerNodes [Random.Range(0,innerNodes.Count)]);
 	}
 
-	public void OnUnitExit(WorkerModel unit)
+    public void OnUnitExit(MovableObjectNode unit)
 	{
 		for (int i = 0; i < enteredList.Count; i++) {
 			if (enteredList [i].unit == unit) {
 				//int floor = enteredList [i].destination;
 				//unit.GetMovableNode ().SetCurrentNode (floorList [floor]);
-				unit.GetMovableNode().ExitElevator(enteredList [i].destination);
+				unit.ExitElevator(enteredList [i].destination);
 
 				enteredList.RemoveAt (i);
 				break;

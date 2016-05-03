@@ -325,6 +325,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
 
     public Sprite GetMentalSprite(AgentModel target)
     {
+        if (target.defaultMaxMental == 0) target.defaultMaxMental = 10000;
         int value = target.mental / target.defaultMaxMental * 100;
 
         if (value >= 0 && value < 25)

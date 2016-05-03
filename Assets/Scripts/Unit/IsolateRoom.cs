@@ -8,7 +8,7 @@ using System.Collections;
  * 
 */
 public class IsolateRoom : MonoBehaviour, IObserver {
-
+    
 	public CreatureUnit _targetUnit;
 	public TextMesh feelingText;
     public SpriteRenderer frameSpriteRenderer;
@@ -172,8 +172,11 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 				float efficient = targetUnit.model.GetWorkEfficient (targetUnit.model.currentSkill.skillTypeInfo);
 				if (efficient > 1) {
 					feelingText.text = feelingText.text + "Great!";
+                    
+                    //MakeEffect(0);
 				} else if (efficient < 0) {
 					feelingText.text = feelingText.text + "Bad...";
+                    //MakeEffect(2);
 				} else {
 					feelingText.text = feelingText.text + "Not bad";
 				}
@@ -370,4 +373,5 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             roomFogRenderer.color = color;
         }
 	}
+
 }

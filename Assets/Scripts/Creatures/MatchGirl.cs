@@ -122,7 +122,17 @@ public class MatchGirl  : CreatureBase {
     bool panicStartMove = false;
     MatchGirlEffect effectSystem = new MatchGirlEffect();
     MatchGirlTimer timer = new MatchGirlTimer();
-    
+    UseSkill currentSkill = null;
+    bool isPlayingAttackScene = false;
+    bool escapeCall = false;
+    bool kill = false;
+    bool attackedAnimatorReset = false;
+    AgentModel killingTarget = null;
+    Animator targetAnimator = null;
+
+    string isolateEffect = "Effect/Creature/MatchGirl/MatchGirl_Isolate";
+    string sefiraEffect = "Effect/Creature/MatchGirl/MatchGirl_Sefira";
+
 
 	public override void OnInit()
 	{
@@ -149,12 +159,49 @@ public class MatchGirl  : CreatureBase {
             timer.StopTimer();
         }
 
-        if (timer.activated) {
+        if (timer.activated && !isPlayingAttackScene) {
             timer.AddElapsed(Time.deltaTime);
             if (timer.GetElpased() > MatchGirlTimer.maxTime) {
                 timer.StopTimer();
                 AddExplosionLevel();
             }
+        }
+
+        if (isPlayingAttackScene)
+        {
+            if (model.GetAnimScript().animator.GetInteger("AttackEnd") == 1) {
+                model.GetAnimScript().animator.SetInteger("AttackEnd", 0);
+                if (kill)
+                {
+                    killingTarget.TakePhysicalDamageByCreature(5);
+                    //dead
+                    killingTarget = null;
+                }
+                else {
+                    attackedAnimatorReset = true;
+                }
+
+                isPlayingAttackScene = false;
+            }
+            
+        }
+
+        if (attackedAnimatorReset) {
+            if (targetAnimator.GetInteger("AttackEnd") == 1) {
+                AnimatorManager.instance.ResetAnimatorTransform(killingTarget.instanceId);
+                killingTarget.ResetAnimator();
+                targetAnimator = null;
+                killingTarget = null;
+                attackedAnimatorReset = false;
+            }
+
+        }
+
+        if (escapeCall && !isPlayingAttackScene)
+        {
+            Debug.Log("이제탈출해야징");
+            model.StopEscapeWork();
+            escapeCall = false;
         }
 	}
 
@@ -234,7 +281,7 @@ public class MatchGirl  : CreatureBase {
                     "typo/matchgirl/01_matchGirl_commonAttack_01",
                     "typo/matchgirl/01_matchGirl_commonAttack_02"};
 
-		skill.agent.TakePhysicalDamage(1, DamageType.CUSTOM);
+        skill.agent.TakePhysicalDamageByCreature(1);
         skill.CheckLive();
         if (skill.agent.isDead())
         {
@@ -299,8 +346,6 @@ public class MatchGirl  : CreatureBase {
     }
 
     public void Explode(UseSkill skill) {
-        Debug.Log("터진다");
-        bool escapeCall = false;
         if (exploded)
         {
             //탈출해야됨
@@ -311,31 +356,54 @@ public class MatchGirl  : CreatureBase {
         }
 
         //애니메이션 및 이펙트 재생
-        GameObject boom = Prefab.LoadPrefab("Effect/Creature/MatchGirl/Match_IsolateBoom");
+        GameObject boom = Prefab.LoadPrefab(this.isolateEffect);
         boom.transform.position = model.GetWorkspaceNode().GetPosition();
         ParticleDestroy pd = boom.GetComponent<ParticleDestroy>();
-        pd.DelayedDestroy(5);
+        pd.DelayedDestroy(10);
+        model.SendAnimMessage("Attack");
 
-        skill.agent.StopAction();
-        
-        skill.agent.TakePhysicalDamage(5);
-        
+        this.currentSkill = skill;
+        skill.PauseWorking(10f);
+
+        Animator agentAnim = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId).puppetAnim;
+        AnimatorManager.instance.ResetAnimatorTransform(skill.agent.instanceId);
+        AnimatorManager.instance.ChangeAnimatorByName(skill.agent.instanceId, AnimatorName.MatchedGirl_AgentCTRL,
+                                                    agentAnim, true, false);
+        targetAnimator = agentAnim;
+        isPlayingAttackScene = true;
+        killingTarget = skill.agent;
+        if (skill.agent.hp < 5)
+        {
+            kill = true;
+            agentAnim.SetBool("Kill", true);
+        }
+        else {
+            kill = false;
+
+            skill.agent.TakePhysicalDamageByCreature(5f);
+            agentAnim.SetBool("Attack", true);
+        }
+
+        /*
         //직원 작업의 종료
         if (skill.agent.isDead())
         {
-            Debug.Log("직원사망");
+            //skill.agent.Die();
         }
         else {
+            //skill.agentView.puppetAnim.SetInteger("PhysicalAttacked", 1);
+        }*/
 
-        }
 
-
+        /*
         if (escapeCall) {
             model.StopEscapeWork();
             return;
         }
-        
-        InitExplosionLevel();
+        */
+        if (!escapeCall) {
+            InitExplosionLevel();
+        }
     }
 
     public void InitExplosionLevel() {
@@ -360,9 +428,9 @@ public class MatchGirl  : CreatureBase {
         {
             if (panicStartMove) {
 
-                Debug.Log("boom");
                 model.SendAnimMessage("SefiraExplosion");
-                ResetAfterPanic();
+                SefiraExplosion();
+                ResetAfterExplosion();
             }
 
             panicStartMove = true;
@@ -375,10 +443,55 @@ public class MatchGirl  : CreatureBase {
         }
     }
 
-    void ResetAfterPanic() {
+    void SefiraExplosion() {
+        System.Collections.Generic.List<WorkerModel> list = new System.Collections.Generic.List<WorkerModel>();
+
+        foreach (AgentModel am in model.sefira.agentList) {
+            if (am.movableNode.GetPassage() == MapGraph.instance.GetSefiraPassage(model.sefira.indexString))
+            {
+                list.Add(am);
+            }
+        }
+
+        foreach (OfficerModel om in model.sefira.officerList) {
+            if (om.movableNode.GetPassage() == MapGraph.instance.GetSefiraPassage(model.sefira.indexString))
+            {
+                list.Add(om);
+            }
+        }
+
+        foreach (WorkerModel wm in list) {
+            wm.TakePhysicalDamageByCreature(5);
+            Debug.Log(wm.name + " Damaged");
+        }
+
+    }
+
+    void ResetAfterExplosion() {
         panicStartMove = false;
+
+        GameObject sefiraBoom = Prefab.LoadPrefab(this.sefiraEffect);
+        sefiraBoom.transform.position = model.GetMovableNode().GetCurrentViewPosition();
+        ParticleDestroy pd = sefiraBoom.GetComponent<ParticleDestroy>();
+        pd.DelayedDestroy(5.5f);
+
+        CameraMover.instance.Recoil(3);
         model.state = CreatureState.SUPPRESSED;
         InitExplosionLevel();
+        
         effectSystem.EffectDisabled();
+    }
+
+    public override void OnTimerEnd()
+    {
+        if (this.currentSkill != null) {
+            this.currentSkill.agent.StopAction();
+            this.currentSkill = null;
+        }
+    }
+
+    public override bool isAttackInWorkProcess()
+    {
+        return false;
     }
 }

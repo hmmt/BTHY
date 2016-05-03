@@ -89,6 +89,10 @@ public class MapGraph : IObserver
         return new MapNode[]{ };
     }
 
+    public MapNode[] GetSefiraNodes(Sefira sefira) {
+        return this.GetSefiraNodes(sefira.indexString);
+    }
+
 	public PassageObjectModel GetSefiraPassage(string area)
 	{
 		MapNode[] node = GetSefiraNodes (area);
@@ -101,6 +105,11 @@ public class MapGraph : IObserver
             return output.ToArray();
         }
         return new MapNode[] { };
+    }
+
+    public MapNode[] GetAdditionalSefira(Sefira sefira)
+    {
+        return GetAdditionalSefira(sefira.indexString);
     }
 
     public void ActivateArea(string name)
@@ -211,6 +220,12 @@ public class MapGraph : IObserver
                         if (passageYNode != null) y = float.Parse(passageYNode.InnerText);
 						passage = new PassageObjectModel(groupName, areaName, passageSrcNode.InnerText);
                         passage.position = new Vector3(x, y, 0);
+
+                        XmlNode passageTypeNode = attrs.GetNamedItem("passageType");
+                        if (passageTypeNode != null) {
+                            PassageType type = PassageObjectModel.GetPassageTypeByString(passageTypeNode.InnerText);
+                            passage.SetPassageType(type);
+                        }
                     }
                     
                     

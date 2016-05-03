@@ -6,6 +6,7 @@ using System;
 public enum DamageType
 {
 	NORMAL,
+    CREATURE,
 	CUSTOM
 }
 
@@ -81,6 +82,8 @@ public class WorkerModel: ObjectModelBase, IObserver {
     }
 
 	public UncontrollableAction unconAction = null;
+
+    public NullCreature nullParasite = null;
 
 
     public bool visible = true;
@@ -290,7 +293,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
 	public virtual void TakePhysicalDamage(int damage, DamageType dmgType) {
 		if (isDead ())
 			return;
-        Debug.Log("TakePhysicalDamage : " + damage);
+        Debug.Log(name + "TakePhysicalDamage : " + damage);
         hp -= damage;
         if (hp <= 0) { 
             //dead
@@ -298,20 +301,27 @@ public class WorkerModel: ObjectModelBase, IObserver {
         }
     }
 
-    public virtual void TakePhysicalDamage(float damage)
+    public virtual void TakePhysicalDamageByCreature(float damage)
     {
 		if (isDead ())
 			return;
-        Debug.Log("TakePhysicalDamage : " + damage);
+        Debug.Log(name + " TakePhysicalDamage : " + damage);
         hp -= (int)damage;
         if (hp <= 0)
         {
+            if (nullParasite != null)
+            {
+                //시간지연이 필요하다
+                nullParasite.ChangeToCreature();
+                nullParasite = null;
+            }
             //dead
 			OnDie ();
         }
     }
 
     public virtual void TakeMentalDamage(int damage) {
+        Debug.Log(name + " TakeMentalDamage : " + damage);
         mental -= damage;
         
     }

@@ -3,12 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+public enum RecoilArrow
+{
+    LEFTUP, UP, RIGHTUP, RIGHT, RIGHTDOWN, DOWN, LEFTDOWN, LEFT
+}
+
 [System.Serializable]
 public class AgentUnitUI
 {
     public Slider hp;
     public RectTransform workIcon;
     public bool Activated = false;
+    public Image mental;
 
     public RecoilEffectUI healthRecoil;
     public RecoilEffectUI mentalRecoil;
@@ -30,96 +36,27 @@ public class AgentUnitUI
     //1번의 alpha값을 수정하는 것을 통해 효과
     public void setUIValue(AgentModel model) {
         if (!Activated) return;
+        /*
         Color c = workIcon.GetChild(1).GetComponent<Image>().color;
         c.a = (float)model.mental / model.maxMental;
+        */
+        float currentAlpha = (float)model.mental / model.maxMental;
+        mental.color = new Color(currentAlpha, currentAlpha, currentAlpha, 1);
 
-        workIcon.GetChild(1).GetComponent<Image>().color = c;
+        //workIcon.GetChild(1).GetComponent<Image>().color = c;
 		hp.value = model.hp / (float)model.maxHp;
     }
-
 
 }
 
 [System.Serializable]
-public class RecoilEffectUI {
-    public enum RecoilArrow { 
-        LEFTUP, UP, RIGHTUP, RIGHT, RIGHTDOWN, DOWN, LEFTDOWN, LEFT
-    }
-
+public class RecoilEffectUI :RecoilEffect{
+    
     public RectTransform rect;
-    public float maxTime = 0.1f;
-    public int scale = 2;
-    public int recoilCount = 5;
 
-    public static List<RecoilArrow> MakeRecoilArrow(int level)
-    {
-        List<RecoilArrow> list = new List<RecoilArrow>();
-        int former = -1;
-        for (int i = 0; i < level; i++)
-        {
-            int randVal;
-            while (former == (randVal = Random.Range(0, 8))) ;
-            former = randVal;
-            RecoilArrow arrow = GetArrow(randVal);
-
-            list.Add(arrow);
-
-        }
-        return list;
-        //call recoil coroutine
+    public RecoilEffectUI() {
+        base.targetTransform = rect;
     }
-
-    public static Vector2 GetVector(RecoilArrow arrow, Vector2 initial)
-    {
-        float x;
-        float y;
-        int index = (int)arrow % 4;
-        switch (index)
-        {
-            case 0:
-                x = -1; y = 1;
-                break;
-            case 1:
-                x = 0; y = 1;
-                break;
-            case 2:
-                x = 1; y = 1;
-                break;
-            case 3:
-                x = 1; y = 0;
-                break;
-            default:
-                Debug.LogError("??");
-                x = 0; y = 0;
-                break;
-        }
-        int sign = 1;
-        if ((int)arrow > 3)
-        {
-            sign = -1;
-        }
-
-        Vector2 output = new Vector2(initial.x + (x * sign),
-                                     initial.y + (y * sign));
-        return output;
-    }
-
-    public static RecoilArrow GetArrow(int index)
-    {
-        switch (index)
-        {
-            case 0: return RecoilArrow.LEFTUP;
-            case 1: return RecoilArrow.UP;
-            case 2: return RecoilArrow.RIGHTUP;
-            case 3: return RecoilArrow.RIGHT;
-            case 4: return RecoilArrow.RIGHTDOWN;
-            case 5: return RecoilArrow.DOWN;
-            case 6: return RecoilArrow.LEFTDOWN;
-            case 7: return RecoilArrow.LEFT;
-            default: return RecoilArrow.LEFTUP;
-        }
-    }
-
 }
 
 public class AgentUnit : MonoBehaviour, IOverlapOnclick {
@@ -168,6 +105,8 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
     private bool uiOpened = false;
 
     public AccessoryUnit accessoryUnit;
+
+    public bool blockScaling = false;
 
     //직원 대사
     string speech = "";
@@ -284,6 +223,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
 	private void UpdateDirection()
 	{
+
 		MovableObjectNode movable = model.GetMovableNode ();
 		UnitDirection movableDirection = movable.GetDirection ();
 		Transform puppet = puppetNode.transform.parent;
@@ -356,6 +296,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
 	private void UpdateViewPosition()
 	{
+        if (blockMoving) return;
 		transform.localScale = new Vector3 (model.GetMovableNode ().currentScale, model.GetMovableNode ().currentScale, transform.localScale.z);
         MapEdge currentEdge = model.GetCurrentEdge();
 
@@ -508,6 +449,10 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
             Debug.Log("패닉대사 " + speech);
         }
         ui.setUIValue(model);
+
+        if (Input.GetKeyDown(KeyCode.Alpha8)) {
+            this.model.TakeMentalDamage(1000);
+        }
 	}
 
 	void Update()
@@ -648,6 +593,10 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
             agentWindow.GetComponent<Animator>().SetBool("isTrue", true);
         }
          */
+
+        if (model.nullParasite != null) {
+            SuppressWindow.CreateWindow(model.nullParasite.GetModel());
+        }
 	}
 
     public void Speech(string speechKey)
@@ -684,13 +633,13 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
                 return;
         }
 
-        List<RecoilEffectUI.RecoilArrow> arrowList = 
+        List<RecoilArrow> arrowList = 
             RecoilEffectUI.MakeRecoilArrow(level * recoil.recoilCount);
        
         Vector2 initalPos = targetRect.localPosition;
         Queue<Vector2> queue = new Queue<Vector2>();
-        foreach (RecoilEffectUI.RecoilArrow arrow in arrowList) {
-            queue.Enqueue(RecoilEffectUI.GetVector(arrow, initalPos));
+        foreach (RecoilArrow arrow in arrowList) {
+            queue.Enqueue(RecoilEffectUI.GetVector(arrow, initalPos, recoil.scale));
         }
         queue.Enqueue(initalPos);
 
@@ -699,14 +648,51 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
     IEnumerator UIRecoil(Queue<Vector2> queue, RecoilEffectUI recoil) {
         int val = queue.Count;
-        float step = 0.1f / val;
+        float step = recoil.maxTime / val;
 
-        print(recoil.scale);
         while (queue.Count > 1)
         {
             yield return new WaitForSeconds(step);
             recoil.rect.localPosition = 1f * queue.Dequeue();
         }
         recoil.rect.localPosition = queue.Dequeue();
+    }
+
+    public bool isMovingByMannually = false;
+    bool isMovingStarted = false;
+    public bool blockMoving = false;
+    IEnumerator MannualMoving(Vector3 pos , bool blockMoving) {
+        Transform target = this.gameObject.transform;
+        Vector3 initial = new Vector3(target.position.x, target.position.y, target.position.z);
+        Vector3 reference = new Vector3(pos.x - target.position.x,
+            pos.y - target.position.y,
+            0f);
+        int cnt = 3;
+        blockMoving = blockMoving;
+        
+        while (cnt > 0) {
+            yield return new WaitForSeconds(0.1f);
+            target.position = new Vector3(initial.x + (reference.x / 3f) * (4 - cnt), initial.y, initial.z);
+            cnt--;
+        }
+        
+        isMovingByMannually = true;
+    }
+
+    public bool MannualMovingCall(Vector3 pos) {
+        if (!isMovingStarted)
+        {
+            isMovingStarted = true;
+            isMovingByMannually = false;
+            StartCoroutine(MannualMoving(pos, true));
+            return false;
+        }
+
+        if (isMovingByMannually) {
+            isMovingByMannually = false;
+            isMovingStarted = false;
+            return true;
+        }
+        return false;
     }
 }

@@ -155,7 +155,6 @@ public class CreatureManager : IObserver{
         model.metadataId = metadataId;
         model.metaInfo = typeInfo;
         model.basePosition = new Vector2(x, y);
-
         model.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
         if(model.script != null)
             model.script.SetModel(model);

@@ -890,7 +890,7 @@ public class MovableObjectNode {
 
 	public void EnterElevator(MapNode elevatorNode, MapNode nextNode)
 	{
-		if(model != null && model is WorkerModel)
+		if(true)//if(model != null && model is WorkerModel)
 		{
 			if (currentNode != null && elevatorNode.GetElevator () != null)
 			{
@@ -909,7 +909,7 @@ public class MovableObjectNode {
 					elevatorNextDest2 = destinationNode2;
 
 					currentElevator = elevatorNode.GetElevator ();
-					currentElevator.OnUnitEnter ((WorkerModel)model, nextNode);
+					currentElevator.OnUnitEnter (this, nextNode);
 					isEnteredElevator = true;
 				}
 				else
