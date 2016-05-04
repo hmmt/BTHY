@@ -248,4 +248,12 @@ public class CreatureBase {
     public virtual bool isAttackInWorkProcess() {
         return true;    
     }
+
+    public virtual bool hasUniqueFinish() {
+        return false;
+    }
+
+    public virtual void UniqueFinish(UseSkill skill) { 
+        
+    }
 }

@@ -179,7 +179,7 @@ public class LadyLookingAtWall : CreatureBase {
             SetPercentage(high);
             return;
         }
-		if (model.agentLifeValue == PersonalityType.D) {
+		if (model.agentLifeValue == PersonalityType.I) {
             SetPercentage(high);
             return;
         }

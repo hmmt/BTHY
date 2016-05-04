@@ -288,7 +288,7 @@ public class AgentModel : WorkerModel
         if (!tempPanic)
         {
             tempPanic = true;
-            Panic();
+            //Panic();
 
 			//movableNode.MoveBy(UnitDirection.LEFT, 25);
         }

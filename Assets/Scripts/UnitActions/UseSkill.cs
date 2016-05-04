@@ -304,7 +304,7 @@ public class UseSkill : ActionClassBase
     {
         finished = true;
         int result = -1;
-        if (workPlaying) {
+        if (workPlaying && !targetCreature.script.hasUniqueFinish()) {
             float eff = targetCreature.GetWorkEfficient(targetCreature.currentSkill.skillTypeInfo);
             if (eff > 1)
             {
@@ -334,6 +334,10 @@ public class UseSkill : ActionClassBase
 
 		//workCount
 		//successCount
+
+        /*
+
+        
 		float energyAdd = agent.GetEnergyAbility(skillTypeInfo)*successCount/totalTickNum;
 
 		if (targetCreature.IsPreferSkill (skillTypeInfo)) {
@@ -342,15 +346,32 @@ public class UseSkill : ActionClassBase
 			// unused
 			targetCreature.SubFeeling (skillTypeInfo.amount*successCount/totalTickNum);
 		}
-
+        targetCreature.SetEnergyChange (5, skillTypeInfo.amount*successCount/totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
 		// temp comment
 		//targetCreature.SetEnergyChange (5, energyAdd);
 
 		// temp for proto
-		targetCreature.SetEnergyChange (5, skillTypeInfo.amount*successCount/totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
+		//targetCreature.SetEnergyChange (5, skillTypeInfo.amount*successCount/totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
+        */
 
+        if (this.targetCreature.script != null && this.targetCreature.script.hasUniqueFinish())
+        {
+            this.targetCreature.script.UniqueFinish(this);
+        }
+        else {
+            float energyAdd = agent.GetEnergyAbility(skillTypeInfo) * successCount / totalTickNum;
 
-
+            if (targetCreature.IsPreferSkill(skillTypeInfo))
+            {
+                targetCreature.AddFeeling(skillTypeInfo.amount * successCount / totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo));
+            }
+            else if (targetCreature.IsRejectSkill(skillTypeInfo))
+            {
+                // unused
+                targetCreature.SubFeeling(skillTypeInfo.amount * successCount / totalTickNum);
+            }
+            targetCreature.SetEnergyChange(5, skillTypeInfo.amount * successCount / totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
+        }
 
         //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(false);
         agentView.showSkillIcon.turnOnDoingSkillIcon(false);
