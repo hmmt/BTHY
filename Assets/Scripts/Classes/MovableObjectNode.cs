@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PathData
+public class PathMoveBy
 {
-    public MapEdge[] pathList;
-    public float[] pathList_PosRate;
-
-    public int pathIndex;
+	public UnitDirection direction;
+	public float value;
 }
 
 public enum MovableState
@@ -17,8 +15,22 @@ public enum MovableState
     WAIT
 }
 
+public enum PassType
+{
+	NONE,
+	SHIELDBEARER,
+}
+
+public enum EdgeDirection
+{
+	FORWARD,
+	BACKWARD
+}
+
 public class MovableObjectNode {
-    private ObjectModelBase model;
+	private UnitModel model;
+
+	private List<PassType> unpassableList;
 
     private MovableState state;
 
@@ -44,12 +56,11 @@ public class MovableObjectNode {
 
     public float currentZValue;
 
+
     public float edgePosRate; // 0~1
-
-    public int edgeDirection; // 1 : node1 에서 node2로 이동중
+	public EdgeDirection edgeDirection; // 1 : node1 에서 node2로 이동중
                               // 0 : node2 에서 node1로 이동중
-
-    //private MapEdge[] pathList;
+	// MoveTo
     private PathResult pathInfo;
     private float edgePosRateGoal; // 목표 edge의 edgePosRate
 	private MapNode destinationNode = null;
@@ -57,20 +68,46 @@ public class MovableObjectNode {
 
     private int pathIndex;
 
-    private PathData pathData = new PathData();
-
+	// MoveBy
+	private PathMoveBy pathMoveBy = null;
+	private float moveDistance;
 
 	public float currentScale = 1.0f;
 
     // 지울 예정
     public MovableObjectNode()
     {
+		unpassableList = new List<PassType> ();
     }
-    public MovableObjectNode(ObjectModelBase model)
+	public MovableObjectNode(UnitModel model)
     {
         this.model = model;
+		unpassableList = new List<PassType> ();
     }
 
+	public static Vector3 GetViewPositionInEdge(MapEdge edge, EdgeDirection edgeDirection, float edgePosRate)
+	{
+		Vector3 output = new Vector3(0, 0, 0);
+		MapNode node1 = edge.node1;
+		MapNode node2 = edge.node2;
+		Vector3 pos1 = node1.GetPosition();
+		Vector3 pos2 = node2.GetPosition();
+
+		if (edgeDirection == EdgeDirection.FORWARD)
+		{
+			output.x = Mathf.Lerp(pos1.x, pos2.x, edgePosRate);
+			output.y = Mathf.Lerp(pos1.y, pos2.y, edgePosRate);
+			output.z = Mathf.Lerp(pos1.z, pos2.z, edgePosRate);
+		}
+		else
+		{
+			output.x = Mathf.Lerp(pos1.x, pos2.x, 1 - edgePosRate);
+			output.y = Mathf.Lerp(pos1.y, pos2.y, 1 - edgePosRate);
+			output.z = Mathf.Lerp(pos1.z, pos2.z, 1 - edgePosRate);
+		}
+
+		return output;
+	}
     public Vector3 GetCurrentViewPosition()
     {
         Vector3 output = new Vector3(0, 0, 0);
@@ -84,23 +121,7 @@ public class MovableObjectNode {
         }
         else if (currentEdge != null)
         {
-            MapNode node1 = currentEdge.node1;
-            MapNode node2 = currentEdge.node2;
-            Vector3 pos1 = node1.GetPosition();
-            Vector3 pos2 = node2.GetPosition();
-
-            if (edgeDirection == 1)
-            {
-                output.x = Mathf.Lerp(pos1.x, pos2.x, edgePosRate);
-                output.y = Mathf.Lerp(pos1.y, pos2.y, edgePosRate);
-                output.z = Mathf.Lerp(pos1.z, pos2.z, edgePosRate);
-            }
-            else
-            {
-                output.x = Mathf.Lerp(pos1.x, pos2.x, 1 - edgePosRate);
-                output.y = Mathf.Lerp(pos1.y, pos2.y, 1 - edgePosRate);
-                output.z = Mathf.Lerp(pos1.z, pos2.z, 1 - edgePosRate);
-            }
+			output = GetViewPositionInEdge (currentEdge, edgeDirection, edgePosRate);
         }
         return output;
     }
@@ -109,35 +130,59 @@ public class MovableObjectNode {
     public PassageObjectModel GetPassage()
     {
 		return currentPassage;
-		/*
-        if (currentNode != null)
-        {
-            return currentNode.GetAttachedPassage();
-        }
-        else if (currentEdge != null)
-        {
-            PassageObjectModel p1 = currentEdge.node1.GetAttachedPassage();
-            PassageObjectModel p2 = currentEdge.node1.GetAttachedPassage();
-
-            if (p1 != null && p2 != null)
-            {
-                if (p1 == p2)
-                    return p1;
-                else
-                    return null;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        else
-        {
-            Debug.Log("ERROR : invalid node state");
-        }
-        return null;
-        */
     }
+
+	public void AddUnpassableType(PassType pass)
+	{
+		if(unpassableList.Contains(pass) == false)
+			unpassableList.Add (pass);
+	}
+
+
+	bool CheckPassable(MapEdge edge, EdgeDirection edgeDir, float oldEdgePosRate, float newEdgePosRate)
+	{
+		Vector3 oldPos = GetViewPositionInEdge (edge, edgeDir, Mathf.Clamp01(oldEdgePosRate));
+		Vector3 newPos = GetViewPositionInEdge (edge, edgeDir, Mathf.Clamp01(newEdgePosRate));
+
+
+		foreach(PassType passType in unpassableList)
+		{
+			if (passType == PassType.SHIELDBEARER)
+			{
+				AgentModel[] agents = AgentManager.instance.GetAgentList ();
+				List<AgentModel> shieldbearers = new List<AgentModel> ();
+
+				foreach (AgentModel agent in agents)
+				{
+					if (agent.weapon == AgentWeapon.SHIELD)
+					{
+						shieldbearers.Add (agent);
+					}
+				}
+
+				foreach (AgentModel agent in shieldbearers)
+				{
+					Vector3 agentPos = agent.GetCurrentViewPosition ();
+
+					float agentLeft = agentPos.x - 1f;
+					float agentRight = agentPos.x + 1f;
+
+					if (agentLeft <= newPos.x && newPos.x <= agentRight)
+						return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public bool SetMovableByPosition(Vector3 position)
+	{
+		if (currentPassage != null)
+		{
+			MapNode[] nodeList = currentPassage.GetNodeList ();
+		}
+		return false;
+	}
 
     /**
      * movement의 속도로 목적지까지 Time.delta 시간 동안 이동합니다.
@@ -147,188 +192,320 @@ public class MovableObjectNode {
      */
     public void ProcessMoveNode(int movement)
     {
-		bool stateChanged = false;
-		/*
-		if (currentNode != null)
+		ProcessMoveByDistance (Time.deltaTime * movement);
+    }
+
+	void ProcessMoveByDistance(float distance)
+	{
+		float edgeCost = -1;
+		float deltaRate = -1;
+		float oldPosRate = -1;
+		while(true)
 		{
-			currentScale = currentNode.scaleFactor;
-			//lastNode = currentNode;
-		}
-		else if(lastNode != null)
-		{
-			currentScale = lastNode.scaleFactor;
-		}
-		*/
+			// 문에 대한 처리
+			if (currentNode != null)
+			{
+				if (currentNode.GetDoor() != null)
+					currentNode.GetDoor().OnObjectPassed();
+			}
+			else if (currentEdge != null)
+			{
+				if (currentEdge.node1.GetDoor() != null)
+					currentEdge.node1.GetDoor().OnObjectPassed();
 
-		//if (movement <= 0)
-		//	return;
+				if (currentEdge.node2.GetDoor() != null)
+					currentEdge.node2.GetDoor().OnObjectPassed();
+			}
+			//if (pathInfo != null)
+			if(state == MovableState.MOVE)
+			{
+				// 현재 node 위에 있는 경우
+				if (pathMoveBy != null)
+				{
+					unitDirection = pathMoveBy.direction;
 
-        // 문에 대한 처리
-        if (currentNode != null)
-        {
-            if (currentNode.GetDoor() != null)
-                currentNode.GetDoor().OnObjectPassed();
-        }
-        else if (currentEdge != null)
-        {
-            if (currentEdge.node1.GetDoor() != null)
-                currentEdge.node1.GetDoor().OnObjectPassed();
-
-            if (currentEdge.node2.GetDoor() != null)
-                currentEdge.node2.GetDoor().OnObjectPassed();
-        }
-        //if (pathInfo != null)
-        if(state == MovableState.MOVE)
-        {
-            // 현재 node 위에 있는 경우
-            if (currentNode != null)
-            {
-                if (pathIndex >= pathInfo.pathEdges.Length)
-                {
-                    pathInfo = null;
-                    state = MovableState.STOP;
-                }
-                else
-                {
-                    MapEdge nextEdge = pathInfo.pathEdges[pathIndex];
-                    int nextDirection = pathInfo.edgeDirections[pathIndex];
-                    MapNode nextGoalNode = nextEdge.GetGoalNode(nextDirection);
-
-                    // 길이 막혀있을 경우
-                    if (nextGoalNode.closed)
-                    {
-                        if (nextGoalNode.GetDoor() != null)
-                        {
-                            // null 체크는 임시. 나중에 model이 무조건 null이 아니게 변경 예정.
-                            if (model != null)
-                            {
-                                if (model.CanOpenDoor())
-                                {
-                                    InteractWithDoor(nextGoalNode.GetDoor());
-                                }
-                            }
-                        }
-                        else
-                        {
-                            StopMoving();
-                        }
-                    }
-					else if(nextGoalNode.GetElevator() != null)
+					if (moveDistance < pathMoveBy.value)
 					{
-						if(pathIndex+1 < pathInfo.pathEdges.Length)
+						if(currentNode != null)
 						{
-							MapEdge destEdge = pathInfo.pathEdges[pathIndex+1];
-							int destDirection = pathInfo.edgeDirections[pathIndex+1];
-							MapNode destGoalNode = destEdge.GetGoalNode(destDirection);
+							MapEdge selectedEdge = MoveBy_GetNextEdge ();
 
-							EnterElevator (nextGoalNode, destGoalNode);
+							if (selectedEdge != null)
+							{
+								if (selectedEdge.node1 == currentNode)
+								{
+									edgeDirection = EdgeDirection.FORWARD;
+								}
+								else
+								{
+									edgeDirection = EdgeDirection.BACKWARD;
+								}
+								edgePosRate = 0;
+								UpdateNodeEdge (null, selectedEdge);
+
+								continue;
+							}
+							else
+							{
+								StopMoving ();
+							}
+						}
+						else if(currentEdge != null)
+						{
+							edgeCost = currentEdge.cost;
+							deltaRate = distance / edgeCost;
+
+							if (CheckPassable (currentEdge, edgeDirection, edgePosRate, edgePosRate + deltaRate) == false)
+							{
+								StopMoving ();
+								return;
+							}
+
+							moveDistance += distance;
+
+
+							edgePosRate += deltaRate;
+
+							//
+							float remainRate = 0;
+							if (edgePosRate >= 1f)
+							{
+								remainRate = edgePosRate - 1;
+
+								if (edgeDirection == EdgeDirection.FORWARD)
+									UpdateNodeEdge (currentEdge.node2, null);
+								else
+									UpdateNodeEdge (currentEdge.node1, null);
+							}
+
+							if (moveDistance >= pathMoveBy.value)
+								StopMoving ();
+							else if(remainRate > 0f)
+							{
+								distance = remainRate * edgeCost;
+								continue;
+							}
+								
 						}
 						else
 						{
-							Debug.Log ("Elevator.. .....");
+							Debug.Log ("invalid");
 						}
 					}
-                    else
-                    {
-                        /*
-                        if (currentEdge.node1 == currentNode)
-                        {
-                            //edgeDirection = 1;
-                        }
-                        else
-                        {
-                            //edgeDirection = 0;
-                        }
-                        */
-                        edgeDirection = nextDirection;
-                        edgePosRate = 0;
 
-						//currentEdge = nextEdge;
-                        //currentNode = null;
-						UpdateNodeEdge (null, nextEdge);
-                    }
-                }
-            }
-            else if (currentEdge != null) // 현재 edge 위에 있는 경우
-            {
-                if (pathInfo.pathEdges != null)
-                {
-                    float deltaRate = Time.deltaTime / currentEdge.cost * movement;
-                    float oldPosRate = edgePosRate;
-                    edgePosRate += deltaRate;
-
-					if (edgeDirection == 1)
+				}
+				else if(pathInfo != null)
+				{
+					if (currentNode != null)
 					{
-						if(currentEdge.node1.GetPosition().x < currentEdge.node2.GetPosition().x)
+						if (pathIndex >= pathInfo.pathEdges.Length)
 						{
-							unitDirection = UnitDirection.RIGHT;
+							StopMoving ();
 						}
-						else if(currentEdge.node1.GetPosition().x > currentEdge.node2.GetPosition().x)
+						else
 						{
-							unitDirection = UnitDirection.LEFT;
+							MapEdge nextEdge = pathInfo.pathEdges[pathIndex];
+							EdgeDirection nextDirection = pathInfo.edgeDirections[pathIndex];
+							MapNode nextGoalNode = nextEdge.GetGoalNode(nextDirection);
+
+							// 길이 막혀있을 경우
+							if (nextGoalNode.closed)
+							{
+								if (nextGoalNode.GetDoor() != null)
+								{
+									// null 체크는 임시. 나중에 model이 무조건 null이 아니게 변경 예정.
+									if (model != null)
+									{
+										if (model.CanOpenDoor())
+										{
+											InteractWithDoor(nextGoalNode.GetDoor());
+										}
+									}
+								}
+								else
+								{
+									StopMoving();
+								}
+							}
+							else if(nextGoalNode.GetElevator() != null)
+							{
+								if(pathIndex+1 < pathInfo.pathEdges.Length)
+								{
+									MapEdge destEdge = pathInfo.pathEdges[pathIndex+1];
+									EdgeDirection destDirection = pathInfo.edgeDirections[pathIndex+1];
+									MapNode destGoalNode = destEdge.GetGoalNode(destDirection);
+
+									EnterElevator (nextGoalNode, destGoalNode);
+								}
+								else
+								{
+									Debug.Log ("Elevator.. .....");
+								}
+							}
+							else
+							{
+								edgeDirection = nextDirection;
+								edgePosRate = 0;
+
+								UpdateNodeEdge (null, nextEdge);
+
+								if (float.IsInfinity (deltaRate)) {
+									Debug.LogError ("1");
+								}
+
+								//continue;
+
+								ProcessMoveByDistance(distance);
+							}
 						}
 					}
-					else
+					else if (currentEdge != null) // 현재 edge 위에 있는 경우
 					{
-						if(currentEdge.node1.GetPosition().x > currentEdge.node2.GetPosition().x)
+						if (pathInfo.pathEdges != null)
 						{
-							unitDirection = UnitDirection.RIGHT;
-						}
-						else if(currentEdge.node1.GetPosition().x < currentEdge.node2.GetPosition().x)
-						{
-							unitDirection = UnitDirection.LEFT;
+							edgeCost = currentEdge.cost;
+							deltaRate = distance / edgeCost;
+							oldPosRate = edgePosRate;
+
+							if (deltaRate < 0) {
+								Debug.LogError ("1");
+							}
+
+							if (CheckPassable (currentEdge, edgeDirection, edgePosRate, edgePosRate + deltaRate) == false)
+							{
+								StopMoving ();
+								return;
+							}
+
+							edgePosRate += deltaRate;
+
+							if (edgeDirection == EdgeDirection.FORWARD)
+							{
+								if(currentEdge.node1.GetPosition().x < currentEdge.node2.GetPosition().x)
+								{
+									unitDirection = UnitDirection.RIGHT;
+								}
+								else if(currentEdge.node1.GetPosition().x > currentEdge.node2.GetPosition().x)
+								{
+									unitDirection = UnitDirection.LEFT;
+								}
+							}
+							else
+							{
+								if(currentEdge.node1.GetPosition().x > currentEdge.node2.GetPosition().x)
+								{
+									unitDirection = UnitDirection.RIGHT;
+								}
+								else if(currentEdge.node1.GetPosition().x < currentEdge.node2.GetPosition().x)
+								{
+									unitDirection = UnitDirection.LEFT;
+								}
+							}
+
+
+							if (pathIndex >= pathInfo.pathEdges.Length - 1) // 마지막 노드
+							{
+								// 목표 지점에 도착
+								if (edgePosRate >= edgePosRateGoal)
+								{
+									edgePosRate = edgePosRateGoal;
+									if (edgePosRateGoal == 1) // edge 중간이 아니라 노드로 이동
+									{
+										if (edgeDirection == EdgeDirection.FORWARD)
+											UpdateNodeEdge (currentEdge.node2, null);
+										else
+											UpdateNodeEdge (currentEdge.node1, null);
+									}
+									StopMoving ();
+								}
+							}
+							else
+							{
+								// 다음 노드에 도착
+								if (edgePosRate >= 1)
+								{
+									float remainRate = edgePosRate - 1;
+
+									if (edgeDirection == EdgeDirection.FORWARD)
+										UpdateNodeEdge (currentEdge.node2, null);
+									else
+										UpdateNodeEdge (currentEdge.node1, null);
+
+									edgePosRate = 0;
+									pathIndex++;
+
+									//distance = remainRate * edgeCost;
+
+									if (float.IsInfinity (deltaRate)) {
+										Debug.LogError ("1");
+									}
+									//continue;
+									ProcessMoveByDistance(remainRate * edgeCost);
+								}
+							}
 						}
 					}
+				}
+			}
 
-
-                    if (pathIndex >= pathInfo.pathEdges.Length - 1) // 마지막 노드
-                    {
-                        // 목표 지점에 도착
-                        if (edgePosRate >= edgePosRateGoal)
-                        {
-                            edgePosRate = edgePosRateGoal;
-                            if (edgePosRateGoal == 1) // edge 중간이 아니라 노드로 이동
-                            {
-                                if (edgeDirection == 1)
-									//currentNode = currentEdge.node2;
-									UpdateNodeEdge (currentEdge.node2, null);
-                                else
-                                    //currentNode = currentEdge.node1;
-									UpdateNodeEdge (currentEdge.node1, null);
-                            }
-                            pathInfo = null; // 이동 종료
-                            state = MovableState.STOP;
-                        }
-                    }
-                    else
-                    {
-                        // 다음 노드에 도착
-                        if (edgePosRate >= 1)
-                        {
-                            if (edgeDirection == 1)
-                                //currentNode = currentEdge.node2;
-								UpdateNodeEdge (currentEdge.node2, null);
-                            else
-                                //currentNode = currentEdge.node1;
-								UpdateNodeEdge (currentEdge.node1, null);
-
-                            edgePosRate = 0;
-                            //currentEdge = null;
-                            pathIndex++;
-                        }
-                    }
-                }
-            }
-        }
-
-		/*
-		if (currentNode != null)
-		{
-			currentScale = currentNode.scaleFactor;
-			lastNode = currentNode;
+			/*
+			if (currentNode != null)
+			{
+				currentScale = currentNode.scaleFactor;
+				lastNode = currentNode;
+			}
+			*/
+			break;
 		}
-		*/
-    }
+
+		if (float.IsNaN (edgePosRate)) {
+			Debug.LogError ("aaa");
+		}
+	}
+
+	MapEdge MoveBy_GetNextEdge()
+	{
+		if (currentNode == null)
+			return null;
+
+		List<MapEdge> edgeList = new List<MapEdge> ();
+
+		float nodeX = currentNode.GetPosition ().x;
+		foreach (MapEdge edge in currentNode.GetEdges())
+		{
+			if (edge.ConnectedNode (currentNode).GetPosition ().x < nodeX && pathMoveBy.direction == UnitDirection.LEFT)
+			{
+				edgeList.Add (edge);
+			}
+			else if (edge.ConnectedNode (currentNode).GetPosition ().x > nodeX && pathMoveBy.direction == UnitDirection.RIGHT)
+			{
+				edgeList.Add (edge);
+			}
+		}
+
+		// 왼쪽 노드 하나만 선정
+		MapEdge selectedEdge = null;
+		foreach (MapEdge edge in edgeList)
+		{
+			if (edge.type == "door")
+				continue;
+
+			Vector3 dist = edge.ConnectedNode (currentNode).GetPosition () - currentNode.GetPosition ();
+			dist.Normalize ();
+			if(Mathf.Abs(dist.y / dist.magnitude) < 0.2f)
+			{
+				selectedEdge = edge;
+				break;
+			}
+		}
+
+		return selectedEdge;
+	}
+
+	bool CheckPassInNode()
+	{
+		return true;
+	}
 
     public bool Equal(MovableObjectNode src)
     {
@@ -355,6 +532,16 @@ public class MovableObjectNode {
         //currentEdge = null;
 		UpdateNodeEdge (node, null);
     }
+	public void SetCurrentEdge(MapEdge srcEdge, float srcEdgePosRate, EdgeDirection srcDirection)
+	{
+		pathInfo = null;
+		state = MovableState.STOP;
+
+		edgePosRate = srcEdgePosRate;
+		edgeDirection = srcDirection;
+		UpdateNodeEdge (null, srcEdge);
+	}
+
 	public UnitDirection GetDirection()
 	{
 		return unitDirection;
@@ -372,7 +559,7 @@ public class MovableObjectNode {
         {
             pathInfo = new PathResult(
 				(MapEdge[])src.pathInfo.pathEdges.Clone(),
-				(int[])src.pathInfo.edgeDirections.Clone(),
+				(EdgeDirection[])src.pathInfo.edgeDirections.Clone(),
 				src.pathInfo.totalCost);
         }
         else
@@ -389,7 +576,7 @@ public class MovableObjectNode {
     {
         return currentEdge;
     }
-    public int GetEdgeDirection()
+	public EdgeDirection GetEdgeDirection()
     {
         return edgeDirection;
     }
@@ -407,6 +594,8 @@ public class MovableObjectNode {
     public void StopMoving()
     {
         pathInfo = null;
+		pathMoveBy = null;
+
         state = MovableState.STOP;
         if (currentNode != null && currentNode.isTemporary)
         {
@@ -534,6 +723,7 @@ public class MovableObjectNode {
 
     public void MoveToMovableNode(MovableObjectNode targetNode)
     {
+		StopMoving ();
         if (targetNode.currentNode != null)
         {
             MoveToNode(targetNode.currentNode);
@@ -569,9 +759,9 @@ public class MovableObjectNode {
                 if (lastEdge.node1 == targetNode.currentEdge.node1) // current
                 {
                     searchedPath[searchedPath.Length - 1] = targetNode.currentEdge;
-					result.edgeDirections [searchedPath.Length - 1] = 1;
+					result.edgeDirections [searchedPath.Length - 1] = EdgeDirection.FORWARD;
 
-                    if (targetNode.edgeDirection == 1)
+					if (targetNode.edgeDirection == EdgeDirection.FORWARD)
 						rateGoal = targetNode.edgePosRate;
                     else
 						rateGoal = 1 - targetNode.edgePosRate;
@@ -579,9 +769,9 @@ public class MovableObjectNode {
                 else if (lastEdge.node1 == targetNode.currentEdge.node2)
                 {
                     searchedPath[searchedPath.Length - 1] = targetNode.currentEdge;
-					result.edgeDirections [searchedPath.Length - 1] = 0;
+					result.edgeDirections [searchedPath.Length - 1] = EdgeDirection.BACKWARD;
 
-                    if (targetNode.edgeDirection == 1)
+					if (targetNode.edgeDirection == EdgeDirection.FORWARD)
 						rateGoal = 1 - targetNode.edgePosRate;
                     else
 						rateGoal = targetNode.edgePosRate;
@@ -605,27 +795,27 @@ public class MovableObjectNode {
             {
                 float aPos, bPos;
 
-				PathResult pathResult = new PathResult(new MapEdge[1], new int[1], currentEdge.cost); // cost??
+				PathResult pathResult = new PathResult(new MapEdge[1], new EdgeDirection[1], currentEdge.cost); // cost??
 
-                if (edgeDirection == 1)
+				if (edgeDirection == EdgeDirection.FORWARD)
                     aPos = edgePosRate;
                 else
                     aPos = 1 - edgePosRate;
 
-                if (targetNode.edgeDirection == 1)
+				if (targetNode.edgeDirection == EdgeDirection.FORWARD)
                     bPos = targetNode.edgePosRate;
                 else
                     bPos = 1 - targetNode.edgePosRate;
 
                 if (aPos > bPos)
                 {
-                    edgeDirection = 0;
+					edgeDirection = EdgeDirection.BACKWARD;
                     edgePosRate = 1 - aPos;
                     edgePosRateGoal = 1 - bPos;
                 }
 				else
                 {
-                    edgeDirection = 1;
+					edgeDirection = EdgeDirection.FORWARD;
                     edgePosRate = aPos;
                     edgePosRateGoal = bPos;
                 }
@@ -671,9 +861,9 @@ public class MovableObjectNode {
                     if (pathInfo.pathEdges[0] == tempEdge1)
                     {
                         pathInfo.pathEdges[0] = old.currentEdge;
-						pathInfo.edgeDirections [0] = 0;
-                        edgeDirection = 0;
-                        if (old.edgeDirection == 1)
+						pathInfo.edgeDirections [0] = EdgeDirection.BACKWARD;
+						edgeDirection = EdgeDirection.BACKWARD;
+						if (old.edgeDirection == EdgeDirection.FORWARD)
                             edgePosRate = 1 - old.edgePosRate;
                         else
                             edgePosRate = old.edgePosRate;
@@ -683,9 +873,9 @@ public class MovableObjectNode {
                     else if (pathInfo.pathEdges[0] == tempEdge2)
                     {
                         pathInfo.pathEdges[0] = old.currentEdge;
-						pathInfo.edgeDirections [0] = 1;
-                        edgeDirection = 1;
-                        if (old.edgeDirection == 1)
+						pathInfo.edgeDirections [0] = EdgeDirection.FORWARD;
+						edgeDirection = EdgeDirection.FORWARD;
+						if (old.edgeDirection == EdgeDirection.FORWARD)
                             edgePosRate = old.edgePosRate;
                         else
                             edgePosRate = 1 - old.edgePosRate;
@@ -705,6 +895,7 @@ public class MovableObjectNode {
     }
     public void MoveToNode(MapNode targetNode, float targetZ)
     {
+		StopMoving ();
         if (currentNode != null)
         {
             //MapEdge[] searchedPath = GraphAstar.SearchPath(currentNode, targetNode);
@@ -722,45 +913,45 @@ public class MovableObjectNode {
 			PathResult result2 = GraphAstar.SearchPath (currentEdge.node2, targetNode);
 
 			float result1cost = 0;
-			if (edgeDirection == 1) {
+			if (edgeDirection == EdgeDirection.FORWARD) {
 				result1cost = currentEdge.cost * edgePosRate + result1.totalCost;
 			} else {
 				result1cost = currentEdge.cost * (1 - edgePosRate) + result1.totalCost;
 			}
 
 			float result2cost = 0;
-			if (edgeDirection == 1) {
+			if (edgeDirection == EdgeDirection.FORWARD) {
 				result2cost = currentEdge.cost * (1 - edgePosRate) + result2.totalCost;
 			} else {
 				result2cost = currentEdge.cost * edgePosRate + result2.totalCost;
 			}
 
 			if (result1cost < result2cost) {
-				List<int> edgeDirections = new List<int> (result1.edgeDirections);
+				List<EdgeDirection> edgeDirections = new List<EdgeDirection> (result1.edgeDirections);
 				List<MapEdge> pathEdges = new List<MapEdge> (result1.pathEdges);
-				edgeDirections.Insert (0, 0);
+				edgeDirections.Insert (0, EdgeDirection.BACKWARD);
 				pathEdges.Insert (0, currentEdge);
 
 				result1.pathEdges = pathEdges.ToArray ();
 				result1.edgeDirections = edgeDirections.ToArray ();
 
-				if (edgeDirection == 1) {
-					edgeDirection = 0;
+				if (edgeDirection == EdgeDirection.FORWARD) {
+					edgeDirection = EdgeDirection.BACKWARD;
 					edgePosRate = 1 - edgePosRate; 
 				}
 
 				pathInfo = result1;
 			} else {
-				List<int> edgeDirections = new List<int> (result2.edgeDirections);
+				List<EdgeDirection> edgeDirections = new List<EdgeDirection> (result2.edgeDirections);
 				List<MapEdge> pathEdges = new List<MapEdge> (result2.pathEdges);
-				edgeDirections.Insert (0, 1);
+				edgeDirections.Insert (0, EdgeDirection.FORWARD);
 				pathEdges.Insert (0, currentEdge);
 
 				result1.pathEdges = pathEdges.ToArray ();
 				result1.edgeDirections = edgeDirections.ToArray ();
 
-				if (edgeDirection == 0) {
-					edgeDirection = 1;
+				if (edgeDirection == EdgeDirection.BACKWARD) {
+					edgeDirection = EdgeDirection.FORWARD;
 					edgePosRate = 1 - edgePosRate; 
 				}
 
@@ -824,6 +1015,23 @@ public class MovableObjectNode {
         }
     }
 
+	public void MoveBy(UnitDirection direction, float value)
+	{
+		StopMoving ();
+		
+		pathMoveBy = new PathMoveBy ();
+		pathMoveBy.direction = direction;
+		pathMoveBy.value = value;
+
+		unitDirection = direction;
+		state = MovableState.MOVE;
+
+		moveDistance = 0;
+
+		if (currentNode != null && MoveBy_GetNextEdge () == null)
+			StopMoving ();
+	}
+
     public bool EqualPosition(MapNode node)
     {
         if (GetCurrentNode() != null && GetCurrentNode().GetId() == node.GetId())
@@ -855,7 +1063,7 @@ public class MovableObjectNode {
 		else if (currentEdge != null)
 		{
 			PassageObjectModel p1 = currentEdge.node1.GetAttachedPassage();
-			PassageObjectModel p2 = currentEdge.node1.GetAttachedPassage();
+			PassageObjectModel p2 = currentEdge.node2.GetAttachedPassage();
 
 			if (p1 != null && p2 != null)
 			{
@@ -887,6 +1095,12 @@ public class MovableObjectNode {
 	private MapNode elevatorNextDest = null;
 	private MovableObjectNode elevatorNextDest2 = null;
 	private bool isEnteredElevator = false;
+
+
+	public bool InElevator()
+	{
+		return isEnteredElevator;
+	}
 
 	public void EnterElevator(MapNode elevatorNode, MapNode nextNode)
 	{

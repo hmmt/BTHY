@@ -127,7 +127,7 @@ public class CreatureTypeInfo
 
     public int stackLevel;
 
-	public CreatureAttackType attackType;
+	public CreatureAttackType attackType = CreatureAttackType.PHYSICS;
 
 	public float attackProb;
 	public int physicsDmg;

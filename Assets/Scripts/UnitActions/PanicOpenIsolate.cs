@@ -3,55 +3,31 @@ using System.Collections.Generic;
 
 public class PanicOpenIsolate : PanicAction {
 
-    private AgentModel targetAgent;
+	private AgentModel actor;
 
     public PanicOpenIsolate(AgentModel target)
     {
-        targetAgent = target;
+        actor = target;
     }
+
+	public void Init()
+	{
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+		agentView.puppetAnim.SetBool ("Panic", true);
+		agentView.puppetAnim.SetInteger ("PanicType", 2);
+	}
 
     public void Execute()
     {
-		/*
-        if (targetAgent.GetState() == AgentCmdState.IDLE)
-        {
-            if (targetAgent.GetMovableNode().IsMoving() == false)
-            {
-                if (targetCreature != null)
-                {
-                    MapNode node = targetCreature.GetEntryNode();
 
-                    if (targetAgent.GetMovableNode().EqualPosition(node))
-                    {
-                        // start
-                        OpenIsolateRoom.Create(targetAgent, targetCreature);
-                    }
-                }
-                else
-                {
-                    if (targetCreature == null)
-                    {
-                        CreatureModel[] creatureList = CreatureManager.instance.GetCrea	tureList();
-                        if (creatureList.Length > 0)
-                        {
-                            targetCreature = creatureList[Random.Range(0, creatureList.Length)];
-                        }
-                    }
-                    targetAgent.MoveToNode(targetCreature.GetEntryNode().GetId());
-                }
-            }
-        }
-        */
-
-		if (targetAgent.GetMovableNode ().IsMoving () == false)
+		if (actor.GetMovableNode ().IsMoving () == false)
 		{
-			if (targetAgent.GetCurrentNode () != null && targetAgent.GetCurrentNode ().connectedCreature != null &&
-                targetAgent.GetCurrentNode().connectedCreature.state != CreatureState.ESCAPE)
+			if (actor.GetCurrentNode () != null && actor.GetCurrentNode ().connectedCreature != null &&
+                actor.GetCurrentNode().connectedCreature.state != CreatureState.ESCAPE)
 			{
-				if (targetAgent.GetState () != AgentAIState.OPEN_ISOLATE)
+				if (actor.GetState () != AgentAIState.OPEN_ISOLATE)
 				{
-					Debug.Log ("OPEN...");
-					targetAgent.OpenIsolateRoom (targetAgent.GetCurrentNode ().connectedCreature);
+					actor.OpenIsolateRoom (actor.GetCurrentNode ().connectedCreature);
 
 					// set motion
 				}
@@ -59,24 +35,15 @@ public class PanicOpenIsolate : PanicAction {
 			else
 			{
 				Debug.Log ("Find creature....");
-				MovableObjectNode movable = targetAgent.GetMovableNode ();
+				MovableObjectNode movable = actor.GetMovableNode ();
 
-				MapNode node = movable.GetCurrentNode ();
-				MapEdge edge = movable.GetCurrentEdge ();
-
-				if (node != null)
-				{
-
-				}
-				else if (edge != null)
-				{
-				}
 
 				List<string> creatureEntryList = new List<string> ();
 				List<float> creatureEntryCost = new List<float> ();
 				foreach (CreatureModel creature in CreatureManager.instance.GetCreatureList()) {
                     if (creature.state == CreatureState.ESCAPE)
                         continue;
+					//if(creature.energyPoint < 
 					creatureEntryList.Add (creature.entryNodeId);
 					creatureEntryCost.Add (movable.GetDistance (MapGraph.instance.GetNodeById (creature.entryNodeId), 1000));
 				}
@@ -88,7 +55,7 @@ public class PanicOpenIsolate : PanicAction {
 				}
 
                 if(creatureEntryCost.Count > 0)
-				    targetAgent.MoveToNode (creatureEntryList [maxIndex]);
+				    actor.MoveToNode (creatureEntryList [maxIndex]);
 
 				//targetAgent.MoveToNode
 			}

@@ -384,7 +384,7 @@ public class AgentManager : IObserver {
 */
 			Vector3 dist = node.GetCurrentViewPosition () - agent.GetMovableNode ().GetCurrentViewPosition ();
 			if (node.GetPassage () == agent.GetMovableNode ().GetPassage () &&
-			   dist.sqrMagnitude <= 3) {
+			   dist.sqrMagnitude <= 25) {
 				output.Add(agent);
 			}
 		}

@@ -72,17 +72,16 @@ public class MagicalGirl : CreatureBase {
             }
         }
 
-        if (creature.feeling <= 0)
-        {
-            creature.Escape();
-        }*/
+		*/
 
 		base.OnFixedUpdate (creature);
 
+		/*
 		if (model.energyPoint < 80)
 		{
 			model.Escape ();
 		}
+		*/
     }
 
 	public override void OnReturn ()

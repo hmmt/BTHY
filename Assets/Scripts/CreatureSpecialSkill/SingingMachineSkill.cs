@@ -209,7 +209,7 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
     public void CheckAgentInRange() {
         foreach (AgentModel am in this.sefira.agentList) {
             if (this.targetList.Contains(am)) continue;
-            if (am.movableNode.GetPassage() == this.passageModel) {
+			if (am.GetMovableNode().GetPassage() == this.passageModel) {
                 this.targetList.Add(am);
                 Debug.Log(am.name);
             }
@@ -217,7 +217,7 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         }
         foreach (OfficerModel om in this.sefira.officerList) {
             if (this.targetList.Contains(om)) continue;
-            if (om.movableNode.GetPassage() == this.passageModel) {
+			if (om.GetMovableNode().GetPassage() == this.passageModel) {
                 this.targetList.Add(om);
                 Debug.Log(om.name);
             }

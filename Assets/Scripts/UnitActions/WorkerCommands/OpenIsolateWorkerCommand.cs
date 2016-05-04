@@ -17,6 +17,10 @@ public class OpenIsolateWorkerCommand : WorkerCommand {
 		base.OnInit (agent);
 
 		openIsolateTime = 5;
+		//actor.SetMotionState (AgentMotion.PANIC_ATTACK_MOTION);
+
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+		agentView.SetParameterForSecond ("Attack", true, 0.3f);
 	}
 
 	public override void OnStart(WorkerModel agent)
@@ -30,10 +34,7 @@ public class OpenIsolateWorkerCommand : WorkerCommand {
 		elapsedTime += Time.deltaTime;
 
 		if (elapsedTime > openIsolateTime) {
-			if (targetCreature.IsEscapable ())
-				targetCreature.Escape ();
-			else
-				targetCreature.SubFeeling (50);
+			targetCreature.SubEnergyPoint (10);
 			Finish ();
 		}
 	}

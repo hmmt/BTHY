@@ -295,7 +295,7 @@ public class Sefira
 
     public List<AgentSkillCategory> skillCategory;
 
-    private int maxOfficerCnt = 15;
+    private int maxOfficerCnt = 0;
     private CreatureModel[] creatureAry;
     private bool[] isWorking;
     private List<int> idleList;

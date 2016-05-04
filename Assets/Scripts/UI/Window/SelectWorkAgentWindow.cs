@@ -152,7 +152,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             return;
         }
 
-        WorkEscapedCreature.Create(agent, targetCreature);
+        //WorkEscapedCreature.Create(agent, targetCreature);
+		Debug.LogError("invalid funtion");
         CloseWindow();
     }
 

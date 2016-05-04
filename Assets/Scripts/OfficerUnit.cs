@@ -101,7 +101,7 @@ public class OfficerUnit : MonoBehaviour {
 		return;
 
         MapEdge currentEdge = model.GetCurrentEdge();
-        int edgeDirection = model.GetEdgeDirection();
+		EdgeDirection edgeDirection = model.GetEdgeDirection();
 
         if (currentEdge != null) {
             MapNode node1 = currentEdge.node1;
@@ -110,7 +110,7 @@ public class OfficerUnit : MonoBehaviour {
             Vector2 pos1 = node1.GetPosition();
             Vector2 pos2 = node2.GetPosition();
 
-            if (edgeDirection == 1)
+			if (edgeDirection == EdgeDirection.FORWARD)
             {
 
                 if (pos2.x - pos1.x > 0 && puppetScale.x < 0)

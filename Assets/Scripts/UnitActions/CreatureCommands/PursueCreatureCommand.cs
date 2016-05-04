@@ -21,18 +21,23 @@ public class PursueCreatureCommand : CreatureCommand
 		base.Execute(creature);
 
 		if (actor.state != CreatureState.ESCAPE && actor.state != CreatureState.ESCAPE_PURSUE)
+		{
 			Finish ();
+			return;
+		}
 
+		CheckPursueTarget ();
+
+		if (CheckRange ())
+			return;
+		
 		MovableObjectNode movable = creature.GetMovableNode();
 
 		if (!movable.IsMoving())
 		{
-			//Debug.Log ("asdfsdag");
 			movable.MoveToMovableNode(targetWorker.GetMovableNode());
 		}
 		this.isMoving = movable.IsMoving ();
-
-		CheckRange ();
 	}
 	public override void OnDestroy(CreatureModel creature)
 	{
@@ -45,7 +50,36 @@ public class PursueCreatureCommand : CreatureCommand
 			actor.state = CreatureState.ESCAPE;
 	}
 
-	void CheckRange()
+	void CheckPursueTarget()
+	{
+		AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(actor.GetMovableNode());
+
+		if (detectedAgents.Length > 0) {
+			//PursueWorker (detectedAgents [0]);
+
+			AgentModel nearest = null;
+			float nearestDist = 100000;
+			foreach (AgentModel agent in detectedAgents)
+			{
+				Vector3 v = agent.GetCurrentViewPosition () - actor.GetCurrentViewPosition ();
+
+				float m = v.magnitude;
+
+				if (nearestDist > m) {
+					nearestDist = m;
+					nearest = agent;
+				}
+			}
+
+			if (nearest != null && nearest != targetWorker)
+			{
+				Debug.Log ("Change!");
+				actor.PursueWorker (nearest);
+			}
+		}
+	}
+
+	bool CheckRange()
 	{
 		//actor.GetMovableNode ().GetPassage ();
 
@@ -54,18 +88,11 @@ public class PursueCreatureCommand : CreatureCommand
 		//dist.sqrMagnitude
 		if(actor.GetMovableNode().GetPassage() != null &&
 			actor.GetMovableNode().GetPassage() == targetWorker.GetMovableNode().GetPassage() &&
-			dist.sqrMagnitude <= 2)
-
-
-			//return;
-			//if (targetWorker.GetMovableNode().GetDistance(actor.GetMovableNode(), 500) < 1)
+			dist.sqrMagnitude <= 5)
 		{
-			//detectedAgents [0].TakePhysicalDamage (1);
-			//detectedAgents [0].TakePhysicalDamage (1);
-			//actor.GetMovableNode().StopMoving();
-			//Debug.Log ("Attack?");
 			MovableObjectNode movable = actor.GetMovableNode();
 			movable.StopMoving();
+			isMoving = false;
 
 			Vector3 directionAdder;
 			if (actor.GetDirection () == UnitDirection.RIGHT)
@@ -77,11 +104,9 @@ public class PursueCreatureCommand : CreatureCommand
 				actor.SendAnimMessage ("Attack");
 				HitObjectManager.AddHitbox (actor.GetCurrentViewPosition ()+directionAdder, 0.5f, 4.0f, 3);
 				actor.ResetAttackDelay ();
-
-				isMoving = false;
-
-				// StopMoving
 			}
+
+			return true;
 		}
 		else
 		{
@@ -93,5 +118,6 @@ public class PursueCreatureCommand : CreatureCommand
 			
 		}
 */
+		return false;
 	}
 }

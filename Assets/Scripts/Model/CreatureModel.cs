@@ -27,11 +27,10 @@ public class Vector2Serializer
 
 // 
 [System.Serializable]
-public class CreatureModel : ObjectModelBase, IObserver
+public class CreatureModel : UnitModel, IObserver
 {
     public int instanceId;
 
-	MovableObjectNode movableNode;
 	CreatureCommandQueue commandQueue;
 
 	public string escapeType = "attackWorker";
@@ -74,8 +73,6 @@ public class CreatureModel : ObjectModelBase, IObserver
 
     public CreatureState state = CreatureState.WAIT;
 	public UseSkill currentSkill = null;
-
-    public float escapeAttackWait = 0;
 
     public CreatureBase script;
 
@@ -144,6 +141,8 @@ public class CreatureModel : ObjectModelBase, IObserver
     {
         movableNode = new MovableObjectNode(this);
 		commandQueue = new CreatureCommandQueue (this);
+
+		movableNode.AddUnpassableType (PassType.SHIELDBEARER);
 
         this.instanceId = instanceId;
         narrationList = new List<string>();
@@ -326,10 +325,6 @@ public class CreatureModel : ObjectModelBase, IObserver
 			ProcessWorkingBuf ();
 		}
 		 
-        if (escapeAttackWait > 0)
-        {
-            escapeAttackWait -= Time.deltaTime;
-        }
         if (script != null)
         {
             script.OnFixedUpdate(this);
@@ -368,8 +363,6 @@ public class CreatureModel : ObjectModelBase, IObserver
 
     public void OnEscapeUpdate()
     {
-        if (escapeAttackWait > 0)
-            return;
         //if (movableNode.IsMoving() == false)
 		if (escapeType == "attackWorker")
 		{
@@ -380,25 +373,51 @@ public class CreatureModel : ObjectModelBase, IObserver
 			}
 			else
 			{
+				//return;
+
 				AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
 
 				if (detectedAgents.Length > 0) {
-					PursueWorker (detectedAgents [0]);
+					//PursueWorker (detectedAgents [0]);
+
+					AgentModel nearest = null;
+					float nearestDist = 100000;
+					foreach (AgentModel agent in detectedAgents)
+					{
+						if (agent.GetMovableNode ().GetPassage () == null)
+							continue;
+						
+						Vector3 v = agent.GetCurrentViewPosition () - GetCurrentViewPosition ();
+
+						float m = v.magnitude;
+
+						if (nearestDist > m) {
+							nearestDist = m;
+							nearest = agent;
+						}
+					}
+
+					if(nearest != null)
+						PursueWorker (nearest);
 				}
 			}
 		}
 
 		PassageObjectModel currentPassage = movableNode.GetPassage ();
-		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+		if(currentPassage != null)
 		{
-			if (agent.GetMovableNode ().GetPassage () == currentPassage)
+			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 			{
-				if (agent.GetState () != AgentAIState.ENCOUNTER_CREATURE)
+				if (agent.GetMovableNode ().GetPassage () == currentPassage)
 				{
-					agent.EncounterCreature ();
+					if (agent.GetState () != AgentAIState.ENCOUNTER_CREATURE)
+					{
+						agent.EncounterCreature ();
+					}
 				}
 			}
 		}
+		
 		/*
 		if(commandQueue.GetCurrentCmd() == null)
         {
@@ -522,15 +541,15 @@ public class CreatureModel : ObjectModelBase, IObserver
         Notice.instance.Send("UpdateCreatureState_" + instanceId);
     }
 
+	public void SubEnergyPoint(float value)
+	{
+		energyPoint = Mathf.Max(energyPoint - value, 0);
+		Notice.instance.Send("UpdateCreatureState_" + instanceId);
+	}
+
     public void DangerFeeling()
     {
         Debug.Log("세피라에 직원 없다" + instanceId);
-    }
-
-    public void StopEscapeAttack()
-    {
-        state = CreatureState.ESCAPE;
-        escapeAttackWait = 2;
     }
 
     public void StartEscapeWork()
@@ -549,15 +568,15 @@ public class CreatureModel : ObjectModelBase, IObserver
 
 	public int GetPhysicsDmg()
 	{
-		return 1;
+		return metaInfo.physicsDmg;
 	}
 	public int GetMentalDmg()
 	{
-		return 1;
+		return metaInfo.mentalDmg;
 	}
 	public CreatureAttackType GetAttackType()
 	{
-		return CreatureAttackType.PHYSICS;
+		return metaInfo.attackType;
 	}
 
 	public void ResetAttackDelay()
@@ -569,7 +588,7 @@ public class CreatureModel : ObjectModelBase, IObserver
 	{
 		if (hp > 0) {
 			hp -= damage;
-           			Debug.Log ("Creature  take suppress damage.. current HP : " + hp);
+           			//Debug.Log ("Creature  take suppress damage.. current HP : " + hp);
 
 		}
 		if ((state == CreatureState.ESCAPE || state == CreatureState.ESCAPE_PURSUE)
@@ -609,13 +628,11 @@ public class CreatureModel : ObjectModelBase, IObserver
      */
     public void Escape()
     {
-		return;
-
-
         if (state == CreatureState.WAIT)
         {
 			Debug.Log ("CreatureModel >>> Try Escape ");
-			hp = 5;
+			//hp = 5;
+			hp = 500;
             state = CreatureState.ESCAPE;
         }
     }
@@ -676,7 +693,7 @@ public class CreatureModel : ObjectModelBase, IObserver
 
         else if ( workCount < 7 && workCount >= 5 && genEnergyCount <40 &&genEnergyCount >= 20 && observeCondition == 1)
         {
-            Debug.Log("관찰 컨디션 2단계로 갱신");
+            Debug.Log("관찰 좁퉜계로 갱신");
             observeCondition = 2;
         }
         else if (workCount <10 && workCount >= 7 && genEnergyCount <100 &&genEnergyCount >= 40 && observeCondition == 2)
@@ -745,6 +762,7 @@ public class CreatureModel : ObjectModelBase, IObserver
 
 	public void PursueWorker(WorkerModel target)
 	{
+		Debug.Log ("Start pursue .. " + state);
 		state = CreatureState.ESCAPE_PURSUE;
 		commandQueue.SetAgentCommand (CreatureCommand.MakePursue (target));
 	}
@@ -796,6 +814,13 @@ public class CreatureModel : ObjectModelBase, IObserver
 		commandQueue.AddFirst(CreatureCommand.MakeOpenDoor(door));
 	}
 
+	public override void OnStopMovableByShield (AgentModel shielder)
+	{
+		//shielder
+
+
+	}
+
     /*
     public void OnClicked()
     {
@@ -807,6 +832,12 @@ public class CreatureModel : ObjectModelBase, IObserver
         }
     }
     */
+
+
+	public float GetEnergyMax()
+	{
+		return 200;
+	}
 
     public float GetFeelingPercent() {
         float max = this.metaInfo.feelingMax;

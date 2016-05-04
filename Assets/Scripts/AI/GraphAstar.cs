@@ -6,12 +6,12 @@ using System.Collections.Generic;
 public class PathResult
 {
     public MapEdge[] pathEdges;
-    public int[] edgeDirections;
+	public EdgeDirection[] edgeDirections;
     public float[] zValues;
 
 	public float totalCost;
 
-	public PathResult(MapEdge[] pathEdges, int[] edgeDirections, float totalCost)
+	public PathResult(MapEdge[] pathEdges, EdgeDirection[] edgeDirections, float totalCost)
     {
         this.pathEdges = pathEdges;
         this.edgeDirections = edgeDirections;
@@ -109,16 +109,16 @@ public class GraphAstar {
                     outputEdges.Add(edge);
 					totalCost += edge.cost;
                     if (edge.node1 == pathNode)
-                        outputDirs.Add(1);
+						outputDirs.Add(EdgeDirection.FORWARD);
                     else
-                        outputDirs.Add(0);
+						outputDirs.Add(EdgeDirection.BACKWARD);
 				}
 
                 outputEdges.Reverse();
                 outputDirs.Reverse();
                 return new PathResult(
                     (MapEdge[])outputEdges.ToArray(typeof(MapEdge)),
-                    (int[])outputDirs.ToArray(typeof(int)),
+					(EdgeDirection[])outputDirs.ToArray(typeof(EdgeDirection)),
 					totalCost
                     );
 			}
@@ -160,7 +160,7 @@ public class GraphAstar {
 			}
 		}
 		
-		return new PathResult(new MapEdge[]{}, new int[]{}, 0);
+		return new PathResult(new MapEdge[]{}, new EdgeDirection[]{}, 0);
 	}
 
     /*

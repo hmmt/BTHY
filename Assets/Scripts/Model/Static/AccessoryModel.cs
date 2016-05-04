@@ -15,6 +15,8 @@ public enum AccessoryPos {
     LEFTLEG,
     RIGHTLEG,
 
+	SHIELD,
+
     NONE//dummy please not use
 }
 
@@ -33,7 +35,7 @@ public class AccessoryUnit {
         Transform parent = GetParent(pos, animatorScript);
 
         if (item[(int)pos] != null) {
-            item[(int)pos].ChangeSprite(info);
+			item[(int)pos].ChangeSprite(info.imgsrc);
             return;
         }
 
@@ -41,6 +43,36 @@ public class AccessoryUnit {
         item[(int)pos] = newAcc.GetComponent<AccessoryModel>();
         item[(int)pos].Init(info, parent, pos);
     }
+
+	public void SetAccessory(string imgPos, string imgsrc, float scale)
+	{
+		if (!isInitialized) {
+			Debug.Log("init needed to accessoryUnit");
+			return;
+		}
+
+		AccessoryPos pos = GetPos(imgPos);
+		Transform parent = GetParent(pos, animatorScript);
+
+		if (item[(int)pos] != null) {
+			item[(int)pos].ChangeSprite(imgsrc);
+			return;
+		}
+
+		GameObject newAcc = Prefab.LoadPrefab("AccessoryItem");
+		item[(int)pos] = newAcc.GetComponent<AccessoryModel>();
+		item[(int)pos].Init(imgsrc, parent, pos, scale);
+	}
+
+	public void RemoveAccessory(string imgPos)
+	{
+		AccessoryPos pos = GetPos(imgPos);
+
+		if (item[(int)pos] != null) {
+			item [(int)pos] = null;
+			return;
+		}
+	}
 
     public void Init(AgentAnim anim) {
         if (isInitialized) return;
@@ -63,6 +95,7 @@ public class AccessoryUnit {
             case "BODY": return AccessoryPos.BODY;
             case "LEFTLEG": return AccessoryPos.LEFTLEG;
             case "RIGHTLEG": return AccessoryPos.RIGHTLEG;
+			case "SHIELD": return AccessoryPos.SHIELD;
             default: return AccessoryPos.NONE;
         }
     }
@@ -84,6 +117,8 @@ public class AccessoryUnit {
             case AccessoryPos.RIGHTLEG:
                 return anim.F_up_leg.transform;
             default: return null;*/
+		case AccessoryPos.SHIELD:
+			return anim.body.transform.parent.transform;
             case AccessoryPos.HEAD:
             case AccessoryPos.HAIR:
             case AccessoryPos.EYE:
@@ -103,13 +138,12 @@ public class AccessoryModel :MonoBehaviour{
     public Transform parent;
     private Sprite image;
     public SpriteRenderer renderer;
-    public TraitTypeInfo trait;
     bool isInititialized = false;
     Vector3 positionVector;
 
     public void Init(TraitTypeInfo trait, Transform parentPos, AccessoryPos pos) {
         if (isInititialized) {
-            ChangeSprite(trait);
+			ChangeSprite(trait.imgsrc);
             return;
         }
         isInititialized = true;
@@ -123,8 +157,25 @@ public class AccessoryModel :MonoBehaviour{
         this.renderer.sprite = image;
     }
 
-    public void ChangeSprite(TraitTypeInfo trait) {
-        this.image = ResourceCache.instance.GetSprite("Sprites/Accessory/" + trait.imgsrc);
+	public void Init(string imgsrc, Transform parentPos, AccessoryPos pos, float scale)
+	{
+		if (isInititialized) {
+			ChangeSprite(imgsrc);
+			return;
+		}
+		isInititialized = true;
+		SetPositionVector(pos);
+		this.parent = parentPos;
+		this.image = ResourceCache.instance.GetSprite("Sprites/Accessory/"+imgsrc);
+		this.gameObject.transform.SetParent(parent);
+		this.transform.localRotation = Quaternion.identity;
+		this.transform.localScale = Vector3.one * scale;
+		this.transform.localPosition = positionVector;
+		this.renderer.sprite = image;
+	}
+
+	public void ChangeSprite(string imgsrc) {
+        this.image = ResourceCache.instance.GetSprite("Sprites/Accessory/" + imgsrc);
         this.renderer.sprite = image;
     }
 
@@ -147,6 +198,9 @@ public class AccessoryModel :MonoBehaviour{
             case AccessoryPos.RIGHTLEG:
                 this.positionVector = new Vector3(0f,0f, -5f);
                 return;
+			case AccessoryPos.SHIELD:
+				this.positionVector = new Vector3(0, -0.3f, -50f);
+				return;
         }
     }
 }

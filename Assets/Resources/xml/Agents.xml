@@ -3,8 +3,8 @@
 	<agent
 		id="1"
 		name="Default"
-		hp="7"
-		mental="10000"
+		hp="10007"
+		mental="10"
 		movement="5"
 		work="1"
 		level="1"

@@ -12,11 +12,12 @@ public class MatchGirl  : CreatureBase {
 	public override void OnFixedUpdate (CreatureModel creature)
 	{
 		base.OnFixedUpdate (creature);
-
+		/*
 		if (model.energyPoint < 80)
 		{
 			model.Escape ();
 		}
+		*/
 	}
 
 	public override void OnReturn ()

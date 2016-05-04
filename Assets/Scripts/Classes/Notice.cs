@@ -40,7 +40,6 @@ public class NoticeName
 
     public static string AddCreature = "AddCreature";
     public static string UpdateCreatureRes = "UpdateCreatureRes"; // 환상체의 이미지 변경. 지금은 안 씀.
-    public static string RemoveCreature = "RemoveCreature";
 
     public static string LoadMapGraphComplete = "LoadMapGraphComplete";
 

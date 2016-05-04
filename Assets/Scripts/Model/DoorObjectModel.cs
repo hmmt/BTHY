@@ -18,6 +18,9 @@ public class DoorObjectModel : ObjectModelBase
 
 	private float autoCloseCount;
 
+	private float tryOpenCounter = 0;
+	private float openProgress = 0;
+
 	public DoorObjectModel(string id, string type, PassageObjectModel passage, MapNode node)
 	{
 		this.id = id;
@@ -41,6 +44,12 @@ public class DoorObjectModel : ObjectModelBase
 	{
 		connectedDoor = door;
 		door.connectedDoor = this;
+	}
+
+
+	public void TryOpen()
+	{
+		tryOpenCounter = 0.3f;
 	}
 
 	public void Open()
@@ -83,6 +92,24 @@ public class DoorObjectModel : ObjectModelBase
 			{
 				Close();
 			}
+
+			tryOpenCounter = 0;
+			openProgress = 0;
+		}
+		else
+		{
+			if (tryOpenCounter > 0)
+			{
+				tryOpenCounter -= Time.deltaTime;
+				openProgress += Time.deltaTime;
+			}
+			else 
+			{
+				openProgress = 0;
+			}
+
+			if (openProgress > 0.5f)
+				Open ();
 		}
 	}
 }

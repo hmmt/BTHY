@@ -3,17 +3,22 @@ using System.Collections;
 
 public class PanicRoaming : PanicAction {
 
-    private AgentModel targetAgent;
+	private AgentModel actor;
 
 	private float horrorDelay = 5;
 
 	private float horrorElapsedTime;
 
-	private float waitTimer = 0;
-
     public PanicRoaming(AgentModel target)
 	{
-		targetAgent = target;
+		actor = target;
+	}
+
+	public void Init()
+	{
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+		agentView.puppetAnim.SetBool ("Panic", true);
+		agentView.puppetAnim.SetInteger ("PanicType", 3);
 	}
 
 	public void Execute()
@@ -28,12 +33,9 @@ public class PanicRoaming : PanicAction {
 			SpreadHorror();
 		}
 
-		if (waitTimer <= 0) {
-			targetAgent.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (targetAgent.currentSefira));
-			waitTimer = 1.5f + Random.value;
+		if (actor.GetMovableNode().IsMoving() == false && actor.GetMovableNode().InElevator() == false) {
+			actor.MoveToNode (MapGraph.instance.GetRoamingNodeByRandom (actor.currentSefira));
 		}
-
-		waitTimer -= Time.deltaTime;
 	}
 
 	private void SpreadHorror()
@@ -41,8 +43,8 @@ public class PanicRoaming : PanicAction {
 		Debug.Log ("SPREAD....");
 		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 		{
-			if (agent.GetMovableNode ().GetPassage () == targetAgent.GetMovableNode ().GetPassage ()) {
-				if (agent == targetAgent)
+			if (agent.GetMovableNode ().GetPassage () == actor.GetMovableNode ().GetPassage ()) {
+				if (agent == actor)
 					break;
 
 				agent.TakeMentalDamage (5);
@@ -50,7 +52,7 @@ public class PanicRoaming : PanicAction {
 		}
 		foreach(OfficerModel officer in OfficeManager.instance.GetOfficerList())
 		{
-			if (officer.GetMovableNode ().GetPassage () == targetAgent.GetMovableNode ().GetPassage ()) {
+			if (officer.GetMovableNode ().GetPassage () == actor.GetMovableNode ().GetPassage ()) {
 				officer.TakeMentalDamage (5);
 			}
 		}

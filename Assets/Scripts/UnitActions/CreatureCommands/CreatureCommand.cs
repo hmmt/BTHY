@@ -127,6 +127,8 @@ public class OpenDoorCreatureCommand : CreatureCommand
 	{
 		base.Execute(agent);
 
+		door.TryOpen ();
+		/*
 		elapsedTime += Time.deltaTime;
 
 		if (elapsedTime >= 0.5f)
@@ -134,6 +136,10 @@ public class OpenDoorCreatureCommand : CreatureCommand
 			door.Open();
 			Finish();
 		}
+		*/
+
+		if (door.IsClosed () != false)
+			Finish ();
 	}
 	public override void OnStop(CreatureModel agent)
 	{
@@ -242,6 +248,7 @@ public class CreatureCommandQueue
 	{
 		foreach (CreatureCommand cmd in queue)
 		{
+			cmd.isFinished = true;
 			cmd.OnStop(creature);
 			cmd.OnDestroy (creature);
 		}
@@ -250,11 +257,7 @@ public class CreatureCommandQueue
 
 	public void SetAgentCommand(CreatureCommand cmd)
 	{
-		foreach (CreatureCommand oldCmd in queue)
-		{
-			oldCmd.OnStop(creature);
-		}
-		queue.Clear();
+		Clear ();
 		queue.AddFirst(cmd);
 		cmd.OnInit (creature, this);
 		cmd.OnStart(creature);

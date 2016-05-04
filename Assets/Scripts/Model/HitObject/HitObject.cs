@@ -43,7 +43,7 @@ public class HitObject : MonoBehaviour {
 				//Debug.Log ("Hit");
 
 				agent.TakePhysicalDamage (1);
-				agent.Stun (1.0f);
+				//agent.Stun (1.0f);
 			}
 		}
 

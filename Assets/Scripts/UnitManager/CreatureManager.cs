@@ -173,6 +173,7 @@ public class CreatureManager : IObserver{
 		PassageObjectModel passage = null;
 
 		passage = new PassageObjectModel(nodeId+"@creature", entryNode.GetAreaName(), "Map/Passage/PassageEmpty");
+		passage.SetToIsolate ();
 		passage.position = new Vector3(x, y, 0);
 		int doorCount = 1;
 
@@ -235,7 +236,7 @@ public class CreatureManager : IObserver{
 
 				if(innerNode != null)
 				{
-					MapEdge doorEdge = new MapEdge(outterNode, innerNode, "door", 0);
+					MapEdge doorEdge = new MapEdge(outterNode, innerNode, "door", 0.01f);
 
 					outterDoor.Connect (innerNode.GetDoor ());
 
@@ -259,7 +260,7 @@ public class CreatureManager : IObserver{
 
 				if(outterNode != null)
 				{
-					MapEdge doorEdge = new MapEdge(innerNode, outterNode, "door", 0);
+					MapEdge doorEdge = new MapEdge(innerNode, outterNode, "door", 0.01f);
 
 					innerDoor.Connect (outterNode.GetDoor ());
 

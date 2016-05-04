@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
         }
         
         
+
 		stageUI.CancelSefiraAgent(a);
 		a.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
 		a.SetCurrentSefira("1");
@@ -109,18 +110,8 @@ public class GameManager : MonoBehaviour
 			AgentManager.instance.activateAgent(a, "1");
 
 		a.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-5"));
-		//a.Panic ();
-		/*
-		SuppressAction sa = new SuppressAction (a);
-		sa.weapon = SuppressAction.Weapon.GUN;
 
-		foreach (CreatureModel creature in CreatureManager.instance.GetCreatureList()) {
-			if (creature.metaInfo.id == 100005) {
-				a.SuppressCreature (creature, sa);
-				break;
-			}
-		}
-		*/
+		//a.weapon = AgentWeapon.SHIELD;
 
 		// temp
 		AgentModel b = AgentManager.instance.AddAgentModel();
@@ -133,6 +124,8 @@ public class GameManager : MonoBehaviour
 
 		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
 
+		//b.weapon = AgentWeapon.SHIELD;
+
 		b = AgentManager.instance.AddAgentModel();
 		stageUI.CancelSefiraAgent(b);
 		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
@@ -141,6 +134,11 @@ public class GameManager : MonoBehaviour
 			AgentManager.instance.activateAgent(b, "1");
 
 		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
+
+
+		//b.weapon = AgentWeapon.SHIELD;
+
+
 		/*
 		b.Panic ();
 

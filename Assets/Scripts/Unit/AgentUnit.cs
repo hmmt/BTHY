@@ -363,12 +363,13 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
 		if(AnimatorUtil.HasParameter(puppetAnim, "Move"))
 		{
-	        if (oldPos != transform.localPosition.x)
+	        //if (oldPos != transform.localPosition.x)
+			if(model.GetMovableNode().IsMoving())
 	        {
 	            //agentAnimator.SetBool("AgentMove", true);
 	           // faceSprite.GetComponent<Animator>().SetBool("Move", true);
 	           // hairSprite.GetComponent<Animator>().SetBool("Move", true);
-
+				//Debug.Log("MOVE!!!!!!!!!!!!");
 	            animTarget.SetSpeed(model.movement / 4.0f);
 	            puppetAnim.SetBool("Move", true);
 	        }
@@ -378,6 +379,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 	         //   faceSprite.GetComponent<Animator>().SetBool("Move", false);
 	          //  hairSprite.GetComponent<Animator>().SetBool("Move", false);
 
+				//Debug.Log("STOP???????????????????????");
 	            animTarget.SetSpeed(1);
 	            puppetAnim.SetBool("Move", false);
 	        }
@@ -580,6 +582,11 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
             this.accessoryUnit.SetAccessoryByTrait(trait);
         }
     }
+
+	public void MakeAccessory(string imgpos, string imgsrc)
+	{
+		accessoryUnit.SetAccessory (imgpos, imgsrc, 1f);
+	}
 
 
 }

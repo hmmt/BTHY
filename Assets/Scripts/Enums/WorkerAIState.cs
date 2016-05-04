@@ -29,22 +29,15 @@ public enum AgentAIState
     OBSERVE, // 
 
 	ENCOUNTER_CREATURE,
-	ENCOUNTER_PANIC_WORKER,
-
-    CAPTURE_BY_CREATURE, // 환상체에게 공격당함
-    CAPTURE_BY_AGENT, // 직원에게 공격당함
-
-    PANIC_SUPPRESS_TARGET, // 제압당하는 중
 
 	CANNOT_CONTROLL,
 
     SUPPRESS_CREATURE,
     SUPPRESS_WORKER, // 제압중
 
+	// isPanic
     OPEN_ISOLATE,
-
     RETURN_CREATURE, // 환상체 돌려보내는 중
-
     PANIC_VIOLENCE, // 무작위 직원 공격
 
     RUN_AWAY, // 도망중

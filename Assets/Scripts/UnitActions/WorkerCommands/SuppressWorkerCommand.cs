@@ -1,44 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum SuppressType
-{
-	PANIC,
-	UNCONTROLLABLE
-}
-
 public class SuppressWorkerCommand : WorkerCommand {
 
+	private float gunRange;
 
 	private static float preDelayGun = 0.5f;
 	private float preDelay;
-	private SuppressType supType;
 
-	SuppressAction suppressAction;
+	private float retreatDuration = 0;
+	private float retreatDelay = 0;
 
-	public SuppressWorkerCommand(WorkerModel targetAgent, SuppressAction suppressAction, SuppressType supType)
+	public SuppressWorkerCommand(WorkerModel targetAgent)
 	{
 		this.targetAgent = targetAgent;
-		this.suppressAction = suppressAction;
-		this.supType = supType;
+
+		ResetGunRange ();
 	}
 
-	public SuppressWorkerCommand(CreatureModel targetCreature, SuppressAction suppressAction)
+	public SuppressWorkerCommand(CreatureModel targetCreature)
 	{
 		this.targetCreature = targetCreature;
-		this.suppressAction = suppressAction;
+
+		ResetGunRange ();
 	}
 
 	public override void OnInit(WorkerModel agent)
 	{
 		base.OnInit (agent);
 
+		AgentModel agentActor = (AgentModel)actor;
+
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (agent.instanceId);
+		/*
 		if(suppressAction.weapon == SuppressAction.Weapon.STICK)
 			agentView.puppetAnim.SetInteger("Suppress", 1);
 		else
 			agentView.puppetAnim.SetInteger("Suppress", 2);
+		*/
+		if(agentActor.weapon  == AgentWeapon.GUN)
+			agentView.puppetAnim.SetInteger("Suppress", 2);
+		else
+			agentView.puppetAnim.SetInteger("Suppress", 1);
 		agentView.puppetAnim.SetInteger ("SuppressAction", 0);
+
+		ResetGunRange ();
 	}
 
 	public override void OnStart(WorkerModel agent)
@@ -55,24 +61,17 @@ public class SuppressWorkerCommand : WorkerCommand {
 				Finish ();
 				return;
 			}
-			if (supType == SuppressType.PANIC) {
-				if (targetAgent.IsPanic () == false) {
+			if (targetAgent is AgentModel) {
+				if (((AgentModel)targetAgent).GetState () != AgentAIState.CANNOT_CONTROLL && targetAgent.IsPanic() == false) {
 					Finish ();
 					return;
 				}
-			} else {
-				if (targetAgent is AgentModel) {
-					if (((AgentModel)targetAgent).GetState () != AgentAIState.CANNOT_CONTROLL) {
-						Finish ();
-						return;
-					}
-				}
-				else
-				{
-					if (((OfficerModel)targetAgent).GetState () != OfficerAIState.CANNOT_CONTROLL) {
-						Finish ();
-						return;
-					}
+			}
+			else
+			{
+				if (((OfficerModel)targetAgent).GetState () != OfficerAIState.CANNOT_CONTROLL && targetAgent.IsPanic() == false) {
+					Finish ();
+					return;
 				}
 			}
 
@@ -89,16 +88,49 @@ public class SuppressWorkerCommand : WorkerCommand {
 		}
 		else if (targetCreature != null)
 		{
+			MovableObjectNode movable = actor.GetMovableNode();
+
 			if (targetCreature.state != CreatureState.ESCAPE && targetCreature.state != CreatureState.ESCAPE_PURSUE)
 			{
+				movable.StopMoving ();
 				Finish ();
 				return;
 			}
 
+			if(targetCreature.GetMovableNode().GetPassage() == null) // missing
+			{
+				Debug.Log (actor.name + " : missing...");
+				movable.StopMoving ();
+				Finish ();
+				return;
+			}
+
+			if (retreatDelay > 0)
+			{
+				retreatDelay -= Time.deltaTime;
+			}
+			if (retreatDuration > 0)
+			{
+				retreatDuration -= Time.deltaTime;
+
+
+				if(retreatDuration > 0 && ((AgentModel)actor).moveDelay <= 0)
+				{
+					Retreat ();
+				}
+				else
+				{
+					movable.StopMoving ();
+				}
+			}
+
+			if(((AgentModel)actor).moveDelay > 0)
+			{
+				movable.StopMoving ();
+			}
+
 			if (CheckRange ())
 				return;
-
-			MovableObjectNode movable = actor.GetMovableNode();
 
 			if (!movable.IsMoving() && ((AgentModel)actor).moveDelay <= 0)
 			{
@@ -118,6 +150,26 @@ public class SuppressWorkerCommand : WorkerCommand {
 		((AgentModel)actor).FinishSuppress();
 	}
 
+
+	void ResetGunRange()
+	{
+		gunRange = 5f + (0.5f - Random.value) / 2f;
+	}
+
+	void Retreat()
+	{
+		MovableObjectNode movable = actor.GetMovableNode();
+
+		if (movable.GetCurrentViewPosition ().x > targetCreature.GetMovableNode ().GetCurrentViewPosition ().x)
+		{
+			movable.MoveBy (UnitDirection.RIGHT, 1);
+		}
+		else
+		{
+			movable.MoveBy (UnitDirection.LEFT, 1);
+		}
+	}
+
 	bool CheckRange()
 	{
 		AgentModel agentActor = (AgentModel)actor;
@@ -127,7 +179,7 @@ public class SuppressWorkerCommand : WorkerCommand {
 			if (targetAgent.GetMovableNode ().GetPassage () == actor.GetMovableNode ().GetPassage ())
 			{
 				float sqrDistance = (actor.GetCurrentViewPosition () - targetAgent.GetCurrentViewPosition ()).sqrMagnitude;
-				if (suppressAction.weapon == SuppressAction.Weapon.STICK)
+				if(agentActor.weapon == AgentWeapon.NORMAL || agentActor.weapon == AgentWeapon.SHIELD)
 				{
 					if (sqrDistance < 1)
 					{
@@ -153,7 +205,7 @@ public class SuppressWorkerCommand : WorkerCommand {
 						agentActor.SetAttackDelay (4.0f);
 						agentActor.SetMoveDelay (1.0f);
 						targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
-						if(supType == SuppressType.PANIC)
+						if(targetAgent.IsPanic())
 							targetAgent.TakePanicDamage (1);
 
 
@@ -161,7 +213,8 @@ public class SuppressWorkerCommand : WorkerCommand {
 						return true;
 					}
 				}
-				else if (suppressAction.weapon == SuppressAction.Weapon.GUN)
+
+				else if(agentActor.weapon == AgentWeapon.GUN)
 				{
 					if (sqrDistance < 5)
 					{
@@ -186,7 +239,7 @@ public class SuppressWorkerCommand : WorkerCommand {
 						agentActor.SetAttackDelay(4.0f);
 						agentActor.SetMoveDelay (1f);
 						targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
-						if(supType == SuppressType.PANIC)
+						if(targetAgent.IsPanic())
 							targetAgent.TakePanicDamage (1);
 						agentActor.GetMovableNode ().StopMoving ();
 						return true;
@@ -199,38 +252,12 @@ public class SuppressWorkerCommand : WorkerCommand {
 			if (targetCreature.GetMovableNode ().GetPassage () == actor.GetMovableNode ().GetPassage ())
 			{
 				float sqrDistance = (actor.GetCurrentViewPosition () - targetCreature.GetCurrentViewPosition ()).sqrMagnitude;
-				if (suppressAction.weapon == SuppressAction.Weapon.STICK)
-				{
-					if (sqrDistance < 1)
-					{
-						float actorX = actor.GetCurrentViewPosition ().x;
-						float targetX = targetCreature.GetCurrentViewPosition ().x;
-						if (actorX > targetX)
-						{
-							actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
-						}
-						if (actorX < targetX)
-						{
-							actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
-						}
-
-						if (agentActor.attackDelay > 0)
-							return true;
-						
-						AgentUnit au = AgentLayer.currentLayer.GetAgent (agentActor.instanceId);
-						au.SetParameterForSecond ("SuppressAction", Random.Range(1, 4), 0.3f);
-
-						agentActor.SetAttackDelay(4.0f);
-						agentActor.SetMoveDelay (1f);
-						targetCreature.TakeSuppressDamage (1);
-						agentActor.GetMovableNode ().StopMoving ();
-						return true;
-					}
-				}
-				else if (suppressAction.weapon == SuppressAction.Weapon.GUN)
+				if(agentActor.weapon == AgentWeapon.NORMAL || agentActor.weapon == AgentWeapon.SHIELD)
 				{
 					if (sqrDistance < 5)
 					{
+						agentActor.GetMovableNode ().StopMoving ();
+
 						float actorX = actor.GetCurrentViewPosition ().x;
 						float targetX = targetCreature.GetCurrentViewPosition ().x;
 						if (actorX > targetX)
@@ -251,12 +278,57 @@ public class SuppressWorkerCommand : WorkerCommand {
 						agentActor.SetAttackDelay(4.0f);
 						agentActor.SetMoveDelay (1f);
 						targetCreature.TakeSuppressDamage (1);
-						agentActor.GetMovableNode ().StopMoving ();
 
 						GameObject ge = Prefab.LoadPrefab ("Effect/HitEffectGun");
 						ge.transform.localPosition = targetCreature.GetCurrentViewPosition ();
 						return true;
 					}
+				}
+				else if(agentActor.weapon == AgentWeapon.GUN)
+				{
+					//Debug.Log (sqrDistance);
+					if (sqrDistance >= gunRange*gunRange)
+					{
+						retreatDuration = 0;
+					}
+					if(sqrDistance <= 5 && retreatDelay <= 0 && agentActor.moveDelay <= 0)
+					{
+						retreatDuration = 2f;
+						retreatDelay = 4f;
+					}
+					else if (sqrDistance <= 25 && retreatDuration <= 0)
+					{
+						agentActor.GetMovableNode ().StopMoving ();
+
+						float actorX = actor.GetCurrentViewPosition ().x;
+						float targetX = targetCreature.GetCurrentViewPosition ().x;
+						if (actorX > targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
+						}
+						if (actorX < targetX)
+						{
+							actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
+						}
+
+						if (agentActor.attackDelay > 0)
+							return true;
+
+						AgentUnit au = AgentLayer.currentLayer.GetAgent (agentActor.instanceId);
+						au.SetParameterForSecond ("SuppressAction", Random.Range(1, 3), 0.3f);
+
+						agentActor.SetAttackDelay(4.0f);
+						agentActor.SetMoveDelay (1f);
+						targetCreature.TakeSuppressDamage (1);
+
+						GameObject ge = Prefab.LoadPrefab ("Effect/HitEffectGun");
+						ge.transform.localPosition = targetCreature.GetCurrentViewPosition ();
+
+						//Debug.Log ("SHOT");
+					}
+
+					if (sqrDistance <= 25)
+						return true;
 				}
 			}
 		}

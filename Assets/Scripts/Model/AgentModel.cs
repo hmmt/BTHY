@@ -9,6 +9,21 @@ public enum AgentMotion
 	PANIC_ATTACK_MOTION
 }
 
+public enum AgentWeapon
+{
+	NORMAL,
+	SHIELD,
+	GUN
+}
+
+public enum PersonalityType
+{
+	D,
+	I,
+	S,
+	C
+}
+
 
 // 직원 데이터
 [System.Serializable]
@@ -67,12 +82,14 @@ public class AgentModel : WorkerModel
     public int inDirectBonus;
     public int blockBonus;
 
-    public int agentLifeValue;
+	public PersonalityType agentLifeValue;
 
     public int internalTrait=0;
     public int externalTrait=0;
     public int thinkTrait=0;
     public int emotionalTrait=0;
+
+	public AgentWeapon weapon = AgentWeapon.NORMAL;
 
     public AgentHistory history;
 	/*
@@ -173,6 +190,9 @@ public class AgentModel : WorkerModel
         //Special Skill Add
 		skillList.Add (SkillTypeList.instance.GetData (40003));
         skillInfos.Add(new SkillInfo(SkillTypeList.instance.GetData(40003)));
+
+		//weapon = Random.Range (0, 2) == 1 ? AgentWeapon.SHIELD : AgentWeapon.GUN;
+		weapon = AgentWeapon.GUN;
     }
 
     public override Dictionary<string, object> GetSaveData()
@@ -263,13 +283,15 @@ public class AgentModel : WorkerModel
 			attackDelay -= Time.deltaTime;
 		if (moveDelay > 0)
 			moveDelay -= Time.deltaTime;
-		/*
+		
         if (!tempPanic)
         {
             tempPanic = true;
             Panic();
+
+			//movableNode.MoveBy(UnitDirection.LEFT, 25);
         }
-        */
+
 
 		if (stunTime > 0) {
 			stunTime -= Time.deltaTime;
@@ -355,22 +377,22 @@ public class AgentModel : WorkerModel
 
         if(externalFlag == 1 && thinkFlag == 1)
         {
-            agentLifeValue = 1; // 합리주의자
+			agentLifeValue = PersonalityType.D; // 합리주의자?
         }
 
         else if(externalFlag == 1 && thinkFlag == 0)
         {
-            agentLifeValue = 2; // 낙천주의자
+			agentLifeValue = PersonalityType.I; // 낙천주의자?
         }
 
         else if (externalFlag == 0 && thinkFlag == 1)
         {
-            agentLifeValue = 3; // 원칙주의자
+			agentLifeValue = PersonalityType.S; // 원칙주의자?
         }
 
         else if (externalFlag == 0 && thinkFlag == 0)
         {
-            agentLifeValue = 4; // 평화주의자
+			agentLifeValue = PersonalityType.C; // 평화주의자?
         }
 
     }
@@ -721,8 +743,7 @@ public class AgentModel : WorkerModel
 
         if (CurrentPanicAction != null)
         {
-            if (state != AgentAIState.PANIC_SUPPRESS_TARGET)
-                CurrentPanicAction.Execute();
+			CurrentPanicAction.Execute();
         }
         else if (state == AgentAIState.IDLE)
         {
@@ -737,9 +758,10 @@ public class AgentModel : WorkerModel
             if (waitTimer <= 0)
             {
                 //MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
-				MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
+				//MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
+				MoveToMovable(MapGraph.instance.GetSefiraMovableNodeByRandom());
                 //MoveToNode(MapGraph.instance.GetSefiraNodes(currentSefira)[0]);
-                waitTimer = 1.5f + Random.value;
+                waitTimer = 3.5f + Random.value;
             }
         }
 		else if (state == AgentAIState.MANAGE || state == AgentAIState.OBSERVE)
@@ -834,14 +856,6 @@ public class AgentModel : WorkerModel
 		commandQueue.SetAgentCommand (WorkerCommand.MakeUnconPursueAgent (agent));
 	}
 
-    public void AttackedByCreature()
-    {
-        state = AgentAIState.CAPTURE_BY_CREATURE;
-
-        commandQueue.SetAgentCommand(WorkerCommand.MakeCaptureByCreatue());
-        movableNode.StopMoving();
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
-    }
     //public void Working(CreatureModel target, UseSkill action)
 
 	public void ManageCreature(CreatureModel target, SkillTypeInfo skill)
@@ -874,18 +888,6 @@ public class AgentModel : WorkerModel
 		commandQueue.AddLast(WorkerCommand.MakeObserveCreature(target));
 	}
 
-
-    public void Working(CreatureModel target)
-    {
-        state = AgentAIState.MANAGE;
-        commandQueue.Clear();
-        commandQueue.AddFirst(WorkerCommand.MakeMove(target.GetWorkspaceNode()));
-        commandQueue.AddLast(WorkerCommand.MakeWorking(target));
-        this.target = target;
-        //base.MoveToCreatureRoom(target);
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
-    }
-
 	public void ReturnCreature(CreatureModel target)
     {
 		if (target.state != CreatureState.SUPPRESSED) {
@@ -895,7 +897,6 @@ public class AgentModel : WorkerModel
         state = AgentAIState.RETURN_CREATURE;
 		target.state = CreatureState.SUPPRESSED_RETURN;
         commandQueue.SetAgentCommand(WorkerCommand.MakeReturnCreature(target));
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
     public void FinishWorking()
     {
@@ -903,22 +904,25 @@ public class AgentModel : WorkerModel
 		if (state != AgentAIState.MANAGE && state != AgentAIState.OBSERVE)
 			return;
         Notice.instance.Send(NoticeName.MakeName(NoticeName.WorkEndReport, instanceId.ToString()));
-		StopAction ();
+
+
+		state = AgentAIState.IDLE;
+		commandQueue.Clear();
+		this.target = null;
     }
 	public void StopAction()
 	{
+		// if state is CANNOT_CONTROLL?
 		state = AgentAIState.IDLE;
 		commandQueue.Clear();
 		//AgentCommand cmd = GetCurrentCommand();
 		this.target = null;
-		Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
 	}
     public void UpdateStateIdle()
     {
         state = AgentAIState.IDLE;
         commandQueue.Clear();
         this.target = null;
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     // 패닉 관련  start
@@ -931,7 +935,6 @@ public class AgentModel : WorkerModel
     {
         state = AgentAIState.IDLE;
         commandQueue.Clear();
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
 	/*
@@ -948,6 +951,8 @@ public class AgentModel : WorkerModel
 		if (state == AgentAIState.SUPPRESS_WORKER || state == AgentAIState.SUPPRESS_CREATURE)
 		{
 			state = AgentAIState.IDLE;
+			target = null;
+			targetWorker = null;
 		}
 	}
 
@@ -956,32 +961,28 @@ public class AgentModel : WorkerModel
     {
         state = AgentAIState.OPEN_ISOLATE;
 		commandQueue.SetAgentCommand(WorkerCommand.MakeOpenRoom(targetCreature));
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
-	public void SuppressCreature(CreatureModel target, SuppressAction suppressAction)
+	public void SuppressCreature(CreatureModel target)
 	{
 		state = AgentAIState.SUPPRESS_CREATURE;
 
-		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressCreature(target, suppressAction));
+		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressCreature(target));
 		this.target = target;
 		//MoveToCreture(target);
-		Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
 	}
 
-	public void StartSuppressAgent(WorkerModel targetWorker, SuppressAction suppressAction, SuppressType supType)
+	public void SuppressAgent(WorkerModel targetWorker)
     {
         state = AgentAIState.SUPPRESS_WORKER;
-		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker, suppressAction, supType));
+		commandQueue.SetAgentCommand(WorkerCommand.MakeSuppressWorking(targetWorker));
         this.targetWorker = targetWorker;
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
     public void PanicSuppressed()
     {
         //state = AgentCmdState.PANIC_SUPPRESS_TARGET;
         movableNode.StopMoving();
-        Notice.instance.Send(NoticeName.MakeName(NoticeName.ChangeAgentState, instanceId.ToString()));
     }
 
 	public override void OnHitByWorker(WorkerModel worker)
@@ -994,12 +995,10 @@ public class AgentModel : WorkerModel
 			}
 			else if(state == AgentAIState.IDLE)
 			{
-				SuppressAction sa = new SuppressAction (this);
-				sa.weapon = SuppressAction.Weapon.STICK;
 				if(worker.IsPanic())
-					StartSuppressAgent (worker, sa, SuppressType.PANIC);
+					SuppressAgent (worker);
 				else
-					StartSuppressAgent (worker, sa, SuppressType.UNCONTROLLABLE);
+					SuppressAgent (worker);
 			}
 		}
 	}
@@ -1034,6 +1033,9 @@ public class AgentModel : WorkerModel
 
 	public void OnClick()
 	{
+		if (IsPanic ()) {
+			SuppressWindow.CreateWindow (this);
+		}
 		if (unconAction != null) {
 			unconAction.OnClick ();
 		}
@@ -1088,9 +1090,6 @@ public class AgentModel : WorkerModel
 	// method about managing
 	public float GetSuccessProb(SkillTypeInfo skill)
 	{
-
-
-
 		// 가치관, 등급 고려
 		return 0.5f + 0.2f;
 	}
@@ -1150,6 +1149,7 @@ public class AgentModel : WorkerModel
 
     public void Panic()
     {
+		StopAction ();
 		panicValue = 4;
 
         CurrentPanicAction = new PanicReady(this);
@@ -1157,29 +1157,27 @@ public class AgentModel : WorkerModel
     
     public override void PanicReadyComplete()
     {
-		//CurrentPanicAction = new PanicRoaming (this);
+		CurrentPanicAction = new PanicRoaming (this);
 		//CurrentPanicAction = new PanicOpenIsolate(this);
-		CurrentPanicAction = new PanicViolence(this);
-
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
-		agentView.puppetAnim.SetBool ("Panic", true);
-		agentView.puppetAnim.SetInteger ("PanicType", 1);
-
+		//CurrentPanicAction = new PanicViolence(this);
+		//CurrentPanicAction = new PanicSuicideExecutor(this);
 		return;
+
+
         // 바꿔야 함
         switch (agentLifeValue)
         {
-        case 1:
+		case PersonalityType.D:
+			CurrentPanicAction = new PanicViolence(this);
+			break;
+		case PersonalityType.I:
+			CurrentPanicAction = new PanicOpenIsolate (this);
+			break;
+		case PersonalityType.S:
             CurrentPanicAction = new PanicRoaming(this);
             break;
-        case 2:
+		case PersonalityType.C:
             CurrentPanicAction = new PanicSuicideExecutor(this);
-            break;
-        case 3:
-            CurrentPanicAction = new PanicViolence(this);
-            break;
-		case 4:
-			CurrentPanicAction = new PanicOpenIsolate (this);
             break;
         }
     }
@@ -1191,7 +1189,9 @@ public class AgentModel : WorkerModel
 
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
 		agentView.puppetAnim.SetBool ("Panic", false);
-		agentView.SetParameterForSecond ("Return", true, 0.3f);
+		//agentView.SetParameterForSecond ("Return", true, 0.3f);
+		agentView.puppetAnim.SetBool("PanicReturn", true);
+		Stun (6f);
     }
 
 	public override bool IsPanic()
@@ -1201,7 +1201,7 @@ public class AgentModel : WorkerModel
 
 	public override void EncounterCreature()
 	{
-		if(state != AgentAIState.SUPPRESS_CREATURE && state != AgentAIState.ENCOUNTER_PANIC_WORKER)
+		if(state != AgentAIState.SUPPRESS_CREATURE)
 			state = AgentAIState.ENCOUNTER_CREATURE;
 	}
 
@@ -1253,18 +1253,18 @@ public class AgentModel : WorkerModel
 
         switch (agentLifeValue)
         {
-            case 1:
-                temp = "Rationalist";
-                break;
-            case 2:
-                temp = "Optimist";
-                break;
-            case 3:
-                temp = "Principlist";
-                break;
-            case 4:
-                temp = "Pacifist";
-                break;
+		case PersonalityType.D:
+            temp = "Rationalist";
+            break;
+		case PersonalityType.I:
+            temp = "Optimist";
+            break;
+		case PersonalityType.S:
+            temp = "Principlist";
+            break;
+		case PersonalityType.C:
+            temp = "Pacifist";
+            break;
         }
         return temp;
     }
@@ -1293,6 +1293,10 @@ public class AgentModel : WorkerModel
         //Debug.Log(AgentLayer.currentLayer.GetAgent(this.instanceId));
         AgentLayer.currentLayer.GetAgent(this.instanceId).MakeAccessory(accessoryList);
         //call agentUnit to make accsseories
+
+		if(weapon == AgentWeapon.SHIELD)
+			AgentLayer.currentLayer.GetAgent(this.instanceId).MakeAccessory("SHIELD", "shield2");
+			
     }
 
 

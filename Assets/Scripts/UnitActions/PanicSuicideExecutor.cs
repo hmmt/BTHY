@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class PanicSuicideExecutor : PanicAction
 {
-	private AgentModel targetAgent;
+	private AgentModel actor;
 
 	private float suicideDelay = 7;
 	private float horrorDelay = 5;
@@ -13,8 +13,16 @@ public class PanicSuicideExecutor : PanicAction
 
     public PanicSuicideExecutor(AgentModel target)
     {
-        targetAgent = target;
+        actor = target;
     }
+
+	public void Init()
+	{
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+		agentView.puppetAnim.SetBool ("Panic", true);
+		agentView.puppetAnim.SetInteger ("PanicType", 4);
+		agentView.puppetAnim.SetBool ("PanicSuicide", false);
+	}
 
 	public void Execute()
 	{
@@ -41,8 +49,8 @@ public class PanicSuicideExecutor : PanicAction
 	{
 		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 		{
-			if (agent.GetMovableNode ().GetPassage () == targetAgent.GetMovableNode ().GetPassage ()) {
-				if (agent == targetAgent)
+			if (agent.GetMovableNode ().GetPassage () == actor.GetMovableNode ().GetPassage ()) {
+				if (agent == actor)
 					break;
 
 				agent.TakeMentalDamage (5);
@@ -50,7 +58,7 @@ public class PanicSuicideExecutor : PanicAction
 		}
 		foreach(OfficerModel officer in OfficeManager.instance.GetOfficerList())
 		{
-			if (officer.GetMovableNode ().GetPassage () == targetAgent.GetMovableNode ().GetPassage ()) {
+			if (officer.GetMovableNode ().GetPassage () == actor.GetMovableNode ().GetPassage ()) {
 				officer.TakeMentalDamage (5);
 			}
 		}
@@ -70,7 +78,9 @@ public class PanicSuicideExecutor : PanicAction
 
 		if (r < 7)
 		{
-			targetAgent.TakePhysicalDamage (targetAgent.hp, DamageType.CUSTOM);
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+			agentView.puppetAnim.SetBool ("PanicSuicide", true);
+			actor.TakePhysicalDamage (actor.hp, DamageType.CUSTOM);
 			// set motion
 		}
 	}

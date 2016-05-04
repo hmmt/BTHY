@@ -13,6 +13,8 @@ public class NullCreature : CreatureBase {
 	{
 		base.OnInit();
 		//model.SetCurrentNode (MapGraph.instance.GetNodeById("sefira-malkuth-4"));
+
+		model.escapeType = "";
 	}
 
     private void ChangeBody()
@@ -58,9 +60,9 @@ public class NullCreature : CreatureBase {
         }
         */
 
-		if (creature.energyPoint < 80)
+		//if (creature.energyPoint < 80)
 		{
-			creature.Escape ();
+			//creature.Escape ();
 		}
 
 		//creature.Escape();
@@ -70,8 +72,17 @@ public class NullCreature : CreatureBase {
 			if (model.GetMovableNode ().GetPassage ()	== agent.GetMovableNode ().GetPassage ())
 			{
 				//Debug.Log ("same passage");
-
 			}
+		}
+
+		MovableObjectNode movable = model.GetMovableNode ();
+
+		MapNode curNode = movable.GetCurrentNode ();
+		MapEdge curEdge = movable.GetCurrentEdge ();
+
+		if(model.state == CreatureState.ESCAPE)
+		{
+			model.MoveToNode(MapGraph.instance.GetNodeById("sefira-malkuth-1"));
 		}
     }
 

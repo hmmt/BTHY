@@ -7,18 +7,11 @@ using System.Linq;
 using System.Text;
 
 public class SuppressAction {
-    public enum Weapon { 
-        NONE,
-        STICK,
-        GUN
-    }
-
+	
 	public AgentModel model;
-    public Weapon weapon;
 
     public SuppressAction(AgentModel target) {
         this.model = target;
-        this.weapon = Weapon.NONE;
     }
 
     /*
@@ -395,24 +388,21 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 		
 		if(target is AgentModel)
 		{
-			SuppressAction sa = new SuppressAction (actor);
-			sa.weapon = SuppressAction.Weapon.GUN;
-
-			actor.StartSuppressAgent((AgentModel)target, sa, SuppressType.UNCONTROLLABLE);
+			AutoCommandManager.instance.SetSuppressAction (actor, (AgentModel)target);
 		}
 		else if(target is OfficerModel)
 		{
-			SuppressAction sa = new SuppressAction (actor);
-			sa.weapon = SuppressAction.Weapon.GUN;
-
-			actor.StartSuppressAgent((OfficerModel)target, sa, SuppressType.UNCONTROLLABLE);
+			AutoCommandManager.instance.SetSuppressAction (actor, (OfficerModel)target);
 		}
 		else if(target is CreatureModel)
 		{
+			/*
 			SuppressAction sa = new SuppressAction (actor);
 			sa.weapon = SuppressAction.Weapon.GUN;
 
-			actor.SuppressCreature((CreatureModel)target, sa);
+			actor.SuppressCreature((CreatureModel)target);
+			*/
+			AutoCommandManager.instance.SetSuppressAction (actor, (CreatureModel)target);
 		}
 
 		/*
@@ -436,9 +426,7 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
         this.suppressingAgentList = new List<SuppressAction>();
 
         foreach (SuppressAction action in this.agentList) {
-            if (action.weapon != SuppressAction.Weapon.NONE) {
-                suppressingAgentList.Add(action);
-            }
+			suppressingAgentList.Add(action);
         }
 
         return this.suppressingAgentList;

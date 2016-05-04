@@ -41,6 +41,13 @@ public class SuppressAgentSlot : MonoBehaviour {
         currentMental.text = model.mental.ToString();
         movement.text = model.movement.ToString();
         currentAction.text = "";
+
+		UnitModel target = AutoCommandManager.instance.GetSuppressActionTarget (model);
+
+		if (target != null)
+		{
+			index = 0;
+		}
         SetSelected(index);
     }
 
@@ -62,22 +69,12 @@ public class SuppressAgentSlot : MonoBehaviour {
         if (this.index == i) {
             SetSelected(-1);
             this.index = -1;
+			AutoCommandManager.instance.SetSuppressAction (model, null);
             return;
         }
 		SuppressWindow.currentWindow.OnSetSuppression (model);
         this.index = i;
         SetSelected(i);
-    }
-
-    public SuppressAction.Weapon GetSuppresstype() {
-        switch (index) { 
-            case 0:
-                return SuppressAction.Weapon.STICK;
-            case 1:
-                return SuppressAction.Weapon.GUN;
-            default:
-                return SuppressAction.Weapon.NONE;
-        }
     }
 
     public float GetHeight() {

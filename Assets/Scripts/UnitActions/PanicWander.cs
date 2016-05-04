@@ -21,11 +21,16 @@ public class PanicWander : PanicAction {
         return sefiraNode[randIndex];
     }
 
+	public void Init()
+	{
+	}
+
     public void Execute()
     {
-        if (worker.movableNode.IsMoving() == false) { 
+		if (worker.GetMovableNode().IsMoving() == false) { 
             Debug.Log("PanicAction");
-            worker.movableNode.MoveToNode(GetRandomNodeByRandom());
+			//worker.GetMovableNode().MoveToNode(GetRandomNodeByRandom());
+			worker.MoveToNode(GetRandomNodeByRandom());
         }
     }
 }
@@ -40,6 +45,10 @@ public class PanicStay : PanicAction {
         worker = target;
         elapsedTime = 0.0f;
     }
+
+	public void Init()
+	{
+	}
 
     public void Execute()
     {
@@ -68,6 +77,10 @@ public class PanicReturn : PanicAction {
         worker.MoveToNode(node.GetId());
     }
 
+	public void Init()
+	{
+	}
+
     public void Execute() {
         
         //
@@ -95,6 +108,10 @@ public class PanicReadyAlter : PanicAction {
         elapsedTime = 0.0f;
         
     }
+
+	public void Init()
+	{
+	}
 
     public void Execute()
     {

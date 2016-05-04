@@ -944,6 +944,19 @@ public class GameStaticDataLoader {
         model.feelingDownValue = float.Parse(stat.SelectSingleNode("feelingDownValue").InnerText);
         model.energyPointChange = (int)float.Parse(stat.SelectSingleNode("energyPointChange").InnerText);
 
+		if (stat.SelectSingleNode ("attackType") != null)
+		{
+			string attackTypeStr = stat.SelectSingleNode ("attackType").InnerText;
+			
+			if (attackTypeStr == "physics") {
+				model.attackType = CreatureAttackType.PHYSICS;
+			} else if (attackTypeStr == "mental") {
+				model.attackType = CreatureAttackType.MENTAL;
+			} else if (attackTypeStr == "complex") {
+				model.attackType = CreatureAttackType.COMPLEX;
+			}
+		}
+
         List<EnergyGenInfo> energyItems = new List<EnergyGenInfo>();
         XmlNode energyGenSection = stat.SelectSingleNode("energyGenSection");
         XmlNodeList energySections = energyGenSection.SelectNodes("section");

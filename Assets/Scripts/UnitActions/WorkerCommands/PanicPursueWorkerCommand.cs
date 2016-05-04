@@ -24,6 +24,8 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 	{
 		base.Execute(agent);
 
+		CheckPursueTarget ();
+
 		MovableObjectNode movable = agent.GetMovableNode();
 
 		if (!movable.IsMoving())
@@ -38,7 +40,7 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 	{
 		base.OnDestroy (agent);
 
-		((AgentModel)agent).FinishOpenIolateRoom();
+		((AgentModel)agent).FinishPursueAgent();
 	}
 
 	void CheckRanage(AgentModel actor)
@@ -48,22 +50,28 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 
 		if(actor.GetMovableNode().GetPassage() != null &&
 			actor.GetMovableNode().GetPassage() == targetAgent.GetMovableNode().GetPassage() &&
-			dist.sqrMagnitude <= 2)
+			dist.sqrMagnitude <= 5)
 		{
-			if (actor.attackDelay <= 0) {
-				/*
-				HitObjectManager.AddPanicHitbox (actor.GetCurrentViewPosition (), actor, (AgentModel)targetAgent);
-				//ResetAttackDelay ();
-				actor.SetAttackDelay(4.0f);
-				isMoving = false;
-				*/
-				// StopMoving
+			MovableObjectNode movable = actor.GetMovableNode();
+			movable.StopMoving();
+			isMoving = false;
 
-				// 
+			float actorX = actor.GetCurrentViewPosition ().x;
+			float targetX = targetAgent.GetCurrentViewPosition ().x;
+			if (actorX > targetX)
+			{
+				actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
+			}
+			if (actorX < targetX)
+			{
+				actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
+			}
+
+			if (actor.attackDelay <= 0) {
 
 				targetAgent.TakePhysicalDamage (1, DamageType.NORMAL);
 
-				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
+				//actor.SetMotionState (AgentMotion.ATTACK_MOTION);
 
 				actor.SetMoveDelay (2.0f);
 				actor.SetAttackDelay(3.0f);
@@ -77,6 +85,40 @@ public class PanicPursueWorkerCommand : WorkerCommand {
 		else
 		{
 
+		}
+	}
+
+	void CheckPursueTarget()
+	{
+		AgentModel agentActor = (AgentModel)actor;
+
+		AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(actor.GetMovableNode());
+
+		if (detectedAgents.Length > 0) {
+			//PursueWorker (detectedAgents [0]);
+
+			AgentModel nearest = null;
+			float nearestDist = 100000;
+			foreach (AgentModel agent in detectedAgents)
+			{
+				if (agent == agentActor)
+					continue;
+				
+				Vector3 v = agent.GetCurrentViewPosition () - actor.GetCurrentViewPosition ();
+
+				float m = v.magnitude;
+
+				if (nearestDist > m) {
+					nearestDist = m;
+					nearest = agent;
+				}
+			}
+
+			if (nearest != null && nearest != targetAgent)
+			{
+				Debug.Log ("Change!");
+				agentActor.PursueAgent (nearest);
+			}
 		}
 	}
 }

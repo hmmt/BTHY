@@ -72,25 +72,25 @@ public class UseSkill : ActionClassBase
         // 성향에 따른 보너스
         switch (agent.agentLifeValue)
         {
-        case 1:
+		case PersonalityType.D:
             //totalWork *= skill.amountBonusD;
             //totalFeeling *= skill.feelingBonusD;
             //mentalReduce = skill.mentalReduceD;
             //mentalTick = skill.mentalTickD;
             break;
-        case 2:
+		case PersonalityType.I:
             //totalWork *= skill.amountBonusI;
             //totalFeeling  *= skill.feelingBonusI;
             //mentalReduce = skill.mentalReduceI;
             //mentalTick = skill.mentalTickI;
             break;
-        case 3:
+		case PersonalityType.S:
             //totalWork *= skill.amountBonusC;
             //totalFeeling *= skill.feelingBonusC;
             //mentalReduce = skill.mentalReduceC;
             //mentalTick = skill.mentalTickC;
             break;
-        case 4:
+		case PersonalityType.C:
             //totalWork *= skill.amountBonusS;
             //totalFeeling *= skill.feelingBonusS;
             //mentalReduce = skill.mentalReduceS;
@@ -320,6 +320,8 @@ public class UseSkill : ActionClassBase
     private void ProcessWorkTick()
     {
         targetCreature.script.OnSkillTickUpdate(this);
+
+		//Debug.Log ("Tick... "+workCount);
 
         // 
         if (workPlaying)

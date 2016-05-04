@@ -110,18 +110,13 @@ public class WorkerCommandQueue
     /// </summary>
     public void Clear()
     {
-		List<WorkerCommand> rmList = new List<WorkerCommand> ();
-        foreach (WorkerCommand cmd in queue)
-        {
-			rmList.Add (cmd);
-        }
-        queue.Clear();
-
-		foreach (WorkerCommand cmd in rmList)
+		foreach (WorkerCommand cmd in queue)
 		{
+			cmd.isFinished = true;
 			cmd.OnStop(agent);
 			cmd.OnDestroy (agent);
 		}
+		queue.Clear();
     }
 
     public void SetAgentCommand(WorkerCommand cmd)

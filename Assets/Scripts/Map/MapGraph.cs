@@ -24,6 +24,7 @@ public class MapGraph : IObserver
     // 세피라 휴식 공간 노드
     private Dictionary<string, List<MapNode>> sefiraCoreNodesTable;
     private Dictionary<string, List<MapNode>> additionalSefiraTable;
+	private Dictionary<string, List<MapNode>> sefiraRoamingNodesTable;
     private Dictionary<string, List<List<MapNode>>> deptNodeTable;
 
     // 세피라 영역 노드
@@ -60,6 +61,18 @@ public class MapGraph : IObserver
         return GetSepiraNodeByRandom(selectedSefira);
     }
 
+	public MapNode GetRoamingNodeByRandom(string area)
+	{
+		List<MapNode> output;
+
+		if (sefiraRoamingNodesTable.TryGetValue(area, out output))
+		{
+			return output [Random.Range (0, output.Count)];
+		}
+
+		return null;
+	}
+
     public MapNode GetSepiraNodeByRandom(string area)
     {
 
@@ -69,6 +82,35 @@ public class MapGraph : IObserver
 
         return nodes[Random.Range(0, nodes.Length)];
     }
+
+	public MovableObjectNode GetSefiraMovableNodeByRandom()
+	{
+		MapNode node1 = GetNodeById ("sefira-malkuth-1");
+		MapNode node2 = GetNodeById ("sefira-malkuth-9");
+
+		PathResult result = GraphAstar.SearchPath (node1, node2);
+
+		float randomRange = Random.Range(0, result.totalCost);
+
+		//MapEdge selectedEdge = null;
+		MovableObjectNode target = null;
+
+		float remainCost = randomRange;
+		for (int i = 0; i < result.pathEdges.Length; i++)
+		{
+			MapEdge edge = result.pathEdges [i];
+			if (remainCost < edge.cost)
+			{
+				//selectedEdge = edge;
+				target = new MovableObjectNode();
+				target.SetCurrentEdge (edge, remainCost / edge.cost, result.edgeDirections [i]);
+				break;
+			}
+			remainCost -= edge.cost;
+		}
+
+		return target;
+	}
 
     public MapNode GetSefiraDeptNodes(string area) {
         MapNode[] nodes = GetAdditionalSefira(area);
@@ -172,6 +214,7 @@ public class MapGraph : IObserver
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
         Dictionary<string, List<MapNode>> sefiraNodesDic = new Dictionary<string, List<MapNode>>();
         Dictionary<string, List<MapNode>> additionalSefiraDic = new Dictionary<string, List<MapNode>>();
+		Dictionary<string, List<MapNode>> roamingNodesDic = new Dictionary<string, List<MapNode>> ();
 
         Dictionary<string, MapSefiraArea> mapAreaDic = new Dictionary<string, MapSefiraArea>();
         Dictionary<string, PassageObjectModel> passageDic = new Dictionary<string, PassageObjectModel>();
@@ -183,6 +226,7 @@ public class MapGraph : IObserver
             MapSefiraArea mapArea = new MapSefiraArea();
             List<MapNode> sefiraNodes = new List<MapNode>();
             List<MapNode> additionalSefira = new List<MapNode>();
+			List<MapNode> roamingNodes = new List<MapNode> ();
             string areaName = areaNode.Attributes.GetNamedItem("name").InnerText;
             mapArea.sefiraName = areaName;
             
@@ -284,6 +328,7 @@ public class MapGraph : IObserver
                         }
                         XmlNode doorNode = node.SelectSingleNode("door");
 						// TEMP
+						/*
 						if (id.Contains ("sefira-malkuth-1")) {
 							string doorId = passage.GetId() + "@" + doorCount;
 							newMapNode.SetClosable(true);
@@ -303,6 +348,7 @@ public class MapGraph : IObserver
 							newMapNode.SetDoor(door);
 							door.Close();
 						}
+						*/
 
                         if (doorNode != null)
                         {
@@ -315,6 +361,9 @@ public class MapGraph : IObserver
                             newMapNode.SetDoor(door);
                             door.Close();
                         }
+
+						if (elevatorAttr == null)
+							roamingNodes.Add (newMapNode);
 
                         if(passage != null)
                             passage.AddNode(newMapNode);
@@ -338,6 +387,7 @@ public class MapGraph : IObserver
             mapAreaDic.Add(areaName, mapArea);
             sefiraNodesDic.Add(areaName, sefiraNodes);
             additionalSefiraDic.Add(areaName, additionalSefira);
+			roamingNodesDic.Add (areaName, roamingNodes);
         }
 
 
@@ -385,6 +435,7 @@ public class MapGraph : IObserver
         mapAreaTable = mapAreaDic;
         sefiraCoreNodesTable = sefiraNodesDic;
         additionalSefiraTable = additionalSefiraDic;
+		sefiraRoamingNodesTable = roamingNodesDic;
 
         passageTable = passageDic;
 

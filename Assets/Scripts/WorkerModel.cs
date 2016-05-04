@@ -9,7 +9,7 @@ public enum DamageType
 	CUSTOM
 }
 
-public class WorkerModel: ObjectModelBase, IObserver {
+public class WorkerModel: UnitModel, IObserver {
     public int instanceId;
 
 	protected WorkerCommandQueue commandQueue;
@@ -68,17 +68,11 @@ public class WorkerModel: ObjectModelBase, IObserver {
         }
         set {
             currentPanicAction = value;
+			if(value != null)
+				value.Init ();
         }
     }
-	private MovableObjectNode _movableNode;
-    public MovableObjectNode movableNode { 
-        get{
-            return _movableNode;
-        }
-        set {
-            _movableNode = value;
-        }
-    }
+
 
 	public UncontrollableAction unconAction = null;
 
@@ -94,15 +88,15 @@ public class WorkerModel: ObjectModelBase, IObserver {
         this.currentSefira = area;
         this.sefira = area;
         this.instanceId = instanceId;
-        this._movableNode = new MovableObjectNode();
-        this._movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
+        this.movableNode = new MovableObjectNode();
+        this.movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
     }
 
     public WorkerModel(int instanceId, Sefira area) {
         this.sefira = area.indexString;
         this.instanceId = instanceId;
-        this._movableNode = new MovableObjectNode();
-        this._movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area.indexString));
+        this.movableNode = new MovableObjectNode();
+        this.movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area.indexString));
         this.currentSefira = area.indexString;
     }
 
@@ -188,7 +182,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
 
     public virtual void OnFixedUpdate() { 
         ProcessAction();
-		_movableNode.ProcessMoveNode((int)(movement * movementMul));
+		movableNode.ProcessMoveNode((int)(movement * movementMul));
     }
 
     public virtual void ProcessAction() { 
@@ -197,32 +191,32 @@ public class WorkerModel: ObjectModelBase, IObserver {
 
     public virtual MovableObjectNode GetMovableNode()
     {
-        return _movableNode;
+        return movableNode;
     }
 
     public virtual Vector3 GetCurrentViewPosition()
     {
-        return _movableNode.GetCurrentViewPosition();
+        return movableNode.GetCurrentViewPosition();
     }
 
     public virtual MapNode GetCurrentNode()
     {
-        return _movableNode.GetCurrentNode();
+        return movableNode.GetCurrentNode();
     }
 
     public virtual void SetCurrentNode(MapNode node)
     {
-        _movableNode.SetCurrentNode(node);
+        movableNode.SetCurrentNode(node);
     }
 
     public virtual MapEdge GetCurrentEdge()
     {
-        return _movableNode.GetCurrentEdge();
+        return movableNode.GetCurrentEdge();
     }
 
-    public virtual int GetEdgeDirection()
+	public virtual EdgeDirection GetEdgeDirection()
     {
-        return _movableNode.GetEdgeDirection();
+        return movableNode.GetEdgeDirection();
     }
 
     //Get Command State
@@ -242,6 +236,19 @@ public class WorkerModel: ObjectModelBase, IObserver {
 			commandQueue.SetAgentCommand (WorkerCommand.MakeMove (targetNode));
 		else
 			commandQueue.AddFirst (WorkerCommand.MakeMove (targetNode));
+	}
+
+	public void MoveToMovable(MovableObjectNode targetMovable)
+	{
+		MoveToMovable (targetMovable, true);
+	}
+
+	public void MoveToMovable(MovableObjectNode targetMovable, bool resetCommand)
+	{
+		if (resetCommand)
+			commandQueue.SetAgentCommand (WorkerCommand.MakeMove (targetMovable));
+		else
+			commandQueue.AddFirst (WorkerCommand.MakeMove (targetMovable));
 	}
 
 	public void MoveToNode(string targetNodeID)
@@ -268,7 +275,7 @@ public class WorkerModel: ObjectModelBase, IObserver {
     }
 
     public MapNode GetConnectedNode() {
-        MapNode pos = this._movableNode.GetCurrentNode();
+        MapNode pos = this.movableNode.GetCurrentNode();
         //Debug.Log(pos);
         MapNode connected = null;
         if(pos == null) return null;
@@ -312,8 +319,8 @@ public class WorkerModel: ObjectModelBase, IObserver {
     }
 
     public virtual void TakeMentalDamage(int damage) {
+		Debug.Log("TakeMentalDamage : " + damage);
         mental -= damage;
-        
     }
 
     public virtual void RecoverHP(int amount){

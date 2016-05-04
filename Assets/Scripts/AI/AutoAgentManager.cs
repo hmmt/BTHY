@@ -23,38 +23,7 @@ public class WorkSettingElement
 	}
 }
 
-public class SuppressCreatureSettingElement
-{
-	public CreatureModel creature;
-	public List<SuppressAction> sup;
-
-	public SuppressCreatureSettingElement(CreatureModel creature)
-	{
-		this.creature = creature;
-		sup = new List<SuppressAction> ();
-	}
-
-	public void AddSuppress(SuppressAction action)
-	{
-		sup.Add (action);
-	}
-
-	public void RemoveSuppress(AgentModel agent)
-	{
-		SuppressAction rm = null;
-		foreach(SuppressAction sa in sup)
-		{
-			if (sa.model == agent) {
-				rm = sa;
-				break;
-			}
-		}
-
-		if (rm != null)
-			sup.Remove (rm);
-	}
-}
-
+/*
 public class SuppressAgentSettingElement
 {
 	public WorkerModel worker;
@@ -86,7 +55,19 @@ public class SuppressAgentSettingElement
 			sup.Remove (rm);
 	}
 }
+*/
 
+public class SuppressSetting
+{
+	public AgentModel actor;
+	public UnitModel target; // UnitModel
+
+	public SuppressSetting(AgentModel actor, UnitModel target)
+	{
+		this.actor = actor;
+		this.target = target;
+	}
+}
 
 
 public class AutoCommandManager : MonoBehaviour, IObserver {
@@ -99,8 +80,10 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 
 	Dictionary<int, WorkSettingElement> aiList;
 
-	List<SuppressAgentSettingElement> supAgentSettings;
-	List<SuppressCreatureSettingElement> supCreatureSettings;
+	Dictionary<int, SuppressSetting> suppressList;
+
+	//List<SuppressAgentSettingElement> supAgentSettings;
+	//List<SuppressCreatureSettingElement> supCreatureSettings;
 
 	void Awake()
 	{
@@ -110,9 +93,10 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 		}
 		_instance = this;
 		aiList = new Dictionary<int, WorkSettingElement> ();
+		suppressList = new Dictionary<int, SuppressSetting> ();
 
-		supAgentSettings = new List<SuppressAgentSettingElement> ();
-		supCreatureSettings = new List<SuppressCreatureSettingElement> ();
+		//supAgentSettings = new List<SuppressAgentSettingElement> ();
+		//supCreatureSettings = new List<SuppressCreatureSettingElement> ();
 
 		Notice.instance.Observe (NoticeName.AddCreature, this);
 		Notice.instance.Observe (NoticeName.ChangeWorkSetting, this);
@@ -141,47 +125,51 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 				}
 			}
 		}
-		/*
-		List<SuppressAgentSettingElement> rmSupAgentList = new List<SuppressAgentSettingElement> ();
-		foreach(SuppressAgentSettingElement setting in supAgentSettings)
+
+		List<int> rmSuppressList = new List<int> ();
+		foreach (SuppressSetting ai in suppressList.Values)
 		{
-			if(setting.worker.IsSuppable())
+			if (ai.actor.isDead () || ai.actor.IsPanic () || ai.actor.GetState () == AgentAIState.CANNOT_CONTROLL)
 			{
-				rmSupAgentList.Add (setting);
+				rmSuppressList.Add (ai.actor.instanceId);
 				continue;
 			}
 
-			foreach(SuppressAction sa in setting.sup)
+			if(ai.target is CreatureModel)
 			{
-				if (sa.model.GetState () != AgentAIState.SUPPRESS_WORKER &&
-				   sa.model.GetState () != AgentAIState.SUPPRESS_CREATURE)
+				CreatureModel creatureTarget = (CreatureModel)ai.target;
+				if(creatureTarget.state != CreatureState.ESCAPE && creatureTarget.state != CreatureState.ESCAPE_PURSUE)
+					continue;
+				if(creatureTarget.GetMovableNode().GetPassage() == null) // missing
+					continue;
+
+				if (ai.actor.GetState () != AgentAIState.SUPPRESS_CREATURE || ai.actor.target != ai.target)
 				{
-					sa.model.StartSuppressAgent (setting.worker);
+					ai.actor.SuppressCreature (creatureTarget);
+				}
+			}
+			else if(ai.target is AgentModel)
+			{
+				AgentModel agentTarget = (AgentModel)ai.target;
+
+				if (agentTarget.IsPanic () == false && agentTarget.GetState () != AgentAIState.CANNOT_CONTROLL)
+				{
+					continue;
+				}
+				if(agentTarget.GetMovableNode().GetPassage() == null) // missing
+					continue;
+
+				if (ai.actor.GetState () != AgentAIState.SUPPRESS_WORKER || ai.actor.targetWorker != ai.target)
+				{
+					ai.actor.SuppressAgent (agentTarget);
 				}
 			}
 		}
 
-		List<SuppressCreatureSettingElement> rmSupCreatureList = new List<SuppressCreatureSettingElement> ();
-		foreach(SuppressCreatureSettingElement setting in supCreatureSettings)
+		foreach (int rmTargetId in rmSuppressList)
 		{
-			if (setting.creature.state != CreatureState.ESCAPE &&
-			   setting.creature.state != CreatureState.ESCAPE_ATTACK &&
-			   setting.creature.state != CreatureState.ESCAPE_PURSUE &&
-			   setting.creature.state != CreatureState.ESCAPE_RETURN)
-			{
-				rmSupCreatureList.Add (setting);
-				continue;
-			}
-			foreach(SuppressAction sa in setting.sup)
-			{
-				if (sa.model.GetState () != AgentAIState.SUPPRESS_WORKER &&
-					sa.model.GetState () != AgentAIState.SUPPRESS_CREATURE)
-				{
-					sa.model.SuppressCreature (setting.creature);
-				}
-			}
+			suppressList.Remove (rmTargetId);
 		}
-		*/
 	}
 
 	public List<AgentModel> GetWaitingAgents()
@@ -234,6 +222,7 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 	{
 	}
 
+	/*
 	public SuppressCreatureSettingElement GetSuppressCreatureSetting(CreatureModel creature)
 	{
 		foreach (SuppressCreatureSettingElement setting in supCreatureSettings) {
@@ -251,29 +240,46 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 		}
 		return null;
 	}
+	*/
 
-	public void SetSuppressCreature(CreatureModel creature, SuppressAction sa)
+	public void SetSuppressAction(AgentModel actor, UnitModel target)
 	{
-		SuppressCreatureSettingElement setting = GetSuppressCreatureSetting (creature);
-		if (setting == null)
+		if(target != null)
 		{
-			setting = new SuppressCreatureSettingElement (creature);
-			supCreatureSettings.Add (setting);
+			SuppressSetting setting = null;
+			if (suppressList.TryGetValue (actor.instanceId, out setting))
+			{
+				setting.target = target;
+			}
+			else
+			{
+				setting = new SuppressSetting (actor, target);
+				suppressList.Add (actor.instanceId, setting);
+			}
 		}
-
-		setting.AddSuppress (sa);
+		else
+		{
+			SuppressSetting setting = null;
+			if (suppressList.TryGetValue (actor.instanceId, out setting))
+			{
+				if (actor.GetState () == AgentAIState.SUPPRESS_CREATURE || actor.GetState() == AgentAIState.SUPPRESS_WORKER)
+				{
+					actor.StopAction ();
+				}
+				suppressList.Remove (actor.instanceId);
+			}
+		}
+		
 	}
 
-	public void SetSuppressAgent(WorkerModel worker, SuppressAction sa)
+	public UnitModel GetSuppressActionTarget(AgentModel actor)
 	{
-		SuppressAgentSettingElement setting = GetSuppressAgentSetting(worker);
-		if (setting == null)
+		SuppressSetting setting = null;
+		if (suppressList.TryGetValue (actor.instanceId, out setting))
 		{
-			setting = new SuppressAgentSettingElement (worker);
-			supAgentSettings.Add (setting);
+			return setting.target;
 		}
-
-		setting.AddSuppress (sa);
+		return null;
 	}
 
 	public void OnNotice(string name, params object[] param)

@@ -67,16 +67,6 @@ public class WorkerCommand
 		isFinished = true;
 	}
 
-
-	public static WorkerCommand MakeWorking(CreatureModel targetCreature)
-	{
-		WorkerCommand cmd = new WorkerCommand();
-		cmd.type = AgentCmdType.MANAGE_CREATURE;
-		cmd.targetCreature = targetCreature;
-		//cmd.action = action;
-		return cmd;
-	}
-
 	public static WorkerCommand MakeObserveCreature(CreatureModel targetCreature)
 	{
 		ObserveCreatureAgentCommand cmd = new ObserveCreatureAgentCommand (targetCreature);
@@ -105,17 +95,17 @@ public class WorkerCommand
 		return cmd;
 	}
 
-	public static WorkerCommand MakeSuppressWorking(WorkerModel targetWorker, SuppressAction suppressAction, SuppressType supType)
+	public static WorkerCommand MakeSuppressWorking(WorkerModel targetWorker)
 	{
 		//WorkerCommand cmd = new WorkerCommand();
-		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetWorker, suppressAction, supType);
+		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetWorker);
 		cmd.type = AgentCmdType.SUPPRESS_WORKING;
 		cmd.targetAgent = targetWorker;
 		return cmd;
 	}
-	public static WorkerCommand MakeSuppressCreature(CreatureModel targetCreature, SuppressAction suppressAction)
+	public static WorkerCommand MakeSuppressCreature(CreatureModel targetCreature)
 	{
-		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetCreature, suppressAction);
+		SuppressWorkerCommand cmd = new SuppressWorkerCommand(targetCreature);
 		cmd.type = AgentCmdType.SUPPRESS_CREATURE;
 		cmd.targetCreature = targetCreature;
 		return cmd;
@@ -125,13 +115,6 @@ public class WorkerCommand
 	{
 		OpenDoorAgnetCommand cmd = new OpenDoorAgnetCommand(door);
 		cmd.type = AgentCmdType.OPEN_DOOR;
-		return cmd;
-	}
-
-	public static WorkerCommand MakeCaptureByCreatue()
-	{
-		WorkerCommand cmd = new WorkerCommand();
-		cmd.type = AgentCmdType.CAPTURE_BY_CREATURE;
 		return cmd;
 	}
 
@@ -378,7 +361,7 @@ public class ObserveCreatureAgentCommand : WorkerCommand
 
 	public override void OnStart(WorkerModel agent)
 	{
-		ObserveCreature.Create ((AgentModel)agent, targetCreature);
+		//ObserveCreature.Create ((AgentModel)agent, targetCreature);
 	}
 	public override void Execute(WorkerModel agent)
 	{

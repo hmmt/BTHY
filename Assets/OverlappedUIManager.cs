@@ -47,12 +47,19 @@ public class OverlappedUIManager : MonoBehaviour {
 
         if(selectedList.Count > 0)
         {
+			List<OverlappedUIElement> rmList = new List<OverlappedUIElement> ();
             foreach (OverlappedUIElement element in selectedList) { 
                 if (!tempResult.Contains(element)){
                     element.hasSelected = false;
-                    selectedList.Remove(element);
+					rmList.Add (element);
+                    //selectedList.Remove(element);
                 }
             }
+
+			foreach (OverlappedUIElement rmE in rmList)
+			{
+				selectedList.Add (rmE);
+			}
         }
 
         

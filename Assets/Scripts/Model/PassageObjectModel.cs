@@ -9,8 +9,11 @@ public class PassageObjectModel : ObjectModelBase
 	private string id;
 	private string src;
 	private string sefiraName;
+	private bool isIsolate = false;
+
+
 	private List<MapObjectModel> mapObjectList;
-	private Dictionary<string, MapNode> mapNodeTable;
+	private List<MapNode> mapNodeList;
 	private List<DoorObjectModel> doorObjectList;
 
 	private List<MovableObjectNode> enteredUnitList;
@@ -25,11 +28,20 @@ public class PassageObjectModel : ObjectModelBase
 		//this.metaInfo = metaInfo;
 		this.src = prefabSrc;
 		mapObjectList = new List<MapObjectModel>();
-		mapNodeTable = new Dictionary<string, MapNode>();
+		mapNodeList = new List<MapNode>();
 		doorObjectList = new List<DoorObjectModel>();
 		enteredUnitList = new List<MovableObjectNode> ();
 	}
 
+	public void SetToIsolate()
+	{
+		isIsolate = true;
+	}
+
+	public bool IsIsolate()
+	{
+		return isIsolate;
+	}
 	public void CreateMapObject(long typeId)
 	{
 		MapObjectTypeInfo typeInfo =  MapObjectTypeList.instance.GetData(typeId);
@@ -71,7 +83,7 @@ public class PassageObjectModel : ObjectModelBase
 
 	public void AddNode(MapNode node)
 	{
-		mapNodeTable.Add(node.GetId(), node);
+		mapNodeList.Add(node);
 		/*
         if (node.IsClosable())
         {
@@ -88,7 +100,7 @@ public class PassageObjectModel : ObjectModelBase
 
 	public bool IsClosable()
 	{
-		foreach (MapNode node in mapNodeTable.Values)
+		foreach (MapNode node in mapNodeList)
 		{
 			if (node.IsClosable())
 			{
@@ -139,6 +151,11 @@ public class PassageObjectModel : ObjectModelBase
 	public string GetSefiraName()
 	{
 		return sefiraName;
+	}
+
+	public MapNode[] GetNodeList()
+	{
+		return mapNodeList.ToArray();
 	}
 
 	public virtual void FixedUpdate()
