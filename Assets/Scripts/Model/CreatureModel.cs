@@ -25,15 +25,23 @@ public class Vector2Serializer
     public Vector3 V2 { get { return new Vector2(x, y); } set { Fill(value); } }
 }
 
+public enum CreatureEscapeType { 
+    ATTACKWORKER,
+    FACETOSEFIRA,
+    WANDER
+}
+
 // 
 [System.Serializable]
 public class CreatureModel : UnitModel, IObserver
 {
+    
     public int instanceId;
 
 	CreatureCommandQueue commandQueue;
 
-	public string escapeType = "attackWorker";
+	//public string escapeType = "attackWorker";
+    public CreatureEscapeType escapeType = CreatureEscapeType.ATTACKWORKER;
 
 	// temp for proto
 	public float manageDelay = 0;
@@ -364,44 +372,28 @@ public class CreatureModel : UnitModel, IObserver
     public void OnEscapeUpdate()
     {
         //if (movableNode.IsMoving() == false)
-		if (escapeType == "attackWorker")
-		{
-			if(commandQueue.GetCurrentCmd() == null)
-			{
-				//movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
-				MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
-			}
-			else
-			{
-				//return;
+        if (escapeType == CreatureEscapeType.ATTACKWORKER)
+        {
+            if (commandQueue.GetCurrentCmd() == null)
+            {
+                //movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+                MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+            }
+            else
+            {
+                AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
 
-				AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
-
-				if (detectedAgents.Length > 0) {
-					//PursueWorker (detectedAgents [0]);
-
-					AgentModel nearest = null;
-					float nearestDist = 100000;
-					foreach (AgentModel agent in detectedAgents)
-					{
-						if (agent.GetMovableNode ().GetPassage () == null)
-							continue;
-						
-						Vector3 v = agent.GetCurrentViewPosition () - GetCurrentViewPosition ();
-
-						float m = v.magnitude;
-
-						if (nearestDist > m) {
-							nearestDist = m;
-							nearest = agent;
-						}
-					}
-
-					if(nearest != null)
-						PursueWorker (nearest);
-				}
-			}
-		}
+                if (detectedAgents.Length > 0)
+                {
+                    PursueWorker(detectedAgents[0]);
+                }
+            }
+        }
+        else {
+            if (script != null && script.hasUniqueEscape()) {
+                script.UniqueEscape();
+            }
+        }
 
 		PassageObjectModel currentPassage = movableNode.GetPassage ();
 		if(currentPassage != null)
@@ -549,7 +541,7 @@ public class CreatureModel : UnitModel, IObserver
 
     public void DangerFeeling()
     {
-        Debug.Log("세피라에 직원 없다" + instanceId);
+        Debug.Log("세피璨졶직원 없다" + instanceId);
     }
 
     public void StartEscapeWork()
@@ -750,6 +742,12 @@ public class CreatureModel : UnitModel, IObserver
 
     // commands
 
+    public void ClearCommand()
+    {
+       // if(state == CreatureState.ESCAPE_PURSUE)
+        commandQueue.Clear();
+    }
+
 	public void MoveToNode(MapNode mapNode)
 	{
 		commandQueue.SetAgentCommand(CreatureCommand.MakeMove(mapNode));
@@ -861,6 +859,8 @@ public class CreatureModel : UnitModel, IObserver
 		return 1;
 	}
 
-
+    public CreatureCommand GetCreatureCurrentCmd() {
+        return this.commandQueue.GetCurrentCmd();
+    } 
 }
 

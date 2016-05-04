@@ -60,6 +60,7 @@ public class OfficerUnit : MonoBehaviour {
     }
 
     void Start() {
+        AnimatorManager.instance.SaveAnimator(model.instanceId, puppetAnim);
         officerAnimator.SetInteger("Sepira", 1);
         officerAnimator.SetBool("Change", false);
 
@@ -141,6 +142,7 @@ public class OfficerUnit : MonoBehaviour {
     private bool visible = true;
 
     private void UpdateViewPosition() {
+        if (isKilled) return;
 		transform.localScale = new Vector3 (model.GetMovableNode ().currentScale, model.GetMovableNode ().currentScale, transform.localScale.z);
         MapEdge currentEdge = model.GetCurrentEdge();
 
@@ -316,5 +318,51 @@ public class OfficerUnit : MonoBehaviour {
 	public void OnClick()
 	{
 		model.OnClick ();
+        if (model.nullParasite != null) {
+            SuppressWindow.CreateWindow(model.nullParasite.GetModel());
+        }
 	}
+
+
+
+    public bool isMovingByMannually = false;
+    bool isMovingStarted = false;
+    bool isKilled = false;//temporary
+    IEnumerator MannualMoving(Vector3 pos)
+    {
+        Transform target = this.gameObject.transform;
+        Vector3 initial = new Vector3(target.position.x, target.position.y, target.position.z);
+        Vector3 reference = new Vector3(pos.x - target.position.x,
+            pos.y - target.position.y,
+            0f);
+        int cnt = 3;
+        isKilled = true;
+        while (cnt > 0)
+        {
+            yield return new WaitForSeconds(0.1f);
+            target.position = new Vector3(initial.x + (reference.x / 3f) * (4 - cnt), initial.y, initial.z);
+            cnt--;
+        }
+        isMovingByMannually = true;
+        
+    }
+
+    public bool MannualMovingCall(Vector3 pos)
+    {
+        if (!isMovingStarted)
+        {
+            isMovingStarted = true;
+            isMovingByMannually = false;
+            StartCoroutine(MannualMoving(pos));
+            return false;
+        }
+
+        if (isMovingByMannually)
+        {
+            isMovingByMannually = false;
+            isMovingStarted = false;
+            return true;
+        }
+        return false;
+    }
 }

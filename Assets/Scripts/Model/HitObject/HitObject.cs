@@ -42,7 +42,7 @@ public class HitObject : MonoBehaviour {
 
 				//Debug.Log ("Hit");
 
-				agent.TakePhysicalDamage (1);
+				agent.TakePhysicalDamageByCreature (1);
 				//agent.Stun (1.0f);
 			}
 		}

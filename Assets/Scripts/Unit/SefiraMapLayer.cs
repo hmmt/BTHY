@@ -294,6 +294,10 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
         Notice.instance.Observe(NoticeName.OpenPassageDoor, this);
         Notice.instance.Observe(NoticeName.ClosePassageDoor, this);
+
+        Notice.instance.Observe(NoticeName.PassageWhitle, this);
+        Notice.instance.Observe(NoticeName.PassageBlackOut, this);
+        Notice.instance.Observe(NoticeName.PassageAlpha, this);
     }
 
     void OnDisable()
@@ -304,6 +308,10 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
         Notice.instance.Remove(NoticeName.OpenPassageDoor, this);
         Notice.instance.Remove(NoticeName.ClosePassageDoor, this);
+
+        Notice.instance.Remove(NoticeName.PassageWhitle, this);
+        Notice.instance.Remove(NoticeName.PassageBlackOut, this);
+        Notice.instance.Remove(NoticeName.PassageAlpha, this);
     }
 
     public void SetSefiraActive(string sefiraName, bool b)
@@ -414,6 +422,47 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 		}
     }
 
+    public SefiraObject GetSefiraObject(string sefiraName) {
+        SefiraObject output = null;
+        foreach(SefiraObject sefira in this.sefiras){
+            if (sefira.sefiraName == sefiraName) {
+                output = sefira;
+                break;
+            }
+        }
+        return output;
+    }
+
+    private PassageObject GetPassageObject(PassageObjectModel model)
+    {
+        PassageObject po = null;
+        SefiraObject sefira = this.GetSefiraObject(model.GetSefiraName());
+        if (sefira == null)
+        {
+            Debug.LogError("Error in Getting SefiraObject");
+            return null;
+        }
+        po = sefira.GetPassageObject(model.GetId());
+        return po;
+    }
+
+    private void SetPassageBlackOut(PassageObjectModel model) {
+        PassageObject unit = GetPassageObject(model);
+        unit.SetBlackOut();
+    }
+
+
+    private void SetPassageWhite(PassageObjectModel model)
+    {
+        PassageObject unit = GetPassageObject(model);
+        unit.SetWhite();
+    }
+
+    private void SetPassageAlpha(PassageObjectModel model, int value) {
+        PassageObject unit = GetPassageObject(model);
+        unit.SetAplphaRecursive((float)value);
+    }
+
     public void OnNotice(string notice, params object[] param)
     {
         if (notice == NoticeName.AreaOpenUpdate)
@@ -436,6 +485,17 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 		{
 			AddPassageDoor ((PassageObjectModel)param[0], (DoorObjectModel)param [1]);
 		}
+        else if(notice == NoticeName.PassageBlackOut){
+            SetPassageBlackOut((PassageObjectModel)param[0]);
+        }
+        else if (notice == NoticeName.PassageWhitle) {
+            SetPassageWhite((PassageObjectModel)param[0]);
+        }
+
+        else if (notice == NoticeName.PassageAlpha) {
+            SetPassageAlpha((PassageObjectModel)param[0], (int)param[1]);
+        }
+
 			
         /*else if (notice == NoticeName.ClosePassageDoor)
         {

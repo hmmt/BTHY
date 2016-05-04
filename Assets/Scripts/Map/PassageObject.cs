@@ -9,6 +9,8 @@ public class PassageObject : MonoBehaviour {
     public Transform[] mapObjectPoint;
 
     public GameObject fogObject;
+    public GameObject shaderObject;
+    private SpriteRenderer shader;
     private List<PassageDoor> doorList;
 
     void Awake()
@@ -27,6 +29,7 @@ public class PassageObject : MonoBehaviour {
     public void Init(PassageObjectModel model)
     {
         this.model = model;
+        SetShader(255);
     }
 
     private void UpdateViewPosition()
@@ -71,4 +74,42 @@ public class PassageObject : MonoBehaviour {
         }
     }
     */
+
+    /// <summary>
+    /// Set Object's alpha include child object
+    /// </summary>
+    /// <param name="value"> alpha value, 0 ~ 255 </param>
+    public void SetAplphaRecursive(float value) {
+        float scaledValue = value / 255f;
+        SetShader(value);
+        foreach (Transform tr in this.transform) {
+            if (!tr.gameObject.activeSelf) continue;
+
+            SpriteRenderer spriteRenderer = tr.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null) {
+                Color color = spriteRenderer.color;
+                color.a = scaledValue;
+                spriteRenderer.color = color;
+            }
+        }
+    }
+
+    public void SetBlackOut() {
+        this.SetAplphaRecursive(0);
+        SetShader(0);
+    }
+
+    public void SetWhite() {
+        this.SetAplphaRecursive(255);
+        SetShader(255);
+    }
+
+    public void SetShader(float value) {
+        if (shaderObject == null) return;
+        if (shader == null) shader = shaderObject.GetComponent<SpriteRenderer>();
+        Color color = shader.color;
+        float refinedValue = 255f - value;
+        color.a = refinedValue;
+        shader.color = color;
+    }
 }

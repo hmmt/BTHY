@@ -42,7 +42,7 @@ public class HitObjectPanicAttack : MonoBehaviour {
 		if (pos.x - width / 2 < agentPos.x && pos.x + width / 2 > agentPos.x
 			&& pos.y - height / 2 < agentPos.y && pos.y + height / 2 > agentPos.y)
 		{
-			target.TakePhysicalDamage (1);
+			target.TakePhysicalDamageByCreature (1);
 			target.Stun (1.0f);
 		}
 

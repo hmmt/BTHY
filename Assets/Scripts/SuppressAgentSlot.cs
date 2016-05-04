@@ -28,9 +28,16 @@ public class SuppressAgentSlot : MonoBehaviour {
     }
 
     public void Init(AgentModel model) {
+        if (model == null)
+        {
+            this.model = null;
+            Empty();
+            return;
+        }
+
 		this.model = model;
 
-
+        Debug.Log(model.name);
         index = -1;
         face.sprite = model.tempFaceSprite;
         hair.sprite = model.tempHairSprite;
@@ -51,7 +58,12 @@ public class SuppressAgentSlot : MonoBehaviour {
         SetSelected(index);
     }
 
+    public void Empty() {
+        Debug.Log("This slot is empty");
+    }
+
     public void SetSelected(int i) {
+        if (this.model == null) return;
         if (i < -1 || i >= 3) {
             return;
         }
@@ -66,6 +78,9 @@ public class SuppressAgentSlot : MonoBehaviour {
     }
 
     public void OnClick(int i) {
+        if (this.model == null) {
+            return;
+        }
         if (this.index == i) {
             SetSelected(-1);
             this.index = -1;
@@ -79,5 +94,18 @@ public class SuppressAgentSlot : MonoBehaviour {
 
     public float GetHeight() {
         return this.GetComponent<RectTransform>().rect.height;
+    }
+
+    public void SetPanic() {
+        //for temporary;
+        this.model = null;
+    }
+
+    public bool CheckModel(AgentModel model) {
+        return this.model == model;
+    }
+
+    public int GetCurrentSelected() {
+        return this.index;
     }
 }

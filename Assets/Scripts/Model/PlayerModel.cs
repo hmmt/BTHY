@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
+public enum EmergencyLevel { 
+    NORMAL,
+    LEVEL1,
+    LEVEL2,
+    LEVEL3,
+    CHAOS//임시 값
+}
+
 [System.Serializable]
 public class PlayerModel {
 
@@ -11,7 +19,7 @@ public class PlayerModel {
     public Vector3 playerSpot;
       
     private int day;
-
+    
     // 지금까지 등장한 환상체 인덱스 기록하는 배열
     public List<int> inGameCreatureList= new List<int>();
 
@@ -26,6 +34,8 @@ public class PlayerModel {
             return _instance;
         }
     }
+
+    public EmergencyLevel currentEmergencyLevel = EmergencyLevel.NORMAL;
 
     private PlayerModel()
     {
@@ -104,10 +114,10 @@ public class PlayerModel {
 
         if (added == "1")
         {
-			CreatureManager.instance.AddCreature(100002, "left-upper-way2", -14f, -3.5f, added);
-			CreatureManager.instance.AddCreature(100004, "left-upper-way3", -24f, -3.5f, added);
-			CreatureManager.instance.AddCreature(100005, "right-upper-way2", 14f, -3.5f, added);
-			CreatureManager.instance.AddCreature(100009, "right-upper-way3", 24f, -3.5f, added); // 단한가지악
+            CreatureManager.instance.AddCreature(100021, "left-upper-way2", -14f, -3.5f, added); //테10002 -> 늙은(100021)
+            CreatureManager.instance.AddCreature(100002, "left-upper-way3", -24f, -3.5f, added); //큰새(100008)
+            CreatureManager.instance.AddCreature(100005, "right-upper-way2", 14f, -3.5f, added); //성냥팔이(100001) -> 아무 것도 없는 (100005)
+            CreatureManager.instance.AddCreature(100009, "right-upper-way3", 24f, -3.5f, added); // 단한가지악(100009) -> 벽을 보는 여인(100022)
 			//CreatureManager.instance.AddCreature(100001, "left-down-way2", -8, -10f, added);
 			//CreatureManager.instance.AddCreature(100001, "right-down-way2", 8, -10f, added);
 
@@ -188,6 +198,51 @@ public class PlayerModel {
             inGameCreatureList.Add(randomIndex);
 
             return CreatureTypeList.instance.GetList()[randomIndex].id;
+        }
+    }
+
+    public void AddCurrentEmergencyLevel() {
+        int level = (int)this.currentEmergencyLevel;
+        if (level > (int)EmergencyLevel.CHAOS)
+        {
+            return;
+        }
+        this.currentEmergencyLevel = GetEmergencyLevelByInt(level + 1);
+    }
+
+    public void SubCurrentEmergencyLevel() {
+        int level = (int)this.currentEmergencyLevel;
+        if (level < (int)EmergencyLevel.NORMAL){
+            return;
+        }
+        this.currentEmergencyLevel = GetEmergencyLevelByInt(level - 1);
+    }
+
+    public EmergencyLevel GetCurrentEmergencyLevel() {
+        return this.currentEmergencyLevel;
+    }
+
+    public void SetCurrentEmergencyLevel(EmergencyLevel level) {
+        this.currentEmergencyLevel = level;
+    }
+
+    public void SetCurrentEmergencyLevel(int level)
+    {
+        if (level < (int)EmergencyLevel.NORMAL || level > (int)EmergencyLevel.CHAOS)
+        {
+            return;
+        }
+        this.currentEmergencyLevel = GetEmergencyLevelByInt(level);
+    }
+
+    public EmergencyLevel GetEmergencyLevelByInt(int level) {
+        switch (level) { 
+            case 0: return EmergencyLevel.NORMAL;
+            case 1: return EmergencyLevel.LEVEL1;
+            case 2: return EmergencyLevel.LEVEL2;
+            case 3: return EmergencyLevel.LEVEL3;
+            case 4: return EmergencyLevel.CHAOS;
+            default: return EmergencyLevel.NORMAL;
         }
     }
 }

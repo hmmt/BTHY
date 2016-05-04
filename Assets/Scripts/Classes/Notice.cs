@@ -56,6 +56,10 @@ public class NoticeName
     public static string ClosePassageDoor = "ClosePassageDoor";
     public static string OpenPassageDoor = "OpenPassageDoor";
 
+    public static string PassageBlackOut = "PassageBlackOut";
+    public static string PassageWhitle = "PassageWhite";
+    public static string PassageAlpha = "PassageAlpha";
+
     public static string MakeName(string noticeName, params string[] param)
     {
         string output = noticeName;

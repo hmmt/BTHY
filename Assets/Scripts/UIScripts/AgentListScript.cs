@@ -154,6 +154,7 @@ public class AgentListScript : MonoBehaviour {
     }
 
     public void ShowAgentList() {
+        return;
         float posy = 0.0f;
         for (int i = 0; i < modelList.Count; i++) {
             GameObject slot = findObjectSlotByModel(modelList[i]);
@@ -248,6 +249,7 @@ public class AgentListScript : MonoBehaviour {
 
     public void ShowAgentListWithChange()
     {
+        return;
         float cumulative = 0.0f;
         float additional = 0.0f;
 

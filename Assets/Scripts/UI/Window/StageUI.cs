@@ -116,11 +116,13 @@ public class StageUI : MonoBehaviour, IObserver {
             
             agentInformation.gameObject.SetActive(false);
             agentSlot.gameObject.SetActive(false);
-            listScript.SetAddbuttonState(true);
+            AgentAllocateWindow.instance.SetAddButtonState(true);
+            //listScript.SetAddbuttonState(true);
             listScript.ShowAgentListWithChange();
         }
         else if (currentType == UIType.END_STAGE) {
-            listScript.SetAddbuttonState(false);
+            AgentAllocateWindow.instance.SetAddButtonState(false);
+            //listScript.SetAddbuttonState(false);
         }
         //ShowAgentList();
     }
@@ -590,6 +592,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
                 button.gameObject.SetActive(false);
                 //ShowAgentList();
+                
                 listScript.findListSlotScript(agent).SetChange();
                 if (listScript.extended) {
                     listScript.SetExtended();

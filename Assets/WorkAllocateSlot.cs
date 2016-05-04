@@ -9,7 +9,8 @@ public class WorkAllocateSlot : MonoBehaviour {
     public Image Hair;
     public Text CoolTime;
 
-    public void Init(AgentModel model) {
+    public void SetModel(AgentModel model)
+    {
         this.model = model;
         AgentModel.SetPortraitSprite(model, Face, Hair);
         //SetCoolTime;
@@ -20,10 +21,15 @@ public class WorkAllocateSlot : MonoBehaviour {
         
     }
 
+    public void Reset()
+    {
+        this.model = null;
+    }
+
 	void Update()
 	{
 		//if(WorkAllocateWindow.currentWindow.currentTargetCreature
-
+        if (this.model == null) return;
 		if (model.isDead ()) {
 			CoolTime.text = "<DEAD AGENT>";
 			CoolTime.color = Color.red;
@@ -57,4 +63,9 @@ public class WorkAllocateSlot : MonoBehaviour {
 
 		//CoolTime.text = 
 	}
+
+    public void OnClick() {
+        if (this.model == null) return;
+        WorkAllocateWindow.currentWindow.OnClickAgent(this.model.instanceId);
+    }
 }

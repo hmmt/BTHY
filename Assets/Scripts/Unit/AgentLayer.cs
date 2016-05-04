@@ -75,6 +75,7 @@ public class AgentLayer : MonoBehaviour, IObserver {
         }
     }
 
+
     public Sprite GetAgentHair() {
         return hairListTemp[Random.Range(0, hairListTemp.Length)];
     }

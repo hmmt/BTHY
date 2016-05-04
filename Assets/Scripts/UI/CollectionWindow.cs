@@ -138,17 +138,40 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
         currentWindow.gameObject.SetActive(false);
     }
 
+    
+
     public void DisplayData(CollectionWindow wnd) {
         CreatureTypeInfo info = wnd.GetCreature().metaInfo;
+        CreatureTypeInfo.CreatureDataTable dataTable = info.dataTable;
         CreatureTypeInfo.ObserveTable table = info.observeTable;
-        int clevel = info.CurrentObserveLevel;
+        int currentObservationLevel = info.CurrentObserveLevel;
 
+        string name = (string)dataTable.GetList("name").GetData(currentObservationLevel);
+        DisplayText(name, wnd.name);
+        string riskLevel = (string)dataTable.GetList("horrorLevel").GetData(currentObservationLevel);
+        DisplayText(riskLevel, wnd.dangerLevel);
+        string dangerRank = info.attackType.ToString() + " " + wnd.dangerLevel.text;
+        wnd.DangerRank.text = dangerRank;
+        profImage.sprite = ResourceCache.instance.GetSprite("Sprites/Unit/creature/dummy");
+        /*
+        if (currentObservationLevel >= dataTable.GetList("portrait").GetLevel(currentObservationLevel))
+        {
+            //print(creature.metaInfo.portraitSrc);
+            //profImage.sprite = Resources.Load<Sprite>("Sprites/" + creature.metaInfo.portraitSrc);
+        }
+        else {
+            profImage.sprite = ResourceCache.instance.GetSprite("Sprites/Unit/creature/dummy");
+        }
+        */
+        /*
+        CreatureTypeInfo info = wnd.GetCreature().metaInfo;
+        int clevel = info.CurrentObserveLevel;
+        
         DisplayText(clevel, table.name, wnd.name, info.name);
         DisplayText(clevel, table.attackType, wnd.attackType, info.attackType.ToString());
         DisplayText(clevel, table.riskLevel, wnd.dangerLevel, info.level);
         //DisplayText(clevel, nickname.text, 
-        string dangerRank = wnd.attackType.text + " " + wnd.dangerLevel.text;
-        wnd.DangerRank.text = dangerRank;
+        
 
         if (clevel >= table.portrait)
         {
@@ -159,10 +182,11 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
         else {
             profImage.sprite = ResourceCache.instance.GetSprite("Sprites/Unit/creature/dummy");
         }
-
+        */
+        
         char[] determine = { '*' };
         for (int i = 0; i < table.desc.Count; i++) {
-            if (clevel < table.desc[i]) {
+            if (currentObservationLevel < table.desc[i]) {
                 continue;
             }
 
@@ -176,7 +200,19 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
         }
         wnd.listScirpt.SortBgList();
         
+
+
         //record(관찰기록 띄우기)
+    }
+
+    private void DisplayText(string data, Text target) {
+        if (data == null)
+        {
+            target.text = nodata;
+        }
+        else {
+            target.text = data;
+        }
     }
 
     private void DisplayText(int current, int level, Text target, string data)

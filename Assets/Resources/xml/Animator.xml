@@ -9,4 +9,7 @@
   <node name ="Machine_victim" id="70002" src="CreatureAnimators/SingingMachine/Machine_KilledCTRL"/>
   <node name ="OneBad" id="70003" src="CreatureAnimators/OneBad/OneBad_AgentCTRL"/>
   <node name ="Teddy_agent" id="80001" src="CreatureAnimators/Teddy/Teddy_AgentCTRL"/>
+  <node name ="MatchedGirl_AgentCTRL" id ="90001" src ="CreatureAnimators/MatchGirl/MatchedGirl_AgentCTRL"/>
+  <node name ="BigBird_AgentCTRL" id ="100001" src ="CreatureAnimators/BigBird/BigBird_AgentCTRL"/>
+  <node name ="OldLady_AgentCTRL" id ="100011" src ="CreatureAnimators/OldLady/OldLady_AgentCTRL"/>
 </root>

@@ -131,33 +131,33 @@
     <sound action="attack" src="creature/onebad_good/oneBad_special_sry"/>
     <sound action="enter" src="creature/onebad_good/oneBad_enter"/>
   </info>
-  
+
   <observe level ="3">
     <collection>
       <codeNo openLevel ="0">O-03-03-Z</codeNo>
       <portrait openLevel ="0"></portrait>
-      
-        <size openLevel ="0">
-  4
-  </size>
+
+      <size openLevel ="0">
+        4
+      </size>
 
       <weight openLevel ="0">
-  0
-  </weight>
+        0
+      </weight>
 
       <name openLevel ="1">
-One Sin and Hundreds of Good Deeds
-</name>
+        One Sin and Hundreds of Good Deeds
+      </name>
       <attackType openLevel ="2">
-         White
+        White
       </attackType>
-       
+
       <creatureType openLevel ="1">
         abstract
       </creatureType>
 
       <horrorLevel openLevel ="1">
-       2
+        2
       </horrorLevel>
 
       <riskLevel openLevel ="1">
@@ -177,83 +177,83 @@ One Sin and Hundreds of Good Deeds
       </mental>
 
       <specialName openLevel ="2">
-  Forgotten sin brings forth punishment
-  </specialName>
+        Forgotten sin brings forth punishment
+      </specialName>
 
       <specialInfo openLevel ="2">When employees ‘feed’ it stress decreases 2 levels. When employees with {Guilt} are assigned to the ‘feeding’ duty, the said debuff disappears. </specialInfo>
 
       <aggression openLevel ="2">1</aggression>
 
       <gorgeous openLevel ="1">5</gorgeous>
-      
+
       <rejectWork openLevel ="4"></rejectWork>
-      
+
       <preferWork openLevel ="5"></preferWork>
       <solution openLevel ="3">Do not send in employees with the ability to Lie.</solution>
-      
+
     </collection>
-    
+
     <desc id="1" openLevel="0">
-    -> [
-        {Figure is that of a skull with a crown of thorns, attached to a gigantic cross. It levitates about a meter above the ground.}
-       ]
+      -> [
+      {Figure is that of a skull with a crown of thorns, attached to a gigantic cross. It levitates about a meter above the ground.}
+      ]
     </desc>
 
     <desc id="2" openLevel="1">
-     -> [
-        {Despite its harsh appearance, it hardly ever leads an attack. It often makes noises by clacking its teeth together but there is no need to pay extra attention to that noise. Stress levels rises rather sluggishly, so less attention is required compared to other Abnormalities. When stressed, ‘feeding’ it is necessary although it does not feed on typical sustenance.}
-       ]
+      -> [
+      {Despite its harsh appearance, it hardly ever leads an attack. It often makes noises by clacking its teeth together but there is no need to pay extra attention to that noise. Stress levels rises rather sluggishly, so less attention is required compared to other Abnormalities. When stressed, ‘feeding’ it is necessary although it does not feed on typical sustenance.}
+      ]
     </desc>
 
     <desc id="3" openLevel="2">
-    -> [
-        {It feeds on human ‘sins’, revealed through confession. Employee on duty must sit (or stand) in front of the creature and confess to his/her sins. There is no way to know how it digests words but stress levels do decrease.} 
-        ]
+      -> [
+      {It feeds on human ‘sins’, revealed through confession. Employee on duty must sit (or stand) in front of the creature and confess to his/her sins. There is no way to know how it digests words but stress levels do decrease.}
+      ]
     </desc>
 
     <desc id="4" openLevel="3">
-    -> [
-        {When the confession is untrue, there is no telling what may happen.}  
-        ]
+      -> [
+      {When the confession is untrue, there is no telling what may happen.}
+      ]
     </desc>
 
- <record openLevel="1">
-     -> [
-          {Experiment Log x2-321
-            We categorized all sins man makes into three levels. Level 1, ‘insignificant lie or action that wouldn’t draw any attention, kind that one would be able to talk about in a social setting and laugh at.’ Level 2, ‘slightly serious mistake that you would only talk to your closest friends about.’ Level 3, ‘a great sin that one would carry around for their entire life and tell no one about.’
-            Employee, [Redacted] was sent in to confess to a Level 1 sin. 
-            The select Illutionite’s stress levels decreased 10% and energy levels increased 12%.
-            Employee, [Redacted] was sent in to confess to a Level 2 sin. 
-            The select Illutionite’s stress levels decreased 13% and energy levels increased 15%.
-            Employee, [Redacted] was sent in to confess to a Level 3 sin. 
-            1min. 48 sec. after the employee went in, a bright light flashed. Inferring from amount of light that had leaked outside the containment zone, inside may have been blindingly bright. Our offices experienced a power outage right afterwards. The blackout continued for 2 hours. The select Illutionite’s stress levels increased 5% and energy levels decreased. [Redacted] lost past 6 years’ memories. The experiment came to a halt. Privacy matters warranted a policy to keep surveillance cameras classified. But to understand the incident there was no choice but to view the surveillance material.  
-            The following is an excerpt from the video. All of the footage was not available; the data was damaged from the moment of the blinding flash of light. 
-          }
-        ]
+    <record openLevel="1">
+      -> [
+      {Experiment Log x2-321
+      We categorized all sins man makes into three levels. Level 1, ‘insignificant lie or action that wouldn’t draw any attention, kind that one would be able to talk about in a social setting and laugh at.’ Level 2, ‘slightly serious mistake that you would only talk to your closest friends about.’ Level 3, ‘a great sin that one would carry around for their entire life and tell no one about.’
+      Employee, [Redacted] was sent in to confess to a Level 1 sin.
+      The select Illutionite’s stress levels decreased 10% and energy levels increased 12%.
+      Employee, [Redacted] was sent in to confess to a Level 2 sin.
+      The select Illutionite’s stress levels decreased 13% and energy levels increased 15%.
+      Employee, [Redacted] was sent in to confess to a Level 3 sin.
+      1min. 48 sec. after the employee went in, a bright light flashed. Inferring from amount of light that had leaked outside the containment zone, inside may have been blindingly bright. Our offices experienced a power outage right afterwards. The blackout continued for 2 hours. The select Illutionite’s stress levels increased 5% and energy levels decreased. [Redacted] lost past 6 years’ memories. The experiment came to a halt. Privacy matters warranted a policy to keep surveillance cameras classified. But to understand the incident there was no choice but to view the surveillance material.
+      The following is an excerpt from the video. All of the footage was not available; the data was damaged from the moment of the blinding flash of light.
+      }
+      ]
     </record>
 
 
 
-<record openLevel="2">
-     -> [
-        {[Redacted] : “This happened during [Redacted], about 4 in the afternoon. Damn, does this even work…? Anyway, there was a train track about 20 minutes away from my house. I had a neighborhood friend I used to hang out with. We were close, I think. One day, there was something like a Halloween party. We decided to dress up as animals. One of my friends was a deer. The costume was made with some crappy antlers, and some clothes with dark spots on it, not convincing at all. I… I don’t know how the kid got into the forest. We noticed he was gone after a while, maybe an hour. We found him wandering around between the trees, and yelled ‘STOP!’ I guess he thought we were calling him here. He ran toward us and… We heard a few gunshots and that was it. The blood splattered to my shoes. We never dressed up like animals again. That’s it."}
-        ]
+    <record openLevel="2">
+      -> [
+      {[Redacted] : “This happened during [Redacted], about 4 in the afternoon. Damn, does this even work…? Anyway, there was a train track about 20 minutes away from my house. I had a neighborhood friend I used to hang out with. We were close, I think. One day, there was something like a Halloween party. We decided to dress up as animals. One of my friends was a deer. The costume was made with some crappy antlers, and some clothes with dark spots on it, not convincing at all. I… I don’t know how the kid got into the forest. We noticed he was gone after a while, maybe an hour. We found him wandering around between the trees, and yelled ‘STOP!’ I guess he thought we were calling him here. He ran toward us and… We heard a few gunshots and that was it. The blood splattered to my shoes. We never dressed up like animals again. That’s it."}
+      ]
     </record>
 
     <record openLevel="2">
-     -> [
-        {Observation Log #4_435
-        Of course its eye sockets were empty, it was a skull. It didn’t mean that it couldn’t see. I can feel its gaze on me, listening. Letting stuff out in confession did lightened the psychological burden. 
-        }
-        ]
+      -> [
+      {Observation Log #4_435
+      Of course its eye sockets were empty, it was a skull. It didn’t mean that it couldn’t see. I can feel its gaze on me, listening. Letting stuff out in confession did lightened the psychological burden.
+      }
+      ]
     </record>
 
 
     <record openLevel="3">
       ->[
-        {Later we went to the hometown to investigate the aforementioned incident. A boy named [Redacted] was indeed shot to death 3 times with a shotgun after entering the forest dressed like a deer, during hunting season. Unlike the confessed story, there was a witness that said [Redacted] was not close to the group of kids in the area, they didn’t get along well. Also, the witness mentioned hearing children yell ‘RUN,’ immediately before the blast of the shotgun.}
-        ]
+      {Later we went to the hometown to investigate the aforementioned incident. A boy named [Redacted] was indeed shot to death 3 times with a shotgun after entering the forest dressed like a deer, during hunting season. Unlike the confessed story, there was a witness that said [Redacted] was not close to the group of kids in the area, they didn’t get along well. Also, the witness mentioned hearing children yell ‘RUN,’ immediately before the blast of the shotgun.}
+      ]
     </record>
-  
+
   </observe>
 </creature>

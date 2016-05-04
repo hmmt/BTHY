@@ -46,7 +46,7 @@ public class HitObjectSuppressWorker : MonoBehaviour {
 		{
 			//target.TakePhysicalDamage (1);
 			targetAgent.TakePanicDamage(1);
-			targetAgent.TakePhysicalDamage (1);
+			targetAgent.TakePhysicalDamageByCreature (1);
 			targetAgent.Stun (1.0f);
 		}
 

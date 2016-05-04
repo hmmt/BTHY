@@ -92,7 +92,7 @@ public class MagicalGirl : CreatureBase {
     private void SkillDarkAttack(UseSkill skill)
     {
         Debug.Log("MagicalGirl dark attack");
-		skill.agent.TakePhysicalDamage(4, DamageType.CUSTOM);
+		skill.agent.TakePhysicalDamageByCreature(4);
     }
 
     public override void OnEnterRoom(UseSkill skill)

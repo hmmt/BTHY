@@ -25,6 +25,7 @@ public class SefiraAgentSlot : MonoBehaviour {
             return _instance;
         }
     }
+
     void Awake()
     {
         //Debug.Log(gameObject);
@@ -42,10 +43,12 @@ public class SefiraAgentSlot : MonoBehaviour {
         Debug.Log(index);
         Debug.Log(unit.name);
          */
-        ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
-        AgentManager._instance.deactivateAgent(unit);
+
+
+        //ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
+        AgentManager.instance.deactivateAgent(unit);
         ShowAgentSefira(StageUI.instance.currentSefriaUi);
-        script.SetChange();
+        //script.SetChange();
         
     }
 

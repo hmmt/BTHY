@@ -32,6 +32,12 @@
   <creature name="OrangeTree" src="OrangeTree" id="100010">
     <stat>SingingMachine_stat</stat>
   </creature>
+  <creature name="OldLady" src="OldLady" id="100021">
+    <stat>SingingMachine_stat</stat>
+  </creature>
+  <creature name="LadyLookingAtWall" src="LadyLookingAtWall" id="100022">
+    <stat>SingingMAchine_stat</stat>
+  </creature>
   <!--
   <creature name="OneBadManyGood" src="OneBadManyGood">
     <stat>OneBadManyGood_stat</stat>

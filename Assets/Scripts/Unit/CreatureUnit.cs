@@ -10,6 +10,8 @@ public class CreatureUnit : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer returnSpriteRenderer;
 
+    public Canvas currentCreatureCanvas;
+    public UnityEngine.UI.Image cameraSensingArea;
 
     // ?
     public CreatureAnimScript animTarget;
@@ -28,6 +30,8 @@ public class CreatureUnit : MonoBehaviour {
     private bool visible = true;
 
     private bool mousePointEnter = false;
+
+    public bool scaleSetting = false;
 
    private void UpdateViewPosition()
    {
@@ -145,6 +149,7 @@ public class CreatureUnit : MonoBehaviour {
 
    private void UpdateScale()
    {
+       if (scaleSetting) return;
 		if (animTarget != null)
 		{
 			Vector3 scale = animTarget.transform.localScale;
@@ -245,6 +250,9 @@ public class CreatureUnit : MonoBehaviour {
 
 		if (model.script != null)
 			model.script.OnViewInit (this);
+
+        this.currentCreatureCanvas.worldCamera = Camera.main;
+        
     }
 
     void OnChangeState()
@@ -364,5 +372,4 @@ public class CreatureUnit : MonoBehaviour {
         mousePointEnter = false;
     }
 
-    
 }

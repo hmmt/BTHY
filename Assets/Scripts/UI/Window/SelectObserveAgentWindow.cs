@@ -23,6 +23,7 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
             this.table = model.metaInfo.observeTable;
             this.currentLevel = model.metaInfo.CurrentObserveLevel;
 
+            /*
             if (currentLevel >= table.portrait)
             {
                 this.portrait.sprite = ResourceCache.instance.GetSprite("Sprites/" + info.portraitSrc);
@@ -30,13 +31,14 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
             else {
                 this.portrait.sprite = ResourceCache.instance.GetSprite("Sprites/Unit/creature/dummy");
             }
+            */
 
-
+            /*
             DisplayText(this.name, table.name, info.name);
             DisplayText(this.grade, table.riskLevel, info.level);
             DisplayText(this.physical, table.physical, info.physicalAttackLevel.ToString());
             DisplayText(this.mental, table.mental, info.mentalAttackLevel.ToString());
-
+            */
         }
 
         public void DisplayText(Text target, int level, string desc) {
