@@ -88,7 +88,7 @@ public class DoorObjectModel : ObjectModelBase
 		if (!closed)
 		{
 			autoCloseCount += Time.deltaTime;
-			if (autoCloseCount > 1)
+			if (autoCloseCount > 2)
 			{
 				Close();
 			}

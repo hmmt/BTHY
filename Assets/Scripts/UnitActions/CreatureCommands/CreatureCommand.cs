@@ -138,7 +138,7 @@ public class OpenDoorCreatureCommand : CreatureCommand
 		}
 		*/
 
-		if (door.IsClosed () != false)
+		if (door.IsClosed () == false)
 			Finish ();
 	}
 	public override void OnStop(CreatureModel agent)
