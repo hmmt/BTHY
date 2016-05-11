@@ -1,0 +1,293 @@
+fileFormatVersion: 2
+guid: 1b9faf219cb2cf042a697df6502f4415
+timeCreated: 1462796815
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Panel
+    21300002: Mental
+    21300004: AgentSlot_Normal
+    21300006: AgentSlot_Selected
+    21300008: AgentSlot_Working
+    21300010: Button_Normal
+    21300012: Button_Over
+    21300014: Button_Click
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Panel
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 3603
+        width: 3735
+        height: 2439
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -119.75, y: -300.75}
+        - {x: -116.75, y: -298.75}
+        - {x: -112.75, y: -296.75}
+        - {x: -108.75, y: -291.75}
+        - {x: 165.25, y: -291.75}
+        - {x: 184.25, y: -272.75}
+        - {x: 438.25, y: -272.75}
+        - {x: 450.25, y: -260.75}
+        - {x: 450.25, y: -116.75}
+        - {x: 468.25, y: -98.75}
+        - {x: 468.25, y: 261.25}
+        - {x: 449.25, y: 280.25}
+        - {x: 305.25, y: 280.25}
+        - {x: 302.25, y: 287.25}
+        - {x: 300.25, y: 289.25}
+        - {x: 299.25, y: 292.25}
+        - {x: 297.25, y: 294.25}
+        - {x: 294.25, y: 300.25}
+        - {x: 292.25, y: 302.25}
+        - {x: 291.25, y: 305.25}
+        - {x: 289.25, y: 306.25}
+        - {x: 53.25, y: 306.25}
+        - {x: 52.25, y: 305.25}
+        - {x: 52.25, y: 304.25}
+        - {x: 46.25, y: 296.25}
+        - {x: 45.25, y: 294.25}
+        - {x: 43.25, y: 291.25}
+        - {x: 43.25, y: 290.25}
+        - {x: 41.25, y: 288.25}
+        - {x: 41.25, y: 287.25}
+        - {x: 36.25, y: 280.25}
+        - {x: -116.75, y: 280.25}
+        - {x: -123.75, y: 284.25}
+        - {x: -125.75, y: 284.25}
+        - {x: -129.75, y: 286.25}
+        - {x: -133.75, y: 286.25}
+        - {x: -134.75, y: 287.25}
+        - {x: -428.75, y: 287.25}
+        - {x: -429.75, y: 286.25}
+        - {x: -433.75, y: 286.25}
+        - {x: -434.75, y: 285.25}
+        - {x: -439.75, y: 284.25}
+        - {x: -446.75, y: 281.25}
+        - {x: -448.75, y: 278.25}
+        - {x: -449.75, y: 278.25}
+        - {x: -457.75, y: 270.25}
+        - {x: -457.75, y: 269.25}
+        - {x: -460.75, y: 267.25}
+        - {x: -463.75, y: 260.25}
+        - {x: -463.75, y: 258.25}
+        - {x: -465.75, y: 255.25}
+        - {x: -465.75, y: 250.25}
+        - {x: -466.75, y: 249.25}
+        - {x: -466.75, y: -269.75}
+        - {x: -464.75, y: -273.75}
+        - {x: -464.75, y: -276.75}
+        - {x: -460.75, y: -285.75}
+        - {x: -458.75, y: -286.75}
+        - {x: -458.75, y: -287.75}
+        - {x: -449.75, y: -296.75}
+        - {x: -448.75, y: -296.75}
+        - {x: -446.75, y: -298.75}
+        - {x: -445.75, y: -298.75}
+        - {x: -441.75, y: -301.75}
+        - {x: -439.75, y: -301.75}
+        - {x: -436.75, y: -303.75}
+        - {x: -433.75, y: -303.75}
+        - {x: -432.75, y: -304.75}
+        - {x: -134.75, y: -304.75}
+        - {x: -126.75, y: -303.75}
+        - {x: -123.75, y: -301.75}
+    - name: Mental
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 3170
+        width: 116
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: AgentSlot_Normal
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 1264
+        width: 1138
+        height: 693
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143.75, y: 71}
+        - {x: 142.75, y: 75}
+        - {x: 130.75, y: 87}
+        - {x: -129.25, y: 87}
+        - {x: -141.25, y: 75}
+        - {x: -142.25, y: 71}
+        - {x: -142.25, y: -72}
+        - {x: -141.25, y: -76}
+        - {x: -135.25, y: -82}
+        - {x: -135.25, y: -83}
+        - {x: -132.25, y: -87}
+        - {x: 131.75, y: -87}
+        - {x: 142.75, y: -76}
+        - {x: 143.75, y: -72}
+    - name: AgentSlot_Selected
+      rect:
+        serializedVersion: 2
+        x: 1451
+        y: 1264
+        width: 1137
+        height: 693
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 142.25, y: 77}
+        - {x: 132.25, y: 86}
+        - {x: 128.25, y: 87}
+        - {x: -126.75, y: 87}
+        - {x: -130.75, y: 86}
+        - {x: -136.75, y: 80}
+        - {x: -136.75, y: 79}
+        - {x: -141.75, y: 75}
+        - {x: -141.75, y: -75}
+        - {x: -140.75, y: -78}
+        - {x: -130.75, y: -87}
+        - {x: 132.25, y: -87}
+        - {x: 143.25, y: -76}
+        - {x: 143.25, y: 74}
+    - name: AgentSlot_Working
+      rect:
+        serializedVersion: 2
+        x: 2659
+        y: 1264
+        width: 1138
+        height: 693
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143.75, y: 71}
+        - {x: 142.75, y: 75}
+        - {x: 130.75, y: 87}
+        - {x: -129.25, y: 87}
+        - {x: -141.25, y: 76}
+        - {x: -142.25, y: 73}
+        - {x: -142.25, y: -75}
+        - {x: -131.25, y: -87}
+        - {x: 131.75, y: -87}
+        - {x: 142.75, y: -77}
+        - {x: 143.75, y: -74}
+    - name: Button_Normal
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 166
+        width: 1056
+        height: 620
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 78.5}
+        - {x: -132, y: 68.5}
+        - {x: -132, y: -77.5}
+        - {x: 122, y: -77.5}
+        - {x: 133, y: -66.5}
+        - {x: 133, y: 78.5}
+    - name: Button_Over
+      rect:
+        serializedVersion: 2
+        x: 1475
+        y: 139
+        width: 1106
+        height: 673
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 139.75, y: 74.25}
+        - {x: 132.75, y: 83.25}
+        - {x: 126.75, y: 85.25}
+        - {x: -117.25, y: 85.25}
+        - {x: -125.25, y: 80.25}
+        - {x: -135.25, y: 69.25}
+        - {x: -138.25, y: 63.25}
+        - {x: -138.25, y: -69.75}
+        - {x: -132.25, y: -79.75}
+        - {x: -122.25, y: -83.75}
+        - {x: 112.75, y: -83.75}
+        - {x: 119.75, y: -82.75}
+        - {x: 135.75, y: -68.75}
+        - {x: 139.75, y: -60.75}
+    - name: Button_Click
+      rect:
+        serializedVersion: 2
+        x: 2703
+        y: 139
+        width: 1106
+        height: 673
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 139.75, y: -62.75}
+        - {x: 139.75, y: 74.25}
+        - {x: 131.75, y: 85.25}
+        - {x: -119.25, y: 85.25}
+        - {x: -138.25, y: 70.25}
+        - {x: -138.25, y: -72.75}
+        - {x: -128.25, y: -83.75}
+        - {x: 112.75, y: -83.75}
+        - {x: 118.75, y: -81.75}
+        - {x: 125.75, y: -78.75}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

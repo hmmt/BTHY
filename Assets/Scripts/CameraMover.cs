@@ -248,7 +248,7 @@ public class CameraMover : MonoBehaviour
                 PlayerModel.instance.SetCurrentEmergencyLevel(2);
             }
 
-            if (Input.GetKey(KeyCode.Alpha9))
+            if (Input.GetKeyDown(KeyCode.Alpha9))
             {
                 //PlayerModel.instance.SetCurrentEmergencyLevel(2);
                 foreach (CreatureModel creatureModel in CreatureManager.instance.GetCreatureList()) {
@@ -259,7 +259,7 @@ public class CameraMover : MonoBehaviour
                 }
             }
 
-            if (Input.GetKey(KeyCode.Alpha0))
+            if (Input.GetKeyDown(KeyCode.Alpha0))
             {
                 //PlayerModel.instance.SetCurrentEmergencyLevel(2);
                 foreach (CreatureModel creatureModel in CreatureManager.instance.GetCreatureList())
@@ -316,7 +316,7 @@ public class CameraMover : MonoBehaviour
             queue.Enqueue(RecoilEffect.GetVector(arrow, initialPos, recoil.scale));
         }
         queue.Enqueue(initialPos);
-        
+
         StartCoroutine(PlayRecoil(queue));
     }
 

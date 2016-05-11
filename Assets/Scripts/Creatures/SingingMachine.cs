@@ -20,7 +20,7 @@ public class SingingMachine : CreatureBase {
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
-        if (creature.GetFeelingPercent() < 90f)
+        if (creature.GetFeelingPercent() < 100f)
 		//if (creature.GetFeelingPercent() < 110f )
         {
             this.skill.Activate();

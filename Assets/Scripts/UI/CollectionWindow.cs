@@ -47,7 +47,7 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
     {
         Debug.Log("Work Count : "+creature.workCount+"Observe Condition : "+creature.observeCondition + "Observe Progress : "+creature.observeProgress+1);
 
-        SelectObserveAgentWindow.CreateWindow(creature);
+        //SelectObserveAgentWindow.CreateWindow(creature);
 
         return;
         if (creature.NoticeDoObserve())

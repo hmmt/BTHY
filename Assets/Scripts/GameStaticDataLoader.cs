@@ -40,6 +40,12 @@ public class GameStaticDataLoader {
             loader.LoadAnimatorData();
         }
 
+        if (AngelaConversaion.instance.loaded == false) {
+            loader.LoadAngelaDescData();
+        }
+
+
+
         //PromotionSkillTree.instance.PromotionSkillTreeInit();
 	}
 
@@ -372,7 +378,30 @@ public class GameStaticDataLoader {
             lyricList.Add(lyric);
         }
 
-        AgentLyrics.instance.Init(lyricList);
+        Dictionary<long, AgentLyrics.CreatureReactionList> dictionary = new Dictionary<long, AgentLyrics.CreatureReactionList>();
+
+        XmlNodeList creatureDesc = doc.SelectNodes("root/creatureAction/creature");
+
+        foreach (XmlNode node in creatureDesc) {
+            AgentLyrics.CreatureReactionList newList = new AgentLyrics.CreatureReactionList();
+            
+            long id = (long)float.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            newList.creatureId = id;
+            XmlNodeList itemList = node.SelectNodes("item");
+            
+            foreach (XmlNode item in itemList) {
+                int level = (int)float.Parse(item.Attributes.GetNamedItem("level").InnerText);
+                string desc = item.Attributes.GetNamedItem("desc").InnerText;
+                AgentLyrics.CreatureReaction creatureReaction = new AgentLyrics.CreatureReaction();
+                creatureReaction.level = level;
+                creatureReaction.desc = desc;
+                newList.lib.Add(creatureReaction);
+                
+            }
+            dictionary.Add(id, newList);
+        }
+
+        AgentLyrics.instance.Init(lyricList, dictionary);
     }
 
     private LyricType GetLyricType(int type) {
@@ -438,6 +467,13 @@ public class GameStaticDataLoader {
 			model.amount = int.Parse(node.Attributes.GetNamedItem("amount").InnerText);
             model.description = node.Attributes.GetNamedItem("desc").InnerText;
             model.imgsrc = node.Attributes.GetNamedItem("imgsrc").InnerText;
+
+            string animSrc;
+            
+            if ((animSrc = node.Attributes.GetNamedItem("animType").InnerText) != null) {
+                model.animTarget = animSrc;
+                //Debug.Log(model.animTarget);
+            }
 
 			if (node.Attributes.GetNamedItem ("type") != null)
 			{
@@ -1263,6 +1299,30 @@ public class GameStaticDataLoader {
         }
 
         PassageObjectTypeList.instance.Init(passsageTypeList.ToArray());
+    }
+
+    public void LoadAngelaDescData() {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/AngelaDesc");
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+
+        XmlNodeList creatureNodes = doc.SelectNodes("root/creatureReaction/creature");
+        Dictionary<long, AngelaConversaion.CreatureReactionList> lib = new Dictionary<long, AngelaConversaion.CreatureReactionList>();
+
+        foreach (XmlNode node in creatureNodes) {
+            AngelaConversaion.CreatureReactionList list = new AngelaConversaion.CreatureReactionList();
+            list.creatureId = (long)float.Parse(node.Attributes.GetNamedItem("id").InnerText);
+            XmlNodeList itemList = node.SelectNodes("item");
+            foreach (XmlNode item in itemList) {
+                AngelaConversaion.CreatureReaction cr = new AngelaConversaion.CreatureReaction();
+                cr.level = (int)float.Parse(item.Attributes.GetNamedItem("level").InnerText);
+                cr.desc = item.Attributes.GetNamedItem("desc").InnerText;
+                list.list.Add(cr);
+            }
+            lib.Add(list.creatureId, list);
+        }
+
+        AngelaConversaion.instance.Init(lib);
     }
     
     public void LoadCreatureResourceData()

@@ -33,6 +33,9 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
     public Image MentalIcon;
     public Image[] HasWork;
 
+    public Image[] workIconImage;
+    public Image SuppressIcon;
+
     public Sprite HasWorkSelected;
     public Sprite HasWorkNotSelected;
 
@@ -134,6 +137,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
         currentWindow.target = unit;
         currentWindow.UpdateModel(currentWindow.target);
         //inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
+
+
 
         Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
@@ -238,18 +243,19 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
         Health.value = target.hp;
 
         MentalIcon.sprite = GetMentalSprite(target);
+        for (int i = 0; i < icons.statuslist.Length; i++)
+        {
+            icons.statuslist[i].sprite = target.StatusSprites[i];
+            
+        }
+
 		/*
         worklistDesc[0] = target.directSkill.name;
         worklistDesc[1] = target.indirectSkill.name;
         worklistDesc[2] = target.blockSkill.name;*/
         /*
         OverlayObject[] mannualAry = new OverlayObject[4];
-        for (int i = 0; i < icons.statuslist.Length; i++) {
-            icons.statuslist[i].sprite = target.StatusSprites[i];
-            OverlayObject overlay = icons.statuslist[i].GetComponent<OverlayObject>();
-            overlay.text = statusDesc[i];
-        }
-
+        
         for (int i = 0; i < icons.worklist.Length; i++)
         {
             icons.worklist[i].sprite = target.WorklistSprites[i];
@@ -303,7 +309,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
         for (int i = 0; i < target.traitList.Count; i++) {
             iconList.Add(script.MakeTrait(target.traitList[i]));
         }
-        AgentLifeStyle.text = target.LifeStyle();
+        AgentLifeStyle.text = target.LifeStyle() + " " + target.name;
         script.SortTrait();
     }
 
@@ -346,23 +352,38 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
         }
         else
         {
-            Debug.Log("Error");
+            Debug.Log("Error + MentalVaue : " + value.ToString());
         }
         return this.MentalImage[0];
     }
 
     public void SetHasWorkIcon(AgentModel model) {
+        /*
         List<SkillCategory> skillList = new List<SkillCategory>(SkillManager.instance.list.ToArray());
         int max = 5;
         if (skillList.Count < 5) max = skillList.Count;
         for (int i = 0; i < max; i++) {
             if (model.GetUniqueSkillCategory(skillList[i].name) != null)
             {
-                this.HasWork[i].sprite = this.HasWorkSelected;
+                
             }
-            else {
-                this.HasWork[i].sprite = this.HasWorkNotSelected;
-            }
+        }*/
+        int i = 0;
+        foreach (Sprite s in AgentModel.GetAgentSkillSprite(model)) {
+            if (i > this.workIconImage.Length) return;
+            workIconImage[i].sprite = s;
+            i++;
+        }
+        switch (model.weapon) { 
+            case AgentWeapon.GUN:
+                SuppressIcon.sprite = IconManager.instance.GetIcon("Gun").icon;
+                break;
+            case AgentWeapon.NORMAL:
+                SuppressIcon.sprite = IconManager.instance.GetIcon("Stick").icon;
+                break;
+            case AgentWeapon.SHIELD:
+                SuppressIcon.sprite = IconManager.instance.GetIcon("Block").icon;
+                break;
         }
     }
 

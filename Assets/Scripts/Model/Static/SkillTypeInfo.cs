@@ -35,6 +35,7 @@ public class SkillTypeInfo {
     public float coolTime;//쿨타임
 
     public int animID;//애니메이션 id
+    public string animTarget = null;//애니메이션 종류 -> 직원 애니메이터 파라미터
 
     public CreatureType type;
 	public SkillType skillType = SkillType.NONE;

@@ -41,6 +41,7 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
         {
             this.currentWorker = target as AgentModel;
             agentAnim =  AgentLayer.currentLayer.GetAgent(this.currentWorker.instanceId).puppetAnim;
+            
             AnimatorManager.instance.ResetAnimatorTransform(this.currentWorker.instanceId);
             AnimatorManager.instance.ChangeAnimatorByName(this.currentWorker.instanceId, AnimatorName.OneBad,
                                                        agentAnim, true, false);
@@ -82,7 +83,7 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
         creatureAnimator.SetBool("Success", true);
         this.currentWorker.RecoverMental((int)recoveryValue);
         
-        this.currentWorker = null;
+        //this.currentWorker = null;
         
     }
     
@@ -154,7 +155,9 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
         eventScript.SetTarget(this);
     }
 
-    public void OnCalled(int i) { 
+    public void OnCalled(int i) {
         
     }
+
+    public void AgentReset() { }
 }

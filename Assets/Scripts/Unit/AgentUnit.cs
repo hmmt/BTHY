@@ -197,6 +197,8 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
         accessoryUnit = new AccessoryUnit();
         accessoryUnit.Init(this.animTarget);
+
+        animTarget.Init(this.model);
     }
 
 	public void SetDefaultZValue(float value)
@@ -597,7 +599,13 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
          */
 
         if (model.nullParasite != null) {
-            SuppressWindow.CreateWindow(model.nullParasite.GetModel());
+            SuppressWindow.CreateNullCreatureSuppressWindow(model.nullParasite.GetModel(), this.model);
+        }
+        else if (SuppressWindow.currentWindow.nullEscapedList.Count > 0 && this.model.IsSuppable() == false)
+        {
+            Debug.Log("Agent Null");
+            
+            SuppressWindow.CreateNullCreatureSuppressWindow(SuppressWindow.currentWindow.nullEscapedList[0].GetModel(), this.model);
         }
 	}
 
@@ -643,24 +651,26 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         List<RecoilArrow> arrowList = 
             RecoilEffectUI.MakeRecoilArrow(level * recoil.recoilCount);
        
-        Vector2 initalPos = targetRect.localPosition;
-        Queue<Vector2> queue = new Queue<Vector2>();
+        Vector3 initalPos = targetRect.localPosition;
+        Queue<Vector3> queue = new Queue<Vector3>();
         foreach (RecoilArrow arrow in arrowList) {
             queue.Enqueue(RecoilEffectUI.GetVector(arrow, initalPos, recoil.scale));
         }
         queue.Enqueue(initalPos);
+        if (this.gameObject.activeSelf) {
 
-        StartCoroutine(UIRecoil(queue, recoil));
+            StartCoroutine(UIRecoil(queue, recoil));
+        }
     }
 
-    IEnumerator UIRecoil(Queue<Vector2> queue, RecoilEffectUI recoil) {
+    IEnumerator UIRecoil(Queue<Vector3> queue, RecoilEffectUI recoil) {
         int val = queue.Count;
         float step = recoil.maxTime / val;
 
         while (queue.Count > 1)
         {
             yield return new WaitForSeconds(step);
-            recoil.rect.localPosition = 1f * queue.Dequeue();
+            recoil.rect.localPosition = queue.Dequeue();
         }
         recoil.rect.localPosition = queue.Dequeue();
     }
@@ -675,7 +685,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
             pos.y - target.position.y,
             0f);
         int cnt = 3;
-        blockMoving = blockMoving;
+        this.blockMoving = blockMoving;
         
         while (cnt > 0) {
             yield return new WaitForSeconds(0.1f);

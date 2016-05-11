@@ -78,12 +78,14 @@ public class WorkerModel: UnitModel, IObserver {
 	public UncontrollableAction unconAction = null;
 
     public NullCreature nullParasite = null;
-
+    public CreatureModel recentlyAttacked = null;
 
     public bool visible = true;
     public float oldZ;
     public float waitTimer = 0;
     public bool panicFlag = false;
+
+    public bool OnWorkEndFlag = false;
     
     public WorkerModel() { }
 
@@ -304,8 +306,8 @@ public class WorkerModel: UnitModel, IObserver {
 	public virtual void TakePhysicalDamage(int damage, DamageType dmgType) {
 		if (isDead ())
 			return;
-        Debug.Log(name + "TakePhysicalDamage : " + damage);
         hp -= damage;
+        Debug.Log(name + "TakePhysicalDamage : " + damage + " Current Health: " + hp);
         if (hp <= 0) { 
             //dead
 			OnDie ();
@@ -314,23 +316,36 @@ public class WorkerModel: UnitModel, IObserver {
 
     public virtual void TakePhysicalDamageByCreature(float damage)
     {
-		if (isDead ())
-			return;
-        Debug.Log(name + " TakePhysicalDamage : " + damage);
+        if (isDead())
+            return;
         hp -= (int)damage;
+        Debug.Log(name + "TakePhysicalDamage : " + damage + " Current Health: " + hp);
         if (hp <= 0)
         {
             if (nullParasite != null)
             {
                 //시간지연이 필요하다
-                nullParasite.ChangeToCreature();
+                //nullParasite.ChangeToCreature();
+                nullParasite.DelayedChangeToCollapsed(5f);
                 nullParasite = null;
+            }
+
+            if (recentlyAttacked != null) {
+                if (recentlyAttacked.script != null) {
+                    if (recentlyAttacked.script is NullCreature) {
+                        (recentlyAttacked.script as NullCreature).ActivateSkillOut(this);
+                    }
+                }
             }
             //dead
 			OnDie ();
         }
 
 		MakeSpatteredBlood ();
+    }
+
+    public virtual void RecentlyAttackedCreature(CreatureModel creatureModel) {
+        this.recentlyAttacked = creatureModel;
     }
 
     public virtual void TakeMentalDamage(int damage) {

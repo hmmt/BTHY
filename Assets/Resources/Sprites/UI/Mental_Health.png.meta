@@ -1,0 +1,280 @@
+fileFormatVersion: 2
+guid: abaf0cd4a9ec7f144b0117fd33704761
+timeCreated: 1462943635
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: PanicStateIcon
+    21300002: SuppressHealth
+    21300004: SuppressBg
+    21300006: SuppressMask
+    21300008: MentalBg
+    21300010: Health
+    21300012: HealthBg
+    21300014: Mask
+    21300016: ShortMental
+    21300018: ShortHealth
+    21300020: ShortHealthBg
+    21300022: ShortBg
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: PanicStateIcon
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 5001
+        width: 662
+        height: 664
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 112.109955, y: 30.95227}
+        - {x: 102.109955, y: 62.95227}
+        - {x: 62.109955, y: 102.95227}
+        - {x: 38.109955, y: 112.95227}
+        - {x: -42.890045, y: 112.95227}
+        - {x: -75.890045, y: 90.95227}
+        - {x: -110.890045, y: 44.95227}
+        - {x: -110.890045, y: -31.04773}
+        - {x: -93.890045, y: -70.04773}
+        - {x: -65.890045, y: -93.04773}
+        - {x: -30.890045, y: -110.04773}
+        - {x: -25.890045, y: -111.04773}
+        - {x: 27.109955, y: -111.04773}
+        - {x: 68.109955, y: -95.04773}
+        - {x: 94.109955, y: -67.04773}
+        - {x: 112.109955, y: -32.04773}
+    - name: SuppressHealth
+      rect:
+        serializedVersion: 2
+        x: 1105
+        y: 5334
+        width: 1539
+        height: 260
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -257.96765, y: 44.61499}
+        - {x: -257.96765, y: -42.38501}
+        - {x: -256.96765, y: -43.38501}
+        - {x: 258.03235, y: -43.38501}
+        - {x: 259.03235, y: -42.38501}
+        - {x: 259.03235, y: 44.61499}
+    - name: SuppressBg
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 4986
+        width: 1595
+        height: 289
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -267.4975, y: 49.922485}
+        - {x: -267.4975, y: -47.077515}
+        - {x: -266.4975, y: -48.077515}
+        - {x: 267.5025, y: -48.077515}
+        - {x: 268.5025, y: -47.077515}
+        - {x: 268.5025, y: 19.922485}
+        - {x: 238.5025, y: 49.922485}
+    - name: SuppressMask
+      rect:
+        serializedVersion: 2
+        x: 1105
+        y: 4199
+        width: 1566
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -262.46765, y: 43.52295}
+        - {x: -262.46765, y: -43.47705}
+        - {x: 263.53235, y: -43.47705}
+        - {x: 263.53235, y: 16.52295}
+        - {x: 236.53235, y: 43.52295}
+    - name: MentalBg
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 3126
+        width: 256
+        height: 253
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -35.88806, y: 43.220947}
+        - {x: -42.88806, y: 35.220947}
+        - {x: -42.88806, y: -21.779053}
+        - {x: -34.88806, y: -42.779053}
+        - {x: 36.11194, y: -42.779053}
+        - {x: 44.11194, y: -40.779053}
+        - {x: 44.11194, y: 41.220947}
+        - {x: 32.11194, y: 43.220947}
+    - name: Health
+      rect:
+        serializedVersion: 2
+        x: 1266
+        y: 3336
+        width: 1047
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -175.48059, y: 23.638794}
+        - {x: -175.48059, y: -22.361206}
+        - {x: 176.51941, y: -22.361206}
+        - {x: 176.51941, y: 23.638794}
+    - name: HealthBg
+      rect:
+        serializedVersion: 2
+        x: 1251
+        y: 3081
+        width: 1106
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -185.51044, y: 28.631348}
+        - {x: -185.51044, y: -28.368652}
+        - {x: 186.48956, y: -28.368652}
+        - {x: 186.48956, y: 10.631348}
+        - {x: 168.48956, y: 28.631348}
+    - name: Mask
+      rect:
+        serializedVersion: 2
+        x: 1266
+        y: 2538
+        width: 1074
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -179.98059, y: 23.050781}
+        - {x: -179.98059, y: -22.949219}
+        - {x: 181.01941, y: -22.949219}
+        - {x: 181.01941, y: 10.050781}
+        - {x: 168.01941, y: 23.050781}
+    - name: ShortMental
+      rect:
+        serializedVersion: 2
+        x: 1009
+        y: 1513
+        width: 254
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25.341309, y: 43.8443}
+        - {x: -24.658691, y: 43.8443}
+        - {x: -42.65869, y: 19.8443}
+        - {x: -42.65869, y: -36.1557}
+        - {x: -19.658691, y: -43.1557}
+        - {x: 24.341309, y: -43.1557}
+        - {x: 42.34131, y: -28.1557}
+        - {x: 43.34131, y: -24.1557}
+        - {x: 43.34131, y: 25.8443}
+    - name: ShortHealth
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 1710
+        width: 775
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -129.9159, y: 23.903015}
+        - {x: -129.9159, y: -23.096985}
+        - {x: 131.0841, y: -23.096985}
+        - {x: 131.0841, y: 23.903015}
+    - name: ShortHealthBg
+      rect:
+        serializedVersion: 2
+        x: 1451
+        y: 1468
+        width: 835
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -139.94577, y: 28.75473}
+        - {x: -139.94577, y: -28.24527}
+        - {x: 141.05423, y: -28.24527}
+        - {x: 141.05423, y: 12.75473}
+        - {x: 128.05423, y: 28.75473}
+    - name: ShortBg
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 929
+        width: 805
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -134.9159, y: 23.515442}
+        - {x: -134.9159, y: -22.484558}
+        - {x: 136.0841, y: -22.484558}
+        - {x: 136.0841, y: 14.515442}
+        - {x: 123.08411, y: 23.515442}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

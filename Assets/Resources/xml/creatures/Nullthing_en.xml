@@ -20,7 +20,7 @@
       <horrorMin>2.0</horrorMin>
       <horrorMax>2.0</horrorMax>
 
-      <physicsDmg>5.0</physicsDmg>
+      <physicsDmg>1.0</physicsDmg>
       <mentalDmg>25.0</mentalDmg>
 
       <feelingMax>150.0</feelingMax>

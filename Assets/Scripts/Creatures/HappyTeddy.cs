@@ -140,7 +140,7 @@ public class HappyTeddy  : CreatureBase {
 		if (skill.agent.isDead () == false && huging)
 		{
 			skill.agentView.ResetZValue ();
-			skill.agent.ResetAnimator ();
+			//skill.agent.ResetAnimator ();
 		}
 
 		huging = false;
@@ -173,6 +173,11 @@ public class HappyTeddy  : CreatureBase {
     {
         //return null;
         return SkillTypeList.instance.GetData(40002);
+    }
+
+    public override bool isAttackInWorkProcess()
+    {
+        return false;
     }
 
 	public override string GetDebugText ()

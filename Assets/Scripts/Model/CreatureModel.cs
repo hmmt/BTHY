@@ -90,7 +90,20 @@ public class CreatureModel : UnitModel, IObserver
     // 이하 save 프錘않는 데이터들
 
     public CreatureState state = CreatureState.WAIT;
-	public UseSkill currentSkill = null;
+    private UseSkill _currentSkill = null;
+    public UseSkill currentSkill {
+        get {
+            if (_currentSkill != null)
+            {
+               // Debug.Log("Getting UseSKill" + _currentSkill.skillTypeInfo.id);
+            }
+            return _currentSkill;
+        }
+        set {
+            //Debug.Log("Setting UseSkill" + value);
+            _currentSkill = value;
+        }
+    }
 
     public CreatureBase script;
 
@@ -309,6 +322,11 @@ public class CreatureModel : UnitModel, IObserver
     {
 		if (IsWorkingState())
 			return;
+        if (script != null) {
+            if (!script.AutoFeelingDown()) {
+                return;
+            }
+        }
         //if (Random.value < metaInfo.feelingDownProb)
         {
 			energyPoint += metaInfo.energyPointChange;

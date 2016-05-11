@@ -87,7 +87,7 @@ public class OneBadManyGood : CreatureBase {
             this.skill.SkillActivate(skill.agent);
             return;
         }
-        this.skill.SkillActivate(skill.agent);
+        //this.skill.SkillActivate(skill.agent);
 
 		/*
         skill.PauseWorking();
@@ -149,6 +149,5 @@ public class OneBadManyGood : CreatureBase {
             return;
         }
 
-        skill.agent.ResetAnimator();
     }
 }

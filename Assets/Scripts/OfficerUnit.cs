@@ -319,7 +319,12 @@ public class OfficerUnit : MonoBehaviour {
 	{
 		model.OnClick ();
         if (model.nullParasite != null) {
-            SuppressWindow.CreateWindow(model.nullParasite.GetModel());
+            //SuppressWindow.CreateWindow(model.nullParasite.GetModel());
+            SuppressWindow.CreateNullCreatureSuppressWindow(model.nullParasite.GetModel(), this.model);
+        }
+        else if (SuppressWindow.currentWindow.nullEscapedList.Count > 0 && this.model.IsSuppable() == false)
+        {
+            SuppressWindow.CreateNullCreatureSuppressWindow(SuppressWindow.currentWindow.nullEscapedList[0].GetModel(), this.model);
         }
 	}
 

@@ -5,6 +5,50 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
+    [System.Serializable]
+    public class WorkAlloateUI {
+        public Sprite bg;
+        public Sprite button_Normal;
+        public Sprite button_Over;
+        public Sprite button_Click;
+
+        public Sprite observeBg;
+        public Sprite observeButton_Normal;
+        public Sprite observeButton_Over;
+        public Sprite observeButton_Click;
+    }
+
+    [System.Serializable]
+    public class WorkAllocateTarget {
+        public Image bg;
+        public Button button;
+
+
+        WorkAlloateUI current;
+
+        public void SetSprite(WorkAlloateUI ui){
+            current = ui;
+            SetWork();
+        }
+
+        public void SetObserve() {
+            bg.sprite = current.observeBg;
+            button.image.sprite = current.observeButton_Normal;
+            SpriteState state = button.spriteState;
+            state.highlightedSprite = current.observeButton_Over;
+            state.disabledSprite = current.observeButton_Normal;
+            state.pressedSprite = current.observeButton_Click;
+        }
+
+        public void SetWork() {
+            bg.sprite = current.bg;
+            button.image.sprite = current.button_Normal;
+            SpriteState state = button.spriteState;
+            state.highlightedSprite = current.button_Over;
+            state.disabledSprite = current.button_Normal;
+            state.pressedSprite = current.button_Click;
+        }
+    }
 
     public Transform anchor;
     public RectTransform agentScrollTarget;
@@ -20,7 +64,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     
     public static WorkAllocateWindow currentWindow;
     bool agentListDisplayed = false;
-    Sefira currentSefira;
+    Sefira currentSefira = null;
 
     [HideInInspector]
     public List<SkillTypeInfo> skillList;
@@ -28,14 +72,22 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public List<AgentModel> agentList;
 
     float posy = 0f;
-    
+
+    public WorkAlloateUI malkuth;
+    public WorkAlloateUI yesod;
+
+    public WorkAllocateTarget uiTarget;
+
     public long selectedSkillId;
     public AgentModel selectedAgent;
 
     public ActivatableObjectPos windowPos = ActivatableObjectPos.ISOLATE;
     public RectTransform eventTriggerTarget;
+    bool ObserveState = false;//이 창이 관찰창이 되는가에 대한 정보
     bool activatableObjectInitiated = false;
     SkillTypeInfo specialSkill = null;
+
+    //public SelectObserveAgentWindow observeWindow;
     
     public delegate void ClickedEvent(long id);
 
@@ -58,7 +110,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             currentWindow.CloseAgentList();
             
         }
-
+        currentWindow.selectedAgent = null;
         if (currentWindow.targetCreature.script != null
             && currentWindow.targetCreature.script.GetSpecialSkill() != null)
         {
@@ -79,14 +131,29 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             currentWindow.CloseAgentList();
             currentWindow.ResetAgentList();
             currentWindow.GetAgentList();
-        }
 
+            currentWindow.Change(currentWindow.currentSefira);
+        }
+        currentWindow.ObserveState = false;
         currentWindow.workType = workType;
 
         Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
 
         return currentWindow;    
+    }
+
+    public void Change(Sefira sefira) {
+        if (sefira.name == SefiraName.Malkut) {
+            this.uiTarget.SetSprite(this.malkuth);
+        }
+        else if (sefira.name == SefiraName.Yesod)
+        {
+            this.uiTarget.SetSprite(this.yesod);
+        }
+        else {
+            this.uiTarget.SetSprite(this.malkuth);
+        }
     }
 
     //void Awake(){
@@ -204,6 +271,10 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             i++;
         }
 
+        for (; i < 5; i++) {
+            this.slotList[i].SetModel(null);
+        }
+
         /*
         foreach (AgentModel model in this.currentSefira.agentList) {
             this.agentList.Add(model);
@@ -228,7 +299,8 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     /// 계열 슬롯을 클릭하였을 때 작동
     /// </summary>
     /// <param name="id"></param>
-    public void OnClickSkill(long id) {
+    public void OnClickSkill(long id)
+    {
 
         SkillTypeInfo targetSkill = GetSkill(id);
         if (targetSkill == null) {
@@ -237,6 +309,9 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         }
         this.selectedSkillId = targetSkill.id;
 		Debug.Log ("Click skill : " + selectedSkillId);
+        if (this.ObserveState) {
+            this.CloseObserveWindow();
+        }
         ShowAgentList();
     }
 
@@ -307,6 +382,47 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         }
     }
 
+    public void OnSelectAgent(AgentModel model) {
+        if (this.selectedAgent != null) {
+            foreach (WorkAllocateSlot slot in this.slotList) {
+                if (slot.model == this.selectedAgent) {
+                    slot.Release();
+                    break;
+                }
+            }
+        }
+        this.selectedAgent = model;
+    }
+
+    public void OnClickStartButton() {
+        if (this.selectedAgent == null) return;
+
+        if (this.ObserveState) { 
+            //관찰 시작
+            Debug.Log("관찰을 시작한다");
+            CloseWindow();
+            return;
+        }
+
+        SkillTypeInfo skillTypeInfo = SkillTypeList.instance.GetData(selectedSkillId);
+        if (targetCreature.manageDelay > 0)
+        {
+            Debug.Log("not ready creature.. remain : " + targetCreature.manageDelay);
+            return;
+        }
+
+        if (selectedAgent.IsReadyToUseSkill(skillTypeInfo) == false)
+        {
+            Debug.Log("not ready skill.. remain : " + selectedAgent.GetSkillDelay(skillTypeInfo));
+            return;
+        }
+
+        //Clicked Event
+        selectedAgent.ManageCreature(targetCreature, SkillTypeList.instance.GetData(selectedSkillId));
+
+        CloseWindow();
+    }
+
     public void Activate()
     {
 		if (targetCreature.script != null && targetCreature.script.GetSpecialSkill () != null)
@@ -363,5 +479,16 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public void Close()
     {
         this.CloseWindow();
+    }
+
+    public void OpenObserveWindow() {
+        ObserveState = true;    
+        this.uiTarget.SetObserve();
+        ShowAgentList();
+    }
+
+    public void CloseObserveWindow() {
+        ObserveState = false;
+        this.uiTarget.SetWork();
     }
 }

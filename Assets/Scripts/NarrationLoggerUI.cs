@@ -111,7 +111,6 @@ public class NarrationLoggerUI : MonoBehaviour, IObserver {
 	{
         if ("AddNarrationLog" == notice && targetCreature == (CreatureModel)param[1])
 		{
-
             //script.MakeTextWithBg(" " + (string)param[0]);
             newInputCreature = (CreatureModel)param[1];
             title.text = newInputCreature.metaInfo.name;
