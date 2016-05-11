@@ -55,6 +55,7 @@ public class NullthingLevelController : MonoBehaviour {
     public GameObject Good;
     public GameObject Normal;
     public GameObject Bad;
+    public GameObject Egg;
 
     public AgentUnit agentUnit = null;
     public OfficerUnit officerUnit = null;
@@ -85,6 +86,7 @@ public class NullthingLevelController : MonoBehaviour {
     public void Start()
     {
         spriteSet.Init();
+        Egg.gameObject.SetActive(false);
         animController = this.gameObject.GetComponent<NullthingAnim>();
         Good.gameObject.SetActive(true);
         Normal.gameObject.SetActive(false);
@@ -95,6 +97,9 @@ public class NullthingLevelController : MonoBehaviour {
 
     public void Init(CreatureModel nullthing) {
         this.movableObject = nullthing.GetMovableNode();
+        //Bad.GetComponent<AnimatorEventScript>().SetTarget(nullthing.script as IAnimatorEventCalled);
+        //Normal.GetComponent<AnimatorEventScript>().SetTarget(nullthing.script as IAnimatorEventCalled);
+        Egg.GetComponent<AnimatorEventScript>().SetTarget(nullthing.script as IAnimatorEventCalled);
     }
 
     public void Change(WorkerModel model) {
@@ -157,5 +162,31 @@ public class NullthingLevelController : MonoBehaviour {
         }
     }
 
+    public void Appear(NullCreature.NullState current) {
+        switch ( current) { 
+            case NullCreature.NullState.WORKER:
+                this.Good.gameObject.SetActive(true);
+                break;
+            case NullCreature.NullState.BROKEN:
+                this.Normal.gameObject.SetActive(true);
+                break;
+            case NullCreature.NullState.CREATURE:
+                this.Bad.gameObject.SetActive(true);
+                break;
+        }
+    }
+
+    public void ChangeTransform() {
+        Animator EggAnim = this.Egg.GetComponent<Animator>();
+        this.Egg.gameObject.SetActive(true);
+        EggAnim.SetBool("Transform", true);
+
+    }
+
+    public void EndTransform() {
+        Animator EggAnim = this.Egg.GetComponent<Animator>();
+        EggAnim.SetBool("Transform", false);
+        this.Egg.gameObject.SetActive(false);
+    }
     
 }

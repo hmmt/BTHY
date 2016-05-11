@@ -20,8 +20,8 @@
       <horrorProb>0.0</horrorProb>
       <horrorMin>0.0</horrorMin>
       <horrorMax>0.0</horrorMax>
-      <physicsDmg>1.0</physicsDmg>
-      <mentalDmg>100.0</mentalDmg>
+      <physicsDmg>0.0</physicsDmg>
+      <mentalDmg>0.0</mentalDmg>
       <feelingMax>200.0</feelingMax>
       <feelingDownValue>3.8</feelingDownValue>
       <energyPointChange>-3</energyPointChange>
@@ -51,7 +51,7 @@
 
     <narration action="start">
       -> [
-     {‘Magical girl’ is one of most active and cheerful girls out of all the Abnormality . But that may not be all.},
+      {‘Magical girl’ is one of most active and cheerful girls out of all the Abnormality . But that may not be all.},
       {‘Magical girl’ seems to be good to us until now, but caution is required.},
       {The potential threat of ‘Magical girl’ is well known throughout most employees. Stay cautious.},
       {In fact, ‘peace’ is not what ‘Magical girl’ desires.}
@@ -87,14 +87,14 @@
 
     <narration action="mid4">
       -> [
-     {She talks about ‘Duty’ to #0. She whispers that Her duty is very important and secretive.},
+      {She talks about ‘Duty’ to #0. She whispers that Her duty is very important and secretive.},
       {She talks about ‘Justice’ to #0. She whispers that her work itself is justice. }
       ]
     </narration>
 
     <narration action="reverse1">
       -> [
-    {‘Magical girl’ is mumbling something inaudible with a melancholic voice to #0 who has just entered the sector.},
+      {‘Magical girl’ is mumbling something inaudible with a melancholic voice to #0 who has just entered the sector.},
       {Unlike before, ‘Magical girl’ is not looking at #0 who has just entered the sector.}
       ]
     </narration>
@@ -108,12 +108,12 @@
 
     <narration action="reverse3">
       -> [
-     {Her ‘Magic shoes’ tap quietly, breaking the silence.},
+      {Her ‘Magic shoes’ tap quietly, breaking the silence.},
       {Her eyes are unfocused and an unusually dreary smile is formed.}
       ]
     </narration>
 
-      <narration action="reverse4">
+    <narration action="reverse4">
       -> [
       {Hair loosened, resentfully staring at #0, she mumbles inaudibly.},
       {Her eyes are full of hatred. Her ‘girl-like’ appearance is long gone.}
@@ -138,10 +138,10 @@
       {A sharp fang of ‘Magical girl’ misses and penetrates #0’s shoulder.}
       ]
     </narration>
-    
+
     <narration action="dead">
       -> [
-     {‘Magical girl’ steps over fallen #0 and gets out of the sector. She will now look for other victims everywhere around isolation sectors.},
+      {‘Magical girl’ steps over fallen #0 and gets out of the sector. She will now look for other victims everywhere around isolation sectors.},
       {Before breathing one’s last breath,  tries to talk to ‘Magical girl’ with all one’s might, but she closes the door of the sector as if she couldn’t hear anything.}
       ]
     </narration>
@@ -170,33 +170,33 @@
     <sound action="attack" src="creature/match_girl/matchgirl_attack"/>
     <sound action="enter" src="creature/match_girl/matchgirl_enter"/>
   </info>
-  
+
   <observe level ="4">
     <collection>
       <codeNo openLevel ="0">0-01-04-H</codeNo>
       <portrait openLevel ="0"></portrait>
-  
-        <size openLevel ="0">
-  3
-  </size>
+
+      <size openLevel ="0">
+        3
+      </size>
 
       <weight openLevel ="0">
-  46kg
-  </weight>
+        46kg
+      </weight>
 
       <name openLevel ="1">
-Magical girl
-</name>
+        Magical girl
+      </name>
       <attackType openLevel ="1">
-         Red
+        Red
       </attackType>
-       
+
       <creatureType openLevel ="1">
         creature
       </creatureType>
 
       <horrorLevel openLevel ="1">
-       0
+        0
       </horrorLevel>
 
       <riskLevel openLevel ="2">
@@ -216,101 +216,101 @@ Magical girl
       </mental>
 
       <specialName openLevel ="3">
-  In the name of love and hate 
-  </specialName>
+        In the name of love and hate
+      </specialName>
 
       <specialInfo openLevel ="3">
-  When enraged, attacks any and all targets.
-  </specialInfo>
+        When enraged, attacks any and all targets.
+      </specialInfo>
 
       <aggression openLevel ="3">
-  2
-  </aggression>
+        2
+      </aggression>
 
       <gorgeous openLevel ="3">
-  4
-  </gorgeous>
-      
+        4
+      </gorgeous>
+
       <rejectWork openLevel ="4"></rejectWork>
-      
+
       <preferWork openLevel ="5"></preferWork>
       <solution openLevel ="4">
         If there are signs of upcoming rage, anesthetic should be given to calm the subject .
       </solution>
-      
+
     </collection>
     <desc id="1" openLevel="0">
-    -> [
-        {Creature has the appearance of a woman ready fight any villain for peace and justice.}
-       ]
+      -> [
+      {Creature has the appearance of a woman ready fight any villain for peace and justice.}
+      ]
     </desc>
 
     <desc id="2" openLevel="1">
-     -> [
-        {Generally the creature is kind and polite to the staff and is able to converse casually. Creature continues to believe that it is a hero sent to save the world and is considerably proud of that fact.}
-       ]
+      -> [
+      {Generally the creature is kind and polite to the staff and is able to converse casually. Creature continues to believe that it is a hero sent to save the world and is considerably proud of that fact.}
+      ]
     </desc>
 
     <desc id="3" openLevel="2">
-    -> [
-        {When the creature is faced with 'Anxiety' or 'Skepticism', within 2-4 days its outer persona changes and creature displays symptoms of dissociative disorder.} 
-        ]
+      -> [
+      {When the creature is faced with 'Anxiety' or 'Skepticism', within 2-4 days its outer persona changes and creature displays symptoms of dissociative disorder.}
+      ]
     </desc>
 
     <desc id="4" openLevel="3">
-    -> [
-        {Its definition of good and evil is fixed in its mind. Some assume that, when the creature’s beliefs led to the horrible doubt about the existence of evil, it chose to become ‘evil’ to negate that doubt.}
-       ]
+      -> [
+      {Its definition of good and evil is fixed in its mind. Some assume that, when the creature’s beliefs led to the horrible doubt about the existence of evil, it chose to become ‘evil’ to negate that doubt.}
+      ]
     </desc>
 
-      <desc id="5" openLevel="4">
-    -> [
-        {After ‘enraged’ behavior passes, it does not remember its own behavior. There is no need to remind the creature of past events.}
-       ]
+    <desc id="5" openLevel="4">
+      -> [
+      {After ‘enraged’ behavior passes, it does not remember its own behavior. There is no need to remind the creature of past events.}
+      ]
     </desc>
 
 
     <record openLevel="1">
-     -> [
-        {Employee M4032 : so, how are you doing today?
-        Magical girl : Great. It’s quiet in here and the world is peaceful. Peace is a great thing. No more villains. Right?}
-        ]
+      -> [
+      {Employee M4032 : so, how are you doing today?
+      Magical girl : Great. It’s quiet in here and the world is peaceful. Peace is a great thing. No more villains. Right?}
+      ]
     </record>
 
     <record openLevel="2">
-    ->[
-         {(Omitted)
-          Employee M4032 : You look a bit blue today. 
-          Magical girl: Still great. World is peaceful, in here it’s… (Creature fell silent)
-          (Omitted)
-          Employee M4032 : Hey, are you alright?
-          Magical girl: Why is it still so peaceful? I live to defeat evil villains. The world doesn’t need me at all, does it? Oh, did I tell you I’m a witch? I was chosen to bring peace in to the world. But today, it’s already quiet. (Creature continued to murmur incomprehensible words by itself)}
-         ]
+      ->[
+      {(Omitted)
+      Employee M4032 : You look a bit blue today.
+      Magical girl: Still great. World is peaceful, in here it’s… (Creature fell silent)
+      (Omitted)
+      Employee M4032 : Hey, are you alright?
+      Magical girl: Why is it still so peaceful? I live to defeat evil villains. The world doesn’t need me at all, does it? Oh, did I tell you I’m a witch? I was chosen to bring peace in to the world. But today, it’s already quiet. (Creature continued to murmur incomprehensible words by itself)}
+      ]
     </record>
 
     <record openLevel="3">
-     -> [
-          {(The creature showed signs of anxiety and compulsive behavior; it didn’t even notice when the Employee came into the room)
-         Magical girl : The world in divided into good and evil. I stand with justice. If I am good, there must be evil too. Without evils, I cannot exist. Who would save the world then?
-         After these symptoms where displayed she was sedated with enough anesthetic to last 3 days.}
-        ]
+      -> [
+      {(The creature showed signs of anxiety and compulsive behavior; it didn’t even notice when the Employee came into the room)
+      Magical girl : The world in divided into good and evil. I stand with justice. If I am good, there must be evil too. Without evils, I cannot exist. Who would save the world then?
+      After these symptoms where displayed she was sedated with enough anesthetic to last 3 days.}
+      ]
     </record>
 
-      <record openLevel="4">
-     -> [
-          { Interview Log S3_4921
-            [Warning] Personnel clearance must be Level 3 or higher to read this document
-            This recording is from the date of [Redacted], incident number [Redacted].  The Abnomality used the confinement facility’s emergency phone to call a staff member in the Emergency Response Department.
-            Magical girl: (Continued sobbing noises)
-            Employee : Emergency Response Department. Identification, please.  
-            Magical girl : I.. I did it. Oh, I, I couldn’t stop myself. If someone died, the blood’s on my hands. I ruined everything. I betrayed those people who were so kind to me. I don’t remember … 
-            Employee : What happened?
-            Magical girl : I don’t know. They aren’t moving. There is so much blood. I’m sorry. I just want to say, sorry. 
-            (Omitted) 
-            Three corpses were found in the Illutionite’s containment quarters. The discovered bodies were of the employees assigned to prevent incidents. Afterwards, the Little Witch lost recollection of the entire incident. 
-          }
-        ]
+    <record openLevel="4">
+      -> [
+      { Interview Log S3_4921
+      [Warning] Personnel clearance must be Level 3 or higher to read this document
+      This recording is from the date of [Redacted], incident number [Redacted].  The Abnomality used the confinement facility’s emergency phone to call a staff member in the Emergency Response Department.
+      Magical girl: (Continued sobbing noises)
+      Employee : Emergency Response Department. Identification, please.
+      Magical girl : I.. I did it. Oh, I, I couldn’t stop myself. If someone died, the blood’s on my hands. I ruined everything. I betrayed those people who were so kind to me. I don’t remember …
+      Employee : What happened?
+      Magical girl : I don’t know. They aren’t moving. There is so much blood. I’m sorry. I just want to say, sorry.
+      (Omitted)
+      Three corpses were found in the Illutionite’s containment quarters. The discovered bodies were of the employees assigned to prevent incidents. Afterwards, the Little Witch lost recollection of the entire incident.
+      }
+      ]
     </record>
-    
+
   </observe>
 </creature>

@@ -3,11 +3,19 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class SuppressAgentSlot : MonoBehaviour {
-
-	private AgentModel model;
+    
+	public AgentModel model;
 
     public Image face;
     public Image hair;
+    public Image suppressIcon;
+
+    public GameObject portrait;
+
+    public Image Target;
+    public Sprite Normal;
+    public Sprite Selected;
+    public Sprite Suppressing;
 
     public Text name;
     public Text grade;
@@ -21,6 +29,8 @@ public class SuppressAgentSlot : MonoBehaviour {
 
     private Color Select, NonSelect;
     private int index = -1;
+    public bool isSelected = false;
+
 
     public void Awake() {
         Select = Color.white;
@@ -28,12 +38,15 @@ public class SuppressAgentSlot : MonoBehaviour {
     }
 
     public void Init(AgentModel model) {
+
+        Target.sprite = Normal;
         if (model == null)
         {
             this.model = null;
             Empty();
             return;
         }
+        NonEmpty();
 
 		this.model = model;
 
@@ -48,6 +61,10 @@ public class SuppressAgentSlot : MonoBehaviour {
         currentMental.text = model.mental.ToString();
         movement.text = model.movement.ToString();
         currentAction.text = "";
+        if (model.GetState() == AgentAIState.SUPPRESS_CREATURE || model.GetState() == AgentAIState.SUPPRESS_WORKER)
+        {
+            Target.sprite = Suppressing;
+        }
 
 		UnitModel target = AutoCommandManager.instance.GetSuppressActionTarget (model);
 
@@ -59,7 +76,20 @@ public class SuppressAgentSlot : MonoBehaviour {
     }
 
     public void Empty() {
-        Debug.Log("This slot is empty");
+        //Debug.Log("This slot is empty");
+        this.portrait.gameObject.SetActive(false);
+        this.suppressIcon.gameObject.SetActive(false);
+        this.name.gameObject.SetActive(false);
+        this.grade.gameObject.SetActive(false);
+        
+    }
+
+    public void NonEmpty() {
+        this.portrait.gameObject.SetActive(true);
+        this.suppressIcon.gameObject.SetActive(true);
+        this.name.gameObject.SetActive(true);
+        this.grade.gameObject.SetActive(true);
+        
     }
 
     public void SetSelected(int i) {
@@ -75,6 +105,29 @@ public class SuppressAgentSlot : MonoBehaviour {
             }
             suppressAction[cnt].color = NonSelect;
         }
+    }
+
+    public void OnClick() {
+        if (this.model == null) return;
+        if (model.GetState() == AgentAIState.SUPPRESS_CREATURE || model.GetState() == AgentAIState.SUPPRESS_WORKER)
+        {
+            return;
+        }
+        
+        isSelected = !isSelected;
+
+        if (isSelected)
+        {
+            //SpriteChanage;
+            Target.sprite = this.Selected;
+            SuppressWindow.currentWindow.OnSetSuppression(model);
+        }
+        else {
+            Target.sprite = this.Normal;
+            SuppressWindow.currentWindow.OnDeleteSuppression(model);
+        }
+        //SuppressWindow.currentWindow.OnSetSuppression(model);
+        
     }
 
     public void OnClick(int i) {

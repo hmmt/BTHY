@@ -104,9 +104,12 @@ public class AgentModel : WorkerModel
 	private List<SkillInfo> skillInfos;
 
     //
+    public UseSkill currentSkill = null;
 
     //활성화된 직원인가 체크
     public bool activated;
+
+    public bool workEndReaction = false;
 
     // 이하 save 되지 않는 데이터들
     private ValueInfo levelSetting;
@@ -184,13 +187,6 @@ public class AgentModel : WorkerModel
 			skillList.Add (SkillTypeList.instance.GetData (skillId));
 			skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (skillId)));
 		}
-
-		// special skill
-		skillList.Add (SkillTypeList.instance.GetData (40002));
-		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (40002)));
-        //Special Skill Add
-		skillList.Add (SkillTypeList.instance.GetData (40003));
-        skillInfos.Add(new SkillInfo(SkillTypeList.instance.GetData(40003)));
 
 		//weapon = Random.Range (0, 2) == 1 ? AgentWeapon.SHIELD : AgentWeapon.GUN;
 		weapon = AgentWeapon.GUN;
@@ -1044,9 +1040,13 @@ public class AgentModel : WorkerModel
 
 	public override void OnDie()
 	{
-		if (unconAction != null) {
-			unconAction.OnDie ();
-		}
+        if (unconAction != null)
+        {
+            unconAction.OnDie();
+        }
+        else { 
+            
+        }
 	}
 
     /// <summary>
@@ -1213,6 +1213,9 @@ public class AgentModel : WorkerModel
 
 		AnimatorManager.instance.ChangeAnimatorByID (instanceId, instanceId,
 			agentView.puppetAnim, false, false);
+
+        agentView.puppetAnim.SetBool("SpecialWork", true);
+        workEndReaction = true;
 	}
 
 	// motion
@@ -1473,4 +1476,43 @@ public class AgentModel : WorkerModel
         unit.UIRecoilInput(damageLevel, 1);
     }
 
+    public void AddSpecialSkill(SkillTypeInfo skill) {
+        this.skillList.Add(skill);
+        this.skillInfos.Add(new SkillInfo(skill));
+    }
+
+    public static Sprite[] GetAgentSkillSprite(AgentModel model) {
+        //temporary;
+        List<Sprite> output = new List<Sprite>();
+        for (long i = 1; i <= 5; i++) {
+            foreach (SkillTypeInfo skill in model.skillList) {
+                if (skill.id == i) {
+                    int index = GetWorkIconId(skill);
+                    Sprite s = IconManager.instance.GetWorkIcon(index).GetDefault().icon;
+                    output.Add(s);
+                }
+            }
+        }
+        return output.ToArray();
+    }
+
+    public static int GetWorkIconId(SkillTypeInfo skill) {
+        if (skill.id > 10) {
+            return IconId.Special1;
+        }
+        switch (skill.id) { 
+            case 1:
+                return IconId.Meal1;
+            case 2:
+                return IconId.Clean1;
+            case 3:
+                return IconId.Communion1;
+            case 4:
+                return IconId.Play1;
+            case 5:
+                return IconId.Violent1;
+            default:
+                return IconId.Meal1;
+        }
+    }
 }

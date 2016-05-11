@@ -45,6 +45,33 @@ public class SuppressAction {
 
 public class SuppressWindow : MonoBehaviour, IActivatableObject
 {
+    [System.Serializable]
+    public class SuppressUIElement {
+        public Sprite WorkerBg;
+        public Sprite CreatureBg;
+        public Sprite Button_Normal;
+        public Sprite Button_Overlay;
+        public Sprite Button_Click;
+        
+    }
+
+    [System.Serializable]
+    public class SuppressUITarget {
+        public Image CreatureBg;
+        public Image AgentBg;
+        public Button button;
+
+        public void SpriteSet(SuppressUIElement element) {
+            this.CreatureBg.sprite = element.CreatureBg;
+            this.AgentBg.sprite = element.WorkerBg;
+            SpriteState state = button.spriteState;
+            button.image.sprite = element.Button_Normal;
+            state.highlightedSprite = element.Button_Overlay;
+            state.pressedSprite = element.Button_Click;
+            state.disabledSprite = element.Button_Normal;
+        }
+    }
+
     public enum TargetType { 
         CREATURE,
         AGENT,
@@ -128,6 +155,11 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
     }
 
     public GameObject slot;
+
+    public SuppressUIElement malkuth;
+    public SuppressUIElement yessod;
+
+    public SuppressUITarget spriteTarget;
     
     [System.Serializable]
     public class SuppressWindowUI {
@@ -216,9 +248,66 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
     private TargetType targetType;
     private Transform attachedPos;
     private Sefira currentSefira = null;
-
+    public List<NullCreature> nullEscapedList = new List<NullCreature>();
     public static SuppressWindow currentWindow = null;
-    
+
+    public static SuppressWindow CreateNullCreatureSuppressWindow(CreatureModel nullCreature, WorkerModel model) {
+        Debug.Log("NullCreature Suppress");
+        if (currentWindow.gameObject.activeSelf)
+        {
+            if (currentWindow.target == model)
+            {
+                return currentWindow;
+            }
+        }
+        else {
+            currentWindow.gameObject.SetActive(true);
+            currentWindow.line.gameObject.SetActive(true);
+            currentWindow.Activate();
+        }
+
+        SuppressWindow inst = currentWindow;
+        inst.target = model;
+        if (model is AgentModel) {
+            inst.targetType = TargetType.AGENT;
+        }
+        else if (model is OfficerModel) {
+            inst.targetType = TargetType.OFFICER;
+        }
+        Sefira modelSefira = nullCreature.sefira;
+        if (inst.currentSefira != modelSefira) {
+            inst.currentSefira = modelSefira;
+            inst.agentList.Clear();
+            inst.SetSprites(modelSefira);
+        }
+        inst.InitAgentList();
+        inst.ShowAgentList();
+
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(nullCreature.instanceId);
+        if (model is AgentModel) {
+            AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(model.instanceId);
+            inst.attachedPos = agentUnit.transform;
+            inst.ui.Init(nullCreature, TargetType.CREATURE);
+
+        }
+        else if(model is OfficerModel){
+            OfficerUnit officerUnit = OfficerLayer.currentLayer.GetOfficer(model.instanceId);
+            inst.attachedPos = officerUnit.transform;
+            inst.ui.Init(nullCreature , TargetType.CREATURE);
+        }
+
+
+        if (inst.activatableObjectInitiated == false)
+        {
+            inst.UIActivateInit();
+        }
+
+        Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
+        currentWindow = inst;
+        return inst;
+    }
+
     public static SuppressWindow CreateWindow(CreatureModel target) {
         if (currentWindow.gameObject.activeSelf)
         {
@@ -240,6 +329,7 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
         if (inst.currentSefira != target.sefira) {
             inst.currentSefira = target.sefira;
             inst.agentList.Clear();
+            inst.SetSprites(target.sefira);
         }
         inst.InitAgentList();
         inst.ShowAgentList();
@@ -283,6 +373,7 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
         {
             inst.currentSefira = SefiraManager.instance.getSefira(target.currentSefira);
             inst.agentList.Clear();
+            inst.SetSprites(inst.currentSefira);
         }
         inst.InitAgentList();
         inst.ShowAgentList();
@@ -337,6 +428,15 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 		currentWindow = inst;
 		return inst;
 	}
+
+    public void SetSprites(Sefira sefira) {
+        if (sefira.name == SefiraName.Malkut) {
+            this.spriteTarget.SpriteSet(this.malkuth);
+        }
+        else if (sefira.name == SefiraName.Yesod) {
+            this.spriteTarget.SpriteSet(this.yessod);
+        }
+    }
 
     public void Awake() {
         SpriteRenderer lineSpriteRenderer = line.GetComponent<SpriteRenderer>();
@@ -397,6 +497,7 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
     /// <summary>
     /// 직원이 패닉상태인지 확인함
     /// </summary>
+
     private void InitAgentList() {
         List<AgentModel> list = new List<AgentModel>(currentSefira.agentList.ToArray());
         if (this.suppressingAgentList == null)
@@ -408,7 +509,17 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
         }
 
         foreach (AgentModel model in list) {
+            bool check = false;
             //패닉 상태인지 확인하는 과정이 필요함
+            foreach (SuppressAction sa in agentList) {
+                if (sa.model == model) {
+                    check = true;
+                    break;
+                }
+            }
+            if (check) { 
+                break;
+            }
 
             SuppressAction action = new SuppressAction(model);
             if (model.panicFlag != true && model.GetState() != AgentAIState.CANNOT_CONTROLL)
@@ -440,7 +551,7 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
                 slot.Init(agentList[i].model);
                 if (this.agentList[i].GetControllable() == false) {
                     Debug.Log("This agent cannot controllable");
-                    slot.SetPanic();
+                   // slot.SetPanic();
                 }
             }
             else
@@ -521,7 +632,36 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
         */
     }
 
+    public void OnDeleteSuppression(AgentModel actor) {
+        SuppressAction suppressAction = null;
+        foreach (SuppressAction ta in this.agentList)
+        {
+            if (actor == ta.model)
+            {
+                suppressAction = ta;
+                break;
+            }
+        }
+
+        if (suppressAction == null)
+        {
+            print("Error to founding agent");
+            return;
+        }
+
+        if (suppressAction.GetControllable() == false)
+        {
+            print("this agent cannot controllable");
+            return;
+        }
+
+        this.suppressingAgentList.Remove(suppressAction);
+        
+
+    }
+
     public void StartSuppressAction() {
+        
         if (suppressingAgentList.Count < 0) {
             return;
         }

@@ -4,6 +4,7 @@ using System.Collections;
 public interface IAnimatorEventCalled {
     void OnCalled();
     void OnCalled(int i);
+    void AgentReset();
     void AnimatorEventInit();
 }
 
@@ -37,6 +38,10 @@ public class AnimatorEventScript : MonoBehaviour {
     
     public void EventCalledInt(int i) {
         target.OnCalled(i);
+    }
+
+    public void AgentResetCommand() {
+        target.AgentReset();
     }
 
 }

@@ -4,7 +4,12 @@ using System.Collections;
 public class NullthingAnim : CreatureAnimScript {
 
 	private float attackMotionDelay = 0;
-    public bool isDisquised = false;
+    public bool isDisguised = false;
+    public NullCreature.NullState currentState = NullCreature.NullState.WORKER;
+
+    public void SetState(NullCreature.NullState state) {
+        this.currentState = state;
+    }
 	// Use this for initialization
 	void Start () {
 	    
@@ -12,23 +17,23 @@ public class NullthingAnim : CreatureAnimScript {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isDisquised) return;
+        if (isDisguised) return;
 		if (attackMotionDelay > 0)
 			attackMotionDelay -= Time.deltaTime;
 	}
 
 	void Attack(){
-        if (isDisquised) return;
+        if (isDisguised) return;
 		Debug.Log ("attack");
 		attackMotionDelay = 3.0f;
 		animator.SetBool ("Move", false);
 		//animator.SetBool ("Attack", true);
-		animator.SetInteger("Physical", 1);
+		animator.SetInteger("Physical", Random.Range(1, 4));
 	}
 
 	void Move()
 	{
-        if (isDisquised) return;
+        if (isDisguised) return;
 
 		if (attackMotionDelay > 0)
 			return;
@@ -39,11 +44,16 @@ public class NullthingAnim : CreatureAnimScript {
 
 	void Idle()
 	{
-        if (isDisquised) return;
+        if (isDisguised) return;
 		if (attackMotionDelay > 0)
 			return;
 		//animator.SetBool ("Attack", false);
 		animator.SetInteger("Physical", 0);
 		animator.SetBool ("Move", false);
 	}
+
+    public void Transform() {
+        animator.SetBool("Transform", true);
+        animator.SetBool("Transform", false);
+    }
 }

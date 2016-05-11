@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <skills>
-	<skill id="10001" category ="A" type="direct" tier="1" name="Food Distribution" desc="밥을 준다" amount="20" feeling="15" imgsrc="UI/skill/meat">
+	<skill id="10001" category ="A" type="direct" tier="1" name="Food Distribution" desc="밥을 준다" amount="20" feeling="15" animType="" imgsrc="UI/skill/meat">
 		<bonus type="D">
 		</bonus>
 		<bonus type="I">
@@ -17,7 +17,7 @@
 		<nextSkill>10004</nextSkill>
 	</skill>
 
-	<skill id="10002" category ="B" type="direct" tier="2" name="Nutrition injection" desc="튜브로 밥을 준다" amount="29" feeling="27" imgsrc="UI/skill/Work_Feed">
+	<skill id="10002" category ="B" type="direct" tier="2" name="Nutrition injection" desc="튜브로 밥을 준다" amount="29" feeling="27" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 			<amount>0.8</amount>
 			<feeling>0.8</feeling>
@@ -31,7 +31,7 @@
 		</bonus>
 	</skill>	
 
-	<skill id="10003" category ="C" type="direct" tier="2" name="Unknown Meat" desc="사람을 밥으로 준다" amount="26" feeling="19" imgsrc="UI/skill/Work_Feed">
+	<skill id="10003" category ="C" type="direct" tier="2" name="Unknown Meat" desc="사람을 밥으로 준다" amount="26" feeling="19" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 			<amount>0.8</amount>			
 		</bonus>
@@ -48,7 +48,7 @@
 		</bonus>
 	</skill>
 
-	<skill id="10004" category ="D" type="direct" tier="2" name="Taking Pills" desc="밥으로 치료한다" amount="33" feeling="23" imgsrc="UI/skill/Work_Feed">
+	<skill id="10004" category ="D" type="direct" tier="2" name="Taking Pills" desc="밥으로 치료한다" amount="33" feeling="23" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 			<amount>0.8</amount>
 			<feeling>0.8</feeling>
@@ -66,7 +66,7 @@
 		</bonus>
 	</skill>
 
-	<skill id="20001" category ="E" type="indirect" tier="1" name="Mopping" desc="밥을 먹이기 위해 청소한다" amount="15" feeling="10" imgsrc="UI/skill/cleaning">
+	<skill id="20001" category ="E" type="indirect" tier="1" name="Mopping" desc="밥을 먹이기 위해 청소한다" amount="15" feeling="10" animType="" imgsrc="UI/skill/cleaning">
 		<bonus type="D">
 			<mentalReduce>-5</mentalReduce>
 		</bonus>
@@ -86,7 +86,7 @@
 		<nextSkill>20004</nextSkill>
 	</skill>
 
-	<skill id="20002" category ="F" type="indirect" tier="2" name="Conversation" desc="대화하고 밥을 줄 것이다" amount="22" feeling="22" imgsrc="UI/skill/Work_Feed">
+	<skill id="20002" category ="F" type="indirect" tier="2" name="Conversation" desc="대화하고 밥을 줄 것이다" amount="22" feeling="22" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 			<amount>0.8</amount>
 			<feeling>0.8</feeling>
@@ -105,7 +105,7 @@
 		</bonus>
 	</skill>
 
-	<skill id="20003" category ="G" type="indirect" tier="2" name="Spray" desc="씻은 다음에 밥을 준다" amount="24" feeling="18" imgsrc="UI/skill/Work_Feed">
+	<skill id="20003" category ="G" type="indirect" tier="2" name="Spray" desc="씻은 다음에 밥을 준다" amount="24" feeling="18" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 			<mentalReduce>-15</mentalReduce>
 		</bonus>
@@ -119,7 +119,7 @@
 		</bonus>
 	</skill>
 
-	<skill id="20004" category ="H" type="indirect" tier="2" name="Spray Disinfectant" desc="격리실을 소독 하고 밥을 준다" amount="27" feeling="15" imgsrc="UI/skill/Work_Feed">
+	<skill id="20004" category ="H" type="indirect" tier="2" name="Spray Disinfectant" desc="격리실을 소독 하고 밥을 준다" amount="27" feeling="15" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 			<mentalReduce>10</mentalReduce>
 		</bonus>
@@ -134,7 +134,7 @@
 		</bonus>
 	</skill>
 
-	<skill id="30001" category ="A" type="block" tier="1" name="Suppress" desc="진정시키고 밥을 주자" amount="10" feeling="-10" bonusEnergy="5" imgsrc="UI/skill/disinfectant">
+	<skill id="30001" category ="A" type="block" tier="1" name="Suppress" desc="진정시키고 밥을 주자" amount="10" feeling="-10" bonusEnergy="5" animType="" imgsrc="UI/skill/disinfectant">
 		<bonus type="D">
 			<amount>0.8</amount>
 			<mentalTick>3</mentalTick>
@@ -153,7 +153,7 @@
 		<nextSkill>30004</nextSkill>
 	</skill>			
 
-	<skill id="30002" category ="B" type="block" tier="2" name="Anesthesia" desc="재우면 밥을 못먹겠지" amount="17" feeling="-14" bonusEnergy="13" imgsrc="UI/skill/Work_Feed">
+	<skill id="30002" category ="B" type="block" tier="2" name="Anesthesia" desc="재우면 밥을 못먹겠지" amount="17" feeling="-14" bonusEnergy="13" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 		</bonus>
 		<bonus type="I">
@@ -167,7 +167,7 @@
 		</bonus>
 	</skill>
 
-	<skill id="30003" category ="C" type="block" tier="2" name="Restriction" desc="묶어서 밥을 안준다" amount="20" feeling="-17" bonusEnergy="10" imgsrc="UI/skill/Work_Feed">
+	<skill id="30003" category ="C" type="block" tier="2" name="Restriction" desc="묶어서 밥을 안준다" amount="20" feeling="-17" bonusEnergy="10" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 		</bonus>
 		<bonus type="I">
@@ -184,7 +184,7 @@
 		</bonus>
 	</skill>						
 
-	<skill id="30004" category ="D" type="block" tier="2" name="Stroke" desc="밥을 안먹으니 때리자" amount="13" feeling="-20" bonusEnergy="20" imgsrc="UI/skill/Work_Feed">
+	<skill id="30004" category ="D" type="block" tier="2" name="Stroke" desc="밥을 안먹으니 때리자" amount="13" feeling="-20" bonusEnergy="20" animType="" imgsrc="UI/skill/Work_Feed">
 		<bonus type="D">
 			<amount>1.2</amount>
 			<mentalTick>1</mentalTick>
@@ -201,18 +201,19 @@
 	</skill>		
 
 
-	<skill id="400001" category ="A" type="unique" tier="1" name="고해하기" desc="ㅈㅅ" amount="30" imgsrc="UI/skill/Work_Commu"/>
+	<skill id="400001" category ="A" type="unique" tier="1" name="고해하기" desc="ㅈㅅ" amount="30" animType="" imgsrc="UI/skill/Work_Commu"/>
 	<!--<skill id="400002" category ="A" type="unique" tier="1" name="포옹하기" desc="으헝헝" amount="30" imgsrc="UI/skill/Work_Commu"/>-->
 
-	<skill id="400010" category ="A" type="unique" tier="1" name="(아무것도없는)전용스킬" desc="아무것도 없네" amount="30" imgsrc="UI/skill/Work_Commu"/>
+	<skill id="400010" category ="A" type="unique" tier="1" name="(아무것도없는)전용스킬" desc="아무것도 없네" amount="30" animType="" imgsrc="UI/skill/Work_Commu"/>
 
 
-	<skill id="1" tier="1" name="영양" desc="밥을 AA" amount="20" feeling="15" imgsrc="disinfectant"/>
-	<skill id="2" tier="1" name="위생" desc="밥을 BB" amount="20" feeling="15" imgsrc="Communication"/>
-	<skill id="3" tier="1" name="교감" desc="밥을 CC" amount="20" feeling="15" imgsrc="EggBroken"/>
-	<skill id="4" tier="1" name="유희" desc="밥을 DD" amount="20" feeling="15" imgsrc="Meat"/>
-	<skill id="5" tier="1" name="폭력" desc="밥을 EE" amount="20" feeling="15" imgsrc="Pill"/>
+	<skill id="1" tier="1" name="영양" desc="밥을 AA" amount="20" feeling="15" animType="Nutrition" imgsrc="disinfectant"/>
+	<skill id="2" tier="1" name="위생" desc="밥을 BB" amount="20" feeling="15" animType="Clean" imgsrc="Communication"/>
+	<skill id="3" tier="1" name="교감" desc="밥을 CC" amount="20" feeling="15" animType="Communion" imgsrc="EggBroken"/>
+	<skill id="4" tier="1" name="유희" desc="밥을 DD" amount="20" feeling="15" animType="Treatment" imgsrc="Meat"/>
+	<skill id="5" tier="1" name="폭력" desc="밥을 EE" amount="20" feeling="15" animType="Control" imgsrc="Pill"/>
 
-	<skill id="40002" tier="1" name="포옹" desc="포옹" amount="20" feeling="15" imgsrc="Pill" anim="-1"/>
-  	<skill id="40003" tier="1" name="고해성사" desc="고해" amount="0" feeling ="0" imgsrc="Pill"/>
+	<skill id="40002" tier="1" name="포옹" desc="포옹" amount="20" feeling="15" imgsrc="Pill" animType=""/>
+  <skill id="40003" tier="1" name="고해성사" desc="고해" amount="0" feeling ="0" animType="" imgsrc="Pill"/>
+  <skill id="40004" tier="1" name="마취" desc="마취" amount="0" feeling="0" animType="UniqueWork" imgsrc="Pill"/>
 </skills>

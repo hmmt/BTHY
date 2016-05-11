@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
 {
+    /*
     [System.Serializable]
     public class ObserveWindowUI {
         public Image portrait;
@@ -38,7 +39,7 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
             DisplayText(this.grade, table.riskLevel, info.level);
             DisplayText(this.physical, table.physical, info.physicalAttackLevel.ToString());
             DisplayText(this.mental, table.mental, info.mentalAttackLevel.ToString());
-            */
+            
         }
 
         public void DisplayText(Text target, int level, string desc) {
@@ -64,11 +65,42 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
             this.ExpectSuccesPercent.text = window.expectSuccessPercent.ToString();
         }
     }
-    
+    */
+
+    [System.Serializable]
+    public class ObserveWindowUI {
+        public Sprite Bg;
+        public Sprite Button_Normal;
+        public Sprite Button_Click;
+        public Sprite Button_Over;
+
+    }
+
+    [System.Serializable]
+    public class ObserveWindowUITarget {
+        public Image Bg;
+        public Button button;
+
+        public void SetSprite(ObserveWindowUI ui) {
+            this.Bg.sprite = ui.Bg;
+            this.button.image.sprite = ui.Bg;
+            SpriteState state = this.button.spriteState;
+            state.pressedSprite = ui.Button_Click;
+            state.disabledSprite = ui.Button_Normal;
+            state.highlightedSprite = ui.Button_Over;
+        }
+    }
+
+    public ObserveWindowUI malkut;
+    public ObserveWindowUI yesod;
+    public ObserveWindowUITarget target;
+
     public Transform agentScrollTarget;
     
-    public ObserveWindowUI ui;
-    public ConditionUI conditionUI;
+    //public ObserveWindowUI ui;
+    //public ConditionUI conditionUI;
+
+    public bool activated = false;
 
     [HideInInspector]
     public ActivatableObjectPos windowPos = ActivatableObjectPos.LEFTUPPER;
@@ -108,7 +140,7 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
         }
         
         SelectObserveAgentWindow inst = currentWindow;
-        
+        inst.activated = true;
         inst.targetCreature = unit;
         //Initialize attributes
         inst.currentAgentCnt = inst.currentOfficerCnt = 0;
@@ -117,22 +149,36 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
         inst.needOfficerCnt = 2;
 
         inst.officerList.Clear();
-        inst.agentList.Clear();
+        //inst.agentList.Clear();
         inst.GetRandomOfficer(inst.needOfficerCnt);
 
+        inst.SetUI(unit.sefira);
         //Initialize UI
-        inst.ui.Init(inst.targetCreature);
-        inst.conditionUI.Init(inst);
+        //inst.ui.Init(inst.targetCreature);
+        //inst.conditionUI.Init(inst);
         
 
-        Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
-        canvas.worldCamera = UIActivateManager.instance.GetCam();
+        //Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
+        //canvas.worldCamera = UIActivateManager.instance.GetCam();
 
         //make AgentSlot
-        inst.ShowAgentList();
+        //inst.ShowAgentList();
         currentWindow = inst;
 
         return inst;
+    }
+
+    public void SetUI(Sefira sefira) {
+        if (sefira.name == SefiraName.Malkut) {
+            this.target.SetSprite(malkut);
+        }
+        else if (sefira.name == SefiraName.Yesod)
+        {
+            this.target.SetSprite(yesod);
+        }
+        else {
+            this.target.SetSprite(malkut);
+        }
     }
 
     public void Start() {
@@ -198,6 +244,7 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
             return false;
     }
 
+   
     public void ShowAgentList()
     {
         AgentModel[] agents = targetCreature.sefira.agentList.ToArray();
@@ -281,6 +328,7 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
         //gameObject.SetActive (false);
         Deactivate();
         currentWindow.gameObject.SetActive(false);
+        activated = false;
     }
 
     public void Activate()

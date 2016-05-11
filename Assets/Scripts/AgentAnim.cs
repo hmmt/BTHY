@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class AgentAnim : MonoBehaviour {
+public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 	private class ParameterInfo
 	{
 		public enum ParameterType
@@ -83,7 +83,12 @@ public class AgentAnim : MonoBehaviour {
 	private Stack<ParameterInfo> updatedParameters;
 	private List<ParameterInfo> updatedParametersMoment;
 
-	
+    private WorkerModel model;
+
+    public void Init(WorkerModel am) {
+        this.model = am;
+        this.AnimatorEventInit();
+    }
 	
 	void Awake()
 	{
@@ -199,4 +204,26 @@ public class AgentAnim : MonoBehaviour {
 			updatedParametersMoment.Remove (info);
 		}
 	}
+
+    public void OnCalled()
+    {
+        Debug.Log("workend");
+        this.model.OnWorkEndFlag = true;
+    }
+
+    public void OnCalled(int i)
+    {
+
+    }
+
+    public void AnimatorEventInit()
+    {
+        AnimatorEventScript animEvent = this.GetComponent<AnimatorEventScript>();
+
+        animEvent.SetTarget(this);
+    }
+
+    public void AgentReset() {
+        (model as AgentModel).ResetAnimator();
+    }
 }

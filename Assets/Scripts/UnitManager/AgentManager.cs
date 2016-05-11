@@ -117,7 +117,7 @@ public class AgentManager : IObserver {
         unit.applyTrait(RandomEiTrait);
         unit.applyTrait(RandomNfTrait);
         unit.applyTrait(RandomNormalTrait);
-
+        AddSpecialSkillToAgent(unit);
         /*
 		if(AgentListScript.instance != null)
         	AgentListScript.instance.SetAgentList(unit);
@@ -131,6 +131,14 @@ public class AgentManager : IObserver {
         */
 
         return unit;
+    }
+
+    public void AddSpecialSkillToAgent(AgentModel model) {
+        model.AddSpecialSkill(SkillTypeList.instance.GetData(40002));
+        model.AddSpecialSkill(SkillTypeList.instance.GetData(40003));
+        if (model.agentLifeValue == PersonalityType.D || model.agentLifeValue == PersonalityType.C) {
+            model.AddSpecialSkill(SkillTypeList.instance.GetData(40004));
+        }
     }
 
     public string setRandomSprite(int count)

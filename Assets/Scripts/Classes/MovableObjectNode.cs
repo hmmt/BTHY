@@ -1011,7 +1011,7 @@ public class MovableObjectNode {
         }
         else
         {
-            Debug.Log("Current State invalid");
+            //Debug.Log("Current State invalid");
         }
     }
 

@@ -24,6 +24,7 @@ public class CreatureBase {
         public float maxTime = 0f;
         public bool started = false;
         public bool oneShot = false;//true : 한 번만 돌게 됨
+        public bool enabled = true;
 
         public CreatureTimer(float Time) {
             this.maxTime = Time;
@@ -255,5 +256,9 @@ public class CreatureBase {
 
     public virtual void UniqueFinish(UseSkill skill) { 
         
+    }
+
+    public virtual bool AutoFeelingDown() {
+        return true;
     }
 }

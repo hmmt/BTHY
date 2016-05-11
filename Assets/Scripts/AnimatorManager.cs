@@ -198,7 +198,7 @@ public class AnimatorManager : MonoBehaviour{
         }
         if (target == null)
         {
-            Debug.Log("Error");
+            Debug.Log("Error" + id + " target: " + targetID);
             return;
         }
         if (isSaved)

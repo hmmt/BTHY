@@ -102,7 +102,10 @@ public class PursueCreatureCommand : CreatureCommand
 				
 			if (actor.attackDelay <= 0) {
 				actor.SendAnimMessage ("Attack");
-				HitObjectManager.AddHitbox (actor.GetCurrentViewPosition ()+directionAdder, 0.5f, 4.0f, 3);
+				//HitObjectManager.AddHitbox (actor.GetCurrentViewPosition ()+directionAdder, 0.5f, 4.0f, 3);
+
+                targetWorker.RecentlyAttackedCreature(actor);
+                targetWorker.TakePhysicalDamageByCreature(1);
 				actor.ResetAttackDelay ();
 			}
 

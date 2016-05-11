@@ -24,6 +24,8 @@ public class AgentSpeech : MonoBehaviour {
     Sprite renderingTarget;
     
     public void Start() {
+        //this.textItem.canvasRenderer.relativeDepth = this.textItem.transform.parent.GetComponent<CanvasRenderer>().relativeDepth + 2;
+        
         this.standard = this.textItem.alignment;
         this.textRectTransform = this.textItem.rectTransform;
         this.bgRectTransform = this.textBackground.rectTransform;

@@ -106,6 +106,31 @@ public class UseSkill : ActionClassBase
         //tickInterval = totalWork / totalTickNum;
     }
 
+    public void MakeReaction() {
+        string speech = null;
+        int endLevel = GetEfficientLevel();
+        AgentLyrics.CreatureReactionList reaction = null;
+        if ((reaction = AgentLyrics.instance.GetCreatureReaction(this.targetCreature.metadataId)) != null)
+        {
+
+            string desc = reaction.GetDesc(endLevel);
+            speech = "";
+            if (desc == null)
+            {
+                agent.speechTable.TryGetValue("work_complete", out speech);
+            }
+            else
+            {
+                speech = desc;
+            }
+            SendAgentSpeechMessage(speech);
+        }
+        else if (agent.speechTable.TryGetValue("work_complete", out speech))
+        {
+            SendAgentSpeechMessage(speech);
+        }
+    }
+
     public void FixedUpdate()
     {
 		if (agent.GetCurrentNode() != null && agent.GetCurrentNode().GetId() == targetCreature.GetWorkspaceNode().GetId())
@@ -135,15 +160,19 @@ public class UseSkill : ActionClassBase
 		if (finished)
 			return;
 
-		if (workCount >= totalTickNum && !readyToFinish)
+
+        if (agent.workEndReaction) {
+            agent.workEndReaction = false;
+            MakeReaction();
+        }
+        //check work end and state changed to pile checking
+
+		if (workCount >= totalTickNum && !readyToFinish && agent.OnWorkEndFlag)
         {
-            string speech;
-            if (agent.speechTable.TryGetValue("work_complete", out speech))
-            {
-                Notice.instance.Send("AddPlayerLog", agent.name + " : " + speech);
-                Notice.instance.Send("AddSystemLog", agent.name + " : " + speech);
-                agentView.showSpeech.showSpeech(speech);
-            }
+            //MakeReaction();
+
+            //AngelaConversaion.instance.MakeCreatureReaction(this.targetCreature, endLevel);
+
             targetCreature.ShowNarrationText("finish", agent.name);
 
             targetCreature.script.OnSkillGoalComplete(this);
@@ -151,6 +180,7 @@ public class UseSkill : ActionClassBase
             //StatusView.instance.Hide ();
 
             readyToFinish = true;
+            agent.OnWorkEndFlag = false;
   
 			return;
         }
@@ -173,6 +203,14 @@ public class UseSkill : ActionClassBase
             }
         }
     }
+
+    public void SendAgentSpeechMessage(string desc)
+    {
+        Notice.instance.Send("AddPlayerLog", agent.name + " : " + desc);
+        Notice.instance.Send("AddSystemLog", agent.name + " : " + desc);
+        agentView.showSpeech.showSpeech(desc, 10f);
+    }
+
     public bool IsWorkingState()
     {
         if (agent.GetCurrentCommandType() == AgentCmdType.MANAGE_CREATURE)
@@ -300,11 +338,34 @@ public class UseSkill : ActionClassBase
 		//targetCreature.bufRemainingTime = 5f;
     }
 
+    public int GetEfficientLevel()
+    {
+        float targetValue = targetCreature.GetWorkEfficient(targetCreature.currentSkill.skillTypeInfo);
+        if (targetValue >= 1.5f)
+        {
+            return 1;
+        }
+        else if (targetValue < 1.5f && targetValue >= 1f) {
+            return 2;
+        }
+        else if (targetValue < 1f && targetValue >= 0f) {
+            return 3;
+        }
+        else if (targetValue < 0f && targetValue >= -1f)
+        {
+            return 4;
+        }
+        else {
+            return 5;
+        }
+    }
+
     private void FinshWork()
     {
         finished = true;
         int result = -1;
         if (workPlaying && !targetCreature.script.hasUniqueFinish()) {
+            
             float eff = targetCreature.GetWorkEfficient(targetCreature.currentSkill.skillTypeInfo);
             if (eff > 1)
             {
@@ -379,7 +440,7 @@ public class UseSkill : ActionClassBase
 		//targetCreature.SetFeelingBuf (bufTime, feelingBufAmount);
 
         Release();
-
+        agent.currentSkill = null;
         Notice.instance.Send("UpdateCreatureState_" + targetCreature.instanceId);
 
         Destroy(gameObject);
@@ -546,8 +607,23 @@ public class UseSkill : ActionClassBase
         agentView.showSkillIcon.showDoingSkillIcon(skillInfo, agent);
 
 		agentView.puppetAnim.speed = 6.0f;
-        if (skillInfo.animID == 0)
+        if(skillInfo.animTarget != null){
+            if (skillInfo.animTarget == "UniqueWork")
+            {
+                //some other process
+                int value = (int)skillInfo.id % 100;
+                agentView.puppetAnim.SetInteger(skillInfo.animTarget, value);
+            }
+            else {
+                agentView.puppetAnim.SetInteger(skillInfo.animTarget, 1);
+                agent.OnWorkEndFlag = false;
+            }
+            
+            
+        }
+        else if (skillInfo.animID == 0)
             agentView.puppetAnim.SetBool("Memo", true);
+        
         else {
             //Debug.Log(SkillCategoryName.GetCategoryName(skillInfo));
             agentView.puppetAnim.SetInteger( SkillCategoryName.GetCategoryName(skillInfo),
@@ -591,7 +667,7 @@ public class UseSkill : ActionClassBase
         GameObject progressObj = Instantiate(Resources.Load<GameObject>("Prefabs/EnergyBar")) as GameObject;
         //progressObj.transform.parent = creatureView.transform;
         //progressObj.transform.localPosition = new Vector3(0, -0.7f, 0);
-        progressObj.transform.SetParent(creatureView.transform.GetChild(0));
+        progressObj.transform.SetParent(inst.targetCreatureView.room.transform.GetChild(0).transform);
         progressObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1.65f, 0.874f);
 
         inst.progressBar = progressObj.GetComponent<ProgressBar>();
@@ -600,8 +676,8 @@ public class UseSkill : ActionClassBase
         inst.progressBar.transform.localScale = new Vector3(0.7692308f, 0.7692308f, 1f);
         float posy = inst.targetCreatureView.transform.localPosition.y;
         posy = 1 + posy;
-        inst.progressBar.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1.763f, 0.6420423f);
-
+        inst.progressBar.GetComponent<RectTransform>().anchoredPosition = new Vector2(-3.251f, -0.354f);
+        inst.agent.currentSkill = inst;
         Notice.instance.Send("UpdateCreatureState_" + inst.targetCreature.instanceId);
 
         return inst;

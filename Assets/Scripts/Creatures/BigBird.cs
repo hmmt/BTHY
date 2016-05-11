@@ -358,5 +358,7 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
         script.SetTarget(this);
     }
 
+    public void AgentReset() { }
+
 
 }

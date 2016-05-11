@@ -74,6 +74,28 @@ public class AgentLyrics {
         }
     }
 
+    public class CreatureReaction {
+        public int level;
+        public string desc;
+    }
+
+    public class CreatureReactionList {
+        public long creatureId;
+        public List<CreatureReaction> lib = new List<CreatureReaction>();
+
+        public string GetDesc(int level) {
+            CreatureReaction output = null;
+            foreach (CreatureReaction cr in lib) {
+                if (cr.level == level) {
+                    output = cr;
+                    break;
+                }
+            }
+            if (output == null) return null;
+            return output.desc;
+        }
+    }
+
     private static AgentLyrics _instance = null;
 
     public static AgentLyrics instance
@@ -89,11 +111,13 @@ public class AgentLyrics {
     }
 
     public List<LyricList> list;
+    public Dictionary<long, CreatureReactionList> creatureRecation;
    
     private bool isLoaded = false;
 
-    public void Init(List<LyricList> inputList) {
+    public void Init(List<LyricList> inputList, Dictionary<long, CreatureReactionList> dic) {
         list = new List<LyricList>(inputList.ToArray());
+        creatureRecation = dic;
         this.isLoaded = true;
     }
 
@@ -118,6 +142,13 @@ public class AgentLyrics {
         return output;
     }
 
+    public CreatureReactionList GetCreatureReaction(long id) {
+        CreatureReactionList output = null;
+        if (creatureRecation.TryGetValue(id, out output)) {
+            return output;
+        }
+        return null;
+    }
     /*
     public string getLyricsByDay(int day)
     {
