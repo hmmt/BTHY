@@ -55,6 +55,19 @@ public class PassageObject : MonoBehaviour {
 
         //mapObj.transform.SetParent(mapObjectParent, false);
     }
+
+	public void AddBloodMapObject(BloodMapObjectModel model)
+	{
+		GameObject mapObj = Prefab.LoadPrefab("Map/BloodMapObject");
+		BloodMapObject bloodScript = mapObj.GetComponent<BloodMapObject>();
+
+		bloodScript.model = model;
+
+		bloodScript.transform.SetParent (this.transform);
+		bloodScript.transform.position = model.position;
+
+		bloodScript.Init ();
+	}
     /*
     public void OpenDoor(DoorObjectModel doorModel)
     {

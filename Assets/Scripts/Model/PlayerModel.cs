@@ -139,11 +139,11 @@ public class PlayerModel {
         }
         else if (added == "4")
         {
-            CreatureManager.instance.AddCreature(RandomCreature(), "T-left-way2", -9.6f, -26, added); // 테레지아
-            CreatureManager.instance.AddCreature(RandomCreature(), "T-left-way3", -17.2f, -26, added); // 아무말 없는 수녀
+			CreatureManager.instance.AddCreature(100005, "T-left-way2", -10f, -50, added);
+			CreatureManager.instance.AddCreature(100005, "T-left-way3", -20f, -50, added);
 
-            CreatureManager.instance.AddCreature(RandomCreature(), "T-right-way2", 9.6f, -26, added); // 마법소녀
-            CreatureManager.instance.AddCreature(RandomCreature(), "T-right-way3", 17.2f, -26, added); // 마법소녀
+			CreatureManager.instance.AddCreature(100005, "T-right-way2", 10f, -50, added);
+			CreatureManager.instance.AddCreature(100005, "T-right-way3", 20f, -50, added);
         }
         
         //Notice.instance.Send(NoticeName.AreaOpenUpdate, added);

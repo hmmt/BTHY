@@ -114,6 +114,16 @@ public class SefiraObject : MonoBehaviour {
             }
         }
     }
+	public void AddBloodMapObject(BloodMapObjectModel mapObjModel)
+	{
+		foreach (PassageObject passage in passageList)
+		{
+			if (passage.model.GetId() == mapObjModel.passage.GetId())
+			{
+				passage.AddBloodMapObject(mapObjModel);
+			}
+		}
+	}
     /*
     public void ClosePassage(PassageObjectModel model, DoorObjectModel doorModel)
     {

@@ -173,6 +173,11 @@ public class CameraMover : MonoBehaviour
                 Time.timeScale = 0;
             }
         }
+
+		if (Input.GetKeyDown (KeyCode.P)) {
+			AgentModel model = AgentManager.instance.GetAgentList () [0];
+			model.TakePhysicalDamageByCreature (1);
+		}
 		/*
     }
 

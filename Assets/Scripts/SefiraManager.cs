@@ -295,7 +295,7 @@ public class Sefira
 
     public List<AgentSkillCategory> skillCategory;
 
-    private int maxOfficerCnt = 0;
+    private int maxOfficerCnt = 15;
     private CreatureModel[] creatureAry;
     private bool[] isWorking;
     private List<int> idleList;
@@ -411,10 +411,13 @@ public class Sefira
     }
 
     public MapNode GetOtherDepartNode(int index) {
-        int pos;
-        while ((pos = UnityEngine.Random.Range(0, departmentList.Length)) == index) {
-            continue;
-        }
+        int pos = 0;
+		if (departmentList.Length > 1)
+		{
+			while ((pos = UnityEngine.Random.Range (0, departmentList.Length)) == index) {
+				continue;
+			}
+		}
         int randVal = UnityEngine.Random.Range(0, departmentList[pos].Count);
         return departmentList[pos][randVal];
     }

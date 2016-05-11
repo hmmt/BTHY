@@ -116,7 +116,8 @@ public class ToolMapGraph_Editor
 						HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
 						GameObject c = HandleUtility.PickGameObject(Event.current.mousePosition, true);
 
-						ToolMapNode.CreateMapNode (worldRay.GetPoint (0));
+						Vector3 v = worldRay.GetPoint (0);
+						ToolMapNode.CreateMapNode (new Vector3 (v.x, v.y, 0));
 					}
 				}
 				else if(Event.current.button == 1)

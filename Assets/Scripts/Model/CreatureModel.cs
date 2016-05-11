@@ -408,6 +408,17 @@ public class CreatureModel : UnitModel, IObserver
 					}
 				}
 			}
+
+			foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList())
+			{
+				if (officer.GetMovableNode ().GetPassage () == currentPassage)
+				{
+					if (officer.GetState () != OfficerAIState.PANIC)
+					{
+						officer.EncounterCreature ();
+					}
+				}
+			}
 		}
 		
 		/*

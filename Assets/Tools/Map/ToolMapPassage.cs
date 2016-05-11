@@ -6,6 +6,7 @@ public class ToolMapPassage : MonoBehaviour {
 
 	public string src = "";
 
+	public string passageType = "";
 	public PassageObject passageObject;
 
 	private string srcOld = "";
@@ -37,6 +38,8 @@ public class ToolMapPassage : MonoBehaviour {
 							DestroyImmediate(passageObject.gameObject);
 						}
 						passageObject = newPassageObj;
+						passageObject.transform.localPosition = Vector3.zero;
+						passageObject.SetWhite ();
 						g.transform.SetParent (transform, false);
 					}
 				}

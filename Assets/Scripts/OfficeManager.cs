@@ -76,7 +76,7 @@ public class OfficeManager : IObserver {
             return null;
         }
 
-        OfficerModel unit = new OfficerModel(nextInstId++, "1");
+		OfficerModel unit = new OfficerModel(nextInstId++, sefira);
         unit.name = GetRandomName(sefira);
 
         unit.hp = unit.maxMental = info.hp;

@@ -9,6 +9,49 @@ using System.Xml;
 public class ToolMapRoot : MonoBehaviour {
 
 
+	public bool showPassagePreb = true;
+	private bool oldShowPassagePreb = true;
+
+	void LateUpdate()
+	{
+		if (!Application.isPlaying)
+		{
+
+			if (showPassagePreb)
+			{
+				if (oldShowPassagePreb == false)
+				{
+					oldShowPassagePreb = showPassagePreb;
+
+					ToolMapPassage[] passages = GetComponentsInChildren<ToolMapPassage> ();
+
+					foreach (ToolMapPassage passage in passages) {
+						if (passage.passageObject != null)
+						{
+							passage.passageObject.gameObject.SetActive (showPassagePreb);
+						}
+					}
+				}
+			}
+			else
+			{
+				if (oldShowPassagePreb)
+				{
+					oldShowPassagePreb = showPassagePreb;
+
+					ToolMapPassage[] passages = GetComponentsInChildren<ToolMapPassage> ();
+
+					foreach (ToolMapPassage passage in passages) {
+						if (passage.passageObject != null)
+						{
+							passage.passageObject.gameObject.SetActive (showPassagePreb);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public void SaveMap()
 	{
 		#if UNITY_EDITOR
@@ -51,21 +94,28 @@ public class ToolMapRoot : MonoBehaviour {
 				float x = passage.transform.position.x;
 				float y = passage.transform.position.y;
 				string src = passage.src;
+				string passageType = passage.passageType;
 
 				XmlElement passageNode = doc.CreateElement ("node_group");
 
 				XmlAttribute passageAttrX =  doc.CreateAttribute ("x");
 				XmlAttribute passageAttrY = doc.CreateAttribute ("y");
 				XmlAttribute passageAttrSrc = doc.CreateAttribute ("src");
+				XmlAttribute passageAttrType = doc.CreateAttribute ("passageType");
 
 				passageAttrX.InnerText = x.ToString ();
 				passageAttrY.InnerText = y.ToString ();
 				passageAttrSrc.InnerXml = src;
+				passageAttrType.InnerText = passageType;
 
 				passageNode.Attributes.Append (passageAttrX);
 				passageNode.Attributes.Append (passageAttrY);
 				if (src != "") {
 					passageNode.Attributes.Append (passageAttrSrc);
+				}
+				if(passageType != "")
+				{
+					passageNode.Attributes.Append(passageAttrType);
 				}
 
 				sefiraNode.AppendChild (passageNode);
@@ -124,6 +174,13 @@ public class ToolMapRoot : MonoBehaviour {
 			
 		foreach (ToolMapEdge edge in GetComponentsInChildren<ToolMapEdge>())
 		{
+			if(edge.node1 == null || edge.node2 == null ||
+				!edge.node1.gameObject.activeInHierarchy ||
+				!edge.node2.gameObject.activeInHierarchy)
+			{
+				continue;
+			}
+			
 			string edgeType = edge.type;
 			string node1 = edge.node1.id;
 			string node2 = edge.node2.id;
@@ -206,6 +263,7 @@ public class ToolMapRoot : MonoBehaviour {
 					XmlNode passageTypeIdNode = attrs.GetNamedItem ("typeId");
 					XmlNode passageXNode = attrs.GetNamedItem ("x");
 					XmlNode passageYNode = attrs.GetNamedItem ("y");
+					XmlNode passageTypeNode = attrs.GetNamedItem ("passageType");
 
 					Vector3 passagePos = new Vector3 (0, 0, 0);
 					/*
@@ -235,9 +293,11 @@ public class ToolMapRoot : MonoBehaviour {
 					//passage.typeId = passageTypeId;
 					passage.src = passageSrc;
 
+					if(passageTypeNode != null) passage.passageType = passageTypeNode.InnerText;
 
 
-					foreach (XmlNode node in nodeGroup.ChildNodes)
+
+					foreach (XmlNode node in nodeGroup.SelectNodes("node"))
 					{
 						string id = node.Attributes.GetNamedItem("id").InnerText;
 						float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);

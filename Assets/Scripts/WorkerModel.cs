@@ -227,7 +227,11 @@ public class WorkerModel: UnitModel, IObserver {
     public virtual void ReturnToSefira() {
         SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
     }
-		
+
+	public virtual void StopAction()
+	{
+		commandQueue.Clear();
+	}
 	public void MoveToNode(MapNode targetNode)
 	{
 		//commandQueue.SetAgentCommand(WorkerCommand.MakeMove(targetNode));
@@ -325,12 +329,23 @@ public class WorkerModel: UnitModel, IObserver {
             //dead
 			OnDie ();
         }
+
+		MakeSpatteredBlood ();
     }
 
     public virtual void TakeMentalDamage(int damage) {
         Debug.Log(name + " TakeMentalDamage : " + damage);
         mental -= damage;
     }
+
+	public void MakeSpatteredBlood()
+	{
+		PassageObjectModel passage = movableNode.GetPassage ();
+		if (passage != null)
+		{
+			passage.AttachBloodObject (GetCurrentViewPosition ().x);
+		}
+	}
 
     public virtual void RecoverHP(int amount){
         hp += amount;
@@ -363,6 +378,10 @@ public class WorkerModel: UnitModel, IObserver {
         
     }
 
+	public virtual void PanicReadyComplete() {
+		return;
+	}
+
 	public virtual void StopPanic()
 	{
 	}
@@ -370,6 +389,10 @@ public class WorkerModel: UnitModel, IObserver {
 	public virtual bool IsPanic()
 	{
 		return false;
+	}
+
+	public virtual void SetPanicState() {
+		this.panicFlag = true;
 	}
 
 	public virtual bool IsSuppable()
@@ -495,14 +518,6 @@ public class WorkerModel: UnitModel, IObserver {
                 return x.name.CompareTo(y.name);
             }
         }
-    }
-
-    public virtual void SetPanicState() {
-        this.panicFlag = true;
-    }
-
-    public virtual void PanicReadyComplete() {
-        return;
     }
 
     public virtual bool IsInSefira() {

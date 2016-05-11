@@ -9,7 +9,6 @@ public class OfficerModel : WorkerModel {
     public bool activated;//may be not used
     public int deptNum { get; set; }
     //not saved
-    private static string panic;
     private bool isMoving = false;
     private float elapsedTime;
     private static float recoveryTerm = 1f;
@@ -258,12 +257,17 @@ public class OfficerModel : WorkerModel {
         return state;
     }
 
+	public override void StopAction()
+	{
+		state = OfficerAIState.IDLE;
+		commandQueue.Clear();
+	}
+
     public override void TakeMentalDamage(int damage)
     {
         base.TakeMentalDamage(damage);
         if (mental < 0)
         {
-            state = OfficerAIState.PANIC;
             Panic();
         }
     }
@@ -278,16 +282,17 @@ public class OfficerModel : WorkerModel {
         }
     }
 
-    public override void Panic()
-    {
-        this.CurrentPanicAction = new PanicReady(this);
-    }
-
     public override void ReturnToSefira()
     {
 
         MoveToNode(SefiraManager.instance.getSefira(currentSefira).GetDepartNodeByRandom(deptNum).GetId());
     }
+
+	public override void EncounterCreature()
+	{
+		if(!IsPanic())
+			Panic ();
+	}
 
 	public override void LoseControl()
 	{
@@ -321,27 +326,51 @@ public class OfficerModel : WorkerModel {
 			unconAction.Init ();
 	}
 
+	public override void Panic()
+	{
+		if (IsPanic ())
+			return;
+		state = OfficerAIState.PANIC;
+		this.CurrentPanicAction = new PanicReady(this);
+	}
+
     public override void PanicReadyComplete()
     {
         //
         //Debug.Log("complete");
-        int i = UnityEngine.Random.Range(0, 4);
+        //int i = UnityEngine.Random.Range(0, 2);
+		int i = 1;
 
         switch (i) { 
             case 0:
-                //Debug.Log("스테이");
+                Debug.Log("스테이");
                 CurrentPanicAction = new PanicStay(this);
                 return;
             case 1:
-                //Debug.Log("방황");
+                Debug.Log("방황");
                 CurrentPanicAction = new PanicWander(this);
                 return;
             case 2:
-                //Debug.Log("돌아간다");
+                Debug.Log("돌아간다");
                 CurrentPanicAction = new PanicReturn(this);
                 return;
         }
     }
+
+	public override void StopPanic()
+	{
+		state = OfficerAIState.IDLE;
+		CurrentPanicAction = null;
+
+		OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (instanceId);
+		officerView.puppetAnim.SetBool("PanicReturn", true);
+		Stun (6f);
+	}
+
+	public virtual bool IsPanic()
+	{
+		return CurrentPanicAction != null;
+	}
 
     public void SetUnit(OfficerUnit unit) {
         this._unit = unit;

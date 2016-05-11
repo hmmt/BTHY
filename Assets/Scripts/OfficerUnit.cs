@@ -272,7 +272,7 @@ public class OfficerUnit : MonoBehaviour {
 
         if (model.panicFlag) { 
             //make panic Action
-            Debug.Log("발견");
+            //Debug.Log("발견");
             showSpeech.showSpeech("What the Fuck???");
             model.panicFlag = false;
         }

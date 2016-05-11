@@ -83,10 +83,21 @@ public class MapGraph : IObserver
         return nodes[Random.Range(0, nodes.Length)];
     }
 
-	public MovableObjectNode GetSefiraMovableNodeByRandom()
+	public MovableObjectNode GetSefiraMovableNodeByRandom(string area)
 	{
-		MapNode node1 = GetNodeById ("sefira-malkuth-1");
-		MapNode node2 = GetNodeById ("sefira-malkuth-9");
+		
+		MapNode node1 = null;
+		MapNode node2 = null;
+		if (area == "1")
+		{
+			node1 = GetNodeById ("sefira-malkuth-1");
+			node2 = GetNodeById ("sefira-malkuth-9");
+		}
+		else if(area == "4")
+		{
+			node1 = GetNodeById ("sefira-tessod-1");
+			node2 = GetNodeById ("sefira-tessod-9");
+		}
 
 		PathResult result = GraphAstar.SearchPath (node1, node2);
 
@@ -200,7 +211,7 @@ public class MapGraph : IObserver
 
 		*/
 
-		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph3");
+		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph4");
 		//TextAsset textAsset = Resources.Load<TextAsset>("xml/TrailerTest4");
 		XmlDocument doc = new XmlDocument();
 		doc.LoadXml(textAsset.text);
@@ -243,6 +254,8 @@ public class MapGraph : IObserver
             Sefira sefira = SefiraManager.instance.getSefira(areaName);
             sefira.initDepartmentNodeList(max);
 
+			int deptIndex = 0;
+
             foreach (XmlNode nodeGroup in areaNode.ChildNodes)
             {
                 if (nodeGroup.Name == "node_group")
@@ -255,6 +268,11 @@ public class MapGraph : IObserver
 					XmlNode passageSrcNode = attrs.GetNamedItem("src");
                     XmlNode passageXNode = attrs.GetNamedItem("x");
                     XmlNode passageYNode = attrs.GetNamedItem("y");
+
+					XmlNode passageGroundHeight = attrs.GetNamedItem ("ground");
+					//XmlNode passageGroundHeight = attrs.GetNamedItem ("");
+
+
                     PassageObjectModel passage = null;
 					if (passageSrcNode != null)
                     {
@@ -270,10 +288,54 @@ public class MapGraph : IObserver
                             PassageType type = PassageObjectModel.GetPassageTypeByString(passageTypeNode.InnerText);
                             passage.SetPassageType(type);
                         }
+
+						/*
+						if (passageGroundHeight != null)
+						{
+							float groundHeight = float.Parse(passageGroundHeight.InnerText);
+							passage.groundHeight = groundHeight;
+						}
+						*/
+
+						XmlNode groundNode = nodeGroup.SelectSingleNode ("ground");
+						XmlNode wallNode = nodeGroup.SelectSingleNode ("wall");
+
+						if (groundNode != null) {
+							PassageGroundInfo info = new PassageGroundInfo ();
+
+							XmlNode groundHeight = groundNode.Attributes.GetNamedItem ("height");
+							if (groundHeight != null)
+								info.height = float.Parse (groundHeight.InnerText);
+
+							foreach (XmlNode groundSprNode in groundNode.SelectNodes("sprite")) {
+								Sprite groundSpr = ResourceCache.instance.GetSprite (groundSprNode.InnerXml);
+
+								info.bloodSprites.Add (groundSpr);
+							}
+
+							passage.groundInfo = info;
+						}
+
+						if (wallNode != null) {
+							PassageWallInfo info = new PassageWallInfo ();
+
+							
+							XmlNode wallHeight = wallNode.Attributes.GetNamedItem ("height");
+							if (wallHeight != null)
+								info.height = float.Parse (wallHeight.InnerText);
+
+							foreach (XmlNode wallSprNode in wallNode.SelectNodes("sprite")) {
+								Sprite wallSpr = ResourceCache.instance.GetSprite (wallSprNode.InnerXml);
+
+								info.bloodSprites.Add (wallSpr);
+							}
+
+							passage.wallInfo = info;
+						}
                     }
                     
                     
-                    foreach (XmlNode node in nodeGroup.ChildNodes)
+					foreach (XmlNode node in nodeGroup.SelectNodes("node"))
                     {
                         string id = node.Attributes.GetNamedItem("id").InnerText;
                         float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);
@@ -327,9 +389,12 @@ public class MapGraph : IObserver
                             additionalSefira.Add(newMapNode);
 
                             string[] totalString;
+							/*
                             totalString = Regex.Split(id, "-");
                             int index = int.Parse(totalString[1]);
                             sefira.departmentList[index].Add(newMapNode);
+                            */
+							sefira.departmentList [deptIndex].Add (newMapNode);
                         }
 
 						MapNode optionalNode = null;
@@ -388,6 +453,9 @@ public class MapGraph : IObserver
                     }
                     if (passage != null)
                         passageDic.Add(groupName, passage);
+
+					if (passage != null && passage.GetPassageType () == PassageType.DEPARTMENT)
+						deptIndex++;
                 }
 				else if(nodeGroup.Name == "#comment")
 				{

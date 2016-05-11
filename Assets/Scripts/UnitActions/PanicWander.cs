@@ -3,12 +3,12 @@ using System.Collections;
 
 public class PanicWander : PanicAction {
 
-    private WorkerModel worker;
+    private WorkerModel actor;
     private int movementSpeed;
     private MapNode[] sefiraNode;
 
     public PanicWander(WorkerModel target) {
-        worker = target;
+		actor = target;
         movementSpeed = target.movement;//may be changed to double
         sefiraNode = MapGraph.instance.GetSefiraNodes(target.currentSefira);
     }
@@ -23,31 +23,36 @@ public class PanicWander : PanicAction {
 
 	public void Init()
 	{
+		OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (actor.instanceId);
+		officerView.puppetAnim.SetInteger ("PanicType", 2);
 	}
 
     public void Execute()
     {
-		if (worker.GetMovableNode().IsMoving() == false) { 
+		if (actor.GetMovableNode().IsMoving() == false) { 
             Debug.Log("PanicAction");
 			//worker.GetMovableNode().MoveToNode(GetRandomNodeByRandom());
-			worker.MoveToNode(GetRandomNodeByRandom());
+			//actor.MoveToNode(GetRandomNodeByRandom());
+			actor.MoveToNode(MapGraph.instance.GetRoamingNodeByRandom (actor.currentSefira));
         }
     }
 }
 
 public class PanicStay : PanicAction {
 
-    private WorkerModel worker;
+    private WorkerModel actor;
     private float stayTime = 10.0f;
     private float elapsedTime;
 
     public PanicStay(WorkerModel target) {
-        worker = target;
+		actor = target;
         elapsedTime = 0.0f;
     }
 
 	public void Init()
 	{
+		OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (actor.instanceId);
+		officerView.puppetAnim.SetInteger ("PanicType", 1);
 	}
 
     public void Execute()
@@ -57,6 +62,8 @@ public class PanicStay : PanicAction {
         {
             Debug.Log("시간지남");
             //worker.ReturnToSefira();
+
+			actor.StopPanic ();
 
         }
     }
@@ -118,6 +125,7 @@ public class PanicReadyAlter : PanicAction {
         elapsedTime += Time.deltaTime;
         if (elapsedTime > waitTime) { 
             //새로운 패닉으로 넘어감
+			worker.PanicReadyComplete();
         }
     }
 }

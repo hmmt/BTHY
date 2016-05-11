@@ -288,7 +288,7 @@ public class AgentModel : WorkerModel
         if (!tempPanic)
         {
             tempPanic = true;
-            Panic();
+            //Panic();
 
 			//movableNode.MoveBy(UnitDirection.LEFT, 25);
         }
@@ -760,7 +760,7 @@ public class AgentModel : WorkerModel
             {
                 //MovableNode.MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
 				//MoveToNode(MapGraph.instance.GetSepiraNodeByRandom(currentSefira));
-				MoveToMovable(MapGraph.instance.GetSefiraMovableNodeByRandom());
+				MoveToMovable(MapGraph.instance.GetSefiraMovableNodeByRandom(currentSefira));
                 //MoveToNode(MapGraph.instance.GetSefiraNodes(currentSefira)[0]);
                 waitTimer = 3.5f + Random.value;
             }
@@ -820,6 +820,15 @@ public class AgentModel : WorkerModel
             return AgentCmdType.NONE;
         return cmd.type;
     }
+
+	public override void StopAction()
+	{
+		// if state is CANNOT_CONTROLL?
+		state = AgentAIState.IDLE;
+		commandQueue.Clear();
+		//AgentCommand cmd = GetCurrentCommand();
+		this.target = null;
+	}
 
 	/*
 	public void MoveToNode(MapNode node)
@@ -911,14 +920,6 @@ public class AgentModel : WorkerModel
 		commandQueue.Clear();
 		this.target = null;
     }
-	public void StopAction()
-	{
-		// if state is CANNOT_CONTROLL?
-		state = AgentAIState.IDLE;
-		commandQueue.Clear();
-		//AgentCommand cmd = GetCurrentCommand();
-		this.target = null;
-	}
     public void UpdateStateIdle()
     {
         state = AgentAIState.IDLE;

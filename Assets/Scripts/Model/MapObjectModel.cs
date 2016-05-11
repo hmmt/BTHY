@@ -10,7 +10,7 @@ public class MapObjectModel : ObjectModelBase
 	public int horrorPoint;
 }
 
-public class MapObjectBloodModel : MapObjectModel
+public class BloodMapObjectModel : MapObjectModel
 {
-	public string bloodEffectPreb;
+	public Sprite bloodSprite;
 }

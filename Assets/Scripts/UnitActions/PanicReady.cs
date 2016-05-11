@@ -21,10 +21,19 @@ public class PanicReady : PanicAction {
 
 	public void Init()
 	{
-		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
-		agentView.puppetAnim.SetBool ("Panic", true);
-		agentView.puppetAnim.SetInteger ("PanicType", 0);
-		agentView.puppetAnim.SetBool ("PanicStart", true);
+		if (actor is AgentModel)
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+			agentView.puppetAnim.SetBool ("Panic", true);
+			agentView.puppetAnim.SetInteger ("PanicType", 0);
+			agentView.puppetAnim.SetBool ("PanicStart", true);
+		}
+		else
+		{
+			waitTime = 1.0f;
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (actor.instanceId);
+			officerView.puppetAnim.SetBool ("PanicStart", true);
+		}
 	}
 
     public void Execute()
@@ -36,10 +45,7 @@ public class PanicReady : PanicAction {
 			return;
 		}
 
-		if (actor is AgentModel)
-		{
-			((AgentModel)actor).StopAction ();
-		}
+		actor.StopAction ();
 
         elapsedTime += Time.deltaTime;
         if (elapsedTime > waitTime)

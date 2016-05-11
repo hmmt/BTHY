@@ -298,7 +298,7 @@ public class NullCreature : CreatureBase {
         if (model.GetCreatureCurrentCmd() == null ) {
             MakeMovement();
         }
-
+		return;
         if (currentNullState == NullState.CREATURE)
         {
             if (AttackNearAgent())

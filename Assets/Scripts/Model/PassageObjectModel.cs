@@ -9,6 +9,28 @@ public enum PassageType {
     NONE//for debug
 }
 
+
+public class PassageGroundInfo
+{
+	public float height;
+	public List<Sprite> bloodSprites;
+
+	public PassageGroundInfo()
+	{
+		bloodSprites = new List<Sprite> ();
+	}
+}
+public class PassageWallInfo
+{
+	public float height;
+	public List<Sprite> bloodSprites;
+
+	public PassageWallInfo()
+	{
+		bloodSprites = new List<Sprite> ();
+	}
+}
+
 public class PassageObjectModel : ObjectModelBase
 {
 	// 메타데이터
@@ -17,6 +39,9 @@ public class PassageObjectModel : ObjectModelBase
 	private string src;
 	private string sefiraName;
 	private bool isIsolate = false;
+
+	public PassageGroundInfo groundInfo = null;
+	public PassageWallInfo wallInfo = null;
 
 
 	private List<MapObjectModel> mapObjectList;
@@ -83,6 +108,47 @@ public class PassageObjectModel : ObjectModelBase
 		/*GameObject mapObj = Prefab.LoadPrefab(typeInfo.src);
         MapObject mapObjScript = mapObj.GetComponent<MapObject>();*/
 	}
+	public void AttachBloodObject(float posx)
+	{
+		bool isGroundBlood = Random.Range (0, 2) == 1 ? true : false;
+
+		if (groundInfo != null && wallInfo == null)
+			isGroundBlood = true;
+		else if (groundInfo == null && wallInfo != null)
+			isGroundBlood = false;
+
+
+		if (isGroundBlood && groundInfo != null && groundInfo.bloodSprites.Count > 0)
+		{
+			BloodMapObjectModel bloodModel = new BloodMapObjectModel ();
+
+			int randIndex = Random.Range (0, groundInfo.bloodSprites.Count);
+			Sprite selectedSprite = groundInfo.bloodSprites[randIndex];
+
+			bloodModel.position = new Vector3 (posx, groundInfo.height, position.z-0.01f);
+			bloodModel.passage = this;
+			bloodModel.bloodSprite = selectedSprite;
+
+			AddBloodMapObject (bloodModel);
+		}
+
+		if (!isGroundBlood && wallInfo != null && wallInfo.bloodSprites.Count > 0)
+		{
+			BloodMapObjectModel bloodModel = new BloodMapObjectModel ();
+
+			int randIndex = Random.Range (0, wallInfo.bloodSprites.Count);
+			Sprite selectedSprite = wallInfo.bloodSprites[randIndex];
+
+			bloodModel.position = new Vector3 (posx, wallInfo.height, position.z-0.01f);
+			bloodModel.passage = this;
+			bloodModel.bloodSprite = selectedSprite;
+
+			AddBloodMapObject (bloodModel);
+		}
+
+		//bloodList.Add (bloodModel);
+	}
+
 	public DoorObjectModel[] GetDoorList()
 	{
 		return doorObjectList.ToArray();
@@ -96,6 +162,10 @@ public class PassageObjectModel : ObjectModelBase
 	{
 		mapObjectList.Add(mapObject);
 		Notice.instance.Send(NoticeName.AddMapObject, mapObject);
+	}
+	private void AddBloodMapObject(BloodMapObjectModel mapObject)
+	{
+		Notice.instance.Send(NoticeName.AddBloodMapObject, mapObject);
 	}
 
 	public void EnterUnit(MovableObjectNode unit)

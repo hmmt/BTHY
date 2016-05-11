@@ -13,12 +13,17 @@ public class ToolMapEdge : MonoBehaviour {
 	public string type;
 	public ToolMapNode node1;
 	public ToolMapNode node2;
+	private SpriteRenderer renderer;
 
 
 	void LateUpdate()
 	{
 		if (node1 == null || node2 == null)
+		{
+			if (renderer != null)
+				renderer.enabled = false;
 			return;
+		}
 		if (!Application.isPlaying)
 		{
 			transform.position = (node1.transform.position + node2.transform.position) / 2;
@@ -30,6 +35,17 @@ public class ToolMapEdge : MonoBehaviour {
 			float length = (node1.transform.position - node2.transform.position).magnitude/8.0f;
 
 			transform.localScale = new Vector3(length, length, length); 
+
+			if (renderer == null)
+				renderer = GetComponent<SpriteRenderer> ();
+
+			if (renderer != null)
+			{
+				if (!node1.gameObject.activeInHierarchy || !node2.gameObject.activeInHierarchy)
+					renderer.enabled = false;
+				else
+					renderer.enabled = true;
+			}
 		}
 	}
 
@@ -48,6 +64,8 @@ public class ToolMapEdge : MonoBehaviour {
 
 		edge.node1 = node1;
 		edge.node2 = node2;
+
+		edge.renderer = r;
 
 		return edge;
 	}

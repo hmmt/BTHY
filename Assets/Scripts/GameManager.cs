@@ -85,7 +85,8 @@ public class GameManager : MonoBehaviour
 		AgentModel a = null;
         if (PlayerModel.instance.GetDay() == 0)
         {
-            PlayerModel.instance.OpenArea("1"); ;
+            PlayerModel.instance.OpenArea("1");
+			PlayerModel.instance.OpenArea("4");
 
 			a = AgentManager.instance.AddAgentModel();
             
@@ -128,10 +129,10 @@ public class GameManager : MonoBehaviour
 
 		b = AgentManager.instance.AddAgentModel();
 		stageUI.CancelSefiraAgent(b);
-		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
-		b.SetCurrentSefira("1");
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
+		b.SetCurrentSefira("4");
 		if (!b.activated)
-			AgentManager.instance.activateAgent(b, "1");
+			AgentManager.instance.activateAgent(b, "4");
 
 		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
 

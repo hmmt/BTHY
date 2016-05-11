@@ -289,6 +289,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
     void OnEnable()
     {
         Notice.instance.Observe(NoticeName.AddMapObject, this);
+		Notice.instance.Observe(NoticeName.AddBloodMapObject, this);
         Notice.instance.Observe(NoticeName.AddPassageObject, this);
         Notice.instance.Observe(NoticeName.AreaOpenUpdate, this);
 
@@ -304,6 +305,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
     {
         Notice.instance.Remove(NoticeName.AreaOpenUpdate, this);
         Notice.instance.Remove(NoticeName.AddMapObject, this);
+		Notice.instance.Remove(NoticeName.AddBloodMapObject, this);
         Notice.instance.Remove(NoticeName.AddPassageObject, this);
 
         Notice.instance.Remove(NoticeName.OpenPassageDoor, this);
@@ -370,6 +372,18 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
             }
         }
     }
+
+	private void AddBloodMapObject(BloodMapObjectModel model)
+	{
+		foreach (SefiraObject sefira in sefiras)
+		{
+			if (sefira.sefiraName == model.passage.GetSefiraName())
+			{
+				sefira.AddBloodMapObject(model);
+				break;
+			}
+		}
+	}
     /*
     private void ClosePassage(PassageObjectModel model, DoorObjectModel doorModel)
     {
@@ -481,6 +495,10 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         {
             AddMapObject((MapObjectModel)param[0]);
         }
+		else if (notice == NoticeName.AddBloodMapObject)
+		{
+			AddBloodMapObject((BloodMapObjectModel)param[0]);
+		}
 		else if(notice == NoticeName.AddPassageDoor)
 		{
 			AddPassageDoor ((PassageObjectModel)param[0], (DoorObjectModel)param [1]);
