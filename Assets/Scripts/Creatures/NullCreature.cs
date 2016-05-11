@@ -77,6 +77,8 @@ public class NullCreature : CreatureBase {
     PassageObjectModel currentCreaturePassage = null;
     public bool timerHalt = false;
     CreatureTimer escapeTimer = new CreatureTimer(10f);
+    CreatureTimer delayedChangeTimer = new CreatureTimer();
+    
 
 	public override void OnInit()
 	{
@@ -168,6 +170,11 @@ public class NullCreature : CreatureBase {
         model.SubFeeling(-sub);
     }
 
+    public void DelayedChangeToCollapsed(float time, NullState state) {
+        this.delayedChangeTimer.TimerStart(time, true);
+
+    }
+
     public void SubFeeling(float value) { 
         model.SubFeeling(value);
     }
@@ -233,7 +240,6 @@ public class NullCreature : CreatureBase {
             return null;
         }
     }
-	int count = 0;
     // 변신
     /*
     public override void OnFixedUpdate(CreatureModel creature)
@@ -298,7 +304,14 @@ public class NullCreature : CreatureBase {
         if (model.GetCreatureCurrentCmd() == null ) {
             MakeMovement();
         }
-		return;
+
+        if (this.delayedChangeTimer.TimerRun()) {
+            delayedChangeTimer.TimerStop();
+            ChangeToCollapsed();
+            escapeTimer.TimerStop();
+            escapeTimer.TimerStart(false);
+        }
+
         if (currentNullState == NullState.CREATURE)
         {
             if (AttackNearAgent())
@@ -450,5 +463,69 @@ public class NullCreature : CreatureBase {
     public CreatureModel GetModel()
     {
         return model;
+    }
+
+    public override bool hasUniqueFinish()
+    {
+        return true;
+    }
+
+    public override void UniqueFinish(UseSkill skill)
+    {
+        NullWorkingEffTable.TableElement[] currentTable = null;
+        if (this._currentWorker is AgentModel)
+        {
+            switch ((this._currentWorker as AgentModel).agentLifeValue) {
+                case PersonalityType.D:
+                    currentTable = NullWorkingEffTable.Dtype;
+                    break;
+                case PersonalityType.I:
+                    currentTable = NullWorkingEffTable.Itype;
+                    break;
+                case PersonalityType.S:
+                    currentTable = NullWorkingEffTable.Stype;
+                    break;
+                case PersonalityType.C:
+                    currentTable = NullWorkingEffTable.Ctype;
+                    break;
+                default:
+                    currentTable = NullWorkingEffTable.Default;
+                    break;
+            }
+        }
+        else {
+            currentTable = NullWorkingEffTable.Default;
+        }
+        if (skill.skillTypeInfo.id > 5) {
+            Debug.Log("NullCreatre cannot has unique skill in current");
+        }
+        NullWorkingEffTable.TableElement currentElement = currentTable[(int)skill.skillTypeInfo.id];
+        //정확한 수치 계산식이 필요합니다
+        float scale = 2 - (0.5f * (currentElement.index));
+        
+        if (currentElement.index == 3) {
+            scale -= 0.5f;
+
+        }
+        else if (currentElement.index > 3) {
+            scale -= 1f;
+        }
+
+        //float energyAdded = skill.agent.GetEnergyAbility(skill.skillTypeInfo) * skill.successCount / skill.totalTickNum;
+
+        if (currentElement.index < 3) {
+            SetCurrentSkillResult(0);
+            model.AddFeeling(skill.skillTypeInfo.amount * skill.successCount / skill.totalTickNum * scale);
+        }
+        else if (currentElement.index > 3) {
+            SetCurrentSkillResult(2);
+            model.SubFeeling( skill.skillTypeInfo.amount * skill.successCount / skill.totalTickNum * scale);
+        }
+        MakeEffect(skill.targetCreatureView.room);
+        ResetCurrentSkillResult();
+
+        model.SetEnergyChange(5, skill.skillTypeInfo.amount * skill.successCount / skill.totalTickNum * scale);
+        
+        
     }
 }
