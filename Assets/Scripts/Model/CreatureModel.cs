@@ -31,6 +31,15 @@ public enum CreatureEscapeType {
     WANDER
 }
 
+public class ObserveInfo
+{
+	public int successCount = 0;
+	public int failureCount = 0;
+	public int attackCount = 0;
+	public int escapeCount = 0;
+	public int specialAttackCount = 0;
+}
+
 // 
 [System.Serializable]
 public class CreatureModel : UnitModel, IObserver
@@ -70,6 +79,7 @@ public class CreatureModel : UnitModel, IObserver
 
     //?óÃ»ßµµ°¨ ¿Ï¼ºµµ
     public int observeProgress = 0;
+	public ObserveInfo observeInfo;
 
 	public float energyPoint = 100;
 	//public float feelingsPoint;
@@ -149,6 +159,8 @@ public class CreatureModel : UnitModel, IObserver
     {
         movableNode = new MovableObjectNode(this);
 		commandQueue = new CreatureCommandQueue (this);
+
+		observeInfo = new ObserveInfo ();
 
 		movableNode.AddUnpassableType (PassType.SHIELDBEARER);
 
@@ -857,6 +869,39 @@ public class CreatureModel : UnitModel, IObserver
         return percent;
     }
 
+
+	public void AddSuccessCount()
+	{
+		observeInfo.successCount++;
+	}
+	public void AddFailureCount()
+	{
+		observeInfo.failureCount++;
+	}
+	public void AddAttackCount()
+	{
+		observeInfo.attackCount++;
+	}
+	public void AddEscapeCount()
+	{
+		observeInfo.escapeCount++;
+	}
+	public void AddSpecialAttackCount()
+	{
+		observeInfo.specialAttackCount++;
+	}
+
+	public int ObservationConditionPoint()
+	{
+		int point = 0;
+		point += observeInfo.successCount/30;
+		point += observeInfo.failureCount/20;
+		point += observeInfo.attackCount/10;
+		point += observeInfo.escapeCount;
+		point += observeInfo.specialAttackCount;
+
+		return point;
+	}
 
 	// temp for proto
 	public float GetWorkEfficient(SkillTypeInfo skill)

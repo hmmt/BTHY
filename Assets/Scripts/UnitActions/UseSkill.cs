@@ -71,7 +71,7 @@ public class UseSkill : ActionClassBase
         workCount = 0;
         totalTickNum = tickNum;
         //workSpeed = speed;
-		workSpeed = 1f;
+		workSpeed = 0.5f;
         //totalFeeling = feeling;
 
         // 성향에 따른 보너스
@@ -568,7 +568,7 @@ public class UseSkill : ActionClassBase
         //creature.ShowNarrationText("start", agent.name);
 
         //inst.Init(skillInfo, agent, 10, skillInfo.amount, agent.workSpeed, skillInfo.amount); // 임시
-        inst.Init(skillInfo, agent, 20, (int)skillInfo.amount, agent.workSpeed, skillInfo.amount);
+        inst.Init(skillInfo, agent, 10, (int)skillInfo.amount, agent.workSpeed, skillInfo.amount);
 
         inst.agent = agent;
         inst.agentView = agentView;
