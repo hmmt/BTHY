@@ -38,6 +38,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             state.highlightedSprite = current.observeButton_Over;
             state.disabledSprite = current.observeButton_Normal;
             state.pressedSprite = current.observeButton_Click;
+            button.spriteState = state;
         }
 
         public void SetWork() {
@@ -47,6 +48,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             state.highlightedSprite = current.button_Over;
             state.disabledSprite = current.button_Normal;
             state.pressedSprite = current.button_Click;
+            button.spriteState = state;
         }
     }
 
@@ -61,6 +63,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     private Transform attachedNode = null;
     private WorkType workType;
     public List<WorkAllocateSlot> slotList;
+    public List<AgentModel> observingAgent = new List<AgentModel>();
     
     public static WorkAllocateWindow currentWindow;
     bool agentListDisplayed = false;
@@ -78,14 +81,16 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 
     public WorkAllocateTarget uiTarget;
 
-    public long selectedSkillId;
+    public long selectedSkillId = -1;
     public AgentModel selectedAgent;
 
     public ActivatableObjectPos windowPos = ActivatableObjectPos.ISOLATE;
     public RectTransform eventTriggerTarget;
-    bool ObserveState = false;//이 창이 관찰창이 되는가에 대한 정보
+    public bool observeState = false;//이 창이 관찰창이 되는가에 대한 정보
     bool activatableObjectInitiated = false;
     SkillTypeInfo specialSkill = null;
+
+    public Sprite currentIcon = null;   
 
     //public SelectObserveAgentWindow observeWindow;
     
@@ -134,7 +139,8 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 
             currentWindow.Change(currentWindow.currentSefira);
         }
-        currentWindow.ObserveState = false;
+        currentWindow.ShowAgentList();
+        currentWindow.observeState = false;
         currentWindow.workType = workType;
 
         Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
@@ -154,6 +160,10 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         else {
             this.uiTarget.SetSprite(this.malkuth);
         }
+    }
+
+    public CreatureModel GetTargetCreature() {
+        return this.targetCreature;
     }
 
     //void Awake(){
@@ -223,6 +233,11 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public void CloseWindow()
     {
         Deactivate();
+
+        if (CheckIdValidate(this.selectedSkillId))
+        {
+            ChangeWorkIcon(this.selectedSkillId, ManageWorkIconState.DEFAULT);
+        }
         this.CloseAgentList();
         this.targetCreature = null;
         this.selectedSkillId = -1;
@@ -232,6 +247,12 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
             this.skillList.Remove(this.specialSkill);
             this.specialSkill = null;
         }
+
+        foreach (WorkAllocateSlot slot in this.slotList) {
+            slot.Release();
+        }
+
+
         this.gameObject.SetActive(false);
     }
 
@@ -246,6 +267,11 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public void ShowAgentList(){
         if (this.agentListDisplayed) return;
         this.agentListDisplayed = true;
+
+        foreach (WorkAllocateSlot slot in slotList)
+        {
+            slot.SetIconByWindow(null, 10000);
+        }
 
         this.agentScrollTarget.gameObject.SetActive(true);
     }
@@ -295,12 +321,67 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
          */
     }
 
+    public Sprite ChangeWorkIcon(long id, ManageWorkIconState state) {
+        int index = AgentModel.GetWorkIconId(SkillTypeList.instance.GetData(id));
+        Sprite s = IconManager.instance.GetWorkIcon(index).GetIcon(state).icon;
+        Sprite output = IconManager.instance.GetWorkIcon(index).GetDefault().icon;
+        Image target = null;
+        if (id > 5)
+        {
+            target = specialSkillTarget.GetChild(0).GetComponent<Image>();
+
+        }
+        else
+        {
+            Debug.Log((id - 1).ToString());
+            target = this.skillCategoryTraget[(int)id - 1].GetChild(0).GetComponent<Image>();
+        }
+        target.sprite = s;
+        return output;
+    }
+
+    public bool CheckIdValidate(long id) {
+        foreach (SkillTypeInfo skill in this.skillList) {
+            if (skill == null) continue;
+            if (skill.id == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// 계열 슬롯을 클릭하였을 때 작동
     /// </summary>
     /// <param name="id"></param>
     public void OnClickSkill(long id)
     {
+        //temporary
+        if (CheckIdValidate(this.selectedSkillId)) {
+            Debug.Log(this.selectedSkillId);
+            ChangeWorkIcon(this.selectedSkillId , ManageWorkIconState.DEFAULT);
+        }
+
+        
+        if (this.selectedAgent != null)
+        {
+            foreach (WorkAllocateSlot slot in this.slotList)
+            {
+                if (slot.model == this.selectedAgent)
+                {
+                    slot.Release();
+                    break;
+                }
+            }
+        }
+
+        if (this.selectedSkillId == id)
+        {
+            ChangeWorkIcon(this.selectedSkillId, ManageWorkIconState.DEFAULT);
+            this.selectedSkillId = -1;
+            return;
+        }
+
 
         SkillTypeInfo targetSkill = GetSkill(id);
         if (targetSkill == null) {
@@ -309,10 +390,16 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         }
         this.selectedSkillId = targetSkill.id;
 		Debug.Log ("Click skill : " + selectedSkillId);
-        if (this.ObserveState) {
+        if (this.observeState) {
             this.CloseObserveWindow();
         }
-        ShowAgentList();
+
+        Sprite icon = ChangeWorkIcon(this.selectedSkillId, ManageWorkIconState.COLOR);
+
+        foreach (WorkAllocateSlot slot in this.slotList) {
+            slot.SetIconByWindow(icon, this.selectedSkillId);
+        }
+        //ShowAgentList();
     }
 
     public SkillTypeInfo GetSkill(long id) {
@@ -383,6 +470,10 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     }
 
     public void OnSelectAgent(AgentModel model) {
+        if (this.observeState) {
+            this.observingAgent.Add(model);
+            return;
+        }
         if (this.selectedAgent != null) {
             foreach (WorkAllocateSlot slot in this.slotList) {
                 if (slot.model == this.selectedAgent) {
@@ -394,10 +485,22 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         this.selectedAgent = model;
     }
 
+    public void OnDeselectAgent(AgentModel model) {
+        if (this.observeState) {
+            this.observingAgent.Remove(model);
+            return;
+        }
+
+        if (this.selectedAgent == model) {
+
+            this.selectedAgent = null;
+        }
+    }
+
     public void OnClickStartButton() {
         if (this.selectedAgent == null) return;
 
-        if (this.ObserveState) { 
+        if (this.observeState) { 
             //관찰 시작
             Debug.Log("관찰을 시작한다");
             CloseWindow();
@@ -482,13 +585,27 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     }
 
     public void OpenObserveWindow() {
-        ObserveState = true;    
+        if (observeState) {
+            CloseObserveWindow();
+            return;
+        }
+        if (CheckIdValidate(this.selectedSkillId)) {
+            ChangeWorkIcon(this.selectedSkillId, ManageWorkIconState.DEFAULT);
+        }
+
+        foreach (WorkAllocateSlot slot in slotList) {
+            slot.SetIconByWindow(null, 10000);
+        }
+
+        observingAgent.Clear();
+        observeState = true;    
         this.uiTarget.SetObserve();
-        ShowAgentList();
+        //ShowAgentList();
     }
 
     public void CloseObserveWindow() {
-        ObserveState = false;
+        observeState = false;
+        observingAgent.Clear();
         this.uiTarget.SetWork();
     }
 }

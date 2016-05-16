@@ -74,7 +74,6 @@ public class WorkerModel: UnitModel, IObserver {
         }
     }
 
-
 	public UncontrollableAction unconAction = null;
 
     public NullCreature nullParasite = null;

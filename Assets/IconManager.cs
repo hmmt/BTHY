@@ -20,6 +20,19 @@ public class IconId {
     public static int Clean1 = 1041;
     public static int Clean2 = 1042;
     public static int Special1 = 1000;
+
+    public static int Panic = 2000;
+    public static int Block = 1001;
+    public static int Gun = 1002;
+    public static int Stick = 1003;
+    public static int Murder = 2001;
+    public static int Suicide = 2002;
+    public static int Wander = 2003;
+    public static int Release = 2004;
+    public static int Principled = 3001;
+    public static int Pacifist = 3002;
+    public static int Optimist = 3003;
+    public static int Rationalist = 3004;
 }
 
 public class IconManager : MonoBehaviour {
@@ -72,13 +85,15 @@ public class IconManager : MonoBehaviour {
     public List<WorkIcon> workIcon;
     
     public void Awake() {
-        _instance = this;
+        _instance = this; 
+        foreach (WorkIcon w in workIcon)
+        {
+            w.Init();
+        }
     }
 
     public void Start() {
-        foreach (WorkIcon w in workIcon) {
-            w.Init();
-        }
+        
     }
 
     public Icon GetIcon(string name)

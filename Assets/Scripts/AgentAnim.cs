@@ -207,7 +207,6 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 
     public void OnCalled()
     {
-        Debug.Log("workend");
         this.model.OnWorkEndFlag = true;
     }
 

@@ -81,7 +81,8 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     CreatureTimer escapeTimer = new CreatureTimer(10f);
     public bool isChanging = false;
     CreatureTimer delayedChangeTimer = new CreatureTimer();
-    
+    CreatureTimer escapeCoolTimer = new CreatureTimer(60f);
+    bool isEscapableState = true;
 
 	public override void OnInit()
 	{
@@ -102,7 +103,13 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         this.ChangeToWoreker(skill.agent);
         skill.agent.SetUncontrollableAction(new Uncontrollable_Nullthing(skill.agent, this));
         model.AddFeeling(200f);
+        this.model.GetMovableNode().Assign(skill.agent.GetMovableNode());
         (model.GetAnimScript() as NullthingAnim).isDisguised = true;
+        SuppressWindow.currentWindow.nullEscapedList.Add(this);
+        
+        isEscapableState = false;
+        escapeCoolTimer.TimerStop();
+        escapeCoolTimer.TimerStart(true);
     }
 
     private void ChangeBody()
@@ -149,6 +156,10 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         if (!isEscaped && currentNullState == NullState.CREATURE) {
             skill.PauseWorking();
             ActivateSkillRoom(skill);
+            skill.agentView.puppetAnim.SetBool("Return", true);
+            
+            skill.agent.OnWorkEndFlag = true;
+
             //skill.agent.LoseControl();
         }
     }
@@ -212,9 +223,23 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     {
         CheckCreatureFeeling();
         if (isChanging) return;
-        
-        if (!isEscaped && currentNullState == NullState.CREATURE && currentWorkingSkill == null) { 
+
+        if (!isEscaped && currentNullState == NullState.CREATURE 
+            && currentWorkingSkill == null 
+            && isEscapableState)
+        { 
             Escape();
+            isEscapableState = false;
+            escapeCoolTimer.TimerStart(true);
+        }
+
+        if (!isEscaped 
+            && currentNullState == NullState.CREATURE 
+            && isEscapableState == false) {
+            if (escapeCoolTimer.TimerRun())
+            {
+                isEscapableState = true;
+            }
         }
 
         if (_currentWorker != null) {
@@ -225,6 +250,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     public override void OnReturn()
     {
         SuppressWindow.currentWindow.nullEscapedList.Remove(this);
+        isEscaped = false;
     }
 
     void CheckCreatureFeeling() {
@@ -486,14 +512,14 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     }
 
     public void Escape() {
-        Debug.Log("간다");
+        //Debug.Log("간다");
         model.StopEscapeWork();
         //Make movement
         MakeMovement();
         isEscaped = true;
         //escapeTimer.TimerStart(false);
         SuppressWindow.currentWindow.nullEscapedList.Add(this);
-        Debug.Log(SuppressWindow.currentWindow.nullEscapedList.Count);
+        //Debug.Log(SuppressWindow.currentWindow.nullEscapedList.Count);
     }
 
     int former = -1;

@@ -599,6 +599,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
          */
 
         if (model.nullParasite != null) {
+            Debug.Log("Null Parasited");
             SuppressWindow.CreateNullCreatureSuppressWindow(model.nullParasite.GetModel(), this.model);
         }
         else if (SuppressWindow.currentWindow.nullEscapedList.Count > 0 && this.model.IsSuppable() == false)
