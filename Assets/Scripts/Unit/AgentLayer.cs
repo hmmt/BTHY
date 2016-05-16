@@ -12,6 +12,8 @@ public class AgentLayer : MonoBehaviour, IObserver {
     public Sprite[] faceListTemp;
     private List<AgentUnit> agentList;
 
+    public List<WorkerSpriteSet> spriteList;
+
     private int zCount;
 
     void Awake()
@@ -42,6 +44,21 @@ public class AgentLayer : MonoBehaviour, IObserver {
         }
     }
 
+
+    public WorkerSpriteSet GetAgentSpriteSet(Sefira targetSefira)
+    {
+        WorkerSpriteSet output = null;
+
+        foreach (WorkerSpriteSet os in this.spriteList)
+        {
+            if (targetSefira.index == os.targetSefira)
+            {
+                output = os;
+                break;
+            }
+        }
+        return output;
+    }
 
     public void AddAgent(AgentModel model)
     {
@@ -130,5 +147,11 @@ public class AgentLayer : MonoBehaviour, IObserver {
             }
         }
         
+    }
+
+    public void OnStageStart() {
+        foreach (AgentUnit unit in this.agentList) {
+            unit.animTarget.SetSprite();
+        }
     }
 }

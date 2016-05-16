@@ -441,7 +441,7 @@ public class CreatureModel : UnitModel, IObserver
 				}
 			}
 
-			foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList())
+			foreach (OfficerModel officer in OfficerManager.instance.GetOfficerList())
 			{
 				if (officer.GetMovableNode ().GetPassage () == currentPassage)
 				{

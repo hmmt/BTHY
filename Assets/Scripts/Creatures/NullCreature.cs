@@ -361,7 +361,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     public void ActivateSkillOut(WorkerModel wm) {
         if (Prob(100))
         {
-            UIEffectManager.instance.Noise(8f);
+            //UIEffectManager.instance.Noise(8f);
             Debug.Log("Escape Activate Skill " + wm.name);
             ActivateSkillEscaped(wm);
             attackingList.Clear();

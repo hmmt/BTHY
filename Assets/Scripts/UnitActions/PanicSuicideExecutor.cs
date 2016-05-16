@@ -56,7 +56,7 @@ public class PanicSuicideExecutor : PanicAction
 				agent.TakeMentalDamage (5);
 			}
 		}
-		foreach(OfficerModel officer in OfficeManager.instance.GetOfficerList())
+		foreach(OfficerModel officer in OfficerManager.instance.GetOfficerList())
 		{
 			if (officer.GetMovableNode ().GetPassage () == actor.GetMovableNode ().GetPassage ()) {
 				officer.TakeMentalDamage (5);

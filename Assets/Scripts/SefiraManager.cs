@@ -494,7 +494,7 @@ public class Sefira
 
         
         for (int i = 0; i < maxOfficerCnt; i++) {
-            OfficeManager.instance.CreateOfficerModel(indexString);
+            OfficerManager.instance.CreateOfficerModel(indexString);
         }
         
 
@@ -749,9 +749,9 @@ public class SefiraManager {
         sefiraList = new List<Sefira>();
         refSefira = new Sefira[11];
         refSefira[0] = new Sefira(SefiraName.Malkut, 1, "1");
-        refSefira[1] = new Sefira(SefiraName.Yesod, 2, "2");
+        refSefira[3] = new Sefira(SefiraName.Netach, 2, "2");
         refSefira[2] = new Sefira(SefiraName.Hod, 3, "3");
-        refSefira[3] = new Sefira(SefiraName.Netach, 4, "4");
+        refSefira[1] = new Sefira(SefiraName.Yesod, 4, "4");
         refSefira[4] = new Sefira(SefiraName.Tiphereth, 5, "5");
         refSefira[5] = new Sefira(SefiraName.Geburah, 6, "6");
         refSefira[6] = new Sefira(SefiraName.Chesed, 7, "7");

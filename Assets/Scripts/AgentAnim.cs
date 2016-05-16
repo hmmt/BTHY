@@ -76,6 +76,8 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 	public SpriteRenderer F_hand;
 	public SpriteRenderer F_low_arm;
 	public SpriteRenderer F_up_arm;
+
+    public SpriteRenderer Symbol;
 	
 	//private Dictionary<string, SpriteRenderer> rendererTable;
 	private Dictionary<string, SpriteRenderer> clothesRendererTable;
@@ -87,7 +89,7 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 
     public void Init(WorkerModel am) {
         this.model = am;
-        this.AnimatorEventInit();
+        if (am is AgentModel) this.AnimatorEventInit();
     }
 	
 	void Awake()
@@ -224,5 +226,36 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 
     public void AgentReset() {
         (model as AgentModel).ResetAnimator();
+    }
+
+    public void SetSprite() {
+        
+        Sefira sefira = SefiraManager.instance.getSefira(this.model.currentSefira);
+        
+        if (sefira == null) return;
+        if (this.model is OfficerModel) {
+            WorkerSpriteSet set = OfficerLayer.currentLayer.GetOfficerSpriteSet(sefira);
+            SetWorkerSprite(set);
+        }
+        else if (this.model is AgentModel) {
+            WorkerSpriteSet set = AgentLayer.currentLayer.GetAgentSpriteSet(sefira);
+            SetWorkerSprite(set);
+        }
+    }
+
+    public void SetWorkerSprite(WorkerSpriteSet spriteSet) {
+        this.body.sprite = spriteSet.Body;
+        this.B_low_arm.sprite = spriteSet.LeftDownHand;
+        this.B_up_arm.sprite = spriteSet.LeftUpHand;
+        this.F_low_arm.sprite = spriteSet.RightDownHand;
+        this.F_up_arm.sprite = spriteSet.RightUpHand;
+        this.B_low_leg.sprite = spriteSet.LeftDownLeg;
+        this.B_up_leg.sprite = spriteSet.LeftUpLeg;
+        this.F_low_leg.sprite = spriteSet.RightDownLeg;
+        this.F_up_leg.sprite = spriteSet.RightUpLeg;
+
+        if (this.model is AgentModel) {
+            this.Symbol.sprite = spriteSet.Symbol;
+        }
     }
 }

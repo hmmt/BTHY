@@ -120,6 +120,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             workingOffRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Frame");
             workingOnRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Frame");
 
+            
         }
 
         else if (targetUnit.model.sefiraNum == "2")
@@ -150,6 +151,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             workingOnRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Yessod_Work_On");
 
         }
+
+        frameSpriteRenderer.sprite = SefiraController.instance.GetSefiraSprite(targetUnit.model.sefiraNum).IsolateRoomFrame;
     }
 
 	public void UpdateStatus()

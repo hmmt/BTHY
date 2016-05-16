@@ -85,7 +85,7 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 		if (target == null)
 		{
 			AgentModel[] nears = AgentManager.instance.GetNearAgents (model.GetMovableNode ());
-			OfficerModel[] nearsO = OfficeManager.instance.GetNearOfficers (model.GetMovableNode ());
+			OfficerModel[] nearsO = OfficerManager.instance.GetNearOfficers (model.GetMovableNode ());
 
 			List<WorkerModel> filteredAgents = new List<WorkerModel> ();
 			foreach (AgentModel nearAgent in nears)

@@ -56,7 +56,7 @@ public class PanicReady : PanicAction {
 
     public void StartPanicAction()
     {
-		Debug.Log ("Panic  action start");
+		//Debug.Log ("Panic  action start");
         actor.PanicReadyComplete();
     }
 }

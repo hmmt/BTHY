@@ -10,8 +10,13 @@ public class PassageObject : MonoBehaviour {
 
     public GameObject fogObject;
     public GameObject shaderObject;
+
+    public bool shouldCheckSefira;
     private SpriteRenderer shader;
     private List<PassageDoor> doorList;
+
+    public SpriteRenderer sefiraFrame;
+    public SpaceObjectType type;
 
     void Awake()
     {
@@ -19,6 +24,7 @@ public class PassageObject : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
+        
 	}
 	
 	// Update is called once per frame
@@ -124,5 +130,10 @@ public class PassageObject : MonoBehaviour {
         float refinedValue = 255f - value;
         color.a = refinedValue;
         shader.color = color;
+    }
+
+    public void SetSefiraFrame(Sefira currentSefira) {
+        this.sefiraFrame.sprite = SefiraController.instance.GetSefiraSprite(currentSefira.index).GetSprite(this.type);
+
     }
 }

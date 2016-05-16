@@ -154,7 +154,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if(sefiraNum == 2)
         {
-            sefiraName = "Nezzach";
+            sefiraName = "Yessod";
         }
 
         else if(sefiraNum == 3)
@@ -164,7 +164,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if(sefiraNum == 4)
         {
-            sefiraName = "Yessod";
+            sefiraName = "Nezzach";
         }
 
         /*

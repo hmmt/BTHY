@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: 6159d553ed8cb0746be55882a2a1996a
+timeCreated: 1463391835
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: PassageFrame_Yesod_2
+    21300002: PassageFrame_Yesod_3
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: PassageFrame_Yesod_2
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 502
+        width: 1876
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 608.49524, y: -112.90973}
+        - {x: 737.49524, y: -109.90973}
+        - {x: 742.49524, y: -113.90973}
+        - {x: 794.49524, y: -113.90973}
+        - {x: 795.49524, y: -110.90973}
+        - {x: 795.49524, y: 114.09027}
+        - {x: 724.49524, y: 114.09027}
+        - {x: 678.49524, y: 110.09027}
+        - {x: 393.49524, y: 111.09027}
+        - {x: 130.49524, y: 111.09027}
+        - {x: -287.50476, y: 110.09027}
+        - {x: -628.50476, y: 111.09027}
+        - {x: -675.50476, y: 114.09027}
+        - {x: -794.50476, y: 114.09027}
+        - {x: -794.50476, y: 71.09027}
+        - {x: -790.50476, y: 63.09027}
+        - {x: -794.50476, y: -25.909729}
+        - {x: -794.50476, y: -110.90973}
+        - {x: -793.50476, y: -113.90973}
+        - {x: -530.50476, y: -113.90973}
+        - {x: -386.50476, y: -111.90973}
+        - {x: -178.50476, y: -111.90973}
+        - {x: 173.49524, y: -110.90973}
+      - - {x: -765.50476, y: -66.90973}
+        - {x: -768.50476, y: -33.90973}
+        - {x: -768.50476, y: 62.09027}
+        - {x: -750.50476, y: 77.09027}
+        - {x: -708.50476, y: 87.09027}
+        - {x: -419.50476, y: 87.09027}
+        - {x: 107.49524, y: 88.09027}
+        - {x: 226.49524, y: 87.09027}
+        - {x: 417.49524, y: 86.09027}
+        - {x: 671.49524, y: 88.09027}
+        - {x: 744.49524, y: 88.09027}
+        - {x: 769.49524, y: 63.09027}
+        - {x: 767.49524, y: -31.909729}
+        - {x: 770.49524, y: -59.90973}
+        - {x: 749.49524, y: -86.90973}
+        - {x: 466.49524, y: -86.90973}
+        - {x: 190.49524, y: -87.90973}
+        - {x: -379.50476, y: -87.90973}
+        - {x: -459.50476, y: -86.90973}
+        - {x: -720.50476, y: -86.90973}
+        - {x: -744.50476, y: -88.90973}
+    - name: PassageFrame_Yesod_3
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 110
+        width: 1029
+        height: 271
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 435.2791, y: -114.85273}
+        - {x: 436.2791, y: -110.85273}
+        - {x: 436.2791, y: 114.14727}
+        - {x: 428.2791, y: 115.14727}
+        - {x: 386.2791, y: 115.14727}
+        - {x: 380.2791, y: 109.14727}
+        - {x: -157.72089, y: 115.14727}
+        - {x: -415.7209, y: 115.14727}
+        - {x: -434.7209, y: 113.14727}
+        - {x: -435.7209, y: 112.14727}
+        - {x: -435.7209, y: -114.85273}
+        - {x: -390.7209, y: -114.85273}
+        - {x: -390.7209, y: -109.85273}
+        - {x: 381.2791, y: -113.85273}
+        - {x: 384.2791, y: -114.85273}
+      - - {x: -386.7209, y: -90.85273}
+        - {x: -390.7209, y: -85.85273}
+        - {x: -411.7209, y: -64.85273}
+        - {x: -411.7209, y: 63.14727}
+        - {x: -386.7209, y: 87.14727}
+        - {x: -348.7209, y: 86.14727}
+        - {x: -332.7209, y: 88.14727}
+        - {x: 13.279114, y: 86.14727}
+        - {x: 144.27911, y: 87.14727}
+        - {x: 383.2791, y: 88.14727}
+        - {x: 390.2791, y: 82.14727}
+        - {x: 411.2791, y: 63.14727}
+        - {x: 411.2791, y: -65.85273}
+        - {x: 406.2791, y: -67.85273}
+        - {x: 394.2791, y: -79.85273}
+        - {x: 379.2791, y: -89.85273}
+        - {x: 247.27911, y: -89.85273}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

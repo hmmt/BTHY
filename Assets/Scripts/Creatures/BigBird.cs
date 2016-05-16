@@ -259,7 +259,7 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
     bool AttractNearAgent() {
         List<WorkerModel> nearTarget = new List<WorkerModel>();
 
-        OfficerModel[] detectedOfficer = OfficeManager.instance.GetNearOfficers(model.GetMovableNode());
+        OfficerModel[] detectedOfficer = OfficerManager.instance.GetNearOfficers(model.GetMovableNode());
         if (detectedOfficer.Length == 0)
         {
             AgentModel[] detectedAgent = AgentManager.instance.GetNearAgents(model.GetMovableNode());

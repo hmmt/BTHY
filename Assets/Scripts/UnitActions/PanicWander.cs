@@ -30,7 +30,7 @@ public class PanicWander : PanicAction {
     public void Execute()
     {
 		if (actor.GetMovableNode().IsMoving() == false) { 
-            Debug.Log("PanicAction");
+            //Debug.Log("PanicAction");
 			//worker.GetMovableNode().MoveToNode(GetRandomNodeByRandom());
 			//actor.MoveToNode(GetRandomNodeByRandom());
 			actor.MoveToNode(MapGraph.instance.GetRoamingNodeByRandom (actor.currentSefira));
