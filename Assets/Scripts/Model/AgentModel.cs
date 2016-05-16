@@ -51,6 +51,25 @@ public class AgentModel : WorkerModel
 
 
 	//
+    public bool isPromotable {
+        /*
+        get {
+            if (this.level < 3) {
+                if (EnergyModel.instance.GetLeftEnergy() > AgentLayer.currentLayer.AgentPromotionCost[this.level - 1]) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+         */
+        get {
+            if (this.level < 3) {
+                return true;
+            }
+            return false;
+        }
+    }
 
     public int level;
     public int workDays;
@@ -1147,6 +1166,7 @@ public class AgentModel : WorkerModel
         */
         waitTimer = 0;
         Notice.instance.Send(NoticeName.ChangeAgentSefira, this, old);
+        AgentAllocateWindow.instance.ChangedAgentSefira(this, currentSefira);
     }
 
     public void Panic()
@@ -1261,15 +1281,19 @@ public class AgentModel : WorkerModel
         {
 		case PersonalityType.D:
             temp = "Rationalist";
+                //살해
             break;
 		case PersonalityType.I:
             temp = "Optimist";
+                //격리실 개방
             break;
 		case PersonalityType.S:
             temp = "Principlist";
+                //자살
             break;
 		case PersonalityType.C:
             temp = "Pacifist";
+                //배회
             break;
         }
         return temp;
@@ -1488,8 +1512,10 @@ public class AgentModel : WorkerModel
         for (long i = 1; i <= 5; i++) {
             foreach (SkillTypeInfo skill in model.skillList) {
                 if (skill.id == i) {
-                    int index = GetWorkIconId(skill);
-                    Sprite s = IconManager.instance.GetWorkIcon(index).GetDefault().icon;
+                    int id = GetWorkIconId(skill);
+                    //Debug.Log(IconManager.instance.GetWorkIcon(id).id + " " + IconManager.instance.GetWorkIcon(id).defaultIndex);
+                    //Debug.Log(IconManager.instance.GetWorkIcon(id).GetIcon(ManageWorkIconState.DEFAULT).icon.name);
+                    Sprite s = IconManager.instance.GetWorkIcon(id).GetIcon(ManageWorkIconState.DEFAULT).icon;
                     output.Add(s);
                 }
             }
@@ -1498,7 +1524,7 @@ public class AgentModel : WorkerModel
     }
 
     public static int GetWorkIconId(SkillTypeInfo skill) {
-        if (skill.id > 10) {
+        if (skill.id > 5) {
             return IconId.Special1;
         }
         switch (skill.id) { 
@@ -1515,5 +1541,75 @@ public class AgentModel : WorkerModel
             default:
                 return IconId.Meal1;
         }
+    }
+
+    public static Sprite GetPersonalityIcon(AgentModel model) {
+        Sprite output = null;
+        switch (model.agentLifeValue)
+        {
+            case PersonalityType.D:
+                //살해
+                output = IconManager.instance.GetIcon(IconId.Rationalist).icon;
+                break;
+            case PersonalityType.I:
+                //격리실 개방
+                output = IconManager.instance.GetIcon(IconId.Optimist).icon;
+                break;
+            case PersonalityType.S:
+                //자살
+                output = IconManager.instance.GetIcon(IconId.Pacifist).icon;
+                break;
+            case PersonalityType.C:
+                //배회
+                output = IconManager.instance.GetIcon(IconId.Principled).icon;
+                break;
+        }
+        return output;
+    }
+
+    public static Sprite GetPanicIcon() {
+        return IconManager.instance.GetIcon(IconId.Panic).icon;
+    }
+
+    public static Sprite GetPanicActionIcon(AgentModel model)
+    {
+        Sprite output = null;
+        switch (model.agentLifeValue)
+        {
+            case PersonalityType.D:
+                //살해
+                output = IconManager.instance.GetIcon(IconId.Murder).icon;
+                break;
+            case PersonalityType.I:
+                //격리실 개방
+                output = IconManager.instance.GetIcon(IconId.Release).icon;
+                break;
+            case PersonalityType.S:
+                //자살
+                output = IconManager.instance.GetIcon(IconId.Suicide).icon;
+                break;
+            case PersonalityType.C:
+                //배회
+                output = IconManager.instance.GetIcon(IconId.Wander).icon;
+                break;
+        }
+        return output;
+    }
+
+    public static Sprite GetSuppressIcon(AgentModel model) {
+        Sprite output = null;
+        switch (model.weapon)
+        {
+            case AgentWeapon.GUN:
+                output = IconManager.instance.GetIcon("Gun").icon;
+                break;
+            case AgentWeapon.NORMAL:
+                output = IconManager.instance.GetIcon("Stick").icon;
+                break;
+            case AgentWeapon.SHIELD:
+                output = IconManager.instance.GetIcon("Block").icon;
+                break;
+        }
+        return output;
     }
 }

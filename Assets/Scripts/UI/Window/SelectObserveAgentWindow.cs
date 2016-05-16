@@ -88,6 +88,7 @@ public class SelectObserveAgentWindow : MonoBehaviour, IActivatableObject
             state.pressedSprite = ui.Button_Click;
             state.disabledSprite = ui.Button_Normal;
             state.highlightedSprite = ui.Button_Over;
+            this.button.spriteState = state;
         }
     }
 

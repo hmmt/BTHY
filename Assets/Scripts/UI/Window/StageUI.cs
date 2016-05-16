@@ -167,10 +167,12 @@ public class StageUI : MonoBehaviour, IObserver {
             sefiraName = "Yessod";
         }
 
+        /*
         if(PlayerModel.instance.IsOpenedArea(sefira))
          areaButtonImage[sefiraNum - 1].sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/"+sefiraName+"_On");
         else
             areaButtonImage[sefiraNum - 1].sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/" + sefiraName + "_Off");
+         */
     }
 
     private void UpdateButton(AreaButton btn)
@@ -187,7 +189,7 @@ public class StageUI : MonoBehaviour, IObserver {
         else
         {
             btn.on.gameObject.SetActive(true);
-            btn.off.gameObject.SetActive(false);
+            btn.off.gameObject.SetActive(false);/
         }
     }
 
@@ -447,7 +449,7 @@ public class StageUI : MonoBehaviour, IObserver {
         CancelSefiraAgent(unit);
 
         Sefira targetSefira = SefiraManager.instance.getSefira(currentSefriaUi);
-
+        if (targetSefira == null) return;
         if (targetSefira.agentList.Contains(unit)) {
             agentExist = true;
         }

@@ -1,0 +1,274 @@
+fileFormatVersion: 2
+guid: e3d0c4588253dff43910ea10185ecfee
+timeCreated: 1463033945
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Deploy_Normal
+    21300002: Deploy_Over
+    21300004: AgentSlot_Info
+    21300006: Cancel_Malkuth
+    21300008: Cancel_Yesod
+    21300010: Approve_Disabled
+    21300012: Approve_Over
+    21300014: Approve_Normal
+    21300016: AgentSlotPanel
+    21300018: AgentStatus
+    21300020: Mask
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Deploy_Normal
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 3919
+        width: 190
+        height: 877
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 33.354324, y: 165.63525}
+        - {x: -31.645676, y: 165.63525}
+        - {x: -35.645676, y: 92.635254}
+        - {x: -35.645676, y: -142.36475}
+        - {x: -34.645676, y: -165.36475}
+        - {x: 30.354324, y: -165.36475}
+        - {x: 37.354324, y: -78.364746}
+        - {x: 37.354324, y: 42.635254}
+        - {x: 30.354324, y: 52.635254}
+    - name: Deploy_Over
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 3919
+        width: 190
+        height: 877
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35.292877, y: 165.63525}
+        - {x: -31.707123, y: 165.63525}
+        - {x: -35.707123, y: 68.635254}
+        - {x: -35.707123, y: -127.364746}
+        - {x: -34.707123, y: -165.36475}
+        - {x: 30.292877, y: -165.36475}
+        - {x: 30.292877, y: -164.36475}
+        - {x: 37.292877, y: -92.364746}
+        - {x: 37.292877, y: 117.635254}
+    - name: AgentSlot_Info
+      rect:
+        serializedVersion: 2
+        x: 1380
+        y: 2777
+        width: 1217
+        height: 1793
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -229.05963, y: 338.27954}
+        - {x: -229.05963, y: -337.72046}
+        - {x: 229.94037, y: -337.72046}
+        - {x: 229.94037, y: 338.27954}
+    - name: Cancel_Malkuth
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 2801
+        width: 190
+        height: 877
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31.656929, y: 165.81335}
+        - {x: -35.65693, y: 91.813354}
+        - {x: -35.65693, y: -89.186646}
+        - {x: -31.656929, y: -165.18665}
+        - {x: 33.34307, y: -165.18665}
+        - {x: 37.34307, y: -76.186646}
+        - {x: 37.34307, y: 86.813354}
+        - {x: 33.34307, y: 165.81335}
+    - name: Cancel_Yesod
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 2801
+        width: 190
+        height: 877
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 36.281616, y: 165.81335}
+        - {x: -29.718384, y: 165.81335}
+        - {x: -35.718384, y: 61.813354}
+        - {x: -35.718384, y: -116.186646}
+        - {x: -31.718384, y: -165.18665}
+        - {x: 33.281616, y: -165.18665}
+        - {x: 33.281616, y: -164.18665}
+        - {x: 37.281616, y: -81.186646}
+        - {x: 37.281616, y: 142.81335}
+    - name: Approve_Disabled
+      rect:
+        serializedVersion: 2
+        x: 2778
+        y: 2801
+        width: 156
+        height: 877
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29.343994, y: 165.81335}
+        - {x: -29.343994, y: -165.18665}
+        - {x: 30.656006, y: -165.18665}
+        - {x: 30.656006, y: 165.81335}
+    - name: Approve_Over
+      rect:
+        serializedVersion: 2
+        x: 3036
+        y: 2801
+        width: 197
+        height: 877
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30.731201, y: 165.81335}
+        - {x: -36.7312, y: 75.813354}
+        - {x: -36.7312, y: -61.186646}
+        - {x: -30.731201, y: -163.18665}
+        - {x: -30.731201, y: -165.18665}
+        - {x: 35.2688, y: -165.18665}
+        - {x: 38.2688, y: -88.186646}
+        - {x: 38.2688, y: 117.813354}
+        - {x: 35.2688, y: 165.81335}
+    - name: Approve_Normal
+      rect:
+        serializedVersion: 2
+        x: 3312
+        y: 2801
+        width: 195
+        height: 877
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35.15686, y: 165.81335}
+        - {x: -30.84314, y: 165.81335}
+        - {x: -36.84314, y: 82.813354}
+        - {x: -36.84314, y: -85.186646}
+        - {x: -33.84314, y: -165.18665}
+        - {x: 32.15686, y: -165.18665}
+        - {x: 32.15686, y: -164.18665}
+        - {x: 38.15686, y: -64.186646}
+        - {x: 38.15686, y: 101.813354}
+    - name: AgentSlotPanel
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 1789
+        width: 2612
+        height: 874
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -491.6288, y: 165.39044}
+        - {x: -491.6288, y: -164.60956}
+        - {x: 492.3712, y: -164.60956}
+        - {x: 492.3712, y: 165.39044}
+    - name: AgentStatus
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 736
+        width: 1146
+        height: 925
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 217.3096, y: -166.46515}
+        - {x: 217.3096, y: 166.53485}
+        - {x: 214.3096, y: 170.53485}
+        - {x: 213.3096, y: 172.53485}
+        - {x: 211.3096, y: 172.53485}
+        - {x: 209.3096, y: 174.53485}
+        - {x: -206.6904, y: 174.53485}
+        - {x: -213.6904, y: 171.53485}
+        - {x: -215.6904, y: 166.53485}
+        - {x: -215.6904, y: -165.46515}
+        - {x: -212.6904, y: -172.46515}
+        - {x: -210.6904, y: -172.46515}
+        - {x: -208.6904, y: -174.46515}
+        - {x: 207.3096, y: -174.46515}
+        - {x: 211.3096, y: -173.46515}
+        - {x: 216.3096, y: -169.46515}
+    - name: Mask
+      rect:
+        serializedVersion: 2
+        x: 1595
+        y: 769
+        width: 1214
+        height: 874
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -228.63239, y: 165.45624}
+        - {x: -228.63239, y: -164.54376}
+        - {x: 229.36761, y: -164.54376}
+        - {x: 229.36761, y: 165.45624}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

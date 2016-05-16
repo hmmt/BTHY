@@ -97,7 +97,7 @@ public class AgentAllocateWindow : MonoBehaviour {
     public float verticalSpacing;
     public List<AgentModel> agentList = new List<AgentModel>();
 
-    List<AgentAllocateSlot> currentSlotList = new List<AgentAllocateSlot>();
+    public List<AgentAllocateSlot> currentSlotList = new List<AgentAllocateSlot>();
 
     float initialPosy;
     float currentPosy;
@@ -161,9 +161,10 @@ public class AgentAllocateWindow : MonoBehaviour {
     }
 
     public void SetScrollRect(float size) {
-        float lastHeight = addButton.rect.height;
-        addButton.anchoredPosition = new Vector2(0f, -size);
-        float totalSize = size + lastHeight;
+        //float lastHeight = addButton.rect.height;
+        //addButton.anchoredPosition = new Vector2(0f, -size);
+        //float totalSize = size + lastHeight;
+        float totalSize = size;
 
         this.agentScrollTarget.sizeDelta = new Vector2(this.agentScrollTarget.sizeDelta.x,
                                                        totalSize);
@@ -176,5 +177,36 @@ public class AgentAllocateWindow : MonoBehaviour {
 
     public void SetAddButtonState(bool b) {
         this.addButton.gameObject.SetActive(b);
+    }
+
+    public void ChangedAgentSefira(AgentModel model, string sefira) {
+        AgentAllocateSlot slot = GetSlot(model);
+        if (slot != null) {
+            if (sefira == "0") slot.OnCancelAgent();
+            else {
+                slot.sets.SetAllocate(SefiraManager.instance.getSefira(sefira));
+            }
+        }
+    }
+
+    public void SetAllocateIndex(AgentModel model, int i) {
+        AgentAllocateSlot slot = GetSlot(model);
+        if (slot != null)
+        {
+            slot.SetAllocatedIndex(i);
+        }
+    }
+
+    public AgentAllocateSlot GetSlot(AgentModel target) {
+        AgentAllocateSlot slot = null;
+        foreach (AgentAllocateSlot s in this.currentSlotList)
+        {
+            if (s.CheckAgent(target))
+            {
+                slot = s;
+                break;
+            }
+        }
+        return slot;
     }
 }

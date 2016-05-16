@@ -77,7 +77,7 @@ public class StageTimeInfoUI : MonoBehaviour, IObserver {
         goalTime = Time.time + goal;
         limitTime = goal;
         this.gameManager = gameManager;
-        StartCoroutine(UpdateTimer());
+        //StartCoroutine(UpdateTimer());
     }
 
 	public void Pause()

@@ -27,6 +27,10 @@ public class SuppressAgentSlot : MonoBehaviour {
     public Text currentAction;
     public Image[] suppressAction;
 
+    public Slider hp;
+    public Image mental;
+    //public Image icon;
+
     private Color Select, NonSelect;
     private int index = -1;
     public bool isSelected = false;
@@ -49,7 +53,8 @@ public class SuppressAgentSlot : MonoBehaviour {
         NonEmpty();
 
 		this.model = model;
-
+        this.hp.maxValue = model.maxHp;
+        this.hp.minValue = 0;
         Debug.Log(model.name);
         index = -1;
         face.sprite = model.tempFaceSprite;
@@ -160,5 +165,20 @@ public class SuppressAgentSlot : MonoBehaviour {
 
     public int GetCurrentSelected() {
         return this.index;
+    }
+
+    public void Update() {
+        CheckState();
+    }
+
+    public void CheckState() {
+        if (this.model == null) return;
+        this.hp.value = model.hp;
+
+        float mentalValue =(float)this.model.mental / this.model.maxMental;
+        Color mentalColor = this.mental.color;
+        mentalColor.a = 1 - mentalValue;
+        this.mental.color = mentalColor;
+        
     }
 }

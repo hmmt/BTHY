@@ -69,6 +69,7 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
             state.highlightedSprite = element.Button_Overlay;
             state.pressedSprite = element.Button_Click;
             state.disabledSprite = element.Button_Normal;
+            button.spriteState = state;
         }
     }
 
@@ -305,6 +306,7 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
         Canvas canvas = inst.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
         currentWindow = inst;
+        Debug.Log("Null Creature's Window Opened");
         return inst;
     }
 

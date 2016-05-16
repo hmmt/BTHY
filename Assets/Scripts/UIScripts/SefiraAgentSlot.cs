@@ -47,6 +47,9 @@ public class SefiraAgentSlot : MonoBehaviour {
 
         //ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
         AgentManager.instance.deactivateAgent(unit);
+        //Window call
+        AgentAllocateWindow.instance.ChangedAgentSefira(unit, unit.currentSefira);
+
         ShowAgentSefira(StageUI.instance.currentSefriaUi);
         //script.SetChange();
         
@@ -122,6 +125,8 @@ public class SefiraAgentSlot : MonoBehaviour {
             slot[copied].agentName.text = "" + agentModel.name;
             slot[copied].Cancel.gameObject.SetActive(true);
             slot[copied].bodyObject.gameObject.SetActive(true);
+
+            AgentAllocateWindow.instance.SetAllocateIndex(agentModel, i);
             /*
             slot[i].cancelButton.gameObject.SetActive(true);
             slot[i].cancelButton.onClick.RemoveAllListeners();

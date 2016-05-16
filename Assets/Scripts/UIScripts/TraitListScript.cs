@@ -35,6 +35,17 @@ public class TraitListScript : MonoBehaviour {
         
     }
 
+    public void MakeTraitSimple(TraitTypeInfo trait) { 
+        GameObject traitPanel = Instantiate(traitObject);
+        Text textPanel = traitPanel.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Text>();
+        textPanel.text = trait.name;
+
+        textPanel.gameObject.SetActive(true);
+        traitPanel.transform.SetParent(parent, false);
+        RectAdd(traitPanel.GetComponent<RectTransform>());
+
+    }
+
     public List<GameObject> MakeTrait(TraitTypeInfo trait) {
         List<GameObject> output = new List<GameObject>();
         GameObject traitPanel = Instantiate(traitObject);
