@@ -82,7 +82,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     public WorkAllocateTarget uiTarget;
 
     public long selectedSkillId = -1;
-    public AgentModel selectedAgent;
+    AgentModel selectedAgent;
 
     public ActivatableObjectPos windowPos = ActivatableObjectPos.ISOLATE;
     public RectTransform eventTriggerTarget;
@@ -478,10 +478,12 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     }
 
     public void OnSelectAgent(AgentModel model) {
+		/*
         if (this.observeState) {
             this.observingAgent.Add(model);
             return;
         }
+        */
         if (this.selectedAgent != null) {
             foreach (WorkAllocateSlot slot in this.slotList) {
                 if (slot.model == this.selectedAgent) {

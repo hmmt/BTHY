@@ -189,7 +189,7 @@ public class StageUI : MonoBehaviour, IObserver {
         else
         {
             btn.on.gameObject.SetActive(true);
-            btn.off.gameObject.SetActive(false);/
+            btn.off.gameObject.SetActive(false);
         }
     }
 
