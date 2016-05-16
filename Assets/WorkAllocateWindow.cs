@@ -83,6 +83,8 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
 
     public ActivatableObjectPos windowPos = ActivatableObjectPos.ISOLATE;
     public RectTransform eventTriggerTarget;
+
+	public Button observeButton;
     bool ObserveState = false;//이 창이 관찰창이 되는가에 대한 정보
     bool activatableObjectInitiated = false;
     SkillTypeInfo specialSkill = null;
@@ -136,6 +138,12 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         }
         currentWindow.ObserveState = false;
         currentWindow.workType = workType;
+
+		// activate observe button
+		if (currentWindow.targetCreature.CanObserve ())
+			currentWindow.observeButton.gameObject.SetActive (true);
+		else
+			currentWindow.observeButton.gameObject.SetActive (false);
 
         Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
         canvas.worldCamera = UIActivateManager.instance.GetCam();
@@ -400,6 +408,7 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         if (this.ObserveState) { 
             //관찰 시작
             Debug.Log("관찰을 시작한다");
+			selectedAgent.ObserveCreature (targetCreature);
             CloseWindow();
             return;
         }
@@ -482,6 +491,11 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     }
 
     public void OpenObserveWindow() {
+		if (targetCreature.CanObserve () == false) {
+			int point = targetCreature.GetObservationConditionPoint ();
+			Debug.Log ("point : " + point);
+			return;
+		}
         ObserveState = true;    
         this.uiTarget.SetObserve();
         ShowAgentList();

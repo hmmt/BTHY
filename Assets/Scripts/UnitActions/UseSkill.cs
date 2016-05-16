@@ -480,10 +480,14 @@ public class UseSkill : ActionClassBase
 
             if (success)
             {
+				targetCreature.AddSuccessCount ();
+
 				successCount++;
             }
             else
             {
+				targetCreature.AddFailureCount ();
+				
                 targetCreature.script.OnSkillFailWorkTick(this);
 
                 // It can be skipped when changed in SkillFailWorkTick
@@ -494,6 +498,8 @@ public class UseSkill : ActionClassBase
 
                     
 					if (Random.value <= attackProb) {
+						targetCreature.AddAttackCount ();
+						
 						if (targetCreature.GetAttackType () == CreatureAttackType.PHYSICS)
 						{
 							agent.TakePhysicalDamageByCreature(targetCreature.GetPhysicsDmg ());

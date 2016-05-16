@@ -352,7 +352,7 @@ public class MapGraph : IObserver
 						XmlNode elevatorAttr = node.Attributes.GetNamedItem ("elevator");
 						if (elevatorAttr != null) {
 
-							ElevatorPassageModel elevatorModel = new ElevatorPassageModel (newMapNode);
+							ElevatorPassageModel elevatorModel = new ElevatorPassageModel (newMapNode, elevatorAttr.InnerText);
 
 							MapNode eNode1 = new MapNode ("elevator1-" + id, new Vector3 (-1, 0, 0), areaName);
 							MapNode eNode2 = new MapNode ("elevator2-" + id, new Vector3 (-0.5f, 0, 0), areaName);
@@ -547,8 +547,17 @@ public class MapGraph : IObserver
 				{
 					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
 
-					elevator.AddFloorInfo (upFloorList.ToArray (), new Vector3 (0, 6, 0) + elevatorNode.GetPosition ());
-					elevator.AddFloorInfo (downFloorList.ToArray (), new Vector3 (0, -7, 0) + elevatorNode.GetPosition ());
+					switch(elevator.GetElevatorType())
+					{
+					case ElevatorType.LONG:
+						elevator.AddFloorInfo (upFloorList.ToArray (), new Vector3 (0, 6, 0) + elevatorNode.GetPosition ());
+						elevator.AddFloorInfo (downFloorList.ToArray (), new Vector3 (0, -7, 0) + elevatorNode.GetPosition ());
+						break;
+					case ElevatorType.SHORT:
+						elevator.AddFloorInfo (upFloorList.ToArray (), new Vector3 (0, 3, 0) + elevatorNode.GetPosition ());
+						elevator.AddFloorInfo (downFloorList.ToArray (), new Vector3 (0, -3.5f, 0) + elevatorNode.GetPosition ());
+						break;
+					}
 
 					elevatorList.Add (elevator);
 				}

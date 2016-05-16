@@ -11,6 +11,13 @@ public enum TOOL_MAP_NODE
 	dept
 }
 
+public enum TOOL_ELEVATOR_TYPE
+{
+	NONE,
+	SHORT,
+	LONG
+}
+
 [ExecuteInEditMode]
 public class ToolMapNode : MonoBehaviour {
 	
@@ -23,7 +30,7 @@ public class ToolMapNode : MonoBehaviour {
 
 	public string type = "";
 
-	public bool isElevator = false;
+	public TOOL_ELEVATOR_TYPE elevatorType = TOOL_ELEVATOR_TYPE.NONE;
 
 
 	void OnDestroy()

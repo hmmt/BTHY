@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public enum ElevatorType
+{
+	NONE,
+	SHORT,
+	LONG
+}
+
 public class ElevatorPassageModel {
 
 	private enum ElevatorDirection
@@ -39,6 +46,8 @@ public class ElevatorPassageModel {
 
 	private MapNode elevatorNode;
 
+	private ElevatorType type = ElevatorType.NONE;
+
 	private List<MapNode> innerNodes;
 	private List<Vector3> nodeOrigin;
 
@@ -53,9 +62,20 @@ public class ElevatorPassageModel {
 
 	private float waitTimer = 2;
 
-	public ElevatorPassageModel(MapNode elevatorNode)
+	public ElevatorPassageModel(MapNode elevatorNode, string type)
 	{
 		this.elevatorNode = elevatorNode;
+
+		//this.type = type;
+		switch (type)
+		{
+		case "short":
+			this.type = ElevatorType.SHORT;
+			break;
+		default:
+			this.type = ElevatorType.LONG;
+			break;
+		}
 		
 		innerNodes = new List<MapNode> ();
 		nodeOrigin = new List<Vector3> ();
@@ -69,6 +89,11 @@ public class ElevatorPassageModel {
 	public MapNode GetNode()
 	{
 		return elevatorNode;
+	}
+
+	public ElevatorType GetElevatorType()
+	{
+		return this.type;
 	}
 
 	public float GetCurrentPos()

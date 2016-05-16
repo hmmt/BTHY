@@ -38,6 +38,8 @@ public class ObserveInfo
 	public int attackCount = 0;
 	public int escapeCount = 0;
 	public int specialAttackCount = 0;
+
+	public int observationFailureCount = 0;
 }
 
 // 
@@ -908,8 +910,22 @@ public class CreatureModel : UnitModel, IObserver
 	{
 		observeInfo.specialAttackCount++;
 	}
+	public void AddObservationFailureCount()
+	{
+		observeInfo.observationFailureCount++;
+	}
 
-	public int ObservationConditionPoint()
+	public void ResetObservationFailureCount()
+	{
+		observeInfo.observationFailureCount = 0;
+	}
+
+	public int GetObservationFailureCount()
+	{
+		return observeInfo.observationFailureCount;
+	}
+
+	public int GetObservationConditionPoint()
 	{
 		int point = 0;
 		point += observeInfo.successCount/30;
@@ -919,6 +935,36 @@ public class CreatureModel : UnitModel, IObserver
 		point += observeInfo.specialAttackCount;
 
 		return point;
+	}
+
+	public bool CanObserve()
+	{
+		return true;
+		int point = GetObservationConditionPoint ();
+
+		switch (observeProgress) {
+		case 0:
+			if (point >= 5)
+				return true;
+			break;
+		case 1:
+			if (point >= 15)
+				return true;
+			break;
+		case 2:
+			if (point >= 20)
+				return true;
+			break;
+		case 3:
+			if (point >= 30)
+				return true;
+			break;
+		case 4:
+			if (point >= 40)
+				return true;
+			break;
+		}
+		return false;
 	}
 
 	// temp for proto

@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: c9380f96b19c94495abdcb760019ddb0
+timeCreated: 1463127834
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: frame_hub_malkuth_0
+    21300002: frame_hub_malkuth_1
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: frame_hub_malkuth_0
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 81
+        width: 424
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 212, y: 134.5}
+        - {x: -56, y: 134.5}
+        - {x: -153, y: 132.5}
+        - {x: -157, y: 134.5}
+        - {x: -212, y: 134.5}
+        - {x: -212, y: -134.5}
+        - {x: 212, y: -134.5}
+      - - {x: -183, y: -78.5}
+        - {x: -187, y: 48.5}
+        - {x: -158, y: 103.5}
+        - {x: 154, y: 106.5}
+        - {x: 155, y: 101.5}
+        - {x: 185, y: 75.5}
+        - {x: 183, y: -76.5}
+        - {x: 152, y: -103.5}
+        - {x: -3, y: -104.5}
+        - {x: -99, y: -106.5}
+    - name: frame_hub_malkuth_1
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 82
+        width: 908
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 454, y: -134}
+        - {x: 454, y: -41}
+        - {x: 451, y: -19}
+        - {x: 454, y: 28}
+        - {x: 454, y: 134}
+        - {x: 401, y: 134}
+        - {x: 401, y: 126}
+        - {x: -399, y: 127}
+        - {x: -403, y: 134}
+        - {x: -445, y: 134}
+        - {x: -454, y: 133}
+        - {x: -454, y: -26}
+        - {x: -452, y: -72}
+        - {x: -454, y: -77}
+        - {x: -454, y: -134}
+        - {x: -404, y: -134}
+        - {x: -402, y: -130}
+        - {x: 284, y: -131}
+        - {x: 347, y: -134}
+      - - {x: -427, y: -76}
+        - {x: -428, y: 75}
+        - {x: -403, y: 98}
+        - {x: -351, y: 105}
+        - {x: 264, y: 106}
+        - {x: 396, y: 104}
+        - {x: 425, y: 71}
+        - {x: 422, y: -79}
+        - {x: 403, y: -99}
+        - {x: 396, y: -108}
+        - {x: 290, y: -106}
+        - {x: 184, y: -107}
+        - {x: -252, y: -107}
+        - {x: -260, y: -106}
+        - {x: -386, y: -107}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

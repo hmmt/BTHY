@@ -128,7 +128,7 @@ public class ToolMapRoot : MonoBehaviour {
 						float nodeY = mapNode.transform.position.y;
 						string nodeType = mapNode.type;
 						float scaleFactor = mapNode.scaleFactor;
-						bool isElvator = mapNode.isElevator;
+						TOOL_ELEVATOR_TYPE elevatorType = mapNode.elevatorType;
 
 						if (dupChecker.ContainsKey (nodeId))
 						{
@@ -159,8 +159,19 @@ public class ToolMapRoot : MonoBehaviour {
 							mapNodeElement.Attributes.Append (nodeAttrType);
 						if (scaleFactor != 1.0f)
 							mapNodeElement.Attributes.Append (nodeAttrScale);
-						if(isElvator)
+						switch(elevatorType)
+						{
+						case TOOL_ELEVATOR_TYPE.LONG:
+							nodeAttrElevator.InnerText = "long";
 							mapNodeElement.Attributes.Append(nodeAttrElevator);
+							break;
+						case TOOL_ELEVATOR_TYPE.SHORT:
+							nodeAttrElevator.InnerText = "short";
+							mapNodeElement.Attributes.Append(nodeAttrElevator);
+							break;
+						default:
+							break;
+						}
 
 						passageNode.AppendChild (mapNodeElement);
 						break;
@@ -318,7 +329,18 @@ public class ToolMapRoot : MonoBehaviour {
 
 						XmlNode elevatorAttr = node.Attributes.GetNamedItem ("elevator");
 						if (elevatorAttr != null) {
-							newMapNode.isElevator = true;
+							//newMapNode.isElevator = true;
+
+							string elevatorTypeStr = elevatorAttr.InnerText;
+							switch(elevatorTypeStr)
+							{
+							case "short":
+								newMapNode.elevatorType = TOOL_ELEVATOR_TYPE.SHORT;
+								break;
+							default:
+								newMapNode.elevatorType = TOOL_ELEVATOR_TYPE.LONG;
+								break;
+							}
 						}
 
 
