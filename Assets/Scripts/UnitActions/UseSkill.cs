@@ -62,7 +62,7 @@ public class UseSkill : ActionClassBase
     {
         if (finished == false)
         {
-            Release();
+            //Release();
         }
     }
 
