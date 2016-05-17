@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
 		if (!b.activated)
 			AgentManager.instance.activateAgent(b, "4");
 
-		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-tessod-4"));
 
 
 		//b.weapon = AgentWeapon.SHIELD;

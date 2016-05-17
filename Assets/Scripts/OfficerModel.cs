@@ -266,7 +266,7 @@ public class OfficerModel : WorkerModel {
     public override void TakeMentalDamage(int damage)
     {
         base.TakeMentalDamage(damage);
-        if (mental < 0)
+        if (mental <= 0)
         {
             Panic();
         }
