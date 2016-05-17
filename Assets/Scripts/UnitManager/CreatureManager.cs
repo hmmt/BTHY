@@ -54,7 +54,7 @@ public class CreatureManager : IObserver{
     {
         CreatureModel model = new CreatureModel(nextInstId++);
 
-		model.sefira = SefiraManager.instance.getSefira(sefiraNum);
+		model.sefira = SefiraManager.instance.GetSefira(sefiraNum);
 		model.sefiraNum = model.sefira.indexString;
 
 		model.position = new Vector2(x, y);
@@ -94,7 +94,7 @@ public class CreatureManager : IObserver{
             YessodCreature.Add(creature);
         }
         //Debug.Log(SefiraManager.instance.getSefira(sepira).creatureList.Count);
-        SefiraManager.instance.getSefira(sepira).creatureList.Add(creature);
+        SefiraManager.instance.GetSefira(sepira).creatureList.Add(creature);
     }
 
     public List<CreatureModel> GetSelectedList(string sefira) {

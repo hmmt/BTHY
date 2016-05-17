@@ -251,7 +251,7 @@ public class MapGraph : IObserver
             mapArea.sefiraName = areaName;
             
             int max = int.Parse(areaNode.Attributes.GetNamedItem("sub").InnerText);
-            Sefira sefira = SefiraManager.instance.getSefira(areaName);
+            Sefira sefira = SefiraManager.instance.GetSefira(areaName);
             sefira.initDepartmentNodeList(max);
 
 			int deptIndex = 0;

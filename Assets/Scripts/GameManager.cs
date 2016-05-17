@@ -199,7 +199,7 @@ public class GameManager : MonoBehaviour
             
         }
         */
-        SefiraManager.instance.getSefira(SefiraName.Malkut).InitAgentSkillList();
+        SefiraManager.instance.GetSefira(SefiraName.Malkut).InitAgentSkillList();
         CreatureManager.instance.OnStageStart();
 
         foreach (OfficerModel om in OfficerManager.instance.GetOfficerList()) {

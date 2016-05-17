@@ -68,7 +68,7 @@ public class SefiraObject : MonoBehaviour {
         }
         passageList.Add(passageScript);
         if (passageScript.shouldCheckSefira) {
-            passageScript.SetSefiraFrame(SefiraManager.instance.getSefira(this.sefiraName));
+            passageScript.SetSefiraFrame(SefiraManager.instance.GetSefira(this.sefiraName));
         }
 
         passageObj.transform.SetParent(transform);
@@ -104,7 +104,7 @@ public class SefiraObject : MonoBehaviour {
 		e.model = model;
 
         if (e.shouldSefiraCheck) {
-            e.SetSprite(SefiraManager.instance.getSefira(this.sefiraName));
+            e.SetSprite(SefiraManager.instance.GetSefira(this.sefiraName));
         }
 
 		g.transform.localPosition = model.GetNode ().GetPosition ();

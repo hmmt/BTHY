@@ -56,7 +56,7 @@ public class PlayerModel {
 
     public void OpenArea(string area)
     {
-        Sefira s = SefiraManager.instance.getSefira(area);
+        Sefira s = SefiraManager.instance.GetSefira(area);
         if (areaList.Contains(area) && !openedAreaList.Contains(area))
         {
             openedAreaList.Add(area);

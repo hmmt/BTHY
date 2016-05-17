@@ -196,7 +196,7 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
 
                     model.GetAnimScript().SendMessage("Kill");
                     AnimatorManager.instance.ResetAnimatorTransform(currentTarget.instanceId);
-                    Debug.Log(currentTarget.instanceId);
+                    
                     Animator agentAnim = null;
                     if (currentTarget is AgentModel)
                     {
@@ -208,7 +208,6 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
                         agentAnim = OfficerLayer.currentLayer.GetOfficer(currentTarget.instanceId).puppetAnim;
                     }
 
-                    Debug.Log(agentAnim);
                     AnimatorManager.instance.ChangeAnimatorByName(currentTarget.instanceId, AnimatorName.BigBird_AgentCTRL,
                                       agentAnim, true, false);
                     currentTarget.TakePhysicalDamageByCreature(100);
@@ -234,9 +233,9 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
                             targetMoving = false;
                         }
                     }
-                    else if (currentTarget is WorkerModel) {
+                    else if (currentTarget is OfficerModel) {
                         OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(currentTarget.instanceId);
-                        if (unit.MannualMovingCall(pos)) {
+                        if (unit.MannualMovingCall(pos, false) ) {
 
                             targetMoving = false;
                         }

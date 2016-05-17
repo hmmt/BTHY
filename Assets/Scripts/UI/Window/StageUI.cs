@@ -430,7 +430,7 @@ public class StageUI : MonoBehaviour, IObserver {
     */
     public void CancelSefiraAgent(AgentModel unit)
     {
-        Sefira targetSefira = SefiraManager.instance.getSefira(unit.currentSefira);
+        Sefira targetSefira = SefiraManager.instance.GetSefira(unit.currentSefira);
         if (targetSefira == null) {
             return;
         }
@@ -448,7 +448,7 @@ public class StageUI : MonoBehaviour, IObserver {
         bool agentExist = false;
         CancelSefiraAgent(unit);
 
-        Sefira targetSefira = SefiraManager.instance.getSefira(currentSefriaUi);
+        Sefira targetSefira = SefiraManager.instance.GetSefira(currentSefriaUi);
         if (targetSefira == null) return;
         if (targetSefira.agentList.Contains(unit)) {
             agentExist = true;

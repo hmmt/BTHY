@@ -203,7 +203,7 @@ public class AgentAllocateSlot : MonoBehaviour {
 
     public void Init() {
         this.UI.Init(this.model);
-        this.sets.SetSpriteInitial(model.isPromotable, SefiraManager.instance.getSefira(model.currentSefira));
+        this.sets.SetSpriteInitial(model.isPromotable, SefiraManager.instance.GetSefira(model.currentSefira));
     }
 
     public void OnCancelAgent() {
@@ -214,7 +214,7 @@ public class AgentAllocateSlot : MonoBehaviour {
     public void SetAllocatedIndex(int index) {
         this.allocatedIndex = index;
         //print("Set index: " + index);
-        sets.SetAllocate(SefiraManager.instance.getSefira(model.currentSefira));
+        sets.SetAllocate(SefiraManager.instance.GetSefira(model.currentSefira));
     }
 
     public void OnAllocateClick() {
@@ -228,7 +228,7 @@ public class AgentAllocateSlot : MonoBehaviour {
         }
         //Debug.Log("Allocate agent");
         StageUI.instance.SetAgentSefriaButton(this.model);
-        currentAgentSefira = SefiraManager.instance.getSefira(model.currentSefira);
+        currentAgentSefira = SefiraManager.instance.GetSefira(model.currentSefira);
         //Debug.Log(currentAgentSefira);
         sets.SetAllocate(currentAgentSefira);
         //ui change

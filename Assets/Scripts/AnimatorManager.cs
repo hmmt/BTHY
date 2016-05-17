@@ -17,6 +17,8 @@ public class AnimatorName {
     public static string MatchedGirl_AgentCTRL = "MatchedGirl_AgentCTRL";
     public static string BigBird_AgentCTRL = "BigBird_AgentCTRL";
     public static string OldLady_AgentCTRL = "OldLady_AgentCTRL";
+    public static string MalkutOfficerAction = "MalkutOfficerAction";
+    public static string YesodOfficerAction = "YesodOfficerAction";
 
     public static long id_AgentCtrl = 50001;
     public static long id_OfficerCtrl = 50002;
@@ -30,6 +32,8 @@ public class AnimatorName {
     public static long id_MatchGirl_agent = 90001;
     public static long id_BigBird_agent = 100001;
     public static long id_OldLady_agent = 100011;
+    public static long id_MalkutOfficerAction = 20001;
+    public static long id_YesodOfficerAction = 20004;
 }
 
 public class AnimatorManager : MonoBehaviour{

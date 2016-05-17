@@ -1228,7 +1228,7 @@ public class AgentModel : WorkerModel
 			state = AgentAIState.ENCOUNTER_CREATURE;
 	}
 
-	public void ResetAnimator()
+	public override void ResetAnimator()
 	{
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
 

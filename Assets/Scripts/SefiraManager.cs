@@ -2,6 +2,114 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum LOOKINGDIR
+{
+    LEFT,
+    RIGHT,
+    NOCARE
+}
+
+public class OfficerSpecialAction
+{
+    public int id;
+
+    
+
+    public class PosData {
+        public Vector3 pos;
+        public LOOKINGDIR dir;
+    }
+
+    public string nodeId;
+    private MapNode excutedPos;
+    public int animVal;
+    public string animParam;
+    public bool shouldMove = true;
+
+    public List<PosData> posData = new List<PosData>();
+
+    public OfficerSpecialAction(int id, string nodeid, int animVal, string animParam)
+    {
+        this.id = id;
+        this.nodeId = nodeid;
+        this.animVal = animVal;
+        this.animParam = animParam;
+        PosData defaultPos = new PosData();
+        defaultPos.dir = LOOKINGDIR.NOCARE;
+        posData.Add(defaultPos);
+    }
+
+    public MapNode GetNode()
+    {
+        if (excutedPos == null)
+        {
+            excutedPos = MapGraph.instance.GetNodeById(this.nodeId);
+            posData[0].pos = excutedPos.GetPosition();
+        }
+        return excutedPos;
+    }
+
+    public PosData GetPos() {
+        if (excutedPos == null) {
+            GetNode();
+        }
+
+        if (shouldMove)
+        {
+            int randVal = Random.Range(1, posData.Count);
+            return posData[randVal];
+        }
+        else {
+            return posData[0];
+        }
+    }
+}
+
+public class OfficerSpecialActionList
+{
+    public int sefira;
+
+    private List<OfficerSpecialAction> _list = new List<OfficerSpecialAction>();
+    public List<OfficerSpecialAction> list
+    {
+        get
+        {
+            return _list;
+        }
+    }
+
+    public List<int> currentAvaialbe = new List<int>();
+
+    public OfficerSpecialAction GetRandomAction() {
+        if (this.currentAvaialbe.Count == 0) {
+            return null;
+        }
+        int randVal = Random.Range(0, this.currentAvaialbe.Count);
+        int outputId = this.currentAvaialbe[randVal];
+        OfficerSpecialAction osa = null;
+
+        foreach (OfficerSpecialAction o in this._list) {
+            if (o.id == outputId)
+            {
+                osa = o;
+                this.currentAvaialbe.Remove(outputId);
+                break;
+            }
+        }
+        return osa;
+    }
+
+    public void ResetAction(OfficerSpecialAction osa) {
+        this.currentAvaialbe.Add(osa.id);
+    }
+
+    public void AddList(OfficerSpecialAction osa)
+    {
+        this._list.Add(osa);
+        this.currentAvaialbe.Add(osa.id);
+    }
+}
+
 public class Sefira
 {
     /*
@@ -291,6 +399,9 @@ public class Sefira
     public List<AgentModel> agentList;
     public List<CreatureModel> creatureList;
     public List<SkillTypeInfo>[] agentSkill;//속한 직원들의 스킬 정보
+
+    public OfficerSpecialActionList officerSpecialAction;
+
     public PrioritySystem priority;
 
     public List<AgentSkillCategory> skillCategory;
@@ -497,8 +608,8 @@ public class Sefira
             OfficerManager.instance.CreateOfficerModel(indexString);
         }
         
+        //OfficerManager.instance.CreateOfficerModel(indexString);
 
-        //OfficeManager.instance.CreateOfficerModel(indexString);
         AssignOfficerDept();
         foreach (OfficerModel om in officerList) {
             int deptNum = om.deptNum;
@@ -673,6 +784,14 @@ public class Sefira
         }
         return false;
     }
+
+    public OfficerSpecialAction GetRandomSpecialAction() {
+        return this.officerSpecialAction.GetRandomAction();
+    }
+
+    public void ResetSpecaialAction(OfficerSpecialAction osa) {
+        this.officerSpecialAction.ResetAction(osa);
+    }
 }
 
 public class OfficerDept
@@ -739,10 +858,11 @@ public class SefiraManager {
     public int sefiraIndexMax = 4;
     private Sefira[] refSefira;
     public List<Sefira> sefiraList;
+
+    public bool isLoadedOfficerSpecialAction = false;
     
     private SefiraManager() {
         Init();
-
     }
 
     private void Init() {
@@ -770,7 +890,11 @@ public class SefiraManager {
         }
     }
 
-    public Sefira getSefira(int index) {
+    public void LoadOfficerSpecialAction() {
+        isLoadedOfficerSpecialAction = true;
+    }
+
+    public Sefira GetSefira(int index) {
         if (index > sefiraIndexMax|| index < 0) {
             Debug.Log("out of sefira index");
             return null;
@@ -786,7 +910,7 @@ public class SefiraManager {
      /// </summary>
      /// <param name="str"></param>
      /// <returns></returns>
-    public Sefira getSefira(string str) {
+    public Sefira GetSefira(string str) {
         foreach (Sefira s in sefiraList) {
             if (s.indexString.Equals(str) || s.name.Equals(str))
             {

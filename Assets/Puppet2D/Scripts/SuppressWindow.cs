@@ -377,9 +377,9 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
         inst.target = target;
         inst.targetType = TargetType.AGENT;
 
-        if (inst.currentSefira != SefiraManager.instance.getSefira(target.currentSefira))
+        if (inst.currentSefira != SefiraManager.instance.GetSefira(target.currentSefira))
         {
-            inst.currentSefira = SefiraManager.instance.getSefira(target.currentSefira);
+            inst.currentSefira = SefiraManager.instance.GetSefira(target.currentSefira);
             inst.agentList.Clear();
             inst.SetSprites(inst.currentSefira);
         }
@@ -418,9 +418,9 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 		inst.target = target;
 		inst.targetType = TargetType.OFFICER;
 
-        if (inst.currentSefira != SefiraManager.instance.getSefira(target.currentSefira))
+        if (inst.currentSefira != SefiraManager.instance.GetSefira(target.currentSefira))
         {
-            inst.currentSefira = SefiraManager.instance.getSefira(target.currentSefira);
+            inst.currentSefira = SefiraManager.instance.GetSefira(target.currentSefira);
             inst.agentList.Clear();
         }
         inst.InitAgentList();

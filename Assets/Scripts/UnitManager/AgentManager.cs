@@ -206,7 +206,7 @@ public class AgentManager : IObserver {
     {
         unit.activated = true;
         //Debug.Log("activated");
-        Sefira targetSefira = SefiraManager.instance.getSefira(unit.currentSefira);
+        Sefira targetSefira = SefiraManager.instance.GetSefira(unit.currentSefira);
         if (targetSefira != null) {
             //Debug.Log("AgentActivated");
             targetSefira.AddAgent(unit);
@@ -224,7 +224,7 @@ public class AgentManager : IObserver {
     {
         unit.activated = false;
         //Debug.Log("deactivated");
-        Sefira UnitSefira = SefiraManager.instance.getSefira(unit.currentSefira);
+        Sefira UnitSefira = SefiraManager.instance.GetSefira(unit.currentSefira);
         if (UnitSefira != null)
         {
             UnitSefira.RemoveAgent(unit);
@@ -264,7 +264,7 @@ public class AgentManager : IObserver {
             yesodAgentList.Remove(model);
         }
         */
-        Sefira sefira = SefiraManager.instance.getSefira(model.currentSefira);
+        Sefira sefira = SefiraManager.instance.GetSefira(model.currentSefira);
         sefira.RemoveAgent(model);
 
         Notice.instance.Remove(NoticeName.FixedUpdate, model);
@@ -418,7 +418,7 @@ public class AgentManager : IObserver {
             old.RemoveAgent(agentModel);
         }
         */
-        old = SefiraManager.instance.getSefira(oldSefira);
+        old = SefiraManager.instance.GetSefira(oldSefira);
         if (old != null)
         {
             old.RemoveAgent(agentModel);
@@ -426,7 +426,7 @@ public class AgentManager : IObserver {
         }
 
 
-        current = SefiraManager.instance.getSefira(agentModel.currentSefira);
+        current = SefiraManager.instance.GetSefira(agentModel.currentSefira);
         if (current != null)
         {
             current.AddAgent(agentModel);

@@ -67,7 +67,7 @@ public class OfficerLayer : MonoBehaviour, IObserver {
 
         officerList.Add(unit);
 
-        unit.zValue = -zCount * 0.01f;
+        unit.zValue = -zCount * 0.001f;
 
         Vector3 unitScale = unit.transform.localScale;
         unitScale.z = 0.0005f;

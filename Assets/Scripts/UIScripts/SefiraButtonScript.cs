@@ -30,7 +30,7 @@ public class SefiraButtonScript : MonoBehaviour {
     public void SetSefira(string sefira) {
         
         string current = model.currentSefira;
-        Sefira targetSefira = SefiraManager.instance.getSefira(sefira);
+        Sefira targetSefira = SefiraManager.instance.GetSefira(sefira);
 
         if (targetSefira == null)
         {
@@ -38,7 +38,7 @@ public class SefiraButtonScript : MonoBehaviour {
             return;
         }
         else {
-            if (targetSefira == SefiraManager.instance.getSefira(model.currentSefira))
+            if (targetSefira == SefiraManager.instance.GetSefira(model.currentSefira))
             {
                 Debug.Log("같은 부서");
             }
