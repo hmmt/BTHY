@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
             agent.ReturnToSefira();
         }
 
-        foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList()) {
+        foreach (OfficerModel officer in OfficerManager.instance.GetOfficerList()) {
             officer.ReturnToSefira();
         }
         
@@ -202,13 +202,16 @@ public class GameManager : MonoBehaviour
         SefiraManager.instance.getSefira(SefiraName.Malkut).InitAgentSkillList();
         CreatureManager.instance.OnStageStart();
 
-        foreach (OfficerModel om in OfficeManager.instance.GetOfficerList()) {
+        foreach (OfficerModel om in OfficerManager.instance.GetOfficerList()) {
             StartCoroutine(om.StartAction());
         }
 
         foreach (AgentModel am in AgentManager.instance.GetAgentList()) {
             am.MakeAccessoryByTraits();
         }
+
+        AgentLayer.currentLayer.OnStageStart();
+        OfficerLayer.currentLayer.OnStageStart();
 
     }
 
@@ -312,7 +315,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> dic = new Dictionary<string, object>();
 
         dic.Add("agents", AgentManager.instance.GetSaveData());
-        dic.Add("officers", OfficeManager.instance.GetSaveData());
+        dic.Add("officers", OfficerManager.instance.GetSaveData());
         dic.Add("creatures", CreatureManager.instance.GetSaveData());
         dic.Add("playerData", PlayerModel.instance.GetSaveData());
 
@@ -343,7 +346,7 @@ public class GameManager : MonoBehaviour
 
         PlayerModel.instance.LoadData(playerData);
         AgentManager.instance.LoadData(agents);
-        OfficeManager.instance.LoadData(officers);
+        OfficerManager.instance.LoadData(officers);
         CreatureManager.instance.LoadData(creatures);
     }
 }

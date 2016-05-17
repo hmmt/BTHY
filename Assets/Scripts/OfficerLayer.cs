@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class OfficerLayer : MonoBehaviour, IObserver {
+    
 
     public static OfficerLayer currentLayer { private set; get; }
     public GameObject target;
@@ -13,10 +14,26 @@ public class OfficerLayer : MonoBehaviour, IObserver {
 
     private int zCount;
 
+    public List<WorkerSpriteSet> spriteList;
+    
     void Awake() {
         currentLayer = this;
         officerList = new List<OfficerUnit>();
         zCount = 0;
+    }
+
+    public WorkerSpriteSet GetOfficerSpriteSet(Sefira targetSefira)
+    {
+        WorkerSpriteSet output = null;
+
+        foreach (WorkerSpriteSet os in this.spriteList)
+        {
+            if (targetSefira.index == os.targetSefira) {
+                output = os;
+                break;
+            }
+        }
+        return output;
     }
 
     void OnEnable() {
@@ -34,7 +51,7 @@ public class OfficerLayer : MonoBehaviour, IObserver {
     public void Init() {
         
         ClearOfficer();
-        foreach (OfficerModel model in OfficeManager.instance.GetOfficerList()) {
+        foreach (OfficerModel model in OfficerManager.instance.GetOfficerList()) {
             //Debug.Log("in layer" + model.name);
             AddOfficer(model);
         }
@@ -107,6 +124,14 @@ public class OfficerLayer : MonoBehaviour, IObserver {
             foreach (object obj in param) {
                 RemoveOfficer((OfficerModel)obj);
             }
+        }
+    }
+
+    public void OnStageStart()
+    {
+        foreach (OfficerUnit unit in this.officerList)
+        {
+            unit.animTarget.SetSprite();
         }
     }
 }

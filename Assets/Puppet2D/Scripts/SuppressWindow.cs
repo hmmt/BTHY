@@ -223,6 +223,7 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
 
     public RectTransform AgentScrollTarget;
     public RectTransform anchor;
+    public RectTransform[] anchorPos;
     public SuppressWindowUI ui;
     public LineRenderer line;
     public Camera uiCam;
@@ -231,6 +232,11 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
     public List<SuppressAction> suppressingAgentList;//실제 제압을 하게되는 직원들의 리스트
 
     public List<SuppressAgentSlot> slotList;
+    public Vector3[] posVector;
+    const int UP = 0;
+    const int DOWN = 1;
+    const int RIGHT = 3;
+    const int LEFT = 2;
 
     //Sort 에 관련된 UI 및 데이터 필요
 
@@ -472,8 +478,102 @@ public class SuppressWindow : MonoBehaviour, IActivatableObject
         Vector3 windowPos = uiCam.ScreenToWorldPoint(anchor.localPosition);
         Vector3 amendedPos = new Vector3(windowPos.x - uiCam.transform.position.x + uiCam.orthographicSize * 1.7777777f + Camera.main.transform.position.x,
                                          windowPos.y - uiCam.transform.position.y + uiCam.orthographicSize + Camera.main.transform.position.y,
-                                         windowPos.z - uiCam.transform.position.z);
-        Vector3 startPos = new Vector3(targetPos.x, targetPos.y, 0f);
+                                         windowPos.z - uiCam.transform.position.z);//pivot (zero) pos
+        Vector3 startPos = new Vector3(targetPos.x, targetPos.y, 0f);//creature pos
+        /*
+        Vector3[] amendedPosAry = new Vector3[this.anchorPos.Length];//four pivot pos
+
+        for (int i = 0; i < this.anchorPos.Length; i++) {
+            Vector3 tempPos = uiCam.ScreenToViewportPoint(anchorPos[i].localPosition);
+            amendedPosAry[i] = new Vector3(tempPos.x - uiCam.transform.position.x + uiCam.orthographicSize * 1.7777777f + Camera.main.transform.position.x,
+                                         tempPos.y - uiCam.transform.position.y + uiCam.orthographicSize + Camera.main.transform.position.y,
+                                         tempPos.z - uiCam.transform.position.z);
+            this.posVector[i] = amendedPosAry[i];
+        }
+
+        Vector3 startPos = new Vector3(targetPos.x, targetPos.y, 0f);//creature pos
+        int currentIndex = 0;
+        */
+        /*
+        if (startPos.x < amendedPos.x)
+        {
+            if (startPos.y < amendedPos.y)
+            {
+
+            }
+            else { 
+            
+            }
+        }
+        else {
+            if (startPos.y < amendedPos.y)
+            {
+
+            }
+            else { 
+                
+            }
+        }*/
+        //check should line drawed
+        /*
+        Vector3 endPos = Vector3.zero;
+        if (startPos.x < amendedPosAry[RIGHT].x && startPos.x > amendedPosAry[LEFT].x
+            &&
+            startPos.y < amendedPosAry[UP].y && startPos.y > amendedPosAry[DOWN].y)
+        {
+            Debug.Log(startPos);
+        }
+        else {
+            if (startPos.y >= 0)
+            {
+                if (startPos.x >= 0)
+                {
+                    if (startPos.x <= startPos.y)
+                    {
+                        endPos = amendedPosAry[UP];
+                    }
+                    else
+                    {
+                        endPos = amendedPosAry[RIGHT];
+                    }
+                }
+                else
+                {
+                    if (-1 * startPos.x <= startPos.y)
+                    {
+                        endPos = amendedPosAry[UP];
+                    }
+                    else
+                    {
+                        endPos = amendedPosAry[LEFT];
+                    }
+                }
+            }
+            else {
+                if (startPos.x >= 0)
+                {
+                    if (startPos.y >= -1 * startPos.x)
+                    {
+                        endPos = amendedPosAry[RIGHT];
+                    }
+                    else {
+                        endPos = amendedPosAry[DOWN];
+                    }
+                }
+                else {
+                    if (startPos.y >= startPos.x)
+                    {
+                        endPos = amendedPosAry[LEFT];
+                    }
+                    else {
+                        endPos = amendedPosAry[DOWN];
+                    }
+                }
+            }
+            line.SetPosition(0, endPos);
+            line.SetPosition(1, startPos);
+        }
+        */
         line.SetPosition(0, amendedPos);
         line.SetPosition(1, startPos);
     }

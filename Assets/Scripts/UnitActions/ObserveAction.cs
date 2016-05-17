@@ -356,6 +356,7 @@ public class ObserveAction : ActionClassBase {
 		progressObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1.65f, 0.874f);
 
 		inst.progressBar = progressObj.GetComponent<ProgressBar>();
+        inst.progressBar.currentSprite = SefiraController.instance.GetSefiraSprite(creature.sefira).Energy;
 		inst.progressBar.SetVisible(true);
 		inst.progressBar.SetRate(0);
 		inst.progressBar.transform.localScale = new Vector3(0.7692308f, 0.7692308f, 1f);

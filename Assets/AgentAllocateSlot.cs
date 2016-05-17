@@ -119,6 +119,7 @@ public class AgentAllocateSlot : MonoBehaviour {
         }
 
         public void SetAllocate(Sefira currentSefira) {
+            
             if (currentSefira == null) {
                 ui.Allocate.image.sprite = allocate_normal;
                 SpriteState sets = ui.Allocate.spriteState;
@@ -130,6 +131,7 @@ public class AgentAllocateSlot : MonoBehaviour {
                 return;
             }
             if (currentSefira.name == SefiraName.Malkut) {
+                
                 ui.Allocate.image.sprite = allocate_malkut;
                 SpriteState sets = ui.Allocate.spriteState;
                 sets.highlightedSprite = allocate_malkut;

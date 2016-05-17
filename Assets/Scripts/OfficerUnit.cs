@@ -77,6 +77,7 @@ public class OfficerUnit : MonoBehaviour {
         
         //ChangeAgentUnifrom();과 동일?
         model.SetUnit(this);
+        this.animTarget.Init(this.model);
     }
 
     private void UpdateDirection() {

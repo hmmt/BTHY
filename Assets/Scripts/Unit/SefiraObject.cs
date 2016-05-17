@@ -14,7 +14,7 @@ public class SefiraObject : MonoBehaviour {
     public GameObject way3Fog;
     public GameObject way4Fog;
 
-    public GameObject elevatorFog1;
+    public GameObject elevatorFog1; 
     public GameObject elevatorFog2;
 
     public List<GameObject> fogs;
@@ -67,6 +67,9 @@ public class SefiraObject : MonoBehaviour {
             fogs.Add(passageScript.fogObject);
         }
         passageList.Add(passageScript);
+        if (passageScript.shouldCheckSefira) {
+            passageScript.SetSefiraFrame(SefiraManager.instance.getSefira(this.sefiraName));
+        }
 
         passageObj.transform.SetParent(transform);
 
@@ -99,6 +102,10 @@ public class SefiraObject : MonoBehaviour {
 		ElevatorPassageObject e = g.GetComponent<ElevatorPassageObject> ();
 
 		e.model = model;
+
+        if (e.shouldSefiraCheck) {
+            e.SetSprite(SefiraManager.instance.getSefira(this.sefiraName));
+        }
 
 		g.transform.localPosition = model.GetNode ().GetPosition ();
 		g.transform.SetParent(transform, false);

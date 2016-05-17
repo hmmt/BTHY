@@ -123,7 +123,7 @@ public class OfficerModel : WorkerModel {
                 //Debug.Log(this.name + "Chatting");
                 waitTimer = 10f;
                 this.chatWaiting = true;
-                foreach (OfficerModel om in OfficeManager.instance.GetOfficerListBySefira(currentSefira)) {
+                foreach (OfficerModel om in OfficerManager.instance.GetOfficerListBySefira(currentSefira)) {
                     if (om.Equals(this)) continue;
                     if (om.chatWaiting == true) {
                         //Debug.Log(this.name + "있군");

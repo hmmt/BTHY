@@ -10,6 +10,21 @@ public enum DamageType
 	CUSTOM
 }
 
+[System.Serializable]
+public class WorkerSpriteSet {
+    public int targetSefira;
+    public Sprite Body;
+    public Sprite LeftDownLeg;
+    public Sprite LeftUpLeg;
+    public Sprite RightDownLeg;
+    public Sprite RightUpLeg;
+    public Sprite LeftDownHand;
+    public Sprite LeftUpHand;
+    public Sprite RightDownHand;
+    public Sprite RightUpHand;
+    public Sprite Symbol;
+}
+
 public class WorkerModel: UnitModel, IObserver {
     public int instanceId;
 
