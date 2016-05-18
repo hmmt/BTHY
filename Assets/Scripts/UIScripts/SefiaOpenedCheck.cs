@@ -15,10 +15,10 @@ public class SefiaOpenedCheck : MonoBehaviour {
     }
 
     public void SetSprites() {
-        sefira[0].GetComponent<Image>().sprite = SefiraManager.instance.getSefira(SefiraName.Malkut).sefiraSprite;
-        sefira[1].GetComponent<Image>().sprite = SefiraManager.instance.getSefira(SefiraName.Netach).sefiraSprite;
-        sefira[2].GetComponent<Image>().sprite = SefiraManager.instance.getSefira(SefiraName.Hod).sefiraSprite;
-        sefira[3].GetComponent<Image>().sprite = SefiraManager.instance.getSefira(SefiraName.Yesod).sefiraSprite;
+        sefira[0].GetComponent<Image>().sprite = SefiraManager.instance.GetSefira(SefiraName.Malkut).sefiraSprite;
+        sefira[1].GetComponent<Image>().sprite = SefiraManager.instance.GetSefira(SefiraName.Netach).sefiraSprite;
+        sefira[2].GetComponent<Image>().sprite = SefiraManager.instance.GetSefira(SefiraName.Hod).sefiraSprite;
+        sefira[3].GetComponent<Image>().sprite = SefiraManager.instance.GetSefira(SefiraName.Yesod).sefiraSprite;
 
     
     }
@@ -29,6 +29,11 @@ public class SefiaOpenedCheck : MonoBehaviour {
         for (int i = 0; i < 10; i++)
         {
             isopend[i] = PlayerModel.instance.IsOpenedArea(list[i]);
+            /*
+            Debug.Log(instance);
+            Debug.Log(instance.sefira[i]);
+            Debug.Log(instance.sefira[i].gameObject);
+            */
             instance.sefira[i].gameObject.SetActive(isopend[i]);
         }
         instance.SetSprites();

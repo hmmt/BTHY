@@ -18,6 +18,7 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
     public static SelectSefiraAgentWindow CreateWindow(GameObject sefira, string sefiraName)
     {
+        return null;
         if (currentWindow != null)
         {
             currentWindow.CloseWindow();
@@ -69,6 +70,7 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
     public void addSefiraList(AgentModel agent)
     {
+        /*
         if (targetSefiraName == "1")
         {
             if (AgentManager.instance.malkuthAgentList.Count < 5)
@@ -108,6 +110,17 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
             else
                 Debug.Log("예소드 초과");
         }
+         */
+
+        Sefira sefira = SefiraManager.instance.GetSefira(targetSefiraName);
+        if (sefira.agentList.Count < 5)
+        {
+            agent.SetCurrentSefira(targetSefiraName);
+        }
+        else {
+            Debug.Log(sefira.name + " 초과");
+        }
+
         listScript.ShowAgentListD();
     }
 
@@ -130,7 +143,10 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
         float posy = 0;
         foreach (AgentModel unit in agents)
         {
-            if (unit.currentSefira == targetSefiraName || unit.GetState() == AgentCmdState.WORKING)
+            AgentAIState state = unit.GetState();
+            if (unit.currentSefira == targetSefiraName
+                || state == AgentAIState.MANAGE
+                || state == AgentAIState.OBSERVE)
                 continue;
             GameObject slot = Prefab.LoadPrefab("AgentSlotPanelSefira");
 

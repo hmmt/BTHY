@@ -1,16 +1,36 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BackgroundTouchArea.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UnitActions/PanicReady.cs">
     <Files>
-      <File FileName="Assets/OverlayObject.cs" Line="18" Column="2" />
-      <File FileName="Assets/Scripts/Model/AgentModel.cs" Line="806" Column="6" />
-      <File FileName="Assets/Scripts/AI/TempAgentAI.cs" Line="14" Column="50" />
-      <File FileName="Assets/Scripts/Model/CreatureModel.cs" Line="31" Column="25" />
-      <File FileName="Assets/Scripts/BackgroundTouchArea.cs" Line="22" Column="1" />
+      <File FileName="Assets/Scripts/Unit/AgentUnit.cs" Line="538" Column="21" />
+      <File FileName="Assets/OverlappedUIElement.cs" Line="20" Column="30" />
+      <File FileName="Assets/Scripts/WorkerModel.cs" Line="236" Column="53" />
+      <File FileName="Assets/Scripts/OfficerModel.cs" Line="269" Column="6" />
+      <File FileName="Assets/Puppet2D/Scripts/SuppressWindow.cs" Line="36" Column="30" />
+      <File FileName="Assets/Scripts/SuppressAgentSlot.cs" Line="72" Column="45" />
+      <File FileName="Assets/Scripts/AI/AutoAgentManager.cs" Line="172" Column="4" />
+      <File FileName="Assets/OverlappedUIManager.cs" Line="70" Column="14" />
+      <File FileName="Assets/Resources/xml/Agents.xml" Line="34" Column="15" />
+      <File FileName="Assets/Scripts/UnitActions/UseSkill.cs" Line="106" Column="1" />
+      <File FileName="Assets/Scripts/GameStaticDataLoader.cs" Line="952" Column="16" />
+      <File FileName="Assets/Resources/xml/creatures/Matchgirl_en.xml" Line="20" Column="33" />
+      <File FileName="Assets/Resources/xml/creatures/MagicalGirl_en.xml" Line="30" Column="43" />
+      <File FileName="Assets/Scripts/Model/Static/CreatureTypeInfo.cs" Line="130" Column="67" />
+      <File FileName="Assets/Scripts/UnitActions/PanicReady.cs" Line="53" Column="29" />
+      <File FileName="Assets/Scripts/UnitManager/CreatureManager.cs" Line="176" Column="27" />
+      <File FileName="Assets/Scripts/Model/PassageObjectModel.cs" Line="38" Column="20" />
+      <File FileName="Assets/Scripts/Model/AgentModel.cs" Line="761" Column="11" />
+      <File FileName="Assets/Scripts/UnitActions/PanicOpenIsolate.cs" Line="30" Column="22" />
+      <File FileName="Assets/Scripts/UnitActions/WorkerCommands/WorkerCommand.cs" Line="223" Column="18" />
+      <File FileName="Assets/Scripts/UnitActions/WorkerCommands/OpenIsolateWorkerCommand.cs" Line="15" Column="48" />
+      <File FileName="Assets/Scripts/Classes/MovableObjectNode.cs" Line="584" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/lmicc625/BTHY/Assets/Scripts/CreatureSpecialSkill.cs" line="170" column="103" />
+      <Breakpoint file="/Users/lmicc625/BTHY/Assets/Scripts/WorkerModel.cs" line="391" column="16" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets\Scripts\Unit\SefiraMapLayer.cs" line="54" offsetX="216" offsetY="896" expression="fogRenderer" liveUpdate="False" />

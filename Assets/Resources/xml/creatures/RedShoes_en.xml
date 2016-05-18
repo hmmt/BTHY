@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<creature>
+  <!--
+    info - 관찰 레벨과는 관련 없는 정보들 ex)데미지, id, 이미지 소스 등
+    
+    observe - 관찰 정도에 따라 제공되는 정보들
+              각 정보들에는 정보가 제공되는 레벨을 표기
+              ex) <desc id="1" openLevel="1">"openLevel이 1일 때 이 정보가 제공됨"</desc>
+              
+              observe 노드 안의 level 은 관찰 단계의 갯수를 나타냄
+  -->
+  <info
+    id ="100003"
+
+    script="RedShoes"
+    >
+
+    <stat>
+      <horrorProb>0.1</horrorProb>
+      <horrorMin>2.0</horrorMin>
+      <horrorMax>2.0</horrorMax>
+
+      <physicsDmg>0</physicsDmg>
+      <mentalDmg>0</mentalDmg>
+
+      <feelingMax>200.0</feelingMax>
+      <feelingDownValue>3.7</feelingDownValue>
+
+      <energyPointChange>-3</energyPointChange>
+
+      <energyGenSection>
+        <section bound="250" gen="0.225"/>
+        <section bound="300" gen="-0.1625"/>
+      </energyGenSection>
+
+      <prefer id="2">0.5</prefer>
+      <prefer id="3">1.0</prefer>
+      <prefer id="1">-0.5</prefer>
+      <prefer id="4">2</prefer>
+      <prefer id="5">1.0</prefer>
+    </stat>
+
+    <feeling max="100" downProb="0.44" downValue="1">
+      <section feelingValue="50" state="good" energy="0.5"/>
+      <section feelingValue="30" state="normal" energy="0.3"/>
+      <section feelingValue="0" state="bad" energy="-1.3"/>
+    </feeling>
+
+    <narration action="move">
+      -> #0 designated to 'Red Shoes' isolation sector.
+    </narration>
+
+    <narration action="start">
+      [
+      {'Red shoes' is on fluffy looking cushion as if being exhibited.},
+      {What seems to be tooth inside of ‘Red shoes’ must be a delusion.},
+      {Strong urge and temptation to possess is created by ‘Red Shoes’ especially to females.},
+      {The girl pleaded while crying, “Mister, please cut my leg off…”}
+      ]
+    </narration>
+
+    <narration action="mid1">
+      [
+      {‘Red shoes’ is standing still, staring at the work of Dostoyevsky.},
+      {#0 starts the work leaving ‘Red shoes’ which is on the sofa behind of him.},
+      {‘Red shoes’ is in disorder as if someone just took if off.},
+      {#0 passes by the evenly sorted out ‘Red shoes’ and work. }
+      ]
+    </narration>
+    <narration action="mid2">
+      [
+      {‘Red shoes’ ‘s red enamel leather is silently glittering from sunshine.},
+      {Even though ankle straps are worn, ‘Red shoes’ is still displaying luxurious figure.},
+      {Heels of ‘Red shoes’ is worn down, as if representing many incidents happened.},
+      {Untainted leather of ‘Red shoes’ looks unnaturally clean.}
+      ]
+    </narration>
+    <narration action="mid3">
+      [
+      {#0 stops the work in between and glimpse back at the ‘Red shoes’.},
+      {#0 looks back to ‘Red shoes’ in vain. ,
+      {Weighing upon one’s mind, #0 is checking the ‘Red shoes’, unable to focus on work.}
+      {#0 is diligently looking somewhere else, not trying to look at ‘Red shoes’.}
+      ]
+    </narration>
+    <narration action="mid4">
+      [
+      {‘Red shoes’ is not an organism, but it is disseminating unknown dreariness.},
+      {‘Red shoes’ is not an organism, but its unique atmosphere recalls old tragedy.},
+      {Reddish color of ‘Red shoes’ looks similar to something.},
+      {‘Red shoes’ is just standing still.}
+      ]
+    </narration>
+
+    <narration action="special_ability1">
+      [
+      {#0 stares at ‘Red shoes’, ignoring the command. At last, #0 reaches for ‘Red shoes’, not being able to define what #0 is going to do.}
+      ]
+    </narration>
+    <narration action="special_ability2">
+      [
+      {#0 is taking off one’s own shoes and wearing ‘Red shoes’. Circumstances are unpredictable.}
+      ]
+    </narration>
+    <narration action="special_ability3">
+      [
+      {Eyes of #0 have slightly changed. Pupils excessively enlarged, losing focus.}
+      ]
+    </narration>
+    <narration action="special_ability4">
+      [
+      {#0 is enjoying the tapping sound while wearing ‘Red shoes’ with satisfaction.}
+      ]
+    </narration>
+
+
+    <narration action="dead">
+      [
+      {#0 is walking around the corridor while holding 환상체 subdue cudgel.}
+      {#0 is swinging hand-held weapon to #0 who is trying to stop.}
+      {#0 is hit by the weapon #0 swung and died of excessive brain hemorrhage.}
+      ]
+      <!--차례차례 나와야 합니다>-->
+    </narration>
+
+    <anim prefab="Unit/CreatureAnimator/RedShoes_Creature" x="0" y="-0.9"/>
+
+    <!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
+    <img src="Unit/dummy" x="-1" y="-1"/>
+    <portrait src="Unit/Creature/RedShoes"/>
+    <room src="Unit/creature/isolate_room"/>
+    <frame src="Unit/creature/frame/MagicalGirl_frame"/>
+
+    <graph>
+      <node id="creature" x="-1.6" y="-1" type="creature"/>
+      <node id="workspace" x="1.9" y="-1" type="workspace"/>
+
+      <node id="redshoes" x="0" y="-1" type="custom"/>
+
+      <!--<node id="door"  x="2" y="-1" type="entry"/>-->
+      <node id="outter" x="0" y="0" type="outterDoor"/>
+      <node id="inner" x="2" y="-1" type="innerDoor"/>
+
+      <!--<edge node1="workspace" node2="door" type="road" />-->
+      <edge node1="workspace" node2="inner" type="road" />
+      <edge node1="redshoes" node2="workspace" type="road" />
+      <edge node1="creature" node2="workspace" type="road" />
+    </graph>
+    
+    <sound action="attack" src="creature/red_shooes/redShooes_normal"/>
+    <sound action="enter" src="creature/red_shooes/redShooes_enter"/>
+  </info>
+  
+  <observe level ="3">
+    <collection>
+      <codeNo openLevel ="0">O-04-08-H</codeNo>
+      <portrait openLevel ="0">Unit/Creature/RedShoes</portrait>
+     
+        <size openLevel ="0">
+  1
+  </size>
+
+      <weight openLevel ="0">
+  890g
+  </weight>
+
+      <name openLevel ="1">
+Red Shoes
+</name>
+      <attackType openLevel ="1">White and Red</attackType>
+        
+      <creatureType openLevel ="1">
+        non creature
+      </creatureType>
+
+      <horrorLevel openLevel ="1">
+       2
+      </horrorLevel>
+
+      <riskLevel openLevel ="2">
+        HE
+      </riskLevel>
+
+      <intelligence openLevel ="3">
+        1
+      </intelligence>
+
+      <physical openLevel ="2">
+        4
+      </physical>
+
+      <mental openLevel ="2">
+        4
+      </mental>
+
+      <specialName openLevel ="3">
+  Dancing to the grave
+  </specialName>
+
+      <specialInfo openLevel ="3">
+  When females, and only females, wear the shoes, it warrants an attack on people nearby. Psychological and physical attacks occur simultaneously, thus it is difficult to defend against. 
+  </specialInfo>
+
+      <aggression openLevel ="2">
+  2
+  </aggression>
+
+      <gorgeous openLevel ="3">
+  5
+  </gorgeous>
+      
+      <rejectWork openLevel ="4"></rejectWork>
+      
+      <preferWork openLevel ="5"></preferWork>
+      <solution openLevel ="1">
+Do not assign female employees. 
+</solution>
+      
+    </collection>
+    
+    <desc id="1" openLevel="0">
+    -> [
+        {The creature is in the form of a pair of red shoes suited for elegant women. Where and how it was made is undetermined but guessing from the design, it was not made recently.}
+       ]
+    </desc>
+
+    <desc id="2" openLevel="1">
+     -> [
+        {In only females, the shoes cause a strong desire to ‘try it on’. When a woman ‘wears’ the Abnormality, first, you may notice a strange change in their expression.}
+       ]
+    </desc>
+
+    <desc id="3" openLevel="2">
+    -> [
+        {Secondly, the woman will refuse to take the shoes off and will fulfill all subconscious desires. If anyone tries to take off the shoes or gets in her way, the shoes may take control of its host to kill that person who is in the way.} 
+        ]
+    </desc>
+
+    <desc id="4" openLevel="3">
+    -> [
+        {There is no way to determine if the host’s desires are involved in these actions but its id (as defined by Freud) is represented through an increase in sexual desire and aggression.} 
+        ]
+    </desc>
+
+
+
+    <record openLevel="1">
+     -> [
+        {Excerpt from Interview Log #043_3
+        Employee F1230 : “[Redacted] She was a nice person. She was like… Like an idol. She always used to say things like how we should be proud to do the work we are doing. She could handle all kinds of Abnormalitys. But going into that room was the biggest mistake. We thought, what could a pair of shoes possibly do? Then she was wearing those shoes while laughing that strange laugh. That sound… that laugh… it was strange…it wasn’t a laugh, it was…. (Omitted)
+        }
+        ]
+    </record>
+
+ <record openLevel="2">
+     -> [
+          {When I came to, there was blood all around me. The click-clack of the dreaded shoes filled the hall and I closed my eyes to play dead. I had seen that a friend’s head was rolling around somewhere. When the shoes clacked toward me and walked past me, I uh, I fainted again. (Omitted) 
+          }
+        ]
+    </record>
+
+<record openLevel="3">
+     -> [
+        {I heard they had to amputate the leg, because the creature wouldn’t let go. Nobody saw her again but the old-timers probably remember the incident well.”}
+        ]
+    </record>
+
+    <record openLevel="3">
+      ->[
+        {Excerpt from the Hallway Surveillance Footage Z3_493
+        Employee [Redacted 1] : Is the work over there all done? I finished over there just now. The Little Match Girl is a mess. Ugh, she is so much trouble. Do you want to go to the break room for coffee?
+        Employee [Redacted 2]: Hey, [Redacted 1]. I’ve been thinking…
+        Employee [Redacted 1]: Yeah? Let’s talk in the break room, I’m so tired. Are you wearing heels? We are only allowed to wear work shoes during work hours, remember? 
+        Employee [Redacted 2]: [Redacted 1], that’s not what’s important. Look, we are all alone… 
+        Employee [Redacted 1]: What are you going on about! Listen, I’m going to go to the break room to rest for a while, alright? Hang on, what are you wearing? Are you, are you wearing THOSE shoes? 
+        Employee [Redacted 2] : [Redacted 1], I’ve liked you for a long while now. 
+        Employee [Redacted 1] : Oh god, take them off right now. Do you even know what you’re doing?
+        Employee [Redacted 2]: I thought about why you wouldn’t like me. Is it because of Emily? You have no time for me now that you have Emily, is that it? 
+        Employee [Redacted 1]: Are you holding an Abnormality regulating device? Please [Redacted 2], take that thing off. Your legs are bleeding. 
+        Employee [Redacted 2]: Get Emily out of the picture, that’s what we need. Hang on for a minute, I’ll be back really soon. I promise I won’t take long. Just sit tight until then. 
+        Employee [Redacted 1]:  Please, think straight, I will stop you. 
+        Employee [Redacted 2]: If you want to stop me, you should have done it when I first joined the company.
+
+        Employee [Redacted 2] attacked [Redacted 1], leaving him unconscious and headed toward the break room. Thankfully, there were no casualties and ‘Emily’ was safe as well. [Redacted 2]’s information was redacted from company files. She was completely aware of her action. She admitted to the fact that the red shoes only made her more honest about her feelings. When she was overpowered by the Emergency Response Department, the shoes snapped off her ankles and ran away. And exactly 23 minutes later, the creature was captured again and sent to its original confinement zone. [Redacted 2] employee died of a massive hemorrhage. [Redacted 1] received minimal physical harm but the shock caused him to leave the company. 
+        }
+        ]
+    </record>
+  
+  </observe>
+</creature>

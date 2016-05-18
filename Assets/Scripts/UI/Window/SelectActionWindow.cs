@@ -41,19 +41,19 @@ public class SelectActionWindow : MonoBehaviour {
 
 		if(action == "a")
 		{
-			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(10001), selectedAgentList[0], targetCreature);
+			//UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(10001), selectedAgentList[0], targetCreature);
 
 			CloseWindow();
 		}
 		else if(action == "b")
 		{
-			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(20001), selectedAgentList[0], targetCreature);
+			//UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(20001), selectedAgentList[0], targetCreature);
 			
 			CloseWindow();
 		}
 		else if(action == "c")
 		{
-			UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(20001), selectedAgentList[0], targetCreature);
+			//UseSkill.InitUseSkillAction(SkillTypeList.instance.GetData(20001), selectedAgentList[0], targetCreature);
 			
 			CloseWindow();
 		}

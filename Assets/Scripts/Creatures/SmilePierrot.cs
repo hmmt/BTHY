@@ -24,7 +24,7 @@ public class SmilePierrot : CreatureBase {
     private void ActivateSkill(UseSkill skill)
     {
         Debug.Log("SmilePierrot ActivateSkill");
-        skill.agent.TakePhysicalDamage(skillPhysicalDmg);
+        skill.agent.TakePhysicalDamageByCreature(skillPhysicalDmg);
     }
 
     public override void OnEnterRoom(UseSkill skill)

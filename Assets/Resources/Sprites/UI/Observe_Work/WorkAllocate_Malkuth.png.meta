@@ -1,0 +1,297 @@
+fileFormatVersion: 2
+guid: 8e9813b40c047d54294035a40d821985
+timeCreated: 1462872705
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Panel
+    21300002: AgentSlot_Normal
+    21300004: AgentSlot_Selected
+    21300006: AgentSlot_Working
+    21300008: Button_Normal
+    21300010: Button_Over
+    21300012: Button_Click
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Panel
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 3578
+        width: 3735
+        height: 2439
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -123, y: -302}
+        - {x: -119, y: -299}
+        - {x: -118, y: -299}
+        - {x: -116, y: -297}
+        - {x: -115, y: -297}
+        - {x: -110, y: -292}
+        - {x: 164, y: -292}
+        - {x: 183, y: -273}
+        - {x: 184, y: -274}
+        - {x: 436, y: -274}
+        - {x: 449, y: -261}
+        - {x: 449, y: -117}
+        - {x: 467, y: -99}
+        - {x: 467, y: 261}
+        - {x: 448, y: 280}
+        - {x: 304, y: 280}
+        - {x: 303, y: 282}
+        - {x: 302, y: 285}
+        - {x: 300, y: 287}
+        - {x: 299, y: 289}
+        - {x: 295, y: 294}
+        - {x: 294, y: 298}
+        - {x: 292, y: 300}
+        - {x: 291, y: 302}
+        - {x: 288, y: 306}
+        - {x: 52, y: 306}
+        - {x: 51, y: 305}
+        - {x: 51, y: 304}
+        - {x: 47, y: 299}
+        - {x: 46, y: 297}
+        - {x: 44, y: 294}
+        - {x: 44, y: 293}
+        - {x: 42, y: 291}
+        - {x: 42, y: 290}
+        - {x: 40, y: 288}
+        - {x: 40, y: 287}
+        - {x: 35, y: 280}
+        - {x: -119, y: 280}
+        - {x: -121, y: 282}
+        - {x: -123, y: 282}
+        - {x: -126, y: 284}
+        - {x: -128, y: 284}
+        - {x: -132, y: 286}
+        - {x: -137, y: 286}
+        - {x: -138, y: 287}
+        - {x: -428, y: 287}
+        - {x: -429, y: 286}
+        - {x: -434, y: 286}
+        - {x: -435, y: 285}
+        - {x: -437, y: 285}
+        - {x: -438, y: 284}
+        - {x: -440, y: 284}
+        - {x: -441, y: 283}
+        - {x: -445, y: 282}
+        - {x: -448, y: 280}
+        - {x: -452, y: 278}
+        - {x: -459, y: 270}
+        - {x: -459, y: 269}
+        - {x: -462, y: 267}
+        - {x: -466, y: 258}
+        - {x: -466, y: 255}
+        - {x: -467, y: 254}
+        - {x: -467, y: -274}
+        - {x: -466, y: -275}
+        - {x: -465, y: -280}
+        - {x: -463, y: -283}
+        - {x: -462, y: -286}
+        - {x: -460, y: -287}
+        - {x: -460, y: -288}
+        - {x: -448, y: -300}
+        - {x: -441, y: -303}
+        - {x: -439, y: -303}
+        - {x: -435, y: -305}
+        - {x: -131, y: -305}
+        - {x: -125, y: -302}
+    - name: AgentSlot_Normal
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 1236
+        width: 1140
+        height: 697
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 142.5, y: 75.5}
+        - {x: 136.5, y: 80.5}
+        - {x: 136.5, y: 81.5}
+        - {x: 133.5, y: 85.5}
+        - {x: 128.5, y: 87.5}
+        - {x: -129.5, y: 87.5}
+        - {x: -136.5, y: 81.5}
+        - {x: -136.5, y: 80.5}
+        - {x: -142.5, y: 75.5}
+        - {x: -142.5, y: -76.5}
+        - {x: -130.5, y: -87.5}
+        - {x: 130.5, y: -87.5}
+        - {x: 142.5, y: -76.5}
+    - name: AgentSlot_Selected
+      rect:
+        serializedVersion: 2
+        x: 1455
+        y: 1236
+        width: 1138
+        height: 697
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143.75, y: 73.5}
+        - {x: 142.75, y: 76.5}
+        - {x: 131.75, y: 86.5}
+        - {x: 129.75, y: 87.5}
+        - {x: -128.25, y: 87.5}
+        - {x: -130.25, y: 86.5}
+        - {x: -140.25, y: 76.5}
+        - {x: -142.25, y: 73.5}
+        - {x: -142.25, y: -73.5}
+        - {x: -140.25, y: -78.5}
+        - {x: -137.25, y: -80.5}
+        - {x: -131.25, y: -87.5}
+        - {x: 132.75, y: -87.5}
+        - {x: 140.75, y: -78.5}
+        - {x: 143.75, y: -74.5}
+    - name: AgentSlot_Working
+      rect:
+        serializedVersion: 2
+        x: 2664
+        y: 1236
+        width: 1137
+        height: 697
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 142.5, y: 75.5}
+        - {x: 130.5, y: 86.5}
+        - {x: 126.5, y: 87.5}
+        - {x: -128.5, y: 87.5}
+        - {x: -133.5, y: 85.5}
+        - {x: -137.5, y: 80.5}
+        - {x: -137.5, y: 79.5}
+        - {x: -142.5, y: 75.5}
+        - {x: -142.5, y: -76.5}
+        - {x: -136.5, y: -81.5}
+        - {x: -136.5, y: -82.5}
+        - {x: -131.5, y: -87.5}
+        - {x: 131.5, y: -87.5}
+        - {x: 141.5, y: -77.5}
+        - {x: 142.5, y: -74.5}
+    - name: Button_Normal
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 142
+        width: 1056
+        height: 620
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 78.5}
+        - {x: -132, y: 68.5}
+        - {x: -132, y: -77.5}
+        - {x: 123, y: -77.5}
+        - {x: 133, y: -67.5}
+        - {x: 133, y: 78.5}
+    - name: Button_Over
+      rect:
+        serializedVersion: 2
+        x: 1452
+        y: 116
+        width: 1104
+        height: 668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 138, y: 72.5}
+        - {x: 137, y: 74.5}
+        - {x: 129, y: 82.5}
+        - {x: 127, y: 83.5}
+        - {x: -117, y: 83.5}
+        - {x: -120, y: 82.5}
+        - {x: -131, y: 73.5}
+        - {x: -136, y: 66.5}
+        - {x: -138, y: 62.5}
+        - {x: -138, y: -72.5}
+        - {x: -133, y: -79.5}
+        - {x: -128, y: -82.5}
+        - {x: -125, y: -83.5}
+        - {x: 119, y: -83.5}
+        - {x: 135, y: -69.5}
+        - {x: 138, y: -62.5}
+    - name: Button_Click
+      rect:
+        serializedVersion: 2
+        x: 2680
+        y: 116
+        width: 1104
+        height: 668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 138, y: 72.5}
+        - {x: 137, y: 74.5}
+        - {x: 129, y: 82.5}
+        - {x: 127, y: 83.5}
+        - {x: -117, y: 83.5}
+        - {x: -120, y: 82.5}
+        - {x: -131, y: 73.5}
+        - {x: -136, y: 66.5}
+        - {x: -138, y: 62.5}
+        - {x: -138, y: -72.5}
+        - {x: -133, y: -79.5}
+        - {x: -128, y: -82.5}
+        - {x: -125, y: -83.5}
+        - {x: 119, y: -83.5}
+        - {x: 135, y: -69.5}
+        - {x: 138, y: -62.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

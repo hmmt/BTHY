@@ -8,7 +8,7 @@ using System.Collections;
  * 
 */
 public class IsolateRoom : MonoBehaviour, IObserver {
-
+    
 	public CreatureUnit _targetUnit;
 	public TextMesh feelingText;
     public SpriteRenderer frameSpriteRenderer;
@@ -48,6 +48,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public TextMesh creatureLevel;
     public TextMesh creatureName;
+
+    public UnityEngine.UI.Text FeelingTextForDebug;
 
     public void Awake()
     {
@@ -109,13 +111,16 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
         touchButtonTransform.sizeDelta = new Vector2(sizex, sizey);
 
+
         if (targetUnit.model.sefiraNum == "1")
         {
-            frameRedRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Feel_Red");
-            frameYellowRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Feel_Yellow");
-            frameGreenRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Feel_Green");
-            workingOffRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Work_Off");
-            workingOnRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Malkuth_Work_On");
+            frameRedRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Red");
+            frameYellowRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Yellow");
+            frameGreenRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Green");
+            workingOffRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Frame");
+            workingOnRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/isolateRoom_Frame");
+
+            
         }
 
         else if (targetUnit.model.sefiraNum == "2")
@@ -146,6 +151,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             workingOnRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/IsolateRoom/Yessod_Work_On");
 
         }
+
+        frameSpriteRenderer.sprite = SefiraController.instance.GetSefiraSprite(targetUnit.model.sefiraNum).IsolateRoomFrame;
     }
 
 	public void UpdateStatus()
@@ -155,9 +162,34 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 		{
             // 잠시 안 띄움
 			//feelingText.text = targetUnit.model.feeling.ToString ();
-			feelingText.text = targetUnit.model.energyPoint.ToString();
+			feelingText.text = targetUnit.model.script.GetDebugText() + "\n\n";//targetUnit.model.energyPoint.ToString() +"\n";
             creatureLevel.text = targetUnit.model.metaInfo.level;
             creatureName.text = targetUnit.model.metaInfo.name;
+
+			feelingText.alignment = TextAlignment.Center;
+
+			if (targetUnit.model.currentSkill != null)
+			{
+				feelingText.text = feelingText.text + "SKILL : " + targetUnit.model.currentSkill.skillTypeInfo.name + "\n";
+
+				float efficient = targetUnit.model.GetWorkEfficient (targetUnit.model.currentSkill.skillTypeInfo);
+				if (efficient > 1) {
+					feelingText.text = feelingText.text + "Great!";
+                    
+                    //MakeEffect(0);
+				} else if (efficient < 0) {
+					feelingText.text = feelingText.text + "Bad...";
+                    //MakeEffect(2);
+				} else {
+					feelingText.text = feelingText.text + "Not bad";
+				}
+			}
+
+
+			//feelingText.text = "";
+			creatureLevel.text = "";
+			creatureName.text = "";
+            FeelingTextForDebug.text =this.targetUnit.model.feeling + "/" + this.targetUnit.model.metaInfo.feelingMax + " " + this.targetUnit.model.GetFeelingPercent() + "%";
 
             //feelingText.text = "";
             
@@ -227,10 +259,10 @@ public class IsolateRoom : MonoBehaviour, IObserver {
                 frameGreenRenderer.gameObject.SetActive(false);
             }
 
-            if (targetUnit.model.state == CreatureState.WORKING)
+			if (targetUnit.model.state == CreatureState.WORKING)
             {
-                workingOnRenderer.gameObject.SetActive(true);
-                workingOffRenderer.gameObject.SetActive(false);
+                //workingOnRenderer.gameObject.SetActive(true);
+                //workingOffRenderer.gameObject.SetActive(false);
                 observeRoom.SetBool("ObserveStart", false);
                 observeRoom.SetInteger("ObserveProcess",0);
                 //observeCatuionSprite.gameObject.SetActive(false);
@@ -238,8 +270,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
             else if (targetUnit.model.state == CreatureState.OBSERVE)
             {
-                workingOnRenderer.gameObject.SetActive(true);
-                workingOffRenderer.gameObject.SetActive(false);
+                //workingOnRenderer.gameObject.SetActive(true);
+                //workingOffRenderer.gameObject.SetActive(false);
                 observeRoom.SetBool("ObserveStart", true);
                 observeRoom.SetInteger("ObserveProcess", 1);
                 // observeCatuionSprite.gameObject.SetActive(true);
@@ -247,8 +279,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
             else
             {
-                workingOnRenderer.gameObject.SetActive(false);
-                workingOffRenderer.gameObject.SetActive(true);
+                //workingOnRenderer.gameObject.SetActive(false);
+                //workingOffRenderer.gameObject.SetActive(true);
                 observeRoom.SetBool("ObserveStart", false);
                 observeRoom.SetInteger("ObserveProcess", 0);
                 //observeCatuionSprite.gameObject.SetActive(false);
@@ -267,14 +299,22 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void OnClick()
     {
-        targetUnit.OnClick();
+        targetUnit.OnClickByRoom();
         
     }
 
     public void OnClickedCreatureRoom() {
         CreatureModel oldCreature = (CollectionWindow.currentWindow != null) ? CollectionWindow.currentWindow.GetCreature() : null;
+        
         if (SelectWorkAgentWindow.currentWindow != null)
             SelectWorkAgentWindow.currentWindow.CloseWindow();
+
+        if (WorkAllocateWindow.currentWindow != null)
+        {
+            WorkAllocateWindow.currentWindow.CloseWindow();
+        }
+
+
         CollectionWindow.Create(_targetUnit.model);
 
 
@@ -318,13 +358,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 			color.a = 0f;
 			roomFogRenderer.color = color;
 		}
-        else if (_targetUnit.model.state == CreatureState.WORKING)
-        {
-            color.a = 0f;
-            roomFogRenderer.color = color;
-        }
-
-        else if (_targetUnit.model.state == CreatureState.OBSERVE)
+		else if (_targetUnit.model.IsWorkingState())
         {
             color.a = 0f;
             roomFogRenderer.color = color;
@@ -342,4 +376,5 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             roomFogRenderer.color = color;
         }
 	}
+
 }

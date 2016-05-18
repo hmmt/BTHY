@@ -11,6 +11,9 @@ public class DebugUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//asdfasdgsda
+
+		if (Input.GetKeyDown (KeyCode.Space))
+			OnClick ();
 	}
 
 	public void OnClick()

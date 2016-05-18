@@ -14,12 +14,14 @@ public class SefiraObject : MonoBehaviour {
     public GameObject way3Fog;
     public GameObject way4Fog;
 
-    public GameObject elevatorFog1;
+    public GameObject elevatorFog1; 
     public GameObject elevatorFog2;
 
     public List<GameObject> fogs;
 
     private List<PassageObject> passageList;
+
+	private List<ElevatorPassageObject> elevatorList;
 
 
     void Awake()
@@ -55,7 +57,7 @@ public class SefiraObject : MonoBehaviour {
     public void AddPassageObject(PassageObjectModel model)
     {
         //passageObj.
-        GameObject passageObj = Prefab.LoadPrefab(model.GetMetaInfo().prefabSrc);
+		GameObject passageObj = Prefab.LoadPrefab(model.GetSrc());
 
         PassageObject passageScript = passageObj.GetComponent<PassageObject>();
 
@@ -65,6 +67,9 @@ public class SefiraObject : MonoBehaviour {
             fogs.Add(passageScript.fogObject);
         }
         passageList.Add(passageScript);
+        if (passageScript.shouldCheckSefira) {
+            passageScript.SetSefiraFrame(SefiraManager.instance.GetSefira(this.sefiraName));
+        }
 
         passageObj.transform.SetParent(transform);
 
@@ -75,8 +80,8 @@ public class SefiraObject : MonoBehaviour {
     {
         PassageObject passage = GetPassageObject(model.GetId());
 
-        Debug.Log(doorModel.type);
-        // temp prefab
+		//Debug.Log ("AddPassageDoor >>> " + doorModel.type);
+
         GameObject doorObj = Prefab.LoadPrefab("Map/Door/"+doorModel.type);
         PassageDoor doorScript = doorObj.GetComponent<PassageDoor>();
 
@@ -88,6 +93,24 @@ public class SefiraObject : MonoBehaviour {
         doorObj.transform.SetParent(passage.transform, false);
     }
 
+	public void AddElevatorPassage(ElevatorPassageModel model)
+	{
+		//GameObject g = new GameObject ("ElevatorPassage");
+
+		GameObject g = Prefab.LoadPrefab ("Map/Passage/ElevatorPassage");
+
+		ElevatorPassageObject e = g.GetComponent<ElevatorPassageObject> ();
+
+		e.model = model;
+
+        if (e.shouldSefiraCheck) {
+            e.SetSprite(SefiraManager.instance.GetSefira(this.sefiraName));
+        }
+
+		g.transform.localPosition = model.GetNode ().GetPosition ();
+		g.transform.SetParent(transform, false);
+	}
+
     public void AddMapObject(MapObjectModel mapObjModel)
     {
         foreach (PassageObject passage in passageList)
@@ -98,6 +121,16 @@ public class SefiraObject : MonoBehaviour {
             }
         }
     }
+	public void AddBloodMapObject(BloodMapObjectModel mapObjModel)
+	{
+		foreach (PassageObject passage in passageList)
+		{
+			if (passage.model.GetId() == mapObjModel.passage.GetId())
+			{
+				passage.AddBloodMapObject(mapObjModel);
+			}
+		}
+	}
     /*
     public void ClosePassage(PassageObjectModel model, DoorObjectModel doorModel)
     {

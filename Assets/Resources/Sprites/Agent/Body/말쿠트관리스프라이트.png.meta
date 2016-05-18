@@ -1,0 +1,344 @@
+fileFormatVersion: 2
+guid: 7edf549fb4e37a3438500dc8e53713b9
+timeCreated: 1456133817
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: LeftUpArm
+    21300002: RightUpArm
+    21300004: LeftDownArm
+    21300006: RightDownArm
+    21300008: LeftUpLeg
+    21300010: Body
+    21300012: RightUpLeg
+    21300014: LeftDownLeg
+    21300016: Symbol
+    21300018: RightDownLeg
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: LeftUpArm
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 786
+        width: 79
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -0.5, y: 79.5}
+        - {x: -15.5, y: 79.5}
+        - {x: -39.5, y: 11.5}
+        - {x: -39.5, y: -69.5}
+        - {x: -36.5, y: -79.5}
+        - {x: 38.5, y: -79.5}
+        - {x: 39.5, y: -74.5}
+        - {x: 39.5, y: 25.5}
+        - {x: 5.5, y: 76.5}
+    - name: RightUpArm
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 775
+        width: 79
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -0.5, y: 79.5}
+        - {x: -15.5, y: 79.5}
+        - {x: -39.5, y: 11.5}
+        - {x: -39.5, y: -69.5}
+        - {x: -36.5, y: -79.5}
+        - {x: 38.5, y: -79.5}
+        - {x: 39.5, y: -74.5}
+        - {x: 39.5, y: 25.5}
+        - {x: 5.5, y: 76.5}
+    - name: LeftDownArm
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 641
+        width: 127
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.5, y: 54.5}
+        - {x: -54.5, y: 1.5}
+        - {x: -54.5, y: -23.5}
+        - {x: -0.5, y: -54.5}
+        - {x: 52.5, y: -54.5}
+        - {x: 63.5, y: -22.5}
+        - {x: 63.5, y: 37.5}
+        - {x: 44.5, y: 54.5}
+      - - {x: -60.5, y: 5.5}
+        - {x: -60.5, y: 8.5}
+        - {x: -63.5, y: 9.5}
+        - {x: -63.5, y: 4.5}
+    - name: RightDownArm
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 638
+        width: 127
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.5, y: 54.5}
+        - {x: -54.5, y: 1.5}
+        - {x: -54.5, y: -23.5}
+        - {x: -0.5, y: -54.5}
+        - {x: 52.5, y: -54.5}
+        - {x: 63.5, y: -22.5}
+        - {x: 63.5, y: 37.5}
+        - {x: 44.5, y: 54.5}
+      - - {x: -60.5, y: 5.5}
+        - {x: -60.5, y: 8.5}
+        - {x: -63.5, y: 9.5}
+        - {x: -63.5, y: 4.5}
+    - name: LeftUpLeg
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 263
+        width: 115
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32.5, y: -82}
+        - {x: -33.5, y: -79}
+        - {x: -37.5, y: -79}
+        - {x: -38.5, y: -82}
+      - - {x: -42.5, y: -72}
+        - {x: -39.5, y: -71}
+        - {x: -39.5, y: -68}
+        - {x: -42.5, y: -67}
+        - {x: -44.5, y: -69}
+      - - {x: 54.5, y: 76}
+        - {x: -57.5, y: 76}
+        - {x: -57.5, y: -23}
+        - {x: -29.5, y: -30}
+        - {x: 29.5, y: -30}
+        - {x: 57.5, y: -11}
+        - {x: 57.5, y: 74}
+      - - {x: 25.5, y: 82}
+        - {x: 25.5, y: 77}
+        - {x: 26.5, y: 76}
+        - {x: 36.5, y: 76}
+        - {x: 38.5, y: 77}
+        - {x: 38.5, y: 79}
+        - {x: 35.5, y: 82}
+    - name: Body
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 244
+        width: 287
+        height: 373
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 139.5, y: -186.5}
+        - {x: 143.5, y: -186.5}
+        - {x: 143.5, y: -181.5}
+        - {x: 140.5, y: -182.5}
+      - - {x: 137.5, y: -141.5}
+        - {x: 139.5, y: -134.5}
+        - {x: 139.5, y: -117.5}
+        - {x: 137.5, y: -117.5}
+        - {x: 112.5, y: -13.5}
+        - {x: 108.5, y: 9.5}
+        - {x: 100.5, y: 43.5}
+        - {x: 77.5, y: 116.5}
+        - {x: 62.5, y: 129.5}
+        - {x: 10.5, y: 135.5}
+        - {x: -60.5, y: 135.5}
+        - {x: -74.5, y: 133.5}
+        - {x: -96.5, y: 130.5}
+        - {x: -102.5, y: 119.5}
+        - {x: -113.5, y: 85.5}
+        - {x: -121.5, y: 52.5}
+        - {x: -135.5, y: -14.5}
+        - {x: -143.5, y: -79.5}
+        - {x: -143.5, y: -136.5}
+        - {x: -117.5, y: -153.5}
+        - {x: -69.5, y: -168.5}
+        - {x: -21.5, y: -174.5}
+        - {x: 1.5, y: -175.5}
+        - {x: 22.5, y: -175.5}
+        - {x: 67.5, y: -167.5}
+        - {x: 83.5, y: -163.5}
+        - {x: 113.5, y: -151.5}
+      - - {x: 131.5, y: -153.5}
+        - {x: 134.5, y: -152.5}
+        - {x: 134.5, y: -149.5}
+        - {x: 131.5, y: -148.5}
+        - {x: 129.5, y: -150.5}
+      - - {x: 84.5, y: 116.5}
+        - {x: 80.5, y: 116.5}
+        - {x: 77.5, y: 112.5}
+        - {x: 79.5, y: 109.5}
+        - {x: 84.5, y: 110.5}
+        - {x: 87.5, y: 111.5}
+        - {x: 87.5, y: 115.5}
+      - - {x: 27.5, y: 186.5}
+        - {x: 26.5, y: 185.5}
+        - {x: 26.5, y: 184.5}
+        - {x: 29.5, y: 181.5}
+        - {x: 31.5, y: 181.5}
+        - {x: 33.5, y: 183.5}
+        - {x: 33.5, y: 186.5}
+    - name: RightUpLeg
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 266
+        width: 115
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32.5, y: -82}
+        - {x: -33.5, y: -79}
+        - {x: -37.5, y: -79}
+        - {x: -38.5, y: -82}
+      - - {x: -42.5, y: -72}
+        - {x: -39.5, y: -71}
+        - {x: -39.5, y: -68}
+        - {x: -42.5, y: -67}
+        - {x: -44.5, y: -69}
+      - - {x: 54.5, y: 76}
+        - {x: -57.5, y: 76}
+        - {x: -57.5, y: -23}
+        - {x: -29.5, y: -30}
+        - {x: 29.5, y: -30}
+        - {x: 57.5, y: -11}
+        - {x: 57.5, y: 74}
+      - - {x: 25.5, y: 82}
+        - {x: 25.5, y: 77}
+        - {x: 26.5, y: 76}
+        - {x: 36.5, y: 76}
+        - {x: 38.5, y: 77}
+        - {x: 38.5, y: 79}
+        - {x: 35.5, y: 82}
+    - name: LeftDownLeg
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 67
+        width: 100
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 72.5}
+        - {x: -36, y: 59.5}
+        - {x: -50, y: 41.5}
+        - {x: -50, y: -72.5}
+        - {x: 36, y: -72.5}
+        - {x: 50, y: -21.5}
+        - {x: 50, y: 64.5}
+        - {x: 26, y: 72.5}
+    - name: Symbol
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 65
+        width: 101
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25.5, y: 54}
+        - {x: -28.5, y: 53}
+        - {x: -50.5, y: -5}
+        - {x: -50.5, y: -40}
+        - {x: -4.5, y: -54}
+        - {x: 50.5, y: -54}
+        - {x: 50.5, y: 39}
+        - {x: 44.5, y: 54}
+      - - {x: 47.5, y: -49}
+        - {x: 49.5, y: -51}
+        - {x: 50.5, y: -51}
+        - {x: 50.5, y: -46}
+        - {x: 48.5, y: -46}
+    - name: RightDownLeg
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 49
+        width: 100
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 72.5}
+        - {x: -36, y: 59.5}
+        - {x: -50, y: 41.5}
+        - {x: -50, y: -72.5}
+        - {x: 36, y: -72.5}
+        - {x: 50, y: -21.5}
+        - {x: 50, y: 64.5}
+        - {x: 26, y: 72.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -5,9 +5,14 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
     public static AgentLayer currentLayer { private set; get; }
 
+    public const int MAX_LEVEL = 5;
+
+    public int[] AgentPromotionCost;
     public Sprite[] hairListTemp;
     public Sprite[] faceListTemp;
     private List<AgentUnit> agentList;
+
+    public List<WorkerSpriteSet> spriteList;
 
     private int zCount;
 
@@ -40,6 +45,21 @@ public class AgentLayer : MonoBehaviour, IObserver {
     }
 
 
+    public WorkerSpriteSet GetAgentSpriteSet(Sefira targetSefira)
+    {
+        WorkerSpriteSet output = null;
+
+        foreach (WorkerSpriteSet os in this.spriteList)
+        {
+            if (targetSefira.index == os.targetSefira)
+            {
+                output = os;
+                break;
+            }
+        }
+        return output;
+    }
+
     public void AddAgent(AgentModel model)
     {
         //GameObject newUnit = Prefab.LoadPrefab("unit");
@@ -47,7 +67,7 @@ public class AgentLayer : MonoBehaviour, IObserver {
         newUnit.transform.SetParent(transform, false);
         AgentUnit unit = newUnit.GetComponent<AgentUnit>();
 
-        unit.GetComponent<SpriteRenderer>().sprite = null;
+        //unit.GetComponent<SpriteRenderer>().sprite = null;
         unit.model = model;
 
         //unit.SetMaxHP(model.maxHp);
@@ -55,11 +75,11 @@ public class AgentLayer : MonoBehaviour, IObserver {
         agentList.Add(unit);
 
         // set Z value
-        unit.zValue = -zCount;
+		unit.SetDefaultZValue(-zCount * 0.01f);
 
         // 다른 유닛의 Z값 범위를 침범하지 않도록 z스케일을 낮춘다.
         Vector3 unitScale = unit.transform.localScale;
-        unitScale.z = 0.0005f;
+        unitScale.z = 0.001f;
         unit.transform.localScale = unitScale;
 
         zCount = (zCount + 1) % 1000;
@@ -72,6 +92,7 @@ public class AgentLayer : MonoBehaviour, IObserver {
         }
     }
 
+
     public Sprite GetAgentHair() {
         return hairListTemp[Random.Range(0, hairListTemp.Length)];
     }
@@ -83,7 +104,7 @@ public class AgentLayer : MonoBehaviour, IObserver {
     public void RemoveAgent(AgentModel model)
     {
         AgentUnit unit = GetAgent(model.instanceId);
-
+        if (unit == null) return;
         agentList.Remove(unit);
         Destroy(unit.gameObject);
     }
@@ -124,6 +145,13 @@ public class AgentLayer : MonoBehaviour, IObserver {
             {
                 RemoveAgent((AgentModel)obj);
             }
+        }
+        
+    }
+
+    public void OnStageStart() {
+        foreach (AgentUnit unit in this.agentList) {
+            unit.animTarget.SetSprite();
         }
     }
 }

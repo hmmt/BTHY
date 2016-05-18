@@ -32,13 +32,14 @@ public class NoticeName
 	// change for UI
 	public static string ChangeWorkSetting = "ChangeWorkSetting";
 
+    public static string WorkEndReport = "WorkEndReport";
+
     public static string ChangeAgentSefira = "ChangeAgentSefira";
     public static string ChangeAgentSefira_Late = "ChangeAgentSefira_Late";
     public static string ChangeAgentState = "ChangeAgentState";
 
     public static string AddCreature = "AddCreature";
     public static string UpdateCreatureRes = "UpdateCreatureRes"; // 환상체의 이미지 변경. 지금은 안 씀.
-    public static string RemoveCreature = "RemoveCreature";
 
     public static string LoadMapGraphComplete = "LoadMapGraphComplete";
 
@@ -49,10 +50,16 @@ public class NoticeName
     // PassageObject
     public static string AddPassageObject = "AddPassageObject";
     public static string UpdatePassageObject = "UpdatePassageObject";
+	public static string AddPassageDoor = "AddPassageDoor";
     public static string AddMapObject = "AddMapObject";
+	public static string AddBloodMapObject = "AddBloodMapObject";
 
     public static string ClosePassageDoor = "ClosePassageDoor";
     public static string OpenPassageDoor = "OpenPassageDoor";
+
+    public static string PassageBlackOut = "PassageBlackOut";
+    public static string PassageWhitle = "PassageWhite";
+    public static string PassageAlpha = "PassageAlpha";
 
     public static string MakeName(string noticeName, params string[] param)
     {

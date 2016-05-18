@@ -29,7 +29,7 @@ public class VoidBook : CreatureBase {
         if (Random.value < 0.5f)
             skill.agent.TakeMentalDamage(50);
         else
-            skill.agent.TakePhysicalDamage(3);
+            skill.agent.TakePhysicalDamageByCreature(3);
 
         // 5분 후에 사라져야 함
         // 5분 동안 작업 불가해야 함

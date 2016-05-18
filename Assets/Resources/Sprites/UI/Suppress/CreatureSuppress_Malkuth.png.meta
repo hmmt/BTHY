@@ -1,0 +1,410 @@
+fileFormatVersion: 2
+guid: c2b6d0ff5a450b3488dd12c11dced586
+timeCreated: 1462787163
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Icon
+    21300002: Panel
+    21300004: CreatureSuppress_Malkuth_8
+    21300006: Block
+    21300008: Gun
+    21300010: Stick
+    21300012: AgentSlot_Normal
+    21300014: AgentSlot_Selected
+    21300016: AgentSlot_Suppress
+    21300018: Button_Normal
+    21300020: Button_Over
+    21300022: Button_Click
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Icon
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 3814
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Panel
+      rect:
+        serializedVersion: 2
+        x: 1314
+        y: 2636
+        width: 2444
+        height: 3230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2.5, y: -403}
+        - {x: 2.5, y: -401}
+        - {x: 4.5, y: -398}
+        - {x: 5.5, y: -398}
+        - {x: 13.5, y: -390}
+        - {x: 13.5, y: -389}
+        - {x: 16.5, y: -387}
+        - {x: 17.5, y: -385}
+        - {x: 268.5, y: -385}
+        - {x: 282.5, y: -371}
+        - {x: 282.5, y: -229}
+        - {x: 283.5, y: -228}
+        - {x: 284.5, y: -228}
+        - {x: 294.5, y: -219}
+        - {x: 294.5, y: -218}
+        - {x: 299.5, y: -212}
+        - {x: 299.5, y: -210}
+        - {x: 301.5, y: -206}
+        - {x: 301.5, y: -203}
+        - {x: 302.5, y: -202}
+        - {x: 302.5, y: 316}
+        - {x: 301.5, y: 318}
+        - {x: 306.5, y: 323}
+        - {x: 306.5, y: 364}
+        - {x: 297.5, y: 373}
+        - {x: 104.5, y: 373}
+        - {x: 103.5, y: 374}
+        - {x: 103.5, y: 375}
+        - {x: 99.5, y: 380}
+        - {x: 98.5, y: 383}
+        - {x: 93.5, y: 389}
+        - {x: 90.5, y: 389}
+        - {x: 89.5, y: 390}
+        - {x: 84.5, y: 390}
+        - {x: 83.5, y: 391}
+        - {x: 79.5, y: 391}
+        - {x: 78.5, y: 392}
+        - {x: 73.5, y: 392}
+        - {x: 72.5, y: 393}
+        - {x: 68.5, y: 393}
+        - {x: 67.5, y: 394}
+        - {x: 63.5, y: 394}
+        - {x: 62.5, y: 395}
+        - {x: 57.5, y: 395}
+        - {x: 56.5, y: 396}
+        - {x: 52.5, y: 396}
+        - {x: 51.5, y: 397}
+        - {x: 46.5, y: 397}
+        - {x: 45.5, y: 398}
+        - {x: 41.5, y: 398}
+        - {x: 40.5, y: 399}
+        - {x: 36.5, y: 399}
+        - {x: 35.5, y: 400}
+        - {x: 30.5, y: 400}
+        - {x: 29.5, y: 401}
+        - {x: 25.5, y: 401}
+        - {x: 24.5, y: 402}
+        - {x: 19.5, y: 402}
+        - {x: 18.5, y: 403}
+        - {x: 14.5, y: 403}
+        - {x: 13.5, y: 404}
+        - {x: -8.5, y: 404}
+        - {x: -9.5, y: 403}
+        - {x: -19.5, y: 402}
+        - {x: -20.5, y: 401}
+        - {x: -24.5, y: 401}
+        - {x: -25.5, y: 400}
+        - {x: -29.5, y: 400}
+        - {x: -30.5, y: 399}
+        - {x: -35.5, y: 399}
+        - {x: -36.5, y: 398}
+        - {x: -40.5, y: 398}
+        - {x: -41.5, y: 397}
+        - {x: -46.5, y: 397}
+        - {x: -47.5, y: 396}
+        - {x: -51.5, y: 396}
+        - {x: -52.5, y: 395}
+        - {x: -56.5, y: 395}
+        - {x: -57.5, y: 394}
+        - {x: -62.5, y: 394}
+        - {x: -63.5, y: 393}
+        - {x: -67.5, y: 393}
+        - {x: -68.5, y: 392}
+        - {x: -73.5, y: 392}
+        - {x: -74.5, y: 391}
+        - {x: -83.5, y: 390}
+        - {x: -84.5, y: 389}
+        - {x: -87.5, y: 389}
+        - {x: -90.5, y: 386}
+        - {x: -90.5, y: 385}
+        - {x: -92.5, y: 383}
+        - {x: -92.5, y: 382}
+        - {x: -94.5, y: 380}
+        - {x: -94.5, y: 379}
+        - {x: -96.5, y: 377}
+        - {x: -96.5, y: 376}
+        - {x: -98.5, y: 373}
+        - {x: -297.5, y: 373}
+        - {x: -305.5, y: 365}
+        - {x: -305.5, y: 323}
+        - {x: -300.5, y: 318}
+        - {x: -301.5, y: 316}
+        - {x: -301.5, y: -375}
+        - {x: -300.5, y: -376}
+        - {x: -300.5, y: -379}
+        - {x: -299.5, y: -380}
+        - {x: -299.5, y: -382}
+        - {x: -297.5, y: -387}
+        - {x: -295.5, y: -388}
+        - {x: -295.5, y: -389}
+        - {x: -284.5, y: -400}
+        - {x: -283.5, y: -400}
+        - {x: -279.5, y: -403}
+        - {x: -273.5, y: -404}
+        - {x: -5.5, y: -404}
+        - {x: -4.5, y: -403}
+    - name: CreatureSuppress_Malkuth_8
+      rect:
+        serializedVersion: 2
+        x: 662
+        y: 3610
+        width: 152
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Block
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 2491
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 31.25}
+        - {x: -19, y: 29.25}
+        - {x: -20, y: 26.25}
+        - {x: -20, y: -25.75}
+        - {x: -17, y: -29.75}
+        - {x: 16, y: -29.75}
+        - {x: 19, y: -28.75}
+        - {x: 19, y: 31.25}
+    - name: Gun
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 2470
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: 22}
+        - {x: -32, y: 21}
+        - {x: -32, y: 1}
+        - {x: 2, y: -23}
+        - {x: 33, y: -23}
+        - {x: 33, y: -9}
+        - {x: 28, y: 22}
+    - name: Stick
+      rect:
+        serializedVersion: 2
+        x: 874
+        y: 2482
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: 33}
+        - {x: -25, y: 33}
+        - {x: -32, y: 30}
+        - {x: -32, y: 12}
+        - {x: -24, y: -6}
+        - {x: 15, y: -32}
+        - {x: 33, y: -32}
+        - {x: 33, y: -19}
+        - {x: 32, y: -13}
+    - name: AgentSlot_Normal
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 1332
+        width: 1136
+        height: 692
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 141, y: 77.5}
+        - {x: 132, y: 86.5}
+        - {x: -132, y: 86.5}
+        - {x: -142, y: 76.5}
+        - {x: -142, y: -75.5}
+        - {x: -141, y: -76.5}
+        - {x: -141, y: -77.5}
+        - {x: -132, y: -86.5}
+        - {x: 131, y: -86.5}
+        - {x: 142, y: -75.5}
+        - {x: 142, y: 74.5}
+    - name: AgentSlot_Selected
+      rect:
+        serializedVersion: 2
+        x: 1447
+        y: 1328
+        width: 1137
+        height: 693
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 142.25, y: 77}
+        - {x: 132.25, y: 86}
+        - {x: 128.25, y: 87}
+        - {x: -126.75, y: 87}
+        - {x: -130.75, y: 86}
+        - {x: -136.75, y: 80}
+        - {x: -136.75, y: 79}
+        - {x: -141.75, y: 75}
+        - {x: -141.75, y: -75}
+        - {x: -140.75, y: -78}
+        - {x: -130.75, y: -87}
+        - {x: 132.25, y: -87}
+        - {x: 143.25, y: -76}
+        - {x: 143.25, y: 74}
+    - name: AgentSlot_Suppress
+      rect:
+        serializedVersion: 2
+        x: 2667
+        y: 1328
+        width: 1138
+        height: 693
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143.75, y: 71}
+        - {x: 142.75, y: 75}
+        - {x: 130.75, y: 87}
+        - {x: -129.25, y: 87}
+        - {x: -141.25, y: 76}
+        - {x: -142.25, y: 73}
+        - {x: -142.25, y: -75}
+        - {x: -131.25, y: -87}
+        - {x: 131.75, y: -87}
+        - {x: 142.75, y: -77}
+        - {x: 143.75, y: -74}
+    - name: Button_Normal
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 242
+        width: 1056
+        height: 620
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 78.5}
+        - {x: -132, y: 68.5}
+        - {x: -132, y: -77.5}
+        - {x: 122, y: -77.5}
+        - {x: 133, y: -66.5}
+        - {x: 133, y: 78.5}
+    - name: Button_Over
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 216
+        width: 1104
+        height: 668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 138, y: 73.5}
+        - {x: 130, y: 83.5}
+        - {x: -120, y: 83.5}
+        - {x: -127, y: 79.5}
+        - {x: -137, y: 65.5}
+        - {x: -138, y: 62.5}
+        - {x: -138, y: -71.5}
+        - {x: -133, y: -79.5}
+        - {x: -126, y: -83.5}
+        - {x: 118, y: -83.5}
+        - {x: 127, y: -78.5}
+        - {x: 138, y: -62.5}
+    - name: Button_Click
+      rect:
+        serializedVersion: 2
+        x: 2668
+        y: 216
+        width: 1104
+        height: 668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 135, y: -67.5}
+        - {x: 138, y: -59.5}
+        - {x: 138, y: 73.5}
+        - {x: 130, y: 83.5}
+        - {x: -117, y: 83.5}
+        - {x: -126, y: 79.5}
+        - {x: -136, y: 68.5}
+        - {x: -138, y: 64.5}
+        - {x: -138, y: -72.5}
+        - {x: -133, y: -79.5}
+        - {x: -128, y: -82.5}
+        - {x: -125, y: -83.5}
+        - {x: 114, y: -83.5}
+        - {x: 119, y: -81.5}
+        - {x: 127, y: -76.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

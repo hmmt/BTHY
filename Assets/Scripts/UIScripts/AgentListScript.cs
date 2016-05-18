@@ -22,6 +22,7 @@ public class AgentListScript : MonoBehaviour {
 
     private PromotionPanelScript promoteScript;
     private RectTransform agentListforScroll;
+    public RectTransform reference;
     private float initialPosy;
     private int lastIndex = 0;
     private float extendSize = 0.0f;
@@ -40,9 +41,9 @@ public class AgentListScript : MonoBehaviour {
         promoteScript = PromotionPanel.GetComponent<PromotionPanelScript>();
         infoScript = infoPanel.GetComponent<AgentExtendedScript>();
 
-
         initialPosy = agentScrollTarget.localPosition.y;
-        agentListforScroll = (RectTransform)Instantiate(agentScrollTarget);
+        agentListforScroll = reference;
+       // agentListforScroll = (RectTransform)Instantiate(agentScrollTarget);
         mode = 0;
         order = 0;
     }
@@ -63,7 +64,6 @@ public class AgentListScript : MonoBehaviour {
     }
     */
     public void Init() {
-        Debug.Log("Initializing Agent List");
         
         foreach (RectTransform rt in agentScrollTarget) {
             if(rt.tag.Equals("AgentListSlot"))  Destroy(rt.gameObject);
@@ -154,6 +154,7 @@ public class AgentListScript : MonoBehaviour {
     }
 
     public void ShowAgentList() {
+        return;
         float posy = 0.0f;
         for (int i = 0; i < modelList.Count; i++) {
             GameObject slot = findObjectSlotByModel(modelList[i]);
@@ -248,6 +249,7 @@ public class AgentListScript : MonoBehaviour {
 
     public void ShowAgentListWithChange()
     {
+        return;
         float cumulative = 0.0f;
         float additional = 0.0f;
 
@@ -414,15 +416,31 @@ public class AgentListScript : MonoBehaviour {
     }
 
     public void ActivatePromotionPanel(ListSlotScript script) {
+        if (extended == true) {
+            SetExtendedDisabled();
+        }
+
+        SetPromotionEnable(false);
+
         promoteScript.Deactivate();
         GameObject target = findObjectSlot(script);
-        Vector3 pos = target.transform.localPosition;
+        //Vector3 pos = target.transform.localPosition;
         promoteScript.SetTarget(target);
         promoteScript.UpdatePanel(script);
         target.gameObject.SetActive(false);
         PromotionPanel.gameObject.SetActive(true);
-        PromotionPanel.localPosition = pos;
+        //PromotionPanel.localPosition = pos;
         
+    }
+
+    public void SetPromotionEnable(bool state) {
+        this.addbutton.gameObject.SetActive(state);
+
+        for (int i = 0; i < modelList.Count; i++) {
+            GameObject slot = findObjectSlotByModel(modelList[i]);
+            slot.gameObject.SetActive(state);
+        }
+
     }
 
     public void SetAddbuttonState(bool b) {

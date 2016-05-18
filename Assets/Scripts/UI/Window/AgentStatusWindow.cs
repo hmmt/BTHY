@@ -11,7 +11,7 @@ public class AgentIcons {
     
 }
 
-public class AgentStatusWindow : MonoBehaviour, IObserver {
+public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
 	public Text NameText;
 	public Text LevelText;
     public Text DepartMent;
@@ -23,12 +23,31 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
     public Image AgentHair;
     public Image AgentBody;
 
+    public Sprite[] MentalImage;
+
     public AgentIcons icons;
     public string[] statusDesc;
     public string[] worklistDesc;
 
+    public Slider Health;
+    public Image MentalIcon;
+    public Image[] HasWork;
+
+    public Image[] workIconImage;
+    public Image SuppressIcon;
+
+    public Sprite HasWorkSelected;
+    public Sprite HasWorkNotSelected;
+
 	[HideInInspector]
 	public static AgentStatusWindow currentWindow = null;
+
+    [HideInInspector]
+    public ActivatableObjectPos windowPos = ActivatableObjectPos.RIGHTUPPER;
+
+    public RectTransform eventTriggerTarget;
+
+    bool activatableObjectInitiated = false;
 
 	private AgentModel _target = null;
 	private bool enabled = false;
@@ -48,10 +67,25 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 		}
 	}
 
+    public delegate void ClickedEvent();
+
     public static AgentStatusWindow CreateWindow(AgentModel unit)
-	{
-        GameObject newObj;
-        AgentStatusWindow inst;
+    {
+        if (currentWindow.gameObject.activeSelf)
+        {
+            if (currentWindow.target == unit)
+            {
+                //may be need data update
+                return currentWindow;
+            }
+        }
+        else {
+            currentWindow.gameObject.SetActive(true);
+            currentWindow.Activate();
+        }
+
+
+        /*
         if (currentWindow != null)
         {
             newObj = currentWindow.gameObject;
@@ -60,13 +94,12 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         }
         else
         {
+            
             newObj = Prefab.LoadPrefab("AgentStatusWindow");
             
             inst = newObj.GetComponent<AgentStatusWindow>();
-            inst.iconList = new List<List<GameObject>>();
-            inst.worklistDesc = new string[inst.icons.worklist.Length];
-            inst.statusDesc = new string[inst.icons.statuslist.Length];
-
+            
+            
             for (int i = 0; i < inst.icons.statuslist.Length; i++)
             {
                 GameObject target = inst.icons.statuslist[i].gameObject;
@@ -98,19 +131,38 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
                 trigger.triggers.Add(enter);
                 trigger.triggers.Add(exit);
             }
+             
         }
-		
-		inst.target = unit;
-        
-		inst.UpdateCreatureStatus ();
-        inst.AgentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
-        inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
-        inst.AgentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
-        
-		currentWindow = inst;
+        */
+        currentWindow.target = unit;
+        currentWindow.UpdateModel(currentWindow.target);
+        //inst.AgentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
 
-		return inst;
+
+
+        Canvas canvas = currentWindow.transform.GetChild(0).GetComponent<Canvas>();
+        canvas.worldCamera = UIActivateManager.instance.GetCam();
+
+        return currentWindow;
 	}
+
+    public void Awake() {
+        currentWindow = this;
+        currentWindow.Init();
+        currentWindow.gameObject.SetActive(false);
+    }
+
+    public void Init()
+    {
+        if (currentWindow.activatableObjectInitiated == false)
+        {
+            currentWindow.UIActivateInit();
+        }
+        currentWindow.iconList = new List<List<GameObject>>();
+        currentWindow.worklistDesc = new string[currentWindow.icons.worklist.Length];
+        currentWindow.statusDesc = new string[currentWindow.icons.statuslist.Length];
+        
+    }
 
 	void OnEnable()
 	{
@@ -168,33 +220,48 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         }
         return temp;
     }
+
+    public void UpdateModel(AgentModel newTarget) {
+        Health.maxValue = target.defaultMaxHp;
+        UpdateCreatureStatus();
+        SetHasWorkIcon(target);
+        AgentHair.sprite = newTarget.tempHairSprite;
+        AgentFace.sprite = newTarget.tempFaceSprite;
+        this._target = newTarget;
+    }
 	
 	public void UpdateCreatureStatus()
 	{
         DepartMent.text = "" + GetSefiraName( target.currentSefira);
 		NameText.text =  ""+target.name;
-		LevelText.text = ""+target.level + "등급";
+        LevelText.text = AgentModel.GetLevelGradeText(target);
         statusDesc[0] = target.hp + "";
         statusDesc[1] = target.mental + "";
         statusDesc[2] = target.movement + "";
         statusDesc[3] = target.workSpeed + "";
+
+        Health.value = target.hp;
+
+        MentalIcon.sprite = GetMentalSprite(target);
+        for (int i = 0; i < icons.statuslist.Length; i++)
+        {
+            icons.statuslist[i].sprite = target.StatusSprites[i];
+            
+        }
+
 		/*
         worklistDesc[0] = target.directSkill.name;
         worklistDesc[1] = target.indirectSkill.name;
         worklistDesc[2] = target.blockSkill.name;*/
+        /*
         OverlayObject[] mannualAry = new OverlayObject[4];
-        for (int i = 0; i < icons.statuslist.Length; i++) {
-            icons.statuslist[i].sprite = target.StatusSprites[i];
-            OverlayObject overlay = icons.statuslist[i].GetComponent<OverlayObject>();
-            overlay.text = statusDesc[i];
-        }
-
+        
         for (int i = 0; i < icons.worklist.Length; i++)
         {
             icons.worklist[i].sprite = target.WorklistSprites[i];
             icons.worklist[i].GetComponent<OverlayObject>().text = worklistDesc[i];
         }
-
+        */
         //ShowTraitList();
         ShowTrait();    
 	}
@@ -242,7 +309,7 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         for (int i = 0; i < target.traitList.Count; i++) {
             iconList.Add(script.MakeTrait(target.traitList[i]));
         }
-        AgentLifeStyle.text = target.LifeStyle();
+        AgentLifeStyle.text = target.LifeStyle() + " " + target.name;
         script.SortTrait();
     }
 
@@ -253,8 +320,8 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
 	
 	public void CloseWindow()
 	{
-        GameObject.FindGameObjectWithTag("AnimAgentController")
-            .GetComponent<Animator>().SetBool("isTrue", true);
+        Deactivate();
+        currentWindow.gameObject.SetActive(false);
 	}
 
     public void OnClickPortrait() {
@@ -262,4 +329,109 @@ public class AgentStatusWindow : MonoBehaviour, IObserver {
         Camera.main.transform.position = new Vector3( pos.x, pos.y, -20f);        
     }
 
+    public Sprite GetMentalSprite(AgentModel target)
+    {
+        if (target.defaultMaxMental == 0) target.defaultMaxMental = 10000;
+        int value = target.mental / target.defaultMaxMental * 100;
+
+        if (value >= 0 && value < 25)
+        {
+            return this.MentalImage[0];
+        }
+        else if (value >= 25 && value < 50)
+        {
+            return this.MentalImage[1];
+        }
+        else if (value >= 50 && value < 75)
+        {
+            return this.MentalImage[2];
+        }
+        else if (value >= 75 && value <= 100)
+        {
+            return this.MentalImage[3];
+        }
+        else
+        {
+            Debug.Log("Error + MentalVaue : " + value.ToString());
+        }
+        return this.MentalImage[0];
+    }
+
+    public void SetHasWorkIcon(AgentModel model) {
+        /*
+        List<SkillCategory> skillList = new List<SkillCategory>(SkillManager.instance.list.ToArray());
+        int max = 5;
+        if (skillList.Count < 5) max = skillList.Count;
+        for (int i = 0; i < max; i++) {
+            if (model.GetUniqueSkillCategory(skillList[i].name) != null)
+            {
+                
+            }
+        }*/
+        int i = 0;
+        foreach (Sprite s in AgentModel.GetAgentSkillSprite(model)) {
+            if (i > this.workIconImage.Length) return;
+            workIconImage[i].sprite = s;
+            i++;
+        }
+        switch (model.weapon) { 
+            case AgentWeapon.GUN:
+                SuppressIcon.sprite = IconManager.instance.GetIcon("Gun").icon;
+                break;
+            case AgentWeapon.NORMAL:
+                SuppressIcon.sprite = IconManager.instance.GetIcon("Stick").icon;
+                break;
+            case AgentWeapon.SHIELD:
+                SuppressIcon.sprite = IconManager.instance.GetIcon("Block").icon;
+                break;
+        }
+    }
+
+    public void Activate()
+    {
+
+        UIActivateManager.instance.Activate(this, this.windowPos);
+    }
+
+    public void Deactivate()
+    {
+        UIActivateManager.instance.Deactivate(this.windowPos);
+    }
+
+    public void OnEnter()
+    {
+        UIActivateManager.instance.OnEnter(this);
+    }
+
+    public void OnExit()
+    {
+        UIActivateManager.instance.OnExit();
+    }
+
+    public void UIActivateInit()
+    {
+        activatableObjectInitiated = true;
+        EventTrigger eventTrigger = this.eventTriggerTarget.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = this.eventTriggerTarget.gameObject.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry enter = new EventTrigger.Entry();
+        EventTrigger.Entry exit = new EventTrigger.Entry();
+
+        enter.eventID = EventTriggerType.PointerEnter;
+        exit.eventID = EventTriggerType.PointerExit;
+
+        enter.callback.AddListener((eventData) => { OnEnter(); });
+        exit.callback.AddListener((eventData) => { OnExit(); });
+
+        eventTrigger.triggers.Add(enter);
+        eventTrigger.triggers.Add(exit);
+    }
+
+    public void Close()
+    {
+        this.CloseWindow();
+    }
 }

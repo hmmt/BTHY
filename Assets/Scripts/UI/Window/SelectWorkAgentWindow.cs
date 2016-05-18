@@ -29,7 +29,7 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
     private WorkListScript workListScript;
 
     private CreaturePriority priority;
-
+    public WorkRestrictionScript workRestrictionScript;
 
 
 	public static SelectWorkAgentWindow currentWindow = null;
@@ -40,7 +40,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         {
             currentWindow.CloseWindow();
         }
-        GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
+        //GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindow");
+		GameObject newObj = Prefab.LoadPrefab("SelectWorkAgentWindowProto");
 
         SelectWorkAgentWindow inst = newObj.GetComponent<SelectWorkAgentWindow>();
         //inst.ShowSelectAgent (unit.gameObject);
@@ -53,7 +54,9 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         inst.inventory.Init();
 
         inst.workListScript = inst.GetComponent<WorkListScript>();
-        inst.workListScript.Init();
+        inst.workListScript.Init(creature);
+        
+        inst.workRestrictionScript.Init(creature);
         if (type == WorkType.NORMAL)
         {
             CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
@@ -67,15 +70,19 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
             inst.attachedNode = unit.transform;
         }
 
-        inst.ShowAgentList();
+        //inst.ShowAgentList();
         inst.priority = inst.gameObject.GetComponent<CreaturePriority>();
         inst.priority.Init(inst.targetCreature);
         currentWindow = inst;
+
         return inst;
     }
 	
 	// Use this for initialization
 	void Awake () {
+		//UpdatePosition ();
+	}
+	void Start() {
 		UpdatePosition ();
 	}
 	
@@ -137,15 +144,16 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
     public void SelectEscapeWorkAgent(AgentModel agent)
     {
-        AgentCmdState agentState = agent.GetState();
+        AgentAIState agentState = agent.GetState();
 
-        if (agentState != AgentCmdState.IDLE)
+        if (agentState != AgentAIState.IDLE)
         {
             Debug.Log("agent's state must be IDLE");
             return;
         }
 
-        WorkEscapedCreature.Create(agent, targetCreature);
+        //WorkEscapedCreature.Create(agent, targetCreature);
+		Debug.LogError("invalid funtion");
         CloseWindow();
     }
 
@@ -193,9 +201,10 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 
         slotPanel.agentIcon.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
 
-        slotPanel.agentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
-        slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
-        slotPanel.agentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
+        //slotPanel.agentBody.sprite =  
+        //slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
+        slotPanel.agentFace.sprite = unit.tempFaceSprite;
+        slotPanel.agentHair.sprite = unit.tempHairSprite;
         posy -= 100f;
 
         agentPanelList.Add(slotPanel);
@@ -245,7 +254,8 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
 		float posy = 0;
         foreach (AgentModel unit in agents)
 		{
-            if (unit.GetState() == AgentCmdState.WORKING)
+            AgentAIState state = unit.GetState();
+            if (state == AgentAIState.MANAGE || state == AgentAIState.OBSERVE)
                 continue;
 
             if (unit.currentSefira != targetCreature.sefiraNum)
@@ -349,5 +359,10 @@ public class SelectWorkAgentWindow : MonoBehaviour, AgentSlot.IReceiver {
         {
             return "신체 : ???";
         }
+    }
+
+    public void OnRestrictionChanged() {
+
+        this.workListScript.OnChanged();
     }
 }

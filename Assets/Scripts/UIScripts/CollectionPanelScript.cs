@@ -26,7 +26,7 @@ public class CollectionPanelScript : MonoBehaviour {
     }
 
     public void SetObservation(CreatureModel model) {
-        observation.text = (float)model.observeProgress / model.metaInfo.observeLevel * 100 + "%";
+        observation.text = (float)model.observeProgress / model.metaInfo.MaxObserveLevel * 100 + "%";
     }
 
     /*

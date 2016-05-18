@@ -1,61 +1,88 @@
-﻿using UnityEngine;
+﻿using UnityEngine; 
 using System.Collections;
 using UnityEngine.UI;
 
 public class AgentSpeech : MonoBehaviour {
-    public RectTransform textObject;
-    private RectTransform textRect;
-    private RectTransform bgRect;
+    public RectTransform textObject;//parent for text and image 
+    public Sprite[] BgSprite;
 
-    private Text speechText;
+    public Text textItem;
+    public Image textBackground;
+    RectTransform textRectTransform;
+    RectTransform bgRectTransform;
+
+    Vector2 currentSizedelta;
+    Vector2 smallSizeDelta;
+
+    public float maxX;
+    public float spacingX, spacingY;
+    float sizeY;
+    int initialFontSize;
     private TextAnchor standard;
     private string copy;
-    private int size;
-    public float spacing;
-    private Vector2 init_size;
-    private Vector2 mini_size;
-    private Vector2 bg_size;
-
+    Sprite currentBg;
+    Sprite renderingTarget;
+    
     public void Start() {
-        textRect = textObject.GetChild(0).GetComponent<RectTransform>();
-        bgRect = textObject.GetComponent<RectTransform>();
-        speechText = textRect.GetComponent<Text>();
+        //this.textItem.canvasRenderer.relativeDepth = this.textItem.transform.parent.GetComponent<CanvasRenderer>().relativeDepth + 2;
+        
+        this.standard = this.textItem.alignment;
+        this.textRectTransform = this.textItem.rectTransform;
+        this.bgRectTransform = this.textBackground.rectTransform;
+        this.sizeY = this.textItem.fontSize+4f;
+        this.initialFontSize = this.textItem.fontSize;
+        currentSizedelta = new Vector2(textRectTransform.sizeDelta.x, textRectTransform.sizeDelta.y);
+        smallSizeDelta = new Vector2(currentSizedelta.x / 2, currentSizedelta.y / 2);
+        renderingTarget = this.textBackground.sprite;
 
-        size = speechText.fontSize;
-        standard = speechText.alignment;
-        init_size = textRect.sizeDelta;
-        mini_size = new Vector2(init_size.x / 2, init_size.y);
         textObject.gameObject.SetActive(false);
     }
 
     public void FixedUpdate() {
 
         if (textObject.gameObject.activeSelf) {
+
             if (Camera.main.orthographicSize < 8)
             {
-                speechText.alignment = standard;
-                speechText.fontSize = size;
+                textItem.alignment = standard;
+                textItem.fontSize = this.initialFontSize;
                 SetSpeech(copy);
-                textRect.sizeDelta = init_size;
-                bgRect.sizeDelta = bg_size;
+                textRectTransform.sizeDelta = currentSizedelta;
+                bgRectTransform.sizeDelta = new Vector2(currentSizedelta.x + spacingX,
+                                                        currentSizedelta.y + spacingY);
+                this.textBackground.sprite = this.currentBg;
             }
             else {
-                speechText.alignment = TextAnchor.MiddleCenter;
-                speechText.fontSize = size * 3;
-                SetSpeech(". . .");
-                textRect.sizeDelta = mini_size;
-                bgRect.sizeDelta = mini_size;
+                textItem.alignment = TextAnchor.MiddleCenter;
+                textItem.fontSize = initialFontSize * 3;
+                SetSpeech(". . . ");
+                textRectTransform.sizeDelta = smallSizeDelta;
+                bgRectTransform.sizeDelta = smallSizeDelta;
+                this.textBackground.sprite = this.BgSprite[0];
             }
         }
     }
 
     private void SetSpeech(string text) {
-        speechText.text = text;
-        float h = speechText.preferredHeight;
-        textRect.sizeDelta = new Vector2(textRect.sizeDelta.x, h);
-        init_size = new Vector2(textRect.sizeDelta.x, textRect.sizeDelta.y);
-        bgRect.sizeDelta = new Vector2(textRect.sizeDelta.x + 10f, h + 10f);
-        bg_size = new Vector2(bgRect.sizeDelta.x, bgRect.sizeDelta.y);
+        this.textItem.text = text;
+        int bgIndex = 0;
+        if (this.textItem.preferredWidth > maxX)
+        {
+            int rate = (int)(this.textItem.preferredWidth / maxX);
+            textRectTransform.sizeDelta = new Vector2(maxX, (rate + 2) * sizeY);
+            if (rate > 5) bgIndex = 5;
+            else {
+                bgIndex = rate;
+            }
+        }
+        else {
+            textRectTransform.sizeDelta = new Vector2(this.textItem.preferredWidth, sizeY);
+            bgIndex = 1;
+        }
+        this.currentBg = BgSprite[bgIndex];
+        this.bgRectTransform.sizeDelta = new Vector2(textRectTransform.sizeDelta.x + spacingX,
+                                                     textRectTransform.sizeDelta.y + spacingY);
+        this.currentSizedelta = textRectTransform.sizeDelta;
     }
 
     public void showSpeech(string speech)
@@ -88,7 +115,6 @@ public class AgentSpeech : MonoBehaviour {
 
     public void turnOnDoingSkillIcon(bool turnOn)
     {
-        
         textObject.gameObject.SetActive(turnOn);
     }
 }

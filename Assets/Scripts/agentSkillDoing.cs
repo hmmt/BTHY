@@ -4,9 +4,11 @@ using System.Collections;
 public class agentSkillDoing : MonoBehaviour {
 
     public SpriteRenderer skillIcon;
-
+        
     public void showDoingSkillIcon(SkillTypeInfo nowSkill, AgentModel nowAgent)
     {
+        Debug.Log("agentSkillDoing >> need resouces");
+        return;
 		skillIcon.sprite = Resources.Load<Sprite>(nowSkill.imgsrc);
 		/*
         if (nowSkill.type == "direct")
@@ -37,6 +39,6 @@ public class agentSkillDoing : MonoBehaviour {
 
     public void turnOnDoingSkillIcon(bool turnOn)
     {
-        skillIcon.gameObject.SetActive(turnOn);
+        //skillIcon.gameObject.SetActive(turnOn);
     }
 }

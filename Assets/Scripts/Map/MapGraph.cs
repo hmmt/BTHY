@@ -24,6 +24,7 @@ public class MapGraph : IObserver
     // 세피라 휴식 공간 노드
     private Dictionary<string, List<MapNode>> sefiraCoreNodesTable;
     private Dictionary<string, List<MapNode>> additionalSefiraTable;
+	private Dictionary<string, List<MapNode>> sefiraRoamingNodesTable;
     private Dictionary<string, List<List<MapNode>>> deptNodeTable;
 
     // 세피라 영역 노드
@@ -33,6 +34,8 @@ public class MapGraph : IObserver
     private Dictionary<string, PassageObjectModel> passageTable;
 
     private List<MapEdge> edges;
+
+	private List<ElevatorPassageModel> elevatorList;
 
     public bool loaded { private set; get; }
 
@@ -58,6 +61,18 @@ public class MapGraph : IObserver
         return GetSepiraNodeByRandom(selectedSefira);
     }
 
+	public MapNode GetRoamingNodeByRandom(string area)
+	{
+		List<MapNode> output;
+
+		if (sefiraRoamingNodesTable.TryGetValue(area, out output))
+		{
+			return output [Random.Range (0, output.Count)];
+		}
+
+		return null;
+	}
+
     public MapNode GetSepiraNodeByRandom(string area)
     {
 
@@ -67,6 +82,46 @@ public class MapGraph : IObserver
 
         return nodes[Random.Range(0, nodes.Length)];
     }
+
+	public MovableObjectNode GetSefiraMovableNodeByRandom(string area)
+	{
+		
+		MapNode node1 = null;
+		MapNode node2 = null;
+		if (area == "1")
+		{
+			node1 = GetNodeById ("sefira-malkuth-1");
+			node2 = GetNodeById ("sefira-malkuth-9");
+		}
+		else if(area == "4")
+		{
+			node1 = GetNodeById ("sefira-tessod-1");
+			node2 = GetNodeById ("sefira-tessod-9");
+		}
+
+		PathResult result = GraphAstar.SearchPath (node1, node2);
+
+		float randomRange = Random.Range(0, result.totalCost);
+
+		//MapEdge selectedEdge = null;
+		MovableObjectNode target = null;
+
+		float remainCost = randomRange;
+		for (int i = 0; i < result.pathEdges.Length; i++)
+		{
+			MapEdge edge = result.pathEdges [i];
+			if (remainCost < edge.cost)
+			{
+				//selectedEdge = edge;
+				target = new MovableObjectNode();
+				target.SetCurrentEdge (edge, remainCost / edge.cost, result.edgeDirections [i]);
+				break;
+			}
+			remainCost -= edge.cost;
+		}
+
+		return target;
+	}
 
     public MapNode GetSefiraDeptNodes(string area) {
         MapNode[] nodes = GetAdditionalSefira(area);
@@ -87,12 +142,27 @@ public class MapGraph : IObserver
         return new MapNode[]{ };
     }
 
+    public MapNode[] GetSefiraNodes(Sefira sefira) {
+        return this.GetSefiraNodes(sefira.indexString);
+    }
+
+	public PassageObjectModel GetSefiraPassage(string area)
+	{
+		MapNode[] node = GetSefiraNodes (area);
+		return node [0].GetAttachedPassage ();
+	}
+
     public MapNode[] GetAdditionalSefira(string area) {
         List<MapNode> output;
         if (additionalSefiraTable.TryGetValue(area, out output)) {
             return output.ToArray();
         }
         return new MapNode[] { };
+    }
+
+    public MapNode[] GetAdditionalSefira(Sefira sefira)
+    {
+        return GetAdditionalSefira(sefira.indexString);
     }
 
     public void ActivateArea(string name)
@@ -122,37 +192,69 @@ public class MapGraph : IObserver
         }
     }
 
-    public void LoadMap()
+	public void LoadMap()
+	{
+		if (loaded)
+			return;
+		/*
+		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
+		XmlDocument doc = new XmlDocument();
+		doc.LoadXml(textAsset.text);
+
+		XmlNode nodeXml = doc.SelectSingleNode ("/node_list");
+
+		textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
+		doc = new XmlDocument();
+		doc.LoadXml(textAsset.text);
+
+		XmlNode edgeXml = doc.SelectSingleNode ("/edge_list");
+
+		*/
+
+		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph4");
+		//TextAsset textAsset = Resources.Load<TextAsset>("xml/TrailerTest4");
+		XmlDocument doc = new XmlDocument();
+		doc.LoadXml(textAsset.text);
+
+		XmlNode nodeXml = doc.SelectSingleNode ("/map_graph/node_list");
+		XmlNode edgeXml = doc.SelectSingleNode ("/map_graph/edge_list");
+		LoadMap (nodeXml, edgeXml);
+	}
+	public void LoadMap(XmlNode nodeRoot, XmlNode edgeRoot)
     {
-        int groupCount = 1;
+		int groupCount = 1;
 
-        if (loaded)
-            return;
-        TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
-
+		/*
         XmlDocument doc = new XmlDocument();
-        doc.LoadXml(textAsset.text);
+		doc.LoadXml(xmlText);
+		*/
 
-        XmlNodeList areaNodes = doc.SelectNodes("/node_list/area");
+		XmlNodeList areaNodes = nodeRoot.SelectNodes("area");
 
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
         Dictionary<string, List<MapNode>> sefiraNodesDic = new Dictionary<string, List<MapNode>>();
         Dictionary<string, List<MapNode>> additionalSefiraDic = new Dictionary<string, List<MapNode>>();
+		Dictionary<string, List<MapNode>> roamingNodesDic = new Dictionary<string, List<MapNode>> ();
 
         Dictionary<string, MapSefiraArea> mapAreaDic = new Dictionary<string, MapSefiraArea>();
         Dictionary<string, PassageObjectModel> passageDic = new Dictionary<string, PassageObjectModel>();
+
+		List<MapNode> elevatorNodes = new List<MapNode> ();
 
         foreach (XmlNode areaNode in areaNodes)
         {
             MapSefiraArea mapArea = new MapSefiraArea();
             List<MapNode> sefiraNodes = new List<MapNode>();
             List<MapNode> additionalSefira = new List<MapNode>();
+			List<MapNode> roamingNodes = new List<MapNode> ();
             string areaName = areaNode.Attributes.GetNamedItem("name").InnerText;
             mapArea.sefiraName = areaName;
             
             int max = int.Parse(areaNode.Attributes.GetNamedItem("sub").InnerText);
-            Sefira sefira = SefiraManager.instance.getSefira(areaName);
+            Sefira sefira = SefiraManager.instance.GetSefira(areaName);
             sefira.initDepartmentNodeList(max);
+
+			int deptIndex = 0;
 
             foreach (XmlNode nodeGroup in areaNode.ChildNodes)
             {
@@ -162,22 +264,78 @@ public class MapGraph : IObserver
                     groupCount++;
 
                     XmlAttributeCollection attrs = nodeGroup.Attributes;
-                    XmlNode passageTypeIdNode = attrs.GetNamedItem("typeId");
+                    //XmlNode passageTypeIdNode = attrs.GetNamedItem("typeId");
+					XmlNode passageSrcNode = attrs.GetNamedItem("src");
                     XmlNode passageXNode = attrs.GetNamedItem("x");
                     XmlNode passageYNode = attrs.GetNamedItem("y");
+
+					XmlNode passageGroundHeight = attrs.GetNamedItem ("ground");
+					//XmlNode passageGroundHeight = attrs.GetNamedItem ("");
+
+
                     PassageObjectModel passage = null;
-                    if (passageTypeIdNode != null)
+					if (passageSrcNode != null)
                     {
-                        long passageTypeId = long.Parse(passageTypeIdNode.InnerText);
+                        //long passageTypeId = long.Parse(passageTypeIdNode.InnerText);
                         float x = 0, y = 0;
                         if (passageXNode != null) x = float.Parse(passageXNode.InnerText);
                         if (passageYNode != null) y = float.Parse(passageYNode.InnerText);
-                        passage = new PassageObjectModel(groupName, areaName, PassageObjectTypeList.instance.GetData(passageTypeId));
+						passage = new PassageObjectModel(groupName, areaName, passageSrcNode.InnerText);
                         passage.position = new Vector3(x, y, 0);
+
+                        XmlNode passageTypeNode = attrs.GetNamedItem("passageType");
+                        if (passageTypeNode != null) {
+                            PassageType type = PassageObjectModel.GetPassageTypeByString(passageTypeNode.InnerText);
+                            passage.SetPassageType(type);
+                        }
+
+						/*
+						if (passageGroundHeight != null)
+						{
+							float groundHeight = float.Parse(passageGroundHeight.InnerText);
+							passage.groundHeight = groundHeight;
+						}
+						*/
+
+						XmlNode groundNode = nodeGroup.SelectSingleNode ("ground");
+						XmlNode wallNode = nodeGroup.SelectSingleNode ("wall");
+
+						if (groundNode != null) {
+							PassageGroundInfo info = new PassageGroundInfo ();
+
+							XmlNode groundHeight = groundNode.Attributes.GetNamedItem ("height");
+							if (groundHeight != null)
+								info.height = float.Parse (groundHeight.InnerText);
+
+							foreach (XmlNode groundSprNode in groundNode.SelectNodes("sprite")) {
+								Sprite groundSpr = ResourceCache.instance.GetSprite (groundSprNode.InnerXml);
+
+								info.bloodSprites.Add (groundSpr);
+							}
+
+							passage.groundInfo = info;
+						}
+
+						if (wallNode != null) {
+							PassageWallInfo info = new PassageWallInfo ();
+
+							
+							XmlNode wallHeight = wallNode.Attributes.GetNamedItem ("height");
+							if (wallHeight != null)
+								info.height = float.Parse (wallHeight.InnerText);
+
+							foreach (XmlNode wallSprNode in wallNode.SelectNodes("sprite")) {
+								Sprite wallSpr = ResourceCache.instance.GetSprite (wallSprNode.InnerXml);
+
+								info.bloodSprites.Add (wallSpr);
+							}
+
+							passage.wallInfo = info;
+						}
                     }
                     
                     
-                    foreach (XmlNode node in nodeGroup.ChildNodes)
+					foreach (XmlNode node in nodeGroup.SelectNodes("node"))
                     {
                         string id = node.Attributes.GetNamedItem("id").InnerText;
                         float x = float.Parse(node.Attributes.GetNamedItem("x").InnerText);
@@ -186,6 +344,39 @@ public class MapGraph : IObserver
                         XmlNode typeNode = node.Attributes.GetNamedItem("type");
 
                         MapNode newMapNode = new MapNode(id, new Vector2(x, y), areaName, passage);
+
+						XmlNode scaleAttr = node.Attributes.GetNamedItem ("scale");
+						if (scaleAttr != null)
+							newMapNode.scaleFactor = float.Parse (scaleAttr.InnerText);
+
+						XmlNode elevatorAttr = node.Attributes.GetNamedItem ("elevator");
+						if (elevatorAttr != null) {
+
+							ElevatorPassageModel elevatorModel = new ElevatorPassageModel (newMapNode, elevatorAttr.InnerText);
+
+							MapNode eNode1 = new MapNode ("elevator1-" + id, new Vector3 (-1, 0, 0), areaName);
+							MapNode eNode2 = new MapNode ("elevator2-" + id, new Vector3 (-0.5f, 0, 0), areaName);
+							MapNode eNode3 = new MapNode ("elevator3-" + id, new Vector3 (0, 0, 0), areaName);
+							MapNode eNode4 = new MapNode ("elevator4-" + id, new Vector3 (0.5f, 0, 0), areaName);
+							MapNode eNode5 = new MapNode ("elevator5-" + id, new Vector3 (1, 0, 0), areaName);
+							eNode1.scaleFactor = 0.8f;
+							eNode2.scaleFactor = 0.8f;
+							eNode3.scaleFactor = 0.8f;
+							eNode4.scaleFactor = 0.8f;
+							eNode5.scaleFactor = 0.8f;
+							elevatorModel.AddNode(eNode1);
+							elevatorModel.AddNode(eNode2);
+							elevatorModel.AddNode(eNode3);
+							elevatorModel.AddNode(eNode4);
+							elevatorModel.AddNode(eNode5);
+
+							newMapNode.AttachElevator (elevatorModel);
+
+							elevatorNodes.Add (newMapNode);
+							//MapNode node1 = new MapNode ("elevator1", new Vector3 (0, 0, 0), areaName);
+						}
+
+
                        
                         newMapNode.activate = false;
 
@@ -198,21 +389,47 @@ public class MapGraph : IObserver
                             additionalSefira.Add(newMapNode);
 
                             string[] totalString;
+							/*
                             totalString = Regex.Split(id, "-");
                             int index = int.Parse(totalString[1]);
                             sefira.departmentList[index].Add(newMapNode);
+                            */
+							sefira.departmentList [deptIndex].Add (newMapNode);
                         }
 
+						MapNode optionalNode = null;
                         XmlNodeList optionList = node.SelectNodes("option");
                         int doorCount = 1;
                         foreach (XmlNode optionNode in optionList)
                         {
-                            if (optionNode.InnerText == "closable")
-                            {
-                                //newMapNode.SetClosable(true);
-                            }
+							if (optionNode.InnerText == "room")
+							{
+							}
                         }
                         XmlNode doorNode = node.SelectSingleNode("door");
+						// TEMP
+						/*
+						if (id.Contains ("sefira-malkuth-1")) {
+							string doorId = passage.GetId() + "@" + doorCount;
+							newMapNode.SetClosable(true);
+							DoorObjectModel door = new DoorObjectModel(doorId, "DoorLeft", passage, newMapNode);
+							door.position = new Vector3(newMapNode.GetPosition().x,
+								newMapNode.GetPosition().y, -0.01f);
+							passage.AddDoor(door);
+							newMapNode.SetDoor(door);
+							door.Close();
+						} else if(id.Contains("sefira-malkuth-9")){
+							string doorId = passage.GetId() + "@" + doorCount;
+							newMapNode.SetClosable(true);
+							DoorObjectModel door = new DoorObjectModel(doorId, "DoorRight", passage, newMapNode);
+							door.position = new Vector3(newMapNode.GetPosition().x,
+								newMapNode.GetPosition().y, -0.01f);
+							passage.AddDoor(door);
+							newMapNode.SetDoor(door);
+							door.Close();
+						}
+						*/
+
                         if (doorNode != null)
                         {
                             string doorId = passage.GetId() + "@" + doorCount;
@@ -225,30 +442,39 @@ public class MapGraph : IObserver
                             door.Close();
                         }
 
+						if (elevatorAttr == null)
+							roamingNodes.Add (newMapNode);
+
                         if(passage != null)
                             passage.AddNode(newMapNode);
                         mapArea.AddNode(newMapNode);
+						if (optionalNode != null)
+							mapArea.AddNode (optionalNode);
                     }
                     if (passage != null)
                         passageDic.Add(groupName, passage);
+
+					if (passage != null && passage.GetPassageType () == PassageType.DEPARTMENT)
+						deptIndex++;
                 }
+				else if(nodeGroup.Name == "#comment")
+				{
+					// skip
+				}
                 else
                 {
-                    Debug.Log("this is not node_group");
+					Debug.Log("this is not node_group >>> "+nodeGroup.Name);
                 }
             }
 
             mapAreaDic.Add(areaName, mapArea);
             sefiraNodesDic.Add(areaName, sefiraNodes);
             additionalSefiraDic.Add(areaName, additionalSefira);
+			roamingNodesDic.Add (areaName, roamingNodes);
         }
 
-        textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
 
-        doc = new XmlDocument();
-        doc.LoadXml(textAsset.text);
-
-        XmlNodeList nodes = doc.SelectNodes("/edge_list/edge");
+		XmlNodeList nodes = edgeRoot.SelectNodes("edge");
 
         List<MapEdge> edgeList = new List<MapEdge>();
 
@@ -292,8 +518,78 @@ public class MapGraph : IObserver
         mapAreaTable = mapAreaDic;
         sefiraCoreNodesTable = sefiraNodesDic;
         additionalSefiraTable = additionalSefiraDic;
+		sefiraRoamingNodesTable = roamingNodesDic;
 
         passageTable = passageDic;
+
+		// elevator
+
+		elevatorList = new List<ElevatorPassageModel> ();
+
+		foreach(MapNode elevatorNode in elevatorNodes)
+		{
+			MapEdge[] elevatorEdges = elevatorNode.GetEdges ();
+
+			if (elevatorEdges.Length > 1) {
+				List<MapNode> upFloorList = new List<MapNode> ();
+				List<MapNode> downFloorList = new List<MapNode> ();
+
+				foreach(MapEdge e in elevatorEdges)
+				{
+					MapNode exitNode = e.ConnectedNodeIgoreActivate (elevatorNode);
+					if (exitNode.GetPosition ().y > elevatorNode.GetPosition ().y)
+						upFloorList.Add (exitNode);
+					else
+						downFloorList.Add (exitNode);
+				}
+
+				if (upFloorList.Count > 0 && downFloorList.Count > 0)
+				{
+					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
+
+					switch(elevator.GetElevatorType())
+					{
+					case ElevatorType.LONG:
+						elevator.AddFloorInfo (upFloorList.ToArray (), new Vector3 (0, 6, 0) + elevatorNode.GetPosition ());
+						elevator.AddFloorInfo (downFloorList.ToArray (), new Vector3 (0, -7, 0) + elevatorNode.GetPosition ());
+						break;
+					case ElevatorType.SHORT:
+						elevator.AddFloorInfo (upFloorList.ToArray (), new Vector3 (0, 3, 0) + elevatorNode.GetPosition ());
+						elevator.AddFloorInfo (downFloorList.ToArray (), new Vector3 (0, -3.5f, 0) + elevatorNode.GetPosition ());
+						break;
+					}
+
+					elevatorList.Add (elevator);
+				}
+				else
+				{
+					elevatorNode.AttachElevator (null);
+				}
+				/*
+				if (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode).GetPosition ().y > elevatorNode.GetPosition ().y)
+				{
+					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
+
+
+					elevator.AddFloorInfo (elevatorEdges [1].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, -6, 0) + elevatorNode.GetPosition());
+					elevator.AddFloorInfo (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, 6, 0) + elevatorNode.GetPosition());
+
+					elevatorList.Add (elevator);
+				} else {
+					ElevatorPassageModel elevator = elevatorNode.GetElevator ();
+
+
+					elevator.AddFloorInfo (elevatorEdges [0].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, -6, 0) + elevatorNode.GetPosition());
+					elevator.AddFloorInfo (elevatorEdges [1].ConnectedNodeIgoreActivate (elevatorNode), new Vector3 (0, 6, 0) + elevatorNode.GetPosition());
+
+					elevatorList.Add (elevator);
+				}
+				*/
+
+			} else {
+				elevatorNode.AttachElevator (null);
+			}
+		}
         
         ///
 
@@ -303,15 +599,6 @@ public class MapGraph : IObserver
         Notice.instance.Observe(NoticeName.FixedUpdate, this);
         Notice.instance.Send(NoticeName.LoadMapGraphComplete);
     }
-    /*
-    public void AddPassageObject(string id, long metadataId)
-    {
-        PassageObjectTypeInfo typeinfo = PassageObjectTypeList.instance.GetData(metadataId);
-
-        PassageObjectModel model = new PassageObjectModel(id, typeinfo);
-        RegisterPassageObject(model);
-
-    }*/
     public void RegisterPassageObject(PassageObjectModel model)
     {
         passageTable.Add(model.GetId(), model);
@@ -335,10 +622,21 @@ public class MapGraph : IObserver
         return edges.ToArray();
     }
 
+	public void RegisterPassage(PassageObjectModel passage)
+	{
+		passageTable.Add (passage.GetId (), passage);
+		Notice.instance.Send (NoticeName.AddPassageObject, passage);
+	}
+
     public PassageObjectModel[] GetPassageObjectList()
     {
         return new List<PassageObjectModel>(passageTable.Values).ToArray();
     }
+
+	public ElevatorPassageModel[] GetElevatorPassageList()
+	{
+		return elevatorList.ToArray ();
+	}
 
 
     private void FixedUpdate()
@@ -347,6 +645,11 @@ public class MapGraph : IObserver
         {
             passage.FixedUpdate();
         }
+
+		foreach (ElevatorPassageModel elevator in elevatorList)
+		{
+			elevator.OnFixedUpdate ();
+		}
     }
 
     public void OnNotice(string name, params object[] param)

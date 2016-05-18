@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  move => if 1) check inner nodes
+          else) looking direction
+  L = left
+  R = right
+  N = nocare
+-->
+<root>
+  <sefira name="Malkut" id="1">
+    <action id="0" nodeId="malkuth-0-7" animationParam="Computer" animationValue="3" move="1">
+      <pos x="18.6" y="5" dir="R"/>
+    </action>
+    <action id="1" nodeId="malkuth-0-9" animationParam="Computer" animationValue="3" move="1">
+      <pos x="21.2" y="5" dir="L"/>
+    </action>
+    <action id="2" nodeId="malkuth-1-3" animationParam="Computer" animationValue="3" move="1">
+      <pos x="-12.8" y="5" dir="L"/>
+    </action>
+    <action id="3" nodeId="malkuth-1-7" animationParam="Computer" animationValue="3" move="1">
+      <pos x="-15.3" y="5" dir="R"/>
+    </action>
+    <action id="4" nodeId="malkuth-0-3" animationParam="Hologram" animationValue="3" move="1">
+      <pos x="13.2" y="5" dir="R"/>
+    </action>
+    <action id="5" nodeId="malkuth-0-5" animationParam="Hologram" animationValue="3" move="1">
+      <pos x="16.62" y="5" dir="L"/>
+    </action>
+    <action id="6" nodeId="malkuth-1-9" animationParam="Hologram" animationValue="3" move="1">
+      <pos x="-17" y="5" dir="L"/>
+    </action>
+    <action id="7" nodeId="malkuth-1-6" animationParam="Hologram" animationValue="3" move="1">
+      <pos x="-20.7" y="5" dir="R"/>
+    </action>
+  </sefira>
+  <sefira name="Yesod" id="4">
+    <action id="0" nodeId="sefira-tessod-3" animationParam="Screen" animationValue="3" move="L">
+    </action>
+    
+    <action id="1" nodeId="sefira-tessod-5" animationParam="Hologram" animationValue="2" move="N">
+    </action>
+    
+    <action id="2" nodeId="dept-tessod-5" animationParam="Moon" animationValue="3" move="1">
+      <pos x="0.5" y="-65" dir="L"/>
+      <pos x="-0.5" y="-65" dir="R"/>
+    </action>
+    <action id="3" nodeId="dept-tessod-7" animationParam="Globe" animationValue="3" move="1">
+      <pos x="5.72" y="-65" dir="R"/>
+      <pos x="7.72" y="-65" dir="L"/>
+    </action>
+  </sefira>
+</root>

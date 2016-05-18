@@ -1,0 +1,704 @@
+fileFormatVersion: 2
+guid: c3147000c9b17f943a1c12bf65104ccc
+timeCreated: 1452767154
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bird_body
+    21300002: bird_up_mouth
+    21300004: bird_lamp
+    21300006: bird_low_mouth
+    21300008: bird_eye1
+    21300010: bird_eye2
+    21300012: "\uD070\uC0C8\uC2A4\uD504\uB77C\uC774\uD2B8_6"
+    21300014: bird_eye3
+    21300016: bird_eye4
+    21300018: bird_eyeball
+    21300020: "\uD070\uC0C8\uC2A4\uD504\uB77C\uC774\uD2B8_10"
+    21300022: bird_up_leg
+    21300024: "\uD070\uC0C8\uC2A4\uD504\uB77C\uC774\uD2B8_12"
+    21300026: bird_up_arm
+    21300028: bird_low_arm
+    21300030: bird_low_leg
+    21300032: bird_hand
+    21300034: bird_up_finger
+    21300036: bird_amzi_1
+    21300038: bird_foot
+    21300040: bird_low_finger
+    21300042: bird_amzi_2
+    21300044: "\uD070\uC0C8\uC2A4\uD504\uB77C\uC774\uD2B8_22"
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: bird_body
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 920
+        width: 706
+        height: 633
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 152, y: -256.5}
+        - {x: 158, y: -249.5}
+        - {x: 172, y: -246.5}
+        - {x: 210, y: -234.5}
+        - {x: 226, y: -216.5}
+        - {x: 238, y: -213.5}
+        - {x: 249, y: -195.5}
+        - {x: 260, y: -179.5}
+        - {x: 271, y: -157.5}
+        - {x: 290, y: -116.5}
+        - {x: 296, y: -102.5}
+        - {x: 296, y: -76.5}
+        - {x: 299, y: -71.5}
+        - {x: 304, y: -37.5}
+        - {x: 301, y: -29.5}
+        - {x: 305, y: -10.5}
+        - {x: 302, y: -9.5}
+        - {x: 305, y: 16.5}
+        - {x: 305, y: 28.5}
+        - {x: 303, y: 39.5}
+        - {x: 301, y: 64.5}
+        - {x: 292, y: 86.5}
+        - {x: 291, y: 105.5}
+        - {x: 284, y: 114.5}
+        - {x: 278, y: 149.5}
+        - {x: 272, y: 158.5}
+        - {x: 264, y: 165.5}
+        - {x: 234, y: 205.5}
+        - {x: 211, y: 219.5}
+        - {x: 192, y: 235.5}
+        - {x: 185, y: 239.5}
+        - {x: 177, y: 241.5}
+        - {x: 162, y: 252.5}
+        - {x: 149, y: 259.5}
+        - {x: 125, y: 266.5}
+        - {x: 105, y: 268.5}
+        - {x: 94, y: 272.5}
+        - {x: 70, y: 272.5}
+        - {x: 46, y: 268.5}
+        - {x: 26, y: 262.5}
+        - {x: 6, y: 261.5}
+        - {x: -36, y: 245.5}
+        - {x: -55, y: 239.5}
+        - {x: -74, y: 228.5}
+        - {x: -91, y: 222.5}
+        - {x: -106, y: 212.5}
+        - {x: -120, y: 202.5}
+        - {x: -147, y: 182.5}
+        - {x: -157, y: 170.5}
+        - {x: -174, y: 153.5}
+        - {x: -189, y: 140.5}
+        - {x: -194, y: 135.5}
+        - {x: -210, y: 121.5}
+        - {x: -214, y: 115.5}
+        - {x: -235, y: 94.5}
+        - {x: -263, y: 88.5}
+        - {x: -276, y: 90.5}
+        - {x: -288, y: 97.5}
+        - {x: -302, y: 116.5}
+        - {x: -323, y: 140.5}
+        - {x: -330, y: 137.5}
+        - {x: -334, y: 136.5}
+        - {x: -334, y: 106.5}
+        - {x: -327, y: 95.5}
+        - {x: -315, y: 63.5}
+        - {x: -292, y: 30.5}
+        - {x: -277, y: 6.5}
+        - {x: -267, y: -14.5}
+        - {x: -255, y: -35.5}
+        - {x: -250, y: -49.5}
+        - {x: -243, y: -64.5}
+        - {x: -235, y: -76.5}
+        - {x: -230, y: -87.5}
+        - {x: -226, y: -100.5}
+        - {x: -211, y: -124.5}
+        - {x: -202, y: -136.5}
+        - {x: -188, y: -152.5}
+        - {x: -151, y: -195.5}
+        - {x: -146, y: -199.5}
+        - {x: -142, y: -210.5}
+        - {x: -139, y: -211.5}
+        - {x: -127, y: -218.5}
+        - {x: -122, y: -226.5}
+        - {x: -106, y: -235.5}
+        - {x: -95, y: -245.5}
+        - {x: -80, y: -252.5}
+        - {x: -62, y: -259.5}
+        - {x: -43, y: -265.5}
+        - {x: -31, y: -267.5}
+        - {x: -17, y: -269.5}
+        - {x: 11, y: -270.5}
+        - {x: 24, y: -274.5}
+        - {x: 71, y: -274.5}
+        - {x: 77, y: -273.5}
+        - {x: 95, y: -271.5}
+        - {x: 127, y: -263.5}
+    - name: bird_up_mouth
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 1303
+        width: 374
+        height: 244
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -85, y: 72}
+        - {x: -129, y: 72}
+        - {x: -166, y: 10}
+        - {x: -166, y: -31}
+        - {x: -154, y: -39}
+        - {x: 85, y: -89}
+        - {x: 142, y: -94}
+        - {x: 165, y: -94}
+        - {x: 166, y: -89}
+        - {x: 166, y: -85}
+        - {x: 161, y: -77}
+    - name: bird_lamp
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 1086
+        width: 144
+        height: 311
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36, y: 130.5}
+        - {x: -54, y: 23.5}
+        - {x: -54, y: -96.5}
+        - {x: -47, y: -99.5}
+        - {x: 47, y: -99.5}
+        - {x: 60, y: -98.5}
+        - {x: 60, y: 33.5}
+        - {x: -2, y: 130.5}
+    - name: bird_low_mouth
+      rect:
+        serializedVersion: 2
+        x: 819
+        y: 1056
+        width: 377
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17.5, y: 72}
+        - {x: -168.5, y: 72}
+        - {x: -168.5, y: -51}
+        - {x: 160.5, y: -51}
+        - {x: 164.5, y: -44}
+        - {x: 164.5, y: -27}
+        - {x: 159.5, y: -16}
+    - name: bird_eye1
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 724
+        width: 94
+        height: 106
+      alignment: 9
+      pivot: {x: 0.40375763, y: 0.38620457}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -0.95321655, y: 53.062317}
+        - {x: -12.953217, y: 42.062317}
+        - {x: -12.953217, y: 3.062317}
+        - {x: -9.953217, y: -8.937683}
+        - {x: -3.9532166, y: -15.937683}
+        - {x: 8.046783, y: -15.937683}
+        - {x: 25.046783, y: -6.937683}
+        - {x: 25.046783, y: 40.062317}
+        - {x: 15.046783, y: 53.062317}
+    - name: bird_eye2
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 697
+        width: 94
+        height: 163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: -57.5}
+        - {x: -9, y: -59.5}
+        - {x: -8, y: -62.5}
+        - {x: -5, y: -63.5}
+        - {x: -2, y: -63.5}
+        - {x: -1, y: -62.5}
+        - {x: -1, y: -59.5}
+        - {x: -4, y: -57.5}
+      - - {x: 32, y: -24.5}
+        - {x: 29, y: -25.5}
+        - {x: 19, y: -41.5}
+        - {x: 19, y: -51.5}
+        - {x: 25, y: -51.5}
+        - {x: 34, y: -37.5}
+        - {x: 34, y: -26.5}
+      - - {x: -23, y: -46.5}
+        - {x: -20, y: -45.5}
+        - {x: -20, y: -42.5}
+        - {x: -23, y: -41.5}
+        - {x: -25, y: -43.5}
+      - - {x: -25, y: -35.5}
+        - {x: -19, y: -42.5}
+        - {x: 14, y: -42.5}
+        - {x: 28, y: -32.5}
+        - {x: 28, y: 33.5}
+        - {x: 11, y: 48.5}
+        - {x: -25, y: 48.5}
+      - - {x: 4, y: 20.5}
+        - {x: -3, y: 20.5}
+        - {x: -7, y: 15.5}
+        - {x: -7, y: -2.5}
+        - {x: -4, y: -8.5}
+        - {x: 2, y: -8.5}
+        - {x: 9, y: -5.5}
+        - {x: 9, y: 12.5}
+        - {x: 7, y: 19.5}
+      - - {x: -33, y: 15.5}
+        - {x: -34, y: 14.5}
+        - {x: -34, y: -1.5}
+        - {x: -29, y: -1.5}
+        - {x: -29, y: 13.5}
+        - {x: -30, y: 15.5}
+      - - {x: -30, y: 34.5}
+        - {x: -31, y: 26.5}
+        - {x: -29, y: 24.5}
+        - {x: -26, y: 25.5}
+        - {x: -23, y: 38.5}
+        - {x: -25, y: 40.5}
+        - {x: -28, y: 39.5}
+      - - {x: 6, y: 52.5}
+        - {x: 7, y: 49.5}
+        - {x: 10, y: 48.5}
+        - {x: 13, y: 49.5}
+        - {x: 13, y: 51.5}
+        - {x: 10, y: 54.5}
+        - {x: 8, y: 54.5}
+      - - {x: -19, y: 55.5}
+        - {x: -20, y: 51.5}
+        - {x: -18, y: 49.5}
+        - {x: -17, y: 49.5}
+        - {x: -11, y: 55.5}
+        - {x: -11, y: 57.5}
+        - {x: -14, y: 58.5}
+      - - {x: -8, y: 55.5}
+        - {x: -7, y: 52.5}
+        - {x: -4, y: 52.5}
+        - {x: -2, y: 54.5}
+        - {x: -3, y: 57.5}
+        - {x: -6, y: 57.5}
+      - - {x: 5, y: 61.5}
+        - {x: 4, y: 59.5}
+        - {x: 5, y: 56.5}
+        - {x: 10, y: 54.5}
+        - {x: 13, y: 55.5}
+        - {x: 13, y: 59.5}
+        - {x: 9, y: 61.5}
+    - name: "\uD070\uC0C8\uC2A4\uD504\uB77C\uC774\uD2B8_6"
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 805
+        width: 4
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bird_eye3
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 688
+        width: 115
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -39.5, y: -43}
+        - {x: -28.5, y: -61}
+        - {x: 19.5, y: -61}
+        - {x: 34.5, y: -48}
+        - {x: 34.5, y: 55}
+        - {x: 30.5, y: 67}
+        - {x: -27.5, y: 67}
+        - {x: -39.5, y: 56}
+      - - {x: -5.5, y: -23}
+        - {x: -2.5, y: -22}
+        - {x: -2.5, y: -19}
+        - {x: -5.5, y: -18}
+        - {x: -7.5, y: -20}
+      - - {x: -8.5, y: 26}
+        - {x: -11.5, y: 22}
+        - {x: -11.5, y: -5}
+        - {x: -9.5, y: -12}
+        - {x: 1.5, y: -12}
+        - {x: 7.5, y: -8}
+        - {x: 7.5, y: 26}
+    - name: bird_eye4
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 694
+        width: 103
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -37.5, y: 68.5}
+        - {x: -40.5, y: 46.5}
+        - {x: -40.5, y: -40.5}
+        - {x: -33.5, y: -50.5}
+        - {x: -22.5, y: -59.5}
+        - {x: 18.5, y: -59.5}
+        - {x: 33.5, y: -33.5}
+        - {x: 33.5, y: 53.5}
+        - {x: 17.5, y: 68.5}
+      - - {x: -7.5, y: 24.5}
+        - {x: -12.5, y: 18.5}
+        - {x: -12.5, y: -3.5}
+        - {x: -6.5, y: -5.5}
+        - {x: 3.5, y: -5.5}
+        - {x: 6.5, y: -0.5}
+        - {x: 6.5, y: 17.5}
+        - {x: 4.5, y: 24.5}
+    - name: bird_eyeball
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 694
+        width: 121
+        height: 199
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17.5, y: 68.5}
+        - {x: -38.5, y: 68.5}
+        - {x: -40.5, y: 57.5}
+        - {x: -40.5, y: -61.5}
+        - {x: -30.5, y: -74.5}
+        - {x: 20.5, y: -74.5}
+        - {x: 44.5, y: -64.5}
+        - {x: 44.5, y: 42.5}
+        - {x: 43.5, y: 51.5}
+    - name: "\uD070\uC0C8\uC2A4\uD504\uB77C\uC774\uD2B8_10"
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 729
+        width: 11
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bird_up_leg
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 399
+        width: 214
+        height: 186
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 82}
+        - {x: -97, y: -32}
+        - {x: -97, y: -60}
+        - {x: -92, y: -68}
+        - {x: -19, y: -68}
+        - {x: 87, y: 31}
+        - {x: 87, y: 81}
+        - {x: 85, y: 82}
+    - name: "\uD070\uC0C8\uC2A4\uD504\uB77C\uC774\uD2B8_12"
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 564
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bird_up_arm
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 411
+        width: 115
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -0.5, y: 63.5}
+        - {x: -23.5, y: 63.5}
+        - {x: -36.5, y: 48.5}
+        - {x: -36.5, y: 18.5}
+        - {x: -14.5, y: -47.5}
+        - {x: -8.5, y: -50.5}
+        - {x: 35.5, y: -50.5}
+        - {x: 38.5, y: -41.5}
+        - {x: 38.5, y: 4.5}
+        - {x: 9.5, y: 58.5}
+      - - {x: -24.5, y: 75.5}
+        - {x: -31.5, y: 64.5}
+        - {x: -31.5, y: 61.5}
+        - {x: -29.5, y: 60.5}
+        - {x: -25.5, y: 61.5}
+        - {x: -14.5, y: 72.5}
+        - {x: -15.5, y: 75.5}
+    - name: bird_low_arm
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 441
+        width: 187
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0.5, y: 53.5}
+        - {x: -65.5, y: 3.5}
+        - {x: -65.5, y: -50.5}
+        - {x: -63.5, y: -51.5}
+        - {x: -13.5, y: -51.5}
+        - {x: 65.5, y: 13.5}
+        - {x: 65.5, y: 52.5}
+        - {x: 64.5, y: 53.5}
+    - name: bird_low_leg
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 196
+        width: 174
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: 67}
+        - {x: -71, y: 67}
+        - {x: -75, y: 57}
+        - {x: -75, y: 35}
+        - {x: 0, y: -72}
+        - {x: 10, y: -76}
+        - {x: 46, y: -76}
+        - {x: 47, y: -71}
+        - {x: 47, y: -34}
+        - {x: -20, y: 56}
+      - - {x: 42, y: -8}
+        - {x: 40, y: -13}
+        - {x: 40, y: -18}
+        - {x: 43, y: -19}
+        - {x: 44, y: -19}
+        - {x: 47, y: -16}
+        - {x: 48, y: -12}
+        - {x: 45, y: -8}
+    - name: bird_hand
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 133
+        width: 114
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 32.5}
+        - {x: -41, y: -2.5}
+        - {x: -36, y: -16.5}
+        - {x: 13, y: -16.5}
+        - {x: 38, y: -11.5}
+        - {x: 38, y: 32.5}
+    - name: bird_up_finger
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 139
+        width: 99
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27.5, y: 29}
+        - {x: -30.5, y: 27}
+        - {x: -30.5, y: 17}
+        - {x: -28.5, y: 14}
+        - {x: -11.5, y: 6}
+        - {x: -0.5, y: -29}
+        - {x: 4.5, y: -33}
+        - {x: 6.5, y: -33}
+        - {x: 15.5, y: -32}
+        - {x: 38.5, y: -6}
+        - {x: 38.5, y: 14}
+        - {x: 12.5, y: 29}
+    - name: bird_amzi_1
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 145
+        width: 78
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5, y: 17.5}
+        - {x: -11, y: 15.5}
+        - {x: -11, y: 4.5}
+        - {x: -10, y: 2.5}
+        - {x: -5, y: -19.5}
+        - {x: 1, y: -28.5}
+        - {x: 17, y: -28.5}
+        - {x: 18, y: -26.5}
+        - {x: 18, y: 13.5}
+        - {x: 13, y: 17.5}
+      - - {x: -15, y: -22.5}
+        - {x: -13, y: -24.5}
+        - {x: -10, y: -23.5}
+        - {x: -10, y: -20.5}
+        - {x: -12, y: -18.5}
+        - {x: -15, y: -19.5}
+    - name: bird_foot
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 19
+        width: 214
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6, y: -37.5}
+        - {x: 76, y: -37.5}
+        - {x: 76, y: 7.5}
+        - {x: 44, y: 53.5}
+        - {x: -32, y: 53.5}
+        - {x: -87, y: 23.5}
+        - {x: -87, y: -25.5}
+        - {x: -67, y: -37.5}
+        - {x: -9, y: -37.5}
+        - {x: -6, y: -35.5}
+        - {x: -9, y: -24.5}
+        - {x: -18, y: -17.5}
+    - name: bird_low_finger
+      rect:
+        serializedVersion: 2
+        x: 925
+        y: 49
+        width: 99
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7.5, y: 12}
+        - {x: -14.5, y: 12}
+        - {x: -27.5, y: 0}
+        - {x: -27.5, y: -5}
+        - {x: -26.5, y: -10}
+        - {x: -19.5, y: -15}
+        - {x: -8.5, y: -16}
+        - {x: -3.5, y: -16}
+        - {x: 6.5, y: -11}
+        - {x: 6.5, y: -3}
+        - {x: 5.5, y: 3}
+    - name: bird_amzi_2
+      rect:
+        serializedVersion: 2
+        x: 1136
+        y: 55
+        width: 108
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 9.5}
+        - {x: -16, y: 9.5}
+        - {x: -24, y: -4.5}
+        - {x: -24, y: -10.5}
+        - {x: -18, y: -14.5}
+        - {x: -10, y: -15.5}
+        - {x: 5, y: -15.5}
+        - {x: 10, y: -12.5}
+        - {x: 10, y: -7.5}
+        - {x: 6, y: -0.5}
+    - name: "\uD070\uC0C8\uC2A4\uD504\uB77C\uC774\uD2B8_22"
+      rect:
+        serializedVersion: 2
+        x: 1565
+        y: 920
+        width: 1
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

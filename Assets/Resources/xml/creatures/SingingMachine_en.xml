@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<creature>
+  <!--
+    info - 관찰 레벨과는 관련 없는 정보들 ex)데미지, id, 이미지 소스 등
+    
+    observe - 관찰 정도에 따라 제공되는 정보들
+              각 정보들에는 정보가 제공되는 레벨을 표기
+              ex) <desc id="1" openLevel="1">"openLevel이 1일 때 이 정보가 제공됨"</desc>
+              
+              observe 노드 안의 level 은 관찰 단계의 갯수를 나타냄
+  -->
+  <info
+    id ="100006"
+
+    script="SingingMachine"
+    >
+
+    <stat>
+      <horrorProb>0.1</horrorProb>
+      <horrorMin>2.0</horrorMin>
+      <horrorMax>2.0</horrorMax>
+      <physicsDmg>3.0</physicsDmg>
+      <mentalDmg>0.0</mentalDmg>
+      <feelingMax>210.0</feelingMax>
+      <feelingDownValue>4.0</feelingDownValue>
+      <energyPointChange>-4</energyPointChange>
+      <energyGenSection>
+        <section bound="50" gen="-0.1125"/>
+        <section bound="120" gen="0.3"/>
+        <section bound="210" gen="-0.1125"/>
+      </energyGenSection>
+    </stat>
+
+    <feeling max="100" downProb="0.44" downValue="1">
+      <section feelingValue="50" state="good" energy="0.5"/>
+      <section feelingValue="30" state="normal" energy="0.3"/>
+      <section feelingValue="0" state="bad" energy="-1.3"/>
+    </feeling>
+
+    <narration action="move">
+      -> #0 designated to 'Singing Machine' isolation sector.
+    </narration>
+    <narration action="start">
+      -> [
+     {Ordinary grinder maybe in front of you, but please be careful. Every Abnormality  may not have reason to exist, but have intention to exist},
+      {It has an extremely powerful suction force.},
+      {Music that it emits is known to be terribly beautiful.},
+      {Your blood and flesh, shall we harmonize and melodize.}
+      ]
+    </narration>
+    <narration action="mid1">
+      -> [
+      {Singing Machine’ is not in motion if anyone isn’t nearby.},
+      {Until #0 enters, ‘Singing Machine’ doesn’t move in the slightest. },
+      {Until #0 enters this isolation sector, ‘Singing Machine’ is nothing more than a normal machine that’s turned off.},
+      {If ‘Singing Machine’ had a power switch, #0 might have been more comfortable working.}
+      ]
+    </narration>
+    <narration action="mid2">
+      -> [
+      {#0 is working on ‘Singing Machine’ with extreme caution},
+      {#0 is always cautious since ‘Singing Machine’ can be activated at any time.},
+      {‘Singing Machine’ is not responding to #0 as if it is digesting prior grounds internally.}
+      {#0 is working on ‘Singing Machine’ while it is not in motion }
+      ]
+    </narration>
+    <narration action="mid3">
+      -> [
+      {It is simple to figure out when ‘Singing Machine’ activates; just open its lid and check how much leftover grounds are digested.},
+      {#0 does not enough guts to open the lid to check ‘Singing Machine’ ‘s next activation. .},
+      {-Rumor has it that any employee that has opened the lid of ‘Singing Machine’ later became sick.}
+      {Actually, the insides of ‘Singing Machine’ is known to be sophisticated but no employee dares to check it with their own eyes.}
+      ]
+    </narration>
+    <narration action="mid4">
+      -> [
+      {It is a lucky day for #0. ‘Singing Machine’ has not been activated.}
+      {For #0, they are thankful that ‘Singing Machine’ is not active. But condolences to whichever employee is going to work there after.}
+      {‘Singing Machine’ has decided to take a day off.}
+      {‘Singing Machine’ is not responding as it is still finishing up what its leftover. }
+      ]
+    </narration>
+    <narration action="dead">
+      -> [
+     {The isolation sector is full of unprecedented harmony made by ‘Singing Machine’.},
+      {To generate the very best masterpiece, a sacrifice must be made. ‘Singing Machine’ is the best example of such phrase.}
+      ]
+    </narration>
+    <narration action="panic">
+      -> [
+      {#0 is possessed by the timbre  of ‘Singing Machine. #0 will not listen to any command.}
+      {#0 is charmed by transmundane  song of ‘Singing Machine’. #0’s mind is completely paralyzed.}
+      ]
+    </narration>
+
+    <anim prefab="Unit/CreatureAnimator/machine" x="-1" y="-2"/>
+
+    <!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
+    <img src="Unit/dummy" x="-1" y="-1"/>
+    <portrait src="Unit/Creature/Machine"/>
+    <room src="Unit/creature/isolate_room"/>
+    <frame src="Unit/creature/frame/MagicalGirl_frame"/>
+
+    <graph>
+      <node id="creature" x="-1.6" y="-1" type="creature"/>
+      <node id="workspace" x="1.9" y="-1" type="workspace"/>
+
+      <!--<node id="door"  x="2" y="-1" type="entry"/>-->
+      <node id="outter" x="0" y="0" type="outterDoor"/>
+      <node id="inner" x="2" y="-1" type="innerDoor"/>
+
+      <!--<edge node1="workspace" node2="door" type="road" />-->
+      <edge node1="workspace" node2="inner" type="road" />
+      <edge node1="creature" node2="workspace" type="road" />
+    </graph>
+    
+    <sound action="attack" src="creature/match_girl/matchgirl_attack"/>
+    <sound action="enter" src="creature/match_girl/matchgirl_enter"/>
+    
+  </info>
+  
+  <observe level ="4">
+    <collection>
+      <codeNo openLevel ="0">O-05-30-H</codeNo>
+      <portrait openLevel ="0">Unit/Creature/Machine</portrait>
+     
+      <size openLevel ="0">4</size>
+
+      <weight openLevel ="0">120kg</weight>
+
+      <name openLevel ="1">Singing Machine</name>
+      <attackType openLevel ="2">Red</attackType>
+        
+      <creatureType openLevel ="1">THING</creatureType>
+
+      <horrorLevel openLevel ="1">0</horrorLevel>
+
+      <riskLevel openLevel ="2">HE</riskLevel>
+
+      <intelligence openLevel ="1">1</intelligence>
+
+      <physical openLevel ="2">5</physical>
+
+      <mental openLevel ="0">0</mental>
+
+      <specialName openLevel ="0">0</specialName>
+
+      <specialInfo openLevel ="0">0</specialInfo>
+
+      <aggression openLevel ="3">3</aggression>
+
+      <gorgeous openLevel ="2">1</gorgeous>
+      
+      <rejectWork openLevel ="0"></rejectWork>
+      
+      <preferWork openLevel ="0">
+                
+      </preferWork>
+      <solution openLevel ="0">0</solution>
+      
+    </collection>
+    
+    <desc id="1" openLevel="0">
+    -> [
+        {The machine takes the shape of a long cylinder.}
+       ]
+    </desc>
+
+    <desc id="2" openLevel="1">
+     -> [
+        {By the look of it, it may look like a simple grinder but the existence of the thing’s own ‘will’ fills the criteria of Abnormality}
+       ]
+    </desc>
+
+    <desc id="3" openLevel="2">
+    -> [
+        {When approached (extra experiments are needed to determine how many meters the perimeter actually is) or touched, the Abnormality ‘operates’ and with a strong suctioning power, pulls in a nearby subject inside its body. } 
+        ]
+    </desc>
+
+    <desc id="4" openLevel="3">
+    -> [
+        {Afterwards, the body’s fan shuts  and the Abnormality works on the task. The task takes approximately 5 minutes.}
+       ]
+    </desc>
+
+      <desc id="5" openLevel="4">
+    -> [
+        {After a few experiments, we have concluded that the Abnormality desires the result of ‘music’ from this interaction. Employees are needed to fulfill that specific need every once in a while in order to prevent the creature’s stress levels from rising.}
+       ]
+    </desc>
+
+
+    <record openLevel="1">
+     -> [
+        (Excerpt from Interview Log)
+        Employee M2543 : “I was supposed to be sent in alone. The Abnormality looked rather unassuming. Something like a machine used in a factory, as it didn’t even react to anything. But that day, [Redacted] insisted that we had to go there. The ‘Pale Horse’ had responded to something specifically that he had said, he repeated that a lot. I didn’t think ‘Pale Horse’ was thinking about [Redacted] when it responded. Most of the Abnormalities that I take care of are tame. Also, I’m very lucky. I thought that day would be the same. (Omitted)}
+        ]
+    </record>
+
+    <record openLevel="2">
+    ->[
+       {[Redacted] closely observed the Abnormality. I just wanted to write the report quickly and get out, but he was thinking differently. He was sure; there wouldn’t be an Abnormality that doesn’t have special powers. I warned him not to get too close, but [Redacted] took one step closer. And suddenly, the thing came to life, opened its lid and swallowed him whole. Literally swallowed him.}
+       ]
+    </record>
+
+    <record openLevel="3">
+     -> [
+        {The lid closed and a loud noise came from the inside of the creature, there was no way of knowing what was happening, but I was too terrified to do anything. (Omitted)
+        }
+        ]
+    </record>
+
+      <record openLevel="4">
+     -> [
+          {In the dark, I realized that the thing was playing an instrument. By crushing and cutting [Redacted]’s body, it was creating a melody. As I was contemplating my horrific realizations, the lid opened again. Bits and pieces of [Redacted] were in there. So little that you had to wonder as to what happened to the rest. (Omitted)
+          }
+        ]
+        [
+          {Excerpt from Incident Log
+          XXXX XXth, there was a disappearing incident of employee M1840. 2 days later on the XXth, part of the body was found inside the ‘Singing Machine’. DNA analysis has found the corpse to be of employee M1840. Employee M1840 was a new hire who had worked in the company for only 3 months, the employee had no record of an assignment with the Abnormality. The employee assigned to the ‘Singing Machine’, [Redacted] was the suspect. After an extensive investigation, [Redacted] confessed to the crime. 
+
+          “I know it’s crazy, but I had to hear that music again. It wouldn’t get out of my head for months. I performed all kinds of experiments. When the machine takes in a cat, it plays for 1 minute. A large dog, 2 minutes and 30 seconds, [Redacted] music came from it. But nothing was like a human’s music. It might sound ridiculous but I feel satisfied after having heard it once more.”
+          }
+        ]
+    </record>
+    
+  </observe>
+</creature>

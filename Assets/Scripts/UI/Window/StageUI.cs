@@ -116,11 +116,13 @@ public class StageUI : MonoBehaviour, IObserver {
             
             agentInformation.gameObject.SetActive(false);
             agentSlot.gameObject.SetActive(false);
-            listScript.SetAddbuttonState(true);
+            AgentAllocateWindow.instance.SetAddButtonState(true);
+            //listScript.SetAddbuttonState(true);
             listScript.ShowAgentListWithChange();
         }
         else if (currentType == UIType.END_STAGE) {
-            listScript.SetAddbuttonState(false);
+            AgentAllocateWindow.instance.SetAddButtonState(false);
+            //listScript.SetAddbuttonState(false);
         }
         //ShowAgentList();
     }
@@ -152,7 +154,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if(sefiraNum == 2)
         {
-            sefiraName = "Nezzach";
+            sefiraName = "Yessod";
         }
 
         else if(sefiraNum == 3)
@@ -162,13 +164,15 @@ public class StageUI : MonoBehaviour, IObserver {
 
         else if(sefiraNum == 4)
         {
-            sefiraName = "Yessod";
+            sefiraName = "Nezzach";
         }
 
+        /*
         if(PlayerModel.instance.IsOpenedArea(sefira))
          areaButtonImage[sefiraNum - 1].sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/"+sefiraName+"_On");
         else
             areaButtonImage[sefiraNum - 1].sprite = Resources.Load<Sprite>("Sprites/UI/StageUI/" + sefiraName + "_Off");
+         */
     }
 
     private void UpdateButton(AreaButton btn)
@@ -426,56 +430,17 @@ public class StageUI : MonoBehaviour, IObserver {
     */
     public void CancelSefiraAgent(AgentModel unit)
     {
-
-        if (unit.currentSefira.Equals("1"))
-        {
-            for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
-            {
-                if (unit.instanceId == AgentManager.instance.malkuthAgentList[i].instanceId)
-                {
-                    AgentManager.instance.malkuthAgentList.RemoveAt(i);
-                    break;
-                }
-            }
+        Sefira targetSefira = SefiraManager.instance.GetSefira(unit.currentSefira);
+        if (targetSefira == null) {
+            return;
         }
+        targetSefira.RemoveAgent(unit);
 
-        else if (unit.currentSefira.Equals("2"))
-        {
-            for (int i = 0; i < AgentManager.instance.nezzachAgentList.Count; i++)
-            {
-                if (unit.instanceId == AgentManager.instance.nezzachAgentList[i].instanceId)
-                {
-                    AgentManager.instance.nezzachAgentList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-
-        else if (unit.currentSefira.Equals("3"))
-        {
-            for (int i = 0; i < AgentManager.instance.hodAgentList.Count; i++)
-            {
-                if (unit.instanceId == AgentManager.instance.hodAgentList[i].instanceId)
-                {
-                    AgentManager.instance.hodAgentList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-
-        else if (unit.currentSefira.Equals("4"))
-        {
-            for (int i = 0; i < AgentManager.instance.yesodAgentList.Count; i++)
-            {
-                if (unit.instanceId == AgentManager.instance.yesodAgentList[i].instanceId)
-                {
-                    AgentManager.instance.yesodAgentList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
+        
         if(unit.activated)
             AgentManager.instance.deactivateAgent(unit);
+
+        SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
     }
 
     public void SetAgentSefriaButton(AgentModel unit)
@@ -483,93 +448,26 @@ public class StageUI : MonoBehaviour, IObserver {
         bool agentExist = false;
         CancelSefiraAgent(unit);
 
-        if (currentSefriaUi == "1" )
-        {
-            for (int i = 0; i < AgentManager.instance.malkuthAgentList.Count; i++)
-            {
-                if (unit.instanceId == AgentManager.instance.malkuthAgentList[i].instanceId)
-                {
-                    agentExist = true;
-                    break;
-                }
-            }
-            if (!agentExist && AgentManager.instance.malkuthAgentList.Count < 5)
-            {
-                unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
-                unit.SetCurrentSefira("1");
-                if (!unit.activated)
-                AgentManager.instance.activateAgent(unit, currentSefriaUi);
-            }
-            else
-                Debug.Log("이미 추가한 직원");
-                
+        Sefira targetSefira = SefiraManager.instance.GetSefira(currentSefriaUi);
+        if (targetSefira == null) return;
+        if (targetSefira.agentList.Contains(unit)) {
+            agentExist = true;
         }
 
-        else if (currentSefriaUi == "2" && PlayerModel.instance.IsOpenedArea("2"))
+        if (!agentExist && targetSefira.agentList.Count < 5)
         {
-            for (int i = 0; i < AgentManager.instance.nezzachAgentList.Count; i++)
-            {
-                if (unit.instanceId == AgentManager.instance.nezzachAgentList[i].instanceId)
-                {
-                    agentExist = true;
-                    break;
-                }
-            }
-            if (!agentExist && AgentManager.instance.nezzachAgentList.Count < 5)
-            {
-                unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("2"));
-                unit.SetCurrentSefira("2");
-                if (!unit.activated)
+            unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(targetSefira.indexString));
+            //unit.SetCurrentSefira(targetSefira.indexString);
+            if (!unit.activated)
                 AgentManager.instance.activateAgent(unit, currentSefriaUi);
-                AgentLayer.currentLayer.GetAgent(unit.instanceId).agentAnimator.SetInteger("Sepira", 2);
-            }
-            else
-                Debug.Log("이미 추가한 직원");
+
+        }
+        else {
+            Debug.Log("Already Allocated Agent");
         }
 
-        else if (currentSefriaUi == "3" && PlayerModel.instance.IsOpenedArea("3")  )
-        {
-            for (int i = 0; i < AgentManager.instance.hodAgentList.Count; i++)
-            {
-                if (unit.instanceId == AgentManager.instance.hodAgentList[i].instanceId)
-                {
-                    agentExist = true;
-                    break;
-                }
-            }
-            if (!agentExist && AgentManager.instance.hodAgentList.Count < 5)
-            {
-                unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("3"));
-                unit.SetCurrentSefira("3");
-                if (!unit.activated)
-                AgentManager.instance.activateAgent(unit, currentSefriaUi);
-            }
-            else
-                Debug.Log("이미 추가한 직원");
-        }
-
-        else if (currentSefriaUi == "4" && PlayerModel.instance.IsOpenedArea("4"))
-        {
-            for (int i = 0; i < AgentManager.instance.yesodAgentList.Count; i++)
-            {
-                if (unit.instanceId == AgentManager.instance.yesodAgentList[i].instanceId)
-                {
-                    agentExist = true;
-                    break;
-                }
-            }
-
-            if (!agentExist && AgentManager.instance.yesodAgentList.Count < 5)
-            {
-                unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
-                unit.SetCurrentSefira("4");
-                if(!unit.activated)
-                AgentManager.instance.activateAgent(unit, currentSefriaUi);
-            }
-            else
-                Debug.Log("이미 추가한 직원");
-        }
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
+        
         unit.GetPortrait("body", null);
        // AgentLayer.currentLayer.GetAgent(unit.instanceId).ChangeAgentUniform();
         //ShowAgentList();
@@ -696,6 +594,7 @@ public class StageUI : MonoBehaviour, IObserver {
 
                 button.gameObject.SetActive(false);
                 //ShowAgentList();
+                
                 listScript.findListSlotScript(agent).SetChange();
                 if (listScript.extended) {
                     listScript.SetExtended();
@@ -747,9 +646,11 @@ public class StageUI : MonoBehaviour, IObserver {
             Debug.Log("승급버튼 문제");
         }
     }
-
+    
+    //리스트 관련 재배치만 수행하도록
     public void PromoteAgent(AgentModel agent , Button button) {
-        int index = agent.level - 1;
+        //int index = agent.level - 1;
+        /*
         if (EnergyModel.instance.GetLeftEnergy() < levelCost[index])
         {
             Debug.Log("Not enough energy");
@@ -765,7 +666,7 @@ public class StageUI : MonoBehaviour, IObserver {
         foreach (TraitTypeInfo t in addList) {
             agent.applyTrait(t);
         }
-        agent.calcLevel();
+        agent.calcLevel();*/
         button.gameObject.SetActive(false);
         ListSlotScript listSlot = listScript.findListSlotScript(agent);
         listSlot.SetChange();
@@ -775,6 +676,15 @@ public class StageUI : MonoBehaviour, IObserver {
             listScript.SetExtended();
         }
         if (agent.level < 5) button.gameObject.SetActive(true);
+    }
+
+    public void PromoteApply(AgentModel target) {
+        ListSlotScript listSlot = listScript.findListSlotScript(target);
+        listSlot.SetChange();
+
+        if (listScript.extended) {
+            listScript.SetExtended();
+        }
     }
 
     // ok btn

@@ -25,20 +25,51 @@ public class Vector2Serializer
     public Vector3 V2 { get { return new Vector2(x, y); } set { Fill(value); } }
 }
 
+public enum CreatureEscapeType { 
+    ATTACKWORKER,
+    FACETOSEFIRA,
+    WANDER
+}
+
+public class ObserveInfo
+{
+	public int successCount = 0;
+	public int failureCount = 0;
+	public int attackCount = 0;
+	public int escapeCount = 0;
+	public int specialAttackCount = 0;
+
+	public int observationFailureCount = 0;
+}
+
 // 
 [System.Serializable]
-public class CreatureModel : IObserver
+public class CreatureModel : UnitModel, IObserver
 {
+    
     public int instanceId;
+
+	CreatureCommandQueue commandQueue;
+
+	//public string escapeType = "attackWorker";
+    public CreatureEscapeType escapeType = CreatureEscapeType.ATTACKWORKER;
+
+	// temp for proto
+	public float manageDelay = 0;
 
 	// lock
 	public int targetedCount = 0;
 
 	// buf
-	public float energyChangeTime;
-	public float energyChangeAmount;
-	public float energyChangeElapsedTime;
+	private float feelingChangeTime;
+	private float feelingChangeAmount;
+	private float feelingChangeElapsedTime;
 	//public float bufFeelingAddRate; // per second
+
+	public float attackDelay = 0;
+
+	// for escape
+	public int hp;
 
     // 메타데이터
     public CreatureTypeInfo metaInfo;
@@ -46,16 +77,11 @@ public class CreatureModel : IObserver
     public long metadataId; // metaInfo.id
 
     public Vector2 basePosition;
-    public Vector2 position;
+    //public Vector2 position;
 
-    public string entryNodeId;
-
-    //환상체 도감 완성도
+    //?纂삐도감 완성도
     public int observeProgress = 0;
-
-    public float feeling { get; private set; }
-
-	public float energyPoint = 100;
+	public ObserveInfo observeInfo;
 	//public float feelingsPoint;
 
     //환상체 나레이션 저장 List
@@ -64,31 +90,42 @@ public class CreatureModel : IObserver
     // 이하 save 프錘않는 데이터들
 
     public CreatureState state = CreatureState.WAIT;
-
-    public float escapeAttackWait = 0;
+    private UseSkill _currentSkill = null;
+    public UseSkill currentSkill {
+        get {
+            if (_currentSkill != null)
+            {
+               // Debug.Log("Getting UseSKill" + _currentSkill.skillTypeInfo.id);
+            }
+            return _currentSkill;
+        }
+        set {
+            //Debug.Log("Setting UseSkill" + value);
+            _currentSkill = value;
+        }
+    }
 
     public CreatureBase script;
 
     public MovableObjectNode lookAtTarget;
 
-    // 관찰관련 조건 변수 추가
-    public float genEnergyCount=0;
-    public int workCount=0;
-    public int observeCondition = 0;
-
     // 세피라 변수 (TODO: 변수명 이상함)
     public string sefiraNum;
-
+    public Sefira sefira;
     // 세피라에 직원 없을 시 발동됨
     public bool sefiraEmpty=false;
 
+    //환상체 기분 수치 관련
+    public float feeling { get; private set; }//currentFeeling
 
     // graph
+	public string entryNodeId;
+
     private MapNode workspaceNode;
 
     private MapNode roomNode;
-    MovableObjectNode movableNode;
-
+	private MapNode customNode;
+    
     public Dictionary<string, object> GetSaveData()
     {
         Dictionary<string, object> output = new Dictionary<string, object>();
@@ -128,7 +165,12 @@ public class CreatureModel : IObserver
 
     public CreatureModel(int instanceId)
     {
-        movableNode = new MovableObjectNode();
+        movableNode = new MovableObjectNode(this);
+		commandQueue = new CreatureCommandQueue (this);
+
+		observeInfo = new ObserveInfo ();
+
+		movableNode.AddUnpassableType (PassType.SHIELDBEARER);
 
         this.instanceId = instanceId;
         narrationList = new List<string>();
@@ -136,7 +178,13 @@ public class CreatureModel : IObserver
 
     public CreatureFeelingState GetFeelingState()
     {
-		return CreatureFeelingState.GOOD;
+		if (feeling >= metaInfo.feelingMax * 0.66f)
+			return CreatureFeelingState.GOOD;
+		else if (feeling >= metaInfo.feelingMax * 0.33f)
+			return CreatureFeelingState.NORM;
+		else
+			return CreatureFeelingState.BAD;
+		//return CreatureFeelingState.GOOD;
 		/*
         CreatureFeelingState feelingState = CreatureFeelingState.BAD;
         float sectionMax = 0;
@@ -177,7 +225,8 @@ public class CreatureModel : IObserver
 		EnergyGenInfo selected = metaInfo.energyGenInfo [0];
 		foreach (EnergyGenInfo info in metaInfo.energyGenInfo)
 		{
-			if (energyPoint <= info.upperBound)
+			//if (energyPoint <= info.upperBound)
+			if(feeling <= info.upperBound)
 			{
 				selected = info;
 			}
@@ -216,6 +265,11 @@ public class CreatureModel : IObserver
         roomNode = node;
     }
 
+	public void SetCustomNode(MapNode node)
+	{
+		customNode = node;
+	}
+
     public void SetCurrentNode(MapNode node)
     {
         movableNode.SetCurrentNode(node);
@@ -244,42 +298,71 @@ public class CreatureModel : IObserver
         return MapGraph.instance.GetNodeById(entryNodeId);
     }
 
+	public MapNode GetCustomNode()
+	{
+		return customNode;
+	}
+
     public MovableObjectNode GetMovableNode()
     {
         return movableNode;
     }
 
+	public UnitDirection GetDirection()
+	{
+		return movableNode.GetDirection ();
+	}
+
     public void UpdateFeeling()
     {
+		if (IsWorkingState())
+			return;
+        if (script != null) {
+            if (!script.AutoFeelingDown()) {
+                return;
+            }
+        }
         //if (Random.value < metaInfo.feelingDownProb)
         {
-			energyPoint += metaInfo.energyPointChange;
+			//energyPoint += metaInfo.energyPointChange;
             SubFeeling(metaInfo.feelingDownValue);
 
             Notice.instance.Send("UpdateCreatureState_" + instanceId);
         }
     }
 
+	public bool IsWorkingState()
+	{
+		return state == CreatureState.WORKING || state == CreatureState.WORKING_SCENE || state == CreatureState.OBSERVE;
+	}
+
     public void OnFixedUpdate()
     {
-		if (energyChangeTime > energyChangeElapsedTime)
+		if(attackDelay > 0)
+			attackDelay -= Time.deltaTime;
+		if (manageDelay > 0)
+			manageDelay -= Time.deltaTime;
+
+		if (GetCurrentNode () == roomNode)
+			movableNode.SetDirection (UnitDirection.RIGHT);
+
+		commandQueue.Execute (this);
+
+		CreatureCommand cmd = commandQueue.GetCurrentCmd ();
+		if (cmd != null && cmd.isMoving) {
+			SendAnimMessage ("Move");
+		}
+
+		if (feelingChangeTime > feelingChangeElapsedTime)
 		{
 			ProcessWorkingBuf ();
 		}
-		else
-		{
-			GenerateEnergy ();
-		}
 		 
-        if (escapeAttackWait > 0)
-        {
-            escapeAttackWait -= Time.deltaTime;
-        }
         if (script != null)
         {
             script.OnFixedUpdate(this);
         }
-
+		/*
         if (state == CreatureState.ESCAPE_RETURN)
         {
             if (movableNode.GetCurrentNode() == workspaceNode)
@@ -288,47 +371,98 @@ public class CreatureModel : IObserver
             }
             else
             {
-                if (movableNode.IsMoving() == false)
+                //if (movableNode.IsMoving() == false)
+				if(commandQueue.GetCurrentCmd() == null)
                 {
-                    movableNode.MoveToNode(workspaceNode);
+                    MoveToNode(workspaceNode);
                 }
             }
         }
-        else if (state == CreatureState.ESCAPE)
+        else
+        */
+        if (state == CreatureState.ESCAPE)
         {
             OnEscapeUpdate();
         }
+		else if(state == CreatureState.SUPPRESSED)
+		{
+			
+		}
         else if (state == CreatureState.WAIT)
         {
-            /*
-            if (feeling <= 0)
-            {
-                Escape();
-            }
-            */
         }
         movableNode.ProcessMoveNode(4);
     }
 
     public void OnEscapeUpdate()
     {
-        if (escapeAttackWait > 0)
-            return;
-        if (movableNode.IsMoving() == false)
+        //if (movableNode.IsMoving() == false)
+        if (escapeType == CreatureEscapeType.ATTACKWORKER)
         {
-            movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+            if (commandQueue.GetCurrentCmd() == null)
+            {
+                //movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+                MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+            }
+            else
+            {
+                AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
+
+                if (detectedAgents.Length > 0)
+                {
+                    PursueWorker(detectedAgents[0]);
+                }
+            }
+        }
+        else {
+            if (script != null && script.hasUniqueEscape()) {
+                script.UniqueEscape();
+            }
+        }
+
+		PassageObjectModel currentPassage = movableNode.GetPassage ();
+		if(currentPassage != null)
+		{
+			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+			{
+				if (agent.GetMovableNode ().GetPassage () == currentPassage)
+				{
+					if (agent.GetState () != AgentAIState.ENCOUNTER_CREATURE)
+					{
+						agent.EncounterCreature ();
+					}
+				}
+			}
+
+			foreach (OfficerModel officer in OfficerManager.instance.GetOfficerList())
+			{
+				if (officer.GetMovableNode ().GetPassage () == currentPassage)
+				{
+					if (officer.GetState () != OfficerAIState.PANIC)
+					{
+						officer.EncounterCreature ();
+					}
+				}
+			}
+		}
+		
+		/*
+		if(commandQueue.GetCurrentCmd() == null)
+        {
+            //movableNode.MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
+			MoveToNode(MapGraph.instance.GetCreatureRoamingPoint());
         }
         else
         {
-            /*
             AgentModel[] detectedAgents = AgentManager.instance.GetNearAgents(movableNode);
 
             if (detectedAgents.Length > 0)
             {
                 movableNode.StopMoving();
                 AttackAgent.Create(detectedAgents[0], this);
-            }*/
+            }
         }
+        */
     }
 
     public void OnNotice(string notice, params object[] param)
@@ -354,6 +488,7 @@ public class CreatureModel : IObserver
         if (metaInfo.narrationTable.TryGetValue(narrationKey, out narrationFormat))
         {
             string narration = TextConverter.GetTextFromFormatText(narrationFormat, param);
+
             narrationList.Add(narration);
             Notice.instance.Send("AddNarrationLog", narration, this);
         }
@@ -366,6 +501,7 @@ public class CreatureModel : IObserver
         {
             string[] narration = TextConverter.GetTextFromFormatProcessText(narrationFormat, param);
             string selected = "";
+
             if (observeProgress < 40)
             {
                 selected = narration[0];
@@ -393,11 +529,11 @@ public class CreatureModel : IObserver
 	private void ProcessWorkingBuf()
 	{
 		float delta = Time.deltaTime;
-		if (energyChangeElapsedTime + Time.deltaTime > energyChangeTime)
-			delta = energyChangeTime - energyChangeElapsedTime;
-		energyChangeElapsedTime += delta;
+		if (feelingChangeElapsedTime + Time.deltaTime > feelingChangeTime)
+			delta = feelingChangeTime - feelingChangeElapsedTime;
+		feelingChangeElapsedTime += delta;
 
-		energyPoint += energyChangeAmount / (energyChangeTime / delta);
+		feeling += feelingChangeAmount / (feelingChangeTime / delta);
 		Notice.instance.Send("UpdateCreatureState_" + instanceId);
 	}
 	private void GenerateEnergy()
@@ -411,11 +547,11 @@ public class CreatureModel : IObserver
 	}
 	*/
 
-	public void SetEnergyChange(float time, float energyChangeAmount)
+	public void SetFeelingChange(float time, float energyChangeAmount)
 	{
-		energyChangeTime = time;
-		this.energyChangeAmount = energyChangeAmount;
-		energyChangeElapsedTime = 0;
+		feelingChangeTime = time;
+		this.feelingChangeAmount = energyChangeAmount;
+		feelingChangeElapsedTime = 0;
 	}
 
     public void AddFeeling(float value)
@@ -435,13 +571,7 @@ public class CreatureModel : IObserver
 
     public void DangerFeeling()
     {
-        Debug.Log("세피라에 직원 없다" + instanceId);
-    }
-
-    public void StopEscapeAttack()
-    {
-        state = CreatureState.ESCAPE;
-        escapeAttackWait = 2;
+        Debug.Log("세피璨졶직원 없다" + instanceId);
     }
 
     public void StartEscapeWork()
@@ -453,11 +583,6 @@ public class CreatureModel : IObserver
 		state = CreatureState.ESCAPE;
 	}
 
-    public void ReturnEscape()
-    {
-        state = CreatureState.ESCAPE_RETURN;
-    }
-
 	public float GetAttackProb()
 	{
 		return 0.3f;
@@ -465,50 +590,36 @@ public class CreatureModel : IObserver
 
 	public int GetPhysicsDmg()
 	{
-		return 1;
+		return metaInfo.physicsDmg;
 	}
 	public int GetMentalDmg()
 	{
-		return 1;
+		return metaInfo.mentalDmg;
 	}
 	public CreatureAttackType GetAttackType()
 	{
-		return CreatureAttackType.PHYSICS;
+		return metaInfo.attackType;
 	}
 
-	/*
-	// unused
-	public bool GetPreferSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
+	public void ResetAttackDelay()
 	{
-		FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
-		foreach (SkillBonusInfo bonusInfo in info.preferList)
-		{
-			if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
-			{
-				bonus = bonusInfo.bonus;
-				return true;
-			}
-		}
-		bonus = 0;
-		return false;
+		attackDelay = 4.0f;
 	}
 
-	// unused
-    public bool GetRejectSkillBonus(SkillTypeInfo skillTypeInfo, out float bonus)
-    {
-        FeelingSectionInfo info = GetCurrentFeelingSectionInfo();
-        foreach (SkillBonusInfo bonusInfo in info.rejectList)
-        {
-            if (bonusInfo.skillType == skillTypeInfo.type || bonusInfo.skillId == skillTypeInfo.id)
-            {
-                bonus = -bonusInfo.bonus;
-                return true;
-            }
-        }
-        bonus = 0;
-        return false;
-    }
-	*/
+	public void TakeSuppressDamage(int damage)
+	{
+		if (hp > 0) {
+			hp -= damage;
+           			//Debug.Log ("Creature  take suppress damage.. current HP : " + hp);
+
+		}
+		if ((state == CreatureState.ESCAPE || state == CreatureState.ESCAPE_PURSUE)
+			&& hp <= 0)
+		{
+			state = CreatureState.SUPPRESSED;
+			commandQueue.Clear ();
+		}
+	}
 
     public bool IsPreferSkill(SkillTypeInfo skillTypeInfo)
     {
@@ -541,6 +652,9 @@ public class CreatureModel : IObserver
     {
         if (state == CreatureState.WAIT)
         {
+			Debug.Log ("CreatureModel >>> Try Escape ");
+			//hp = 5;
+			hp = 500;
             state = CreatureState.ESCAPE;
         }
     }
@@ -548,15 +662,15 @@ public class CreatureModel : IObserver
     public string GetObserveText()
     {
         string output = "";
-        int level = Mathf.Clamp(observeProgress, 0, metaInfo.observeList.Length - 1);
+        int level = Mathf.Clamp(observeProgress, 0, metaInfo.observeRecord.Count-1);
         for (int i = 0; i <= level; i++)
         {
-            output += metaInfo.observeList[i];
+            output += metaInfo.observeRecord[i];
         }
         return output;
     }
 
-    //환상체 관찰 조건 갱신 함수
+    //환상체 관찰 조건 뻥콥함수
     /*
     public void CheckObserveCondition()
     {
@@ -580,7 +694,7 @@ public class CreatureModel : IObserver
 
         else if (workCount == 10 && genEnergyCount >= 100 && observeCondition == 3)
         {
-            Debug.Log("관찰 컨디션 4단계로 갱신");
+            Debug.Log("관찰 컨퉜계로 갱신");
             observeCondition = 4;
         }
         else
@@ -589,46 +703,6 @@ public class CreatureModel : IObserver
         }
     }
     */
-    //관찰 가능하다고 알림을 보내는 함수
-    public bool NoticeDoObserve()
-    {
-
-        if ( workCount < 5 && workCount >= 1 && observeCondition == 0)
-        {
-            Debug.Log("관찰 컨디션 1단계로 갱신");
-            observeCondition = 1;
-        }
-
-        else if ( workCount < 7 && workCount >= 5 && genEnergyCount <40 &&genEnergyCount >= 20 && observeCondition == 1)
-        {
-            Debug.Log("관찰 컨디션 2단계로 갱신");
-            observeCondition = 2;
-        }
-        else if (workCount <10 && workCount >= 7 && genEnergyCount <100 &&genEnergyCount >= 40 && observeCondition == 2)
-        {
-            Debug.Log("관찰 컨디션 3단계로 갱신");
-            observeCondition = 3;
-        }
-        else if (workCount >= 10 && genEnergyCount >= 100 && observeCondition == 3)
-        {
-            Debug.Log("관찰 컨디션 4단계로 갱신");
-            observeCondition = 4;
-        }
-        else
-        {
-            //Debug.Log("Not sufficient");
-        }
-
-        if (observeCondition >= observeProgress + 1)
-        {
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }
-    }
 
 	public bool IsTargeted()
 	{
@@ -645,7 +719,94 @@ public class CreatureModel : IObserver
 
 	public bool IsReady()
 	{
-		return energyChangeElapsedTime >= energyChangeTime;
+		return feelingChangeElapsedTime >= feelingChangeTime;
+	}
+
+	public bool IsEscapable()
+	{
+		if (script != null)
+			return script.IsEscapable ();
+		return false;
+	}
+
+
+    // commands
+
+    public void ClearCommand()
+    {
+       // if(state == CreatureState.ESCAPE_PURSUE)
+        commandQueue.Clear();
+    }
+
+	public void MoveToNode(MapNode mapNode)
+	{
+		commandQueue.SetAgentCommand(CreatureCommand.MakeMove(mapNode));
+	}
+
+	public void MoveToNode(string targetNodeID)
+	{
+		commandQueue.SetAgentCommand(CreatureCommand.MakeMove(MapGraph.instance.GetNodeById(targetNodeID)));
+	}
+
+	public void PursueWorker(WorkerModel target)
+	{
+		Debug.Log ("Start pursue .. " + state);
+		state = CreatureState.ESCAPE_PURSUE;
+		commandQueue.SetAgentCommand (CreatureCommand.MakePursue (target));
+	}
+
+    public void AttackWorker(WorkerModel target)
+    {
+        
+    }
+
+	public void FinishReturn()
+	{
+		if (state == CreatureState.SUPPRESSED_RETURN)
+		{
+			state = CreatureState.WAIT;
+			//MoveToNode (roomNode);
+			if (script != null)
+				script.OnReturn ();
+			SetCurrentNode(roomNode);
+		}
+	}
+
+	public void SendAnimMessage(string name)
+	{
+		CreatureUnit unit = CreatureLayer.currentLayer.GetCreature (instanceId);
+		if(unit != null)
+		{
+			CreatureAnimScript animTarget = unit.animTarget;
+			if (animTarget != null)
+			{
+				animTarget.SendMessage (name);
+			}
+		}
+	}
+
+	public CreatureAnimScript GetAnimScript()
+	{
+		CreatureUnit unit = CreatureLayer.currentLayer.GetCreature (instanceId);
+		if(unit != null)
+		{
+			return unit.animTarget;
+		}
+		return null;
+	}
+
+	public override void InteractWithDoor(DoorObjectModel door)
+	{
+		base.InteractWithDoor(door);
+
+		commandQueue.AddFirst(CreatureCommand.MakeOpenDoor(door));
+	}
+
+	public override void OnStopMovableByShield (AgentModel shielder)
+	{
+		//shielder
+
+
 	}
 
     /*
@@ -659,5 +820,114 @@ public class CreatureModel : IObserver
         }
     }
     */
+
+
+	public float GetEnergyMax()
+	{
+		return 200;
+	}
+
+    public float GetFeelingPercent() {
+        float max = this.metaInfo.feelingMax;
+        float current = this.feeling;
+        if (max == 0f) return 1f;
+        float percent = (current / max) * 100f;
+
+        return percent;
+    }
+
+
+	public void AddSuccessCount()
+	{
+		observeInfo.successCount++;
+	}
+	public void AddFailureCount()
+	{
+		observeInfo.failureCount++;
+	}
+	public void AddAttackCount()
+	{
+		observeInfo.attackCount++;
+	}
+	public void AddEscapeCount()
+	{
+		observeInfo.escapeCount++;
+	}
+	public void AddSpecialAttackCount()
+	{
+		observeInfo.specialAttackCount++;
+	}
+	public void AddObservationFailureCount()
+	{
+		observeInfo.observationFailureCount++;
+	}
+
+	public void ResetObservationFailureCount()
+	{
+		observeInfo.observationFailureCount = 0;
+	}
+
+	public int GetObservationFailureCount()
+	{
+		return observeInfo.observationFailureCount;
+	}
+
+	public int GetObservationConditionPoint()
+	{
+		int point = 0;
+		point += observeInfo.successCount/30;
+		point += observeInfo.failureCount/20;
+		point += observeInfo.attackCount/10;
+		point += observeInfo.escapeCount;
+		point += observeInfo.specialAttackCount;
+
+		return point;
+	}
+
+	public bool CanObserve()
+	{
+		return true;
+		int point = GetObservationConditionPoint ();
+
+		switch (observeProgress) {
+		case 0:
+			if (point >= 5)
+				return true;
+			break;
+		case 1:
+			if (point >= 15)
+				return true;
+			break;
+		case 2:
+			if (point >= 20)
+				return true;
+			break;
+		case 3:
+			if (point >= 30)
+				return true;
+			break;
+		case 4:
+			if (point >= 40)
+				return true;
+			break;
+		}
+		return false;
+	}
+
+	// temp for proto
+	public float GetWorkEfficient(SkillTypeInfo skill)
+	{
+		float value ;
+		if (metaInfo.workEfficiency.TryGetValue (skill.id, out value))
+		{
+			return value;
+		}
+
+		return 1;
+	}
+
+    public CreatureCommand GetCreatureCurrentCmd() {
+        return this.commandQueue.GetCurrentCmd();
+    } 
 }
 

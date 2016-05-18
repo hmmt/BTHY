@@ -6,13 +6,17 @@ using System.Collections.Generic;
 public class PathResult
 {
     public MapEdge[] pathEdges;
-    public int[] edgeDirections;
+	public EdgeDirection[] edgeDirections;
     public float[] zValues;
 
-    public PathResult(MapEdge[] pathEdges, int[] edgeDirections)
+	public float totalCost;
+
+	public PathResult(MapEdge[] pathEdges, EdgeDirection[] edgeDirections, float totalCost)
     {
         this.pathEdges = pathEdges;
         this.edgeDirections = edgeDirections;
+		this.totalCost = totalCost;
+
         zValues = new float[pathEdges.Length];
         for (int i = 0; i < zValues.Length; i++)
         {
@@ -20,12 +24,6 @@ public class PathResult
         }
     }
 
-    public PathResult(MapEdge[] pathEdges, int[] edgeDirections, float[] zValues)
-    {
-        this.pathEdges = pathEdges;
-        this.edgeDirections = edgeDirections;
-        this.zValues = zValues;
-    }
 }
 
 public class GraphAstar {
@@ -95,6 +93,8 @@ public class GraphAstar {
 				System.Collections.ArrayList outputEdges = new System.Collections.ArrayList();
                 System.Collections.ArrayList outputDirs = new System.Collections.ArrayList();
 				MapNode pathNode = cur.node;
+
+				float totalCost = 0;
 				
 				while(true)
 				{
@@ -107,17 +107,19 @@ public class GraphAstar {
 					pathNode = edge.ConnectedNode(pathNode);
 					//Debug.Log("path : ["+edge.node1.GetId() +", "+ edge.node2.GetId() +"]");
                     outputEdges.Add(edge);
+					totalCost += edge.cost;
                     if (edge.node1 == pathNode)
-                        outputDirs.Add(1);
+						outputDirs.Add(EdgeDirection.FORWARD);
                     else
-                        outputDirs.Add(0);
+						outputDirs.Add(EdgeDirection.BACKWARD);
 				}
 
                 outputEdges.Reverse();
                 outputDirs.Reverse();
                 return new PathResult(
                     (MapEdge[])outputEdges.ToArray(typeof(MapEdge)),
-                    (int[])outputDirs.ToArray(typeof(int))
+					(EdgeDirection[])outputDirs.ToArray(typeof(EdgeDirection)),
+					totalCost
                     );
 			}
 			
@@ -158,7 +160,7 @@ public class GraphAstar {
 			}
 		}
 		
-		return new PathResult(new MapEdge[]{}, new int[]{});
+		return new PathResult(new MapEdge[]{}, new EdgeDirection[]{}, 0);
 	}
 
     /*

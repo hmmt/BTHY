@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <creatureReaction>
+    <creature id="100002">
+      <item level ="1" desc ="&apos;행복한 테디&apos; 는 잠깐이나마 외로움에서 벗어난듯 합니다."/>
+      <item level ="2" desc ="테디의 풀린 실밥이 기분 좋게 흔들립니다."/>
+      <item level ="3" desc ="테디는 우리에게 아무 반응도 보여주지 않습니다."/>
+      <item level ="4" desc ="테디의 고개가 맥 없이 꺾입니다."/>
+      <item level ="5" desc ="테디의 상태가 더 나빠질 수 없을 만큼 안 좋아졌습니다."/>
+    </creature>
+    
+  </creatureReaction>
+  
+</root>

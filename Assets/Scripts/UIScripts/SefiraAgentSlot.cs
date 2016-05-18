@@ -25,6 +25,7 @@ public class SefiraAgentSlot : MonoBehaviour {
             return _instance;
         }
     }
+
     void Awake()
     {
         //Debug.Log(gameObject);
@@ -32,50 +33,52 @@ public class SefiraAgentSlot : MonoBehaviour {
         Init();
     }
 
-    public void Init() { 
-        for(int i= 0 ; i < 4; i ++){
-            slot[i].cnt = i;
-        }
+    public void Init() {
+
     }
 
     public void CancelSefiraAgent(AgentModel unit, int index)
     {
-        ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
-        AgentManager._instance.deactivateAgent(unit);
+        /*
+        Debug.Log(index);
+        Debug.Log(unit.name);
+         */
+
+
+        //ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
+        AgentManager.instance.deactivateAgent(unit);
+        //Window call
+        AgentAllocateWindow.instance.ChangedAgentSefira(unit, unit.currentSefira);
+
         ShowAgentSefira(StageUI.instance.currentSefriaUi);
-        script.SetChange();
+        //script.SetChange();
         
     }
 
-    public  void ShowAgentSefira(string sefria)
-    {   
-        switch (sefria) { 
-            case "0":
-                EmptySefira();
-                break;
-            case "1":
-                SetSefira(AgentManager.instance.malkuthAgentList);
-                break;
-            case "2":
-                SetSefira(AgentManager.instance.nezzachAgentList);
-                break;
-            case "3":
-                SetSefira(AgentManager.instance.hodAgentList);
-                break;
-            case "4":
-                SetSefira(AgentManager.instance.yesodAgentList);
-                break;
-            
+    public  void ShowAgentSefira(string sefira)
+    {
+        Sefira targetSefira = SefiraManager.instance.GetSefira(sefira);
+        if (targetSefira == null) {
+            EmptySefira();
+            return;
         }
+        /*
+        foreach (AgentModel am in targetSefira.agentList) {
+            Debug.Log(am.name);
+        }
+        */
+        SetSefira(targetSefira.agentList);
     }
 
     public void EmptySefira() {
         for (int i = 4; i >= 0; i--)
         {
             slot[i].Bg.sprite = bgImage[0];
+			
             slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentHair.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
+            
             slot[i].agentLevel.text = "없음";
             slot[i].agentName.text = "없음";
             slot[i].cancelButton.gameObject.SetActive(false);
@@ -86,12 +89,17 @@ public class SefiraAgentSlot : MonoBehaviour {
     }
 
     public void SetSefira(List<AgentModel> model) {
+        //Debug.Log(model.Count);
         for (int i = 4; i >= model.Count; i--)
         {
+            
             slot[i].Bg.sprite = bgImage[0];
+			
             slot[i].agentBody.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentFace.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
             slot[i].agentHair.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/AgentNone");
+            
+            
             slot[i].agentLevel.text = "없음";
             slot[i].agentName.text = "없음";
             slot[i].cancelButton.gameObject.SetActive(false);
@@ -103,19 +111,22 @@ public class SefiraAgentSlot : MonoBehaviour {
         for (int i = 0; i < model.Count; i++)
         {
             int copied = i;
-            AgentModel agentModel = model[i];
+            //Debug.Log(copied);
+            AgentModel agentModel = model[copied];
 
             agentModel.GetPortrait("body", null);
-            slot[i].Bg.sprite = bgImage[1];
-            slot[i].agentBody.sprite = slot[i].headImg;
-            slot[i].agentFace.sprite = agentModel.tempFaceSprite;
-            slot[i].agentHair.sprite = agentModel.tempHairSprite;
-            slot[i].Model = agentModel;
+            slot[copied].Bg.sprite = bgImage[1];
+            slot[copied].agentBody.sprite = slot[copied].headImg;
+            slot[copied].agentFace.sprite = agentModel.tempFaceSprite;
+            slot[copied].agentHair.sprite = agentModel.tempHairSprite;
+            slot[copied].Model = agentModel;
 
-            slot[i].agentLevel.text = "" + agentModel.level;
-            slot[i].agentName.text = "" + agentModel.name;
-            slot[i].Cancel.gameObject.SetActive(true);
-            slot[i].bodyObject.gameObject.SetActive(true);
+            slot[copied].agentLevel.text = "" + agentModel.level;
+            slot[copied].agentName.text = "" + agentModel.name;
+            slot[copied].Cancel.gameObject.SetActive(true);
+            slot[copied].bodyObject.gameObject.SetActive(true);
+
+            AgentAllocateWindow.instance.SetAllocateIndex(agentModel, i);
             /*
             slot[i].cancelButton.gameObject.SetActive(true);
             slot[i].cancelButton.onClick.RemoveAllListeners();

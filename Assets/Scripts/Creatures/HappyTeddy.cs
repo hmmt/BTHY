@@ -4,120 +4,186 @@ using System.Collections;
 public class HappyTeddy  : CreatureBase {
 
     private bool b = false;
-    public override void  OnFixedUpdate(CreatureModel creature)
-    {
-        /*if (!b)
-        {
-            model.Escape();
-            b = true;
-        }*/
-    }
 
-	public override void OnSkillStart(UseSkill skill)
+	AgentModel lastAgent;
+	int teddyWorkNum;
+	int noHugNum;
+	int normalWorkCount;
+
+
+	bool huging = false;
+
+	bool isPlayingDeadScene = false;
+	bool isKilling = false;
+	AgentModel killTarget = null;
+
+	public override void OnViewInit (CreatureUnit unit)
 	{
-		/*
-		if(skill.skillTypeInfo.id == 40002) // 
+		//GameObject g = new GameObject ();
+		//g.AddComponent<UnityEngine.UI.Text>()
+	}
+    
+	public override void OnFixedUpdateInSkill (UseSkill skill)
+	{
+		base.OnFixedUpdateInSkill (skill);
+
+		if (huging && skill.IsWorking() == false &&
+			skill.agent.GetCurrentNode() == model.GetCustomNode())
 		{
-			if(skill.targetCreature.feeling <= 50)
+			skill.ResumeWorking ();
+
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (skill.agent.instanceId);
+
+			AnimatorManager.instance.ResetAnimatorTransform (skill.agent.instanceId);
+			AnimatorManager.instance.ChangeAnimatorByName (skill.agent.instanceId, AnimatorName.Teddy_agent,
+				agentView.puppetAnim, true, false);
+
+			agentView.puppetAnim.SetBool ("Work", true);
+			agentView.puppetAnim.SetBool ("Dead", false);
+
+			noHugNum = 0;
+		}
+	}
+	public override void OnFixedUpdate (CreatureModel creature)
+	{
+		base.OnFixedUpdate (creature);
+
+		if (isKilling)
+		{
+			if (killTarget.GetCurrentNode () == model.GetCustomNode())
 			{
-				if(Random.value <= 0.65)
-				{
-					//skill.agent.hp -= 1; // temp
-				}
+				model.SendAnimMessage ("SpecialAttack");
+				AgentUnit agentView = AgentLayer.currentLayer.GetAgent (killTarget.instanceId);
+
+				AnimatorManager.instance.ResetAnimatorTransform (killTarget.instanceId);
+				AnimatorManager.instance.ChangeAnimatorByName (killTarget.instanceId, AnimatorName.Teddy_agent,
+					agentView.puppetAnim, true, false);
+
+				agentView.puppetAnim.SetBool ("Work", false);
+				agentView.puppetAnim.SetBool ("Dead", true);
+				//agentView.transform.localPosition = new Vector3 (agentView.transform.localPosition.x, agentView.transform.localPosition.y, -1.1f);
+				agentView.zValue = -1.1f;
+
+				killTarget.Die ();
+
+				isKilling = false;
+				killTarget = null;
+				isPlayingDeadScene = true;
 			}
 		}
-		*/
+
+		if (isPlayingDeadScene)
+		{
+			if (model.GetAnimScript ().animator.GetInteger ("KillMoment") == 1)
+			{
+				isPlayingDeadScene = false;
+				if(model.state == CreatureState.WORKING_SCENE)
+					model.state = CreatureState.WAIT;
+			}
+		}
 	}
 
-    public override void OnSkillTickUpdate(UseSkill skill)
+	public override void OnReturn ()
 	{
-        bool isSpecialSkill = skill.skillTypeInfo.id == 40002;
-        float prob = 0;
-        int feelingUp = 0;
-		/*
-        CreatureFeelingState feelingState = model.GetFeelingState();
-        if (feelingState == CreatureFeelingState.BAD)
-        {
-            prob = isSpecialSkill ? 0.4f : 0.9f;
-            feelingUp = 50;
-        }
-        else
-        {
-            prob = isSpecialSkill ? 0.1f : 0.3f;
-            feelingUp = 100;
-        }
-        if (Random.Range(0,100) < prob*100)
-        {
-            ActivateSkill(skill, feelingUp);
-        }
-        */
+		//model.energyPoint = 130;
+		model.AddFeeling(100);
 	}
-
-    // temporary
-    public override void OnSkillFailWorkTick(UseSkill skill)
-    {
-        //ActivateSkill(skill);
-    }
-
-    public void ActivateSkill(UseSkill skill, int feelingUp)
-    {
-        // show effect
-		/*
-        skill.PauseWorking();
-        ///SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
-
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4.5f);
-        effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
-        // skill이 이미 release 될 상황 고려 필요
-        effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
-
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 4.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.0f, 3.5f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.5f, 3.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 2.0f, 2.5f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/teddyBear_AttackTypo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 2.5f, 2.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
-        skill.targetCreature.ShowNarrationText("special_ability1", skill.agent.name);
-		SoundEffectPlayer.PlayOnce("creature/happy_teddy/happyTeddy_Ability_Special", skill.targetCreatureView.transform.position);
-
-        TimerCallback.Create(4.0f, delegate() {
-			
-            //skill.agent.TakePhysicalDamage(Mathf.Max(skill.agent.maxHp / 3, 1));
-
-            model.AddFeeling(feelingUp);
-        });
-        */
-    }
-
     //
 
     public override void OnEnterRoom(UseSkill skill)
-    {
-		/*
-        skill.PauseWorking();
+	{
+		if (skill.skillTypeInfo != GetSpecialSkill ())
+		{
+			normalWorkCount++;
 
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4);
-        effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
+			if (normalWorkCount >= 2)
+			{
+				normalWorkCount -= 2;
+				noHugNum++;
+			}
+		}
 
-        // skill이 이미 release 될 상황 고려 필요
-        effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
+		if (lastAgent == skill.agent)
+		{
+			teddyWorkNum++;
+		}
+		else
+		{
+			teddyWorkNum = 0;
+		}
+		lastAgent = skill.agent;
 
+		float hugProb = 0;
+		float agentProb = 0.1f * teddyWorkNum;
 
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 3)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/happyteddy/happyBear_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 2)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        */
+		if (skill.skillTypeInfo == GetSpecialSkill ())
+		{
+			hugProb = 0.1f + agentProb;// + 0.8f;
+		}
+		else
+		{
+			hugProb = 0.2f * noHugNum + agentProb + 1.9f;// + 0.8f;
+		}
+
+		Debug.Log ("hug prob : " + hugProb + "(teddyWorkNum:"+teddyWorkNum+", noHugNum:"+noHugNum+")");
+		if (Random.value < hugProb)
+		{
+			ActivateSkillInWork (skill);
+		}
+		else if (skill.skillTypeInfo == GetSpecialSkill ())
+		{
+			HugSkill (skill);
+		}
     }
+
+	public override void OnRelease (UseSkill skill)
+	{
+		if (skill.agent.isDead () == false && huging)
+		{
+			skill.agentView.ResetZValue ();
+			//skill.agent.ResetAnimator ();
+		}
+
+		huging = false;
+	}
+
+	void HugSkill(UseSkill skill)
+	{
+		//model.SendAnimMessage ("SpecialAttack");
+
+		huging = true;
+		skill.agentView.zValue = -1.1f;
+
+		skill.PauseWorking ();
+
+		skill.agent.MoveToNode (model.GetCustomNode (), false);
+	}
+
+	void ActivateSkillInWork(UseSkill skill)
+	{
+		isKilling = true;
+
+		killTarget = skill.agent;
+
+		model.state = CreatureState.WORKING_SCENE;
+		skill.agent.LoseControl ();
+		skill.agent.MoveToNode (model.GetCustomNode ());
+	}
 
     public override SkillTypeInfo GetSpecialSkill()
     {
-        return SkillTypeList.instance.GetData(400002);
+        //return null;
+        return SkillTypeList.instance.GetData(40002);
     }
+
+    public override bool isAttackInWorkProcess()
+    {
+        return false;
+    }
+
+	public override string GetDebugText ()
+	{
+		//return base.GetDebugText ();
+		return "teddyWorkNum:"+teddyWorkNum + ", " + "noHugNum:" + noHugNum;
+	}
 }

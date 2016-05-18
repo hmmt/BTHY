@@ -38,6 +38,7 @@ public class SkillTypeList
 		return _list.ToArray ();
 	}
 
+    /*
 	private SkillTypeInfo[] GetListBySkillType(string type)
 	{
 		List<SkillTypeInfo> output = new List<SkillTypeInfo>();
@@ -60,7 +61,7 @@ public class SkillTypeList
 	public SkillTypeInfo[] GetBlockSkillList()
 	{
 		return GetListBySkillType ("block");
-	}
+	}*/
 
 	public SkillTypeInfo GetData(long id)
 	{
@@ -89,13 +90,15 @@ public class SkillTypeList
 
     public SkillTypeInfo GetNextSkill(SkillTypeInfo typeInfo)
     {
+        SkillTypeInfo skill = null;
+        /*
         if (typeInfo.nextSkillIdList.Length == 0)
         {
             return null;
         }
 
         SkillTypeInfo skill = GetData(typeInfo.nextSkillIdList[0]);
-
+        */
         return skill;
     }
 }

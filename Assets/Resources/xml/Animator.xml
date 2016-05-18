@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <node name ="AgentCtrl" id="50001" src="WorkerAnimators/AgentCtrl"/>
+  <node name ="OfficerCtrl" id="50002" src="WorkerAnimators/OfficerAnimator"/>
+  <node name ="RedShoes_attracted" id="60001" src="CreatureAnimators/RedShoes/RedShoes_AttractedCTRL"/>
+  <node name ="RedShoes_infected" id="60002" src="CreatureAnimators/RedShoes/RedShoes_InfectedCTRL"/>
+  <node name ="RedShoes_victim" id="60003" src="CreatureAnimators/RedShoes/RedShoes_VictimCTRL"/>
+  <node name ="Machine_attracted" id="70001" src="CreatureAnimators/SingingMachine/Machine_AttractCTRL"/>
+  <node name ="Machine_victim" id="70002" src="CreatureAnimators/SingingMachine/Machine_KilledCTRL"/>
+  <node name ="OneBad" id="70003" src="CreatureAnimators/OneBad/OneBad_AgentCTRL"/>
+  <node name ="Teddy_agent" id="80001" src="CreatureAnimators/Teddy/Teddy_AgentCTRL"/>
+  <node name ="MatchedGirl_AgentCTRL" id ="90001" src ="CreatureAnimators/MatchGirl/MatchedGirl_AgentCTRL"/>
+  <node name ="BigBird_AgentCTRL" id ="100001" src ="CreatureAnimators/BigBird/BigBird_AgentCTRL"/>
+  <node name ="OldLady_AgentCTRL" id ="100011" src ="CreatureAnimators/OldLady/OldLady_AgentCTRL"/>
+  <node name ="MalkutOfficerAction" id ="20001" src="WorkerAnimators/MalkutOfficerAction"/>
+  <node name ="YesodOfficerAction" id ="20004" src="WorkerAnimators/YesodOfficerAction"/>
+</root>

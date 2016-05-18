@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <!-- 
+  대화의 상황 ex) 시작 시 인사, 잡담, 정보 등 마다 노드를 만들거에요
+  <normal type="1" id="1" desc="안녕하세요 관리자님"/> ->일상
+    ->type : 관리자 하루 시작할 때 같은 것들
+      id   : 걍 다른 숫자면 됨 증가하는 값으로 처리해버리세요
+      desc : 대화 내용
+  
+  <danger type="4" id="1" desc="일하기 싫당"/> ->혼파망
+  
+  
+  -->
+  <!--
+  <normal>
+    <type num="1">
+      <item id="1" desc=""/>
+      <item id="2" desc=""/>
+      <item id="3" desc=""/>
+    </type>
+    
+    <type num="2">
+      <item id="" desc=""/>
+    </type>    
+  </normal>
+
+  <danger>
+    <type num="1">
+      <item id="1" desc=""/>
+    </type>
+    
+    <type num="2">
+
+
+    </type>
+  </danger>-->
+  <!-- 
+chat type 1 : Day 1때 나오는 랜덤 대사>
+type 2 : Day 2부터 계급 없을 때 까지지
+type 3 : 떡밥 있는 대화. type 2와 같이 등장하되, 랜덤 빈도수는 더 적다
+type 4 : 직원들에게 대화 
+type 5 : 멘탈 안 좋은 직원들
+type 6 : 계급 올라간 직원들
+type 7 : 환상체 탈출했을 때 직원 멘붕
+type 8 : 동료가 직웠을 때 슬퍼하는 직원들-->
+
+  <chat>
+    <type num="1">
+      <item id="1" desc="I heard that new manager is coming today"/>
+      <item id="2" desc="New manager must be a jerk, needless to say."/>
+      <item id="3" desc="The last thing that I want to do is work. I wish I could become a manager and supervise employees."/>
+      <item id="4" desc="Hey, have you heard that the new manager came?"/>
+      <item id="5" desc="I don’t care whether new manager comes or not. I just want a pay raise."/>
+      <item id="6" desc="How much does manager get payed? , Probably higher than what we are payed."/>
+      <item id="7" desc="I want manager to know how hard we work our fingers to the bones."/>
+      <item id="8" desc="Doesn’t the managers just sit and push buttons? Shouldn’t they take care of us laborers more?"/>
+      <item id="9" desc="I should have studied hard and become a manager."/>
+      <item id="10" desc="I want to see the new manager."/>
+      <item id="11" desc="No plan for welcome party to the new manager?"/>
+      <item id="12" desc="How about a drink after work for welcoming the new manager?"/>
+      <item id="13" desc="No hazing for the new manager?"/>
+    </type>
+
+    <type num="2">
+      <item id="1" desc="Hey, how about a drink after work?"/>
+      <item id="2" desc="What kind of stupid work the damned manager would tell me to do."/>
+      <item id="3" desc="I could have become a goner today."/>
+      <item id="4" desc="Writing encyclopedia is a pain in the neck. No one will figure out whether I just make it up or not, right?"/>
+      <item id="5" desc="Office romance is not recommended, right"/>
+      <item id="6" desc="Since the salary is high, our corporation isn’t that bad… except the fact it is dangerous, suspicious and strenuous."/>
+      <item id="7" desc="Staff lounge is just too small. I’m not even sure you are supposed to take a rest in the lounge or not."/>
+      <item id="8" desc="Have you heard of the employee in emergency planning team? The one who’s leg was amputated?"/>
+      <item id="9" desc="Working this stupid boring work in this perfect weather…"/>
+      <item id="10" desc="I would definitely quit but I have four mouths to feed."/>
+      <item id="11" desc="Is it true that the manager is the only person using one person elevator?"/>
+      <item id="12" desc="I guess the new manager isn’t so blockheaded, considering the company seems to be working."/>
+      <item id="13" desc="Energy production has increased. But our salary hasn’t"/>
+      <item id="14" desc="Promotion opportunity may come if I work hard."/>
+      <item id="15" desc="Cafeteria food is quite descent."/>
+      <item id="16" desc="I am gaining too much stress nowadays."/>
+      <item id="17" desc="My mom doesn’t know exactly what kind of company that I work for."/>
+      <item id="18" desc="Command and observation department has nothing much to do, right?"/>
+      <item id="19" desc="All the sudden, I want hamburgers"/>
+      <item id="20" desc="Just a ten minute tardiness, I was scorched by my boss. He was late for work 20 minutes the day before yesterday."/>
+      <item id="21" desc="Our new employee in our department is totally out of discipline. We have to tell him to get the coffees ready!"/>
+      <item id="22" desc="Material management department is where I don’t want to work in. I heard they bust one’s ass."/>
+      <item id="23" desc="My supervisor used to say that I will be safe in life if I follow just as what manual instructs."/>
+      <item id="24" desc="At least our company’s staff lounge is very descent."/>
+      <item id="25" desc="But are these Abnormality really safe? They don’t look anything like safe to me."/>
+      <item id="26" desc="Abnormality doesn’t need to look vicious to be dangerous"/>
+      <item id="27" desc="Ordinary people doesn’t even know the existence of Abnormality. If the information is leaked, chief of the departments will all be headed."/>
+      <item id="28" desc="There will be nothing more boring than writing an encyclopedia"/>
+      <item id="29" desc="Even an employee who have worked from the beginning won’t be able to hide one’s tension."/>
+      <item id="30" desc="Something is stuck between my teeth…. Must be chicken sandwich from lunch."/>
+    </type>
+
+    <type num="3">
+      <item id="1" desc="You shouldn’t put great trust to this company."/>
+      <item id="2" desc="Abnormality have existed for long time, but it is not that old that they were locked away."/>
+      <item id="3" desc="I used to dream something other than this. You know, we all used to want to become something greater, greatest."/>
+      <item id="4" desc="It’s all hard and tiring. That’s life."/>
+      <item id="5" desc="We can’t do anything. It’s too late to change."/>
+      <item id="6" desc="Sometimes I wish I could go back to times when I was younger. It is mere fantasy, though."/>
+      <item id="7" desc="I once thought that I would become someone greater than."/>
+      <item id="8" desc="How many would proudly say that they have lived a satisfying life?"/>
+      <item id="9" desc="Work nothing different than a treadmill. I used to have passion when I started working."/>
+      <item id="10" desc="Who would think Abnormality are dreadful. After long observation, one will know that they are…"/>
+      <item id="11" desc="I once wanted to become a administrator, but not anymore. Rather, I feel sympathy."/>
+      <item id="12" desc="You won’t get much from talking to a cog in the wheel."/>
+    </type>
+
+    <type num="4">
+      <item id="1" desc="Good day, administrator"/>
+      <item id="2" desc="How’s it going, administrator?"/>
+      <item id="3" desc="Would you mind a cup of coffee, administrator?"/>
+      <item id="4" desc="Hello, administrator. Having fun in work as usual, hahaha."/>
+      <item id="5" desc="Just in case that you might misunderstand, ‘Shitbag’ that I just mentioned has nothing to do with you, administrator."/>
+      <item id="6" desc="Our staff lounge has new coffee with great scent. You are always welcome to join us, administrator."/>
+      <item id="7" desc="Administrator! Good day!"/>
+      <item id="8" desc="Would you join our get-together after work, administrator?"/>
+      <item id="9" desc="Hello administrator, is it true that there is man-eating Abnormality?"/>
+      <item id="10" desc="Would you like a cup of coffee, administrator?"/>
+      <item id="11" desc="I was just talking about you to the new employee, about how great and smart you are."/>
+      <item id="12" desc="What I just was swearing in mumble has nothing to do with you, administrator."/>
+      <item id="13" desc="Would you exclude me in dangerous tasks? Administrator?"/>
+      <item id="14" desc="Oh, you are the new manager! I heard lot about you"/>
+      <item id="15" desc="Compliments everywhere about you, administrator."/>
+      <item id="16" desc="Administrator, would you refrain from work of ‘Nothing’"/>
+      <item id="17" desc="Is it true that your office is full of refreshments and drinks?"/>
+      <item id="18" desc="Hello, administrator! Invite me over to your office sometime."/>
+      <item id="19" desc="Administrator, do you have some thoughts of improving employee welfare?"/>
+      <item id="20" desc="How about installing beer dispenser in staff lounge? I bet the morale of employees will skyrocket."/>
+      <item id="21" desc="Would you consider changing cafeteria menu to full-course buffet?"/>
+      <item id="22" desc="Have a cup of ice coffee, administrator. I will make you one."/>
+      <item id="23" desc="Administrator, I was AWOL yesterday because I had upset stomach, eating salmon."/>
+      <item id="24" desc="Would you earnestly consider my agenda of ordering resignation if AWOL is accumulated more than 3 times?"/>
+      <item id="25" desc="We don’t mention it that often, but we all admire you, administrator!"/>
+      <item id="26" desc="How about a drink after work, administrator?"/>
+      <item id="27" desc="Administrator, Is ‘Magical Girl’ as dangerous as what the rumor says? I just started working here and haven’t seen her yet."/>
+      <item id="28" desc="Administrator, I was bit by Abnormality few days ago, and my finger still hurts. Does this count as occupational accident?"/>
+      <item id="29" desc="Take care of cold, administrator!"/>
+    </type>
+
+    <type num="5">
+      <item id="1" desc="Give order, please! Give order, please! Give order, please! Give order, please!"/>
+      <item id="2" desc="Hope everything disappears. This company, us, you…"/>
+      <item id="3" desc="Administrator! Please don’t send me back in there! I don’t want to die! I don’t want to be chopped in pieces!"/>
+      <item id="4" desc="My coworkers’ brain is here and there… Have you seen it too? It should be promptly cleaned…. Blood is covering the isolation room all over. "/>
+      <item id="5" desc="We are all going to die. In this misery, whole body bitten by that monster, killed."/>
+      <item id="6" desc="We are all going to die. In this misery, whole body bitten by that monster, killed."/>
+      <item id="7" desc="Can you order anything like ‘Suicide’? that is what I need the most."/>
+      <item id="8" desc="Please give me orders! How about crushing those Abnormality down with the axe from the storage?"/>
+      <item id="9" desc="I don’t want to die. I don’t want to die brutally, like my coworkers."/>
+      <item id="10" desc="Hahahahahaahahahahahahahahahahahahahaha"/>
+      <item id="11" desc="Don’t send me!! Don’t make me die!"/>
+      <item id="12" desc="I feel like someone is keep talking to me. It keeps whispering me to die, would you teach it a lesson?"/>
+      <item id="13" desc="I feel like there is someone else inside my head. It’s pouring dreadful word and I can’t get a sleep."/>
+      <item id="14" desc="IamsorrytformycoworkersandhealthandworkoutflourishingcompanyoutcomededicatestartingfromthatnottoworryandlongliveiswhatIknow"/>
+      <item id="15" desc="Isn’t it cold? Would you turn on the radiator? It’s so cold that I am sweating."/>
+      <item id="16" desc="I saw dead coworker yesterday. We ate lunch and drank coffee together. It is relieving to see that he is doing well."/>
+      <item id="17" desc="Please send me back home, administrator. I want to go home…"/>
+    </type>
+
+    <type num="6">
+      <item id="1" desc="Senior employees like me have more understanding of this company. Off course, stuff like things that you couldn’t know."/>
+      <item id="2" desc="Some of us started working even before you started to work. Don’t believe what you just see."/>
+      <item id="3" desc="Do you know Angela? She is a voice that existed from the company’s foundation. The company says that it is recorded before, but just imagine, is it really recorded beforehand?"/>
+      <item id="4" desc="Excluding the fact that you are an administrator and I am an employee, you and I are both mostly same. Same about the obligation that we have to manage Abnormality and also about feeling something suspicious about this company, right?"/>
+    </type>
+
+    <type num="7">
+      <item id="1" desc="Everyone, run! Just get out of here!"/>
+      <item id="2" desc="I don’t want to die! Don’t leave me behind!"/>
+      <item id="3" desc="Help me!!!"/>
+      <item id="4" desc="Administrator! Please help me!"/>
+      <item id="5" desc="Fuck off! I won’t die here!"/>
+      <item id="6" desc="Administrator! You are watching, right? Please save me! Please get rid of these things!"/>
+      <item id="7" desc="Someone call the emergency planning team! We are all going to die here!"/>
+      <item id="8" desc="Help!!!"/>
+      <item id="9" desc="Call other employees, quick!"/>
+      <item id="10" desc="Help!! I said help!!!"/>
+      <item id="11" desc="Why isn’t anybody coming!!! Are they just going to make us die here? "/>
+      <item id="12" desc="They are going to kill us all! We are all done!"/>
+      <item id="13" desc="It’s all over now… we are all dead…"/>
+      <item id="14" desc="I won’t die!! Somebody, do something!"/>
+      <itme id="15" desc="If I die, tell my parents that I’m sorry."/>
+    </type>
+
+    <type num="8">
+      <item id="1" desc="I won’t forget him… He was a good coworker."/>
+      <item id="2" desc="He is dead? My god… we just ate together few days ago."/>
+      <item id="3" desc="I heard that he died, right? They say it was an accident."/>
+      <item id="4" desc="My coworker saw his body. I feel very sad."/>
+      <item id="5" desc="I can’t believe it…"/>
+      <item id="6" desc="We are all going to be killed by that monster…"/>
+      <item id="7" desc="Have you heard? There was a terrible accident during the work."/>
+      <item id="8" desc="It is very unfortunate event, isn’t it?"/>
+      <item id="9" desc="He was very good man… He used to listen and counseled what I have worried."/>
+      <item id="10" desc="He was a passionate employee. The company should compensate well."/>
+      <item id="11" desc="Even though the employee died, how could the company just order work as if nothing happened?"/>
+      <item id="12" desc="He was not just an employee, was our coworker. We will never forget him."/>
+      <item id="13" desc="I heard that an employee died during the work. Is that true?"/>
+      <item id="14" desc="Isn’t the manager partially responsible for death of the employee?"/>
+      <item id="15" desc="This should never happen again. How could one possibly work for the company."/>
+    </type>
+
+    <type num="9">
+      <item id="1" desc="Why am I feeling so tired today"/>
+      <item id="2" desc="I don’t feel so good today."/>
+      <item id="3" desc="I don’t want to work."/>
+      <item id="4" desc="Long ago, I saw an employee who have gone crazy. Am I going to be like that person?"/>
+      <item id="5" desc="I’m feeling dizzy today."/>
+      <item id="6" desc="I can’t concentrate on work… not feeling well."/>
+      <item id="7" desc="I don’t feel well… Medicine isn’t doing so good."/>
+      <item id="8" desc="I want to take a rest… I don’t feel well."/>
+      <item id="9" desc="I don’t feel like working today."/>
+    </type>
+
+  </chat>
+
+  <creatureAction>
+    <creature id="100002">
+      <item level="1" desc="그것은 더 이상 외로워하지 않는 것 같아!"/>
+      <item level="2" desc="기분이 조금 좋아보인다."/>
+      <item level="3" desc="아무런 반응을 보이지 않아."/>
+      <item level="4" desc="테디의 고개가 힘없이 떨궈진다."/>
+      <item level="5" desc="이 이상으로 나빠질 수 없겠군."/>
+    </creature>
+  </creatureAction>
+
+</root>

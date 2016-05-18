@@ -37,6 +37,8 @@ public class CreatureManager : IObserver{
     public List<CreatureModel> HodCreature = new List<CreatureModel>();
     public List<CreatureModel> YessodCreature = new List<CreatureModel>();
 
+    public List<SefiraState> sefiraState = new List<SefiraState>();
+    
     public SefiraState malkuthState = SefiraState.NOT_ENOUGH_AGENT;
     public SefiraState nezzachState = SefiraState.NOT_ENOUGH_AGENT;
     public SefiraState hodState = SefiraState.NOT_ENOUGH_AGENT;
@@ -52,12 +54,14 @@ public class CreatureManager : IObserver{
     {
         CreatureModel model = new CreatureModel(nextInstId++);
 
+		model.sefira = SefiraManager.instance.GetSefira(sefiraNum);
+		model.sefiraNum = model.sefira.indexString;
+
+		model.position = new Vector2(x, y);
+
         BuildCreatureModel(model, metadataId, nodeId, x, y);
 
-        model.sefiraNum = sefiraNum;
-        model.AddFeeling(model.metaInfo.feelingMax / 2);
-
-        model.position = new Vector2(x, y);
+		model.AddFeeling(model.metaInfo.feelingMax / 2);
 
         AddCreatureInSepira(model, sefiraNum);
 
@@ -90,7 +94,7 @@ public class CreatureManager : IObserver{
             YessodCreature.Add(creature);
         }
         //Debug.Log(SefiraManager.instance.getSefira(sepira).creatureList.Count);
-        SefiraManager.instance.getSefira(sepira).creatureList.Add(creature);
+        SefiraManager.instance.GetSefira(sepira).creatureList.Add(creature);
     }
 
     public List<CreatureModel> GetSelectedList(string sefira) {
@@ -146,18 +150,31 @@ public class CreatureManager : IObserver{
     {
         CreatureTypeInfo typeInfo = CreatureTypeList.instance.GetData(metadataId);
 
+        //Debug.Log(metadataId);
+
         model.metadataId = metadataId;
         model.metaInfo = typeInfo;
         model.basePosition = new Vector2(x, y);
-        //Debug.Log(typeInfo.script);
         model.script = (CreatureBase)System.Activator.CreateInstance(System.Type.GetType(typeInfo.script));
         if(model.script != null)
             model.script.SetModel(model);
         model.entryNodeId = nodeId;
 
         MapNode entryNode = MapGraph.instance.GetNodeById(nodeId);
+		entryNode.connectedCreature = model;
+
         Dictionary<string, MapNode> nodeDic = new Dictionary<string, MapNode>();
         List<MapEdge> edgeList = new List<MapEdge>();
+
+		MapNode outterNode = null;
+		MapNode innerNode = null;
+
+		PassageObjectModel passage = null;
+
+		passage = new PassageObjectModel(nodeId+"@creature", entryNode.GetAreaName(), "Map/Passage/PassageEmpty");
+		passage.SetToIsolate ();
+		passage.position = new Vector3(x, y, 0);
+		int doorCount = 1;
 
         foreach (XmlNode node in typeInfo.nodeInfo)
         {
@@ -165,20 +182,30 @@ public class CreatureManager : IObserver{
             float nodeX = model.basePosition.x + float.Parse(node.Attributes.GetNamedItem("x").InnerText);
             float nodeY = model.basePosition.y + float.Parse(node.Attributes.GetNamedItem("y").InnerText);
 
-            MapNode newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
+			MapNode newNode = null;
 
             XmlNode typeNode = node.Attributes.GetNamedItem("type");
             if (typeNode != null && typeNode.InnerText == "workspace")
             {
+				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
                 model.SetWorkspaceNode(newNode);
             }
+			else if (typeNode != null && typeNode.InnerText == "custom")
+			{
+				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
+				model.SetCustomNode(newNode);
+			}
             else if (typeNode != null && typeNode.InnerText == "creature")
             {
+				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
                 model.SetRoomNode(newNode);
                 model.SetCurrentNode(newNode);
             }
             else if (typeNode != null && typeNode.InnerText == "entry")
             {
+				newNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName());
+				//string entryNodeId = id + "@entry_door";
+
                 MapEdge edge = new MapEdge(newNode, entryNode, "door");
 
                 edgeList.Add(edge);
@@ -186,6 +213,63 @@ public class CreatureManager : IObserver{
                 newNode.AddEdge(edge);
                 entryNode.AddEdge(edge);
             }
+			else if(typeNode != null && typeNode.InnerText == "outterDoor")
+			{
+				newNode = outterNode = new MapNode(id, new Vector2(entryNode.GetPosition().x, entryNode.GetPosition().y), entryNode.GetAreaName(), passage);
+
+				string roomDoorId = passage.GetId() + "@" + doorCount;
+				outterNode.SetClosable(true);
+				DoorObjectModel outterDoor = new DoorObjectModel(roomDoorId, "DoorMiddle", passage, outterNode);
+				outterDoor.position = new Vector3(outterNode.GetPosition().x, outterNode.GetPosition().y, -0.01f);
+				passage.AddDoor(outterDoor);
+				outterNode.SetDoor(outterDoor);
+				outterDoor.Close();
+
+
+				MapEdge edge = new MapEdge(newNode, entryNode, "road");
+
+				edgeList.Add(edge);
+
+				newNode.AddEdge(edge);
+				entryNode.AddEdge(edge);
+
+				if(innerNode != null)
+				{
+					MapEdge doorEdge = new MapEdge(outterNode, innerNode, "door", 0.01f);
+
+					outterDoor.Connect (innerNode.GetDoor ());
+
+					edgeList.Add(doorEdge);
+
+					outterNode.AddEdge(doorEdge);
+					innerNode.AddEdge(doorEdge);
+				}
+			}
+			else if(typeNode != null && typeNode.InnerText == "innerDoor")
+			{
+				newNode = innerNode = new MapNode(id, new Vector2(nodeX, nodeY), entryNode.GetAreaName(), passage);
+
+				string roomDoorId = passage.GetId() + "@" + doorCount;
+				innerNode.SetClosable(true);
+				DoorObjectModel innerDoor = new DoorObjectModel(roomDoorId, "DoorIsolate", passage, innerNode);
+				innerDoor.position = new Vector3(innerNode.GetPosition().x, innerNode.GetPosition().y, -0.01f);
+				passage.AddDoor(innerDoor);
+				innerNode.SetDoor(innerDoor);
+				innerDoor.Close();
+
+				if(outterNode != null)
+				{
+					MapEdge doorEdge = new MapEdge(innerNode, outterNode, "door", 0.01f);
+
+					innerDoor.Connect (outterNode.GetDoor ());
+
+					edgeList.Add(doorEdge);
+
+					innerNode.AddEdge(doorEdge);
+					outterNode.AddEdge(doorEdge);
+				}
+					
+			}
 
             nodeDic.Add(id, newNode);
         }
@@ -222,6 +306,8 @@ public class CreatureManager : IObserver{
             node2.AddEdge(edge);
         }
 
+		MapGraph.instance.RegisterPassage (passage);
+
         if (model.script != null)
             model.script.OnInit();
     }
@@ -229,7 +315,13 @@ public class CreatureManager : IObserver{
 	public void Init()
 	{
 		creatureList = new List<CreatureModel> ();
-        
+
+        for (int i = 0; i < SefiraManager.instance.sefiraList.Count; i++) {
+            SefiraState state = new SefiraState();
+            state = SefiraState.NOT_ENOUGH_AGENT;
+            this.sefiraState.Add(state);
+        }
+
         Notice.instance.Observe(NoticeName.ChangeAgentSefira_Late, this);
 	}
 
@@ -375,6 +467,19 @@ public class CreatureManager : IObserver{
 
     private void OnChangeAgentSefira()
     {
+        foreach (Sefira sefira in SefiraManager.instance.sefiraList) {
+            SefiraState target = sefiraState[sefira.index-1];
+            if (sefira.agentList.Count == 0)
+            {
+                target = SefiraState.NOT_ENOUGH_AGENT;
+                creatureStateWorse(sefira.name);
+            }
+            else {
+                target = SefiraState.NORMAL;
+                creatureStateNormal(sefira.name);
+            }
+        }
+        /*
         if (AgentManager.instance.malkuthAgentList.Count == 0)
         {
             malkuthState = SefiraState.NOT_ENOUGH_AGENT;
@@ -418,13 +523,39 @@ public class CreatureManager : IObserver{
             yessodState = SefiraState.NORMAL;
             creatureStateNormal("Yessod");
         }
+         */
     }
+
+	public CreatureModel[] GetNearSuppressedCreatures(MovableObjectNode node)
+	{
+		List<CreatureModel> output = new List<CreatureModel>();
+		foreach (CreatureModel creature in creatureList)
+		{
+			if (creature.state != CreatureState.SUPPRESSED)
+				continue;
+			
+			Vector3 dist = node.GetCurrentViewPosition () - creature.GetMovableNode ().GetCurrentViewPosition ();
+			if (node.GetPassage () == creature.GetMovableNode ().GetPassage () &&
+				dist.sqrMagnitude <= 3) {
+				output.Add(creature);
+			}
+		}
+		return output.ToArray();
+	}
 
     public void OnNotice(string notice, params object[] param)
     {
         if (notice == NoticeName.ChangeAgentSefira_Late)
         {
             OnChangeAgentSefira();
+        }
+    }
+
+    public void OnStageStart() {
+        foreach (CreatureModel model in this.creatureList) {
+            if (model != null && model.script != null && model.script.skill != null) {
+                model.script.skill.OnStageStart();
+            }
         }
     }
 }

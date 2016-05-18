@@ -7,7 +7,6 @@ public class Prefab
 	{
         string path = "Prefabs/" + name ;
         GameObject obj = Resources.Load<GameObject>(path);
-
 		return GameObject.Instantiate(obj) as GameObject;
 	}
 }

@@ -7,32 +7,58 @@ using System.Collections;
  */
 public class PanicReady : PanicAction {
 
-    private WorkerModel targetAgent;
+	private WorkerModel actor;
 
     private float elapsedTime;
-    private float waitTime = 1.0f;
+    private float waitTime = 7.0f;
 
     public PanicReady(WorkerModel target)
     {
-        targetAgent = target;
+        actor = target;
         elapsedTime = 0;
-        targetAgent.SetPanicState();
+        actor.SetPanicState();
     }
+
+	public void Init()
+	{
+		if (actor is AgentModel)
+		{
+			//AnimatorManager.instance.ResetAnimatorTransform(actor.instanceId);
+			((AgentModel)actor).ResetAnimator();
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+			agentView.puppetAnim.SetBool ("Panic", true);
+			agentView.puppetAnim.SetInteger ("PanicType", 0);
+			agentView.puppetAnim.SetBool ("PanicStart", true);
+		}
+		else
+		{
+			waitTime = 1.0f;
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (actor.instanceId);
+			officerView.puppetAnim.SetBool ("PanicStart", true);
+		}
+	}
 
     public void Execute()
     {
+		PassageObjectModel passage = actor.GetMovableNode ().GetPassage ();
+		if (passage == null || passage.IsIsolate ())
+		{
+			actor.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (actor.currentSefira));
+			return;
+		}
+
+		actor.StopAction ();
+
         elapsedTime += Time.deltaTime;
         if (elapsedTime > waitTime)
         {
-            //elapsedTime -= waitTime;
-
-            //TrySuicide();
             StartPanicAction();
         }
     }
 
     public void StartPanicAction()
     {
-        targetAgent.PanicReadyComplete();
+		//Debug.Log ("Panic  action start");
+        actor.PanicReadyComplete();
     }
 }

@@ -22,7 +22,7 @@ public class MapEdge {
 		this.type = type;
 
 
-		this.cost = Vector3.Distance(node1.GetPosition(), node2.GetPosition());
+		this.cost = Mathf.Max (Vector3.Distance (node1.GetPosition (), node2.GetPosition ()), 0.01f);
 	}
 
 	public MapEdge(MapNode node1, MapNode node2, string type, float cost)
@@ -51,9 +51,22 @@ public class MapEdge {
 		return null;
 	}
 
-    public MapNode GetGoalNode(int direction)
+	public MapNode ConnectedNodeIgoreActivate(MapNode node)
+	{
+		if(node == node1)
+		{
+			return node2;
+		}
+		if(node == node2)
+		{
+			return node1;
+		}
+		return null;
+	}
+
+	public MapNode GetGoalNode(EdgeDirection direction)
     {
-        if (direction == 1)
+		if (direction == EdgeDirection.FORWARD)
         {
             return node2;
         }

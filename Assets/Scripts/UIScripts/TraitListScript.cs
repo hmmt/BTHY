@@ -35,6 +35,17 @@ public class TraitListScript : MonoBehaviour {
         
     }
 
+    public void MakeTraitSimple(TraitTypeInfo trait) { 
+        GameObject traitPanel = Instantiate(traitObject);
+        Text textPanel = traitPanel.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Text>();
+        textPanel.text = trait.name;
+
+        textPanel.gameObject.SetActive(true);
+        traitPanel.transform.SetParent(parent, false);
+        RectAdd(traitPanel.GetComponent<RectTransform>());
+
+    }
+
     public List<GameObject> MakeTrait(TraitTypeInfo trait) {
         List<GameObject> output = new List<GameObject>();
         GameObject traitPanel = Instantiate(traitObject);
@@ -44,9 +55,10 @@ public class TraitListScript : MonoBehaviour {
         Transform iconGrid = traitPanel.transform.GetChild(1);
 
         for (int i = 0; i < icon.Length; i++) {
-            GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
-            iconObject.GetComponent<Image>().sprite = icon[i];
+            //GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
+            //iconObject.GetComponent<Image>().sprite = icon[i];
 
+            /*
             OverlayObject icons = iconObject.AddComponent<OverlayObject>();
             icons.text = desc[i];
             EventTrigger trigger = iconObject.AddComponent<EventTrigger>();
@@ -60,7 +72,8 @@ public class TraitListScript : MonoBehaviour {
             exit.callback.AddListener((eventdata) => { icons.Hide(); });
             trigger.triggers.Add(enter);
             trigger.triggers.Add(exit);
-            output.Add(iconObject);
+             */
+            //output.Add(iconObject);
         }
         
         textPanel.text = trait.name;

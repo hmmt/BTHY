@@ -31,7 +31,7 @@ public class ObserveCreature : MonoBehaviour
         c.creatureStack = c.creature.metaInfo.stackLevel;
 
        
-        agent.Working(creature);
+        //agent.Working(creature);
         creature.state = CreatureState.OBSERVE;
         Debug.Log("OBSERVE");
 
@@ -53,7 +53,7 @@ public class ObserveCreature : MonoBehaviour
         if (agentStack <= 0)
         {
             Debug.Log("관찰실패");
-            agent.TakePhysicalDamage(creature.metaInfo.physicsDmg);
+            agent.TakePhysicalDamageByCreature(creature.metaInfo.physicsDmg);
             agent.TakeMentalDamage(creature.metaInfo.mentalDmg);
             agent.FinishWorking();
             creature.state = CreatureState.WAIT;

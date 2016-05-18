@@ -2,111 +2,193 @@
 using System.Collections;
 
 public class MagicalGirl : CreatureBase {
-
     // 기분상태에 따라 마취약 투여가 가능해야 함.
+    public enum MagicalGirlState { 
+        GOOD,
+        NORMAL,
+        BAD
+    }
+    const float AnestheticFeelingDown = 80f;
+    
+    public MagicalGirlState currentState = MagicalGirlState.GOOD;
 
-    private bool isDark = false;
-    private static string darkImage = "Unit/creature/magicalGirl_trans";
+    bool anestheticReady = false;//마취가능상태
+    bool isAnesthetized = false;//현재마취된상태
+    bool isEscaped = false;
+    bool coolTimeRun = false;
 
-    private static int darkCondition = 25;
+    float afterAnestheticFeeling = 0f;
 
-    private GameObject transParticle;
+    CreatureTimer timer = new CreatureTimer(30f);
+    CreatureTimer coolTime = new CreatureTimer(10f);
 
     public override void OnInit()
     {
-        base.OnInit();
-		//model.SetCurrentNode (MapGraph.instance.GetNodeById("malkuth-0-5"));
+        anestheticReady = true;//for initial
+        model.AddFeeling(100f);
+        coolTime.enabled = false;   
     }
-	/*
-    public override CreatureAttackInfo GetAttackInfo(UseSkill skill)
-    {
-        if (model.feeling <= darkCondition)
-        {
-            if (skill.skillTypeInfo.id == 0)
-            {
-            }
-            return base.GetAttackInfo(skill);
-        }
-        else
-        {
-            return base.GetAttackInfo(skill);
-        }
-    }*/
+
     private void ChangeDark(CreatureModel creature)
     {
-        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
-        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + darkImage);
-        unit.spriteRenderer.gameObject.transform.localScale = new Vector3(1, 1, 1);
+        
     }
 
     private void ChangeNormal(CreatureModel creature)
     {
-        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(creature.instanceId);
-
-        unit.spriteRenderer.sprite = ResourceCache.instance.GetSprite("Sprites/" + creature.metaInfo.imgsrc);
-        Texture2D tex = unit.spriteRenderer.sprite.texture;
-        unit.spriteRenderer.gameObject.transform.localScale = new Vector3(200f / tex.width, 200f / tex.height, 1);
+        
     }
 
     // 역변
     public override void OnFixedUpdate(CreatureModel creature)
     {
-		/*
-        if (creature.feeling <= darkCondition)
-        {
-            if (isDark == false)
-            {
-                Debug.Log("MagicalGirl.. darkness");
-                isDark = true;
-                ChangeDark(creature);
-            }
-        }
-        else
-        {
-            if (isDark == true)
-            {
-                Debug.Log("MagicalGirl.. status ok");
-                isDark = false;
-                ChangeNormal(creature);
-            }
-        }
+        if (isEscaped) return;
 
-        if (creature.feeling <= 0)
-        {
-            creature.Escape();
-        }*/
+        CheckFeeling();
+        if (timer.TimerRun()) {
+            AnestheticEnd();    
+        }
     }
+
+	public override void OnReturn ()
+	{
+        coolTime.enabled = false;
+        coolTime.TimerStop();
+		
+	}
 
     private void SkillDarkAttack(UseSkill skill)
     {
-        Debug.Log("MagicalGirl dark attack");
-        skill.agent.TakePhysicalDamage(4);
+        
     }
 
     public override void OnEnterRoom(UseSkill skill)
     {
-        
-
-        if (isDark)
+        if (skill.skillTypeInfo.id == 40004)
         {
-            SkillDarkAttack(skill);
+            Anesthetic();
         }
-		/*
-		skill.PauseWorking();
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 6);
-        effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
+    }
 
-        // skill이 이미 release 될 상황 고려 필요
-        effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
+    public override void OnRelease(UseSkill skill)
+    {
+        if (currentState == MagicalGirlState.GOOD) {
+            //smth effect
+            AgentMentalRecovery(skill.agent);
+        }
 
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 5)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 4)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 3)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/magicalGirl/magicalGirl_enterTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 2)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        */
+        if (skill.skillTypeInfo.id == 40004) {
+            if (isAnesthetized) {
+                Debug.Log("TimerStart");
+                timer.TimerStart(true);
+            }
+        }
+    }
+
+    public void CheckFeeling() { 
+        //smth flags check
+
+        if (model.GetFeelingPercent() < 33f && this.currentState != MagicalGirlState.BAD) { 
+            //state transition
+            this.currentState = MagicalGirlState.BAD;
+            if (anestheticReady) {
+                anestheticReady = false;
+            }
+        }
+
+        if (model.GetFeelingPercent() >= 33f && model.GetFeelingPercent() < 66f
+            && this.currentState != MagicalGirlState.NORMAL)
+        {
+            this.currentState = MagicalGirlState.NORMAL;
+            if (!isAnesthetized && !anestheticReady) {
+                if (coolTime.enabled)
+                {
+                    if (coolTime.TimerRun())
+                    {
+                        Debug.Log("coolTime ended");
+                        coolTime.enabled = false;
+                        anestheticReady = true;
+                    }
+                }
+                else {
+                    anestheticReady = true;
+                }
+            }
+        }
+
+        if (model.GetFeelingPercent() >= 66f && this.currentState != MagicalGirlState.GOOD) {
+            this.currentState = MagicalGirlState.GOOD;
+            if (anestheticReady)
+            {
+                anestheticReady = false;
+            }
+        }
+    }
+
+    public void Anesthetic() {
+        if (isAnesthetized) return;
+        if (!anestheticReady) return;
+
+        if (!coolTime.enabled) coolTime.enabled = true;
+        Debug.Log("AnestheticStart");
+        this.anestheticReady = false;
+        this.isAnesthetized = true;
+        afterAnestheticFeeling = -1 * AnestheticFeelingDown;
+        
+    }
+
+    public override bool hasUniqueEscape()
+    {
+        return false;
+    }
+
+    public override bool hasUniqueFinish()
+    {
+        return false;
+    }
+
+    public void AgentMentalRecovery(AgentModel worker) {
+        worker.RecoverMental(5);
+    }
+
+    public void AnestheticEnd() {
+        isAnesthetized = false;
+        Debug.Log("AnestheticEnd");
+        if (afterAnestheticFeeling < 0)
+        {
+            model.SubFeeling(-1 * afterAnestheticFeeling);
+        }
+        else {
+            model.AddFeeling(afterAnestheticFeeling);
+        }
+        coolTime.TimerStart(true);
+    }
+
+    public override bool AutoFeelingDown()
+    {
+        if (isAnesthetized) return false;
+        return true;
+    }
+
+    public override SkillTypeInfo GetSpecialSkill()
+    {
+        if (anestheticReady && currentState == MagicalGirlState.NORMAL)
+        {
+            return SkillTypeList.instance.GetData(40004);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public override string GetDebugText()
+    {
+        if (coolTime.enabled == false)
+        {
+            return this.anestheticReady.ToString() + " " + this.currentState.ToString();
+        }
+        else {
+            return this.coolTime.elapsed.ToString();
+        }
     }
 }

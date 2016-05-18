@@ -16,7 +16,7 @@ public class AgentManager : IObserver {
               "Alyssa", "Ashley"
           };
 
-	public static AgentManager _instance;
+	private static AgentManager _instance;
 	
 	public static AgentManager instance
 	{
@@ -31,10 +31,6 @@ public class AgentManager : IObserver {
     private int nextInstId = 1;
     private List<AgentModel> agentList;
     public List<AgentModel> agentListSpare;
-    public List<AgentModel> malkuthAgentList;
-    public List<AgentModel> hodAgentList;
-    public List<AgentModel> nezzachAgentList;
-    public List<AgentModel> yesodAgentList;
 
     //실험 - 유닛 시체
 
@@ -53,10 +49,6 @@ public class AgentManager : IObserver {
         agentListSpare = new List<AgentModel>();
         agentListDead = new List<AgentModel>();
 
-        malkuthAgentList = new List<AgentModel>();
-        hodAgentList = new List<AgentModel>();
-        nezzachAgentList = new List<AgentModel>();
-        yesodAgentList = new List<AgentModel>();
         Notice.instance.Observe(NoticeName.ChangeAgentSefira, this);
     }
 
@@ -97,10 +89,11 @@ public class AgentManager : IObserver {
         unit.indirectSkill = info.indirectSkill;
         unit.blockSkill = info.blockSkill;
 */
+        /*
 		unit.AddSkill (info.directSkill);
 		unit.AddSkill (info.indirectSkill);
 		unit.AddSkill (info.blockSkill);
-
+        */
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
 
         unit.panicType = info.panicType;
@@ -124,7 +117,13 @@ public class AgentManager : IObserver {
         unit.applyTrait(RandomEiTrait);
         unit.applyTrait(RandomNfTrait);
         unit.applyTrait(RandomNormalTrait);
-        AgentListScript.instance.SetAgentList(unit);
+        AddSpecialSkillToAgent(unit);
+        /*
+		if(AgentListScript.instance != null)
+        	AgentListScript.instance.SetAgentList(unit);
+        */
+
+        AgentAllocateWindow.instance.AddAgent(unit);
         /*
         Debug.Log("EI Trait "+RandomEiTrait.name);
         Debug.Log("Nf Trait " + RandomNfTrait.name);
@@ -132,6 +131,14 @@ public class AgentManager : IObserver {
         */
 
         return unit;
+    }
+
+    public void AddSpecialSkillToAgent(AgentModel model) {
+        model.AddSpecialSkill(SkillTypeList.instance.GetData(40002));
+        model.AddSpecialSkill(SkillTypeList.instance.GetData(40003));
+        if (model.agentLifeValue == PersonalityType.D || model.agentLifeValue == PersonalityType.C) {
+            model.AddSpecialSkill(SkillTypeList.instance.GetData(40004));
+        }
     }
 
     public string setRandomSprite(int count)
@@ -199,7 +206,12 @@ public class AgentManager : IObserver {
     {
         unit.activated = true;
         //Debug.Log("activated");
-        SefiraManager.instance.getSefira(unit.currentSefira).AddAgent(unit);
+        Sefira targetSefira = SefiraManager.instance.GetSefira(unit.currentSefira);
+        if (targetSefira != null) {
+            //Debug.Log("AgentActivated");
+            targetSefira.AddAgent(unit);
+        }
+        
         unit.SetCurrentSefira(sefira);
         agentListSpare.Remove(unit);
 
@@ -211,8 +223,16 @@ public class AgentManager : IObserver {
     public void deactivateAgent(AgentModel unit)
     {
         unit.activated = false;
-        Debug.Log("deactivated");
-        SefiraManager.instance.getSefira(unit.currentSefira).RemoveAgent(unit);
+        //Debug.Log("deactivated");
+        Sefira UnitSefira = SefiraManager.instance.GetSefira(unit.currentSefira);
+        if (UnitSefira != null)
+        {
+            UnitSefira.RemoveAgent(unit);
+        }
+        else {
+            return;
+        }
+        
         Notice.instance.Remove(NoticeName.FixedUpdate, unit);
         agentList.Remove(unit);
         Notice.instance.Send(NoticeName.RemoveAgent, unit);
@@ -223,7 +243,7 @@ public class AgentManager : IObserver {
     }
 
     public void RemoveAgent(AgentModel model)
-    {
+    {/*
         if (model.currentSefira == "1")
         {
             malkuthAgentList.Remove(model);
@@ -243,9 +263,9 @@ public class AgentManager : IObserver {
         {
             yesodAgentList.Remove(model);
         }
-
-        Sefira sefira = SefiraManager.instance.getSefira(model.currentSefira);
-        sefira.agentList.Remove(model);
+        */
+        Sefira sefira = SefiraManager.instance.GetSefira(model.currentSefira);
+        sefira.RemoveAgent(model);
 
         Notice.instance.Remove(NoticeName.FixedUpdate, model);
         agentList.Remove(model);
@@ -346,6 +366,7 @@ public class AgentManager : IObserver {
         }
     }
 
+	/*
     public AgentModel[] GetNearAgents(MovableObjectNode node)
     {
         List<AgentModel> output = new List<AgentModel>();
@@ -359,6 +380,28 @@ public class AgentManager : IObserver {
         }
         return output.ToArray();
     }
+    */
+	public AgentModel[] GetNearAgents(MovableObjectNode node)
+	{
+		List<AgentModel> output = new List<AgentModel>();
+		foreach (AgentModel agent in agentList)
+		{
+			if (agent.isDead ())
+				continue;
+			/*
+			if (node.CheckInRange(agent.GetMovableNode()))
+			{
+				output.Add(agent);
+			}
+*/
+			Vector3 dist = node.GetCurrentViewPosition () - agent.GetMovableNode ().GetCurrentViewPosition ();
+			if (node.GetPassage () == agent.GetMovableNode ().GetPassage () &&
+			   dist.sqrMagnitude <= 25) {
+				output.Add(agent);
+			}
+		}
+		return output.ToArray();
+	}
 
     private static string GetRandomName()
     {
@@ -375,21 +418,24 @@ public class AgentManager : IObserver {
             old.RemoveAgent(agentModel);
         }
         */
-        switch (oldSefira)
+        old = SefiraManager.instance.GetSefira(oldSefira);
+        if (old != null)
         {
-            case "1":
-                malkuthAgentList.Remove(agentModel);
-                break;
-            case "2":
-                nezzachAgentList.Remove(agentModel);
-                break;
-            case "3":
-                hodAgentList.Remove(agentModel);
-                break;
-            case "4":
-                yesodAgentList.Remove(agentModel);
-                break;
+            old.RemoveAgent(agentModel);
+            //deactivateAgent(agentModel);
         }
+
+
+        current = SefiraManager.instance.GetSefira(agentModel.currentSefira);
+        if (current != null)
+        {
+            current.AddAgent(agentModel);
+            //activateAgent(agentModel, agentModel.currentSefira);
+        }
+        else {
+            deactivateAgent(agentModel);
+        }
+
         /*
 
         if (agentModel.currentSefira != "0")
@@ -398,21 +444,6 @@ public class AgentManager : IObserver {
             current.AddAgent(agentModel);
         }
         */
-        switch (agentModel.currentSefira)
-        {
-            case "1":
-                malkuthAgentList.Add(agentModel);
-                break;
-            case "2":
-                nezzachAgentList.Add(agentModel);
-                break;
-            case "3":
-                hodAgentList.Add(agentModel);
-                break;
-            case "4":
-                yesodAgentList.Add(agentModel);
-                break;
-        }
     }
 
     public void OnNotice(string notice, params object[] param)

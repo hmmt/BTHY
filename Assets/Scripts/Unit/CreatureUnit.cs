@@ -10,6 +10,8 @@ public class CreatureUnit : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer returnSpriteRenderer;
 
+    public Canvas currentCreatureCanvas;
+    public UnityEngine.UI.Image cameraSensingArea;
 
     // ?
     public CreatureAnimScript animTarget;
@@ -18,8 +20,6 @@ public class CreatureUnit : MonoBehaviour {
 
     
     public Animator creatureAnimator;
-    public CreatureAnimBase script;
-    
 
     private Vector3 directionScaleFactor = new Vector3(1f, 1f, 1f);
     private Vector3 scaleFactor = new Vector3(1f, 1f, 1f);
@@ -30,6 +30,8 @@ public class CreatureUnit : MonoBehaviour {
     private bool visible = true;
 
     private bool mousePointEnter = false;
+
+    public bool scaleSetting = false;
 
    private void UpdateViewPosition()
    {
@@ -58,6 +60,31 @@ public class CreatureUnit : MonoBehaviour {
 
    private void UpdateDirection()
    {
+		MovableObjectNode movable = model.GetMovableNode ();
+		UnitDirection movableDirection = movable.GetDirection ();
+		/*
+		Transform puppet = puppetNode.transform;
+
+		Vector3 puppetScale = puppet.localScale;
+		*/
+		Vector3 scale = directionScaleFactor;
+
+		if (movableDirection == UnitDirection.RIGHT)
+		{
+			if (scale.x < 0) {
+				scale.x = -scale.x;
+			}
+		}
+		else
+		{
+			if (scale.x > 0) {
+				scale.x = -scale.x;
+			}
+		}
+		directionScaleFactor = scale;
+
+		return;
+		/*
        MapEdge currentEdge = model.GetCurrentEdge();
        int edgeDirection = model.GetMovableNode().GetEdgeDirection();
 
@@ -117,10 +144,31 @@ public class CreatureUnit : MonoBehaviour {
                }
            }
        }
+       */
    }
 
    private void UpdateScale()
    {
+       if (scaleSetting) return;
+		if (animTarget != null)
+		{
+			Vector3 scale = animTarget.transform.localScale;
+			if (scale.x < 0 && directionScaleFactor.x > 0)
+				scale.x = -scale.x;
+			if (scale.x > 0 && directionScaleFactor.x < 0)
+				scale.x = -scale.x;
+			animTarget.transform.localScale = scale;
+
+			/*
+			animTarget.transform.localScale = new Vector3 (
+				directionScaleFactor.x,
+				directionScaleFactor.y,
+				directionScaleFactor.z
+			);
+			*/
+		}
+
+       return;
        Vector3 mouseScale = new Vector3(1, 1, 1);
        if (mousePointEnter)
        {
@@ -132,21 +180,44 @@ public class CreatureUnit : MonoBehaviour {
            directionScaleFactor.y * scaleFactor.y * mouseScale.y,
            directionScaleFactor.z * scaleFactor.z * mouseScale.z
            );
+
+       Debug.Log(creatureAnimator.transform.localScale
+           +" " +directionScaleFactor + " " + scaleFactor + " " + mouseScale
+           
+           );
    }
     void FixedUpdate()
 	{
 		UpdateViewPosition();
         UpdateDirection();
+
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            if (this.model.metadataId == 100003)
+            {
+                model.SubFeeling(10);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && this.model.script is SingingMachine) {
+            this.model.SubFeeling(200);
+            
+            //this.model.script.skill.SkillActivate();
+        }
+        /*
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            AnimatorManager.instance.ChangeAnimatorByName(SefiraManager.instance.getSefira("1").agentList[0].instanceId , AnimatorName.RedShoes,
+                AgentLayer.currentLayer.GetAgent(SefiraManager.instance.getSefira("1").agentList[0].instanceId).puppetAnim, true, false);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            AnimatorManager.instance.ChangeAnimatorByName(SefiraManager.instance.getSefira("1").agentList[0].instanceId, AnimatorName.RedShoes,
+               AgentLayer.currentLayer.GetAgent(SefiraManager.instance.getSefira("1").agentList[0].instanceId).puppetAnim, true, true);
+        }
+         */
 	}
 
     private CreatureState oldState = CreatureState.WAIT;
     void Update()
     {
-        
-        if (script != null)
-        {
-            script.Update();
-        }
         
 
         if (oldState != model.state)
@@ -158,40 +229,45 @@ public class CreatureUnit : MonoBehaviour {
 
     void LateUpdate()
     {
-        
-        if (script != null)
-        {
-            script.LateUpdate();
-        }
-        
-
         UpdateScale();
     }
 
     void Start()
     {
-        if (model.state == CreatureState.ESCAPE_RETURN)
+		if (model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN)
         {
-            spriteRenderer.gameObject.SetActive(false);
+            //spriteRenderer.gameObject.SetActive(false);
+			if(animTarget != null)
+				animTarget.gameObject.SetActive(false);
             returnSpriteRenderer.gameObject.SetActive(true);
         }
         else
         {
-            spriteRenderer.gameObject.SetActive(true);
+			if(animTarget != null)
+				animTarget.gameObject.SetActive(true);
             returnSpriteRenderer.gameObject.SetActive(false);
         }
+
+		if (model.script != null)
+			model.script.OnViewInit (this);
+
+        this.currentCreatureCanvas.worldCamera = Camera.main;
+        
     }
 
     void OnChangeState()
     {
-        if (model.state == CreatureState.ESCAPE_RETURN)
+		if (model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN)
         {
-            spriteRenderer.gameObject.SetActive(false);
+			if(animTarget != null)
+				animTarget.gameObject.SetActive(false);
             returnSpriteRenderer.gameObject.SetActive(true);
         }
-        else if (model.state != CreatureState.ESCAPE_RETURN && oldState == CreatureState.ESCAPE_RETURN)
+		//else if (model.state != CreatureState.SUPPRESSED && oldState == CreatureState.SUPPRESSED)
+		else if (model.state != CreatureState.SUPPRESSED)
         {
-            spriteRenderer.gameObject.SetActive(true);
+			if(animTarget != null)
+				animTarget.gameObject.SetActive(true);
             returnSpriteRenderer.gameObject.SetActive(false);
         }
     }
@@ -213,7 +289,7 @@ public class CreatureUnit : MonoBehaviour {
     void OnDestroy()
     {
         Destroy(room.gameObject);
-    }
+    } 
 
     public void PlaySound(string soundKey)
     {
@@ -226,22 +302,64 @@ public class CreatureUnit : MonoBehaviour {
 
 	public void OnClicked()
 	{
-        room.OnClickedCreatureRoom();
+		if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK || model.state == CreatureState.ESCAPE_PURSUE)
+		{
+			//SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+			SuppressWindow.CreateWindow(model);
+			return;
+		}
+
+        //room.OnClickedCreatureRoom();
+		CreatureModel oldCreature = (CollectionWindow.currentWindow != null) ? CollectionWindow.currentWindow.GetCreature() : null;
+
+        /*
+		if (SelectWorkAgentWindow.currentWindow != null)
+			SelectWorkAgentWindow.currentWindow.CloseWindow();
+        */
+        /*
+		if (WorkAllocateWindow.currentWindow != null)
+		{
+			WorkAllocateWindow.currentWindow.CloseWindow();
+		}*/
+
+
+		CollectionWindow.Create(model);
+
+
+		// TODO : 최적화 필요
+		GameObject collection = GameObject.FindGameObjectWithTag("AnimCollectionController");
+
+        /*
+		if (collection.GetComponent<Animator>().GetBool("isTrue"))
+		{
+			//Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
+			collection.GetComponent<Animator>().SetBool("isTrue", false);
+		}
+		else if (oldCreature == model)
+		{
+			//Debug.Log(collection.GetComponent<Animator>().GetBool("isTrue"));
+			collection.GetComponent<Animator>().SetBool("isTrue", true);
+		}*/
 	}
 
-    public void OnClick() {
-        Debug.Log("크리쳐 상태 " + model.state);
-
-		if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK)
+    public void OnClickByRoom() {
+		if (model.state == CreatureState.ESCAPE || model.state == CreatureState.ESCAPE_ATTACK || model.state == CreatureState.ESCAPE_PURSUE)
 		{
-			SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+			//SelectWorkAgentWindow.CreateWindow(model, WorkType.ESACAPE);
+            //SuppressWindow.CreateWindow(model);
+			return;
 		}
 		else
         //if (model.state == CreatureState.WAIT)
         {
-            SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
+            //SelectWorkAgentWindow.CreateWindow(model, WorkType.NORMAL);
+            WorkAllocateWindow.CreateWindow(model, WorkType.NORMAL);
             //IsolateRoomStatus.CreateWindow(this);
         }
+
+        //Temporary Call Suppress window for Debug. Should Remove This line.
+        //SuppressWindow.CreateWindow(model);
+
     }
 
     public void PointerEnter()
@@ -253,4 +371,5 @@ public class CreatureUnit : MonoBehaviour {
     {
         mousePointEnter = false;
     }
+
 }

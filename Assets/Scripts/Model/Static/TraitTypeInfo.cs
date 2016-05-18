@@ -14,12 +14,23 @@ public class TraitTypeInfo {
     public int hp;
     public int mental;
 
-    public int move;
-    public int work;
+    public float move;
+    public float work;
+
+    public float energy;
+    public float attack;
+    public float success;
+
+    public string upwork;
 
     public string description;
-
-    public int traitFlag;
+    public string effect;
+    public string condition;
 
     public int discType;
+
+    public bool haveImg;
+    public string imgsrc;
+    public string imgPos;
+    public Sprite image;
 }

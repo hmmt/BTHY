@@ -20,7 +20,9 @@ public class LogListScript : MonoBehaviour, IObserver {
 
     public void Start() {
         initialY = criteria.rect.height;
+        Debug.Log(initialY);
         scrollInitial = List.localPosition.y;
+        initialX = List.rect.width / 2;
     }
 
     void OnEnable()
@@ -39,7 +41,7 @@ public class LogListScript : MonoBehaviour, IObserver {
         if ("AddSystemLog" == notice && !narration)
         {
             MakeTextWithBg("  " + (string)param[0]);
-            initialX = List.rect.width / 2;
+            
         }
 
         SortBgList();
@@ -78,6 +80,16 @@ public class LogListScript : MonoBehaviour, IObserver {
 
     }
 
+    public void MakeText(string context) {
+        GameObject addText = Instantiate(LogText);
+        RectTransform rt = addText.GetComponent<RectTransform>();
+
+        addText.transform.GetComponent<Image>().sprite = bgImage[0];
+        
+
+    }
+
+
     public void AddComponents(RectTransform add)
     {
         add.SetParent(List);
@@ -86,8 +98,6 @@ public class LogListScript : MonoBehaviour, IObserver {
     public void SortBgList()
     {
         float posy = 0.0f;
-        float posx;
-        posx = List.rect.width / 2;
        // initialPos = List.rect.height / 2;
         //Debug.Log("InitialPos: " + initialPos);
         for (int i = 0; i < child.Count; i++)
@@ -98,7 +108,7 @@ public class LogListScript : MonoBehaviour, IObserver {
             float size = rt.rect.height;
            
             rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y);
-            rt.localPosition = new Vector3(posx, posy, 0.0f);
+            rt.localPosition = new Vector3(initialX, posy, 0.0f);
             posy -= (size + spacing);
            
         }
@@ -112,6 +122,15 @@ public class LogListScript : MonoBehaviour, IObserver {
             float heightformove = move - initialY;
             List.localPosition = new Vector3(List.localPosition.x, scrollInitial+ heightformove, 0.0f);
         
+        }
+
+    }
+
+    public void SortBgList2() {
+        float posy = 0.0f;
+
+        for (int i = 0; i < child.Count; i++) { 
+            
         }
 
     }

@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         Screen.fullScreen = true;
         _currentGameManager = this;
 
-        Camera.main.orthographicSize += 5;
+        //Camera.main.orthographicSize += 5;
 
 
         // 옮겨야 한다.
@@ -70,8 +70,8 @@ public class GameManager : MonoBehaviour
 
 	void InitFirst()
 	{
-		if (TempAgentAI.instance == null) {
-			new GameObject ("AgentAI").AddComponent<TempAgentAI>();
+		if (AutoCommandManager.instance == null) {
+			new GameObject ("AgentAI").AddComponent<AutoCommandManager>();
 		}
 	}
 
@@ -80,40 +80,28 @@ public class GameManager : MonoBehaviour
         AgentLayer.currentLayer.Init();
         CreatureLayer.currentLayer.Init();
         OfficerLayer.currentLayer.Init();
-        AgentListScript.instance.Init();
+        //AgentListScript.instance.Init();
 
 		AgentModel a = null;
         if (PlayerModel.instance.GetDay() == 0)
         {
-            PlayerModel.instance.OpenArea("1"); ;
+            PlayerModel.instance.OpenArea("1");
+			//PlayerModel.instance.OpenArea("4");
 
 			a = AgentManager.instance.AddAgentModel();
             
         }
 
-        //OfficeManager.instance.CreateOfficerModel("1");
-        /*
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-
-        OfficeManager.instance.CreateOfficerModel("1");
-        OfficeManager.instance.CreateOfficerModel("1");
-        */
+     
         foreach (AgentModel agent in AgentManager.instance.GetAgentList())
         {
             agent.ReturnToSefira();
         }
 
-        //SefiraManager.instance.getSefira("1").AssignOfficerDept();
-        
-        foreach (OfficerModel officer in OfficeManager.instance.GetOfficerList()) {
+        foreach (OfficerModel officer in OfficerManager.instance.GetOfficerList()) {
             officer.ReturnToSefira();
         }
+        
         
 
 		stageUI.CancelSefiraAgent(a);
@@ -122,9 +110,74 @@ public class GameManager : MonoBehaviour
 		if (!a.activated)
 			AgentManager.instance.activateAgent(a, "1");
 
-		a.SetCurrentNode (MapGraph.instance.GetNodeById ("malkuth-0-2"));
+		a.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-5"));
 
-		
+		//a.weapon = AgentWeapon.SHIELD;
+
+		// temp
+		AgentModel b = AgentManager.instance.AddAgentModel();
+		b.gender = "Male";
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
+		b.SetCurrentSefira("1");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "1");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
+
+		b = AgentManager.instance.AddAgentModel();
+		b.gender = "Male";
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
+		b.SetCurrentSefira("1");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "1");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
+
+		//b.weapon = AgentWeapon.SHIELD;
+
+		/*
+		b = AgentManager.instance.AddAgentModel();
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
+		b.SetCurrentSefira("4");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "4");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-tessod-4"));
+
+
+		// temp222
+		b = AgentManager.instance.AddAgentModel();
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
+		b.SetCurrentSefira("4");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "4");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-tessod-4"));
+
+		b = AgentManager.instance.AddAgentModel();
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
+		b.SetCurrentSefira("4");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "4");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-tessod-4"));
+*/
+
+		//b.weapon = AgentWeapon.SHIELD;
+
+
+		/*
+		b.Panic ();
+
+
+
+		a.StartSuppressAgent (b, sa);
+		*/
         StartStage();
 		//stageUI.Close ();
 		//StartGame();
@@ -149,11 +202,6 @@ public class GameManager : MonoBehaviour
 
     public void StartStage()
     {
-        /*
-        loadingScreenState.gameObject.SetActive(false);
-        storyScene.gameObject.SetActive(false);
-        gameStateScreen.SetActive(true);
-        */
         stageUI.Open(StageUI.UIType.START_STAGE);
         // StartGame();
     }
@@ -177,10 +225,20 @@ public class GameManager : MonoBehaviour
             
         }
         */
-        SefiraManager.instance.getSefira(SefiraName.Malkut).InitAgentSkillList();
-        foreach (OfficerModel om in OfficeManager.instance.GetOfficerList()) {
+        SefiraManager.instance.GetSefira(SefiraName.Malkut).InitAgentSkillList();
+        CreatureManager.instance.OnStageStart();
+
+        foreach (OfficerModel om in OfficerManager.instance.GetOfficerList()) {
             StartCoroutine(om.StartAction());
         }
+
+        foreach (AgentModel am in AgentManager.instance.GetAgentList()) {
+            am.MakeAccessoryByTraits();
+        }
+
+        AgentLayer.currentLayer.OnStageStart();
+        OfficerLayer.currentLayer.OnStageStart();
+
     }
 
 	public void Pause()
@@ -205,6 +263,11 @@ public class GameManager : MonoBehaviour
         if (SelectWorkAgentWindow.currentWindow != null)
             SelectWorkAgentWindow.currentWindow.CloseWindow();
 
+        if (WorkAllocateWindow.currentWindow != null)
+        {
+            WorkAllocateWindow.currentWindow.CloseWindow();
+        }
+
         if (CollectionWindow.currentWindow != null)
             CollectionWindow.currentWindow.CloseWindow();
 
@@ -219,11 +282,24 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
+		FixedUpdateProccess ();
         if (state == GameState.PLAYING)
         {
             Notice.instance.Send(NoticeName.FixedUpdate);
         }
     }
+
+	public void FixedUpdateProccess()
+	{
+		int day = PlayerModel.instance.GetDay();
+		float needEnergy = StageTypeInfo.instnace.GetEnergyNeed(day);
+		float energy = EnergyModel.instance.GetEnergy();
+
+		if (energy >= needEnergy)
+		{
+			TimeOver ();
+		}
+	}
 
     public void TimeOver()
     {
@@ -278,7 +354,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> dic = new Dictionary<string, object>();
 
         dic.Add("agents", AgentManager.instance.GetSaveData());
-        dic.Add("officers", OfficeManager.instance.GetSaveData());
+        dic.Add("officers", OfficerManager.instance.GetSaveData());
         dic.Add("creatures", CreatureManager.instance.GetSaveData());
         dic.Add("playerData", PlayerModel.instance.GetSaveData());
 
@@ -309,7 +385,7 @@ public class GameManager : MonoBehaviour
 
         PlayerModel.instance.LoadData(playerData);
         AgentManager.instance.LoadData(agents);
-        OfficeManager.instance.LoadData(officers);
+        OfficerManager.instance.LoadData(officers);
         CreatureManager.instance.LoadData(creatures);
     }
 }

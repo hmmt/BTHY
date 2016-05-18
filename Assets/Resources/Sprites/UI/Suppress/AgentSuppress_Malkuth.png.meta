@@ -1,0 +1,346 @@
+fileFormatVersion: 2
+guid: 8f2cd08b0ebec7f429ced171108db0f8
+timeCreated: 1462786908
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Panel
+    21300002: AgentSuppress_Malkuth_8
+    21300004: AgentSlot_Normal
+    21300006: AgentSlot_Selected
+    21300008: AgentSlot_Suppress
+    21300010: Button_Normal
+    21300012: Button_Over
+    21300014: Button_Click
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Panel
+      rect:
+        serializedVersion: 2
+        x: 1298
+        y: 2604
+        width: 2444
+        height: 3230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 3.5, y: -400}
+        - {x: 4.5, y: -400}
+        - {x: 14.5, y: -390}
+        - {x: 14.5, y: -389}
+        - {x: 17.5, y: -385}
+        - {x: 270.5, y: -385}
+        - {x: 282.5, y: -373}
+        - {x: 282.5, y: -230}
+        - {x: 284.5, y: -228}
+        - {x: 285.5, y: -228}
+        - {x: 288.5, y: -225}
+        - {x: 289.5, y: -225}
+        - {x: 294.5, y: -220}
+        - {x: 294.5, y: -219}
+        - {x: 297.5, y: -216}
+        - {x: 297.5, y: -215}
+        - {x: 299.5, y: -214}
+        - {x: 301.5, y: -209}
+        - {x: 301.5, y: -205}
+        - {x: 302.5, y: -204}
+        - {x: 302.5, y: -198}
+        - {x: 303.5, y: -197}
+        - {x: 303.5, y: 310}
+        - {x: 302.5, y: 311}
+        - {x: 302.5, y: 318}
+        - {x: 306.5, y: 322}
+        - {x: 306.5, y: 364}
+        - {x: 298.5, y: 372}
+        - {x: 105.5, y: 372}
+        - {x: 104.5, y: 374}
+        - {x: 98.5, y: 382}
+        - {x: 97.5, y: 386}
+        - {x: 95.5, y: 388}
+        - {x: 92.5, y: 389}
+        - {x: 88.5, y: 389}
+        - {x: 87.5, y: 390}
+        - {x: 82.5, y: 390}
+        - {x: 81.5, y: 391}
+        - {x: 77.5, y: 391}
+        - {x: 76.5, y: 392}
+        - {x: 71.5, y: 392}
+        - {x: 70.5, y: 393}
+        - {x: 61.5, y: 394}
+        - {x: 60.5, y: 395}
+        - {x: 55.5, y: 395}
+        - {x: 54.5, y: 396}
+        - {x: 50.5, y: 396}
+        - {x: 49.5, y: 397}
+        - {x: 44.5, y: 397}
+        - {x: 43.5, y: 398}
+        - {x: 39.5, y: 398}
+        - {x: 38.5, y: 399}
+        - {x: 34.5, y: 399}
+        - {x: 33.5, y: 400}
+        - {x: 28.5, y: 400}
+        - {x: 27.5, y: 401}
+        - {x: 23.5, y: 401}
+        - {x: 22.5, y: 402}
+        - {x: 17.5, y: 402}
+        - {x: 16.5, y: 403}
+        - {x: 12.5, y: 403}
+        - {x: 11.5, y: 404}
+        - {x: -0.5, y: 404}
+        - {x: -10.5, y: 403}
+        - {x: -11.5, y: 402}
+        - {x: -15.5, y: 402}
+        - {x: -16.5, y: 401}
+        - {x: -21.5, y: 401}
+        - {x: -22.5, y: 400}
+        - {x: -26.5, y: 400}
+        - {x: -27.5, y: 399}
+        - {x: -31.5, y: 399}
+        - {x: -32.5, y: 398}
+        - {x: -37.5, y: 398}
+        - {x: -38.5, y: 397}
+        - {x: -43.5, y: 397}
+        - {x: -44.5, y: 396}
+        - {x: -48.5, y: 396}
+        - {x: -49.5, y: 395}
+        - {x: -53.5, y: 395}
+        - {x: -54.5, y: 394}
+        - {x: -59.5, y: 394}
+        - {x: -60.5, y: 393}
+        - {x: -64.5, y: 393}
+        - {x: -65.5, y: 392}
+        - {x: -70.5, y: 392}
+        - {x: -71.5, y: 391}
+        - {x: -75.5, y: 391}
+        - {x: -76.5, y: 390}
+        - {x: -80.5, y: 390}
+        - {x: -81.5, y: 389}
+        - {x: -86.5, y: 389}
+        - {x: -91.5, y: 385}
+        - {x: -94.5, y: 379}
+        - {x: -96.5, y: 376}
+        - {x: -96.5, y: 375}
+        - {x: -98.5, y: 372}
+        - {x: -297.5, y: 372}
+        - {x: -305.5, y: 364}
+        - {x: -305.5, y: 323}
+        - {x: -300.5, y: 318}
+        - {x: -300.5, y: 311}
+        - {x: -301.5, y: 310}
+        - {x: -301.5, y: -370}
+        - {x: -300.5, y: -371}
+        - {x: -300.5, y: -378}
+        - {x: -299.5, y: -379}
+        - {x: -299.5, y: -381}
+        - {x: -298.5, y: -382}
+        - {x: -297.5, y: -386}
+        - {x: -295.5, y: -388}
+        - {x: -295.5, y: -389}
+        - {x: -285.5, y: -400}
+        - {x: -276.5, y: -404}
+        - {x: -2.5, y: -404}
+        - {x: 2.5, y: -402}
+    - name: AgentSuppress_Malkuth_8
+      rect:
+        serializedVersion: 2
+        x: 710
+        y: 4706
+        width: 76
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: AgentSlot_Normal
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 1296
+        width: 1136
+        height: 692
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 142, y: 76.5}
+        - {x: 133, y: 86.5}
+        - {x: -133, y: 86.5}
+        - {x: -138, y: 80.5}
+        - {x: -142, y: 76.5}
+        - {x: -142, y: -76.5}
+        - {x: -132, y: -86.5}
+        - {x: 132, y: -86.5}
+        - {x: 142, y: -76.5}
+    - name: AgentSlot_Selected
+      rect:
+        serializedVersion: 2
+        x: 1439
+        y: 1292
+        width: 1138
+        height: 696
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143.75, y: 71}
+        - {x: 142.75, y: 75}
+        - {x: 133.75, y: 86}
+        - {x: 130.75, y: 87}
+        - {x: -131.25, y: 87}
+        - {x: -141.25, y: 76}
+        - {x: -142.25, y: 72}
+        - {x: -142.25, y: -72}
+        - {x: -141.25, y: -76}
+        - {x: -131.25, y: -87}
+        - {x: 132.75, y: -87}
+        - {x: 140.75, y: -78}
+        - {x: 143.75, y: -74}
+    - name: AgentSlot_Suppress
+      rect:
+        serializedVersion: 2
+        x: 2651
+        y: 1292
+        width: 1138
+        height: 696
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143.75, y: 74}
+        - {x: 141.75, y: 76}
+        - {x: 141.75, y: 77}
+        - {x: 132.75, y: 87}
+        - {x: -129.25, y: 87}
+        - {x: -136.25, y: 81}
+        - {x: -136.25, y: 80}
+        - {x: -141.25, y: 75}
+        - {x: -142.25, y: 71}
+        - {x: -142.25, y: -73}
+        - {x: -139.25, y: -77}
+        - {x: -139.25, y: -78}
+        - {x: -131.25, y: -87}
+        - {x: 132.75, y: -87}
+        - {x: 142.75, y: -77}
+        - {x: 143.75, y: -74}
+    - name: Button_Normal
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 210
+        width: 1056
+        height: 616
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -126, y: 78}
+        - {x: -132, y: 69}
+        - {x: -132, y: -77}
+        - {x: 123, y: -77}
+        - {x: 133, y: -67}
+        - {x: 133, y: 78}
+    - name: Button_Over
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 184
+        width: 1104
+        height: 668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 138, y: -62.5}
+        - {x: 138, y: 71.5}
+        - {x: 136, y: 76.5}
+        - {x: 131, y: 81.5}
+        - {x: 127, y: 83.5}
+        - {x: -116, y: 83.5}
+        - {x: -119, y: 82.5}
+        - {x: -125, y: 79.5}
+        - {x: -134, y: 71.5}
+        - {x: -138, y: 63.5}
+        - {x: -138, y: -70.5}
+        - {x: -137, y: -73.5}
+        - {x: -132, y: -80.5}
+        - {x: -125, y: -83.5}
+        - {x: 116, y: -83.5}
+        - {x: 123, y: -80.5}
+        - {x: 136, y: -68.5}
+    - name: Button_Click
+      rect:
+        serializedVersion: 2
+        x: 2660
+        y: 184
+        width: 1104
+        height: 668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 138, y: -60.5}
+        - {x: 138, y: 71.5}
+        - {x: 136, y: 76.5}
+        - {x: 131, y: 81.5}
+        - {x: 127, y: 83.5}
+        - {x: -116, y: 83.5}
+        - {x: -119, y: 82.5}
+        - {x: -124, y: 80.5}
+        - {x: -135, y: 70.5}
+        - {x: -138, y: 62.5}
+        - {x: -138, y: -72.5}
+        - {x: -132, y: -80.5}
+        - {x: -125, y: -83.5}
+        - {x: 116, y: -83.5}
+        - {x: 123, y: -80.5}
+        - {x: 134, y: -69.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

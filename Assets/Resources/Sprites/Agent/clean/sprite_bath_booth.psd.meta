@@ -1,0 +1,178 @@
+fileFormatVersion: 2
+guid: 0aae376e4418b834b8f7b857354562ea
+timeCreated: 1457787454
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: sprite_bath_booth_line
+    21300002: sprite_bath_booth_cloth
+    21300004: sprite_bath_booth
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 8192
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: sprite_bath_booth_line
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 636
+        width: 278
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprite_bath_booth_cloth
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 34
+        width: 300
+        height: 533
+      alignment: 9
+      pivot: {x: 0.5224662, y: 0.9602819}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -102.73985, y: -482.83026}
+        - {x: -93.73985, y: -492.83026}
+        - {x: -84.73985, y: -496.83026}
+        - {x: -73.73985, y: -496.83026}
+        - {x: -56.739853, y: -491.83026}
+        - {x: -39.739853, y: -491.83026}
+        - {x: -10.739853, y: -504.83026}
+        - {x: -2.739853, y: -506.83026}
+        - {x: 19.260147, y: -502.83026}
+        - {x: 41.260147, y: -486.83026}
+        - {x: 58.260147, y: -486.83026}
+        - {x: 79.26015, y: -493.83026}
+        - {x: 84.26015, y: -500.83026}
+        - {x: 92.26015, y: -503.83026}
+        - {x: 103.26015, y: -487.83026}
+        - {x: 116.26015, y: -484.83026}
+        - {x: 124.26015, y: -498.83026}
+        - {x: 130.26015, y: -501.83026}
+        - {x: 133.26015, y: -497.83026}
+        - {x: 138.26015, y: -460.83026}
+        - {x: 142.26015, y: -421.83026}
+        - {x: 143.26015, y: -408.83026}
+        - {x: 143.26015, y: -250.83026}
+        - {x: 141.26015, y: -220.83026}
+        - {x: 137.26015, y: -170.83026}
+        - {x: 136.26015, y: -149.83026}
+        - {x: 135.26015, y: -122.83026}
+        - {x: 134.26015, y: -86.83026}
+        - {x: 133.26015, y: -13.830261}
+        - {x: 135.26015, y: -13.830261}
+        - {x: 133.26015, y: 13.169739}
+        - {x: 131.26015, y: 21.169739}
+        - {x: 7.260147, y: 21.169739}
+        - {x: -44.739853, y: 16.169739}
+        - {x: -76.73985, y: 17.169739}
+        - {x: -123.73985, y: 21.169739}
+        - {x: -136.73985, y: 21.169739}
+        - {x: -141.73985, y: 19.169739}
+        - {x: -141.73985, y: 3.1697388}
+        - {x: -139.73985, y: 0.16973877}
+        - {x: -140.73985, y: -39.83026}
+        - {x: -141.73985, y: -58.83026}
+        - {x: -141.73985, y: -244.83026}
+        - {x: -140.73985, y: -287.83026}
+        - {x: -141.73985, y: -288.83026}
+        - {x: -144.73985, y: -342.83026}
+        - {x: -149.73985, y: -381.83026}
+        - {x: -153.73985, y: -433.83026}
+        - {x: -154.73985, y: -452.83026}
+        - {x: -154.73985, y: -463.83026}
+        - {x: -153.73985, y: -487.83026}
+        - {x: -152.73985, y: -504.83026}
+        - {x: -148.73985, y: -506.83026}
+        - {x: -142.73985, y: -506.83026}
+        - {x: -134.73985, y: -496.83026}
+        - {x: -115.73985, y: -472.83026}
+        - {x: -103.73985, y: -474.83026}
+    - name: sprite_bath_booth
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 32
+        width: 289
+        height: 573
+      alignment: 9
+      pivot: {x: 0.47846687, y: 0.034939047}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 139.72308, y: -20.02008}
+        - {x: 141.72308, y: -18.02008}
+        - {x: 141.72308, y: -10.020081}
+        - {x: 142.72308, y: -9.020081}
+        - {x: 142.72308, y: 448.97992}
+        - {x: 141.72308, y: 449.97992}
+        - {x: 141.72308, y: 547.9799}
+        - {x: 138.72308, y: 551.9799}
+        - {x: 128.72308, y: 551.9799}
+        - {x: 127.72308, y: 552.9799}
+        - {x: 109.72308, y: 552.9799}
+        - {x: 108.72308, y: 551.9799}
+        - {x: -56.276917, y: 551.9799}
+        - {x: -57.276917, y: 552.9799}
+        - {x: -130.27692, y: 552.9799}
+        - {x: -133.27692, y: 549.9799}
+        - {x: -133.27692, y: 544.9799}
+        - {x: -132.27692, y: 543.9799}
+        - {x: -132.27692, y: 541.9799}
+        - {x: -133.27692, y: 540.9799}
+        - {x: -133.27692, y: 426.97992}
+        - {x: -134.27692, y: 425.97992}
+        - {x: -134.27692, y: -8.020081}
+        - {x: -133.27692, y: -9.020081}
+        - {x: -134.27692, y: -15.020081}
+        - {x: -133.27692, y: -16.02008}
+        - {x: -133.27692, y: -19.02008}
+        - {x: -132.27692, y: -20.02008}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

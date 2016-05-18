@@ -1,0 +1,309 @@
+fileFormatVersion: 2
+guid: eb6357867aae0e149ace5c39a1204ff3
+timeCreated: 1457787358
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: sprite_mop_body
+    21300002: sprite_mop_head
+    21300004: sprite_mop_mop
+    21300006: sprite_facespace_forhide
+    21300008: sprite_face_encourage_eye
+    21300010: clean_mop_someotherface_5
+    21300012: sprite_face_smile
+    21300014: clean_mop_someotherface_7
+    21300016: sprite_mouth_3
+    21300018: clean_mop_someotherface_9
+    21300020: sprite_mouth_forTalk
+    21300022: sprite_mouth_all_restrict
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 8192
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: sprite_mop_body
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 110
+        width: 35
+        height: 571
+      alignment: 9
+      pivot: {x: 0.5385132, y: 0.04910329}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -18.847961, y: 542.96204}
+        - {x: -18.847961, y: -27.037964}
+        - {x: -17.847961, y: -28.037964}
+        - {x: 16.152039, y: -28.037964}
+        - {x: 16.152039, y: 542.96204}
+    - name: sprite_mop_head
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 593
+        width: 293
+        height: 101
+      alignment: 9
+      pivot: {x: 0.4999999, y: 0.71353906}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -73.49997, y: 28.932556}
+        - {x: -137.49997, y: 7.932556}
+        - {x: -140.49997, y: -1.0674438}
+        - {x: -140.49997, y: -72.067444}
+        - {x: 69.50003, y: -72.067444}
+        - {x: 146.50003, y: -65.067444}
+        - {x: 146.50003, y: -5.067444}
+        - {x: 76.50003, y: 28.932556}
+    - name: sprite_mop_mop
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 428
+        width: 345
+        height: 155
+      alignment: 9
+      pivot: {x: 0.5625143, y: 0.86525565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 147.93256, y: -20.114624}
+        - {x: 126.932556, y: 9.885376}
+        - {x: 121.932556, y: 10.885376}
+        - {x: -52.067444, y: 10.885376}
+        - {x: -88.067444, y: 5.885376}
+        - {x: -132.06744, y: -7.114624}
+        - {x: -139.06744, y: -17.114624}
+        - {x: -190.06744, y: -106.114624}
+        - {x: -191.06744, y: -112.114624}
+        - {x: -191.06744, y: -127.114624}
+        - {x: -188.06744, y: -131.11462}
+        - {x: -139.06744, y: -131.11462}
+        - {x: -105.067444, y: -130.11462}
+        - {x: 118.932556, y: -125.114624}
+        - {x: 148.93256, y: -104.114624}
+        - {x: 148.93256, y: -46.114624}
+    - name: sprite_facespace_forhide
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 319
+        width: 232
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -105, y: 45.5}
+        - {x: -116, y: 25.5}
+        - {x: -116, y: -16.5}
+        - {x: -77, y: -45.5}
+        - {x: 94, y: -45.5}
+        - {x: 116, y: -26.5}
+        - {x: 116, y: 25.5}
+        - {x: 92, y: 45.5}
+    - name: sprite_face_encourage_eye
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 189
+        width: 224
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 103, y: 41.5}
+        - {x: 103, y: 50.5}
+        - {x: 87, y: 50.5}
+        - {x: 78, y: 48.5}
+        - {x: 22, y: 4.5}
+        - {x: 22, y: -21.5}
+        - {x: 69, y: -51.5}
+        - {x: 88, y: -51.5}
+        - {x: 89, y: -50.5}
+        - {x: 90, y: -43.5}
+        - {x: 55, y: -15.5}
+        - {x: 102, y: 38.5}
+      - - {x: -85, y: 48.5}
+        - {x: -105, y: 48.5}
+        - {x: -107, y: 43.5}
+        - {x: -107, y: 39.5}
+        - {x: -104, y: 36.5}
+        - {x: -96, y: 33.5}
+        - {x: -89, y: -39.5}
+        - {x: -86, y: -40.5}
+        - {x: -78, y: -40.5}
+        - {x: -24, y: -22.5}
+        - {x: -19, y: -14.5}
+        - {x: -19, y: -0.5}
+        - {x: -26, y: 10.5}
+    - name: clean_mop_someotherface_5
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 235
+        width: 37
+        height: 43
+      alignment: 9
+      pivot: {x: 2.1029902, y: 0.6253918}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprite_face_smile
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 93
+        width: 233
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -98.5, y: 14}
+        - {x: -105.5, y: 5}
+        - {x: -110.5, y: -6}
+        - {x: -110.5, y: -17}
+        - {x: -45.5, y: -17}
+        - {x: -12.5, y: -13}
+        - {x: -12.5, y: 12}
+        - {x: -19.5, y: 14}
+      - - {x: 43.5, y: 21}
+        - {x: 20.5, y: 5}
+        - {x: 20.5, y: -10}
+        - {x: 83.5, y: -10}
+        - {x: 116.5, y: -6}
+        - {x: 116.5, y: 15}
+        - {x: 101.5, y: 21}
+    - name: clean_mop_someotherface_7
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 177
+        width: 48
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: sprite_mouth_3
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 19
+        width: 64
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 33}
+        - {x: -32, y: 27}
+        - {x: -32, y: -31}
+        - {x: -25, y: -33}
+        - {x: 32, y: -33}
+        - {x: 32, y: 27}
+        - {x: 27, y: 33}
+    - name: clean_mop_someotherface_9
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 12
+        width: 75
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24.5, y: 21}
+        - {x: -37.5, y: 1}
+        - {x: -37.5, y: -25}
+        - {x: -33.5, y: -26}
+        - {x: -12.5, y: -26}
+        - {x: 24.5, y: -5}
+        - {x: 37.5, y: 14}
+        - {x: 37.5, y: 21}
+    - name: sprite_mouth_forTalk
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 11
+        width: 54
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 25.5}
+        - {x: -27, y: 18.5}
+        - {x: -27, y: -23.5}
+        - {x: -20, y: -25.5}
+        - {x: 19, y: -25.5}
+        - {x: 27, y: -16.5}
+        - {x: 27, y: 22.5}
+        - {x: 18, y: 25.5}
+    - name: sprite_mouth_all_restrict
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 15
+        width: 94
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 28, y: 26}
+        - {x: -44, y: 26}
+        - {x: -47, y: 16}
+        - {x: -47, y: -26}
+        - {x: 45, y: -26}
+        - {x: 47, y: -23}
+        - {x: 47, y: 8}
+        - {x: 43, y: 21}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
