@@ -282,11 +282,24 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
+		FixedUpdateProccess ();
         if (state == GameState.PLAYING)
         {
             Notice.instance.Send(NoticeName.FixedUpdate);
         }
     }
+
+	public void FixedUpdateProccess()
+	{
+		int day = PlayerModel.instance.GetDay();
+		float needEnergy = StageTypeInfo.instnace.GetEnergyNeed(day);
+		float energy = EnergyModel.instance.GetEnergy();
+
+		if (energy >= needEnergy)
+		{
+			TimeOver ();
+		}
+	}
 
     public void TimeOver()
     {

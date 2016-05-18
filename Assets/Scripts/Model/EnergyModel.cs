@@ -104,6 +104,8 @@ public class EnergyModel : IObserver {
 			//if(addedEnergy
 
 			AddEnergy(addedEnergy);
+
+			/*
 			if(addedEnergy > 0)
 			{
 				TextAppearEffect.Create((Vector2)unit.GetCurrentViewPosition(), "+" + addedEnergy.ToString(), Color.white);
@@ -112,6 +114,7 @@ public class EnergyModel : IObserver {
 			{
                 TextAppearEffect.Create((Vector2)unit.GetCurrentViewPosition(), addedEnergy.ToString(), Color.white);
 			}
+			*/
 		}
 		
 		Notice.instance.Send("UpdateEnergy");
