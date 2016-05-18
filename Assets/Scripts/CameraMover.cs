@@ -145,7 +145,7 @@ public class CameraMover : MonoBehaviour
     private Vector3 Diference;
     private bool Drag = false;
     bool movable = true;
-
+    Vector3 dragedPos;
 
     void Awake() {
         _instance = this;
@@ -275,23 +275,31 @@ public class CameraMover : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Input.GetMouseButton(1))
-        {
-            Diference = (Camera.main.ScreenToWorldPoint(Input.mousePosition)) - Camera.main.transform.position;
-            if (Drag == false)
+        
+            if (Input.GetMouseButton(1))
             {
-                Drag = true;
-                Origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Diference = (Camera.main.ScreenToWorldPoint(Input.mousePosition)) - Camera.main.transform.position;
+                if (Drag == false)
+                {
+                    Drag = true;
+                    CursorManager.instance.CursorSet(MouseCursorType.CLICK);
+                    Origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                }
             }
-        }
-        else
-        {
-            Drag = false;
-        }
-        if (Drag == true)
-        {
-            Camera.main.transform.position = Origin - Diference;
-        }
+            else
+            {
+                if (Drag)
+                {
+                    CursorManager.instance.CursorSet(MouseCursorType.NORMAL);
+                }
+                Drag = false;
+            }
+            if (Drag == true)
+            {
+                Camera.main.transform.position = Origin - Diference;
+                dragedPos = Camera.main.transform.position;
+            }
+        
         /*/RESET CAMERA TO STARTING POSITION WITH RIGHT CLICK
         if (Input.GetMouseButton(1))
         {
@@ -301,10 +309,12 @@ public class CameraMover : MonoBehaviour
 
     public void Registration(IScrollTarget target) {
         this._target = target;
+        CursorManager.instance.CursorSet(MouseCursorType.SCROLL);
     }
 
     public void DeRegistration() {
         this._target = null;
+        CursorManager.instance.CursorSet(MouseCursorType.NORMAL);
     }
 
     public void Recoil(int level) {
@@ -333,7 +343,10 @@ public class CameraMover : MonoBehaviour
                                                                recoilUnit.z);
             
         }
-        recoil.targetTransform.localPosition = queue.Dequeue();
+        if (Drag) {
+            recoil.targetTransform.position = dragedPos;
+        }
+        else recoil.targetTransform.localPosition = queue.Dequeue();
         movable = true;
     }
 }

@@ -77,6 +77,9 @@ public class AgentManager : IObserver {
         unit.defaultWork = info.work;
 
         unit.gender = info.gender;
+
+        unit.SetModelSprite();
+
         unit.level = info.level;
         unit.workDays = info.workDays;
 

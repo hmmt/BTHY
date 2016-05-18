@@ -170,16 +170,13 @@ public class AgentModel : WorkerModel
 		skillInfos = new List<SkillInfo> ();
 
         skills = new List<SkillCategory>();
-
+        
         instanceId = id;
         //currentSefira = area;
         currentSefira = "0";
         SetCurrentSefira(area);
         movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         history = new AgentHistory();
-
-        tempHairSprite = AgentLayer.currentLayer.GetAgentHair();
-        tempFaceSprite = AgentLayer.currentLayer.GetAgentFace();
 
         successPercent = Random.Range(0, 90f);
 
@@ -209,6 +206,11 @@ public class AgentModel : WorkerModel
 
 		//weapon = Random.Range (0, 2) == 1 ? AgentWeapon.SHIELD : AgentWeapon.GUN;
 		weapon = AgentWeapon.GUN;
+    }
+
+    public void SetModelSprite() {
+        tempHairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender);
+        tempFaceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite();
     }
 
     public override Dictionary<string, object> GetSaveData()

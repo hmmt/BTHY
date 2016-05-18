@@ -5,43 +5,7 @@ using System.Collections.Generic;
 
 public class LadyLookingAtWall : CreatureBase {
     //private const long[] bannedTrait = new long[2]{10015, 10019};
-    class SensingModule {
-        float leftX;
-        float rightX;
-        float downY;
-        float upY;
-
-        bool enabled = true;
-
-        public void Set(float x1, float x2, float y1, float y2) {
-            this.leftX = x1;
-            this.rightX = x2;
-            this.downY = y1;
-            this.upY = y2;
-        }
-
-        public void SetEnabled(bool b) { 
-            this.enabled = b;
-        }
-
-        public bool GetEnabled() {
-            return this.enabled;
-        }
-
-        public bool Check(Vector3 pos) {
-            if (!enabled) return false; 
-            if (pos.x > leftX && pos.x < rightX) {
-                if (pos.y > downY && pos.y < upY) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void Print() {
-            Debug.Log(leftX + " " + rightX + " " + downY + " " + upY);
-        }
-    }
+    
     SensingModule sensing = new SensingModule();
     Camera sensor;
     private const long bannedTrait1 = 10015;

@@ -2,6 +2,11 @@
 using System.Collections;
 
 public class MatchGirl  : CreatureBase {
+    public const string stackOverFlow = "stackOverflow";
+    public const string explosion = "explosion";
+    public const string walking = "walking";
+    public const string escape = "escape";
+    public const string smallExplode = "smallExplode";
     public class MatchGirlEffect {
         public GameObject small = null;
         public GameObject big = null;
@@ -130,6 +135,10 @@ public class MatchGirl  : CreatureBase {
     AgentModel killingTarget = null;
     Animator targetAnimator = null;
 
+    SoundEffectPlayer currentStackAudio = null;
+    SoundEffectPlayer weepingSound = null;
+    SoundEffectPlayer walkingSound = null;
+
     string isolateEffect = "Effect/Creature/MatchGirl/MatchGirl_Isolate";
     string sefiraEffect = "Effect/Creature/MatchGirl/MatchGirl_Sefira";
 
@@ -164,6 +173,13 @@ public class MatchGirl  : CreatureBase {
             if (timer.GetElpased() > MatchGirlTimer.maxTime) {
                 timer.StopTimer();
                 AddExplosionLevel();
+            }
+        }
+
+        if (currentStackAudio != null) {
+            if (explosionStack < 3) {
+                currentStackAudio.Stop();
+                currentStackAudio = null;
             }
         }
 
@@ -202,6 +218,10 @@ public class MatchGirl  : CreatureBase {
             Debug.Log("이제탈출해야징");
             model.StopEscapeWork();
             escapeCall = false;
+
+            CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+            this.weepingSound = unit.PlaySoundLoop(escape);
+            this.walkingSound = unit.PlaySoundLoop(walking);
         }
 	}
 
@@ -342,6 +362,10 @@ public class MatchGirl  : CreatureBase {
             return;
         }
         explosionStack++;
+        if (currentStackAudio == null) {
+            CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+            this.currentStackAudio = unit.PlaySoundLoop(stackOverFlow);
+        }
         effectSystem.SetEffect(explosionStack);
     }
 
@@ -356,6 +380,9 @@ public class MatchGirl  : CreatureBase {
         }
 
         //애니메이션 및 이펙트 재생
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+        unit.PlaySound(smallExplode);
+
         GameObject boom = Prefab.LoadPrefab(this.isolateEffect);
         boom.transform.position = model.GetWorkspaceNode().GetPosition();
         ParticleDestroy pd = boom.GetComponent<ParticleDestroy>();
@@ -446,6 +473,14 @@ public class MatchGirl  : CreatureBase {
     void SefiraExplosion() {
         System.Collections.Generic.List<WorkerModel> list = new System.Collections.Generic.List<WorkerModel>();
 
+        if (this.walkingSound != null) {
+            this.walkingSound.Stop();
+        }
+
+        if (this.weepingSound != null) {
+            this.walkingSound.Stop();
+        }
+
         foreach (AgentModel am in model.sefira.agentList) {
 			if (am.GetMovableNode().GetPassage() == MapGraph.instance.GetSefiraPassage(model.sefira.indexString))
             {
@@ -478,7 +513,10 @@ public class MatchGirl  : CreatureBase {
         CameraMover.instance.Recoil(3);
         model.state = CreatureState.SUPPRESSED;
         InitExplosionLevel();
-        
+
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+        unit.PlaySound(explosion);
+
         effectSystem.EffectDisabled();
     }
 
@@ -486,6 +524,11 @@ public class MatchGirl  : CreatureBase {
     {
         if (this.currentSkill != null) {
             this.currentSkill.agent.StopAction();
+
+            /*위치 애매*/
+            CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+            unit.PlaySound(explosion);
+
             this.currentSkill = null;
         }
     }
