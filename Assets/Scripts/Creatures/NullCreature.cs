@@ -662,7 +662,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         MakeEffect(skill.targetCreatureView.room);
         ResetCurrentSkillResult();
 
-        model.SetEnergyChange(5, skill.skillTypeInfo.amount * skill.successCount / skill.totalTickNum * scale);
+        //model.SetFeelingChange(5, skill.skillTypeInfo.amount * skill.successCount / skill.totalTickNum * scale);
         
     }
 

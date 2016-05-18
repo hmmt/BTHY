@@ -1234,9 +1234,13 @@ public class AgentModel : WorkerModel
 
 		AnimatorManager.instance.ChangeAnimatorByID (instanceId, instanceId,
 			agentView.puppetAnim, false, false);
+	}
 
-        agentView.puppetAnim.SetBool("SpecialWork", true);
-        workEndReaction = true;
+	public void WorkEndReaction()
+	{
+		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
+		agentView.puppetAnim.SetBool("SpecialWork", true);
+		workEndReaction = true;
 	}
 
 	// motion

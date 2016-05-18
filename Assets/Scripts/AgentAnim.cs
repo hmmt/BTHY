@@ -226,6 +226,7 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 
     public void AgentReset() {
         (model as AgentModel).ResetAnimator();
+		(model as AgentModel).WorkEndReaction();
     }
 
     public void SetSprite() {

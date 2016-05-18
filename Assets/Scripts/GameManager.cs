@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         if (PlayerModel.instance.GetDay() == 0)
         {
             PlayerModel.instance.OpenArea("1");
-			PlayerModel.instance.OpenArea("4");
+			//PlayerModel.instance.OpenArea("4");
 
 			a = AgentManager.instance.AddAgentModel();
             
@@ -125,8 +125,19 @@ public class GameManager : MonoBehaviour
 
 		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
 
+		b = AgentManager.instance.AddAgentModel();
+		b.gender = "Male";
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("1"));
+		b.SetCurrentSefira("1");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "1");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-malkuth-4"));
+
 		//b.weapon = AgentWeapon.SHIELD;
 
+		/*
 		b = AgentManager.instance.AddAgentModel();
 		stageUI.CancelSefiraAgent(b);
 		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
@@ -136,6 +147,26 @@ public class GameManager : MonoBehaviour
 
 		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-tessod-4"));
 
+
+		// temp222
+		b = AgentManager.instance.AddAgentModel();
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
+		b.SetCurrentSefira("4");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "4");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-tessod-4"));
+
+		b = AgentManager.instance.AddAgentModel();
+		stageUI.CancelSefiraAgent(b);
+		b.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom("4"));
+		b.SetCurrentSefira("4");
+		if (!b.activated)
+			AgentManager.instance.activateAgent(b, "4");
+
+		b.SetCurrentNode (MapGraph.instance.GetNodeById ("sefira-tessod-4"));
+*/
 
 		//b.weapon = AgentWeapon.SHIELD;
 
@@ -171,11 +202,6 @@ public class GameManager : MonoBehaviour
 
     public void StartStage()
     {
-        /*
-        loadingScreenState.gameObject.SetActive(false);
-        storyScene.gameObject.SetActive(false);
-        gameStateScreen.SetActive(true);
-        */
         stageUI.Open(StageUI.UIType.START_STAGE);
         // StartGame();
     }

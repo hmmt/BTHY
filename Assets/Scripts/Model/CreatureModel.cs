@@ -61,9 +61,9 @@ public class CreatureModel : UnitModel, IObserver
 	public int targetedCount = 0;
 
 	// buf
-	public float energyChangeTime;
-	public float energyChangeAmount;
-	public float energyChangeElapsedTime;
+	private float feelingChangeTime;
+	private float feelingChangeAmount;
+	private float feelingChangeElapsedTime;
 	//public float bufFeelingAddRate; // per second
 
 	public float attackDelay = 0;
@@ -82,8 +82,6 @@ public class CreatureModel : UnitModel, IObserver
     //?纂삐도감 완성도
     public int observeProgress = 0;
 	public ObserveInfo observeInfo;
-
-	public float energyPoint = 100;
 	//public float feelingsPoint;
 
     //환상체 나레이션 저장 List
@@ -110,11 +108,6 @@ public class CreatureModel : UnitModel, IObserver
     public CreatureBase script;
 
     public MovableObjectNode lookAtTarget;
-
-    // 관찰관련 조건 변수 추가
-    public float genEnergyCount=0;
-    public int workCount=0;
-    public int observeCondition = 0;
 
     // 세피라 변수 (TODO: 변수명 이상함)
     public string sefiraNum;
@@ -185,9 +178,9 @@ public class CreatureModel : UnitModel, IObserver
 
     public CreatureFeelingState GetFeelingState()
     {
-		if (energyPoint >= 110)
+		if (feeling >= metaInfo.feelingMax * 0.66f)
 			return CreatureFeelingState.GOOD;
-		else if (energyPoint >= 90)
+		else if (feeling >= metaInfo.feelingMax * 0.33f)
 			return CreatureFeelingState.NORM;
 		else
 			return CreatureFeelingState.BAD;
@@ -331,7 +324,7 @@ public class CreatureModel : UnitModel, IObserver
         }
         //if (Random.value < metaInfo.feelingDownProb)
         {
-			energyPoint += metaInfo.energyPointChange;
+			//energyPoint += metaInfo.energyPointChange;
             SubFeeling(metaInfo.feelingDownValue);
 
             Notice.instance.Send("UpdateCreatureState_" + instanceId);
@@ -360,7 +353,7 @@ public class CreatureModel : UnitModel, IObserver
 			SendAnimMessage ("Move");
 		}
 
-		if (energyChangeTime > energyChangeElapsedTime)
+		if (feelingChangeTime > feelingChangeElapsedTime)
 		{
 			ProcessWorkingBuf ();
 		}
@@ -536,11 +529,11 @@ public class CreatureModel : UnitModel, IObserver
 	private void ProcessWorkingBuf()
 	{
 		float delta = Time.deltaTime;
-		if (energyChangeElapsedTime + Time.deltaTime > energyChangeTime)
-			delta = energyChangeTime - energyChangeElapsedTime;
-		energyChangeElapsedTime += delta;
+		if (feelingChangeElapsedTime + Time.deltaTime > feelingChangeTime)
+			delta = feelingChangeTime - feelingChangeElapsedTime;
+		feelingChangeElapsedTime += delta;
 
-		energyPoint += energyChangeAmount / (energyChangeTime / delta);
+		feeling += feelingChangeAmount / (feelingChangeTime / delta);
 		Notice.instance.Send("UpdateCreatureState_" + instanceId);
 	}
 	private void GenerateEnergy()
@@ -554,11 +547,11 @@ public class CreatureModel : UnitModel, IObserver
 	}
 	*/
 
-	public void SetEnergyChange(float time, float energyChangeAmount)
+	public void SetFeelingChange(float time, float energyChangeAmount)
 	{
-		energyChangeTime = time;
-		this.energyChangeAmount = energyChangeAmount;
-		energyChangeElapsedTime = 0;
+		feelingChangeTime = time;
+		this.feelingChangeAmount = energyChangeAmount;
+		feelingChangeElapsedTime = 0;
 	}
 
     public void AddFeeling(float value)
@@ -575,12 +568,6 @@ public class CreatureModel : UnitModel, IObserver
         feeling = Mathf.Max(feeling - value, 0);
         Notice.instance.Send("UpdateCreatureState_" + instanceId);
     }
-
-	public void SubEnergyPoint(float value)
-	{
-		energyPoint = Mathf.Max(energyPoint - value, 0);
-		Notice.instance.Send("UpdateCreatureState_" + instanceId);
-	}
 
     public void DangerFeeling()
     {
@@ -716,46 +703,6 @@ public class CreatureModel : UnitModel, IObserver
         }
     }
     */
-    //관찰 가능하다고 알림을 보내는 함수
-    public bool NoticeDoObserve()
-    {
-
-        if ( workCount < 5 && workCount >= 1 && observeCondition == 0)
-        {
-            Debug.Log("관찰 컨디션 1단계로 갱신");
-            observeCondition = 1;
-        }
-
-        else if ( workCount < 7 && workCount >= 5 && genEnergyCount <40 &&genEnergyCount >= 20 && observeCondition == 1)
-        {
-            Debug.Log("관찰 좁퉜계로 갱신");
-            observeCondition = 2;
-        }
-        else if (workCount <10 && workCount >= 7 && genEnergyCount <100 &&genEnergyCount >= 40 && observeCondition == 2)
-        {
-            Debug.Log("관찰 컨디션 3단계로 갱신");
-            observeCondition = 3;
-        }
-        else if (workCount >= 10 && genEnergyCount >= 100 && observeCondition == 3)
-        {
-            Debug.Log("관찰 컨디션 4단계로 갱신");
-            observeCondition = 4;
-        }
-        else
-        {
-            //Debug.Log("Not sufficient");
-        }
-
-        if (observeCondition >= observeProgress + 1)
-        {
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }
-    }
 
 	public bool IsTargeted()
 	{
@@ -772,7 +719,7 @@ public class CreatureModel : UnitModel, IObserver
 
 	public bool IsReady()
 	{
-		return energyChangeElapsedTime >= energyChangeTime;
+		return feelingChangeElapsedTime >= feelingChangeTime;
 	}
 
 	public bool IsEscapable()

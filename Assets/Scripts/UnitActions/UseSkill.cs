@@ -219,6 +219,10 @@ public class UseSkill : ActionClassBase
     }
     private void ProgressWork()
     {
+		if(workCount >= totalTickNum)
+		{
+			return;
+		}
         if (workProgress >= tickInterval * (workCount + 1))
         {
             workCount++;
@@ -422,6 +426,7 @@ public class UseSkill : ActionClassBase
         else {
             float energyAdd = agent.GetEnergyAbility(skillTypeInfo) * successCount / totalTickNum;
 
+			/*
             if (targetCreature.IsPreferSkill(skillTypeInfo))
             {
                 targetCreature.AddFeeling(skillTypeInfo.amount * successCount / totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo));
@@ -431,7 +436,8 @@ public class UseSkill : ActionClassBase
                 // unused
                 targetCreature.SubFeeling(skillTypeInfo.amount * successCount / totalTickNum);
             }
-            targetCreature.SetEnergyChange(5, skillTypeInfo.amount * successCount / totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
+            */
+            targetCreature.SetFeelingChange(5, skillTypeInfo.amount * successCount / totalTickNum * targetCreature.GetWorkEfficient(skillTypeInfo) * 2);
         }
 
         //agent.GetComponentInChildren<agentSkillDoing>().turnOnDoingSkillIcon(false);
@@ -666,9 +672,6 @@ public class UseSkill : ActionClassBase
 		agent.SetSkillDelay (skillInfo, 40);
 
 		creature.manageDelay = 21;
-
-        //관찰 조건을 위한 환상체 작업 횟수추가
-        creature.workCount++;
 
         GameObject progressObj = Instantiate(Resources.Load<GameObject>("Prefabs/EnergyBar")) as GameObject;
         //progressObj.transform.parent = creatureView.transform;

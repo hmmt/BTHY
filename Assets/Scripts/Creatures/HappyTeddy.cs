@@ -85,7 +85,8 @@ public class HappyTeddy  : CreatureBase {
 
 	public override void OnReturn ()
 	{
-		model.energyPoint = 130;
+		//model.energyPoint = 130;
+		model.AddFeeling(100);
 	}
     //
 

@@ -190,6 +190,7 @@ public class MatchGirl  : CreatureBase {
             if (targetAnimator.GetInteger("AttackEnd") == 1) {
                 AnimatorManager.instance.ResetAnimatorTransform(killingTarget.instanceId);
                 killingTarget.ResetAnimator();
+				killingTarget.WorkEndReaction ();
                 targetAnimator = null;
                 killingTarget = null;
                 attackedAnimatorReset = false;
@@ -207,7 +208,9 @@ public class MatchGirl  : CreatureBase {
 
 	public override void OnReturn ()
 	{
-		model.energyPoint = 130;
+		//model.energyPoint = 130;
+		//model.feeling = 130;
+		model.AddFeeling(100);
 	}
 
     public override void OnSkillFailWorkTick(UseSkill skill)
