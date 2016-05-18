@@ -114,7 +114,7 @@ public class WorkListScript : MonoBehaviour {
     public void Init(CreatureModel target) {
         this._target = target;
         skillList = new List<SkillTypeInfo>();
-        currentSefira = SefiraManager.instance.getSefira(SefiraName.Malkut);
+        currentSefira = SefiraManager.instance.GetSefira(SefiraName.Malkut);
         SetWorkList(RestrictionTable.instance.GetTableByCreature(_target));
 
     }

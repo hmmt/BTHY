@@ -112,7 +112,7 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
         }
          */
 
-        Sefira sefira = SefiraManager.instance.getSefira(targetSefiraName);
+        Sefira sefira = SefiraManager.instance.GetSefira(targetSefiraName);
         if (sefira.agentList.Count < 5)
         {
             agent.SetCurrentSefira(targetSefiraName);

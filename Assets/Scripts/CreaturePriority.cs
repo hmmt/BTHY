@@ -96,7 +96,7 @@ public class CreaturePriority : MonoBehaviour {
 
     public void Init(CreatureModel model) {
         this.currentModel = model;
-        prioritySystem = SefiraManager.instance.getSefira(currentModel.sefiraNum).priority;
+        prioritySystem = SefiraManager.instance.GetSefira(currentModel.sefiraNum).priority;
         max = prioritySystem.list.Count;
         
         float unitSize = parent.rect.width / max;

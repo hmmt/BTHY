@@ -424,6 +424,10 @@ public class WorkerModel: UnitModel, IObserver {
 		this.panicFlag = true;
 	}
 
+    public virtual void ResetAnimator() { 
+        
+    }
+
 	public virtual bool IsSuppable()
 	{
 		if (IsPanic ())
@@ -602,8 +606,8 @@ public class WorkerModel: UnitModel, IObserver {
 			Debug.Log("Error to compare");
 			return 0;
 		}
-		int xIndex = SefiraManager.instance.getSefira(x.sefira).index;
-		int yIndex = SefiraManager.instance.getSefira(y.sefira).index;
+		int xIndex = SefiraManager.instance.GetSefira(x.sefira).index;
+		int yIndex = SefiraManager.instance.GetSefira(y.sefira).index;
 		return xIndex.CompareTo(yIndex);
 	}
 

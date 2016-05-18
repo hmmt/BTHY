@@ -89,7 +89,7 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 
     public void Init(WorkerModel am) {
         this.model = am;
-        if (am is AgentModel) this.AnimatorEventInit();
+        this.AnimatorEventInit();
     }
 	
 	void Awake()
@@ -209,7 +209,16 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 
     public void OnCalled()
     {
-        this.model.OnWorkEndFlag = true;
+        if (this.model is AgentModel)
+        {
+            this.model.OnWorkEndFlag = true;
+        }
+        else if (this.model is OfficerModel)
+        {
+            AgentReset();
+            //(this.model as OfficerModel).EndSpecialAction();
+            (this.model as OfficerModel).SpecialActionReturn();
+        }
     }
 
     public void OnCalled(int i)
@@ -225,13 +234,13 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
     }
 
     public void AgentReset() {
-        (model as AgentModel).ResetAnimator();
-		(model as AgentModel).WorkEndReaction();
+        model.ResetAnimator();
+		model.WorkEndReaction();
     }
 
     public void SetSprite() {
         
-        Sefira sefira = SefiraManager.instance.getSefira(this.model.currentSefira);
+        Sefira sefira = SefiraManager.instance.GetSefira(this.model.currentSefira);
         
         if (sefira == null) return;
         if (this.model is OfficerModel) {

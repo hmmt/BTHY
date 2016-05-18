@@ -368,7 +368,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
 
             if (currentCreaturePassage != null)
             {
-                Sefira sefira = SefiraManager.instance.getSefira(currentCreaturePassage.GetSefiraName());
+                Sefira sefira = SefiraManager.instance.GetSefira(currentCreaturePassage.GetSefiraName());
                 foreach (AgentModel am in sefira.agentList)
                 {
                     if (am == wm) continue;

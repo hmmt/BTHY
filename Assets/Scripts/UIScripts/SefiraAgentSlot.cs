@@ -57,7 +57,7 @@ public class SefiraAgentSlot : MonoBehaviour {
 
     public  void ShowAgentSefira(string sefira)
     {
-        Sefira targetSefira = SefiraManager.instance.getSefira(sefira);
+        Sefira targetSefira = SefiraManager.instance.GetSefira(sefira);
         if (targetSefira == null) {
             EmptySefira();
             return;

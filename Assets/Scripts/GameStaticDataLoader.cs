@@ -44,6 +44,9 @@ public class GameStaticDataLoader {
             loader.LoadAngelaDescData();
         }
 
+        if (SefiraManager.instance.isLoadedOfficerSpecialAction == false) {
+            loader.LoadOfficerActionList();
+        }
 
 
         //PromotionSkillTree.instance.PromotionSkillTreeInit();
@@ -239,6 +242,71 @@ public class GameStaticDataLoader {
         }
 
         SystemMessageManager.instance.Init(messageList.ToArray(), keywordList.ToArray());
+    }
+
+    private void LoadOfficerActionList() {
+        TextAsset textAsset = Resources.Load<TextAsset>("xml/OfficerAction");
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(textAsset.text);
+        
+        XmlNodeList sefiraList = doc.SelectNodes("root/sefira");
+        foreach (XmlNode sefira in sefiraList) {
+            string name = sefira.Attributes.GetNamedItem("name").InnerText;
+            int id = (int)float.Parse(sefira.Attributes.GetNamedItem("id").InnerText);
+
+            OfficerSpecialActionList osaList = new OfficerSpecialActionList();
+            osaList.sefira = id;
+
+            XmlNodeList actionList = sefira.SelectNodes("action");
+            foreach (XmlNode action in actionList) {
+                int actionId = (int)float.Parse(action.Attributes.GetNamedItem("id").InnerText);
+                string nodeId = action.Attributes.GetNamedItem("nodeId").InnerText;
+                string animParam = action.Attributes.GetNamedItem("animationParam").InnerText;
+                int animVal = (int)float.Parse(action.Attributes.GetNamedItem("animationValue").InnerText);
+
+                string moveCheck = action.Attributes.GetNamedItem("move").InnerText;
+                
+                OfficerSpecialAction osa = new OfficerSpecialAction(actionId, nodeId, animVal, animParam);
+                if (moveCheck == "1")
+                {
+                    XmlNodeList posDataList = action.SelectNodes("pos");
+                    foreach (XmlNode posData in posDataList) {
+                        float x = float.Parse(posData.Attributes.GetNamedItem("x").InnerText);
+                        float y = float.Parse(posData.Attributes.GetNamedItem("y").InnerText);
+                        LOOKINGDIR dir = GetOfficerLookingDir(posData.Attributes.GetNamedItem("dir").InnerText);
+
+                        OfficerSpecialAction.PosData newData = new OfficerSpecialAction.PosData();
+                        newData.pos = new Vector3(x, y, 0);
+                        newData.dir = dir;
+
+                        osa.posData.Add(newData);
+                    }
+                }
+                else
+                {
+                    osa.shouldMove = false;
+                    osa.posData[0].dir = this.GetOfficerLookingDir(moveCheck);
+                }
+
+                osaList.AddList(osa);
+            }
+
+            SefiraManager.instance.GetSefira(osaList.sefira).officerSpecialAction = osaList;
+
+        }
+    }
+
+    private LOOKINGDIR GetOfficerLookingDir(string dir) {
+        switch (dir) { 
+            case "L":
+                return LOOKINGDIR.LEFT;
+            case "N":
+                return LOOKINGDIR.NOCARE;
+            case "R":
+                return LOOKINGDIR.RIGHT;
+            default:
+                return LOOKINGDIR.NOCARE;
+        }
     }
 
     private ConversationModel.Description[] LoadDesc(XmlNodeList descList) {

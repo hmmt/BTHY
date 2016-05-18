@@ -46,6 +46,8 @@ public class OfficerManager : IObserver {
     private static int agentImgRange = 9;
     public static AgentModel statReference;
 
+    public bool isLoadedActionList = false;
+
     public OfficerManager() {
         Init();    
     }
@@ -121,7 +123,7 @@ public class OfficerManager : IObserver {
         //Debug.Log("created" + unit.name);
         //OfficerLayer.currentLayer.AddOfficer(unit);
 
-        SefiraManager.instance.getSefira(sefira).AddUnit(unit);
+        SefiraManager.instance.GetSefira(sefira).AddUnit(unit);
 
         ActivateOfficer(unit);
         return unit;

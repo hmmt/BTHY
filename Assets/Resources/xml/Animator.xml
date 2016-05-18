@@ -12,4 +12,6 @@
   <node name ="MatchedGirl_AgentCTRL" id ="90001" src ="CreatureAnimators/MatchGirl/MatchedGirl_AgentCTRL"/>
   <node name ="BigBird_AgentCTRL" id ="100001" src ="CreatureAnimators/BigBird/BigBird_AgentCTRL"/>
   <node name ="OldLady_AgentCTRL" id ="100011" src ="CreatureAnimators/OldLady/OldLady_AgentCTRL"/>
+  <node name ="MalkutOfficerAction" id ="20001" src="WorkerAnimators/MalkutOfficerAction"/>
+  <node name ="YesodOfficerAction" id ="20004" src="WorkerAnimators/YesodOfficerAction"/>
 </root>

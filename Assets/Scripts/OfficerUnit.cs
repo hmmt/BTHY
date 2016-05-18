@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 
 public class OfficerUnit : MonoBehaviour {
+    
     public OfficerModel model;
     //public GameObject officerWindow;
     public GameObject officerAttackedAnimator;
@@ -23,6 +24,7 @@ public class OfficerUnit : MonoBehaviour {
     public bool officerMove = false;
     public bool officerDead = false;
     public float zValue;
+    public float tempZval;
     public Text officerName;
 
     //private string oldSefira;
@@ -81,6 +83,29 @@ public class OfficerUnit : MonoBehaviour {
     }
 
     private void UpdateDirection() {
+        if (this.model.startSpecialAction) {
+            if (this.model.lookingDir != LOOKINGDIR.NOCARE) {
+                Transform localpuppet = puppetNode.transform;
+
+                Vector3 localpuppetScale = localpuppet.localScale;
+                
+                if (this.model.lookingDir == LOOKINGDIR.LEFT)
+                {
+                    if (localpuppetScale.x > 0)
+                        localpuppetScale.x = -localpuppetScale.x;
+                }
+                else {
+                    if (localpuppetScale.x < 0)
+                    {
+                        localpuppetScale.x = -localpuppetScale.x;
+                    }
+                }
+
+                localpuppet.transform.localScale = localpuppetScale;
+                return;
+            }
+        }
+
 		MovableObjectNode movable = model.GetMovableNode ();
 		UnitDirection movableDirection = movable.GetDirection ();
 
@@ -144,6 +169,9 @@ public class OfficerUnit : MonoBehaviour {
 
     private void UpdateViewPosition() {
         if (isKilled) return;
+        if (blockMoving) {
+            return;
+        }
 		transform.localScale = new Vector3 (model.GetMovableNode ().currentScale, model.GetMovableNode ().currentScale, transform.localScale.z);
         MapEdge currentEdge = model.GetCurrentEdge();
 
@@ -334,41 +362,105 @@ public class OfficerUnit : MonoBehaviour {
     public bool isMovingByMannually = false;
     bool isMovingStarted = false;
     bool isKilled = false;//temporary
-    IEnumerator MannualMoving(Vector3 pos)
+    public bool blockMoving = false;
+    IEnumerator MannualMoving(Vector3 pos, bool blockMoving, bool zVal)
     {
         Transform target = this.gameObject.transform;
         Vector3 initial = new Vector3(target.position.x, target.position.y, target.position.z);
+
+        tempZval = this.zValue + 0.05f;
+        float z = tempZval;
+        float toScale;
+        if (zVal)
+        {
+            z = tempZval;
+            toScale = -0.1f;
+        }
+        else
+        {
+            z = this.zValue;
+            toScale = 0.1f;
+        }
+
         Vector3 reference = new Vector3(pos.x - target.position.x,
             pos.y - target.position.y,
-            0f);
-        int cnt = 3;
-        isKilled = true;
+            z);
+        int cntMax = 20;
+        int cnt = cntMax;
+        float unitScale = (toScale / (float)(cntMax));
+        //isKilled = true;
+        this.blockMoving = blockMoving;
+        puppetAnim.SetBool("Move", true);
+        Vector3 initialScale = puppetNode.transform.localScale;
+        Debug.Log("UnitScale " + unitScale);
         while (cnt > 0)
         {
-            yield return new WaitForSeconds(0.1f);
-            target.position = new Vector3(initial.x + (reference.x / 3f) * (4 - cnt), initial.y, initial.z);
+            puppetAnim.SetBool("Move", true);
+            yield return new WaitForSeconds(0.01f);
+            
+            target.position = new Vector3(initial.x + (reference.x / (float)cntMax) * ((cntMax - 1) - cnt), 
+                                          initial.y + (reference.y / (float)cntMax) * ((cntMax - 1) - cnt), 
+                                          initial.z + (reference.z / (float)cntMax) * ((cntMax - 1) - cnt));
+            /*target.localScale = new Vector3(initialScale.x + unitScale,
+                                            initialScale.x + unitScale,
+                                            initialScale.z);
+             */
+            if (cnt % 2 == 0)
+            {
+                /*
+                puppetNode.transform.localScale = new Vector3(puppetNode.transform.localScale.x + unitScale,
+                                                            puppetNode.transform.localScale.y + unitScale,
+                                                            initialScale.z);*/
+                float factor = 1;
+                if (puppetNode.transform.localScale.x < 0) {
+                    factor = -1;
+                }
+                puppetNode.transform.localScale = new Vector3(initialScale.x + factor * unitScale * (cntMax - cnt),
+                                                              initialScale.y + unitScale * (cntMax - cnt),
+                                                              initialScale.z);
+                /*
+                puppetNode.transform.localScale = new Vector3(initialScale.x * unitScale * (((float)(cntMax - cnt) / cntMax)),
+                                                              initialScale.y * unitScale * (((float)(cntMax - cnt) / cntMax)),
+                                                              initialScale.z);
+                 */
+            }
+           
             cnt--;
         }
+        puppetAnim.SetBool("Move", false);
         isMovingByMannually = true;
         
     }
 
-    public bool MannualMovingCall(Vector3 pos)
+    public bool MannualMovingCall(Vector3 pos, bool mode)
     {
         if (!isMovingStarted)
         {
             isMovingStarted = true;
             isMovingByMannually = false;
-            StartCoroutine(MannualMoving(pos));
+            StartCoroutine(MannualMoving(pos, true , mode));
             return false;
         }
 
         if (isMovingByMannually)
         {
-            isMovingByMannually = false;
+            
             isMovingStarted = false;
             return true;
         }
         return false;
+    }
+
+    public bool CheckMannualMovingEnd() {
+        
+        if (isMovingByMannually) {
+            isMovingStarted = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void ReleaseUpdatePosition() {
+        this.blockMoving = false;
     }
 }

@@ -184,7 +184,7 @@ public class AgentAllocateWindow : MonoBehaviour {
         if (slot != null) {
             if (sefira == "0") slot.OnCancelAgent();
             else {
-                slot.sets.SetAllocate(SefiraManager.instance.getSefira(sefira));
+                slot.sets.SetAllocate(SefiraManager.instance.GetSefira(sefira));
             }
         }
     }
