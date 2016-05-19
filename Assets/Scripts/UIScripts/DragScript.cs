@@ -26,9 +26,11 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         itemDragged = (GameObject)Instantiate(moveImage);
         srcObj = gameObject.transform.parent.GetComponent<AgentSlotScript>().model;
         Debug.Log(srcObj);
+		/*
         itemDragged.transform.GetChild(0).GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(srcObj.bodyImgSrc);
         itemDragged.transform.GetChild(1).GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(srcObj.hairImgSrc);
         itemDragged.transform.GetChild(2).GetComponent<Image>().sprite = ResourceCache.instance.GetSprite(srcObj.faceImgSrc);
+        */
         itemDragged.transform.localScale *= scaleRate;
         itemDragged.transform.SetParent(startParent);
         startPos = transform.position;

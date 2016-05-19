@@ -114,7 +114,6 @@ public class SefiraAgentSlot : MonoBehaviour {
             //Debug.Log(copied);
             AgentModel agentModel = model[copied];
 
-            agentModel.GetPortrait("body", null);
             slot[copied].Bg.sprite = bgImage[1];
             slot[copied].agentBody.sprite = slot[copied].headImg;
             slot[copied].agentFace.sprite = agentModel.tempFaceSprite;

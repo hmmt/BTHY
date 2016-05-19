@@ -468,7 +468,6 @@ public class StageUI : MonoBehaviour, IObserver {
 
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
         
-        unit.GetPortrait("body", null);
        // AgentLayer.currentLayer.GetAgent(unit.instanceId).ChangeAgentUniform();
         //ShowAgentList();
         

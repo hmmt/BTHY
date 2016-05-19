@@ -44,7 +44,7 @@ public class ObserveInfo
 
 // 
 [System.Serializable]
-public class CreatureModel : UnitModel, IObserver
+public class CreatureModel : UnitModel, IObserver, ISerializablePlayData
 {
     
     public int instanceId;
@@ -71,10 +71,13 @@ public class CreatureModel : UnitModel, IObserver
 	// for escape
 	public int hp;
 
-    // 메타데이터
+	// set by typeinfo start
     public CreatureTypeInfo metaInfo;
     
     public long metadataId; // metaInfo.id
+
+	public CreatureBase script;
+	// set by typeinfo end
 
     public Vector2 basePosition;
     //public Vector2 position;
@@ -105,9 +108,7 @@ public class CreatureModel : UnitModel, IObserver
         }
     }
 
-    public CreatureBase script;
 
-    public MovableObjectNode lookAtTarget;
 
     // 세피라 변수 (TODO: 변수명 이상함)
     public string sefiraNum;

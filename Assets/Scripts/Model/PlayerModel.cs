@@ -16,6 +16,7 @@ public class PlayerModel {
     private HashSet<string> areaList;
     public HashSet<string> openedAreaList;
 
+	// unused
     public Vector3 playerSpot;
       
     private int day;

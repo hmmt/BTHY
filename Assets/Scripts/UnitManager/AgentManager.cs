@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection;
 
 
-public class AgentManager : IObserver {
+public class AgentManager : IObserver, ISerializablePlayData {
 
     public static string[] nameList
         = {
@@ -78,37 +78,11 @@ public class AgentManager : IObserver {
 
         unit.gender = info.gender;
         unit.level = info.level;
-        unit.workDays = info.workDays;
 
-        unit.prefer = info.prefer;
-        unit.preferBonus = info.preferBonus;
-        unit.reject = info.reject;
-        unit.rejectBonus = info.rejectBonus;
-/*
-        unit.directSkill = info.directSkill;
-        unit.indirectSkill = info.indirectSkill;
-        unit.blockSkill = info.blockSkill;
-*/
-        /*
-		unit.AddSkill (info.directSkill);
-		unit.AddSkill (info.indirectSkill);
-		unit.AddSkill (info.blockSkill);
-        */
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
-
-        unit.panicType = info.panicType;
         /*
         unit.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
         */
-
-        unit.faceSpriteName = setRandomSprite(8);
-        unit.hairSpriteName = setRandomSprite(9);
-        unit.bodySpriteName = setRandomSprite(1);
-        unit.panicSpriteName = setRandomSprite(3);
-
-        unit.GetPortrait("hair",unit.hairSpriteName);
-        unit.GetPortrait("face", unit.faceSpriteName);
-        unit.GetPortrait("body", null);
 
         unit.SetCurrentSefira("0");
         unit.activated = false;
@@ -326,12 +300,6 @@ public class AgentManager : IObserver {
         dic.Add("agentList", list);
 
         return dic;
-        /*
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/test.txt");
-        bf.Serialize(file, dic);
-        file.Close();
-        */
     }
     public void LoadData()
     {

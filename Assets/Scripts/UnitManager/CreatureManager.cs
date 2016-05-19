@@ -9,7 +9,7 @@ public enum SefiraState
     NOT_ENOUGH_AGENT
 }
 
-public class CreatureManager : IObserver{
+public class CreatureManager : IObserver, ISerializablePlayData {
 
 	private static CreatureManager _instance;
 

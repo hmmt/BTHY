@@ -41,6 +41,11 @@ public class GameManager : MonoBehaviour
     public BriefingInfo briefingText;
     public GameState state;
 
+
+	// global models
+	private EnergyModel energyModel;
+	private PlayerModel playerModel;
+
     public static GameManager currentGameManager
     {
         get { return _currentGameManager; }
@@ -56,6 +61,9 @@ public class GameManager : MonoBehaviour
 
         Screen.fullScreen = true;
         _currentGameManager = this;
+
+		energyModel = EnergyModel.instance;
+		playerModel = PlayerModel.instance;
 
         //Camera.main.orthographicSize += 5;
 
@@ -182,11 +190,6 @@ public class GameManager : MonoBehaviour
 		//stageUI.Close ();
 		//StartGame();
         //OpenStoryScene("start");
-        /*
-        gameStateScreen.SetActive(false);
-        storyScene.gameObject.SetActive(false);
-        loadingScreenState.StartLoading();
-        */
     }
 
     public void OpenStoryScene(string storyName)
@@ -214,9 +217,8 @@ public class GameManager : MonoBehaviour
 
         currentUIState = CurrentUIState.DEFAULT;
 
-        GetComponent<RootTimer>().AddTimer("EnergyTimer", 5);
-        Notice.instance.Observe("EnergyTimer", EnergyModel.instance);
-        GetComponent<RootTimer>().AddTimer("CreatureFeelingUpdateTimer", 10);
+		GetComponent<RootTimer>().AddTimer(NoticeName.EnergyTimer, 5);
+		GetComponent<RootTimer>().AddTimer(NoticeName.CreatureFeelingUpdateTimer, 10);
 
         int day = PlayerModel.instance.GetDay();
         stageTimeInfoUI.StartTimer(StageTypeInfo.instnace.GetStageGoalTime(day), this);
@@ -276,8 +278,8 @@ public class GameManager : MonoBehaviour
         EnergyModel.instance.SetLeftEnergy((int)EnergyModel.instance.GetLeftEnergy() + EnergyModel.instance.GetStageLeftEnergy());
         //직원계산파트 필요
         
-        GetComponent<RootTimer>().RemoveTimer("EnergyTimer");
-        GetComponent<RootTimer>().RemoveTimer("CreatureFeelingUpdateTimer");
+		GetComponent<RootTimer>().RemoveTimer(NoticeName.EnergyTimer);
+		GetComponent<RootTimer>().RemoveTimer(NoticeName.CreatureFeelingUpdateTimer);
     }
 
     void FixedUpdate()
@@ -354,8 +356,8 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> dic = new Dictionary<string, object>();
 
         dic.Add("agents", AgentManager.instance.GetSaveData());
-        dic.Add("officers", OfficerManager.instance.GetSaveData());
-        dic.Add("creatures", CreatureManager.instance.GetSaveData());
+        //dic.Add("officers", OfficerManager.instance.GetSaveData());
+        //dic.Add("creatures", CreatureManager.instance.GetSaveData());
         dic.Add("playerData", PlayerModel.instance.GetSaveData());
 
         BinaryFormatter bf = new BinaryFormatter();
@@ -379,13 +381,13 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> agents = null, creatures = null, playerData = null;
         Dictionary<string, object> officers = null;
         GameUtil.TryGetValue(dic, "agents", ref agents);
-        GameUtil.TryGetValue(dic, "officers", ref officers);
-        GameUtil.TryGetValue(dic, "creatures", ref creatures);
+        //GameUtil.TryGetValue(dic, "officers", ref officers);
+        //GameUtil.TryGetValue(dic, "creatures", ref creatures);
         GameUtil.TryGetValue(dic, "playerData", ref playerData);
 
         PlayerModel.instance.LoadData(playerData);
         AgentManager.instance.LoadData(agents);
-        OfficerManager.instance.LoadData(officers);
-        CreatureManager.instance.LoadData(creatures);
+        //OfficerManager.instance.LoadData(officers);
+        //CreatureManager.instance.LoadData(creatures);
     }
 }

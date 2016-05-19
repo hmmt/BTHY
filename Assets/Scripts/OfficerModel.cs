@@ -32,7 +32,7 @@ public class OfficerModel : WorkerModel {
         commandQueue = new WorkerCommandQueue(this);
 
         instanceId = id;
-        currentSefira = sefira = area;
+        currentSefira = area;
         movableNode = new MovableObjectNode(this);
         movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         recoveryRate = 2;

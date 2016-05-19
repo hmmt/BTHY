@@ -88,9 +88,11 @@ public class AgentSlotScript : MonoBehaviour {
                 attr1.current.sprite = ResourceCache.instance.GetSprite("Sprites/UI/StageUI/None_Icon");
                 break;
         }
+		/*
         attr1.hair.sprite = ResourceCache.instance.GetSprite(model.hairImgSrc);
         attr1.face.sprite = ResourceCache.instance.GetSprite(model.faceImgSrc);
         attr1.body.sprite = ResourceCache.instance.GetSprite(model.bodyImgSrc);
+        */
         smallstate = true;
 
         //DisplayItems();
