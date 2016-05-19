@@ -34,7 +34,8 @@ public class OpenIsolateWorkerCommand : WorkerCommand {
 		elapsedTime += Time.deltaTime;
 
 		if (elapsedTime > openIsolateTime) {
-			targetCreature.SubEnergyPoint (10);
+			//targetCreature.SubEnergyPoint (10);
+			targetCreature.SubFeeling(10);
 			Finish ();
 		}
 	}

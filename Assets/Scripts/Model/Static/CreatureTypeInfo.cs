@@ -254,7 +254,7 @@ public class CreatureTypeInfo
     //public FeelingSectionInfo[] feelingSectionInfo;
 
 	public EnergyGenInfo[] energyGenInfo;
-	public int energyPointChange;
+	//public int energyPointChange;
 
 	public string imgsrc = "";
     public string roomsrc;

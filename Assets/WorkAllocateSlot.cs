@@ -173,6 +173,8 @@ public class WorkAllocateSlot : MonoBehaviour {
 
     public void OnClick() {
         if (this.model == null) return;
+		if (this.model.IsPanic () || this.model.isDead ())
+			return;
         if (WorkAllocateWindow.currentWindow.observeState == false && WorkAllocateWindow.currentWindow.selectedSkillId == -1) return;
         if (this.model.currentSkill != null || this.model.GetState() == AgentAIState.MANAGE)
         {

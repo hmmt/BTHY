@@ -10,7 +10,7 @@ public class PanicReady : PanicAction {
 	private WorkerModel actor;
 
     private float elapsedTime;
-    private float waitTime = 5.0f;
+    private float waitTime = 7.0f;
 
     public PanicReady(WorkerModel target)
     {
@@ -23,6 +23,8 @@ public class PanicReady : PanicAction {
 	{
 		if (actor is AgentModel)
 		{
+			//AnimatorManager.instance.ResetAnimatorTransform(actor.instanceId);
+			((AgentModel)actor).ResetAnimator();
 			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
 			agentView.puppetAnim.SetBool ("Panic", true);
 			agentView.puppetAnim.SetInteger ("PanicType", 0);

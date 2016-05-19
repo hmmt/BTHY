@@ -118,8 +118,8 @@ public class PlayerModel {
             CreatureManager.instance.AddCreature(100008, "left-upper-way3", -24f, -3.5f, added); //큰새(100008) -> 구두(100003)
             CreatureManager.instance.AddCreature(100001, "right-upper-way2", 14f, -3.5f, added); //성냥팔이(100001) -> 아무 것도 없는 (100005) -> 노래하는 기계(100006)
             CreatureManager.instance.AddCreature(100009, "right-upper-way3", 24f, -3.5f, added); // 단한가지악(100009) -> 벽을 보는 여인(100022)
-			//CreatureManager.instance.AddCreature(100001, "left-down-way2", -8, -10f, added);
-			//CreatureManager.instance.AddCreature(100001, "right-down-way2", 8, -10f, added);
+			CreatureManager.instance.AddCreature(100001, "left-down-way2", -8, -10f, added);
+			CreatureManager.instance.AddCreature(100022, "right-down-way2", 8, -10f, added);
 
         }
         else if (added == "2")
@@ -139,11 +139,11 @@ public class PlayerModel {
         }
         else if (added == "4")
         {
-			CreatureManager.instance.AddCreature(100005, "T-left-way2", -10f, -50, added);
-			CreatureManager.instance.AddCreature(100005, "T-left-way3", -20f, -50, added);
+			CreatureManager.instance.AddCreature(100004, "T-left-way2", -10f, -50, added);
+			CreatureManager.instance.AddCreature(100008, "T-left-way3", -20f, -50, added);
 
-			CreatureManager.instance.AddCreature(100005, "T-right-way2", 10f, -50, added);
-			CreatureManager.instance.AddCreature(100005, "T-right-way3", 20f, -50, added);
+			CreatureManager.instance.AddCreature(100006, "T-right-way2", 10f, -50, added);
+			CreatureManager.instance.AddCreature(100002, "T-right-way3", 20f, -50, added);
         }
         
         //Notice.instance.Send(NoticeName.AreaOpenUpdate, added);

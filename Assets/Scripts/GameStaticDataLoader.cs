@@ -1046,7 +1046,7 @@ public class GameStaticDataLoader {
         
         model.feelingMax = (int)float.Parse(stat.SelectSingleNode("feelingMax").InnerText);
         model.feelingDownValue = float.Parse(stat.SelectSingleNode("feelingDownValue").InnerText);
-        model.energyPointChange = (int)float.Parse(stat.SelectSingleNode("energyPointChange").InnerText);
+        //model.energyPointChange = (int)float.Parse(stat.SelectSingleNode("energyPointChange").InnerText);
 
 		if (stat.SelectSingleNode ("attackType") != null)
 		{
@@ -1222,7 +1222,7 @@ public class GameStaticDataLoader {
         //model.feelingDownProb = float.Parse(node.SelectSingleNode("feelingDownProb").InnerText);
         model.feelingDownValue = float.Parse(node.SelectSingleNode("feelingDownValue").InnerText);
 
-		model.energyPointChange = int.Parse(node.SelectSingleNode("energyPointChange").InnerText);
+		//model.energyPointChange = int.Parse(node.SelectSingleNode("energyPointChange").InnerText);
 
 		List<EnergyGenInfo> energyItems = new List<EnergyGenInfo> ();
 		XmlNode energyGenSection = node.SelectSingleNode ("energyGenSection");

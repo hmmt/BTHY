@@ -45,11 +45,12 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
 
     public void onClickObserveButton()
     {
-        Debug.Log("Work Count : "+creature.workCount+"Observe Condition : "+creature.observeCondition + "Observe Progress : "+creature.observeProgress+1);
+        //Debug.Log("Work Count : "+creature.workCount+"Observe Condition : "+creature.observeCondition + "Observe Progress : "+creature.observeProgress+1);
 
         //SelectObserveAgentWindow.CreateWindow(creature);
 
         return;
+		/*
         if (creature.NoticeDoObserve())
         {
             SelectObserveAgentWindow.CreateWindow(creature);
@@ -58,6 +59,7 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
         {
             Debug.Log("관찰 조건이 충족되지 않았음");
         }
+        */
     }
 
 	public static void Create(CreatureModel creature)
@@ -267,7 +269,7 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
         }
 
 
-        currentWindow.observeButton.gameObject.SetActive((creature.NoticeDoObserve() && state));
+        //currentWindow.observeButton.gameObject.SetActive((creature.NoticeDoObserve() && state));
     }
 
     public void OnClickPortrait() {
