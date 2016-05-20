@@ -244,7 +244,7 @@ public class OfficerUnit : MonoBehaviour {
         
 		if(AnimatorUtil.HasParameter(puppetAnim, "Move"))
 		{
-	        if (oldPos != transform.localPosition.x)
+	        if (model.GetMovableNode().IsMoving())
 	        {
 	            /*
 	            puppetAnim.SetBool("Move", true);

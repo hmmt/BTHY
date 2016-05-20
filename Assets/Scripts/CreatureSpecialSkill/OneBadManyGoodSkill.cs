@@ -160,4 +160,9 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
     }
 
     public void AgentReset() { }
+
+    public void CreatureAnimCall(int i, CreatureBase script)
+    { 
+        
+    }
 }

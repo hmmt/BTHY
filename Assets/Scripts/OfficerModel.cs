@@ -65,7 +65,6 @@ public class OfficerModel : WorkerModel {
 			return;
 		}
 
-        ProcessAction();
 
         if (elapsedTime > recoveryTerm)
         {
@@ -76,6 +75,10 @@ public class OfficerModel : WorkerModel {
             }
             else RecoverMental(recoveryRate);
         }
+
+        if (haltUpdate) return;
+
+        ProcessAction();
 
 		if (moveDelay > 0)
 		{
@@ -499,6 +502,6 @@ public class OfficerModel : WorkerModel {
         OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(instanceId);
 
         AnimatorManager.instance.ChangeAnimatorByID(instanceId, instanceId, officerView.puppetAnim, false, false);
-        
+        officerView.animTarget.ChangeFaceToDefault();
     }
 }

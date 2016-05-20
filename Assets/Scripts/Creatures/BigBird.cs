@@ -475,6 +475,11 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
 
     public void AgentReset() { }
 
+    public void CreatureAnimCall(int i, CreatureBase script)
+    { 
+        
+    }
+
     public override void OnViewInit(CreatureUnit unit)
     {
         if (this.defaultLanternSound == null)

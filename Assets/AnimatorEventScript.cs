@@ -6,6 +6,7 @@ public interface IAnimatorEventCalled {
     void OnCalled(int i);
     void AgentReset();
     void AnimatorEventInit();
+    void CreatureAnimCall(int i, CreatureBase script);
 }
 
 public class AnimatorEventScript : MonoBehaviour {
@@ -44,4 +45,11 @@ public class AnimatorEventScript : MonoBehaviour {
         target.AgentReset();
     }
 
+    public void CreatureAnimCommand(int i) {
+        if (target is AgentAnim){
+            
+            target.CreatureAnimCall(i, (target as AgentAnim).Model.animationMessageRecevied);
+        }
+    }
+    
 }

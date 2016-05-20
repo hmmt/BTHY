@@ -305,4 +305,53 @@ public class CreatureBase {
     public virtual bool AutoFeelingDown() {
         return true;
     }
+
+    public virtual void AgentAnimCalled(int i, WorkerModel actor) { 
+        
+    }
+
+    public virtual void MakingEffect(string effect, float effectLength, string sound, Transform parent, int recoil) {
+        Transform p = parent;
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+        if (parent == null) {
+            parent = unit.gameObject.transform;
+        }
+
+        GameObject effectObject = Prefab.LoadPrefab(effect);
+
+        effectObject.transform.SetParent(p);
+        effectObject.transform.localScale = Vector3.one;
+        effectObject.transform.localPosition = Vector3.zero;
+        effectObject.transform.localRotation = Quaternion.identity;
+
+        ParticleDestroy pd = effectObject.GetComponent<ParticleDestroy>();
+        pd.DelayedDestroy(effectLength);
+
+        unit.PlaySound(sound);
+
+        if (recoil > 0) {
+            CameraMover.instance.Recoil(recoil);
+        }
+
+    }
+
+    public virtual void MakingEffect(string effect, float effectLength, string sound, Vector3 pos, int recoil)
+    {
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+       
+        GameObject effectObject = Prefab.LoadPrefab(effect);
+
+        effectObject.transform.position = pos;
+
+        ParticleDestroy pd = effectObject.GetComponent<ParticleDestroy>();
+        pd.DelayedDestroy(effectLength);
+
+        unit.PlaySound(sound);
+
+        if (recoil > 0)
+        {
+            CameraMover.instance.Recoil(recoil);
+        }
+
+    }
 }

@@ -86,10 +86,21 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 	private List<ParameterInfo> updatedParametersMoment;
 
     private WorkerModel model;
+    public WorkerModel Model {
+        get { return model; }
+    }
+
+    private Sprite defaultFace;
 
     public void Init(WorkerModel am) {
         this.model = am;
         this.AnimatorEventInit();
+        if (am is OfficerModel) {
+            defaultFace = (am as OfficerModel).faceSprite;
+        }
+        else if (am is AgentModel) {
+            defaultFace = (am as AgentModel).tempFaceSprite;
+        }
     }
 	
 	void Awake()
@@ -233,10 +244,38 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         animEvent.SetTarget(this);
     }
 
+    public void CreatureAnimCall(int i, CreatureBase script)
+    { 
+        //smth;
+        script.AgentAnimCalled(i, this.model);
+        /*
+        if (this.model is AgentModel)
+        {
+            UseSkill skill = (this.model as AgentModel).currentSkill;
+            if (skill != null)
+            {
+                if (skill.targetCreature.script != null)
+                {
+                    skill.targetCreature.script.AgentAnimCalled(i, this.model);
+                }
+            }
+            else
+            {
+                script.AgentAnimCalled(i, this.model);
+            }
+        }
+        else {
+            script.AgentAnimCalled(i, this.model);
+        }*/
+
+    }
+
     public void AgentReset() {
         model.ResetAnimator();
 		if(model is AgentModel)
 			(model as AgentModel).WorkEndReaction();
+
+
     }
 
     public void SetSprite() {
@@ -268,5 +307,15 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         if (this.model is AgentModel) {
             this.Symbol.sprite = spriteSet.Symbol;
         }
+    }
+
+    public void ChangeFaceSprite(Sprite s) {
+        Debug.Log("sprite change" + s.name);
+        SetFace(s);
+    }
+
+    public void ChangeFaceToDefault() {
+        Debug.Log("to defaut: " +defaultFace.name);
+        SetFace(defaultFace);
     }
 }

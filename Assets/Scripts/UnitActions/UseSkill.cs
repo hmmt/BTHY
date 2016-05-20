@@ -52,6 +52,7 @@ public class UseSkill : ActionClassBase
     //private bool narrationPart5 = false;
 
     private bool finished = false;
+    private bool forceFinish = false;
 
     //타이머 관련 변수
     float elapsed;
@@ -169,16 +170,18 @@ public class UseSkill : ActionClassBase
 
 		if (workCount >= totalTickNum && !readyToFinish && agent.OnWorkEndFlag)
         {
-            //MakeReaction();
+            
+                //MakeReaction();
 
-            //AngelaConversaion.instance.MakeCreatureReaction(this.targetCreature, endLevel);
+                //AngelaConversaion.instance.MakeCreatureReaction(this.targetCreature, endLevel);
 
-            targetCreature.ShowNarrationText("finish", agent.name);
+                targetCreature.ShowNarrationText("finish", agent.name);
 
-            targetCreature.script.OnSkillGoalComplete(this);
+                targetCreature.script.OnSkillGoalComplete(this);
 
-            //StatusView.instance.Hide ();
+                //StatusView.instance.Hide ();
 
+         
             readyToFinish = true;
             agent.OnWorkEndFlag = false;
   
@@ -188,7 +191,8 @@ public class UseSkill : ActionClassBase
 		{
 			FinshWork();
 
-			ProcessTraitExp();
+            ProcessTraitExp();
+            
         }
 
         if (workPlaying && IsWorkingState())
@@ -455,8 +459,14 @@ public class UseSkill : ActionClassBase
 
 	public void FinishForcely()
 	{
+        
 		FinshWork ();
 	}
+
+    public void FinishForcelyInHaltedState() {
+        this.forceFinish = true;
+        
+    }
 
     private void ProcessWorkTick()
     {

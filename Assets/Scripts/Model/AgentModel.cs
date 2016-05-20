@@ -290,6 +290,7 @@ public class AgentModel : WorkerModel
         if (isDead())
             return;
 
+
 		foreach(SkillInfo info in skillInfos)
 		{
 			if (info.delay > 0)
@@ -315,6 +316,8 @@ public class AgentModel : WorkerModel
 			stunTime -= Time.deltaTime;
 			return;
 		}
+
+        if (haltUpdate) return;
 
         ProcessAction();
 
@@ -1236,6 +1239,8 @@ public class AgentModel : WorkerModel
 
 		AnimatorManager.instance.ChangeAnimatorByID (instanceId, instanceId,
 			agentView.puppetAnim, false, false);
+
+        agentView.animTarget.ChangeFaceToDefault();
 	}
 
 	public void WorkEndReaction()
