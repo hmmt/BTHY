@@ -6,6 +6,17 @@ using System.Text;
 using UnityEngine;
 
 public class BigBird : CreatureBase, IAnimatorEventCalled{
+    const string lantern = "lantern";
+    const string defaultLantern = "defaultLantern";
+    const string walking = "walking";
+    const string deadscene = "deadscene";
+    const string mental = "mental";
+
+    SensingModule sensing = new SensingModule();
+    Camera sensor;
+
+    CreatureUnit currentCreatureUnit;
+
     CreatureUnit birdCreatureUnit = null;
     List<WorkerModel> targetList;
     CreatureTimer timer;
@@ -15,25 +26,64 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
     bool attractCasting = false;
     bool isPlayingDeadScene = false;
     bool targetMoving = false;
+    bool cameraSensored = false;
+
+    MapNode targetMovementNode = null;
+
+    SoundEffectPlayer escapeLanternSound = null;
+    SoundEffectPlayer defaultLanternSound = null;
+    SoundEffectPlayer escapeWalkSound = null;
+
+    SoundEffectPlayer deadSceneSound = null;
 
     WorkerModel currentTarget = null;
     
     PassageObjectModel oldPassage = null;
+
+    Vector3 bloodPos;
 
     int former = -1;
     int currentPos = -1;
 
     bool animatorScriptInit = false;
 
+    public override void OnReturn()
+    {
+        if (escapeWalkSound != null)
+        {
+            escapeWalkSound.Stop();
+            escapeWalkSound = null;
+        }
+
+        if (escapeLanternSound != null)
+        {
+            escapeLanternSound.Stop();
+            escapeLanternSound = null;
+        }
+    }
+
     public override void OnInit()
     {
-        timer = new CreatureTimer(10f);
+        timer = new CreatureTimer(30f);
         attractCastingTimer = new CreatureTimer(5f);
         model.escapeType = CreatureEscapeType.WANDER;
     }
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
+        if (this.currentCreatureUnit == null) {
+            this.currentCreatureUnit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
+            
+            sensor = currentCreatureUnit.currentCreatureCanvas.worldCamera;
+        }
+
+        RectTransform rect = currentCreatureUnit.cameraSensingArea.GetComponent<RectTransform>();
+
+        sensing.Set(rect.position.x - ((rect.rect.width / 2) * currentCreatureUnit.transform.localScale.x),
+                    rect.position.x + ((rect.rect.width / 2) * currentCreatureUnit.transform.localScale.x),
+                    rect.position.y - ((rect.rect.height / 2) * currentCreatureUnit.transform.localScale.y),
+                    rect.position.y + ((rect.rect.height / 2) * currentCreatureUnit.transform.localScale.y));
+
         if(!animatorScriptInit){
             AnimatorEventInit();
             animatorScriptInit = true;
@@ -44,6 +94,21 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
 
         if (escaped)
         {
+            if (sensor.orthographicSize < 6f)
+            {
+                if (sensing.Check(sensor.transform.position))
+                {
+                    cameraSensored = true;
+                }
+                else
+                {
+                    cameraSensored = false;
+                }
+            }
+            else {
+                cameraSensored = false;
+            }
+            
             return;
         }
         else {
@@ -102,6 +167,17 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
             return;
         }
 
+
+        if (this.escapeWalkSound != null && this.escapeLanternSound != null) {
+            if (this.escapeLanternSound.halted) {
+                if (this.deadSceneSound == null) {
+                    this.escapeLanternSound.ReStart();
+                    this.escapeWalkSound.ReStart();
+                }
+            }
+        }
+        
+
         if (model.GetMovableNode().currentEdge != null && model.GetMovableNode().currentEdge.type == "door") return;
 
         if (oldPassage != null && currentPassage != oldPassage) {
@@ -110,12 +186,14 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
         }
 
         //추가조건 필요
-        if (model.GetCreatureCurrentCmd() == null && attract == false && currentTarget == null) {
+        if (model.GetCreatureCurrentCmd() == null && attract == false && currentTarget == null && !attractCasting) {
             //Debug.Log("BirdStartMovement");
+            targetMovementNode = null;
             MakeBirdMovement();
         }
 
         if (timer.TimerRun() && currentPassage != null) {
+            Debug.Log("매혹시도 준비");
             StopBirdMovement();
 
             attractCasting = true;
@@ -217,15 +295,18 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
                 }
                 else {
                     Vector3 pos = this.model.GetMovableNode().GetCurrentViewPosition();
-
+                    bool z = false;
                     if (model.GetAnimScript().transform.localScale.x < 0)
                     {
                         pos = new Vector3(pos.x - 1.8f, pos.y, pos.z);
+                        z = false;
                     }
                     else {
                         pos = new Vector3(pos.x + 1.8f, pos.y, pos.z);
+                        z = true;
                     }
 
+                    bloodPos = pos;
                   
                     if (currentTarget is AgentModel) {
                         AgentUnit unit = AgentLayer.currentLayer.GetAgent(currentTarget.instanceId);
@@ -235,7 +316,7 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
                     }
                     else if (currentTarget is OfficerModel) {
                         OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(currentTarget.instanceId);
-                        if (unit.MannualMovingCall(pos, false) ) {
+                        if (unit.MannualMovingCall(pos, z, false, true) ) {
 
                             targetMoving = false;
                         }
@@ -306,20 +387,27 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
 
     void MakeBirdMovement() {
         int randVal;
-        MapNode node;
-        MapNode[] nodes = null;
-        while (former == (randVal = UnityEngine.Random.Range(0, model.sefira.departmentNum + 1))) ;
-        former = randVal;
-        if (randVal == model.sefira.departmentNum)
+        MapNode node = null;
+        if (targetMovementNode == null)
         {
-            nodes = MapGraph.instance.GetSefiraNodes(model.sefira);
+            MapNode[] nodes = null;
+            while (former == (randVal = UnityEngine.Random.Range(0, model.sefira.departmentNum + 1))) ;
+            former = randVal;
+            if (randVal == model.sefira.departmentNum)
+            {
+                nodes = MapGraph.instance.GetSefiraNodes(model.sefira);
+            }
+            else
+            {
+                nodes = MapGraph.instance.GetAdditionalSefira(model.sefira);
+            }
+            node = nodes[UnityEngine.Random.Range(0, nodes.Length)];
+            targetMovementNode = node;
+            Debug.Log(node.GetId());
         }
-        else
-        {
-            nodes = MapGraph.instance.GetAdditionalSefira(model.sefira);
+        else {
+            node = targetMovementNode;
         }
-        node = nodes[UnityEngine.Random.Range(0, nodes.Length)];
-
         model.MoveToNode(node);
         
     }
@@ -336,19 +424,47 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
 
     public void Escape() {
         Debug.Log("탈출해야지");
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+        if (this.escapeLanternSound == null) {
+            this.escapeLanternSound = unit.PlaySoundLoop(lantern, 0.1f);
+        }
+
+        if (this.escapeWalkSound == null) {
+            this.escapeWalkSound = unit.PlaySoundLoop(walking);
+        }
+
         model.StopEscapeWork();
         MakeBirdMovement();
         escaped = true;
         timer.TimerStart(false);
     }
 
-    public void OnCalled() { 
+    public void OnCalled() {
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+        deadSceneSound = unit.PlaySound(deadscene);
+
+        if (this.escapeLanternSound != null) {
+            this.escapeLanternSound.Halt();
+        }
+
+        if (this.escapeWalkSound != null) {
+            this.escapeWalkSound.Halt();
+        }
+
+        GameObject bloodEffect = Prefab.LoadPrefab("Effect/Creature/BigBird/Blooooooooooody");
+        bloodEffect.transform.position = new Vector3(this.bloodPos.x, this.bloodPos.y, Camera.main.transform.localPosition.z + 1);
+        ParticleDestroy pd = bloodEffect.GetComponent<ParticleDestroy>();
+        pd.DelayedDestroy(5f);
         
     }
 
     public void OnCalled(int i)
     {
         this.SetPassageAlpha(i);
+
+        if (this.cameraSensored) {
+            CameraMover.instance.Recoil(1);
+        }
     }
 
     public void AnimatorEventInit()
@@ -359,5 +475,17 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
 
     public void AgentReset() { }
 
+    public void CreatureAnimCall(int i, CreatureBase script)
+    { 
+        
+    }
+
+    public override void OnViewInit(CreatureUnit unit)
+    {
+        if (this.defaultLanternSound == null)
+        {
+            this.defaultLanternSound = unit.PlaySoundLoop(defaultLantern, 0.9f);
+        }
+    }
 
 }

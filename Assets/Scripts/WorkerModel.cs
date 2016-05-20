@@ -69,6 +69,8 @@ public class WorkerModel: UnitModel, IObserver {
     public string faceImgSrc;
     public string bodyImgSrc;
 
+    public bool haltUpdate = false;
+
     //public AgentHistory history;
 
     public Dictionary<string, string> speechTable = new Dictionary<string, string>();
@@ -93,6 +95,7 @@ public class WorkerModel: UnitModel, IObserver {
 
     public NullCreature nullParasite = null;
     public CreatureModel recentlyAttacked = null;
+    public CreatureBase animationMessageRecevied = null;
 
     public bool visible = true;
     public float oldZ;
@@ -199,9 +202,27 @@ public class WorkerModel: UnitModel, IObserver {
         }
     }
 
-    public virtual void OnFixedUpdate() { 
+    public virtual void OnFixedUpdate() {
+        if (haltUpdate) return;
         ProcessAction();
 		movableNode.ProcessMoveNode((int)(movement * movementMul));
+    }
+    
+    /// <summary>
+    /// 애니메이션 관련
+    /// </summary>
+    public virtual void HaltUpdate() {
+        this.haltUpdate = true;
+    }
+
+    public virtual void ReleaseUpdate() {
+        Debug.Log(this.name + " halt release");
+        
+        this.haltUpdate = false;
+    }
+
+    public virtual void ResetSprite() { 
+        
     }
 
     public virtual void ProcessAction() { 

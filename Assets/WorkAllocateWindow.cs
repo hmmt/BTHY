@@ -341,7 +341,6 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
         }
         else
         {
-            Debug.Log((id - 1).ToString());
             target = this.skillCategoryTraget[(int)id - 1].GetChild(0).GetComponent<Image>();
         }
         target.sprite = s;
@@ -366,7 +365,6 @@ public class WorkAllocateWindow : MonoBehaviour, IActivatableObject {
     {
         //temporary
         if (CheckIdValidate(this.selectedSkillId)) {
-            Debug.Log(this.selectedSkillId);
             ChangeWorkIcon(this.selectedSkillId , ManageWorkIconState.DEFAULT);
         }
 

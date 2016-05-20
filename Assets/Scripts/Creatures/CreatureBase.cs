@@ -74,7 +74,51 @@ public class CreatureBase {
         }
 
     }
+    public class SensingModule
+    {
+        float leftX;
+        float rightX;
+        float downY;
+        float upY;
 
+        bool enabled = true;
+
+        public void Set(float x1, float x2, float y1, float y2)
+        {
+            this.leftX = x1;
+            this.rightX = x2;
+            this.downY = y1;
+            this.upY = y2;
+        }
+
+        public void SetEnabled(bool b)
+        {
+            this.enabled = b;
+        }
+
+        public bool GetEnabled()
+        {
+            return this.enabled;
+        }
+
+        public bool Check(Vector3 pos)
+        {
+            if (!enabled) return false;
+            if (pos.x > leftX && pos.x < rightX)
+            {
+                if (pos.y > downY && pos.y < upY)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void Print()
+        {
+            Debug.Log(leftX + " " + rightX + " " + downY + " " + upY);
+        }
+    }
     protected CreatureModel model;
     public CreatureSpecialSkill skill;
     public bool hasUniqueEscapeLogic;
@@ -260,5 +304,54 @@ public class CreatureBase {
 
     public virtual bool AutoFeelingDown() {
         return true;
+    }
+
+    public virtual void AgentAnimCalled(int i, WorkerModel actor) { 
+        
+    }
+
+    public virtual void MakingEffect(string effect, float effectLength, string sound, Transform parent, int recoil) {
+        Transform p = parent;
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+        if (parent == null) {
+            parent = unit.gameObject.transform;
+        }
+
+        GameObject effectObject = Prefab.LoadPrefab(effect);
+
+        effectObject.transform.SetParent(p);
+        effectObject.transform.localScale = Vector3.one;
+        effectObject.transform.localPosition = Vector3.zero;
+        effectObject.transform.localRotation = Quaternion.identity;
+
+        ParticleDestroy pd = effectObject.GetComponent<ParticleDestroy>();
+        pd.DelayedDestroy(effectLength);
+
+        unit.PlaySound(sound);
+
+        if (recoil > 0) {
+            CameraMover.instance.Recoil(recoil);
+        }
+
+    }
+
+    public virtual void MakingEffect(string effect, float effectLength, string sound, Vector3 pos, int recoil)
+    {
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+       
+        GameObject effectObject = Prefab.LoadPrefab(effect);
+
+        effectObject.transform.position = pos;
+
+        ParticleDestroy pd = effectObject.GetComponent<ParticleDestroy>();
+        pd.DelayedDestroy(effectLength);
+
+        unit.PlaySound(sound);
+
+        if (recoil > 0)
+        {
+            CameraMover.instance.Recoil(recoil);
+        }
+
     }
 }

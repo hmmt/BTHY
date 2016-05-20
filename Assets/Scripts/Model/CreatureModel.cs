@@ -391,7 +391,7 @@ public class CreatureModel : UnitModel, IObserver
         else if (state == CreatureState.WAIT)
         {
         }
-        movableNode.ProcessMoveNode(4);
+        movableNode.ProcessMoveNode(metaInfo.speed);
     }
 
     public void OnEscapeUpdate()

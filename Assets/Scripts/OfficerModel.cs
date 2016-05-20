@@ -20,6 +20,8 @@ public class OfficerModel : WorkerModel {
     public OfficerModel chatTarget;
     public LOOKINGDIR lookingDir = LOOKINGDIR.NOCARE;
     public bool startSpecialAction = false;
+    public Sprite hairSprite;
+    public Sprite faceSprite;
     private OfficerSpecialAction currentSpecialAction = null;
     private OfficerAIState _state = OfficerAIState.START;
 	public OfficerAIState state {
@@ -41,6 +43,12 @@ public class OfficerModel : WorkerModel {
         this.mentalReturn = SefiraManager.instance.GetSefira(area).GetOfficerMentalRecoverValue();
     }
 
+    public void SetModelSprite()
+    {
+        hairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender);
+        faceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite();
+    }
+
     public override void OnFixedUpdate()
     {
         //make something in OfficeModel.ProcessAction() likewise ProcessAction
@@ -57,7 +65,6 @@ public class OfficerModel : WorkerModel {
 			return;
 		}
 
-        ProcessAction();
 
         if (elapsedTime > recoveryTerm)
         {
@@ -68,6 +75,10 @@ public class OfficerModel : WorkerModel {
             }
             else RecoverMental(recoveryRate);
         }
+
+        if (haltUpdate) return;
+
+        ProcessAction();
 
 		if (moveDelay > 0)
 		{
@@ -271,7 +282,7 @@ public class OfficerModel : WorkerModel {
                 OfficerSpecialAction.PosData posData = currentSpecialAction.GetPos();
                 this.lookingDir = posData.dir;
 
-                _unit.MannualMovingCall(new Vector3(posData.pos.x, posData.pos.y, _unit.transform.localPosition.z), true);
+                _unit.MannualMovingCall(new Vector3(posData.pos.x, posData.pos.y, _unit.transform.localPosition.z), true, currentSpecialAction.shouldMove, false);
                 this.OnWorkEndFlag = false;
                 /*
                 Sefira sefira = SefiraManager.instance.GetSefira(this.currentSefira);
@@ -314,7 +325,7 @@ public class OfficerModel : WorkerModel {
     }
 
     public void SpecialActionReturn() {
-        _unit.MannualMovingCall(this.currentSpecialAction.GetNode().GetPosition(), false);
+        _unit.MannualMovingCall(this.currentSpecialAction.GetNode().GetPosition(), false, this.currentSpecialAction.shouldMove, false);
     }
 
     public void EndSpecialAction() {
@@ -491,6 +502,6 @@ public class OfficerModel : WorkerModel {
         OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(instanceId);
 
         AnimatorManager.instance.ChangeAnimatorByID(instanceId, instanceId, officerView.puppetAnim, false, false);
-        
+        officerView.animTarget.ChangeFaceToDefault();
     }
 }

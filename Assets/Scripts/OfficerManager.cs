@@ -87,6 +87,7 @@ public class OfficerManager : IObserver {
         //unit.workSpeed = info.work;
 
         unit.gender = info.gender;
+        unit.SetModelSprite();
 
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
         unit.panicType = info.panicType;

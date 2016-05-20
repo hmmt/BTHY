@@ -12,11 +12,20 @@ public enum MouseCursorType {
 }
 
 public class CursorManager : MonoBehaviour {
+    private static CursorManager _instance = null;
+    public static CursorManager instance {
+        get { return _instance; }
+    }
+
     public List<Texture2D> cursorSprite;
     public CursorMode cursorMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;
 
     public MouseCursorType currentType = MouseCursorType.NORMAL;
+
+    public void Awake() {
+        _instance = this;   
+    }
 
     public void Start() {
         Cursor.SetCursor(cursorSprite[(int)currentType], hotSpot, cursorMode);
@@ -30,7 +39,7 @@ public class CursorManager : MonoBehaviour {
         }
 
         Cursor.SetCursor(cursorSprite[(int)type], hotSpot, cursorMode);
-        
+        currentType = type;
     }
 
     public void HideCursor() {

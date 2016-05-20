@@ -244,7 +244,7 @@ public class OfficerUnit : MonoBehaviour {
         
 		if(AnimatorUtil.HasParameter(puppetAnim, "Move"))
 		{
-	        if (oldPos != transform.localPosition.x)
+	        if (model.GetMovableNode().IsMoving())
 	        {
 	            /*
 	            puppetAnim.SetBool("Move", true);
@@ -363,7 +363,7 @@ public class OfficerUnit : MonoBehaviour {
     bool isMovingStarted = false;
     bool isKilled = false;//temporary
     public bool blockMoving = false;
-    IEnumerator MannualMoving(Vector3 pos, bool blockMoving, bool zVal)
+    IEnumerator MannualMoving(Vector3 pos, bool blockMoving, bool zVal, bool shouldMoveZaxis, bool zPos)
     {
         Transform target = this.gameObject.transform;
         Vector3 initial = new Vector3(target.position.x, target.position.y, target.position.z);
@@ -392,20 +392,29 @@ public class OfficerUnit : MonoBehaviour {
         this.blockMoving = blockMoving;
         puppetAnim.SetBool("Move", true);
         Vector3 initialScale = puppetNode.transform.localScale;
-        Debug.Log("UnitScale " + unitScale);
+        
         while (cnt > 0)
         {
             puppetAnim.SetBool("Move", true);
             yield return new WaitForSeconds(0.01f);
-            
-            target.position = new Vector3(initial.x + (reference.x / (float)cntMax) * ((cntMax - 1) - cnt), 
-                                          initial.y + (reference.y / (float)cntMax) * ((cntMax - 1) - cnt), 
-                                          initial.z + (reference.z / (float)cntMax) * ((cntMax - 1) - cnt));
+
+            if (!zVal)
+            {
+                target.position = new Vector3(initial.x + (reference.x / (float)cntMax) * ((cntMax - 1) - cnt),
+                                              initial.y + (reference.y / (float)cntMax) * ((cntMax - 1) - cnt),
+                                              initial.z + (reference.z / (float)cntMax) * ((cntMax - 1) - cnt));
+
+            }
+            else {
+                target.position = new Vector3(initial.x + (reference.x / (float)cntMax) * ((cntMax - 1) - cnt),
+                                              initial.y + (reference.y / (float)cntMax) * ((cntMax - 1) - cnt),
+                                              initial.z );
+            }
             /*target.localScale = new Vector3(initialScale.x + unitScale,
                                             initialScale.x + unitScale,
                                             initialScale.z);
              */
-            if (cnt % 2 == 0)
+            if (cnt % 2 == 0 && shouldMoveZaxis)
             {
                 /*
                 puppetNode.transform.localScale = new Vector3(puppetNode.transform.localScale.x + unitScale,
@@ -432,13 +441,13 @@ public class OfficerUnit : MonoBehaviour {
         
     }
 
-    public bool MannualMovingCall(Vector3 pos, bool mode)
+    public bool MannualMovingCall(Vector3 pos, bool mode, bool moveZaxis, bool zVal)
     {
         if (!isMovingStarted)
         {
             isMovingStarted = true;
             isMovingByMannually = false;
-            StartCoroutine(MannualMoving(pos, true , mode));
+            StartCoroutine(MannualMoving(pos, true , mode, moveZaxis, zVal));
             return false;
         }
 
