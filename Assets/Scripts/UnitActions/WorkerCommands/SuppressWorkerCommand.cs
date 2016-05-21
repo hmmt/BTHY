@@ -145,8 +145,8 @@ public class SuppressWorkerCommand : WorkerCommand {
 
 		AgentUnit au = AgentLayer.currentLayer.GetAgent (agent.instanceId);
 		au.puppetAnim.SetInteger ("Suppress", 0);
-		au.SetParameterForSecond ("Return", true, 0.3f);
-
+		//au.SetParameterForSecond ("Return", true, 0.3f);
+        au.puppetAnim.SetBool("Return", true);
 		((AgentModel)actor).FinishSuppress();
 	}
 

@@ -198,7 +198,7 @@ public class WorkAllocateSlot : MonoBehaviour {
 
     public void SetCurrentStateIcon() {
         if (this.model == null) return;
-        Debug.Log("Set current State");
+        //Debug.Log("Set current State");
         this.hp.maxValue = this.model.maxHp;
         this.hp.minValue = 0;
 

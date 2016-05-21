@@ -6,6 +6,9 @@ public interface IAnimatorEventCalled {
     void OnCalled(int i);
     void AgentReset();
     void AnimatorEventInit();
+    void CreatureAnimCall(int i, CreatureBase script);
+    void TakeDamageAnim(int isPhysical);
+    void AttackCalled(int i);
 }
 
 public class AnimatorEventScript : MonoBehaviour {
@@ -40,8 +43,24 @@ public class AnimatorEventScript : MonoBehaviour {
         target.OnCalled(i);
     }
 
+    public void AttackAnimCalled(int i)
+    {
+        target.AttackCalled(i);
+    }
+
     public void AgentResetCommand() {
         target.AgentReset();
+    }
+
+    public void CreatureAnimCommand(int i) {
+        if (target is AgentAnim){
+            
+            target.CreatureAnimCall(i, (target as AgentAnim).Model.animationMessageRecevied);
+        }
+    }
+
+    public void TakeDamageAnim(int isPhysical) {
+        target.TakeDamageAnim(isPhysical);
     }
 
 }

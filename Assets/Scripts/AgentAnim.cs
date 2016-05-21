@@ -86,10 +86,21 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 	private List<ParameterInfo> updatedParametersMoment;
 
     private WorkerModel model;
+    public WorkerModel Model {
+        get { return model; }
+    }
+
+    private Sprite defaultFace;
 
     public void Init(WorkerModel am) {
         this.model = am;
         this.AnimatorEventInit();
+        if (am is OfficerModel) {
+            defaultFace = (am as OfficerModel).faceSprite;
+        }
+        else if (am is AgentModel) {
+            defaultFace = (am as AgentModel).tempFaceSprite;
+        }
     }
 	
 	void Awake()
@@ -233,10 +244,37 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         animEvent.SetTarget(this);
     }
 
+    public void CreatureAnimCall(int i, CreatureBase script)
+    { 
+        //smth;
+        script.AgentAnimCalled(i, this.model);
+        /*
+        if (this.model is AgentModel)
+        {
+            UseSkill skill = (this.model as AgentModel).currentSkill;
+            if (skill != null)
+            {
+                if (skill.targetCreature.script != null)
+                {
+                    skill.targetCreature.script.AgentAnimCalled(i, this.model);
+                }
+            }
+            else
+            {
+                script.AgentAnimCalled(i, this.model);
+            }
+        }
+        else {
+            script.AgentAnimCalled(i, this.model);
+        }*/
+
+    }
+
     public void AgentReset() {
         model.ResetAnimator();
 		if(model is AgentModel)
 			(model as AgentModel).WorkEndReaction();
+
     }
 
     public void SetSprite() {
@@ -268,5 +306,81 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         if (this.model is AgentModel) {
             this.Symbol.sprite = spriteSet.Symbol;
         }
+    }
+
+    public void ChangeFaceSprite(Sprite s) {
+        SetFace(s);
+    }
+
+    public void ChangeFaceToDefault() {
+
+        SetFace(defaultFace);
+    }
+
+    public void TakeDamageAnim(int isPhysical) {
+
+        if (this.model is AgentModel)
+        {
+            AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.model.instanceId);
+            unit.animTarget.AttackedEffectByRandomPos("Effect/HitEffectGun");
+        }
+        else {
+            OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(this.model.instanceId);
+
+            if (isPhysical == 1)
+            {
+                unit.puppetAnim.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
+            }
+            else {
+                unit.puppetAnim.SetInteger("MentalAttacked", UnityEngine.Random.Range(1, 4));
+            }
+
+            unit.animTarget.AttackedEffectByRandomPos("Effect/HitEffectGun");
+        }
+
+    }
+
+    public void AttackCalled(int i) { 
+        //상대에게 맞는 모션 불러야함
+        if (this.model is AgentModel)
+        {
+            AgentModel am = this.model as AgentModel;
+            if (am.attackTargetWorker != null) {
+                if (am.attackTargetWorker is AgentModel) {
+                    AgentUnit targetUnit = AgentLayer.currentLayer.GetAgent(am.attackTargetWorker.instanceId);
+                    targetUnit.animTarget.TakeDamageAnim(i);
+                }
+                else if (am.attackTargetWorker is OfficerModel)
+                {
+                    OfficerUnit targetUnit = OfficerLayer.currentLayer.GetOfficer(am.attackTargetWorker.instanceId);
+                    targetUnit.animTarget.TakeDamageAnim(i);
+                }
+            }
+        }
+        else {
+            OfficerModel om = this.model as OfficerModel;
+            if (om.attackTargetWorker != null)
+            {
+                if (om.attackTargetWorker is AgentModel)
+                {
+                    AgentUnit targetUnit = AgentLayer.currentLayer.GetAgent(om.attackTargetWorker.instanceId);
+                    targetUnit.animTarget.TakeDamageAnim(i);
+                }
+                else if (om.attackTargetWorker is OfficerModel)
+                {
+                    OfficerUnit targetUnit = OfficerLayer.currentLayer.GetOfficer(om.attackTargetWorker.instanceId);
+                    targetUnit.animTarget.TakeDamageAnim(i);
+                }
+            }
+        }
+    }
+
+    public void AttackedEffectByRandomPos(string src) {
+        GameObject ge = Prefab.LoadPrefab(src);
+        Vector3 pos = this.model.GetMovableNode().GetCurrentViewPosition();
+        
+        //ge.transform.localPosition = pos;
+        ge.transform.SetParent(this.body.gameObject.transform);
+        ge.transform.localPosition = Vector3.zero;
     }
 }

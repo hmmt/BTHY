@@ -28,8 +28,8 @@ public class RedShoes : CreatureBase {
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
-		return;
-        if (creature.GetFeelingPercent() < 130f && this.skill.Activated == false)
+		//return;
+        if (creature.GetFeelingPercent() <= 30f && this.skill.Activated == false)
         {
             this.skill.Activate();
         }
@@ -108,6 +108,15 @@ public class RedShoes : CreatureBase {
 
     public override void OnEnterRoom(UseSkill skill)
     {
+        if (this.skill.Activated == false) {
+            if (skill.agent.gender == "Female") {
+                skill.PauseWorking();
+                Debug.Log("Attract in Room");
+                (this.skill as RedShoesSkill).AttractInIsolate(skill.agent);
+            }
+        }
+
+
 		/*
         skill.PauseWorking();
 
@@ -136,4 +145,6 @@ public class RedShoes : CreatureBase {
 	{
 		return false;
 	}
+
+    
 }

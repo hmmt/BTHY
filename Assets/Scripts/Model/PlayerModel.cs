@@ -16,7 +16,6 @@ public class PlayerModel {
     private HashSet<string> areaList;
     public HashSet<string> openedAreaList;
 
-	// unused
     public Vector3 playerSpot;
       
     private int day;
@@ -62,6 +61,8 @@ public class PlayerModel {
         {
             openedAreaList.Add(area);
             UpdateArea(area);
+            //SefiraManager.instance.getSefira(area).activated = true;
+            //SefiraManager.instance.getSefira(area).initCreatureArray();
             s.activated = true;
             s.initCreatureArray();
             s.initOfficerGroup();
@@ -114,11 +115,11 @@ public class PlayerModel {
         if (added == "1")
         {
             CreatureManager.instance.AddCreature(100021, "left-upper-way2", -14f, -3.5f, added); //테10002 -> 늙은(100021) -> 마법소녀(100004)
-            /*CreatureManager.instance.AddCreature(100008, "left-upper-way3", -24f, -3.5f, added); //큰새(100008) -> 구두(100003)
+            CreatureManager.instance.AddCreature(100003, "left-upper-way3", -24f, -3.5f, added); //큰새(100008) -> 구두(100003)
             CreatureManager.instance.AddCreature(100001, "right-upper-way2", 14f, -3.5f, added); //성냥팔이(100001) -> 아무 것도 없는 (100005) -> 노래하는 기계(100006)
             CreatureManager.instance.AddCreature(100009, "right-upper-way3", 24f, -3.5f, added); // 단한가지악(100009) -> 벽을 보는 여인(100022)
 			CreatureManager.instance.AddCreature(100001, "left-down-way2", -8, -10f, added);
-			CreatureManager.instance.AddCreature(100022, "right-down-way2", 8, -10f, added);*/
+			CreatureManager.instance.AddCreature(100022, "right-down-way2", 8, -10f, added);
 
         }
         else if (added == "2")
@@ -164,14 +165,7 @@ public class PlayerModel {
         GameUtil.TryGetValue(dic, "areaList", ref openedAreaListImp);
         foreach (string area in openedAreaListImp)
         {
-			Sefira s = SefiraManager.instance.GetSefira(area);
-			if (areaList.Contains(area) && !openedAreaList.Contains(area))
-			{
-				openedAreaList.Add(area);
-				s.activated = true;
-				s.initCreatureArray();
-				s.initOfficerGroup();
-			}
+            openedAreaList.Add(area);
         }
         GameUtil.TryGetValue(dic, "day", ref day);
 

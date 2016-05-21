@@ -35,6 +35,9 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
     public int hp;
     public int mental;
 
+	// states
+	public bool isUnderAttack = false;
+
     public string gender;
     public int maxHp;
     public int maxMental;
@@ -56,6 +59,9 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
 
 	// TODO : implement stun using buf state.
 	public float stunTime = 0f;
+    public bool haltUpdate = false;
+
+    //public AgentHistory history;
 
     public Dictionary<string, string> speechTable = new Dictionary<string, string>();
 
@@ -79,13 +85,20 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
 
     public NullCreature nullParasite = null;
     public CreatureModel recentlyAttacked = null;
+    public CreatureBase animationMessageRecevied = null;
 
     public bool visible = true;
     public float waitTimer = 0;
     public bool panicFlag = false;
 
     public bool OnWorkEndFlag = false;
-    
+
+    private WorkerModel _attackedWorker;
+    public WorkerModel attackedWorker{ get { return _attackedWorker; } }
+
+    private WorkerModel _attackTargetWorker;
+    public WorkerModel attackTargetWorker { get { return _attackTargetWorker; } }
+
     public WorkerModel() { }
 
     public WorkerModel(int instanceId, string area) {
@@ -154,9 +167,27 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
         TryGetValue(dic, "maxMental", ref maxMental);
     }
 
-    public virtual void OnFixedUpdate() { 
+    public virtual void OnFixedUpdate() {
+        if (haltUpdate) return;
         ProcessAction();
 		movableNode.ProcessMoveNode((int)(movement * movementMul));
+    }
+    
+    /// <summary>
+    /// 애니메이션 관련
+    /// </summary>
+    public virtual void HaltUpdate() {
+        this.haltUpdate = true;
+    }
+
+    public virtual void ReleaseUpdate() {
+        Debug.Log(this.name + " halt release");
+        
+        this.haltUpdate = false;
+    }
+
+    public virtual void ResetSprite() { 
+        
     }
 
     public virtual void ProcessAction() { 
@@ -353,10 +384,15 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
 
 	public virtual void OnHitByWorker(WorkerModel worker)
 	{
+        this._attackedWorker = worker;
 	}
 	public virtual void OnHitByCreature(CreatureModel creature)
 	{
 	}
+
+    public virtual void OnAttackWorker(WorkerModel target) {
+        this._attackTargetWorker = target;
+    }
 
     public virtual void Panic() { 
         
@@ -472,6 +508,10 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
         //state setting
 
 		OnDie ();
+    }
+
+    public virtual void ShowCreatureActionSpeech(long creatureID, string key) { 
+        
     }
 
 	public virtual void OnDie()

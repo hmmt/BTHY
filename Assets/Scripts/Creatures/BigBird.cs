@@ -316,8 +316,8 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
                     }
                     else if (currentTarget is OfficerModel) {
                         OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(currentTarget.instanceId);
-                        if (unit.MannualMovingCall(pos, z, false, true) ) {
-
+                        //if (unit.MannualMovingCall(pos, z, false, true) ) {
+                        if (unit.MannualMovingCall(pos, true, false, true, false, false, 0.01f ) ){
                             targetMoving = false;
                         }
                     }
@@ -475,6 +475,11 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
 
     public void AgentReset() { }
 
+    public void CreatureAnimCall(int i, CreatureBase script)
+    { 
+        
+    }
+
     public override void OnViewInit(CreatureUnit unit)
     {
         if (this.defaultLanternSound == null)
@@ -483,4 +488,10 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
         }
     }
 
+    public void AttackCalled(int i)
+    {
+
+    }
+
+    public void TakeDamageAnim(int isPhysical) { }
 }

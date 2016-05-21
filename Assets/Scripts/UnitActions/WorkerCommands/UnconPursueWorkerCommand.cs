@@ -69,10 +69,12 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 			if (actorX > targetX)
 			{
 				actor.GetMovableNode ().SetDirection (UnitDirection.LEFT);
+                targetAgent.GetMovableNode().SetDirection(UnitDirection.RIGHT);
 			}
 			if (actorX < targetX)
 			{
 				actor.GetMovableNode ().SetDirection (UnitDirection.RIGHT);
+                targetAgent.GetMovableNode().SetDirection(UnitDirection.LEFT);
 			}
 
 			if (actor.attackDelay <= 0)
@@ -81,9 +83,12 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 				targetAgent.TakePhysicalDamage (3, DamageType.NORMAL);
 
 				actor.SetMotionState (AgentMotion.ATTACK_MOTION);
+                
 
 				actor.SetMoveDelay (2.0f);
 				actor.SetAttackDelay(4.0f);
+                actor.OnAttackWorker(targetAgent);
+                
 				targetAgent.OnHitByWorker (actor);
 				targetAgent.SetMoveDelay (1.5f);
 
