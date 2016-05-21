@@ -286,6 +286,8 @@ public class CreatureTypeInfo
     public int MaxObserveLevel;
     public int CurrentObserveLevel;
 
+    public int speed = 1;
+
     public int sizeLevel;
     public string weightLevel;
     public string name;

@@ -289,15 +289,49 @@ public class CreatureUnit : MonoBehaviour {
     void OnDestroy()
     {
         Destroy(room.gameObject);
-    } 
+    }
 
-    public void PlaySound(string soundKey)
+    public SoundEffectPlayer PlaySound(string soundKey)
     {
         string soundFilename;
+        SoundEffectPlayer output = null;
         if (model.metaInfo.soundTable.TryGetValue(soundKey, out soundFilename))
         {
-            SoundEffectPlayer.PlayOnce(soundFilename, transform.position);
+           output=  SoundEffectPlayer.PlayOnce(soundFilename, transform.position);
         }
+        if (output == null) {
+            Debug.Log("Error in sound founding");
+        }
+        return output;
+    }
+
+    public SoundEffectPlayer PlaySoundLoop(string soundKey)
+    {
+        string soundFilename;
+        SoundEffectPlayer output = null;
+        if (model.metaInfo.soundTable.TryGetValue(soundKey, out soundFilename))
+        {
+            output = SoundEffectPlayer.Play(soundFilename, transform);
+        }
+        if (output == null) {
+            Debug.Log("Error in sound founding");
+        }
+        return output;
+    }
+
+    public SoundEffectPlayer PlaySoundLoop(string soundKey, float volume)
+    {
+        string soundFilename;
+        SoundEffectPlayer output = null;
+        if (model.metaInfo.soundTable.TryGetValue(soundKey, out soundFilename))
+        {
+            output = SoundEffectPlayer.Play(soundFilename, transform, volume);
+        }
+        if (output == null)
+        {
+            Debug.Log("Error in sound founding");
+        }
+        return output;
     }
 
 	public void OnClicked()

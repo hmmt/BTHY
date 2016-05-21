@@ -114,8 +114,11 @@
       <edge node1="workspace" node2="inner" type="road" />
       <edge node1="creature" node2="workspace" type="road" />
     </graph>
-    <sound action="attack" src="creature/match_girl/matchgirl_attack"/>
-    <sound action="enter" src="creature/match_girl/matchgirl_enter"/>
+    <sound action="lantern" src="creature/bigbird/Squeaks_and_Moans-015"/>
+    <sound action="defaultLantern" src="creature/bigbird/gas_leak_02_loop"/>
+    <sound action="walking" src="creature/bigbird/BigBirdWalk"/>
+    <sound action="deadscene" src="creature/bigbird/Rip_Off_Head_01"/>
+    <!--<sound action="mental" src="creature/bigbird/Wind_4"/>-->
   </info>
 
   <observe level ="3">

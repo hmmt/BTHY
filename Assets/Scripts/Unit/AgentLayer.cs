@@ -8,8 +8,6 @@ public class AgentLayer : MonoBehaviour, IObserver {
     public const int MAX_LEVEL = 5;
 
     public int[] AgentPromotionCost;
-    public Sprite[] hairListTemp;
-    public Sprite[] faceListTemp;
     private List<AgentUnit> agentList;
 
     public List<WorkerSpriteSet> spriteList;
@@ -84,21 +82,19 @@ public class AgentLayer : MonoBehaviour, IObserver {
 
         zCount = (zCount + 1) % 1000;
 
+        /*
         if (unit.animTarget != null && hairListTemp.Length > 0) {
             unit.animTarget.SetHair(unit.model.tempHairSprite);
             if (faceListTemp.Length > 0) {
                 unit.animTarget.SetFace(unit.model.tempFaceSprite);
             }
+        }*/
+        if (unit.animTarget != null)
+        {
+            unit.animTarget.SetHair(unit.model.tempHairSprite);
+            unit.animTarget.SetFace(unit.model.tempFaceSprite);
         }
-    }
-
-
-    public Sprite GetAgentHair() {
-        return hairListTemp[Random.Range(0, hairListTemp.Length)];
-    }
-
-    public Sprite GetAgentFace() { 
-        return faceListTemp[Random.Range(0, faceListTemp.Length)];
+        
     }
 
     public void RemoveAgent(AgentModel model)

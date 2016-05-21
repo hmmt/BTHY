@@ -2,8 +2,10 @@
 using System.Collections;
 
 public class BgmManager : MonoBehaviour, IObserver {
-
-	public static BgmManager instance;
+    private static BgmManager _instance = null;
+    public static BgmManager instance {
+        get { return _instance; }
+    }
 
 	public AudioSource audioSource;
 
@@ -18,7 +20,7 @@ public class BgmManager : MonoBehaviour, IObserver {
 	// Use this for initialization
 	void Awake()
 	{
-		instance = this;
+        _instance = this;
 	}
 	void Start () {
 		//SetBgm (normalBGM);

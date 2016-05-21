@@ -77,6 +77,9 @@ public class AgentManager : IObserver, ISerializablePlayData {
         unit.defaultWork = info.work;
 
         unit.gender = info.gender;
+
+        unit.SetModelSprite();
+
         unit.level = info.level;
 
         unit.speechTable = new Dictionary<string, string>(info.speechTable);

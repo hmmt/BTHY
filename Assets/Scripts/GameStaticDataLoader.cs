@@ -767,6 +767,7 @@ public class GameStaticDataLoader {
                 string stext = soundNode.Attributes.GetNamedItem("src").InnerText;
 
                 soundTable.Add(key, stext);
+                Debug.Log(key + " " + stext);
             }
             model.soundTable = soundTable;
 

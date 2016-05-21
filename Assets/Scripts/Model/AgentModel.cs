@@ -104,13 +104,6 @@ public class AgentModel : WorkerModel
     public int defaultWork;
     public int workSpeed; //
 
-	public PersonalityType agentLifeValue;
-
-    public int internalTrait=0;
-    public int externalTrait=0;
-    public int thinkTrait=0;
-    public int emotionalTrait=0;
-
 	public AgentWeapon weapon = AgentWeapon.NORMAL;
 
     public AgentHistory history;
@@ -123,7 +116,9 @@ public class AgentModel : WorkerModel
 	public Sprite[] StatusSprites = new Sprite[4];
 	public Sprite[] WorklistSprites = new Sprite[3];
 	public Sprite tempHairSprite;
+	public SpriteInfo tempHairSpriteInfo;
 	public Sprite tempFaceSprite;
+	public SpriteInfo tempFaceSpriteInfo;
     
 	// SAVE data end
 
@@ -132,6 +127,13 @@ public class AgentModel : WorkerModel
 	public int traitMaxmental;
 	public float traitmovement;
 	public float traitWork;
+
+	public PersonalityType agentLifeValue;
+
+	public int internalTrait=0;
+	public int externalTrait=0;
+	public int thinkTrait=0;
+	public int emotionalTrait=0;
 
     // 이하 save 되지 않는 데이터들
 	public UseSkill currentSkill = null;
@@ -176,7 +178,7 @@ public class AgentModel : WorkerModel
 		skillInfos = new List<SkillInfo> ();
 
         skills = new List<SkillCategory>();
-
+        
         instanceId = id;
         //currentSefira = area;
         currentSefira = "0";
@@ -192,9 +194,6 @@ public class AgentModel : WorkerModel
 
 	public void Init()
 	{
-		tempHairSprite = AgentLayer.currentLayer.GetAgentHair();
-		tempFaceSprite = AgentLayer.currentLayer.GetAgentFace();
-
 		successPercent = Random.Range(0, 90f);
 
 		//this.AddNewCategory(1);//initial Skill
@@ -210,6 +209,13 @@ public class AgentModel : WorkerModel
 			skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (skillId)));
 		}
 	}
+
+    public void SetModelSprite() {
+        tempHairSpriteInfo = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender);
+		tempHairSprite = tempHairSpriteInfo.sprite;
+        tempFaceSpriteInfo = WorkerSpriteManager.instance.GetRandomFaceSprite();
+		tempFaceSprite = tempFaceSpriteInfo.sprite;
+    }
 
     public override Dictionary<string, object> GetSaveData()
     {
@@ -258,14 +264,6 @@ public class AgentModel : WorkerModel
 		*/
         Dictionary<string, object> output = base.GetSaveData();
         output = history.GetSaveData(output);
-        //output.Add("traitList", 
-
-		List<long> traitIdList = new List<long> ();
-
-		foreach (TraitTypeInfo trait in traitList) {
-			traitIdList.Add (trait.id);
-		}
-		output.Add ("traitIdList", traitIdList);
         
         output.Add("level", level);
         output.Add("workDays", workDays);
@@ -282,12 +280,18 @@ public class AgentModel : WorkerModel
 
 		output.Add("workSpeed", workSpeed);
 
-		output.Add("agentLifeValue", agentLifeValue);
+		//tempHairSprite.
+		output.Add("hairSprite", tempHairSpriteInfo.path);
+		output.Add("faceSprite", tempFaceSpriteInfo.path);
 
-		output.Add("internalTrait", internalTrait);
-		output.Add("externalTrait", externalTrait);
-		output.Add("thinkTrait", thinkTrait);
-		output.Add("emotionalTrait", emotionalTrait);
+
+		// trait Data
+		List<long> traitIdList = new List<long> ();
+
+		foreach (TraitTypeInfo trait in traitList) {
+			traitIdList.Add (trait.id);
+		}
+		output.Add ("traitIdList", traitIdList);
 
 		//output.Add("skillList", skillList);
 
@@ -299,12 +303,6 @@ public class AgentModel : WorkerModel
         base.LoadData(dic);
 
         history.LoadData(dic);
-
-		List<long> traitIdList = new List<long> ();
-		TryGetValue(dic, "traitIdList", ref traitIdList);
-		foreach (long traitId in traitIdList) {
-			applyTrait (TraitTypeList.instance.GetData (traitId));
-		}
 
         TryGetValue(dic, "level", ref level);
         TryGetValue(dic, "workDays", ref workDays);
@@ -319,15 +317,29 @@ public class AgentModel : WorkerModel
 		TryGetValue(dic, "defaultMovement", ref defaultMovement);
 		TryGetValue(dic, "defaultWork", ref defaultWork);
 
-
 		TryGetValue(dic, "workSpeed", ref workSpeed);
 
-		TryGetValue(dic, "agentLifeValue", ref agentLifeValue);
+		string hairSpritePath = "";
+		TryGetValue(dic, "hairSprite", ref hairSpritePath);
 
-		TryGetValue(dic, "internalTrait", ref internalTrait);
-		TryGetValue(dic, "externalTrait", ref externalTrait);
-		TryGetValue(dic, "thinkTrait", ref thinkTrait);
-		TryGetValue(dic, "emotionalTrait", ref emotionalTrait);
+		tempHairSpriteInfo = new SpriteInfo(hairSpritePath, Resources.Load<Sprite>(hairSpritePath));
+		tempHairSprite = tempHairSpriteInfo.sprite;
+
+		string faceSpritePath = "";
+		TryGetValue(dic, "faceSprite", ref faceSpritePath);
+
+		tempFaceSpriteInfo = new SpriteInfo(faceSpritePath, Resources.Load<Sprite>(faceSpritePath));
+		tempFaceSprite = tempFaceSpriteInfo.sprite;
+
+		List<long> traitIdList = new List<long> ();
+		TryGetValue(dic, "traitIdList", ref traitIdList);
+		foreach (long traitId in traitIdList) {
+			applyTrait (TraitTypeList.instance.GetData (traitId));
+		}
+
+		// current status
+		TryGetValue(dic, "hp", ref hp);
+		TryGetValue(dic, "mental", ref mental);
     }
 
     private static bool tempPanic = false;
