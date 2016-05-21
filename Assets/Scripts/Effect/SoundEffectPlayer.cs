@@ -61,7 +61,7 @@ public class SoundEffectPlayer : MonoBehaviour {
 
         AudioClip clip = Resources.Load<AudioClip>("Sounds/" + filename);
         newEffect.transform.position = new Vector3(position.x, position.y, Camera.main.transform.position.z);
-        Debug.Log(clip.name + " " + filename);
+        //Debug.Log(clip.name + " " + filename);
         //source.volume
         source.clip = clip;
         source.loop = true;

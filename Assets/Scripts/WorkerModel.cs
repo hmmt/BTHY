@@ -38,7 +38,7 @@ public class WorkerModel: UnitModel, IObserver {
 	public bool invincible = false;
 
 	public float moveDelay = 0;
-	public float attackDelay = 0;
+	public float attackDelay = 2f;
 
 	// TODO : implement stun using buf state.
 	public float stunTime = 0f;
@@ -103,7 +103,13 @@ public class WorkerModel: UnitModel, IObserver {
     public bool panicFlag = false;
 
     public bool OnWorkEndFlag = false;
-    
+
+    private WorkerModel _attackedWorker;
+    public WorkerModel attackedWorker{ get { return _attackedWorker; } }
+
+    private WorkerModel _attackTargetWorker;
+    public WorkerModel attackTargetWorker { get { return _attackTargetWorker; } }
+
     public WorkerModel() { }
 
     public WorkerModel(int instanceId, string area) {
@@ -419,10 +425,15 @@ public class WorkerModel: UnitModel, IObserver {
 
 	public virtual void OnHitByWorker(WorkerModel worker)
 	{
+        this._attackedWorker = worker;
 	}
 	public virtual void OnHitByCreature(CreatureModel creature)
 	{
 	}
+
+    public virtual void OnAttackWorker(WorkerModel target) {
+        this._attackTargetWorker = target;
+    }
 
     public virtual void Panic() { 
         
@@ -538,6 +549,10 @@ public class WorkerModel: UnitModel, IObserver {
         //state setting
 
 		OnDie ();
+    }
+
+    public virtual void ShowCreatureActionSpeech(long creatureID, string key) { 
+        
     }
 
 	public virtual void OnDie()

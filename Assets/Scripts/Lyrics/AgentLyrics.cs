@@ -79,10 +79,38 @@ public class AgentLyrics {
         public string desc;
     }
 
+    public class CreatureNormal {
+        public string type;
+        public List<string> desc = new List<string>();
+
+        public string GetDescByRandom() {
+            return desc[Random.Range(0, desc.Count)];
+        }
+
+    }
+
+    public class CreatureAction {
+        public Dictionary<string, CreatureNormal> lib = new Dictionary<string, CreatureNormal>();
+        public long creatureId;
+
+
+
+        public CreatureNormal GetActionDesc(string key)
+        {
+            CreatureNormal output = null;
+            if (lib.TryGetValue(key, out output))
+            {
+                return output;
+            }
+            return null;
+        }
+    }
+
     public class CreatureReactionList {
         public long creatureId;
         public List<CreatureReaction> lib = new List<CreatureReaction>();
-
+        public CreatureAction action;
+        
         public string GetDesc(int level) {
             CreatureReaction output = null;
             foreach (CreatureReaction cr in lib) {
@@ -94,6 +122,7 @@ public class AgentLyrics {
             if (output == null) return null;
             return output.desc;
         }
+
     }
 
     private static AgentLyrics _instance = null;

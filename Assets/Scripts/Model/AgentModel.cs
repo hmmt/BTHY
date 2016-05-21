@@ -1009,6 +1009,7 @@ public class AgentModel : WorkerModel
 
 	public override void OnHitByWorker(WorkerModel worker)
 	{
+        base.OnHitByWorker(worker);
 		//if(agentLifeValue == 1)
 		{
 			if (state == AgentAIState.MANAGE || state == AgentAIState.OBSERVE)
@@ -1340,6 +1341,15 @@ public class AgentModel : WorkerModel
 			
     }
 
+    public override void ShowCreatureActionSpeech(long creatureId, string key)
+    {
+        AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.instanceId);
+
+        string str = AgentLyrics.instance.GetCreatureReaction(creatureId).action.GetActionDesc(key).GetDescByRandom();
+
+        unit.showSpeech.showSpeech(str);
+        
+    }
 
     public int calc(int value, int standard)
     {
@@ -1486,6 +1496,8 @@ public class AgentModel : WorkerModel
         if (damageLevel < 1) damageLevel = 1;
         if (damageLevel > 5) damageLevel = 5;
         unit.UIRecoilInput(damageLevel, 0);
+
+
     }
 
     public override void TakePhysicalDamage(int damage, DamageType dmgType)

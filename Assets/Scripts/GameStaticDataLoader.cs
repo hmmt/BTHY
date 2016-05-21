@@ -452,9 +452,11 @@ public class GameStaticDataLoader {
 
         foreach (XmlNode node in creatureDesc) {
             AgentLyrics.CreatureReactionList newList = new AgentLyrics.CreatureReactionList();
-            
+            AgentLyrics.CreatureAction action = new AgentLyrics.CreatureAction();
+           
             long id = (long)float.Parse(node.Attributes.GetNamedItem("id").InnerText);
             newList.creatureId = id;
+            action.creatureId = id;
             XmlNodeList itemList = node.SelectNodes("item");
             
             foreach (XmlNode item in itemList) {
@@ -466,6 +468,26 @@ public class GameStaticDataLoader {
                 newList.lib.Add(creatureReaction);
                 
             }
+
+            XmlNodeList actionList = node.SelectNodes("action");
+
+            foreach (XmlNode item in actionList) {
+                AgentLyrics.CreatureNormal normal = new AgentLyrics.CreatureNormal();
+                
+                string type = item.Attributes.GetNamedItem("type").InnerText;
+
+                normal.type = type;
+
+                XmlNodeList actiondescs = item.SelectNodes("desc");
+                foreach (XmlNode actionDescItem in actiondescs) {
+                    string descUnit = actionDescItem.InnerText;
+                    normal.desc.Add(descUnit);
+                }
+                action.lib.Add(type, normal);
+            }
+
+            newList.action = action;
+
             dictionary.Add(id, newList);
         }
 
@@ -788,7 +810,6 @@ public class GameStaticDataLoader {
                 string stext = soundNode.Attributes.GetNamedItem("src").InnerText;
 
                 soundTable.Add(key, stext);
-                Debug.Log(key + " " + stext);
             }
             model.soundTable = soundTable;
 

@@ -13,7 +13,6 @@ public class OfficerUnit : MonoBehaviour {
     
     public AgentSpeech showSpeech;
     public Animator officerAnimator;
-    public GameObject renderNode;
 
     public GameObject puppetNode;
     public Animator puppetAnim;
@@ -30,12 +29,12 @@ public class OfficerUnit : MonoBehaviour {
     //private string oldSefira;
     private bool changeState = false;
     private string currentBool = "";
-    public GameObject faceSprite;
-    public GameObject hairSprite;
 
     private bool uiOpened = false;
 
     string speech = "";
+
+    public const float backZVal = 0;
 
     void LateUpdate() {
         /*
@@ -83,19 +82,20 @@ public class OfficerUnit : MonoBehaviour {
     }
 
     private void UpdateDirection() {
+        if (blockDir) return;
         if (this.model.startSpecialAction) {
             if (this.model.lookingDir != LOOKINGDIR.NOCARE) {
-                Transform localpuppet = puppetNode.transform;
+                Transform localpuppet = puppetNode.transform.parent;
 
                 Vector3 localpuppetScale = localpuppet.localScale;
                 
                 if (this.model.lookingDir == LOOKINGDIR.LEFT)
                 {
-                    if (localpuppetScale.x > 0)
+                    if (localpuppetScale.x < 0)
                         localpuppetScale.x = -localpuppetScale.x;
                 }
                 else {
-                    if (localpuppetScale.x < 0)
+                    if (localpuppetScale.x > 0)
                     {
                         localpuppetScale.x = -localpuppetScale.x;
                     }
@@ -109,18 +109,18 @@ public class OfficerUnit : MonoBehaviour {
 		MovableObjectNode movable = model.GetMovableNode ();
 		UnitDirection movableDirection = movable.GetDirection ();
 
-		Transform puppet = puppetNode.transform;
+		Transform puppet = puppetNode.transform.parent;
 
 		Vector3 puppetScale = puppet.localScale;
 
 		if (movableDirection == UnitDirection.RIGHT)
 		{
-			if (puppetScale.x < 0)
+			if (puppetScale.x > 0)
 				puppetScale.x = -puppetScale.x;
 		}
 		else
 		{
-			if (puppetScale.x > 0)
+			if (puppetScale.x < 0)
 				puppetScale.x = -puppetScale.x;
 		}
 		puppet.transform.localScale = puppetScale;
@@ -363,6 +363,7 @@ public class OfficerUnit : MonoBehaviour {
     bool isMovingStarted = false;
     bool isKilled = false;//temporary
     public bool blockMoving = false;
+    public bool blockDir = false;
     IEnumerator MannualMoving(Vector3 pos, bool blockMoving, bool zVal, bool shouldMoveZaxis, bool zPos)
     {
         Transform target = this.gameObject.transform;
@@ -441,6 +442,162 @@ public class OfficerUnit : MonoBehaviour {
         
     }
 
+    /*
+    IEnumerator MannualMoving(Vector3 pos, bool moveZval, bool moveBackward, int unitCount, float totalTime, bool moveAnim) {
+        Transform target = gameObject.transform;
+
+        Vector3 initialPos = new Vector3(target.position.x, target.position.y, target.position.z);
+        Vector3 initialScale = puppetNode.transform.localScale;
+
+        Vector3 reference = new Vector3(pos.x - target.position.x, pos.y - target.position.y,
+                                        pos.z);
+
+        int cntMax = unitCount;
+        int cnt = cntMax;
+
+        float unitScale = afterScale * (float)1 / cntMax;
+        float scaleFactor = 1;
+        float currentScale = initialScale.y;
+
+        tempZval = pos.z;
+        this.blockMoving = true;
+
+        if (afterScale == initialScale.y)
+        {
+            scaleFactor = 0;
+        }
+        else if (afterScale < initialScale.y){
+            scaleFactor = -1;
+        }
+
+        unitScale *= scaleFactor;
+
+        while (cnt > 0) {
+            if (moveAnim)
+            {
+                this.puppetAnim.SetBool("Move", true);
+            }
+            
+            yield return new WaitForSeconds(totalTime / (float)cntMax);
+            float zValue = 0f;
+            if (moveZval)
+            {
+                zValue = initialPos.z + (reference.z / (float)cntMax) * ((cntMax - 1) - cnt);
+            }
+            else {
+                zValue = initialPos.z;
+            }
+
+            target.position = new Vector3(initialPos.x + (reference.x / (float)cntMax) * ((cntMax - 1) - cnt),
+                                          initialPos.y + (reference.y / (float)cntMax) * ((cntMax - 1) - cnt),
+                                          zValue);
+
+            if (moveZval) {
+                float factor = 1;
+                if (puppetNode.transform.localScale.x < 0) {
+                    factor = -1;
+                }
+
+                target.localScale = new Vector3(initialScale.x + factor * unitScale * (cntMax - cnt),
+                                                initialScale.y + unitScale * (cntMax - cnt),
+                                                initialScale.z);
+                
+                
+            }
+
+            cnt--;
+        }
+
+        if (moveAnim)
+        {
+            this.puppetAnim.SetBool("Move", false);
+        }
+        isMovingByMannually = true;
+        
+    }
+    
+    */
+
+    IEnumerator MannualMoving(Vector3 pos, bool block, bool moveZ, bool moveAnim, bool scaling, bool small, float unitWaitTime) {
+        Transform target = gameObject.transform;
+
+        Vector3 initialPos = new Vector3(target.position.x, target.position.y, target.position.z);
+        Vector3 reference = new Vector3(pos.x - target.position.x, pos.y - target.position.y, pos.z - target.position.z);
+        Vector3 initialScale = puppetNode.transform.localScale;
+        int cntMax = 20;
+        int cnt = cntMax;
+        this.blockMoving = block;
+
+        float toScale = 1f;
+        if (scaling) {
+            if (small)
+            {
+                toScale = -0.1f;
+            }
+            else {
+                toScale = 0.1f;
+            }
+        }
+
+        float unitScale = (toScale / (float)cntMax);
+
+        while (cnt > 0) {
+            if (moveAnim) {
+                this.puppetAnim.SetBool("Move", true);
+            }
+
+            yield return new WaitForSeconds(unitWaitTime);
+            float zValue = this.zValue;
+
+            if (moveZ) {
+                zValue = initialPos.z + (reference.z / (float)cntMax) * ((cntMax - 1) - cnt);
+            }
+
+            target.position = new Vector3(initialPos.x + (reference.x / (float)cntMax) * ((cntMax - 1) - cnt),
+                                          initialPos.y + (reference.y / (float)cntMax) * ((cntMax - 1) - cnt),
+                                          zValue);
+
+            if (scaling) {
+                if (cnt % 2 == 0) {
+                    float factor = 1;
+                    if (puppetNode.transform.localScale.x < 0) {
+                        factor = -1;
+                    }
+
+                    puppetNode.transform.localScale = new Vector3(initialScale.x + factor * unitScale * (cntMax - cnt),
+                                                              initialScale.y + unitScale * (cntMax - cnt),
+                                                              initialScale.z);
+                }
+            }
+            cnt--;
+        }
+        if (moveAnim) {
+            this.puppetAnim.SetBool("Move", false);
+        }
+
+        isMovingByMannually = true;
+    }
+
+    public bool MannualMovingCall(Vector3 pos, bool blockMov, bool moveZ, bool moveAnim, bool scailing, bool small, float unitWaitTime)
+    {
+        if (!isMovingStarted)
+        {
+            isMovingStarted = true;
+            isMovingByMannually = false;
+            StartCoroutine(MannualMoving(pos, blockMov, moveZ, moveAnim, scailing, small, unitWaitTime));
+            return false;
+        }
+
+        if (isMovingByMannually)
+        {
+
+            isMovingStarted = false;
+            return true;
+        }
+        return false;
+    }
+
+
     public bool MannualMovingCall(Vector3 pos, bool mode, bool moveZaxis, bool zVal)
     {
         if (!isMovingStarted)
@@ -459,7 +616,22 @@ public class OfficerUnit : MonoBehaviour {
         }
         return false;
     }
+    /*
+    public bool MannualMovingCall(Vector3 pos, bool moveZ, int count, float totalTime, bool moveAnim, float afterScale) {
+        if (!isMovingStarted) {
+            isMovingStarted = true;
+            isMovingByMannually = false;
+            StartCoroutine(MannualMoving(pos, moveZ, count, totalTime, moveAnim, afterScale));
+            return false;
+        }
 
+        if (isMovingByMannually){
+            isMovingStarted = false;
+            return true;
+        }
+        return false;
+    }
+    */
     public bool CheckMannualMovingEnd() {
         
         if (isMovingByMannually) {

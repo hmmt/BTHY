@@ -15,6 +15,8 @@ public class AgentUnitUI
     public RectTransform workIcon;
     public bool Activated = false;
     public Image mental;
+    public Image touchArea;
+    public Text Name;
 
     public RecoilEffectUI healthRecoil;
     public RecoilEffectUI mentalRecoil;
@@ -22,14 +24,17 @@ public class AgentUnitUI
     public void initUI() {
         hp.gameObject.SetActive(false);
         workIcon.gameObject.SetActive(false);
+        touchArea.gameObject.SetActive(false);
     }
 
     public void activateUI(AgentModel model) {
         hp.gameObject.SetActive(true);
         workIcon.gameObject.SetActive(true);
+        touchArea.gameObject.SetActive(true);
         this.Activated = true;
         hp.maxValue = model.maxHp;
         hp.value = model.hp;
+        Name.text = model.name;
     }
 
     //0번 : 검은색(붕괴 시 아이콘), 1번 : 멀쩡한 상태 아이콘
@@ -85,14 +90,11 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
     public bool agentMove=false;
     public bool agentDead = false;
 
-    public Text agentName;
+    //public Text agentName;
 
     private string oldSefira;
 
     //각 직원 부위 스프라이트 결정 변수
-    public GameObject faceSprite;
-    public GameObject deadSprite;
-    public GameObject hairSprite;
 
     public UnityEngine.UI.Text speechText;
 
@@ -107,6 +109,8 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
     public AccessoryUnit accessoryUnit;
 
     public bool blockScaling = false;
+
+    public bool dead = false;
 
     //직원 대사
     string speech = "";
@@ -171,7 +175,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         oldPos = transform.localPosition.x;
         oldPosY = transform.localPosition.y;
         oldSefira = "1";
-        agentName.text = model.name;
+        //agentName.text = model.name;
 
         agentPlatform.SetActive(false);
 
@@ -461,6 +465,12 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
 	void Update()
 	{
+        if (dead) return;
+        if (model.isDead()) {
+            ui.initUI();
+            dead = true;
+            return;
+        }
 		UpdateViewPosition();
 		UpdateDirection();
 		///SetCurrentHP (model.hp);
@@ -676,6 +686,8 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         recoil.rect.localPosition = queue.Dequeue();
     }
 
+
+
     public bool isMovingByMannually = false;
     bool isMovingStarted = false;
     public bool blockMoving = false;
@@ -707,6 +719,45 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         }
 
         if (isMovingByMannually) {
+            isMovingByMannually = false;
+            isMovingStarted = false;
+            return true;
+        }
+        return false;
+    }
+
+    IEnumerator MannualMoving(Vector3 pos, bool blockMoving, float unitWaitTime)
+    {
+        Transform target = this.gameObject.transform;
+        Vector3 initial = new Vector3(target.position.x, target.position.y, target.position.z);
+        Vector3 reference = new Vector3(pos.x - target.position.x,
+            pos.y - target.position.y,
+            0f);
+        int cnt = 3;
+        this.blockMoving = blockMoving;
+
+        while (cnt > 0)
+        {
+            yield return new WaitForSeconds(unitWaitTime);
+            target.position = new Vector3(initial.x + (reference.x / 3f) * (4 - cnt), initial.y + (reference.y / 3f) * (4 - cnt), initial.z);
+            cnt--;
+        }
+
+        isMovingByMannually = true;
+    }
+
+    public bool MannualMovingCall(Vector3 pos, float unitWaitTime)
+    {
+        if (!isMovingStarted)
+        {
+            isMovingStarted = true;
+            isMovingByMannually = false;
+            StartCoroutine(MannualMoving(pos, true, unitWaitTime));
+            return false;
+        }
+
+        if (isMovingByMannually)
+        {
             isMovingByMannually = false;
             isMovingStarted = false;
             return true;

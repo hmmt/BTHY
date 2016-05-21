@@ -165,4 +165,11 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
     { 
         
     }
+
+    public void TakeDamageAnim(int isPhysical) { }
+
+    public void AttackCalled(int i)
+    {
+
+    }
 }

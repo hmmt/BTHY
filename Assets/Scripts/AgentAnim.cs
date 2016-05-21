@@ -275,7 +275,6 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 		if(model is AgentModel)
 			(model as AgentModel).WorkEndReaction();
 
-
     }
 
     public void SetSprite() {
@@ -310,12 +309,78 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
     }
 
     public void ChangeFaceSprite(Sprite s) {
-        Debug.Log("sprite change" + s.name);
         SetFace(s);
     }
 
     public void ChangeFaceToDefault() {
-        Debug.Log("to defaut: " +defaultFace.name);
+
         SetFace(defaultFace);
+    }
+
+    public void TakeDamageAnim(int isPhysical) {
+
+        if (this.model is AgentModel)
+        {
+            AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.model.instanceId);
+            unit.animTarget.AttackedEffectByRandomPos("Effect/HitEffectGun");
+        }
+        else {
+            OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(this.model.instanceId);
+
+            if (isPhysical == 1)
+            {
+                unit.puppetAnim.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
+            }
+            else {
+                unit.puppetAnim.SetInteger("MentalAttacked", UnityEngine.Random.Range(1, 4));
+            }
+
+            unit.animTarget.AttackedEffectByRandomPos("Effect/HitEffectGun");
+        }
+
+    }
+
+    public void AttackCalled(int i) { 
+        //상대에게 맞는 모션 불러야함
+        if (this.model is AgentModel)
+        {
+            AgentModel am = this.model as AgentModel;
+            if (am.attackTargetWorker != null) {
+                if (am.attackTargetWorker is AgentModel) {
+                    AgentUnit targetUnit = AgentLayer.currentLayer.GetAgent(am.attackTargetWorker.instanceId);
+                    targetUnit.animTarget.TakeDamageAnim(i);
+                }
+                else if (am.attackTargetWorker is OfficerModel)
+                {
+                    OfficerUnit targetUnit = OfficerLayer.currentLayer.GetOfficer(am.attackTargetWorker.instanceId);
+                    targetUnit.animTarget.TakeDamageAnim(i);
+                }
+            }
+        }
+        else {
+            OfficerModel om = this.model as OfficerModel;
+            if (om.attackTargetWorker != null)
+            {
+                if (om.attackTargetWorker is AgentModel)
+                {
+                    AgentUnit targetUnit = AgentLayer.currentLayer.GetAgent(om.attackTargetWorker.instanceId);
+                    targetUnit.animTarget.TakeDamageAnim(i);
+                }
+                else if (om.attackTargetWorker is OfficerModel)
+                {
+                    OfficerUnit targetUnit = OfficerLayer.currentLayer.GetOfficer(om.attackTargetWorker.instanceId);
+                    targetUnit.animTarget.TakeDamageAnim(i);
+                }
+            }
+        }
+    }
+
+    public void AttackedEffectByRandomPos(string src) {
+        GameObject ge = Prefab.LoadPrefab(src);
+        Vector3 pos = this.model.GetMovableNode().GetCurrentViewPosition();
+        
+        //ge.transform.localPosition = pos;
+        ge.transform.SetParent(this.body.gameObject.transform);
+        ge.transform.localPosition = Vector3.zero;
     }
 }

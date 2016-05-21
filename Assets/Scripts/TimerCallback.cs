@@ -4,7 +4,7 @@ using System.Collections;
 public class TimerCallback : MonoBehaviour {
 
     private float elapsedTime;
-    private float goalTime;
+    private float goalTime = 0f;
 
     private Callback callback;
 
@@ -19,7 +19,7 @@ public class TimerCallback : MonoBehaviour {
         }
     }
 
-    public static void Create(float time, Callback callback)
+    public static TimerCallback Create(float time, Callback callback)
     {
         GameObject obj = new GameObject();
 
@@ -27,9 +27,11 @@ public class TimerCallback : MonoBehaviour {
         script.goalTime = time;
         script.elapsedTime = 0;
         script.callback = callback;
+
+        return script;
     }
 
-    public static void Create(float time, GameObject parent, Callback callback)
+    public static TimerCallback Create(float time, GameObject parent, Callback callback)
     {
         GameObject obj = new GameObject();
 
@@ -39,5 +41,11 @@ public class TimerCallback : MonoBehaviour {
         script.callback = callback;
 
         obj.transform.SetParent(parent.transform);
+
+        return script;
+    }
+
+    public void ExpandTime(float value) {
+        goalTime += value;
     }
 }
