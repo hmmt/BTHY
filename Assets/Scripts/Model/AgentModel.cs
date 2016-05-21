@@ -169,7 +169,7 @@ public class AgentModel : WorkerModel
 
     // path finding2
 
-    public AgentModel(int id, string area)
+    public AgentModel(int id)
     {
         movableNode = new MovableObjectNode(this);
         commandQueue = new WorkerCommandQueue(this);
@@ -180,10 +180,11 @@ public class AgentModel : WorkerModel
         skills = new List<SkillCategory>();
         
         instanceId = id;
-        //currentSefira = area;
+
         currentSefira = "0";
-        SetCurrentSefira(area);
-        movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
+		activated = false;
+
+		movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(SefiraName.Malkut));
         history = new AgentHistory();
 
 		Init ();
@@ -1192,33 +1193,10 @@ public class AgentModel : WorkerModel
     {
         string old = currentSefira;
         currentSefira = sefira;
-        /*
-        switch (currentSefira)
-        {
-            case "0":
-                imgsrc = "Agent/Malkuth/0";
-                break;
-            case "1": 
-                imgsrc = "Agent/Malkuth/0"; 
-                break;
-            case "2": 
-                imgsrc = "Agent/Nezzach/00";
-                break;
-            case "3": 
-                imgsrc = "Agent/Hodd/00"; 
-                break;
-            case "4": 
-                imgsrc = "Agent/Yessod/00"; 
-                break;
-        }
-        if (currentSefira == "0")
-            bodyImgSrc = "Sprites/Agent/Body/Body_1_S_00";
-        else
-            bodyImgSrc = "Sprites/Agent/Body/Body_" + currentSefira + "_S_00";
-        */
         waitTimer = 0;
+		if (instanceId < 0)
+			return;
         Notice.instance.Send(NoticeName.ChangeAgentSefira, this, old);
-        AgentAllocateWindow.instance.ChangedAgentSefira(this, currentSefira);
     }
 
     public void Panic()

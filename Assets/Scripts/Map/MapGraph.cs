@@ -42,7 +42,6 @@ public class MapGraph : IObserver
     public MapGraph()
     {
         loaded = false;
-        
     }
 
     public MapNode GetNodeById(string id)
@@ -196,21 +195,7 @@ public class MapGraph : IObserver
 	{
 		if (loaded)
 			return;
-		/*
-		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
-		XmlDocument doc = new XmlDocument();
-		doc.LoadXml(textAsset.text);
-
-		XmlNode nodeXml = doc.SelectSingleNode ("/node_list");
-
-		textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
-		doc = new XmlDocument();
-		doc.LoadXml(textAsset.text);
-
-		XmlNode edgeXml = doc.SelectSingleNode ("/edge_list");
-
-		*/
-
+		
 		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph4");
 		//TextAsset textAsset = Resources.Load<TextAsset>("xml/TrailerTest4");
 		XmlDocument doc = new XmlDocument();
@@ -223,11 +208,6 @@ public class MapGraph : IObserver
 	public void LoadMap(XmlNode nodeRoot, XmlNode edgeRoot)
     {
 		int groupCount = 1;
-
-		/*
-        XmlDocument doc = new XmlDocument();
-		doc.LoadXml(xmlText);
-		*/
 
 		XmlNodeList areaNodes = nodeRoot.SelectNodes("area");
 
@@ -281,6 +261,7 @@ public class MapGraph : IObserver
                         if (passageXNode != null) x = float.Parse(passageXNode.InnerText);
                         if (passageYNode != null) y = float.Parse(passageYNode.InnerText);
 						passage = new PassageObjectModel(groupName, areaName, passageSrcNode.InnerText);
+						//passage = new PassageObjectModel(groupName, areaName, "Map/Passage/PassageHallwayHub");
                         passage.position = new Vector3(x, y, 0);
 
                         XmlNode passageTypeNode = attrs.GetNamedItem("passageType");
@@ -599,6 +580,16 @@ public class MapGraph : IObserver
         Notice.instance.Observe(NoticeName.FixedUpdate, this);
         Notice.instance.Send(NoticeName.LoadMapGraphComplete);
     }
+
+	public void Reset()
+	{
+		loaded = false;
+		LoadMap ();
+
+
+		Notice.instance.Send (NoticeName.ResetMapGraph);
+	}
+
     public void RegisterPassageObject(PassageObjectModel model)
     {
         passageTable.Add(model.GetId(), model);

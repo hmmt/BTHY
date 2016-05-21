@@ -61,7 +61,7 @@ public class OfficerManager : IObserver {
         yesodList = new List<OfficerModel>();
         deadList = new List<OfficerModel>();
 
-        statReference = new AgentModel(-1, SefiraName.Malkut);
+        statReference = new AgentModel(-1);
         AgentTypeInfo info = AgentTypeList.instance.GetData(1);
         statReference.defaultMaxHp = info.hp;
         statReference.defaultMaxMental = info.mental;
@@ -70,6 +70,13 @@ public class OfficerManager : IObserver {
         statReference.level = 1;
         statReference.SetCurrentSefira("0");
     }
+
+	public void Clear()
+	{
+		Init ();
+
+		Notice.instance.Send (NoticeName.ClearOfficer);
+	}
 
     public OfficerModel CreateOfficerModel(string sefira)
     {
@@ -309,7 +316,7 @@ public class OfficerManager : IObserver {
     }
 
     public AgentModel GetReferenceStat(float scale) {
-        AgentModel output = new AgentModel(statReference.instanceId, statReference.currentSefira);
+        AgentModel output = new AgentModel(statReference.instanceId);
         output.defaultMaxHp = (int)(output.defaultMaxHp * scale);
         output.defaultMaxMental = (int)(output.defaultMaxMental * scale);
         output.defaultMovement = (int)(output.defaultMovement * scale);

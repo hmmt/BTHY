@@ -46,7 +46,9 @@ public class SefiraAgentSlot : MonoBehaviour {
 
 
         //ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
-        AgentManager.instance.deactivateAgent(unit);
+
+        //AgentManager.instance.deactivateAgent(unit);
+		unit.SetCurrentSefira("0");
         //Window call
         AgentAllocateWindow.instance.ChangedAgentSefira(unit, unit.currentSefira);
 

@@ -23,11 +23,6 @@ public class CreatureManager : IObserver, ISerializablePlayData {
 		}
 	}
 
-	private CreatureManager()
-	{
-		Init ();
-	}
-
 	public GameObject creatureListNode;
 
 	private List<CreatureModel> creatureList;
@@ -46,6 +41,42 @@ public class CreatureManager : IObserver, ISerializablePlayData {
 
 	
     private int nextInstId = 1;
+
+	private CreatureManager()
+	{
+		Init ();
+	}
+
+	private void InitValues()
+	{
+		creatureList = new List<CreatureModel> ();
+
+		MalkuthCreature = new List<CreatureModel> ();
+		NezzachCreature = new List<CreatureModel> ();
+		HodCreature = new List<CreatureModel> ();
+		YessodCreature = new List<CreatureModel> ();
+
+		sefiraState = new List<SefiraState> ();
+
+		for (int i = 0; i < SefiraManager.instance.sefiraList.Count; i++) {
+			SefiraState state = new SefiraState();
+			state = SefiraState.NOT_ENOUGH_AGENT;
+			this.sefiraState.Add(state);
+		}
+	}
+
+	public void Init()
+	{
+		InitValues ();
+		Notice.instance.Observe(NoticeName.ChangeAgentSefira_Late, this);
+	}
+
+	public void Clear()
+	{
+		InitValues ();
+
+		Notice.instance.Send (NoticeName.ClearCreature);
+	}
 
     /**
      * 새 환상체를 추가합니다.
@@ -312,19 +343,6 @@ public class CreatureManager : IObserver, ISerializablePlayData {
             model.script.OnInit();
     }
 
-	public void Init()
-	{
-		creatureList = new List<CreatureModel> ();
-
-        for (int i = 0; i < SefiraManager.instance.sefiraList.Count; i++) {
-            SefiraState state = new SefiraState();
-            state = SefiraState.NOT_ENOUGH_AGENT;
-            this.sefiraState.Add(state);
-        }
-
-        Notice.instance.Observe(NoticeName.ChangeAgentSefira_Late, this);
-	}
-
 	public CreatureModel[] GetCreatureList()
 	{
 		return creatureList.ToArray();
@@ -339,18 +357,6 @@ public class CreatureManager : IObserver, ISerializablePlayData {
             return true;
         }
         return false;
-    }
-
-    public void ClearCreatue()
-    {
-        foreach (CreatureModel model in creatureList)
-        {
-            Notice.instance.Remove(NoticeName.FixedUpdate, model);
-            Notice.instance.Remove(NoticeName.CreatureFeelingUpdateTimer, model);
-        }
-        CreatureLayer.currentLayer.ClearAgent();
-
-        creatureList = new List<CreatureModel>();
     }
 
     public Dictionary<string, object> GetSaveData()
@@ -374,8 +380,6 @@ public class CreatureManager : IObserver, ISerializablePlayData {
 
     public void LoadData(Dictionary<string, object> dic)
     {
-        ClearCreatue();
-
         TryGetValue(dic, "nextInstId", ref nextInstId);
 
         List<Dictionary<string, object>> agentDataList = new List<Dictionary<string, object>>();
@@ -389,7 +393,11 @@ public class CreatureManager : IObserver, ISerializablePlayData {
             CreatureModel model = new CreatureModel(creatureId);
             model.LoadData(data);
 
+			model.sefira = SefiraManager.instance.GetSefira(model.sefiraNum);
+
             BuildCreatureModel(model, model.metadataId, model.entryNodeId, model.basePosition.x, model.basePosition.y);
+
+			AddCreatureInSepira(model, model.sefiraNum);
 
             RegisterCreature(model);
         }

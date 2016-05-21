@@ -9,6 +9,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
     {
 		OnInit ();
     }
+
 #if FALSE
 	// temporary
 	void CancelSefiraAgent(AgentModel unit)
@@ -113,52 +114,9 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 
 
 	}
-	/*
-    public void sefiraFog(int sefiraNum, float fogDensity)
-    {
-        Color color = sefiras[sefiraNum].sepfiraFog.GetComponent<SpriteRenderer>().color;
-        color.a = fogDensity;
-        sefiras[sefiraNum].sepfiraFog.GetComponent<SpriteRenderer>().color = color;
-
-        color = sefiras[sefiraNum].way1Fog.GetComponent<SpriteRenderer>().color;
-        color.a = fogDensity;
-        sefiras[sefiraNum].way1Fog.GetComponent<SpriteRenderer>().color = color;
-
-        color = sefiras[sefiraNum].way2Fog.GetComponent<SpriteRenderer>().color;
-        color.a = fogDensity;
-        sefiras[sefiraNum].way2Fog.GetComponent<SpriteRenderer>().color = color;
-
-        color = sefiras[sefiraNum].way3Fog.GetComponent<SpriteRenderer>().color;
-        color.a = fogDensity;
-        sefiras[sefiraNum].way3Fog.GetComponent<SpriteRenderer>().color = color;
-
-        color = sefiras[sefiraNum].way4Fog.GetComponent<SpriteRenderer>().color;
-        color.a = fogDensity;
-        sefiras[sefiraNum].way4Fog.GetComponent<SpriteRenderer>().color = color;
-
-        color = sefiras[sefiraNum].elevatorFog1.GetComponent<SpriteRenderer>().color;
-        color.a = fogDensity;
-        sefiras[sefiraNum].elevatorFog1.GetComponent<SpriteRenderer>().color = color;
-
-        if (sefiras[sefiraNum].elevatorFog2.GetComponent<SpriteRenderer>().sprite != null)
-        {
-            color = sefiras[sefiraNum].elevatorFog2.GetComponent<SpriteRenderer>().color;
-            color.a = fogDensity;
-            sefiras[sefiraNum].elevatorFog2.GetComponent<SpriteRenderer>().color = color;
-        }
-
-        foreach (GameObject fogObject in sefiras[sefiraNum].fogs)
-        {
-            SpriteRenderer fogRenderer = fogObject.GetComponent<SpriteRenderer>();
-            Color c = fogRenderer.color;
-            c.a = fogDensity;
-            fogRenderer.color = c;
-        }
-
-    }
-    */
 	private void UpdateSefiraFog(SefiraObject sefira, float fogDensity)
 	{
+		/*
 		Color color = sefira.sepfiraFog.GetComponent<SpriteRenderer>().color;
 		color.a = fogDensity;
 		sefira.sepfiraFog.GetComponent<SpriteRenderer>().color = color;
@@ -189,6 +147,7 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
 			color.a = fogDensity;
 			sefira.elevatorFog2.GetComponent<SpriteRenderer>().color = color;
 		}
+		*/
 
 		foreach (GameObject fogObject in sefira.fogs)
 		{
@@ -243,47 +202,6 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
     void Update()
 	{
 		CheckSefiraFog ();
-		/*
-        if (CreatureManager.instance.malkuthState == SefiraState.NOT_ENOUGH_AGENT)
-        {
-            sefiraFog(0,0.9f);
-        }
-
-        else
-        {
-            sefiraFog(0, 0f);
-        }
-
-        if (CreatureManager.instance.nezzachState == SefiraState.NOT_ENOUGH_AGENT)
-        {
-            sefiraFog(1, 0.9f);
-        }
-
-        else
-        {
-            sefiraFog(1, 0f);
-        }
-
-        if (CreatureManager.instance.hodState == SefiraState.NOT_ENOUGH_AGENT)
-        {
-            sefiraFog(2, 0.9f);
-        }
-
-        else
-        {
-            sefiraFog(2, 0f);
-        }
-
-        if (CreatureManager.instance.yessodState == SefiraState.NOT_ENOUGH_AGENT)
-        {
-            sefiraFog(3, 0.9f);
-        }
-
-        else
-        {
-            sefiraFog(3, 0f);
-        }
-        */
     }
 
     void OnEnable()
@@ -299,6 +217,8 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         Notice.instance.Observe(NoticeName.PassageWhitle, this);
         Notice.instance.Observe(NoticeName.PassageBlackOut, this);
         Notice.instance.Observe(NoticeName.PassageAlpha, this);
+
+		Notice.instance.Observe (NoticeName.ResetMapGraph, this);
     }
 
     void OnDisable()
@@ -314,6 +234,8 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         Notice.instance.Remove(NoticeName.PassageWhitle, this);
         Notice.instance.Remove(NoticeName.PassageBlackOut, this);
         Notice.instance.Remove(NoticeName.PassageAlpha, this);
+
+		Notice.instance.Remove (NoticeName.ResetMapGraph, this);
     }
 
     public void SetSefiraActive(string sefiraName, bool b)
@@ -477,6 +399,16 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         unit.SetAplphaRecursive((float)value);
     }
 
+	private void Reset()
+	{
+		foreach (SefiraObject sefira in sefiras)
+		{
+			sefira.Clear ();
+		}
+
+		OnInit ();
+	}
+
     public void OnNotice(string notice, params object[] param)
     {
         if (notice == NoticeName.AreaOpenUpdate)
@@ -513,6 +445,10 @@ public class SefiraMapLayer : MonoBehaviour, IObserver {
         else if (notice == NoticeName.PassageAlpha) {
             SetPassageAlpha((PassageObjectModel)param[0], (int)param[1]);
         }
+		else if(notice == NoticeName.ResetMapGraph)
+		{
+			
+		}
 
 			
         /*else if (notice == NoticeName.ClosePassageDoor)

@@ -100,6 +100,7 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 
 		Notice.instance.Observe (NoticeName.AddCreature, this);
 		Notice.instance.Observe (NoticeName.ChangeWorkSetting, this);
+		Notice.instance.Observe (NoticeName.ClearCreature, this);
 
 		DontDestroyOnLoad (gameObject);
 	}
@@ -294,9 +295,13 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 			aiList.Add (ai.creature.instanceId, ai);
 		}
 
-		if (name == NoticeName.ChangeWorkSetting)
+		else if (name == NoticeName.ChangeWorkSetting)
 		{
 			OnChangeWorkSetting ((CreatureModel)param [0]);
+		}
+		else if(name == NoticeName.ClearCreature)
+		{
+			aiList.Clear ();
 		}
 	}
 }

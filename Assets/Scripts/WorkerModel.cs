@@ -126,8 +126,6 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
         output.Add("maxHp", maxHp);
         output.Add("maxMental", maxMental);
         output.Add("sefira", currentSefira);
-        
-        //output.Add("speechTable", speechTable);
 
         return output;
     }
@@ -150,12 +148,10 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
         TryGetValue(dic, "gender", ref gender);
         TryGetValue(dic, "movement", ref movement);
         TryGetValue(dic, "speechTable", ref speechTable);
-        TryGetValue(dic, "currentSefira", ref currentSefira);
+        //TryGetValue(dic, "currentSefira", ref currentSefira);
         
         TryGetValue(dic, "maxHp", ref maxHp);
         TryGetValue(dic, "maxMental", ref maxMental);
-        TryGetValue(dic, "sefira", ref currentSefira);
-        
     }
 
     public virtual void OnFixedUpdate() { 

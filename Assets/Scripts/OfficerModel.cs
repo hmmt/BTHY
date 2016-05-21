@@ -45,8 +45,8 @@ public class OfficerModel : WorkerModel {
 
     public void SetModelSprite()
     {
-        hairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender);
-        faceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite();
+		hairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender).sprite;
+		faceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite().sprite;
     }
 
     public override void OnFixedUpdate()

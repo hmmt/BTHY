@@ -39,7 +39,7 @@ public class OfficerLayer : MonoBehaviour, IObserver {
         Notice.instance.Observe(NoticeName.RemoveOfficer, this);
     }
 
-    void OnDisalbe()
+    void OnDisable()
     {
         Notice.instance.Remove(NoticeName.AddOfficer, this);
         Notice.instance.Remove(NoticeName.RemoveOfficer, this);
@@ -50,7 +50,6 @@ public class OfficerLayer : MonoBehaviour, IObserver {
         
         ClearOfficer();
         foreach (OfficerModel model in OfficerManager.instance.GetOfficerList()) {
-            //Debug.Log("in layer" + model.name);
             AddOfficer(model);
         }
     }

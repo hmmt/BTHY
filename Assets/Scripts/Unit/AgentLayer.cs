@@ -25,17 +25,19 @@ public class AgentLayer : MonoBehaviour, IObserver {
     {
         Notice.instance.Observe(NoticeName.AddAgent, this);
         Notice.instance.Observe(NoticeName.RemoveAgent, this);
+		Notice.instance.Observe (NoticeName.ClearAgent, this);
     }
 
     void OnDisable()
     {
         Notice.instance.Remove(NoticeName.AddAgent, this);
         Notice.instance.Remove(NoticeName.RemoveAgent, this);
+		Notice.instance.Remove (NoticeName.ClearAgent, this);
     }
 
     public void Init()
     {
-        ClearAgent();
+        Clear ();
         foreach (AgentModel model in AgentManager.instance.GetAgentList())
         {
             AddAgent(model);
@@ -105,7 +107,7 @@ public class AgentLayer : MonoBehaviour, IObserver {
         Destroy(unit.gameObject);
     }
 
-    public void ClearAgent()
+    public void Clear ()
     {
         foreach (AgentUnit agentUnit in agentList)
         {
@@ -142,7 +144,10 @@ public class AgentLayer : MonoBehaviour, IObserver {
                 RemoveAgent((AgentModel)obj);
             }
         }
-        
+		else if(notice == NoticeName.ClearAgent)
+		{
+			Clear ();
+		}
     }
 
     public void OnStageStart() {

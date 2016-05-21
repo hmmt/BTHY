@@ -66,7 +66,7 @@ public class OfficerUnit : MonoBehaviour {
         officerAnimator.SetInteger("Sepira", 1);
         officerAnimator.SetBool("Change", false);
 
-        if(animTarget != null)
+        //if(animTarget != null)
             //animTarget.SetClothes(Resources.LoadAll<Sprite>("Sprites/Agent/Test/AgentN1"));
         
         oldPos = transform.localPosition.x;
