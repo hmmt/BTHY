@@ -61,7 +61,7 @@ public class OfficerManager : IObserver {
         yesodList = new List<OfficerModel>();
         deadList = new List<OfficerModel>();
 
-        statReference = new AgentModel(-1, SefiraName.Malkut);
+        statReference = new AgentModel(-1);
         AgentTypeInfo info = AgentTypeList.instance.GetData(1);
         statReference.defaultMaxHp = info.hp;
         statReference.defaultMaxMental = info.mental;
@@ -70,6 +70,13 @@ public class OfficerManager : IObserver {
         statReference.level = 1;
         statReference.SetCurrentSefira("0");
     }
+
+	public void Clear()
+	{
+		Init ();
+
+		Notice.instance.Send (NoticeName.ClearOfficer);
+	}
 
     public OfficerModel CreateOfficerModel(string sefira)
     {
@@ -90,16 +97,6 @@ public class OfficerManager : IObserver {
         unit.SetModelSprite();
 
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
-        unit.panicType = info.panicType;
-
-        unit.faceSpriteName = SetRandomSprite(8);
-        unit.hairSpriteName = SetRandomSprite(9);
-        unit.bodySpriteName = SetRandomSprite(1);
-        unit.panicSpriteName = SetRandomSprite(3);
-
-        unit.GetPortrait("hair", unit.hairSpriteName);
-        unit.GetPortrait("face", unit.faceSpriteName);
-        unit.GetPortrait("body", null);
 
         unit.activated = false;
         officeList.Add(unit);
@@ -200,11 +197,11 @@ public class OfficerManager : IObserver {
         Notice.instance.Remove(NoticeName.FixedUpdate, unit);
         officeList.Remove(unit);
         
-        unit.sefira = "0";//No idea
+        unit.currentSefira = "0";//No idea
     }
 
     public void RemoveOfficer(OfficerModel model) {
-        switch (model.sefira)
+        switch (model.currentSefira)
         {
             case "1":
                 malkuthList.Remove(model);
@@ -319,7 +316,7 @@ public class OfficerManager : IObserver {
     }
 
     public AgentModel GetReferenceStat(float scale) {
-        AgentModel output = new AgentModel(statReference.instanceId, statReference.sefira);
+        AgentModel output = new AgentModel(statReference.instanceId);
         output.defaultMaxHp = (int)(output.defaultMaxHp * scale);
         output.defaultMaxMental = (int)(output.defaultMaxMental * scale);
         output.defaultMovement = (int)(output.defaultMovement * scale);

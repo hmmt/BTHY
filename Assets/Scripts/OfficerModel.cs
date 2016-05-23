@@ -36,7 +36,7 @@ public class OfficerModel : WorkerModel {
         commandQueue = new WorkerCommandQueue(this);
 
         instanceId = id;
-        currentSefira = sefira = area;
+        currentSefira = area;
         movableNode = new MovableObjectNode(this);
         movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         recoveryRate = 2;
@@ -47,8 +47,8 @@ public class OfficerModel : WorkerModel {
 
     public void SetModelSprite()
     {
-        hairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender);
-        faceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite();
+		hairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender).sprite;
+		faceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite().sprite;
     }
 
     public override void OnFixedUpdate()

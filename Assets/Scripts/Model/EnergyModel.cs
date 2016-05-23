@@ -22,6 +22,7 @@ public class EnergyModel : IObserver {
 
     public EnergyModel()
     {
+		Notice.instance.Observe(NoticeName.EnergyTimer, this);
         Init();
     }
 	public void Init()
@@ -122,7 +123,7 @@ public class EnergyModel : IObserver {
 
 	public void OnNotice(string notice, params object[] param)
 	{
-		if(notice == "EnergyTimer")
+		if(notice == NoticeName.EnergyTimer)
 		{
 			UpdateEnergy();
 		}

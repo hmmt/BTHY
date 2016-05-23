@@ -718,24 +718,7 @@ public class GameStaticDataLoader {
 
 			model.gender = node.Attributes.GetNamedItem("gender").InnerText;
 			model.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
-			model.workDays = int.Parse(node.Attributes.GetNamedItem("workDays").InnerText);
-			
-			XmlNode preferSkillNode = node.SelectSingleNode("preferSkill");
-			model.prefer = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.preferBonus = int.Parse(preferSkillNode.Attributes.GetNamedItem("bonus").InnerText);
-			
-			XmlNode rejectSkillNode = node.SelectSingleNode("rejectSkill");
-			model.reject = rejectSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.rejectBonus = int.Parse(rejectSkillNode.Attributes.GetNamedItem("bonus").InnerText);
-			
-			long directSkillId = long.Parse(node.Attributes.GetNamedItem("directSkillId").InnerText);
-			long indirectSkillId = long.Parse(node.Attributes.GetNamedItem("indirectSkillId").InnerText);
-			long blockSkillId = long.Parse(node.Attributes.GetNamedItem("blockSkillId").InnerText);
-			/*
-			model.directSkill = SkillTypeList.instance.GetData(directSkillId);
-			model.indirectSkill = SkillTypeList.instance.GetData(indirectSkillId);
-			model.blockSkill = SkillTypeList.instance.GetData(blockSkillId);
-			*/
+
             /*
 			XmlNode imgNode = node.SelectSingleNode("img");
 			model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
@@ -752,10 +735,6 @@ public class GameStaticDataLoader {
 			
 			model.speechTable = speechTable;
 
-			XmlNode panicTypeNode = node.SelectSingleNode("panic");
-			model.panicType = panicTypeNode.Attributes.GetNamedItem("action").InnerText;
-			
-			
 			agentTypeList.Add(model);
 		}
 		

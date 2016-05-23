@@ -436,9 +436,7 @@ public class StageUI : MonoBehaviour, IObserver {
         }
         targetSefira.RemoveAgent(unit);
 
-        
-        if(unit.activated)
-            AgentManager.instance.deactivateAgent(unit);
+		unit.SetCurrentSefira ("0");
 
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
     }
@@ -457,10 +455,11 @@ public class StageUI : MonoBehaviour, IObserver {
         if (!agentExist && targetSefira.agentList.Count < 5)
         {
             unit.GetMovableNode().SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(targetSefira.indexString));
-            //unit.SetCurrentSefira(targetSefira.indexString);
+            unit.SetCurrentSefira(targetSefira.indexString);
+			/*
             if (!unit.activated)
                 AgentManager.instance.activateAgent(unit, currentSefriaUi);
-
+            */
         }
         else {
             Debug.Log("Already Allocated Agent");
@@ -468,7 +467,6 @@ public class StageUI : MonoBehaviour, IObserver {
 
         SefiraAgentSlot.instance.ShowAgentSefira(currentSefriaUi);
         
-        unit.GetPortrait("body", null);
        // AgentLayer.currentLayer.GetAgent(unit.instanceId).ChangeAgentUniform();
         //ShowAgentList();
         

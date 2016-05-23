@@ -161,10 +161,11 @@ public class SelectSefiraAgentWindow : MonoBehaviour {
 
             AgentModel copied = unit;
             slotPanel.button.onClick.AddListener(() => OnSelectAgent(copied));
-
+			/*
             slotPanel.agentBody.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
             slotPanel.agentFace.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
             slotPanel.agentHair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
+            */
 
             posy -= 100f;
         }

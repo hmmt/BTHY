@@ -26,6 +26,8 @@ public class NoticeName
     public static string AddOfficer = "AddOfficer";
     public static string RemoveAgent = "RemoveAgent";
     public static string RemoveOfficer = "RemoveOfficer";
+	public static string ClearAgent = "ClearAgent";
+	public static string ClearOfficer = "ClearOfficer";
 
     public static string InitAgent = "InitAgent"; // Unused?
 
@@ -40,8 +42,10 @@ public class NoticeName
 
     public static string AddCreature = "AddCreature";
     public static string UpdateCreatureRes = "UpdateCreatureRes"; // 환상체의 이미지 변경. 지금은 안 씀.
+	public static string ClearCreature = "ClearCreature";
 
     public static string LoadMapGraphComplete = "LoadMapGraphComplete";
+	public static string ResetMapGraph = "ResetMapGraph";
 
     public static string EscapeCreature = "EscapeCreature";
 
@@ -49,6 +53,9 @@ public class NoticeName
 
     // PassageObject
     public static string AddPassageObject = "AddPassageObject";
+	public static string RemovePassageObject = "RemovePassageObject";
+
+
     public static string UpdatePassageObject = "UpdatePassageObject";
 	public static string AddPassageDoor = "AddPassageDoor";
     public static string AddMapObject = "AddMapObject";

@@ -23,20 +23,34 @@ public class CreatureLayer : MonoBehaviour, IObserver {
     void OnEnable()
     {
         Notice.instance.Observe(NoticeName.AddCreature, this);
+		Notice.instance.Observe(NoticeName.ClearCreature, this);
     }
 
     void OnDisable()
     {
         Notice.instance.Remove(NoticeName.AddCreature, this);
+		Notice.instance.Remove(NoticeName.ClearCreature, this);
     }
 
     public void Init()
     {
+		Clear ();
         foreach (CreatureModel model in CreatureManager.instance.GetCreatureList())
         {
             AddCreature(model);
         }
     }
+
+	public void Clear()
+	{
+		foreach (CreatureUnit creatureUnit in creatureList)
+		{
+			//Destroy (creatureUnit.room.gameObject);
+			Destroy(creatureUnit.gameObject);
+		}
+		creatureList.Clear();
+		creatureDic.Clear();
+	}
 
     public void AddCreature(CreatureModel model)
     {
@@ -133,16 +147,6 @@ public class CreatureLayer : MonoBehaviour, IObserver {
         return unit;
     }
 
-    public void ClearAgent()
-    {
-        foreach (CreatureUnit creatureUnit in creatureList)
-        {
-            Destroy(creatureUnit.gameObject);
-        }
-        creatureList.Clear();
-        creatureDic.Clear();
-    }
-
     // TODO : 기분수치 타이머를 여기에 넣는다.?
 
     public void OnNotice(string notice, params object[] param)
@@ -154,6 +158,10 @@ public class CreatureLayer : MonoBehaviour, IObserver {
                 AddCreature((CreatureModel)obj);
             }
         }
+		else if (notice == NoticeName.ClearCreature)
+		{
+			Clear ();
+		}
     }
 
     public void OnSpriteButtonClick(bool state) {

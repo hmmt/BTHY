@@ -17,6 +17,7 @@ public class SefiraObject : MonoBehaviour {
     public GameObject elevatorFog1; 
     public GameObject elevatorFog2;
 
+	[HideInInspector]
     public List<GameObject> fogs;
 
     private List<PassageObject> passageList;
@@ -28,11 +29,28 @@ public class SefiraObject : MonoBehaviour {
     {
         fogs = new List<GameObject>();
         passageList = new List<PassageObject>();
+		elevatorList = new List<ElevatorPassageObject> ();
     }
     public void OnClick()
     {
         SelectSefiraAgentWindow.CreateWindow(sefira, sefiraName);
     }
+
+	public void Clear()
+	{
+		foreach (PassageObject passage in passageList)
+		{
+			Destroy (passage.gameObject);
+		}
+
+		foreach (ElevatorPassageObject elevator in elevatorList)
+		{
+			Destroy (elevator.gameObject);
+		}
+
+		passageList.Clear ();
+		elevatorList.Clear ();
+	}
 
     public PassageObject GetPassageObject(string id)
     {
@@ -109,6 +127,8 @@ public class SefiraObject : MonoBehaviour {
 
 		g.transform.localPosition = model.GetNode ().GetPosition ();
 		g.transform.SetParent(transform, false);
+
+		elevatorList.Add (e);
 	}
 
     public void AddMapObject(MapObjectModel mapObjModel)

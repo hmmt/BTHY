@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class AgentAllocateWindow : MonoBehaviour {
+public class AgentAllocateWindow : MonoBehaviour ,IObserver {
     public class AgentListSortModule {
         int currentMode = 0;
     /*
@@ -104,7 +104,7 @@ public class AgentAllocateWindow : MonoBehaviour {
 
     AgentListSortModule sort = new AgentListSortModule();
 
-    public void Awake() {
+    void Awake() {
         _instance = this;
 
         foreach (RectTransform rect in this.agentScrollTarget) {
@@ -118,6 +118,17 @@ public class AgentAllocateWindow : MonoBehaviour {
         SetScrollRect(currentPosy);
     }
 
+	void OnEnable()
+	{
+		Notice.instance.Observe (NoticeName.ClearAgent, this);
+		Notice.instance.Observe (NoticeName.ChangeAgentSefira, this);
+	}
+	void OnDisable()
+	{
+		Notice.instance.Remove (NoticeName.ClearAgent, this);
+		Notice.instance.Remove (NoticeName.ChangeAgentSefira, this);
+	}
+	/*
     public void ClearList() {
         foreach (AgentAllocateSlot item in currentSlotList)
         {
@@ -130,6 +141,30 @@ public class AgentAllocateWindow : MonoBehaviour {
         }
         //ShowAgentList();
     }
+    */
+
+	public void Init()
+	{
+		foreach (AgentModel agent in AgentManager.instance.GetAgentList())
+		{
+			AddAgent (agent);
+		}
+
+		foreach (AgentModel agent in AgentManager.instance.agentListSpare)
+		{
+			AddAgent (agent);
+		}
+	}
+
+	public void ClearAgentList ()
+	{
+		foreach (AgentAllocateSlot item in currentSlotList)
+		{
+			Destroy(item.gameObject);
+		}
+		currentSlotList.Clear();
+		agentList.Clear ();
+	}
 
     public void AddAgent(AgentModel model)
     {
@@ -209,4 +244,17 @@ public class AgentAllocateWindow : MonoBehaviour {
         }
         return slot;
     }
+
+	public void OnNotice(string notice, params object[] param)
+	{
+		if(notice == NoticeName.ClearAgent)
+		{
+			ClearAgentList ();
+		}
+		else if(notice == NoticeName.ChangeAgentSefira)
+		{
+			AgentModel agent = (AgentModel)param [0];
+			ChangedAgentSefira (agent, agent.currentSefira);
+		}
+	}
 }

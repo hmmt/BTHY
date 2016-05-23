@@ -155,6 +155,7 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
     public void StartSettingPos() {
         if(target == null) return;
         killing = true;
+		model.SetInvincible (true);
         /*
         MapNode current = target.GetMovableNode().GetCurrentNode();
         if (current == null)
@@ -258,6 +259,7 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
         }
         target = null;
         killing = false;
+		model.SetInvincible (false);
     }
 
 	public void OnKill()
@@ -275,18 +277,21 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 		redShoesSkill.OnInfectedTargetTerminated ();
 
         model.ShowCreatureActionSpeech(this.redShoesSkill.model.metadataId, "dead");
+		model.animationMessageRecevied = redShoesSkill.model.script;
 
 		if (model is AgentModel)
 		{
 			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (model.instanceId);
 
-			agentView.SetParameterOnce ("Suppressed", true);
+			agentView.puppetAnim.SetBool ("Kill", false);
+			agentView.puppetAnim.SetBool ("Suppressed", true);
 		}
 		else
 		{
 			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (model.instanceId);
 
-			officerView.SetParameterOnce ("Suppressed", true);
+			officerView.puppetAnim.SetBool ("Kill", false);
+			officerView.puppetAnim.SetBool ("Suppressed", true);
 		}
 	}
 

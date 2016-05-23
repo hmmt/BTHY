@@ -25,23 +25,15 @@ public class WorkerSpriteSet {
     public Sprite Symbol;
 }
 
-public class WorkerModel: UnitModel, IObserver {
+public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
     public int instanceId;
 
 	protected WorkerCommandQueue commandQueue;
-    
+
+	// SAVE data
     public string name;
     public int hp;
     public int mental;
-	public int panicValue = 0;
-
-	public bool invincible = false;
-
-	public float moveDelay = 0;
-	public float attackDelay = 2f;
-
-	// TODO : implement stun using buf state.
-	public float stunTime = 0f;
 
 	// states
 	public bool isUnderAttack = false;
@@ -51,24 +43,22 @@ public class WorkerModel: UnitModel, IObserver {
     public int maxMental;
 
     public int movement;
-	public float movementMul = 1f;
 
-    public string sefira;//assigned
     public string currentSefira;//now position
 
     public string panicType;
 
-    public string imgsrc;
+	// SAVE data end
 
-    public string faceSpriteName;
-    public string hairSpriteName;
-    public string bodySpriteName;
-    public string panicSpriteName;
+	public float movementMul = 1f;
+	public int panicValue = 0;
+	public bool invincible = false;
 
-    public string hairImgSrc;
-    public string faceImgSrc;
-    public string bodyImgSrc;
+	public float moveDelay = 0;
+	public float attackDelay = 0;
 
+	// TODO : implement stun using buf state.
+	public float stunTime = 0f;
     public bool haltUpdate = false;
 
     //public AgentHistory history;
@@ -98,7 +88,6 @@ public class WorkerModel: UnitModel, IObserver {
     public CreatureBase animationMessageRecevied = null;
 
     public bool visible = true;
-    public float oldZ;
     public float waitTimer = 0;
     public bool panicFlag = false;
 
@@ -114,14 +103,14 @@ public class WorkerModel: UnitModel, IObserver {
 
     public WorkerModel(int instanceId, string area) {
         this.currentSefira = area;
-        this.sefira = area;
+        this.currentSefira = area;
         this.instanceId = instanceId;
         this.movableNode = new MovableObjectNode();
         this.movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
     }
 
     public WorkerModel(int instanceId, Sefira area) {
-        this.sefira = area.indexString;
+        this.currentSefira = area.indexString;
         this.instanceId = instanceId;
         this.movableNode = new MovableObjectNode();
         this.movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area.indexString));
@@ -149,11 +138,7 @@ public class WorkerModel: UnitModel, IObserver {
         output.Add("mental", mental);
         output.Add("maxHp", maxHp);
         output.Add("maxMental", maxMental);
-        output.Add("sefira", sefira);
-        
-        output.Add("imgsrc", imgsrc);
-        output.Add("speechTable", speechTable);
-        output.Add("panicType", panicType);
+        output.Add("sefira", currentSefira);
 
         return output;
     }
@@ -175,37 +160,11 @@ public class WorkerModel: UnitModel, IObserver {
         TryGetValue(dic, "mental", ref mental);
         TryGetValue(dic, "gender", ref gender);
         TryGetValue(dic, "movement", ref movement);
-        TryGetValue(dic, "imgsrc", ref imgsrc);
         TryGetValue(dic, "speechTable", ref speechTable);
-        TryGetValue(dic, "panicType", ref panicType);
-        TryGetValue(dic, "currentSefira", ref currentSefira);
+        //TryGetValue(dic, "currentSefira", ref currentSefira);
         
         TryGetValue(dic, "maxHp", ref maxHp);
         TryGetValue(dic, "maxMental", ref maxMental);
-        TryGetValue(dic, "sefira", ref sefira);
-        
-    }
-
-    public virtual void GetPortrait(string parts, string key)
-    {
-        switch (parts)
-        {
-            case "hair":
-                hairImgSrc = "Sprites/Agent/Hair/Hair_M_" + key + "_00";
-                break;
-            case "face":
-                faceImgSrc = "Sprites/Agent/Face/Face_" + key + "_00";
-                break;
-            case "body":
-                if (currentSefira == "0")
-                {
-                    bodyImgSrc = "Sprites/Agent/Body/Body_1_S_00";
-                }
-                else bodyImgSrc = "Sprites/Agent/Body/Body_" + currentSefira + "_S_00";
-                break;
-            default:
-                throw new Exception("Make Portrait Part parameter exception");
-        }
     }
 
     public virtual void OnFixedUpdate() {
@@ -415,7 +374,11 @@ public class WorkerModel: UnitModel, IObserver {
 
 	public virtual void SetInvincible(bool b)
 	{
+		bool preIsDead = isDead ();
 		invincible = b;
+
+		if (!preIsDead && isDead ())
+			OnDie ();
 	}
 
 	public virtual void Stun(float time)
@@ -642,8 +605,8 @@ public class WorkerModel: UnitModel, IObserver {
 			Debug.Log("Error to compare");
 			return 0;
 		}
-		int xIndex = SefiraManager.instance.GetSefira(x.sefira).index;
-		int yIndex = SefiraManager.instance.GetSefira(y.sefira).index;
+		int xIndex = SefiraManager.instance.GetSefira(x.currentSefira).index;
+		int yIndex = SefiraManager.instance.GetSefira(y.currentSefira).index;
 		return xIndex.CompareTo(yIndex);
 	}
 
