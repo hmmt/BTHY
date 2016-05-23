@@ -17,7 +17,7 @@ public class SoundEffectPlayer : MonoBehaviour {
             elapsedTime += Time.deltaTime;
 
             if (elapsedTime > destroyTime)
-                Destroy(gameObject);
+                Stop();
         }
 	}
 
@@ -35,12 +35,33 @@ public class SoundEffectPlayer : MonoBehaviour {
 
 		newEffect.transform.position = new Vector3 (position.x, position.y, Camera.main.transform.position.z);
 
-
+        
 		source.PlayOneShot(clip);
 
 		effect.destroyTime = clip.length;
         return effect;
 	}
+
+    public static SoundEffectPlayer PlayOnce(string filename, Vector2 position, AudioRolloffMode mode)
+    {
+        GameObject newEffect = Prefab.LoadPrefab("SoundEffectPlayer");
+
+        SoundEffectPlayer effect = newEffect.GetComponent<SoundEffectPlayer>();
+
+
+        AudioSource source = newEffect.GetComponent<AudioSource>();
+        //source.clip = Resources.Load<AudioClip> ("Sounds/" + filename);
+
+        AudioClip clip = Resources.Load<AudioClip>("Sounds/" + filename);
+
+        newEffect.transform.position = new Vector3(position.x, position.y, Camera.main.transform.position.z);
+
+        source.rolloffMode = mode;
+        source.PlayOneShot(clip);
+
+        effect.destroyTime = clip.length;
+        return effect;
+    }
 
     /// <summary>
     /// for stop, Invoker should have this class
@@ -113,6 +134,7 @@ public class SoundEffectPlayer : MonoBehaviour {
     }
 
     public void Stop() {
+        
         Destroy(gameObject);
     }
 

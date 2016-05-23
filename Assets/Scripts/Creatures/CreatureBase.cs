@@ -119,6 +119,7 @@ public class CreatureBase {
             Debug.Log(leftX + " " + rightX + " " + downY + " " + upY);
         }
     }
+
     protected CreatureModel model;
     public CreatureSpecialSkill skill;
     public bool hasUniqueEscapeLogic;
