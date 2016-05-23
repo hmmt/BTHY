@@ -1117,6 +1117,8 @@ public class AgentModel : WorkerModel
 
 	public override void OnDie()
 	{
+		if (invincible)
+			return;
         if (unconAction != null)
         {
             unconAction.OnDie();

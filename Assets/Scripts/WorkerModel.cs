@@ -374,7 +374,11 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
 
 	public virtual void SetInvincible(bool b)
 	{
+		bool preIsDead = isDead ();
 		invincible = b;
+
+		if (!preIsDead && isDead ())
+			OnDie ();
 	}
 
 	public virtual void Stun(float time)

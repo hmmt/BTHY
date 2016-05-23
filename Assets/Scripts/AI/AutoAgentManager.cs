@@ -139,8 +139,11 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 			if(ai.target is CreatureModel)
 			{
 				CreatureModel creatureTarget = (CreatureModel)ai.target;
-				if(creatureTarget.state != CreatureState.ESCAPE && creatureTarget.state != CreatureState.ESCAPE_PURSUE)
+				if (creatureTarget.state != CreatureState.ESCAPE && creatureTarget.state != CreatureState.ESCAPE_PURSUE)
+				{
+					rmSuppressList.Add (ai.actor.instanceId);
 					continue;
+				}
 				if(creatureTarget.GetMovableNode().GetPassage() == null) // missing
 					continue;
 
@@ -155,6 +158,12 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 
 				if (agentTarget.IsPanic () == false && agentTarget.GetState () != AgentAIState.CANNOT_CONTROLL)
 				{
+					rmSuppressList.Add (ai.actor.instanceId);
+					continue;
+				}
+				if (agentTarget.isDead ())
+				{
+					rmSuppressList.Add (ai.actor.instanceId);
 					continue;
 				}
 				if(agentTarget.GetMovableNode().GetPassage() == null) // missing

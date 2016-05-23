@@ -93,6 +93,11 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
         }
         return output;
     }
+
+	public bool IsAtivatedForcely()
+	{
+		return attracted || isAcquired;
+	}
     
     public override void FixedUpdate()
     {
@@ -104,6 +109,8 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		{
 			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 			{
+				if (!shoes.dropFinished)
+					break;
 				if (agent.isDead () || agent.IsPanic())
 					continue;
 				if (agent.gender == "Female")
@@ -113,17 +120,14 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 					{	
 						Debug.Log ("infect!!!!");
 
+						model.state = CreatureState.WAIT;
+
 						Attract (agent);
 						GetRedShoes (2);
 
 						shoes.dropped = false;
+						shoes.dropFinished = false;
 						break;
-					}
-				}
-				else
-				{
-					//if()
-					{
 					}
 				}
 			}
@@ -233,8 +237,11 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		node.Assign (attractTargetAgent.GetMovableNode ());
 		shoes.droppedPositionNode = node;
 
+		shoes.dropFinished = false;
 		attracted = false;
 		isAcquired = false;
+
+		model.state = CreatureState.SUPPRESSED;
 	}
 
     public override void OnStageStart()
@@ -344,7 +351,8 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
             officerView.showSpeech.showSpeech(AgentLyrics.instance.GetCreatureReaction(model.metadataId).action.GetActionDesc("start").GetDescByRandom());
 		}
 
-		attractTargetAgent.MoveToNode (model.GetCustomNode ());
+		if (startType != 2)
+			attractTargetAgent.MoveToNode (model.GetCustomNode ());
 		//agentView.SetAnimatorChanged (true);
 
 		attractTargetAgent.SetUncontrollableAction(new Uncontrollable_RedShoes(attractTargetAgent, this, startType));

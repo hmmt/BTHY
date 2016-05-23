@@ -89,7 +89,8 @@ public class AgentManager : IObserver, ISerializablePlayData {
         unit.defaultMovement = info.movement;
         unit.defaultWork = info.work;
 
-        unit.gender = info.gender;
+		unit.gender = Random.Range(0, 2) == 1 ? "Female" : "Male";
+		//unit.gender = "Female";
 
         unit.SetModelSprite();
 

@@ -52,6 +52,7 @@ public class CreatureModel : UnitModel, IObserver, ISerializablePlayData
     public int instanceId;
 
     public CreatureEscapeType escapeType = CreatureEscapeType.ATTACKWORKER;
+	public bool canBeSuppressed = true;
 
 	public float attackDelay = 0;
 

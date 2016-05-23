@@ -234,7 +234,8 @@ public class CreatureUnit : MonoBehaviour {
 
     void Start()
     {
-		if (model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN)
+		if (model.canBeSuppressed &&
+			(model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN) )
         {
             //spriteRenderer.gameObject.SetActive(false);
 			if(animTarget != null)
@@ -257,14 +258,14 @@ public class CreatureUnit : MonoBehaviour {
 
     void OnChangeState()
     {
-		if (model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN)
+		if (model.canBeSuppressed &&
+			(model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN) )
         {
 			if(animTarget != null)
 				animTarget.gameObject.SetActive(false);
             returnSpriteRenderer.gameObject.SetActive(true);
         }
-		//else if (model.state != CreatureState.SUPPRESSED && oldState == CreatureState.SUPPRESSED)
-		else if (model.state != CreatureState.SUPPRESSED)
+		else
         {
 			if(animTarget != null)
 				animTarget.gameObject.SetActive(true);

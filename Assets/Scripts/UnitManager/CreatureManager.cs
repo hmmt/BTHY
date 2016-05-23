@@ -94,6 +94,9 @@ public class CreatureManager : IObserver, ISerializablePlayData {
 
 		model.AddFeeling(model.metaInfo.feelingMax / 2);
 
+		if (model.script != null)
+			model.script.OnInit();
+
         AddCreatureInSepira(model, sefiraNum);
 
         RegisterCreature(model);
@@ -338,9 +341,6 @@ public class CreatureManager : IObserver, ISerializablePlayData {
         }
 
 		MapGraph.instance.RegisterPassage (passage);
-
-        if (model.script != null)
-            model.script.OnInit();
     }
 
 	public CreatureModel[] GetCreatureList()
@@ -396,6 +396,9 @@ public class CreatureManager : IObserver, ISerializablePlayData {
 			model.sefira = SefiraManager.instance.GetSefira(model.sefiraNum);
 
             BuildCreatureModel(model, model.metadataId, model.entryNodeId, model.basePosition.x, model.basePosition.y);
+
+			if (model.script != null)
+				model.script.OnInit();
 
 			AddCreatureInSepira(model, model.sefiraNum);
 

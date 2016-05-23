@@ -16,6 +16,12 @@ public class ReturnCreatureWorkerCommand : WorkerCommand {
 	public override void OnInit(WorkerModel agent)
 	{
 		base.OnInit (agent);
+
+		if (target.metaInfo.id == 100003)
+		{
+			RedShoes shoes = (RedShoes)target.script;
+			shoes.returnTargetCount++;
+		}
 	}
 
 	public override void OnStart(WorkerModel agent)
@@ -81,6 +87,12 @@ public class ReturnCreatureWorkerCommand : WorkerCommand {
 	{
 		base.OnDestroy (agent);
 
+		if (target.metaInfo.id == 100003)
+		{
+			RedShoes shoes = (RedShoes)target.script;
+			shoes.returnTargetCount--;
+		}
+
 		AgentModel actor = (AgentModel)agent;
 		if (actor.GetState () == AgentAIState.RETURN_CREATURE)
 			actor.FinishReturnCreature ();
@@ -110,6 +122,8 @@ public class ReturnCreatureWorkerCommand : WorkerCommand {
 				Vector3 destination = shoes.droppedShoesPosition;
 				Vector3 dist = actor.GetMovableNode ().GetCurrentViewPosition () - destination;
 
+				if (!shoes.dropFinished)
+					return;
 				if (shoes.owner != null)
 					return;
 
