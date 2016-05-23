@@ -14,4 +14,5 @@
   <node name ="OldLady_AgentCTRL" id ="100011" src ="CreatureAnimators/OldLady/OldLady_AgentCTRL"/>
   <node name ="MalkutOfficerAction" id ="20001" src="WorkerAnimators/MalkutOfficerAction"/>
   <node name ="YesodOfficerAction" id ="20004" src="WorkerAnimators/YesodOfficerAction"/>
+  <node name ="LadyLooking_AgentCTRL" id="100021" src="CreatureAnimators/LadyLooking/LadyLooking_AgentCTRL"/>
 </root>

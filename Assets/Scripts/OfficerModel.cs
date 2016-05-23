@@ -332,6 +332,7 @@ public class OfficerModel : WorkerModel {
         /*
         _unit.MannualMovingCall(this.currentSpecialAction.GetNode().GetPosition(), false, this.currentSpecialAction.shouldMove, false);
          */
+        //ㅇ러일ㅇ말
         Vector3 pos = this.currentSpecialAction.GetNode().GetPosition();
         pos.z = _unit.zValue;
         _unit.MannualMovingCall(pos,false, true, true, true, false, 0.01f);
