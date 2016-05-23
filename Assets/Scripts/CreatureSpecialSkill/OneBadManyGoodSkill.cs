@@ -29,7 +29,7 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
     {
         
         Animator agentAnim = null;
-        Debug.Log(target.name);
+        //Debug.Log(target.name);
         /*
         if (!this.skillReady)
         {
@@ -62,7 +62,7 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
         
         //Feeling make zero
         this.ReadySkill(false);
-        this.model.SubFeeling(1000);
+        this.model.SubFeeling(300);
         creatureAnimator.SetBool("Work", true);
         float recoveryValue= (float)this.currentWorker.maxMental / 2;
         int randVal = UnityEngine.Random.Range(0, 10);

@@ -18,8 +18,10 @@ public class LadyLookingAtWall : CreatureBase {
     CreatureUnit currentCreatureUnit = null;
     bool isWorking = false;
     bool shouldActivate = false;
+    bool activatedSpecialEffect = false;
 
     List<AgentModel> workedAgentList = new List<AgentModel>();
+    LadyLookingAtWallAnim animScript = null;
     int currentSkillPercent = 0;
 
     int sensingStack = 0;
@@ -38,8 +40,6 @@ public class LadyLookingAtWall : CreatureBase {
             
         }
 
-
-        
     }
 
     public override void OnSkillTickUpdate(UseSkill skill)
@@ -56,6 +56,7 @@ public class LadyLookingAtWall : CreatureBase {
             Debug.Log("이작업 하면 안돼!");
             SpecialEffect(skill);
             //작업 중지
+            
         }
     }
 
@@ -69,15 +70,19 @@ public class LadyLookingAtWall : CreatureBase {
 
     public override void OnRelease(UseSkill skill)
     {
-        sensingStack = 0;
-        sensing.SetEnabled(true);
+        /*애니메이션 재생을 한 뒤 나가야 한다*/
+        if (activatedSpecialEffect == true) {
+            activatedSpecialEffect = false;
+            return;
+        }
+
         if (Prob(this.currentSkillPercent))
         {
             Debug.Log("Activated");
             ActivateSkill(skill);
         }
         else {
-            Debug.Log("Not activated");     
+            Debug.Log("Not activated");
         }
     }
 
@@ -85,13 +90,23 @@ public class LadyLookingAtWall : CreatureBase {
     {
         //직원 뒤돌아보는 모션
         //환상체 공격 모션
+        /*
         if (Random.Range(0, 2) == 0)
         {
             skill.agent.TakeMentalDamage(Damage);
         }
         else {
             skill.agent.TakePhysicalDamageByCreature(Damage);
-        }
+        }*/
+        skill.agent.HaltUpdate();
+        skill.agent.TakeMentalDamage(Damage);
+        this.animScript.animator.SetBool("Attack", true);
+
+        //AgentAnimator Change
+        AnimatorManager.instance.ResetAnimatorTransform(skill.agent.instanceId);
+        AnimatorManager.instance.ChangeAnimatorByID(skill.agent.instanceId,
+            AnimatorName.id_LadyLooking_AgentCTRL, skill.agentView.puppetAnim, true, false);
+        
         /*
         Debug.Log("LadyLookingAtWall ActivateSkill()");
         // 스킬: 뒤를 돌아보지 마
@@ -108,14 +123,18 @@ public class LadyLookingAtWall : CreatureBase {
         skill.FinishForcely();
 
         //꺄아아아아아아아아악
-        skill.agent.TakeMentalDamage(10050);
+        skill.agent.TakeMentalDamage(50);
+        
+        animScript.StartEffect();
 
-        Debug.Log("KIYAAAAAAAAA");
+        activatedSpecialEffect = true;
+        //Debug.Log("KIYAAAAAAAAA");
     }
 
     public override void OnEnterRoom(UseSkill skill)
     {
         CheckActivatePercentage(skill);
+        animScript.animator.SetBool("Work", true);
         //skill.PauseWorking();
         //SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
     }
@@ -163,5 +182,16 @@ public class LadyLookingAtWall : CreatureBase {
     public override bool isAttackInWorkProcess()
     {
         return false;
+    }
+
+    public override void OnViewInit(CreatureUnit unit)
+    {
+        this.animScript = unit.animTarget as LadyLookingAtWallAnim;
+        this.animScript.Init(this);
+    }
+
+    public void RestartSensing() {
+        this.sensing.SetEnabled(true);
+        sensingStack = 0;
     }
 }

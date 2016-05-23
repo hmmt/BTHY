@@ -413,4 +413,12 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 
 
     public void SoundMake(string src) { }
+
+    public void ResetAnimator() {
+        this.model.ResetAnimator();
+
+        if (this.model.haltUpdate) {
+            this.model.ReleaseUpdate();
+        }
+    }
 }

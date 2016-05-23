@@ -19,6 +19,7 @@ public class AnimatorName {
     public static string OldLady_AgentCTRL = "OldLady_AgentCTRL";
     public static string MalkutOfficerAction = "MalkutOfficerAction";
     public static string YesodOfficerAction = "YesodOfficerAction";
+    public static string LadyLooking_AgentCTRL = "LadyLooking_AgentCTRL";
 
     public static long id_AgentCtrl = 50001;
     public static long id_OfficerCtrl = 50002;
@@ -34,6 +35,7 @@ public class AnimatorName {
     public static long id_OldLady_agent = 100011;
     public static long id_MalkutOfficerAction = 20001;
     public static long id_YesodOfficerAction = 20004;
+    public static long id_LadyLooking_AgentCTRL = 100021;
 }
 
 public class AnimatorManager : MonoBehaviour{

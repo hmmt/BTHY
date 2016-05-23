@@ -26,9 +26,9 @@ public class OneBadManyGood : CreatureBase {
     public override void OnEnterRoom(UseSkill skill)
     {
 		// If GetSpecialSkill() is null
-        if (skill.skillTypeInfo == GetSpecialSkill()) {
+        if (skill.skillTypeInfo == GetOneBadSkill()) {
             //SpecialSkill
-            Debug.Log("special skill");
+            //Debug.Log("special skill");
             OneBadManyGoodSkill oneSkill = this.skill as OneBadManyGoodSkill;
 
             oneSkill.ReadySkill(true);
@@ -75,14 +75,20 @@ public class OneBadManyGood : CreatureBase {
     public override SkillTypeInfo GetSpecialSkill()
     {
         OneBadManyGoodSkill currentSkill = this.skill as OneBadManyGoodSkill;
-        /*
+        
         if (currentSkill.GetSkillState())
         {
             return SkillTypeList.instance.GetData(40003);
         }
         else {
             return null;
-        }*/
+        }
+        //return SkillTypeList.instance.GetData(40003);
+    }
+
+    public SkillTypeInfo GetOneBadSkill()
+    {
+        
         return SkillTypeList.instance.GetData(40003);
     }
 
