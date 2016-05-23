@@ -9,6 +9,7 @@ public interface IAnimatorEventCalled {
     void CreatureAnimCall(int i, CreatureBase script);
     void TakeDamageAnim(int isPhysical);
     void AttackCalled(int i);
+    void SoundMake(string src);
 }
 
 public class AnimatorEventScript : MonoBehaviour {
@@ -61,6 +62,10 @@ public class AnimatorEventScript : MonoBehaviour {
 
     public void TakeDamageAnim(int isPhysical) {
         target.TakeDamageAnim(isPhysical);
+    }
+
+    public void SoundMake(string src) {
+        target.SoundMake(src);
     }
 
 }

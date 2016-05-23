@@ -317,6 +317,33 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         SetFace(defaultFace);
     }
 
+    public void PlaySoundOneShot(string src) {
+        if (this.model is AgentModel)
+        {
+            AgentUnit unit = AgentLayer.currentLayer.GetAgent(model.instanceId);
+            unit.PlaySound(src, null, false);
+        }
+        else
+        {
+            OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(model.instanceId);
+            unit.PlaySound(src, null, false);
+        }
+    }
+
+    public void PlaySound(string src, string key, bool isLoop)
+    {
+        if (this.model is AgentModel)
+        {
+            AgentUnit unit = AgentLayer.currentLayer.GetAgent(model.instanceId);
+            unit.PlaySound(src, key, isLoop);
+        }
+        else
+        {
+            OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(model.instanceId);
+            unit.PlaySound(src, key, isLoop);
+        }
+    }
+
     public void TakeDamageAnim(int isPhysical) {
 
         if (this.model is AgentModel)
@@ -383,4 +410,7 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         ge.transform.SetParent(this.body.gameObject.transform);
         ge.transform.localPosition = Vector3.zero;
     }
+
+
+    public void SoundMake(string src) { }
 }

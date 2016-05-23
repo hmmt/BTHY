@@ -29,6 +29,7 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
     {
         
         Animator agentAnim = null;
+        Debug.Log(target.name);
         /*
         if (!this.skillReady)
         {
@@ -54,7 +55,8 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
 
         if (creatureAnimator == null)
         {
-            creatureAnimator = CreatureLayer.currentLayer.GetCreature(model.instanceId).creatureAnimator;
+            creatureAnimator = CreatureLayer.currentLayer.GetCreature(this.model.instanceId).animTarget.animator;
+                //CreatureLayer.currentLayer.GetCreature(model.instanceId).creatureAnimator;
             this.AnimatorEventInit();
         }
         
@@ -70,7 +72,7 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
             randVal = 0;
         }*/
 
-        if (randVal == 0) { 
+        if (randVal != 0) { 
             //fail
             //FailWorkDamage();
             this.success = false;
@@ -156,7 +158,8 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
     }
 
     public void OnCalled(int i) {
-        
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+        unit.room.SetShader(i);
     }
 
     public void AgentReset() { }
@@ -167,7 +170,7 @@ public class OneBadManyGoodSkill : CreatureSpecialSkill, IObserver, IAnimatorEve
     }
 
     public void TakeDamageAnim(int isPhysical) { }
-
+    public void SoundMake(string src) { }
     public void AttackCalled(int i)
     {
 

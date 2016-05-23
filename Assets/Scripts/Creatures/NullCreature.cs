@@ -713,7 +713,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     }
 
     public void TakeDamageAnim(int isPhysical) { }
-
+    public void SoundMake(string src) { }
     public void AttackCalled(int i)
     {
 

@@ -20,6 +20,8 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
     private bool killing = false;
     private bool dying = false;
 
+    public CreatureBase.CreatureTimer timer = new CreatureBase.CreatureTimer();
+
 	public Uncontrollable_RedShoes(WorkerModel model, RedShoesSkill redShoesSkill, int startType)
 	{
 		this.model = model;
@@ -43,6 +45,7 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	public override void Execute()
 	{
+        
         if (killing)
         {
             if (!model.GetMovableNode().IsMoving())

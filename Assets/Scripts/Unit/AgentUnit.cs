@@ -112,6 +112,8 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
     public bool dead = false;
 
+    Dictionary<string, SoundEffectPlayer> sounds = new Dictionary<string, SoundEffectPlayer>();
+
     //직원 대사
     string speech = "";
 
@@ -763,5 +765,29 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
             return true;
         }
         return false;
+    }
+
+    public void PlaySound(string src, string key, bool isLoop) {
+        SoundEffectPlayer output = null;
+
+        if (isLoop)
+        {
+            output = SoundEffectPlayer.Play(src, this.gameObject.transform);
+        }
+        else {
+            output = SoundEffectPlayer.PlayOnce(src, this.gameObject.transform.position);
+        }
+
+        if (key != null) {
+            this.sounds.Add(key, output);
+        }
+    }
+
+    public void StopSound(string key) {
+        SoundEffectPlayer sep = null;
+
+        if(this.sounds.TryGetValue(key, out sep)){
+            sep.Stop();
+        }
     }
 }

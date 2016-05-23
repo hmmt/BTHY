@@ -237,13 +237,47 @@ public class MatchGirl  : CreatureBase {
             CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
             this.weepingSound = unit.PlaySoundLoop(escape);
             this.walkingSound = unit.PlaySoundLoop(walking);
+
+            panicStartMove = true;
+            MapNode[] graph = MapGraph.instance.GetSefiraNodes(model.sefira);
+            model.MoveToNode(graph[graph.Length / 2]);
         }
 	}
 
 	public override void OnReturn ()
 	{
-		//model.energyPoint = 130;
-		//model.feeling = 130;
+        explosionStack = 0;
+        effectSystem.SetEffect(explosionStack);
+        escapeCall = false;
+        kill = false;
+        attackedAnimatorReset = false;
+        agentAttackedAnimEnd = false;
+        readyToSefiraEffect = false;
+        killingTarget = null;
+        targetAnimator = null;
+        exploded = false;
+        if (this.weepingSound != null) {
+
+            this.weepingSound.Stop();
+            this.weepingSound = null;
+        }
+
+        if (this.walkingSound != null) {
+            this.walkingSound.Stop();
+            this.walkingSound = null;
+        }
+        
+        CreatureUnit unit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
+
+        unit.ResetAnimatorTransform();
+        
+        if (stackAudio != null)
+        {
+            
+            stackAudio.Stop();
+            stackAudio = null;
+        }
+
 		model.AddFeeling(100);
 	}
 
@@ -338,40 +372,6 @@ public class MatchGirl  : CreatureBase {
             return;
         }
 
-        //unit.animTarget.SendMessage("Attack");
-		/*
-		skill.PauseWorking ();
-		//SoundEffectPlayer.PlayOnce("match_strike_1.wav", skill.targetCreature.transform.position);
-
-
-		OutsideTextEffect effect = OutsideTextEffect.Create (skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 8);
-		effect.transform.localScale = new Vector3(1.1f,1.1f,1);
-
-		// skill이 이미 release 될 상황 고려 필요
-		effect.GetComponent<DestroyHandler> ().AddReceiver (delegate() {skill.ResumeWorking();});
-
-
-		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1, 7)
-			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 2, 6)
-			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 3, 5)
-			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 4, 4)
-			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 5, 3)
-			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/matchgirl/01_matchGirl_enter_typo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 6, 2)
-			.transform.localScale = new Vector3(1.1f,1.1f,1);
-		*/
-
-        /*
-        skill.CheckLive();
-        if (skill.agent.isDead())
-        {
-            AgentUnit agentUnit = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId);
-            //agentUnit.animTarget.PlayMatchGirlDead();
-        }*/
 	}
 
     public void AddExplosionLevel() {
@@ -398,8 +398,6 @@ public class MatchGirl  : CreatureBase {
 
         //애니메이션 및 이펙트 재생
         
-
-        
         model.SendAnimMessage("Attack");
 
         this.currentSkill = skill;
@@ -424,7 +422,6 @@ public class MatchGirl  : CreatureBase {
         else {
             kill = false;
 
-            
             agentAnim.SetBool("Attack", true);
         }
 
@@ -468,19 +465,24 @@ public class MatchGirl  : CreatureBase {
 
     public override void UniqueEscape()
     {
-        if (model.GetCreatureCurrentCmd() == null)
+        if (model.GetMovableNode().IsMoving() == false && model.GetCreatureCurrentCmd() == null)
         {
-            if (panicStartMove) {
+            if (this.readyToSefiraEffect == false)
+            {
+                if (panicStartMove)
+                {
 
-                model.SendAnimMessage("SefiraExplosion");
-                SefiraExplosion();
-                ResetAfterExplosion();
+                    model.SendAnimMessage("SefiraExplosion");
+                    SefiraExplosion();
+                    //ResetAfterExplosion();
+                    panicStartMove = false;
+
+                    this.readyToSefiraEffect = true;
+                    return;
+                }
+
+                
             }
-
-            panicStartMove = true;
-            MapNode[] graph = MapGraph.instance.GetSefiraNodes(model.sefira);
-            model.MoveToNode(graph[graph.Length / 2]);
-
         }
         else {
             
@@ -489,14 +491,6 @@ public class MatchGirl  : CreatureBase {
 
     void SefiraExplosion() {
         System.Collections.Generic.List<WorkerModel> list = new System.Collections.Generic.List<WorkerModel>();
-
-        if (this.walkingSound != null) {
-            this.walkingSound.Stop();
-        }
-
-        if (this.weepingSound != null) {
-            this.walkingSound.Stop();
-        }
 
         foreach (AgentModel am in model.sefira.agentList) {
 			if (am.GetMovableNode().GetPassage() == MapGraph.instance.GetSefiraPassage(model.sefira.indexString))
@@ -537,16 +531,22 @@ public class MatchGirl  : CreatureBase {
             anim.SetBool(parameter, true);
         }
 
-        panicStartMove = false; 
-        this.walkingSound.Stop();
-        this.weepingSound.Stop();
-        this.walkingSound = null;
-        this.weepingSound = null;
-        this.readyToSefiraEffect = true;
+        panicStartMove = false;
+        if (walkingSound != null)
+        {
+            this.walkingSound.Stop();
+            this.walkingSound = null;
+        }
+
+        if (weepingSound != null)
+        {
+            this.weepingSound.Stop();
+            this.weepingSound = null;
+        }
     }
 
     void ResetAfterExplosion() {
-
+        Debug.Log("Boom");
         /*
         GameObject sefiraBoom = Prefab.LoadPrefab(this.sefiraEffect);
         sefiraBoom.transform.position = model.GetMovableNode().GetCurrentViewPosition();
@@ -561,8 +561,6 @@ public class MatchGirl  : CreatureBase {
         model.state = CreatureState.SUPPRESSED;
         InitExplosionLevel();
         effectSystem.EffectDisabled();
-
-        
     }
 
 
@@ -603,9 +601,10 @@ public class MatchGirl  : CreatureBase {
                 if (val == 2) time = 3f;
                 else time = 4f;
 
-                if (this.readyToSefiraEffect) {
-                    ResetAfterExplosion();
+                if (this.readyToSefiraEffect)
+                {
                     readyToSefiraEffect = false;
+                    ResetAfterExplosion();
                 }
 
                 if (this.currentSkill != null)

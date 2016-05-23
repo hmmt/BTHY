@@ -134,11 +134,14 @@ public class AnimatorManager : MonoBehaviour{
 
     public List<AnimatorComponet> staticLib;//참고용
     public List<AnimatorComponet> dynamicLib;//저장용
+
+    private List<AnimatorComponet> creautreLib;
     
     public AnimatorManager() {
         _instance = this;
         staticLib = new List<AnimatorComponet>();
         dynamicLib = new List<AnimatorComponet>();
+        creautreLib = new List<AnimatorComponet>();
         isLoaded = false;
     }
 
@@ -158,6 +161,15 @@ public class AnimatorManager : MonoBehaviour{
         component.name = "";
         component.InitTransform(animator);
         this.dynamicLib.Add(component);
+    }
+
+    public void SaveCreatureAnimator(long id, Animator animator) {
+        AnimatorComponet component = new AnimatorComponet();
+        component.id = id;
+        component.controller = animator.runtimeAnimatorController;
+        component.name = "";
+        component.InitTransform(animator);
+        this.creautreLib.Add(component);
     }
 
     public void SaveAnimator(long id, Animator animator, string name)
@@ -312,4 +324,17 @@ public class AnimatorManager : MonoBehaviour{
 			}
 		}
 	}
+
+    public void ResetCreatureAnimatorTransform(long id) {
+        AnimatorComponet output = null;
+
+        foreach (AnimatorComponet c in this.creautreLib) {
+            if (c.id == id) {
+                output = c;
+                output.ResetTransform();
+                break;
+            }
+            
+        }
+    }
 }
