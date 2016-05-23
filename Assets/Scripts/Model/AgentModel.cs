@@ -1299,12 +1299,12 @@ public class AgentModel : WorkerModel
             temp = "Optimist";
                 //격리실 개방
             break;
-		case PersonalityType.S:
-            temp = "Principlist";
+        case PersonalityType.S:
+            temp = "Pacifist";
                 //자살
             break;
 		case PersonalityType.C:
-            temp = "Pacifist";
+            temp = "Principlist";
                 //배회
             break;
         }

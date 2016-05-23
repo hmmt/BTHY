@@ -492,6 +492,6 @@ public class BigBird : CreatureBase, IAnimatorEventCalled{
     {
 
     }
-
+    public void SoundMake(string src) { }
     public void TakeDamageAnim(int isPhysical) { }
 }

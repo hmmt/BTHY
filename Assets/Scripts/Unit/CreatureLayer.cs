@@ -108,6 +108,13 @@ public class CreatureLayer : MonoBehaviour, IObserver {
 
         creatureList.Add(unit);
         creatureDic.Add(model.instanceId, unit);
+
+        if (unit.animTarget != null) {
+            if (unit.animTarget.animator != null) {
+                AnimatorManager.instance.SaveCreatureAnimator(model.instanceId, unit.animTarget.animator);
+            }
+        }
+        
     }
 
     public CreatureUnit GetCreature(long id)

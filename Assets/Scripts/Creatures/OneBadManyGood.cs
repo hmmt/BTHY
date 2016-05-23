@@ -29,6 +29,9 @@ public class OneBadManyGood : CreatureBase {
         if (skill.skillTypeInfo == GetSpecialSkill()) {
             //SpecialSkill
             Debug.Log("special skill");
+            OneBadManyGoodSkill oneSkill = this.skill as OneBadManyGoodSkill;
+
+            oneSkill.ReadySkill(true);
 
             this.skill.SkillActivate(skill.agent);
             return;
@@ -62,7 +65,7 @@ public class OneBadManyGood : CreatureBase {
         }
 
         if (creature.GetFeelingPercent() >= 50f
-            && !(this.skill as OneBadManyGoodSkill).GetSkillState()
+            //&& !(this.skill as OneBadManyGoodSkill).GetSkillState()
             ) {
                 (this.skill as OneBadManyGoodSkill).ReadySkill(true);
         }
@@ -72,14 +75,15 @@ public class OneBadManyGood : CreatureBase {
     public override SkillTypeInfo GetSpecialSkill()
     {
         OneBadManyGoodSkill currentSkill = this.skill as OneBadManyGoodSkill;
-
+        /*
         if (currentSkill.GetSkillState())
         {
             return SkillTypeList.instance.GetData(40003);
         }
         else {
             return null;
-        }
+        }*/
+        return SkillTypeList.instance.GetData(40003);
     }
 
     public override void OnRelease(UseSkill skill)

@@ -146,9 +146,16 @@
       <edge node1="redshoes" node2="workspace" type="road" />
       <edge node1="creature" node2="workspace" type="road" />
     </graph>
-    
+    <!--
     <sound action="attack" src="creature/red_shooes/redShooes_normal"/>
     <sound action="enter" src="creature/red_shooes/redShooes_enter"/>
+    -->
+
+    <sound action="laugh" src="creature/red_shooes/boy_laugh"/>
+    <sound action="stab" src="creature/red_shooes/Fights_Knife_Stab_01"/>
+    <sound action="walk1" src="creature/red_shooes/footstep_concrete_walk_01"/>
+    <sound action="walk2" src="creature/red_shooes/highHeel"/>
+    
   </info>
   
   <observe level ="3">

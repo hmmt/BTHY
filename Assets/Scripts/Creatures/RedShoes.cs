@@ -146,5 +146,4 @@ public class RedShoes : CreatureBase {
 		return false;
 	}
 
-    
 }

@@ -406,4 +406,8 @@ public class CreatureUnit : MonoBehaviour {
         mousePointEnter = false;
     }
 
+    public void ResetAnimatorTransform() {
+        //AnimatorManager.instance.ResetAnimatorTransform(this.model.instanceId);
+        AnimatorManager.instance.ResetCreatureAnimatorTransform(this.model.instanceId);
+    }
 }
