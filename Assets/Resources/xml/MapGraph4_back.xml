@@ -240,7 +240,7 @@
     <edge node1="dept-tessod-8" node2="dept-tessod-9" type="road" />
     <edge node1="right-way2" node2="right-way3" type="road" />
     <edge node1="right-elevator" node2="right-way3" type="door" />
-    <edge node1="left-way2" node2="left-way3" type="door" />
+    <edge node1="left-way2" node2="left-way3" type="road" />
     <edge node1="left-elevator" node2="left-way3" type="door" />
     <edge node1="center-way1" node2="center-way2" type="road" />
     <edge node1="center-way2" node2="m-y-elevator" type="door" />

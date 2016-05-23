@@ -1,6 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
+public class ToolMapPassage_bloodPoint
+{
+	public bool use;
+	public float height;
+	public List<string> sprites;
+
+	public ToolMapPassage_bloodPoint()
+	{
+		sprites = new List<string> ();
+	}
+}
+
 [ExecuteInEditMode]
 public class ToolMapPassage : MonoBehaviour {
 
@@ -10,6 +23,9 @@ public class ToolMapPassage : MonoBehaviour {
 	public PassageObject passageObject;
 
 	private string srcOld = "";
+
+	public ToolMapPassage_bloodPoint ground;
+	public ToolMapPassage_bloodPoint wall;
 
 	void Awake()
 	{

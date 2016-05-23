@@ -47,7 +47,7 @@ public class RedShoes : CreatureBase {
             }
         }
 
-		if (dropped)
+		if (dropped && owner == null)
 		{
 			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 			{
@@ -137,4 +137,5 @@ public class RedShoes : CreatureBase {
 		return false;
 	}
 
+    
 }

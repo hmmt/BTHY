@@ -249,9 +249,6 @@ public class MapGraph : IObserver
                     XmlNode passageXNode = attrs.GetNamedItem("x");
                     XmlNode passageYNode = attrs.GetNamedItem("y");
 
-					XmlNode passageGroundHeight = attrs.GetNamedItem ("ground");
-					//XmlNode passageGroundHeight = attrs.GetNamedItem ("");
-
 
                     PassageObjectModel passage = null;
 					if (passageSrcNode != null)
@@ -288,11 +285,23 @@ public class MapGraph : IObserver
 							if (groundHeight != null)
 								info.height = float.Parse (groundHeight.InnerText);
 
+							string[] paths = new string[] {
+								"Sprites/Blood/blood_ground_00",
+								"Sprites/Blood/blood_ground_01",
+								"Sprites/Blood/blood_ground_02"
+							};
+							foreach (string path in paths) {
+								Sprite groundSpr = ResourceCache.instance.GetSprite (path);
+
+								info.bloodSprites.Add (groundSpr);
+							}
+							/*
 							foreach (XmlNode groundSprNode in groundNode.SelectNodes("sprite")) {
 								Sprite groundSpr = ResourceCache.instance.GetSprite (groundSprNode.InnerXml);
 
 								info.bloodSprites.Add (groundSpr);
 							}
+							*/
 
 							passage.groundInfo = info;
 						}
@@ -305,11 +314,23 @@ public class MapGraph : IObserver
 							if (wallHeight != null)
 								info.height = float.Parse (wallHeight.InnerText);
 
+							string[] paths = new string[] {
+								"Sprites/Blood/blood_wall_00",
+								"Sprites/Blood/blood_wall_01",
+								"Sprites/Blood/blood_wall_02"
+							};
+							foreach (string path in paths) {
+								Sprite groundSpr = ResourceCache.instance.GetSprite (path);
+
+								info.bloodSprites.Add (groundSpr);
+							}
+							/*
 							foreach (XmlNode wallSprNode in wallNode.SelectNodes("sprite")) {
 								Sprite wallSpr = ResourceCache.instance.GetSprite (wallSprNode.InnerXml);
 
 								info.bloodSprites.Add (wallSpr);
 							}
+							*/
 
 							passage.wallInfo = info;
 						}

@@ -120,6 +120,48 @@ public class ToolMapRoot : MonoBehaviour {
 
 				sefiraNode.AppendChild (passageNode);
 
+				if(passage.ground != null && passage.ground.use)
+				{
+					XmlElement groundNode = doc.CreateElement ("ground");
+
+					XmlAttribute heightAttr = doc.CreateAttribute ("height");
+
+					heightAttr.InnerText = passage.ground.height.ToString();
+
+
+					foreach(string spriteSrc in passage.ground.sprites)
+					{
+						XmlElement spriteNode = doc.CreateElement ("sprite");
+
+						spriteNode.InnerText = spriteSrc;
+
+						groundNode.AppendChild(spriteNode);
+					}
+					groundNode.Attributes.Append(heightAttr);
+					passageNode.AppendChild(groundNode);
+				}
+
+				if(passage.wall != null && passage.wall.use)
+				{
+					XmlElement wallNode = doc.CreateElement ("wall");
+
+					XmlAttribute heightAttr = doc.CreateAttribute ("height");
+
+					heightAttr.InnerText = passage.wall.height.ToString();
+
+
+					foreach(string spriteSrc in passage.wall.sprites)
+					{
+						XmlElement spriteNode = doc.CreateElement ("sprite");
+
+						spriteNode.InnerText = spriteSrc;
+
+						wallNode.AppendChild(spriteNode);
+					}
+					wallNode.Attributes.Append(heightAttr);
+					passageNode.AppendChild(wallNode);
+				}
+
 				foreach (ToolMapNode mapNode in passage.GetComponentsInChildren<ToolMapNode>())
 				{
 					while (true) {
@@ -306,7 +348,38 @@ public class ToolMapRoot : MonoBehaviour {
 
 					if(passageTypeNode != null) passage.passageType = passageTypeNode.InnerText;
 
+					XmlNode groundNode = nodeGroup.SelectSingleNode("ground");
+					XmlNode wallNode = nodeGroup.SelectSingleNode("wall");
 
+					if (groundNode != null) {
+						ToolMapPassage_bloodPoint groundInfo = new ToolMapPassage_bloodPoint();
+
+						XmlNode groundHeight = groundNode.Attributes.GetNamedItem ("height");
+						if (groundHeight != null)
+							groundInfo.height = float.Parse (groundHeight.InnerText);
+
+						foreach (XmlNode groundSprNode in groundNode.SelectNodes("sprite")) {
+							groundInfo.sprites.Add(groundSprNode.InnerText);
+						}
+
+						groundInfo.use = true;
+						passage.ground = groundInfo;
+					}
+
+					if (wallNode != null) {
+						ToolMapPassage_bloodPoint wallInfo = new ToolMapPassage_bloodPoint();
+
+						XmlNode wallHeight = groundNode.Attributes.GetNamedItem ("height");
+						if (wallHeight != null)
+							wallInfo.height = float.Parse (wallHeight.InnerText);
+
+						foreach (XmlNode groundSprNode in groundNode.SelectNodes("sprite")) {
+							wallInfo.sprites.Add(groundSprNode.InnerText);
+						}
+
+						wallInfo.use = true;
+						passage.wall = wallInfo;
+					}
 
 					foreach (XmlNode node in nodeGroup.SelectNodes("node"))
 					{

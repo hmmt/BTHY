@@ -24,6 +24,12 @@ public enum PersonalityType
 	C
 }
 
+public enum AgentTouchType
+{
+	NORMAL,
+	LARGE_TOUCH
+}
+
 
 // 직원 데이터
 [System.Serializable]
@@ -146,6 +152,8 @@ public class AgentModel : WorkerModel
 
     private ValueInfo levelSetting;
     private AgentAIState state = AgentAIState.IDLE;
+
+	public AgentTouchType touchType = AgentTouchType.NORMAL;
     
     
     //public Sprite currentActionIcon;

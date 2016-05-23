@@ -11,7 +11,9 @@ public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 	private float waitTimer = 3.0f;
 
 	private bool wakeUp = false;
-	private float wakeUpTimer = 5.0f;
+	private float wakeUpTimer = 2.0f;
+
+	private float slowTimer = 0;
 
 	public Uncontrollable_RedShoesAttract(WorkerModel model, RedShoesSkill redShoesSkill)
 	{
@@ -42,6 +44,13 @@ public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 				redShoesSkill.FreeAttractedAgent (model);
 			}
 		}
+		else
+		{
+			if (slowTimer > 0)
+				slowTimer -= Time.deltaTime;
+			else
+				model.movementMul = 1;
+		}
 	}
 
 	public override void OnClick()
@@ -51,15 +60,18 @@ public class Uncontrollable_RedShoesAttract : UncontrollableAction {
 		
 		remainClicked--;
 
-		model.movementMul = 0.8f;
+		model.movementMul = 0.2f;
+		slowTimer = 1;
 
 		if (remainClicked <= 0)
 		{
-			//model.GetControl ();
-			//redShoesSkill.FreeAttractedAgent (model);
 			WakeUp();
 		}
-
+		else
+		{
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (model.instanceId);
+			agentView.CharRecoilInput (1);
+		}
 
 	}
 

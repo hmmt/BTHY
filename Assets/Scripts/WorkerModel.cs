@@ -312,6 +312,8 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
             //dead
 			OnDie ();
         }
+
+		MakeSpatteredBlood ();
     }
 
     public virtual void TakePhysicalDamageByCreature(float damage)
