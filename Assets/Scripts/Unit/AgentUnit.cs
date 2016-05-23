@@ -16,6 +16,7 @@ public class AgentUnitUI
     public bool Activated = false;
     public Image mental;
     public Image touchArea;
+	public Image touchAreaLarge;
     public Text Name;
 
     public RecoilEffectUI healthRecoil;
@@ -67,6 +68,8 @@ public class RecoilEffectUI :RecoilEffect{
 public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
     public AgentModel model;
+
+	private Vector3 recoilPosition = new Vector3 (0, 0, 0);
 
     public GameObject agentWindow;
     public GameObject agentAttackedAnimator;
@@ -313,10 +316,10 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 			if(visible)
 			{
 				visible = false;
-                Vector3 newPosition = model.GetCurrentViewPosition();
-                newPosition.z = 100000f;
-                transform.localPosition = newPosition;
 			}
+			Vector3 newPosition = model.GetCurrentViewPosition() + recoilPosition;
+			newPosition.z = 100000f;
+			transform.localPosition = newPosition;
 		}
 		else
 		{
@@ -324,12 +327,29 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 			{
 				visible = true;
 			}
-            Vector3 newPosition = model.GetCurrentViewPosition();
+			Vector3 newPosition = model.GetCurrentViewPosition() + recoilPosition;
             newPosition.z = zValue;
 			transform.localPosition = newPosition;
 		}
 	}
 
+
+	private void UpdateTouch()
+	{
+		//if (model.touchType == AgentTouchType.LARGE_TOUCH)
+		if(model.GetState() == AgentAIState.CANNOT_CONTROLL && model.unconAction is Uncontrollable_RedShoesAttract)
+		{
+			ui.touchAreaLarge.gameObject.SetActive (true);
+			RectTransform rt = ui.touchAreaLarge.GetComponent<RectTransform>();
+			Vector3 pos = rt.localPosition;
+			pos.z = -10000f;
+			rt.localPosition = pos;
+		}
+		else
+		{
+			ui.touchAreaLarge.gameObject.SetActive (false);
+		}
+	}
 	////
 
 	private float waitTimer = 0;
@@ -475,6 +495,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         }
 		UpdateViewPosition();
 		UpdateDirection();
+		UpdateTouch ();
 		///SetCurrentHP (model.hp);
 		//UpdateMentalView ();
         /*
@@ -676,6 +697,27 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         }
     }
 
+	public void CharRecoilInput(int level)
+	{
+		RecoilEffect recoil = null;
+		recoil = new RecoilEffect ();
+		//recoil.targetTransform = puppetNode.transform;
+		recoil.scale = 0.05f;
+
+		List<RecoilArrow> arrowList = 
+			RecoilEffectUI.MakeRecoilArrow(level * recoil.recoilCount);
+		
+		Queue<Vector3> queue = new Queue<Vector3>();
+		foreach (RecoilArrow arrow in arrowList) {
+			queue.Enqueue (RecoilEffectUI.GetVector (arrow, new Vector3 (0, 0, 0), recoil.scale));
+		}
+		queue.Enqueue (new Vector3 (0, 0, 0));
+		if (this.gameObject.activeSelf) {
+
+			StartCoroutine(CharRecoil(queue, recoil));
+		}
+	}
+
     IEnumerator UIRecoil(Queue<Vector3> queue, RecoilEffectUI recoil) {
         int val = queue.Count;
         float step = recoil.maxTime / val;
@@ -687,6 +729,18 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         }
         recoil.rect.localPosition = queue.Dequeue();
     }
+
+	IEnumerator CharRecoil(Queue<Vector3> queue, RecoilEffect recoil) {
+		int val = queue.Count;
+		float step = recoil.maxTime / val;
+
+		while (queue.Count > 1)
+		{
+			yield return new WaitForSeconds(step);
+			recoilPosition = queue.Dequeue();
+		}
+		recoilPosition = queue.Dequeue();
+	}
 
 
 

@@ -109,14 +109,14 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		{
 			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 			{
-				if (!shoes.dropFinished)
+				if (!shoes.dropFinished || shoes.owner != null)
 					break;
 				if (agent.isDead () || agent.IsPanic())
 					continue;
 				if (agent.gender == "Female")
 				//if (agent.GetMovableNode ().GetPassage () == droppedPassage)
 				{
-					if ((agent.GetCurrentViewPosition () - shoes.droppedShoesPosition).sqrMagnitude < 2)
+					if ((agent.GetCurrentViewPosition () - shoes.droppedShoesPosition).sqrMagnitude < 4)
 					{	
 						Debug.Log ("infect!!!!");
 
@@ -128,6 +128,10 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 						shoes.dropped = false;
 						shoes.dropFinished = false;
 						break;
+					}
+					else if((agent.GetCurrentViewPosition () - shoes.droppedShoesPosition).sqrMagnitude < 14)
+					{
+						agent.MoveToMovable (shoes.droppedPositionNode);
 					}
 				}
 			}
@@ -193,6 +197,8 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 		this.attractTargetAgent = null;
 		this.isAcquired = false;
 
+		target.ResetAnimator ();
+		/*
 		if (target is AgentModel)
 		{
 			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (attractTargetAgent.instanceId);
@@ -211,7 +217,7 @@ public class RedShoesSkill : CreatureSpecialSkill, IObserver{
 
 			//officerView.SetAnimatorChanged (false);
 		}
-
+		*/
 
 	}
 
