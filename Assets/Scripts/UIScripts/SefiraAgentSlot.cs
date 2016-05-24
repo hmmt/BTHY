@@ -46,7 +46,9 @@ public class SefiraAgentSlot : MonoBehaviour {
 
 
         //ListSlotScript script = AgentListScript.instance.findListSlotScript(unit);
-        AgentManager.instance.deactivateAgent(unit);
+
+        //AgentManager.instance.deactivateAgent(unit);
+		unit.SetCurrentSefira("0");
         //Window call
         AgentAllocateWindow.instance.ChangedAgentSefira(unit, unit.currentSefira);
 
@@ -114,7 +116,6 @@ public class SefiraAgentSlot : MonoBehaviour {
             //Debug.Log(copied);
             AgentModel agentModel = model[copied];
 
-            agentModel.GetPortrait("body", null);
             slot[copied].Bg.sprite = bgImage[1];
             slot[copied].agentBody.sprite = slot[copied].headImg;
             slot[copied].agentFace.sprite = agentModel.tempFaceSprite;

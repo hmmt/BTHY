@@ -100,9 +100,11 @@ public class AgentList : MonoBehaviour, ICollectionWindow {
             }*/
             AgentModel copied = unit;
            // slotPanel.agentInfoButton.onClick.AddListener(() => AgentStatusOpen(copied));
+			/*
             slotPanel.body.sprite = ResourceCache.instance.GetSprite(unit.bodyImgSrc);
             slotPanel.face.sprite = ResourceCache.instance.GetSprite(unit.faceImgSrc);
             slotPanel.hair.sprite = ResourceCache.instance.GetSprite(unit.hairImgSrc);
+            */
             slotPanel.skill[0].sprite = copied.WorklistSprites[0];
             slotPanel.skill[1].sprite = copied.WorklistSprites[1];
             slotPanel.skill[2].sprite = copied.WorklistSprites[2];

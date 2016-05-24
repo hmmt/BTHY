@@ -234,7 +234,8 @@ public class CreatureUnit : MonoBehaviour {
 
     void Start()
     {
-		if (model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN)
+		if (model.canBeSuppressed &&
+			(model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN) )
         {
             //spriteRenderer.gameObject.SetActive(false);
 			if(animTarget != null)
@@ -257,14 +258,14 @@ public class CreatureUnit : MonoBehaviour {
 
     void OnChangeState()
     {
-		if (model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN)
+		if (model.canBeSuppressed &&
+			(model.state == CreatureState.SUPPRESSED || model.state == CreatureState.SUPPRESSED_RETURN) )
         {
 			if(animTarget != null)
 				animTarget.gameObject.SetActive(false);
             returnSpriteRenderer.gameObject.SetActive(true);
         }
-		//else if (model.state != CreatureState.SUPPRESSED && oldState == CreatureState.SUPPRESSED)
-		else if (model.state != CreatureState.SUPPRESSED)
+		else
         {
 			if(animTarget != null)
 				animTarget.gameObject.SetActive(true);
@@ -304,6 +305,22 @@ public class CreatureUnit : MonoBehaviour {
         }
         return output;
     }
+
+    public SoundEffectPlayer PlaySound(string soundKey, AudioRolloffMode mode)
+    {
+        string soundFilename;
+        SoundEffectPlayer output = null;
+        if (model.metaInfo.soundTable.TryGetValue(soundKey, out soundFilename))
+        {
+            output = SoundEffectPlayer.PlayOnce(soundFilename, transform.position, mode);
+        }
+        if (output == null)
+        {
+            Debug.Log("Error in sound founding");
+        }
+        return output;
+    }
+
 
     public SoundEffectPlayer PlaySoundLoop(string soundKey)
     {
@@ -406,4 +423,8 @@ public class CreatureUnit : MonoBehaviour {
         mousePointEnter = false;
     }
 
+    public void ResetAnimatorTransform() {
+        //AnimatorManager.instance.ResetAnimatorTransform(this.model.instanceId);
+        AnimatorManager.instance.ResetCreatureAnimatorTransform(this.model.instanceId);
+    }
 }

@@ -22,6 +22,7 @@ public class AgentSpeech : MonoBehaviour {
     private string copy;
     Sprite currentBg;
     Sprite renderingTarget;
+    TimerCallback currentTimer = null;
     
     public void Start() {
         //this.textItem.canvasRenderer.relativeDepth = this.textItem.transform.parent.GetComponent<CanvasRenderer>().relativeDepth + 2;
@@ -40,7 +41,8 @@ public class AgentSpeech : MonoBehaviour {
 
     public void FixedUpdate() {
 
-        if (textObject.gameObject.activeSelf) {
+        if (textObject.gameObject.activeSelf)
+        {
 
             if (Camera.main.orthographicSize < 8)
             {
@@ -52,7 +54,8 @@ public class AgentSpeech : MonoBehaviour {
                                                         currentSizedelta.y + spacingY);
                 this.textBackground.sprite = this.currentBg;
             }
-            else {
+            else
+            {
                 textItem.alignment = TextAnchor.MiddleCenter;
                 textItem.fontSize = initialFontSize * 3;
                 SetSpeech(". . . ");
@@ -60,6 +63,9 @@ public class AgentSpeech : MonoBehaviour {
                 bgRectTransform.sizeDelta = smallSizeDelta;
                 this.textBackground.sprite = this.BgSprite[0];
             }
+        }
+        else {
+            currentTimer = null;
         }
     }
 
@@ -88,28 +94,48 @@ public class AgentSpeech : MonoBehaviour {
     public void showSpeech(string speech)
     {
         copy = speech;
-        if (!textObject.gameObject.activeSelf){
+        if (!textObject.gameObject.activeSelf)
+        {
             SetSpeech(copy);
             textObject.gameObject.SetActive(true);
-            TimerCallback.Create(5.0f, textObject.gameObject, delegate()
+            currentTimer = TimerCallback.Create(5.0f, textObject.gameObject, delegate()
             {
                 textObject.gameObject.SetActive(false);
             });
         }
+        else
+        {
+            if (currentTimer != null)
+            {
+                SetSpeech(copy);
+                currentTimer.ExpandTime(5.0f);
+            }
+        }
 
     }
-     
-    public void showSpeech(string speech, float time) {
+
+    public void showSpeech(string speech, float time)
+    {
         copy = speech;
         if (!textObject.gameObject.activeSelf)
         {
             SetSpeech(copy);
             textObject.gameObject.SetActive(true);
-            TimerCallback.Create(time, textObject.gameObject, delegate()
+            currentTimer = TimerCallback.Create(time, textObject.gameObject, delegate()
             {
                 textObject.gameObject.SetActive(false);
             });
+
         }
+        else {
+            if (currentTimer != null)
+            {
+                SetSpeech(copy);
+                currentTimer.ExpandTime(time);
+            }
+        }
+        
+
 
     }
 

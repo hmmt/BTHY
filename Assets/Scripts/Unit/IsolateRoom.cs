@@ -49,6 +49,8 @@ public class IsolateRoom : MonoBehaviour, IObserver {
     public TextMesh creatureLevel;
     public TextMesh creatureName;
 
+    public SpriteRenderer shader;
+
     public UnityEngine.UI.Text FeelingTextForDebug;
 
     public void Awake()
@@ -97,7 +99,7 @@ public class IsolateRoom : MonoBehaviour, IObserver {
 
     public void Init()
     {
-
+        SetShader(0);
         roomSpriteRenderer.transform.localScale = new Vector3(0.16f, 0.16f, 1);
         float sizex = Mathf.Max(
             roomSpriteRenderer.sprite.bounds.size.x * roomSpriteRenderer.gameObject.transform.localScale.x,
@@ -376,5 +378,12 @@ public class IsolateRoom : MonoBehaviour, IObserver {
             roomFogRenderer.color = color;
         }
 	}
+
+    public void SetShader(float value) {
+        Color shaderColor = this.shader.color;
+
+        shaderColor.a = value;
+        shader.color = shaderColor;
+    }
 
 }

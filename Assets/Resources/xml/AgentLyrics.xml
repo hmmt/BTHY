@@ -225,7 +225,39 @@ type 8 : 동료가 직웠을 때 슬퍼하는 직원들-->
       <item level="3" desc="아무런 반응을 보이지 않아."/>
       <item level="4" desc="테디의 고개가 힘없이 떨궈진다."/>
       <item level="5" desc="이 이상으로 나빠질 수 없겠군."/>
+
     </creature>
+
+    <creature id="100003">
+      <action type="start">
+        <desc>이건 내거야, 아무 한테도 못 줘.</desc>
+        <desc>도끼, 도끼가 어디있지?</desc>
+      </action>
+
+      <action type="dead">
+        <desc>내놔.. 돌려줘!</desc>
+        <desc>내게서 그걸 빼앗지 마...</desc>
+      </action>
+
+      <action type="attack">
+        <desc>내 구두를 뺏으려고 온거지?</desc>
+        <desc>죽어, 죽어, 죽어, 죽어.</desc>
+        <desc>다리를 짓이겨줄게. 다시는 춤 추지 못하도록.</desc>
+      </action>
+
+      <action type="walk">
+        <desc>다들 어딨어?</desc>
+        <desc>모두들 나를 봐. 아주 예쁜 구두를 신었거든.</desc>
+      </action>
+
+      <action type="kill">
+        <desc>말했잖아, 못 준다고.</desc>
+        <desc>구두에 피가 묻어서 더 예뻐졌네.</desc>
+      </action>
+
+    </creature>
+    
+    
   </creatureAction>
 
 </root>

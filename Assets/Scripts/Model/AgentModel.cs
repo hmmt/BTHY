@@ -24,12 +24,18 @@ public enum PersonalityType
 	C
 }
 
+public enum AgentTouchType
+{
+	NORMAL,
+	LARGE_TOUCH
+}
+
 
 // 직원 데이터
 [System.Serializable]
 public class AgentModel : WorkerModel
 {
-	public class SkillInfo
+	public class SkillInfo : ISerializablePlayData
 	{
 		public SkillTypeInfo skill;
 		public float delay;
@@ -39,15 +45,30 @@ public class AgentModel : WorkerModel
 			skill = info;
 			delay = 0;
 		}
+
+		public Dictionary<string, object> GetSaveData()
+		{
+			Dictionary<string, object> output = new Dictionary<string, object>();
+
+			output.Add ("skillId", skill.id);
+			output.Add ("delay", delay);
+
+			return output;
+		}
+
+		public void LoadData(Dictionary<string, object> dic)
+		{
+			long skillId = 0;
+			GameUtil.TryGetValue (dic, "skillId", ref skillId);
+			skill = SkillTypeList.instance.GetData (skillId);
+
+			if (skill == null)
+			{
+				Debug.Log ("skill not found >> " + skillId);
+			}
+			GameUtil.TryGetValue(dic, "delay", ref delay);
+		}
 	}
-
-    // 초기화 이외에는 사용하지 않고 있다.
-    //public AgentTypeInfo metadata;
-
-    public List<TraitTypeInfo> traitList;
-
-	// motion variables
-
 
 
 	//
@@ -71,8 +92,11 @@ public class AgentModel : WorkerModel
         }
     }
 
+	// SAVE data
+	public List<TraitTypeInfo> traitList;
+
     public int level;
-    public int workDays;
+    public int workDays = 1;
 
     public int expFail = 0;
     public int expSuccess = 0;
@@ -80,66 +104,59 @@ public class AgentModel : WorkerModel
     public int expMentalDamage = 0;
 
     public int defaultMaxHp;
-    public int traitMaxHp;
-
     public int defaultMaxMental;
-    public int traitMaxmental;
-
-    public int defaultMovement;
-    public float traitmovement;
+	public int defaultMovement;
 
     public int defaultWork;
-    public float traitWork;
     public int workSpeed; //
-
-    public string prefer;
-    public int preferBonus;
-    public string reject;
-    public int rejectBonus;
-
-    public int directBonus;
-    public int inDirectBonus;
-    public int blockBonus;
-
-	public PersonalityType agentLifeValue;
-
-    public int internalTrait=0;
-    public int externalTrait=0;
-    public int thinkTrait=0;
-    public int emotionalTrait=0;
 
 	public AgentWeapon weapon = AgentWeapon.NORMAL;
 
     public AgentHistory history;
-	/*
-    public SkillTypeInfo directSkill;
-    public SkillTypeInfo indirectSkill;
-    public SkillTypeInfo blockSkill;
-*/
-	private List<SkillTypeInfo> skillList;
-    private List<SkillCategory> skills;
 
-	// proto 
 	private List<SkillInfo> skillInfos;
 
-    //
-    public UseSkill currentSkill = null;
+	// ??
+    private List<SkillCategory> skills;
 
-    //활성화된 직원인가 체크
-    public bool activated;
+	public Sprite[] StatusSprites = new Sprite[4];
+	public Sprite[] WorklistSprites = new Sprite[3];
+	public Sprite tempHairSprite;
+	public SpriteInfo tempHairSpriteInfo;
+	public Sprite tempFaceSprite;
+	public SpriteInfo tempFaceSpriteInfo;
+    
+	// SAVE data end
 
-    public bool workEndReaction = false;
+	// trait data
+	public int traitMaxHp;
+	public int traitMaxmental;
+	public float traitmovement;
+	public float traitWork;
+
+	public PersonalityType agentLifeValue;
+
+	public int internalTrait=0;
+	public int externalTrait=0;
+	public int thinkTrait=0;
+	public int emotionalTrait=0;
 
     // 이하 save 되지 않는 데이터들
+	public UseSkill currentSkill = null;
+
+	//활성화된 직원인가 체크
+	public bool activated;
+
+	public bool workEndReaction = false;
+
+
     private ValueInfo levelSetting;
     private AgentAIState state = AgentAIState.IDLE;
-    
-    public Sprite[] StatusSprites = new Sprite[4];
-    public Sprite[] WorklistSprites = new Sprite[3];
-    public Sprite tempHairSprite;
-    public Sprite tempFaceSprite;
 
-    public Sprite currentActionIcon;
+	public AgentTouchType touchType = AgentTouchType.NORMAL;
+    
+    
+    //public Sprite currentActionIcon;
 
     /// <summary>
     /// 임시 값, 성공확률
@@ -160,39 +177,37 @@ public class AgentModel : WorkerModel
 
     // path finding2
 
-    public AgentModel(int id, string area)
+    public AgentModel(int id)
     {
         movableNode = new MovableObjectNode(this);
         commandQueue = new WorkerCommandQueue(this);
 
         traitList = new List<TraitTypeInfo>();
-		skillList = new List<SkillTypeInfo> ();
 		skillInfos = new List<SkillInfo> ();
 
         skills = new List<SkillCategory>();
         
         instanceId = id;
-        //currentSefira = area;
+
         currentSefira = "0";
-        SetCurrentSefira(area);
-        movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
+		activated = false;
+
+		movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(SefiraName.Malkut));
         history = new AgentHistory();
 
-        successPercent = Random.Range(0, 90f);
+		Init ();
 
-        this.AddNewCategory(1);//initial Skill
-		/*
-		skillList.Add (SkillTypeList.instance.GetData (1));
-		skillList.Add (SkillTypeList.instance.GetData (2));
-		skillList.Add (SkillTypeList.instance.GetData (3));
+		//weapon = Random.Range (0, 2) == 1 ? AgentWeapon.SHIELD : AgentWeapon.GUN;
+		weapon = AgentWeapon.GUN;
+    }
 
-		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (1)));
-		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (2)));
-		skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (3)));
-		*/
+	public void Init()
+	{
+		successPercent = Random.Range(0, 90f);
+
+		//this.AddNewCategory(1);//initial Skill
 
 		List<int> values = new List<int> (new int[]{ 1, 2, 3, 4, 5 });
-		//List<int> values = new List<int> (new int[]{ 1, 2, 3});
 
 		for(int i=0; i<3; i++)
 		{
@@ -200,24 +215,64 @@ public class AgentModel : WorkerModel
 			int skillId = values [index];
 			values.RemoveAt (index);
 
-			skillList.Add (SkillTypeList.instance.GetData (skillId));
 			skillInfos.Add (new SkillInfo (SkillTypeList.instance.GetData (skillId)));
 		}
-
-		//weapon = Random.Range (0, 2) == 1 ? AgentWeapon.SHIELD : AgentWeapon.GUN;
-		weapon = AgentWeapon.GUN;
-    }
+	}
 
     public void SetModelSprite() {
-        tempHairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender);
-        tempFaceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite();
+        tempHairSpriteInfo = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender);
+		tempHairSprite = tempHairSpriteInfo.sprite;
+        tempFaceSpriteInfo = WorkerSpriteManager.instance.GetRandomFaceSprite();
+		tempFaceSprite = tempFaceSpriteInfo.sprite;
     }
 
     public override Dictionary<string, object> GetSaveData()
     {
+		/*
+		public List<TraitTypeInfo> traitList;
+
+		public int level;
+		public int workDays = 1;
+
+		public int expFail = 0;
+		public int expSuccess = 0;
+		public int expHpDamage = 0;
+		public int expMentalDamage = 0;
+
+		public int defaultMaxHp;
+		public int traitMaxHp;
+
+		public int defaultMaxMental;
+		public int traitMaxmental;
+
+		public int defaultMovement;
+		public float ;
+
+		public int defaultWork;
+		public float traitWork;
+		public int workSpeed; //
+
+		public PersonalityType agentLifeValue;
+
+		public int internalTrait=0;
+		public int externalTrait=0;
+		public int thinkTrait=0;
+		public int emotionalTrait=0;
+
+		public AgentWeapon weapon = AgentWeapon.NORMAL;
+
+		public AgentHistory history;
+
+		// proto 
+		private List<SkillInfo> skillInfos;
+
+		public Sprite[] StatusSprites = new Sprite[4];
+		public Sprite[] WorklistSprites = new Sprite[3];
+		public Sprite tempHairSprite;
+		public Sprite tempFaceSprite;
+		*/
         Dictionary<string, object> output = base.GetSaveData();
         output = history.GetSaveData(output);
-        //output.Add("traitList", 
         
         output.Add("level", level);
         output.Add("workDays", workDays);
@@ -227,35 +282,37 @@ public class AgentModel : WorkerModel
         output.Add("expHpDamage", expHpDamage);
         output.Add("expMentalDamage", expMentalDamage);
 
-        output.Add("prefer", prefer);
-        output.Add("preferBonus", preferBonus);
-        output.Add("reject", reject);
-        output.Add("rejectBonus", rejectBonus);
+		output.Add("defaultMaxHp", defaultMaxHp);
+		output.Add("defaultMaxMental", defaultMaxMental);
+		output.Add("defaultMovement", defaultMovement);
+		output.Add("defaultWork", defaultWork);
 
 		output.Add("workSpeed", workSpeed);
-    /*
-        output.Add("directSkillId", directSkill.id);
-        output.Add("indirectSkillId", indirectSkill.id);
-        output.Add("blockSkillId", blockSkill.id);
-*/
-        /*
-        BinaryFormatter bf = new BinaryFormatter();
-        MemoryStream stream = new MemoryStream();
-        bf.Serialize(stream, output);
-        return stream.ToArray();
-        */
+
+		//tempHairSprite.
+		output.Add("hairSprite", tempHairSpriteInfo.path);
+		output.Add("faceSprite", tempFaceSpriteInfo.path);
+
+
+		// trait Data
+		List<long> traitIdList = new List<long> ();
+
+		foreach (TraitTypeInfo trait in traitList) {
+			traitIdList.Add (trait.id);
+		}
+		output.Add ("traitIdList", traitIdList);
+
+		//output.Add("skillList", skillList);
 
         return output; 
     }
 
     public override void LoadData(Dictionary<string, object> dic)
     {
-        //BinaryFormatter bf = new BinaryFormatter();
-        //Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(stream);
         base.LoadData(dic);
 
-        //output.Add("traitList", 
         history.LoadData(dic);
+
         TryGetValue(dic, "level", ref level);
         TryGetValue(dic, "workDays", ref workDays);
 
@@ -264,23 +321,34 @@ public class AgentModel : WorkerModel
         TryGetValue(dic, "expHpDamage", ref expHpDamage);
         TryGetValue(dic, "expMentalDamage", ref expMentalDamage);
 
-        TryGetValue(dic, "prefer", ref prefer);
-        TryGetValue(dic, "preferBonus", ref preferBonus);
-        TryGetValue(dic, "reject", ref reject);
-        TryGetValue(dic, "rejectBonus", ref rejectBonus);
+		TryGetValue(dic, "defaultMaxHp", ref defaultMaxHp);
+		TryGetValue(dic, "defaultMaxMental", ref defaultMaxMental);
+		TryGetValue(dic, "defaultMovement", ref defaultMovement);
+		TryGetValue(dic, "defaultWork", ref defaultWork);
 
 		TryGetValue(dic, "workSpeed", ref workSpeed);
-		/*
-        long id = 0;
-        TryGetValue(dic, "directSkillId", ref id);
-        directSkill = SkillTypeList.instance.GetData(id);
-        id = 0;
-        TryGetValue(dic, "indirectSkillId", ref id);
-        indirectSkill = SkillTypeList.instance.GetData(id);
-        id = 0;
-        TryGetValue(dic, "blockSkillId", ref id);
-        blockSkill = SkillTypeList.instance.GetData(id);
-        */
+
+		string hairSpritePath = "";
+		TryGetValue(dic, "hairSprite", ref hairSpritePath);
+
+		tempHairSpriteInfo = new SpriteInfo(hairSpritePath, Resources.Load<Sprite>(hairSpritePath));
+		tempHairSprite = tempHairSpriteInfo.sprite;
+
+		string faceSpritePath = "";
+		TryGetValue(dic, "faceSprite", ref faceSpritePath);
+
+		tempFaceSpriteInfo = new SpriteInfo(faceSpritePath, Resources.Load<Sprite>(faceSpritePath));
+		tempFaceSprite = tempFaceSpriteInfo.sprite;
+
+		List<long> traitIdList = new List<long> ();
+		TryGetValue(dic, "traitIdList", ref traitIdList);
+		foreach (long traitId in traitIdList) {
+			applyTrait (TraitTypeList.instance.GetData (traitId));
+		}
+
+		// current status
+		TryGetValue(dic, "hp", ref hp);
+		TryGetValue(dic, "mental", ref mental);
     }
 
     private static bool tempPanic = false;
@@ -656,15 +724,6 @@ public class AgentModel : WorkerModel
     }
     */
 
-	public void AddSkill(SkillTypeInfo skill)
-	{
-		skillList.Add (skill);
-	}
-
-	public SkillTypeInfo[] GetSkillList()
-	{
-		return skillList.ToArray ();
-	}
 
 	public SkillInfo[] GetSkillInfos()
 	{
@@ -1009,6 +1068,7 @@ public class AgentModel : WorkerModel
 
 	public override void OnHitByWorker(WorkerModel worker)
 	{
+        base.OnHitByWorker(worker);
 		//if(agentLifeValue == 1)
 		{
 			if (state == AgentAIState.MANAGE || state == AgentAIState.OBSERVE)
@@ -1065,6 +1125,8 @@ public class AgentModel : WorkerModel
 
 	public override void OnDie()
 	{
+		if (invincible)
+			return;
         if (unconAction != null)
         {
             unconAction.OnDie();
@@ -1145,33 +1207,10 @@ public class AgentModel : WorkerModel
     {
         string old = currentSefira;
         currentSefira = sefira;
-        /*
-        switch (currentSefira)
-        {
-            case "0":
-                imgsrc = "Agent/Malkuth/0";
-                break;
-            case "1": 
-                imgsrc = "Agent/Malkuth/0"; 
-                break;
-            case "2": 
-                imgsrc = "Agent/Nezzach/00";
-                break;
-            case "3": 
-                imgsrc = "Agent/Hodd/00"; 
-                break;
-            case "4": 
-                imgsrc = "Agent/Yessod/00"; 
-                break;
-        }
-        if (currentSefira == "0")
-            bodyImgSrc = "Sprites/Agent/Body/Body_1_S_00";
-        else
-            bodyImgSrc = "Sprites/Agent/Body/Body_" + currentSefira + "_S_00";
-        */
         waitTimer = 0;
+		if (instanceId < 0)
+			return;
         Notice.instance.Send(NoticeName.ChangeAgentSefira, this, old);
-        AgentAllocateWindow.instance.ChangedAgentSefira(this, currentSefira);
     }
 
     public void Panic()
@@ -1298,12 +1337,12 @@ public class AgentModel : WorkerModel
             temp = "Optimist";
                 //격리실 개방
             break;
-		case PersonalityType.S:
-            temp = "Principlist";
+        case PersonalityType.S:
+            temp = "Pacifist";
                 //자살
             break;
 		case PersonalityType.C:
-            temp = "Pacifist";
+            temp = "Principlist";
                 //배회
             break;
         }
@@ -1340,6 +1379,15 @@ public class AgentModel : WorkerModel
 			
     }
 
+    public override void ShowCreatureActionSpeech(long creatureId, string key)
+    {
+        AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.instanceId);
+
+        string str = AgentLyrics.instance.GetCreatureReaction(creatureId).action.GetActionDesc(key).GetDescByRandom();
+
+        unit.showSpeech.showSpeech(str);
+        
+    }
 
     public int calc(int value, int standard)
     {
@@ -1486,6 +1534,8 @@ public class AgentModel : WorkerModel
         if (damageLevel < 1) damageLevel = 1;
         if (damageLevel > 5) damageLevel = 5;
         unit.UIRecoilInput(damageLevel, 0);
+
+
     }
 
     public override void TakePhysicalDamage(int damage, DamageType dmgType)
@@ -1513,7 +1563,6 @@ public class AgentModel : WorkerModel
     }
 
     public void AddSpecialSkill(SkillTypeInfo skill) {
-        this.skillList.Add(skill);
         this.skillInfos.Add(new SkillInfo(skill));
     }
 
@@ -1521,9 +1570,9 @@ public class AgentModel : WorkerModel
         //temporary;
         List<Sprite> output = new List<Sprite>();
         for (long i = 1; i <= 5; i++) {
-            foreach (SkillTypeInfo skill in model.skillList) {
-                if (skill.id == i) {
-                    int id = GetWorkIconId(skill);
+			foreach (SkillInfo skillInfo in model.skillInfos) {
+				if (skillInfo.skill.id == i) {
+					int id = GetWorkIconId(skillInfo.skill);
                     //Debug.Log(IconManager.instance.GetWorkIcon(id).id + " " + IconManager.instance.GetWorkIcon(id).defaultIndex);
                     //Debug.Log(IconManager.instance.GetWorkIcon(id).GetIcon(ManageWorkIconState.DEFAULT).icon.name);
                     Sprite s = IconManager.instance.GetWorkIcon(id).GetIcon(ManageWorkIconState.DEFAULT).icon;

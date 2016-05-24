@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection;
 
 
-public class AgentManager : IObserver {
+public class AgentManager : IObserver, ISerializablePlayData {
 
     public static string[] nameList
         = {
@@ -28,7 +28,7 @@ public class AgentManager : IObserver {
         }
 	}
 
-    private int nextInstId = 1;
+    private int nextInstId;
     private List<AgentModel> agentList;
     public List<AgentModel> agentListSpare;
 
@@ -36,21 +36,34 @@ public class AgentManager : IObserver {
 
     public List<AgentModel> agentListDead;
 
-    public int agentCount = 5;
+    public int agentCount;
 	
     public AgentManager()
 	{
         Init();
 	}
 
+	private void InitValues()
+	{
+		nextInstId = 1;
+		agentCount = 5;
+
+		agentList = new List<AgentModel>();
+		agentListSpare = new List<AgentModel> ();
+		agentListDead = new List<AgentModel> ();
+	}
     public void Init()
     {
-        agentList = new List<AgentModel>();
-        agentListSpare = new List<AgentModel>();
-        agentListDead = new List<AgentModel>();
-
-        Notice.instance.Observe(NoticeName.ChangeAgentSefira, this);
+		InitValues ();
+		Notice.instance.Observe(NoticeName.ChangeAgentSefira, this);
     }
+
+	public void Clear()
+	{
+		InitValues ();
+
+		Notice.instance.Send (NoticeName.ClearAgent);
+	}
 
     public AgentModel AddAgentModel()
     {
@@ -62,7 +75,7 @@ public class AgentManager : IObserver {
             return null;
         }
 
-        AgentModel unit = new AgentModel(nextInstId++, "1");
+        AgentModel unit = new AgentModel(nextInstId++);
 
         TraitTypeInfo RandomEiTrait = TraitTypeList.instance.GetRandomEITrait(unit.traitList);
         TraitTypeInfo RandomNfTrait = TraitTypeList.instance.GetRandomNFTrait(unit.traitList);
@@ -76,45 +89,18 @@ public class AgentManager : IObserver {
         unit.defaultMovement = info.movement;
         unit.defaultWork = info.work;
 
-        unit.gender = info.gender;
+		unit.gender = Random.Range(0, 2) == 1 ? "Female" : "Male";
+		//unit.gender = "Female";
 
         unit.SetModelSprite();
 
         unit.level = info.level;
-        unit.workDays = info.workDays;
 
-        unit.prefer = info.prefer;
-        unit.preferBonus = info.preferBonus;
-        unit.reject = info.reject;
-        unit.rejectBonus = info.rejectBonus;
-/*
-        unit.directSkill = info.directSkill;
-        unit.indirectSkill = info.indirectSkill;
-        unit.blockSkill = info.blockSkill;
-*/
-        /*
-		unit.AddSkill (info.directSkill);
-		unit.AddSkill (info.indirectSkill);
-		unit.AddSkill (info.blockSkill);
-        */
         unit.speechTable = new Dictionary<string, string>(info.speechTable);
-
-        unit.panicType = info.panicType;
         /*
         unit.sprite = ResourceCache.instance.GetSprite("Sprites/" + unit.imgsrc);
         */
 
-        unit.faceSpriteName = setRandomSprite(8);
-        unit.hairSpriteName = setRandomSprite(9);
-        unit.bodySpriteName = setRandomSprite(1);
-        unit.panicSpriteName = setRandomSprite(3);
-
-        unit.GetPortrait("hair",unit.hairSpriteName);
-        unit.GetPortrait("face", unit.faceSpriteName);
-        unit.GetPortrait("body", null);
-
-        unit.SetCurrentSefira("0");
-        unit.activated = false;
         agentListSpare.Add(unit);
 
         unit.applyTrait(RandomEiTrait);
@@ -144,78 +130,17 @@ public class AgentManager : IObserver {
         }
     }
 
-    public string setRandomSprite(int count)
-    {
-        int num = Random.Range(0, count);
-
-        if (num == 0)
-        {
-            return "A";
-        }
-
-        else if (num == 1)
-        {
-            return "B";
-        }
-
-        else if (num == 2)
-        {
-            return "C";
-        }
-
-        else if (num == 3)
-        {
-            return "D";
-        }
-
-        else if (num == 4)
-        {
-            return "E";
-        }
-
-        else if (num == 5)
-        {
-            return "F";
-        }
-
-        else if (num == 6)
-        {
-            return "C";
-        }
-
-        else if (num ==7)
-        {
-            return "H";
-        }
-        else if (num == 8)
-        {
-            return "I";
-        }
-
-        else if (num == 9)
-        {
-            return "J";
-        }
-
-
-        else
-        {
-            Debug.Log("스프라이트 범위 넘어감");
-            return "";
-        }
-    }
-
-    public void activateAgent(AgentModel unit, string sefira)
+    private void ActivateAgent(AgentModel unit)
     {
         unit.activated = true;
-        //Debug.Log("activated");
+		/*
         Sefira targetSefira = SefiraManager.instance.GetSefira(unit.currentSefira);
         if (targetSefira != null) {
-            //Debug.Log("AgentActivated");
             targetSefira.AddAgent(unit);
         }
+        */
         
-        unit.SetCurrentSefira(sefira);
+        //unit.SetCurrentSefira(sefira);
         agentListSpare.Remove(unit);
 
         Notice.instance.Observe(NoticeName.FixedUpdate, unit);
@@ -223,50 +148,28 @@ public class AgentManager : IObserver {
         Notice.instance.Send(NoticeName.AddAgent, unit);
     }
 
-    public void deactivateAgent(AgentModel unit)
+    private void DeactivateAgent(AgentModel unit)
     {
         unit.activated = false;
-        //Debug.Log("deactivated");
+		/*
         Sefira UnitSefira = SefiraManager.instance.GetSefira(unit.currentSefira);
         if (UnitSefira != null)
         {
             UnitSefira.RemoveAgent(unit);
         }
-        else {
-            return;
-        }
+        */
         
         Notice.instance.Remove(NoticeName.FixedUpdate, unit);
         agentList.Remove(unit);
         Notice.instance.Send(NoticeName.RemoveAgent, unit);
 
         agentListSpare.Add(unit);
-        unit.SetCurrentSefira("0");
+        //unit.SetCurrentSefira("0");
        
     }
 
     public void RemoveAgent(AgentModel model)
-    {/*
-        if (model.currentSefira == "1")
-        {
-            malkuthAgentList.Remove(model);
-        }
-
-        else if (model.currentSefira == "2")
-        {
-            nezzachAgentList.Remove(model);
-        }
-
-        else if (model.currentSefira == "3")
-        {
-            hodAgentList.Remove(model);
-        }
-
-        else if (model.currentSefira == "4")
-        {
-            yesodAgentList.Remove(model);
-        }
-        */
+    {
         Sefira sefira = SefiraManager.instance.GetSefira(model.currentSefira);
         sefira.RemoveAgent(model);
 
@@ -274,18 +177,6 @@ public class AgentManager : IObserver {
         agentList.Remove(model);
         //agentListDead.Add(model);
         Notice.instance.Send(NoticeName.RemoveAgent, model);
-    }
-
-    public void ClearAgent()
-    {
-        foreach (AgentModel model in agentList)
-        {
-            Notice.instance.Remove(NoticeName.FixedUpdate, model);
-            Notice.instance.Send(NoticeName.RemoveAgent, model);
-        }
-        AgentLayer.currentLayer.ClearAgent();
-
-        agentList = new List<AgentModel>();
     }
 	
     public AgentModel[] GetAgentList()
@@ -326,28 +217,19 @@ public class AgentManager : IObserver {
             list.Add(agentData);
         }
 
+		foreach (AgentModel agent in agentListSpare)
+		{
+			Dictionary<string, object> agentData = agent.GetSaveData();
+			list.Add(agentData);
+		}
+
         dic.Add("agentList", list);
 
         return dic;
-        /*
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/test.txt");
-        bf.Serialize(file, dic);
-        file.Close();
-        */
-    }
-    public void LoadData()
-    {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file =  File.Open(Application.persistentDataPath + "/test.txt", FileMode.Open);
-        Dictionary<string, object> dic = (Dictionary<string, object>)bf.Deserialize(file);
-        file.Close();
-
-        LoadData(dic);
     }
     public void LoadData(Dictionary<string, object> dic)
     {
-        TryGetValue(dic, "nextInstId", ref nextInstId);
+		TryGetValue(dic, "nextInstId", ref nextInstId);
 
         List<Dictionary<string, object>> agentDataList = new List<Dictionary<string,object>>();
         TryGetValue(dic, "agentList", ref agentDataList);
@@ -360,30 +242,14 @@ public class AgentManager : IObserver {
             TryGetValue(data, "currentSefira", ref sefira);
 
 
-            AgentModel model = new AgentModel(agentId, sefira);
+            AgentModel model = new AgentModel(agentId);
             model.LoadData(data);
+			agentListSpare.Add (model);
 
-            agentList.Add(model);
-
-            Notice.instance.Send(NoticeName.AddAgent, model);
+			model.SetCurrentSefira (sefira);
         }
     }
 
-	/*
-    public AgentModel[] GetNearAgents(MovableObjectNode node)
-    {
-        List<AgentModel> output = new List<AgentModel>();
-        foreach (AgentModel agent in agentList)
-        {
-            if (node.CheckInRange(agent.GetMovableNode()))
-            {
-                output.Add(agent);
-                
-            }
-        }
-        return output.ToArray();
-    }
-    */
 	public AgentModel[] GetNearAgents(MovableObjectNode node)
 	{
 		List<AgentModel> output = new List<AgentModel>();
@@ -414,18 +280,12 @@ public class AgentManager : IObserver {
     private void OnChangeAgentSefira(AgentModel agentModel, string oldSefira)
     {
         Sefira old, current;
-        /*
-        Debug.Log("Change");
-        if (oldSefira != "0") {
-            old = SefiraManager.instance.getSefira(oldSefira);
-            old.RemoveAgent(agentModel);
-        }
-        */
+
+
         old = SefiraManager.instance.GetSefira(oldSefira);
         if (old != null)
         {
             old.RemoveAgent(agentModel);
-            //deactivateAgent(agentModel);
         }
 
 
@@ -433,11 +293,16 @@ public class AgentManager : IObserver {
         if (current != null)
         {
             current.AddAgent(agentModel);
-            //activateAgent(agentModel, agentModel.currentSefira);
         }
-        else {
-            deactivateAgent(agentModel);
-        }
+
+		if (agentModel.activated && current == null )
+		{
+			DeactivateAgent (agentModel);
+		}
+		else if (!agentModel.activated && current != null)
+		{
+			ActivateAgent (agentModel);
+		}
 
         /*
 

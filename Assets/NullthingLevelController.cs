@@ -19,8 +19,8 @@ public class NullthingLevelController : MonoBehaviour {
         public SpriteRenderer Symbol;//if needed;
 
         public void Init() {
-            this.Face.sprite = WorkerSpriteManager.instance.GetRandomFaceSprite();
-            this.Hair.sprite = WorkerSpriteManager.instance.GetRandomHairSprite();
+			this.Face.sprite = WorkerSpriteManager.instance.GetRandomFaceSprite().sprite;
+			this.Hair.sprite = WorkerSpriteManager.instance.GetRandomHairSprite().sprite;
         }
 
         public void SetSprite(WorkerModel model) {

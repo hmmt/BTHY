@@ -14,19 +14,5 @@ public class AgentTypeInfo {
 	public int level;
 	public int workDays;
 
-	public string prefer;
-	public int preferBonus;
-
-	public string reject;
-	public int rejectBonus;
-
-	public SkillTypeInfo directSkill;
-	public SkillTypeInfo indirectSkill;
-	public SkillTypeInfo blockSkill;
-
-	public string imgsrc;
-
 	public Dictionary<string, string> speechTable;
-
-	public string panicType;
 }

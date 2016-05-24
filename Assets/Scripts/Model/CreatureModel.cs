@@ -44,37 +44,28 @@ public class ObserveInfo
 
 // 
 [System.Serializable]
-public class CreatureModel : UnitModel, IObserver
+public class CreatureModel : UnitModel, IObserver, ISerializablePlayData
 {
+	CreatureCommandQueue commandQueue;
     
+	// SAVE data
     public int instanceId;
 
-	CreatureCommandQueue commandQueue;
-
-	//public string escapeType = "attackWorker";
     public CreatureEscapeType escapeType = CreatureEscapeType.ATTACKWORKER;
-
-	// temp for proto
-	public float manageDelay = 0;
-
-	// lock
-	public int targetedCount = 0;
-
-	// buf
-	private float feelingChangeTime;
-	private float feelingChangeAmount;
-	private float feelingChangeElapsedTime;
-	//public float bufFeelingAddRate; // per second
+	public bool canBeSuppressed = true;
 
 	public float attackDelay = 0;
 
 	// for escape
 	public int hp;
 
-    // 메타데이터
+	// set by typeinfo start
     public CreatureTypeInfo metaInfo;
     
     public long metadataId; // metaInfo.id
+
+	public CreatureBase script;
+	// set by typeinfo end
 
     public Vector2 basePosition;
     //public Vector2 position;
@@ -87,7 +78,10 @@ public class CreatureModel : UnitModel, IObserver
     //환상체 나레이션 저장 List
     public List<string> narrationList;
 
-    // 이하 save 프錘않는 데이터들
+	// buf
+	private float feelingChangeTime;
+	private float feelingChangeAmount;
+	private float feelingChangeElapsedTime;
 
     public CreatureState state = CreatureState.WAIT;
     private UseSkill _currentSkill = null;
@@ -105,10 +99,6 @@ public class CreatureModel : UnitModel, IObserver
         }
     }
 
-    public CreatureBase script;
-
-    public MovableObjectNode lookAtTarget;
-
     // 세피라 변수 (TODO: 변수명 이상함)
     public string sefiraNum;
     public Sefira sefira;
@@ -117,6 +107,13 @@ public class CreatureModel : UnitModel, IObserver
 
     //환상체 기분 수치 관련
     public float feeling { get; private set; }//currentFeeling
+
+
+	// temp for proto
+	public float manageDelay = 0;
+
+	// lock
+	public int targetedCount = 0;
 
     // graph
 	public string entryNodeId;
@@ -136,6 +133,10 @@ public class CreatureModel : UnitModel, IObserver
         output.Add("entryNodeId", entryNodeId);
 
         output.Add("observeProgress", observeProgress);
+
+		output.Add ("sefiraNum", sefiraNum);
+
+		output.Add ("feeling", feeling);
 
         output.Add("basePosition", new Vector2Serializer(basePosition));
 
@@ -157,6 +158,12 @@ public class CreatureModel : UnitModel, IObserver
         GameUtil.TryGetValue(dic, "entryNodeId", ref entryNodeId);
 
         GameUtil.TryGetValue(dic, "observeProgress", ref observeProgress);
+
+		GameUtil.TryGetValue(dic, "sefiraNum", ref sefiraNum);
+
+		float loadFeeling = 0;
+		GameUtil.TryGetValue (dic, "feeling", ref loadFeeling);
+		feeling = loadFeeling;
 
         Vector2Serializer v2 = new Vector2Serializer();
         GameUtil.TryGetValue(dic, "basePosition", ref v2);

@@ -16,6 +16,12 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	private float killAnimationTime = 0;
 
+    private bool moving = false;
+    private bool killing = false;
+    private bool dying = false;
+
+    public CreatureBase.CreatureTimer timer = new CreatureBase.CreatureTimer();
+
 	public Uncontrollable_RedShoes(WorkerModel model, RedShoesSkill redShoesSkill, int startType)
 	{
 		this.model = model;
@@ -39,6 +45,20 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 	public override void Execute()
 	{
+        
+        if (killing)
+        {
+            if (!model.GetMovableNode().IsMoving())
+            {
+                Killing();
+            }
+            return;
+        }
+
+        if (dying) {
+            OnDie();
+        }
+
 		Notice.instance.Send (NoticeName.EscapeCreature);
 		if (startWaitTimer > 0) {
 			startWaitTimer -= Time.deltaTime;
@@ -69,6 +89,9 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 				|| ((AgentModel)model).GetCurrentCommand() == null) {
 				model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
 				waitTimer = 1.5f + Random.value;
+
+                AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
+                agentView.showSpeech.showSpeech(AgentLyrics.instance.GetCreatureReaction(this.redShoesSkill.model.metadataId).action.GetActionDesc("walk").GetDescByRandom());
 			}
 		}
 		else
@@ -77,10 +100,14 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 				|| ((OfficerModel)model).GetCurrentCommand() == null) {
 				model.MoveToNode (MapGraph.instance.GetSepiraNodeByRandom (model.currentSefira));
 				waitTimer = 1.5f + Random.value;
+
+                OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(model.instanceId);
+                officerView.showSpeech.showSpeech(AgentLyrics.instance.GetCreatureReaction(this.redShoesSkill.model.metadataId).action.GetActionDesc("walk").GetDescByRandom());
 			}
 		}
 
 		waitTimer -= Time.deltaTime;
+
 
 		if (target == null)
 		{
@@ -96,8 +123,11 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 
 			foreach (OfficerModel nearOfficer in nearsO)
 			{
-				if (nearOfficer != model)
-					filteredAgents.Add (nearOfficer);
+                if (nearOfficer != model)
+                {
+                    if (nearOfficer.state == OfficerAIState.SPECIALACTION) continue;
+                    filteredAgents.Add(nearOfficer);
+                }
 			}
 
 			if (filteredAgents.Count > 0)
@@ -107,8 +137,11 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 					((AgentModel)model).PursueUnconAgent (target);
 				else
 					((OfficerModel)model).PursueUnconAgent (target);
+
+                this.model.ShowCreatureActionSpeech(this.redShoesSkill.model.metadataId, "attack");
 			}
 		}
+
 	}
 
 	private void PurseAgent()
@@ -119,62 +152,146 @@ public class Uncontrollable_RedShoes : UncontrollableAction {
 	{
 	}
 
+    public void StartSettingPos() {
+        if(target == null) return;
+        killing = true;
+		model.SetInvincible (true);
+        /*
+        MapNode current = target.GetMovableNode().GetCurrentNode();
+        if (current == null)
+        {
+            MapEdge currentEdge = target.GetMovableNode().GetCurrentEdge();
+            MapNode left, right;
+
+            if (currentEdge.node1.GetPosition().x < currentEdge.node2.GetPosition().x)
+            {
+                left = currentEdge.node1;
+                right = currentEdge.node2;
+            }
+            else
+            {
+                left = currentEdge.node2;
+                right = currentEdge.node1;
+            }
+
+            if (target.GetMovableNode().GetDirection() == UnitDirection.RIGHT)
+            {
+                current = right;
+            }
+            else
+            {
+                current = left;
+            }
+        }
+        Debug.Log(current.GetId());*/
+        this.model.GetMovableNode().MoveToMovableNode(target.GetMovableNode());
+        
+    }
+
+    void Killing() {
+        if (target != null)
+        {
+            Transform targetTransform;
+            Transform modelTransform;
+            if (target is AgentModel)
+            {
+                AgentUnit agentView = AgentLayer.currentLayer.GetAgent(target.instanceId);
+
+                AnimatorManager.instance.ResetAnimatorTransform(target.instanceId);
+                AnimatorManager.instance.ChangeAnimatorByName(target.instanceId, AnimatorName.RedShoes_victim,
+                    agentView.puppetAnim, true, false);
+                targetTransform = agentView.puppetNode.transform;
+            }
+            else
+            {
+                OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(target.instanceId);
+
+                AnimatorManager.instance.ResetAnimatorTransform(target.instanceId);
+                AnimatorManager.instance.ChangeAnimatorByName(target.instanceId, AnimatorName.RedShoes_victim,
+                    officerView.puppetAnim, true, false);
+
+                //officerView.blockDir = true;
+                //target.HaltUpdate();
+
+                targetTransform = officerView.puppetNode.transform;
+
+            }
+
+            model.Stun(4);
+            killAnimationTime = 0.5f;
+
+            model.ShowCreatureActionSpeech(this.redShoesSkill.model.metadataId, "kill");
+
+            if (model is AgentModel)
+            {
+                AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
+                agentView.puppetAnim.SetBool("Kill", true);
+                modelTransform = agentView.puppetNode.transform;
+            }
+            else
+            {
+                OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(model.instanceId);
+                officerView.puppetAnim.SetBool("Kill", true);
+                modelTransform = officerView.puppetNode.transform;
+            }
+            /*
+            if (targetTransform.position.x < modelTransform.position.x)
+            {
+                Vector3 targetscale = targetTransform.localScale;
+                if (targetTransform.localScale.x > 0)
+                {
+                    targetscale.x = -targetscale.x;
+                    Debug.Log("뒤집는다");
+                }
+
+                targetTransform.localScale = targetscale;
+            }
+            else {
+                Vector3 targetscale = targetTransform.localScale;
+                if (targetTransform.localScale.x < 0) {
+                    targetscale.x = -targetscale.x;
+                    Debug.Log("뒤집는다");
+                }
+
+                targetTransform.localScale = targetscale;
+            }
+            */
+        }
+        target = null;
+        killing = false;
+		model.SetInvincible (false);
+    }
+
 	public void OnKill()
 	{
-		if (target != null)
-		{
-			if (target is AgentModel)
-			{
-				AgentUnit agentView = AgentLayer.currentLayer.GetAgent (target.instanceId);
-
-				AnimatorManager.instance.ResetAnimatorTransform (target.instanceId);
-				AnimatorManager.instance.ChangeAnimatorByName (target.instanceId, AnimatorName.RedShoes_victim,
-					agentView.puppetAnim, true, false);
-			}
-			else
-			{
-				OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (target.instanceId);
-
-				AnimatorManager.instance.ResetAnimatorTransform (target.instanceId);
-				AnimatorManager.instance.ChangeAnimatorByName (target.instanceId, AnimatorName.RedShoes_victim,
-					officerView.puppetAnim, true, false);
-			}
-
-			model.Stun (4);
-			killAnimationTime = 0.5f;
-
-			if (model is AgentModel)
-			{
-				AgentUnit agentView = AgentLayer.currentLayer.GetAgent (model.instanceId);
-
-				//agentView.animTarget.SetParameterOnce
-				agentView.puppetAnim.SetBool("Kill", true);
-			}
-			else
-			{
-				OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (model.instanceId);
-
-				officerView.puppetAnim.SetBool ("Kill", true);
-			}
-		}
-		target = null;
+        StartSettingPos();
 	}
 
 	public override void OnDie()
 	{
+        dying = true;
+        if (this.killing) {
+            return;
+        }
+        dying = false;
 		redShoesSkill.OnInfectedTargetTerminated ();
+
+        model.ShowCreatureActionSpeech(this.redShoesSkill.model.metadataId, "dead");
+		model.animationMessageRecevied = redShoesSkill.model.script;
 
 		if (model is AgentModel)
 		{
 			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (model.instanceId);
 
-			agentView.SetParameterOnce ("Suppressed", true);
+			agentView.puppetAnim.SetBool ("Kill", false);
+			agentView.puppetAnim.SetBool ("Suppressed", true);
 		}
 		else
 		{
 			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (model.instanceId);
 
-			officerView.SetParameterOnce ("Suppressed", true);
+			officerView.puppetAnim.SetBool ("Kill", false);
+			officerView.puppetAnim.SetBool ("Suppressed", true);
 		}
 	}
 

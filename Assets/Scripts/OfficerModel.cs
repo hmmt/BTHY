@@ -28,13 +28,15 @@ public class OfficerModel : WorkerModel {
 		get{ return _state;}
 		set{ _state = value; }
 	}
+
+    
     private OfficerUnit _unit;
 
     public OfficerModel(int id, string area) {
         commandQueue = new WorkerCommandQueue(this);
 
         instanceId = id;
-        currentSefira = sefira = area;
+        currentSefira = area;
         movableNode = new MovableObjectNode(this);
         movableNode.SetCurrentNode(MapGraph.instance.GetSepiraNodeByRandom(area));
         recoveryRate = 2;
@@ -45,8 +47,8 @@ public class OfficerModel : WorkerModel {
 
     public void SetModelSprite()
     {
-        hairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender);
-        faceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite();
+		hairSprite = WorkerSpriteManager.instance.GetRandomHairSprite(this.gender).sprite;
+		faceSprite = WorkerSpriteManager.instance.GetRandomFaceSprite().sprite;
     }
 
     public override void OnFixedUpdate()
@@ -115,8 +117,8 @@ public class OfficerModel : WorkerModel {
         else if (state == OfficerAIState.IDLE && waitTimer <= 0 && !isMoving)
         {
             //make next status
-            //int randState = UnityEngine.Random.Range(0, 6);
-            int randState = 5;
+            int randState = UnityEngine.Random.Range(0, 6);
+            //int randState = 5;
             switch (randState)
             {
                 case 0:
@@ -282,7 +284,9 @@ public class OfficerModel : WorkerModel {
                 OfficerSpecialAction.PosData posData = currentSpecialAction.GetPos();
                 this.lookingDir = posData.dir;
 
-                _unit.MannualMovingCall(new Vector3(posData.pos.x, posData.pos.y, _unit.transform.localPosition.z), true, currentSpecialAction.shouldMove, false);
+                //_unit.MannualMovingCall(new Vector3(posData.pos.x, posData.pos.y, _unit.transform.localPosition.z), true, currentSpecialAction.shouldMove, false);
+                _unit.MannualMovingCall(new Vector3(posData.pos.x, posData.pos.y, OfficerUnit.backZVal),true, true, true, true, true, 0.01f);
+                //_unit.MannualMovingCall(new Vector3(posData.pos.x, posData.pos.y, _unit.transform.localPosition.z + 1000), true, 20, 1f, true, 0.9f);
                 this.OnWorkEndFlag = false;
                 /*
                 Sefira sefira = SefiraManager.instance.GetSefira(this.currentSefira);
@@ -325,7 +329,15 @@ public class OfficerModel : WorkerModel {
     }
 
     public void SpecialActionReturn() {
+        /*
         _unit.MannualMovingCall(this.currentSpecialAction.GetNode().GetPosition(), false, this.currentSpecialAction.shouldMove, false);
+         */
+        //ㅇ러일ㅇ말
+        Vector3 pos = this.currentSpecialAction.GetNode().GetPosition();
+        pos.z = _unit.zValue;
+        _unit.MannualMovingCall(pos,false, true, true, true, false, 0.01f);
+        
+        //_unit.MannualMovingCall(pos, true, 20, 1f, true, 1f);
     }
 
     public void EndSpecialAction() {
@@ -369,11 +381,51 @@ public class OfficerModel : WorkerModel {
 	{
 		state = OfficerAIState.IDLE;
 		commandQueue.Clear();
+       
+        if (isMoving) isMoving = false;
+        if (lookingDir != LOOKINGDIR.NOCARE) lookingDir = LOOKINGDIR.NOCARE;
+        if (this.chatTarget != null) this.chatTarget = null;
+        if (this.chatWaiting == true) this.chatWaiting = true;
+
+        if (this.currentSpecialAction != null) {
+            //SpecialActionReturn();
+            this.currentSpecialAction = null;
+        }
 	}
+
+    public override void TakePhysicalDamage(int damage, DamageType dmgType)
+    {
+        base.TakePhysicalDamage(damage, dmgType);
+        StopAction();
+        //_unit.puppetAnim.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
+        
+    }
+
+    public override void OnHitByWorker(WorkerModel worker)
+    {
+        //this._attackedWorker = worker;
+        base.OnHitByWorker(worker);
+    }
+
+    public override void TakePhysicalDamageByCreature(float damage)
+    {
+        base.TakePhysicalDamageByCreature(damage);
+        StopAction();
+        //_unit.puppetAnim.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
+    }
+
+    public override void ShowCreatureActionSpeech(long creatureID, string key)
+    {
+        _unit.showSpeech.showSpeech(AgentLyrics.instance.GetCreatureReaction(creatureID).action.GetActionDesc(key).GetDescByRandom());
+    }
 
     public override void TakeMentalDamage(int damage)
     {
         base.TakeMentalDamage(damage);
+        StopAction();
+        
+        //_unit.puppetAnim.SetInteger("MentalAttacked", UnityEngine.Random.Range(1, 4));
+
         if (mental <= 0)
         {
             Panic();

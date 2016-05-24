@@ -42,7 +42,6 @@ public class MapGraph : IObserver
     public MapGraph()
     {
         loaded = false;
-        
     }
 
     public MapNode GetNodeById(string id)
@@ -196,21 +195,7 @@ public class MapGraph : IObserver
 	{
 		if (loaded)
 			return;
-		/*
-		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapNodeList");
-		XmlDocument doc = new XmlDocument();
-		doc.LoadXml(textAsset.text);
-
-		XmlNode nodeXml = doc.SelectSingleNode ("/node_list");
-
-		textAsset = Resources.Load<TextAsset>("xml/MapEdgeList");
-		doc = new XmlDocument();
-		doc.LoadXml(textAsset.text);
-
-		XmlNode edgeXml = doc.SelectSingleNode ("/edge_list");
-
-		*/
-
+		
 		TextAsset textAsset = Resources.Load<TextAsset>("xml/MapGraph4");
 		//TextAsset textAsset = Resources.Load<TextAsset>("xml/TrailerTest4");
 		XmlDocument doc = new XmlDocument();
@@ -223,11 +208,6 @@ public class MapGraph : IObserver
 	public void LoadMap(XmlNode nodeRoot, XmlNode edgeRoot)
     {
 		int groupCount = 1;
-
-		/*
-        XmlDocument doc = new XmlDocument();
-		doc.LoadXml(xmlText);
-		*/
 
 		XmlNodeList areaNodes = nodeRoot.SelectNodes("area");
 
@@ -269,9 +249,6 @@ public class MapGraph : IObserver
                     XmlNode passageXNode = attrs.GetNamedItem("x");
                     XmlNode passageYNode = attrs.GetNamedItem("y");
 
-					XmlNode passageGroundHeight = attrs.GetNamedItem ("ground");
-					//XmlNode passageGroundHeight = attrs.GetNamedItem ("");
-
 
                     PassageObjectModel passage = null;
 					if (passageSrcNode != null)
@@ -281,6 +258,7 @@ public class MapGraph : IObserver
                         if (passageXNode != null) x = float.Parse(passageXNode.InnerText);
                         if (passageYNode != null) y = float.Parse(passageYNode.InnerText);
 						passage = new PassageObjectModel(groupName, areaName, passageSrcNode.InnerText);
+						//passage = new PassageObjectModel(groupName, areaName, "Map/Passage/PassageHallwayHub");
                         passage.position = new Vector3(x, y, 0);
 
                         XmlNode passageTypeNode = attrs.GetNamedItem("passageType");
@@ -307,11 +285,23 @@ public class MapGraph : IObserver
 							if (groundHeight != null)
 								info.height = float.Parse (groundHeight.InnerText);
 
+							string[] paths = new string[] {
+								"Sprites/Blood/blood_ground_00",
+								"Sprites/Blood/blood_ground_01",
+								"Sprites/Blood/blood_ground_02"
+							};
+							foreach (string path in paths) {
+								Sprite groundSpr = ResourceCache.instance.GetSprite (path);
+
+								info.bloodSprites.Add (groundSpr);
+							}
+							/*
 							foreach (XmlNode groundSprNode in groundNode.SelectNodes("sprite")) {
 								Sprite groundSpr = ResourceCache.instance.GetSprite (groundSprNode.InnerXml);
 
 								info.bloodSprites.Add (groundSpr);
 							}
+							*/
 
 							passage.groundInfo = info;
 						}
@@ -324,11 +314,23 @@ public class MapGraph : IObserver
 							if (wallHeight != null)
 								info.height = float.Parse (wallHeight.InnerText);
 
+							string[] paths = new string[] {
+								"Sprites/Blood/blood_wall_00",
+								"Sprites/Blood/blood_wall_01",
+								"Sprites/Blood/blood_wall_02"
+							};
+							foreach (string path in paths) {
+								Sprite groundSpr = ResourceCache.instance.GetSprite (path);
+
+								info.bloodSprites.Add (groundSpr);
+							}
+							/*
 							foreach (XmlNode wallSprNode in wallNode.SelectNodes("sprite")) {
 								Sprite wallSpr = ResourceCache.instance.GetSprite (wallSprNode.InnerXml);
 
 								info.bloodSprites.Add (wallSpr);
 							}
+							*/
 
 							passage.wallInfo = info;
 						}
@@ -599,6 +601,16 @@ public class MapGraph : IObserver
         Notice.instance.Observe(NoticeName.FixedUpdate, this);
         Notice.instance.Send(NoticeName.LoadMapGraphComplete);
     }
+
+	public void Reset()
+	{
+		loaded = false;
+		LoadMap ();
+
+
+		Notice.instance.Send (NoticeName.ResetMapGraph);
+	}
+
     public void RegisterPassageObject(PassageObjectModel model)
     {
         passageTable.Add(model.GetId(), model);

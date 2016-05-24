@@ -4,6 +4,7 @@ using System.Collections;
 public class RedShoes : CreatureBase {
 	
 
+	public bool dropFinished = false;
 	public bool dropped = false;
 
 	public Vector3 droppedShoesPosition;
@@ -12,12 +13,15 @@ public class RedShoes : CreatureBase {
 
 
 	public AgentModel owner = null;
+	public int returnTargetCount = 0;
 
 	// 
 
     public override void OnInit()
     {
+		model.canBeSuppressed = false;
         this.skill = new RedShoesSkill(this.model);
+		//model.SubFeeling (100);
     }
 
     // temporary
@@ -28,34 +32,43 @@ public class RedShoes : CreatureBase {
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
-		return;
-        if (creature.GetFeelingPercent() < 130f && this.skill.Activated == false)
+		//return;
+		RedShoesSkill redShoesSkill = (RedShoesSkill)this.skill;
+
+		if (creature.GetFeelingPercent() <= 30f && this.skill.Activated == false)
         {
             this.skill.Activate();
         }
-        else if (creature.GetFeelingPercent() > 30f && this.skill.Activated == true){
-            if (this.skill.Activated == true) {
+        else if (creature.GetFeelingPercent() > 30f && this.skill.Activated == true)
+		{
+			if (this.skill.Activated == true && !redShoesSkill.IsAtivatedForcely() )
+			{
                 this.skill.DeActivate();
             }
         }
 
-		if (dropped)
+		if (dropped && owner == null)
 		{
 			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 			{
 			}
-				
+
 			foreach (AgentModel agent in AgentManager.instance.GetAgentList())
 			{
+				/*
+				if (returnTargetCount > 0)
+					break;
+				*/
 				if (agent.gender == "Female")
 					continue;
-				//if (agent.GetMovableNode ().GetPassage () == droppedPassage)
 				{
+					if (agent.isDead () || agent.IsPanic () || agent.GetState () == AgentAIState.CANNOT_CONTROLL)
+						continue;
 					if (agent.GetState () == AgentAIState.RETURN_CREATURE)
 						continue;
-					if ((agent.GetCurrentViewPosition () - droppedShoesPosition).sqrMagnitude < 2)
+					if ((agent.GetCurrentViewPosition () - droppedShoesPosition).sqrMagnitude < 36)
 					{
-						dropped = false;
+						//dropped = false;
 						agent.ReturnCreature (model);
 						break;
 					}
@@ -71,7 +84,10 @@ public class RedShoes : CreatureBase {
 
 	public void ReturnFinish()
 	{
+		model.state = CreatureState.WAIT;
+		
 		dropped = false;
+		dropFinished = false;
 		owner = null;
 
 		model.AddFeeling (100f);
@@ -80,60 +96,46 @@ public class RedShoes : CreatureBase {
 		model.SendAnimMessage ("ReturnRedShoesAnim");
 	}
 
+	public void OnDropFinished()
+	{
+		if (dropped)
+		{
+			dropFinished = true;
+		}
+	}
+
     public void ActivateSkill(UseSkill skill)
     {
         // show effect
-		/*
-        skill.PauseWorking();
-        ///SoundEffectPlayer.PlayOnce("creature/match_girl/matchgirl_ability.wav", skill.targetCreature.transform.position);
-
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_AttackTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0, 4.0f).DisableFade();
-        effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
-        // skill이 이미 release 될 상황 고려 필요
-        effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
-
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_AttackTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 3.5f).DisableFade()
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_AttackTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.0f, 3.0f).DisableFade()
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_AttackTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.5f, 2.5f).DisableFade()
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_AttackTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 2.0f, 2.0f).DisableFade()
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        */
     }
 
     //
 
     public override void OnEnterRoom(UseSkill skill)
     {
-		/*
-        skill.PauseWorking();
-
-        OutsideTextEffect effect = OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_01", CreatureOutsideTextLayout.CENTER_BOTTOM, 0.5f, 5.0f);
-        effect.transform.localScale = new Vector3(1.1f, 1.1f, 1);
-
-        // skill이 이미 release 될 상황 고려 필요
-        effect.GetComponent<DestroyHandler>().AddReceiver(delegate() { skill.ResumeWorking(); });
-
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_02", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.0f, 4.5f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_03", CreatureOutsideTextLayout.CENTER_BOTTOM, 1.5f, 4.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_04", CreatureOutsideTextLayout.CENTER_BOTTOM, 2.0f, 3.5f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_05", CreatureOutsideTextLayout.CENTER_BOTTOM, 2.5f, 3.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_06", CreatureOutsideTextLayout.CENTER_BOTTOM, 3.0f, 2.5f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        OutsideTextEffect.Create(skill.targetCreature.instanceId, "typo/redshoes/redShoes_EnterTypo_07", CreatureOutsideTextLayout.CENTER_BOTTOM, 3.5f, 2.0f)
-            .transform.localScale = new Vector3(1.1f, 1.1f, 1);
-        */
+        if (this.skill.Activated == false) {
+            if (skill.agent.gender == "Female") {
+                skill.PauseWorking();
+                Debug.Log("Attract in Room");
+                (this.skill as RedShoesSkill).AttractInIsolate(skill.agent);
+            }
+        }
     }
+
+	public override void AgentAnimCalled(int i, WorkerModel actor)
+	{
+		switch (i)
+		{
+		case 0:
+			OnDropFinished ();
+			break;
+		}
+	}
 
 	public override bool IsEscapable()
 	{
 		return false;
 	}
+
+    
 }

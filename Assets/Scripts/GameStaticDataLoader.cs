@@ -452,9 +452,11 @@ public class GameStaticDataLoader {
 
         foreach (XmlNode node in creatureDesc) {
             AgentLyrics.CreatureReactionList newList = new AgentLyrics.CreatureReactionList();
-            
+            AgentLyrics.CreatureAction action = new AgentLyrics.CreatureAction();
+           
             long id = (long)float.Parse(node.Attributes.GetNamedItem("id").InnerText);
             newList.creatureId = id;
+            action.creatureId = id;
             XmlNodeList itemList = node.SelectNodes("item");
             
             foreach (XmlNode item in itemList) {
@@ -466,6 +468,26 @@ public class GameStaticDataLoader {
                 newList.lib.Add(creatureReaction);
                 
             }
+
+            XmlNodeList actionList = node.SelectNodes("action");
+
+            foreach (XmlNode item in actionList) {
+                AgentLyrics.CreatureNormal normal = new AgentLyrics.CreatureNormal();
+                
+                string type = item.Attributes.GetNamedItem("type").InnerText;
+
+                normal.type = type;
+
+                XmlNodeList actiondescs = item.SelectNodes("desc");
+                foreach (XmlNode actionDescItem in actiondescs) {
+                    string descUnit = actionDescItem.InnerText;
+                    normal.desc.Add(descUnit);
+                }
+                action.lib.Add(type, normal);
+            }
+
+            newList.action = action;
+
             dictionary.Add(id, newList);
         }
 
@@ -696,24 +718,7 @@ public class GameStaticDataLoader {
 
 			model.gender = node.Attributes.GetNamedItem("gender").InnerText;
 			model.level = int.Parse(node.Attributes.GetNamedItem("level").InnerText);
-			model.workDays = int.Parse(node.Attributes.GetNamedItem("workDays").InnerText);
-			
-			XmlNode preferSkillNode = node.SelectSingleNode("preferSkill");
-			model.prefer = preferSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.preferBonus = int.Parse(preferSkillNode.Attributes.GetNamedItem("bonus").InnerText);
-			
-			XmlNode rejectSkillNode = node.SelectSingleNode("rejectSkill");
-			model.reject = rejectSkillNode.Attributes.GetNamedItem("type").InnerText;
-			model.rejectBonus = int.Parse(rejectSkillNode.Attributes.GetNamedItem("bonus").InnerText);
-			
-			long directSkillId = long.Parse(node.Attributes.GetNamedItem("directSkillId").InnerText);
-			long indirectSkillId = long.Parse(node.Attributes.GetNamedItem("indirectSkillId").InnerText);
-			long blockSkillId = long.Parse(node.Attributes.GetNamedItem("blockSkillId").InnerText);
-			/*
-			model.directSkill = SkillTypeList.instance.GetData(directSkillId);
-			model.indirectSkill = SkillTypeList.instance.GetData(indirectSkillId);
-			model.blockSkill = SkillTypeList.instance.GetData(blockSkillId);
-			*/
+
             /*
 			XmlNode imgNode = node.SelectSingleNode("img");
 			model.imgsrc = imgNode.Attributes.GetNamedItem("src").InnerText;
@@ -730,10 +735,6 @@ public class GameStaticDataLoader {
 			
 			model.speechTable = speechTable;
 
-			XmlNode panicTypeNode = node.SelectSingleNode("panic");
-			model.panicType = panicTypeNode.Attributes.GetNamedItem("action").InnerText;
-			
-			
 			agentTypeList.Add(model);
 		}
 		
@@ -788,7 +789,6 @@ public class GameStaticDataLoader {
                 string stext = soundNode.Attributes.GetNamedItem("src").InnerText;
 
                 soundTable.Add(key, stext);
-                Debug.Log(key + " " + stext);
             }
             model.soundTable = soundTable;
 

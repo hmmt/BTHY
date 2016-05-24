@@ -90,8 +90,16 @@ public class StoryTempScript : MonoBehaviour {
     }
 
     public void OnStartGame() {
-        menuAnim.SetBool("Start", true);
+		GlobalGameManager.instance.InitGame ();
+		SceneManager.LoadScene("Main");
+        //menuAnim.SetBool("Start", true);
     }
+
+	public void OnContinueGame()
+	{
+		GlobalGameManager.instance.LoadData ();
+		SceneManager.LoadScene("Main");
+	}
 
     IEnumerator LoadStartScene() {
         Debug.Log("스토리끝 메인으로 넘어간다");

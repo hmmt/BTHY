@@ -13,13 +13,17 @@
         <node id="sefira-malkuth-7" x="2" y="1.59" type="sefira" scale="1.2" />
         <node id="sefira-malkuth-8" x="3.8" y="1.59" type="sefira" scale="1.2" />
       </node_group>
-      <node_group x="20.2" y="6.05" src="Map/Passage/Dept/PassageRU_DEPT" passageType="dept">
-        <node id="malkuth-0-1" x="10.92" y="4.18" type="dept" />
-        <node id="malkuth-0-2" x="15.45" y="4.35" type="dept" />
-        <node id="malkuth-0-3" x="18.33" y="4.35" type="dept" />
-        <node id="malkuth-0-4" x="20.97" y="4.35" type="dept" />
-        <node id="malkuth-0-5" x="23.2" y="4.35" type="dept" />
-        <node id="malkuth-0-6" x="26.41" y="4.35" type="dept" />
+      <node_group x="17" y="7" src="Map/Passage/Dept/PassageRU_DEPT" passageType="dept">
+        <node id="malkuth-0-1" x="9.74" y="4.32" type="dept" />
+        <node id="malkuth-0-2" x="11.33" y="4.32" type="dept" />
+        <node id="malkuth-0-3" x="13.38" y="4.32" type="dept" />
+        <node id="malkuth-0-4" x="15.01" y="4.32" type="dept" />
+        <node id="malkuth-0-5" x="16.54" y="4.32" type="dept" />
+        <node id="malkuth-0-6" x="17.705" y="4.32" type="dept" />
+        <node id="malkuth-0-7" x="18.854" y="4.32" type="dept" />
+        <node id="malkuth-0-8" x="20.01" y="4.32" type="dept" />
+        <node id="malkuth-0-9" x="21.13" y="4.32" type="dept" />
+        <node id="malkuth-0-10" x="23.7" y="4.32" type="dept" />
       </node_group>
       <node_group x="20.59" y="1.23" src="Map/Passage/PassageLongHallway" passageType="horizontal">
         <node id="right-upper-way1" x="11.76" y="0.73" />
@@ -27,146 +31,150 @@
         <node id="right-upper-way3" x="23.29" y="0.73" />
         <node id="right-upper-way4" x="26.79" y="0.73" />
       </node_group>
-      <node_group x="33.5" y="4.9" src="Map/Passage/PassageHallwayHub" passageType="horizontal">
-        <node id="right-way1" x="29.14" y="3.8" />
-        <node id="right-way2" x="32.44" y="3.8" />
-        <node id="right-way3" x="38.85355" y="3.757737" />
+      <node_group x="31.3" y="4.9" src="Map/Passage/PassageHallwayHub" passageType="horizontal">
+        <node id="right-way1" x="26.94" y="4.34" />
+        <node id="right-way2" x="30.24" y="4.34" />
+        <node id="right-way3" x="35.03" y="4.34" />
       </node_group>
-      <node_group x="-17.61" y="6.33" src="Map/Passage/Dept/PassageLU_DEPT" passageType="dept">
-        <node id="malkuth-1-1" x="-10.55" y="4.39" type="dept" />
-        <node id="malkuth-1-2" x="-14.24" y="4.63" type="dept" />
-        <node id="malkuth-1-3" x="-16.67" y="4.63" type="dept" />
-        <node id="malkuth-1-4" x="-19.54" y="4.63" type="dept" />
-        <node id="malkuth-1-5" x="-22.36" y="4.63" type="dept" />
-        <node id="malkuth-1-6" x="-25.84" y="4.43" type="dept" />
+      <node_group x="-17" y="7" src="Map/Passage/Dept/PassageLU_DEPT" passageType="dept">
+        <node id="malkuth-1-1" x="-9.74" y="4.32" type="dept" />
+        <node id="malkuth-1-2" x="-11.51" y="4.32" type="dept" />
+        <node id="malkuth-1-3" x="-12.95" y="4.32" type="dept" />
+        <node id="malkuth-1-4" x="-14.09" y="4.32" type="dept" />
+        <node id="malkuth-1-5" x="-16.275" y="4.32" type="dept" />
+        <node id="malkuth-1-6" x="-20.73" y="4.32" type="dept" />
+        <node id="malkuth-1-7" x="-15.12" y="4.32" type="dept" />
+        <node id="malkuth-1-8" x="-19.05" y="4.32" type="dept" />
+        <node id="malkuth-1-9" x="-17.591" y="4.32" type="dept" />
+        <node id="malkuth-1-10" x="-23.7" y="4.32" type="dept" />
       </node_group>
-      <node_group x="-20.7" y="1.36" src="Map/Passage/PassageLongHallway" passageType="horizontal">
-        <node id="left-upper-way1" x="-12.39" y="0.95" />
-        <node id="left-upper-way2" x="-17.7" y="0.86" />
-        <node id="left-upper-way3" x="-23" y="0.86" />
-        <node id="left-upper-way4" x="-27.41" y="0.77" />
+      <node_group x="-20.27" y="1.36" src="Map/Passage/PassageLongHallway" passageType="horizontal">
+        <node id="left-upper-way1" x="-11.96" y="0.95" />
+        <node id="left-upper-way2" x="-17.27" y="0.86" />
+        <node id="left-upper-way3" x="-22.57" y="0.86" />
+        <node id="left-upper-way4" x="-26.98" y="0.77" />
       </node_group>
-      <node_group x="-33.5" y="4.9" src="Map/Passage/PassageHallwayHub" passageType="horizontal">
-        <node id="left-way1" x="-29.14" y="3.8" />
-        <node id="left-way2" x="-32.44" y="3.8" />
-        <node id="left-way3" x="-38.85355" y="3.757737" />
+      <node_group x="-31.3" y="4.95" src="Map/Passage/PassageHallwayHub" passageType="horizontal">
+        <node id="left-way1" x="-26.94" y="4.39" />
+        <node id="left-way2" x="-30.24" y="4.39" />
+        <node id="left-way3" x="-35.03" y="4.39" />
       </node_group>
-      <node_group x="-40" y="-18.9" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
-        <node id="mal-left-elevator-hub" x="-40.07205" y="-19.9" />
+      <node_group x="-34.85" y="-18.9" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
+        <node id="mal-left-elevator-hub" x="-34.85" y="-19.9" />
       </node_group>
-      <node_group x="-31.4" y="-17.7" src="Map/Passage/Dept/PassageLD_DEPT" passageType="dept">
-        <node id="malkuth-3-1" x="-23.62" y="-19.04" type="dept" />
-        <node id="malkuth-3-2" x="-29.39" y="-19" type="dept" />
-        <node id="malkuth-3-3" x="-35.31" y="-19" type="dept" />
+      <node_group x="-25.6" y="-18.24" src="Map/Passage/Dept/PassageLD_DEPT" passageType="dept">
+        <node id="malkuth-3-1" x="-20.64" y="-19.57" type="dept" />
+        <node id="malkuth-3-2" x="-26.09" y="-19.57" type="dept" />
+        <node id="malkuth-3-3" x="-30.37" y="-19.57" type="dept" />
       </node_group>
-      <node_group x="-13.8" y="-18.9" src="Map/Passage/PassageHallway" passageType="horizontal">
-        <node id="left-down-way1" x="-8.689999" y="-19.42" />
-        <node id="left-down-way2" x="-11.44" y="-19.48" />
-        <node id="left-down-way3" x="-20.04" y="-19.57" />
+      <node_group x="-12.5" y="-18.9" src="Map/Passage/PassageHallway" passageType="horizontal">
+        <node id="left-down-way1" x="-7.389998" y="-19.42" />
+        <node id="left-down-way2" x="-10.14" y="-19.48" />
+        <node id="left-down-way3" x="-18.74" y="-19.57" />
       </node_group>
       <node_group x="0" y="-18.9" src="Map/Passage/PassageHallwayHub" passageType="horizontal">
         <node id="center-way1" x="-1.4" y="-19.4" />
         <node id="center-way2" x="0" y="-19.4" />
         <node id="center-way1(d)" x="1.4" y="-19.4" />
       </node_group>
-      <node_group x="13.8" y="-18.9" src="Map/Passage/PassageHallway" passageType="horizontal">
-        <node id="right-down-way1" x="7.58" y="-19.42" />
-        <node id="right-down-way2" x="10.4" y="-19.47" />
-        <node id="right-down-way3" x="18.94" y="-19.42" />
+      <node_group x="12.5" y="-18.9" src="Map/Passage/PassageHallway" passageType="horizontal">
+        <node id="right-down-way1" x="6.28" y="-19.42" />
+        <node id="right-down-way2" x="9.099999" y="-19.47" />
+        <node id="right-down-way3" x="17.64" y="-19.42" />
       </node_group>
-      <node_group x="31.4" y="-17.7" src="Map/Passage/Dept/PassageRD_DEPT" passageType="dept">
-        <node id="malkuth-2-1" x="23.19" y="-19.42" type="dept" />
-        <node id="malkuth-2-2" x="28.87" y="-19.42" type="dept" />
-        <node id="malkuth-2-3" x="34.78" y="-19.55" type="dept" />
+      <node_group x="25.6" y="-18.24" src="Map/Passage/Dept/PassageRD_DEPT" passageType="dept">
+        <node id="malkuth-2-1" x="20.64" y="-19.57" type="dept" />
+        <node id="malkuth-2-2" x="26.09" y="-19.57" type="dept" />
+        <node id="malkuth-2-3" x="30.37" y="-19.57" type="dept" />
       </node_group>
-      <node_group x="40" y="-18.9" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
-        <node id="mal-right-elevator-hub(d)" x="40.07205" y="-19.9" />
+      <node_group x="34.85" y="-18.9" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
+        <node id="mal-right-elevator-hub(d)" x="34.85" y="-19.9" />
       </node_group>
-      <node_group x="-33.18205" y="-6.144183" passageType="horizontal">
-        <node id="left-elevator" x="-38.27205" y="-6.144183" elevator="" />
+      <node_group x="-34.85" y="-6.14" passageType="horizontal">
+        <node id="left-elevator" x="-34.85" y="-6.14" elevator="long" />
       </node_group>
-      <node_group x="33.18205" y="-6.144183" passageType="horizontal">
-        <node id="right-elevator" x="38.27205" y="-6.144183" elevator="" />
+      <node_group x="34.85" y="-6.14" passageType="horizontal">
+        <node id="right-elevator" x="34.85" y="-6.14" elevator="long" />
       </node_group>
     </area>
     <area name="4" sub="1">
-      <node_group x="0" y="-43" src="Map/Passage/PassageMalcuteRoom" passageType="sefira">
-        <node id="sefira-tessod-1" x="-4" y="-43" type="sefira" />
-        <node id="sefira-tessod-2" x="-3" y="-43" type="sefira" />
-        <node id="sefira-tessod-3" x="-2" y="-43" type="sefira" />
-        <node id="sefira-tessod-4" x="-1" y="-43" type="sefira" />
-        <node id="sefira-tessod-5" x="0" y="-43" type="sefira" />
-        <node id="sefira-tessod-6" x="1" y="-43" type="sefira" />
-        <node id="sefira-tessod-7" x="2" y="-43" type="sefira" />
-        <node id="sefira-tessod-8" x="3" y="-43" type="sefira" />
-        <node id="sefira-tessod-9" x="4" y="-43" type="sefira" />
+      <node_group x="0" y="-43" src="Map/Passage/PassageYessodSefira" passageType="sefira">
+        <node id="sefira-tessod-1" x="-7" y="-43.75" type="sefira" />
+        <node id="sefira-tessod-2" x="-5.5" y="-43.75" type="sefira" />
+        <node id="sefira-tessod-3" x="-4" y="-43.75" type="sefira" />
+        <node id="sefira-tessod-4" x="-2.5" y="-43.75" type="sefira" />
+        <node id="sefira-tessod-5" x="0" y="-43.75" type="sefira" />
+        <node id="sefira-tessod-6" x="2.5" y="-43.75" type="sefira" />
+        <node id="sefira-tessod-7" x="4" y="-43.75" type="sefira" />
+        <node id="sefira-tessod-8" x="5.5" y="-43.75" type="sefira" />
+        <node id="sefira-tessod-9" x="7" y="-43.75" type="sefira" />
       </node_group>
-      <node_group x="21" y="-43" src="Map/Passage/PassageLongHallway" passageType="horizontal">
-        <node id="T-right-way1" x="17" y="-43.5" />
-        <node id="T-right-way2" x="20.7" y="-43.5" />
-        <node id="T-right-way3" x="25.5" y="-43.5" />
-        <node id="T-right-way4" x="27.5" y="-43.5" />
-        <node id="T-right-way5" x="30.3" y="-43.5" />
+      <node_group x="20.25" y="-43" src="Map/Passage/PassageLongHallway" passageType="horizontal">
+        <node id="T-right-way1" x="9.6" y="-43.5" />
+        <node id="T-right-way2" x="14.78" y="-43.5" />
+        <node id="T-right-way3" x="20.87" y="-43.5" />
+        <node id="T-right-way4" x="26.75" y="-43.5" />
+        <node id="T-right-way5" x="31" y="-43.5" />
       </node_group>
-      <node_group x="-21" y="-43" src="Map/Passage/PassageLongHallway" passageType="horizontal">
-        <node id="T-left-way1" x="-17" y="-43.5" />
-        <node id="T-left-way2" x="-20.7" y="-43.5" />
-        <node id="T-left-way3" x="-25.5" y="-43.5" />
-        <node id="T-left-way4" x="-27.5" y="-43.5" />
-        <node id="T-left-way5" x="-30.3" y="-43.5" />
+      <node_group x="-20.25" y="-43" src="Map/Passage/PassageLongHallway" passageType="horizontal">
+        <node id="T-left-way1" x="-9.6" y="-43.5" />
+        <node id="T-left-way2" x="-14.78" y="-43.5" />
+        <node id="T-left-way3" x="-20.87" y="-43.5" />
+        <node id="T-left-way4" x="-26.75" y="-43.5" />
+        <node id="T-left-way5" x="-31" y="-43.5" />
       </node_group>
-      <node_group x="0" y="-65" src="Map/Passage/PassageMalcuteRoom" passageType="dept">
-        <node id="dept-tessod-1" x="-16" y="-65" type="dept" />
+      <node_group x="0" y="-65" src="Map/Passage/PassageYessodSefiraBig" passageType="dept">
+        <node id="dept-tessod-1" x="-14" y="-65" type="dept" />
         <node id="dept-tessod-2" x="-12" y="-65" type="dept" />
         <node id="dept-tessod-3" x="-8" y="-65" type="dept" />
         <node id="dept-tessod-4" x="-4" y="-65" type="dept" />
         <node id="dept-tessod-5" x="0" y="-65" type="dept" />
         <node id="dept-tessod-6" x="4" y="-65" type="dept" />
-        <node id="dept-tessod-7" x="8" y="-65" type="dept" />
-        <node id="dept-tessod-8" x="12" y="-65" type="dept" />
-        <node id="dept-tessod-9" x="16" y="-65" type="dept" />
+        <node id="dept-tessod-7" x="6.72" y="-65" type="dept" />
+        <node id="dept-tessod-8" x="10.88" y="-65" type="dept" />
+        <node id="dept-tessod-9" x="14" y="-65" type="dept" />
       </node_group>
-      <node_group x="0" y="-29.7" passageType="horizontal">
-        <node id="m-y-elevator" x="0" y="-29.7" elevator="" />
+      <node_group x="0" y="-27.8" passageType="horizontal">
+        <node id="m-y-elevator" x="0" y="-27.8" elevator="short" />
       </node_group>
-      <node_group x="0" y="-51.53" passageType="horizontal">
-        <node id="yesod-center-elevator" x="0" y="-51.53" elevator="" />
+      <node_group x="0" y="-50.5" passageType="horizontal">
+        <node id="yesod-center-elevator" x="0" y="-50.5" elevator="short" />
       </node_group>
-      <node_group x="36.5" y="-43" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
-        <node id="yesod-right-hall" x="36.5" y="-43.5" />
+      <node_group x="34.85" y="-43" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
+        <node id="yesod-right-hall" x="34.85" y="-43.5" />
       </node_group>
-      <node_group x="-36.5" y="-43" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
-        <node id="yesod-right-hall(d)" x="-36.5" y="-43.5" />
+      <node_group x="-34.85" y="-43" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
+        <node id="yesod-right-hall(d)" x="-34.85" y="-43.5" />
       </node_group>
-      <node_group x="-33.18205" y="-29.9" passageType="horizontal">
-        <node id="left-elevator(d)" x="-38.27205" y="-29.9" elevator="" />
+      <node_group x="-34.85" y="-29.9" passageType="horizontal">
+        <node id="left-elevator(d)" x="-34.85" y="-29.9" elevator="long" />
       </node_group>
-      <node_group x="33.18205" y="-29.9" passageType="horizontal">
-        <node id="left-elevator(d)(d)" x="38.27205" y="-29.9" elevator="" />
+      <node_group x="34.85" y="-29.9" passageType="horizontal">
+        <node id="left-elevator(d)(d)" x="34.85" y="-29.9" elevator="long" />
       </node_group>
-      <node_group x="-26.4" y="-64.57" src="Map/Passage/PassageHallway" passageType="horizontal">
-        <node id="T-left-way1(d)" x="-21.2" y="-65.07" />
-        <node id="T-left-way2(d)" x="-24.9" y="-65.07" />
-        <node id="T-left-way3(d)" x="-28.5" y="-65.07" />
-        <node id="T-left-way4(d)" x="-31.7" y="-65.07" />
+      <node_group x="-25" y="-64.5" src="Map/Passage/PassageHallway" passageType="horizontal">
+        <node id="T-left-way1(d)" x="-19.8" y="-65" />
+        <node id="T-left-way2(d)" x="-23.5" y="-65" />
+        <node id="T-left-way3(d)" x="-27.1" y="-65" />
+        <node id="T-left-way4(d)" x="-30.3" y="-65" />
       </node_group>
-      <node_group x="26.4" y="-64.57" src="Map/Passage/PassageHallway" passageType="horizontal">
-        <node id="T-left-way1(d)(d)" x="21.2" y="-65.07" />
-        <node id="T-left-way2(d)(d)" x="24.9" y="-65.07" />
-        <node id="T-left-way3(d)(d)" x="28.5" y="-65.07" />
-        <node id="T-left-way4(d)(d)" x="31.7" y="-65.07" />
+      <node_group x="25" y="-64.5" src="Map/Passage/PassageHallway" passageType="horizontal">
+        <node id="T-left-way1(d)(d)" x="19.8" y="-65" />
+        <node id="T-left-way2(d)(d)" x="23.5" y="-65" />
+        <node id="T-left-way3(d)(d)" x="27.1" y="-65" />
+        <node id="T-left-way4(d)(d)" x="30.3" y="-65" />
       </node_group>
-      <node_group x="38.2" y="-64.57" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
-        <node id="mal-right-elevator-hub(d)(d)" x="38.27205" y="-65.57" />
+      <node_group x="34.85" y="-64.5" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
+        <node id="mal-right-elevator-hub(d)(d)" x="34.85" y="-65" />
       </node_group>
-      <node_group x="-38.2" y="-64.57" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
-        <node id="mal-left-elevator-hub(d)" x="-38.12795" y="-65.57" />
+      <node_group x="-34.85" y="-64.5" src="Map/Passage/PassageHallwayHubSmall" passageType="horizontal">
+        <node id="mal-left-elevator-hub(d)" x="-34.85" y="-65" />
       </node_group>
-      <node_group x="-37.5" y="-54.8" passageType="horizontal">
-        <node id="left-elevator(d)(d)(d)" x="-37.5" y="-54.8" elevator="" />
+      <node_group x="-34.85" y="-54" passageType="horizontal">
+        <node id="left-elevator(d)(d)(d)" x="-34.85" y="-54" elevator="long" />
       </node_group>
-      <node_group x="37.5" y="-54.8" passageType="horizontal">
-        <node id="right-elevator(d)" x="37.5" y="-54.8" elevator="" />
+      <node_group x="34.85" y="-54" passageType="horizontal">
+        <node id="right-elevator(d)" x="34.85" y="-54" elevator="long" />
       </node_group>
     </area>
   </node_list>
@@ -180,15 +188,7 @@
     <edge node1="sefira-malkuth-7" node2="sefira-malkuth-8" type="road" />
     <edge node1="sefira-malkuth-8" node2="sefira-malkuth-9" type="road" />
     <edge node1="malkuth-0-1" node2="malkuth-0-2" type="road" />
-    <edge node1="malkuth-0-2" node2="malkuth-0-3" type="road" />
-    <edge node1="malkuth-0-3" node2="malkuth-0-4" type="road" />
-    <edge node1="malkuth-0-4" node2="malkuth-0-5" type="road" />
-    <edge node1="malkuth-0-5" node2="malkuth-0-6" type="road" />
     <edge node1="malkuth-1-1" node2="malkuth-1-2" type="road" />
-    <edge node1="malkuth-1-2" node2="malkuth-1-3" type="road" />
-    <edge node1="malkuth-1-3" node2="malkuth-1-4" type="road" />
-    <edge node1="malkuth-1-4" node2="malkuth-1-5" type="road" />
-    <edge node1="malkuth-1-5" node2="malkuth-1-6" type="road" />
     <edge node1="right-upper-way1" node2="right-upper-way2" type="road" />
     <edge node1="right-upper-way2" node2="right-upper-way3" type="road" />
     <edge node1="right-upper-way3" node2="right-upper-way4" type="road" />
@@ -210,9 +210,9 @@
     <edge node1="center-way1" node2="left-down-way1" type="door" />
     <edge node1="right-down-way3" node2="malkuth-2-1" type="door" />
     <edge node1="left-down-way3" node2="malkuth-3-1" type="door" />
-    <edge node1="malkuth-0-6" node2="right-way1" type="door" />
+    <edge node1="malkuth-0-10" node2="right-way1" type="door" />
     <edge node1="right-way1" node2="right-way2" type="road" />
-    <edge node1="malkuth-1-6" node2="left-way1" type="door" />
+    <edge node1="malkuth-1-10" node2="left-way1" type="door" />
     <edge node1="left-way1" node2="left-way2" type="road" />
     <edge node1="sefira-tessod-1" node2="sefira-tessod-2" type="road" />
     <edge node1="sefira-tessod-2" node2="sefira-tessod-3" type="road" />
@@ -240,7 +240,7 @@
     <edge node1="dept-tessod-8" node2="dept-tessod-9" type="road" />
     <edge node1="right-way2" node2="right-way3" type="road" />
     <edge node1="right-elevator" node2="right-way3" type="door" />
-    <edge node1="left-way2" node2="left-way3" type="door" />
+    <edge node1="left-way2" node2="left-way3" type="road" />
     <edge node1="left-elevator" node2="left-way3" type="door" />
     <edge node1="center-way1" node2="center-way2" type="road" />
     <edge node1="center-way2" node2="m-y-elevator" type="door" />
@@ -275,5 +275,21 @@
     <edge node1="mal-right-elevator-hub(d)(d)" node2="right-elevator(d)" type="door" />
     <edge node1="yesod-right-hall(d)" node2="left-elevator(d)(d)(d)" type="door" />
     <edge node1="mal-left-elevator-hub(d)" node2="left-elevator(d)(d)(d)" type="door" />
+    <edge node1="malkuth-1-10" node2="malkuth-1-6" type="road" />
+    <edge node1="malkuth-1-8" node2="malkuth-1-6" type="road" />
+    <edge node1="malkuth-1-7" node2="malkuth-1-5" type="road" />
+    <edge node1="malkuth-1-7" node2="malkuth-1-4" type="road" />
+    <edge node1="malkuth-1-8" node2="malkuth-1-9" type="road" />
+    <edge node1="malkuth-1-5" node2="malkuth-1-9" type="road" />
+    <edge node1="malkuth-1-3" node2="malkuth-1-2" type="road" />
+    <edge node1="malkuth-1-3" node2="malkuth-1-4" type="road" />
+    <edge node1="malkuth-0-2" node2="malkuth-0-3" type="road" />
+    <edge node1="malkuth-0-4" node2="malkuth-0-3" type="road" />
+    <edge node1="malkuth-0-4" node2="malkuth-0-5" type="road" />
+    <edge node1="malkuth-0-6" node2="malkuth-0-5" type="road" />
+    <edge node1="malkuth-0-6" node2="malkuth-0-7" type="road" />
+    <edge node1="malkuth-0-8" node2="malkuth-0-7" type="road" />
+    <edge node1="malkuth-0-8" node2="malkuth-0-9" type="road" />
+    <edge node1="malkuth-0-10" node2="malkuth-0-9" type="road" />
   </edge_list>
 </map_graph>

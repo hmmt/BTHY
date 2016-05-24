@@ -14,9 +14,11 @@ public class ResultReportScript : MonoBehaviour {
     public void SetBestAgent(AgentModel model) {
         this.worker = model;
 
+		/*
         Hair.sprite = ResourceCache.instance.GetSprite(model.hairImgSrc);
         Face.sprite = ResourceCache.instance.GetSprite(model.faceImgSrc);
         Body.sprite = ResourceCache.instance.GetSprite(model.bodyImgSrc);
+        */
         Name.text = model.name;
     }    
 

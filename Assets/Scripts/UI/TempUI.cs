@@ -17,13 +17,13 @@ public class TempUI : MonoBehaviour {
 
     public void Save()
     {
-        GameManager.currentGameManager.SaveData();
+		GlobalGameManager.instance.SaveData();
         //Notice.instance.Send("AddSystemLog", "test");
     }
 
     public void Load()
     {
-        GameManager.currentGameManager.LoadData();
+		GlobalGameManager.instance.LoadData();
     }
 
     public void Escape()
