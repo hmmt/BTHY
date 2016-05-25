@@ -422,6 +422,7 @@ public class OfficerModel : WorkerModel {
     public override void TakeMentalDamage(int damage)
     {
         base.TakeMentalDamage(damage);
+        _unit.animTarget.TakeDamageAnim(0);
         StopAction();
         
         //_unit.puppetAnim.SetInteger("MentalAttacked", UnityEngine.Random.Range(1, 4));

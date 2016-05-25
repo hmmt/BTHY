@@ -59,7 +59,7 @@ public class LadyLookingAtWall : CreatureBase {
                 //MakingEffect(null, null, breath, null, 0);
                 if (currentCry == null)
                 {
-                    currentCry = currentCreatureUnit.PlaySound(breath, AudioRolloffMode.Linear);
+                    currentCry = currentCreatureUnit.PlaySound(breath);
                     cryTimer.TimerStart(Random.Range(10f, 30f), true);
                 }
             }

@@ -50,6 +50,26 @@ public class NullthingLevelController : MonoBehaviour {
         }
     }
 
+    [System.Serializable]
+    public class Level1Sprite {
+        public Sprite Body;
+        public Sprite ArmUp;
+        public Sprite ArmDown;
+    }
+
+    [System.Serializable]
+    public class Level1SpriteRenderer {
+        public SpriteRenderer body;
+        public SpriteRenderer armUP;
+        public SpriteRenderer armDown;
+
+        public void SetSprite(Level1Sprite sprites) {
+            body.sprite = sprites.Body;
+            armUP.sprite = sprites.ArmUp;
+            armDown.sprite = sprites.ArmDown;
+        }
+    }
+
     public WorkerSprite spriteSet;
 
     public GameObject Good;
@@ -59,6 +79,19 @@ public class NullthingLevelController : MonoBehaviour {
 
     public AgentUnit agentUnit = null;
     public OfficerUnit officerUnit = null;
+
+    public IAnimatorEventCalled animScript;
+    public AnimatorEventScript level2Script;
+
+    public Level1Sprite malkutOfficer;
+    public Level1Sprite malkutAgent;
+    public Level1Sprite yesodOfficer;
+    public Level1Sprite yesodAgent;
+
+    Level1Sprite current = null;
+
+    public Level1SpriteRenderer level1SpriteRenderer;
+
     NullthingAnim animController;
     public Animator[] animators;
     object unit{
@@ -95,16 +128,45 @@ public class NullthingLevelController : MonoBehaviour {
 
     }
 
-    public void Init(CreatureModel nullthing) {
+    public void Init(CreatureModel nullthing)
+    {
         this.movableObject = nullthing.GetMovableNode();
         //Bad.GetComponent<AnimatorEventScript>().SetTarget(nullthing.script as IAnimatorEventCalled);
         //Normal.GetComponent<AnimatorEventScript>().SetTarget(nullthing.script as IAnimatorEventCalled);
         Egg.GetComponent<AnimatorEventScript>().SetTarget(nullthing.script as IAnimatorEventCalled);
+
+        level2Script.SetTarget(animScript);
+        current = malkutAgent;
+        level1SpriteRenderer.SetSprite(current);
+        
+    }
+
+    public void SetSpeed(float value) { 
+        
     }
 
     public void Change(WorkerModel model) {
         spriteSet.SetSprite(model);
         Transform targetTransform = null;
+        Sefira targetSefria = null;
+
+        if ((targetSefria = SefiraManager.instance.GetSefira(model.currentSefira)) != null) {
+            switch (targetSefria.name) { 
+                case "Malkut":
+                    if (model is AgentModel)
+                    {
+                        current = malkutAgent;
+                    }
+                    else {
+                        current = malkutOfficer;
+                    }
+                    break;
+                default:
+                    current = malkutOfficer;
+                    break;
+            }
+        }
+        
         if (model is AgentModel) {
             agentUnit = AgentLayer.currentLayer.GetAgent(model.instanceId);
             if (officerUnit != null) {
@@ -125,7 +187,7 @@ public class NullthingLevelController : MonoBehaviour {
             unit = officerUnit;
             targetTransform = (unit as OfficerUnit).gameObject.transform;
         }
-
+        level1SpriteRenderer.SetSprite(current);
         //targetTransform.SetParent(this.transform, true);
         /*
         targetTransform.localPosition = reference.localPosition;
@@ -176,9 +238,10 @@ public class NullthingLevelController : MonoBehaviour {
         }
     }
 
-    public void ChangeTransform() {
+    public void ChangeTransform(float speed) {
         Animator EggAnim = this.Egg.GetComponent<Animator>();
         this.Egg.gameObject.SetActive(true);
+        EggAnim.speed = speed;
         EggAnim.SetBool("Transform", true);
 
     }

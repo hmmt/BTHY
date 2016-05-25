@@ -101,11 +101,35 @@ public class PursueCreatureCommand : CreatureCommand
 				directionAdder = new Vector3 (-2, 0, 0);
 				
 			if (actor.attackDelay <= 0) {
+
+                //WorkerModel target = attackingList[index];
+                float targetX = targetWorker.GetMovableNode().GetCurrentViewPosition().x;
+                float modelX = actor.GetMovableNode().GetCurrentViewPosition().x;
+
+
+                if (modelX < targetX)
+                {
+                    actor.GetMovableNode().SetDirection(UnitDirection.RIGHT);
+                }
+                else
+                {
+                    actor.GetMovableNode().SetDirection(UnitDirection.LEFT);
+                }
+
 				actor.SendAnimMessage ("Attack");
 				//HitObjectManager.AddHitbox (actor.GetCurrentViewPosition ()+directionAdder, 0.5f, 4.0f, 3);
 
                 targetWorker.RecentlyAttackedCreature(actor);
                 targetWorker.TakePhysicalDamageByCreature(1);
+                AgentAnim animScript = null;
+                if (targetWorker is AgentModel)
+                {
+                    animScript = AgentLayer.currentLayer.GetAgent(targetWorker.instanceId).animTarget;
+                }
+                else {
+                    animScript = OfficerLayer.currentLayer.GetOfficer(targetWorker.instanceId).animTarget;
+                }
+                animScript.TakeDamageAnim(1);
 				actor.ResetAttackDelay ();
 			}
 
