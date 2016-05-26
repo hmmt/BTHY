@@ -146,7 +146,7 @@
 
     <graph>
       <node id="creature" x="-1.6" y="-1" type="creature"/>
-      <node id="workspace" x="1.9" y="-1" type="workspace"/>
+      <node id="workspace" x="0" y="-1" type="workspace"/>
 
       <!--<node id="door"  x="2" y="-1" type="entry"/>-->
       <node id="outter" x="0" y="0" type="outterDoor"/>
