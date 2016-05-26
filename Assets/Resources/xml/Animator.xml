@@ -15,4 +15,5 @@
   <node name ="MalkutOfficerAction" id ="20001" src="WorkerAnimators/MalkutOfficerAction"/>
   <node name ="YesodOfficerAction" id ="20004" src="WorkerAnimators/YesodOfficerAction"/>
   <node name ="LadyLooking_AgentCTRL" id="100021" src="CreatureAnimators/LadyLooking/LadyLooking_AgentCTRL"/>
+  <node name ="Nullthing_AgentCTRL" id="50005" src="CreatureAnimators/Nothing/Nothing_Killed"/>
 </root>

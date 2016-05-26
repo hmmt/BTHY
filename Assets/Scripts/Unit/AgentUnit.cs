@@ -50,6 +50,7 @@ public class AgentUnitUI
         mental.color = new Color(currentAlpha, currentAlpha, currentAlpha, 1);
 
         //workIcon.GetChild(1).GetComponent<Image>().color = c;
+        hp.maxValue = (float)model.maxHp;
 		hp.value = model.hp / (float)model.maxHp;
     }
 
@@ -487,7 +488,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
 	void Update()
 	{
-        if (model.isDead())
+		if (model.isDead() && model.nullParasite == null)
 		{
 			if (!dead) {
 				ui.initUI ();
@@ -671,6 +672,11 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 	{
 		accessoryUnit.SetAccessory (imgpos, imgsrc, 1f);
 	}
+
+    public void RemoveAccessoryAll() { 
+        //foreach(
+        accessoryUnit.RemoveAll();
+    }
 
     public void UIRecoilInput(int level, int target) {
         RectTransform targetRect = null;

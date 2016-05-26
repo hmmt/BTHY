@@ -1036,7 +1036,10 @@ public class GameStaticDataLoader {
 	}
 
     public void LoadCreatureStat(XmlNode stat, CreatureTypeInfo model) {
-
+        XmlNode speedNode = null;
+        if ((speedNode = stat.SelectSingleNode("speed")) != null) {
+            model.speed = (int)float.Parse(speedNode.InnerText);
+        }
         
         model.horrorProb = float.Parse(stat.SelectSingleNode("horrorProb").InnerText);
         model.horrorMin = float.Parse(stat.SelectSingleNode("horrorMin").InnerText);

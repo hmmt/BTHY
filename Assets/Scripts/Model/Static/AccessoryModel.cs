@@ -74,6 +74,14 @@ public class AccessoryUnit {
 		}
 	}
 
+    public void RemoveAll() {
+        foreach (AccessoryModel am in this.item) {
+            if (am != null) {
+                MonoBehaviour.Destroy(am.gameObject);
+            }
+        }
+    }
+
     public void Init(AgentAnim anim) {
         if (isInitialized) return;
         this.animatorScript = anim;

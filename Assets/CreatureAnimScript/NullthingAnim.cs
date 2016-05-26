@@ -7,6 +7,8 @@ public class NullthingAnim : CreatureAnimScript {
     public bool isDisguised = false;
     public NullCreature.NullState currentState = NullCreature.NullState.WORKER;
 
+    
+
     public void SetState(NullCreature.NullState state) {
         this.currentState = state;
     }

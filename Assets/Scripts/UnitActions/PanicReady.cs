@@ -20,10 +20,15 @@ public class PanicReady : PanicAction {
     }
 
 	public void Init()
-	{
+    {
+        if (actor.haltUpdate)
+        {
+            actor.ReleaseUpdate();
+        }
 		if (actor is AgentModel)
 		{
 			//AnimatorManager.instance.ResetAnimatorTransform(actor.instanceId);
+            
 			((AgentModel)actor).ResetAnimator();
 			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
 			agentView.puppetAnim.SetBool ("Panic", true);

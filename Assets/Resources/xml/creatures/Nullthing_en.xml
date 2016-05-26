@@ -23,6 +23,8 @@
       <physicsDmg>1.0</physicsDmg>
       <mentalDmg>25.0</mentalDmg>
 
+      <speed>4</speed>
+      
       <feelingMax>150.0</feelingMax>
       <feelingDownValue>4.0</feelingDownValue>
       <energyPointChange>-5</energyPointChange>
@@ -155,8 +157,21 @@
       <edge node1="creature" node2="workspace" type="road" />
     </graph>
 
+    <!--
     <sound action="attack" src="creature/onebad_good/oneBad_special_sry"/>
-    <sound action="enter" src="creature/onebad_good/oneBad_enter"/>
+    <sound action="enter" src="creature/onebad_good/oneBad_enter"/>-->
+    <sound action="change0" src="creature/nullthing/Guts_Rip_Out_Organ_Movement_01"/>
+    <sound action="change1" src="creature/nullthing/Blood_Wound_Gush_Flow_01"/>
+    <sound action="change2" src="creature/nullthing/Screams_Shouts_monster_processed_236"/>
+    <sound action="wait0" src="creature/nullthing/Death_MiniMonsterVOX_-004"/>
+    <sound action="wait1" src="creature/nullthing/Death_MiniMonsterVOX_-005"/>
+    <sound action="wait2" src="creature/nullthing/Death_MiniMonsterVOX_-006"/>
+    <sound action="wait3" src="creature/nullthing/Death_MiniMonsterVOX_-007"/>
+    <sound action="deadscene0" src="creature/nullthing/Bone_Twist_Creak_Snap_03"/>
+    <sound action="deadscene1" src="creature/nullthing/Bone_Twist_Creak_Snap_05"/>
+    <sound action="transforming" src="creature/nullthing/Screams_Shouts_monster_processed_141"/>
+    <sound action="suppressed" src="creature/nullthing/Screams_Shouts_monster_processed_192"/>
+
   </info>
 
   <observe level ="4">

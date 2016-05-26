@@ -150,8 +150,17 @@
       <edge node1="creature" node2="workspace" type="road" />
     </graph>
 
+    <!--
     <sound action="attack" src="creature/match_girl/matchgirl_attack"/>
     <sound action="enter" src="creature/match_girl/matchgirl_enter"/>
+    -->
+    <sound action="lookback" src="creature/ladylooking/Screams_Shouts_human_female_002"/>
+    <sound action="danger" src="creature/ladylooking/Danger"/>
+    <sound action="scream1" src="creature/ladylooking/Screams_Shouts_human_female_001"/>
+    <sound action="scream2" src="creature/ladylooking/Scream_fem_1A"/>
+    <sound action="breathing" src="creature/ladylooking/Breathing(female)"/>
+    <sound action="beep" src="creature/ladylooking/jhepkema__noise"/>
+    <sound action="scream3" src="creature/ladylooking/Screams_Shouts_human_female_132"/>
   </info>
 
   <observe level ="1">

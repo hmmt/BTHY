@@ -1135,6 +1135,8 @@ public class AgentModel : WorkerModel
         else { 
             
         }
+
+        AgentLayer.currentLayer.GetAgent(this.instanceId).RemoveAccessoryAll();
 	}
 
     /// <summary>
@@ -1555,6 +1557,7 @@ public class AgentModel : WorkerModel
     {
         base.TakeMentalDamage(damage);
         AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.instanceId);
+        unit.animTarget.TakeDamageAnim(0);
         int damageLevel;
         float unitValue = this.defaultMaxMental / 5f;
         damageLevel = (int)(damage / unitValue);

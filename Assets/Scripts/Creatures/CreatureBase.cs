@@ -119,6 +119,7 @@ public class CreatureBase {
             Debug.Log(leftX + " " + rightX + " " + downY + " " + upY);
         }
     }
+
     protected CreatureModel model;
     public CreatureSpecialSkill skill;
     public bool hasUniqueEscapeLogic;
@@ -262,6 +263,34 @@ public class CreatureBase {
         pd_e.DelayedDestroy(10f);
         pd_h.DelayedDestroy(5f);
 
+    }
+
+    public void MakeEffectAlter(IsolateRoom room, int result) {
+        GameObject heart;
+        GameObject energy;
+        switch (result)
+        {
+            case 0:
+                heart = Prefab.LoadPrefab("Effect/Isolate/GoodWork");
+                energy = Prefab.LoadPrefab("Effect/Isolate/EnergyUp");
+                break;
+            case 2:
+                heart = Prefab.LoadPrefab("Effect/Isolate/BadWork");
+                energy = Prefab.LoadPrefab("Effect/Isolate/EnergyDown");
+                break;
+            default: return;
+        }
+        heart.transform.SetParent(room.transform);
+        heart.transform.localScale = Vector3.one;
+        heart.transform.localPosition = Vector3.zero;
+        energy.transform.SetParent(room.transform);
+        energy.transform.localScale = Vector3.one;
+        energy.transform.localPosition = Vector3.zero;
+
+        ParticleDestroy pd_h = heart.GetComponent<ParticleDestroy>();
+        ParticleDestroy pd_e = energy.GetComponent<ParticleDestroy>();
+        pd_e.DelayedDestroy(10f);
+        pd_h.DelayedDestroy(5f);
     }
 
     public void SetCurrentSkillResult(int index) {
