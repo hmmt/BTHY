@@ -9,7 +9,7 @@ public class Uncontrollable_Machine : UncontrollableAction {
     private SingingMachineSkill machineSkill;
 
     private float waitTimer = 0;
-    private WorkerModel target = null;
+    public WorkerModel target = null;
     private float startWaitTimer = 6f;
     private Animator puppetAnim;
 
@@ -74,6 +74,7 @@ public class Uncontrollable_Machine : UncontrollableAction {
 
             if (target == null)
             {
+				/*
                 AgentModel[] nears = AgentManager.instance.GetNearAgents(model.GetMovableNode());
 
                 List<AgentModel> filteredAgents = new List<AgentModel>();
@@ -85,12 +86,48 @@ public class Uncontrollable_Machine : UncontrollableAction {
 
                 if (filteredAgents.Count > 0)
                 {
-                    target = filteredAgents[0];
+                    //target = filteredAgents[0];
                     if (model is AgentModel)
-                        ((AgentModel)model).PursueUnconAgent(target as AgentModel);
+						((AgentModel)model).PursueUnconAgent(filteredAgents[0]);
                     else
-                        ((OfficerModel)model).PursueUnconAgent(target as AgentModel);
+						((OfficerModel)model).PursueUnconAgent(filteredAgents[0]);
                 }
+                */
+
+				List<WorkerModel> detectedWorkers = new List<WorkerModel> (AgentManager.instance.GetNearAgents (model.GetMovableNode ()));
+				detectedWorkers.AddRange (OfficerManager.instance.GetNearOfficers (model.GetMovableNode ()));
+
+				if (detectedWorkers.Count > 0) {
+					//PursueWorker (detectedAgents [0]);
+
+					WorkerModel nearest = null;
+					float nearestDist = 100000;
+					foreach (WorkerModel worker in detectedWorkers)
+					{
+						if (worker.GetMovableNode ().GetPassage () == null)
+							continue;
+
+						if (worker == model)
+							continue;
+
+						Vector3 v = worker.GetCurrentViewPosition () - model.GetCurrentViewPosition ();
+
+						float m = v.magnitude;
+
+						if (nearestDist > m) {
+							nearestDist = m;
+							nearest = worker;
+						}
+					}
+
+					if (nearest != null)
+					{
+						if (model is AgentModel)
+							((AgentModel)model).PursueUnconAgent (nearest);
+						else if (model is OfficerModel)
+							((OfficerModel)model).PursueUnconAgent (nearest);
+					}
+				}
             }
         }
         else if(this.drag == true) {
@@ -101,6 +138,8 @@ public class Uncontrollable_Machine : UncontrollableAction {
             if (listenDelay > listenTime) {
                 listenDelay = 0f;
                 this.listen = false;
+
+				this.puppetAnim.SetBool("Kill", false);
             }
         }
         
@@ -113,25 +152,43 @@ public class Uncontrollable_Machine : UncontrollableAction {
     {
         //machine remove this worker in lists
         //make dead animation
+		if (this.drag)
+		{
+			FailDrag ();
+		}
         machineSkill.OnAttractedTargetTerminated(this.model);
     }
 
     public override void OnClick()
     {
+		/*
         if (model is OfficerModel) {
             Debug.Log("officer model is not ready");
             return;
         }
+        */
 
-        SuppressWindow.CreateWindow((AgentModel)model);
+		if(model is AgentModel)
+        	SuppressWindow.CreateWindow((AgentModel)model);
+		else
+			SuppressWindow.CreateWindow((OfficerModel)model);
     }
 
     float moveDelayTimer = 0;
+	float underattackTimer = 0;
     public void Drag() { 
         //끌고가서 드랍하고
         //반복
         
         //격리실도착하면Drop시전
+
+		if (underattackTimer > 0)
+		{
+			model.StopAction ();
+			victim.StopAction ();
+			underattackTimer -= Time.deltaTime;
+			return;
+		}
 
         if (moveDelayTimer > 0)
         {
@@ -141,6 +198,8 @@ public class Uncontrollable_Machine : UncontrollableAction {
         if (moveDelayTimer <= 0)
         {
             model.MoveToNode(machineSkill.model.GetWorkspaceNode());
+
+			victim.StopStun ();
 			//victim.MoveToMovable (model.GetMovableNode ());
 			victim.FollowMovable(model.GetMovableNode());
 
@@ -158,6 +217,7 @@ public class Uncontrollable_Machine : UncontrollableAction {
         //노래또만들고
 
         Debug.Log("Dropped");
+
         if (this.model is AgentModel) {
             AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
 
@@ -168,10 +228,13 @@ public class Uncontrollable_Machine : UncontrollableAction {
             officerView.SetParameterOnce("Drop", true);
         }
 
-		AnimatorManager.instance.ChangeAnimatorByID(this.victim.instanceId, AnimatorName.id_Machine_victim, victimAnim, true, false);
+
+		//AnimatorManager.instance.ChangeAnimatorByID(this.victim.instanceId, AnimatorName.id_Machine_victim, victimAnim, true, false);
 		//victimAnim.SetInteger("Type", 1);
 		victimAnim.SetBool("Drop", true);
-		this.victim.invincible = false;
+		this.victim.SetInvincible (false);
+		//this.victim.TakePhysicalDamageByCreature (this.victim.maxHp);
+		this.victim.Die();
 		this.victim.ClearUnconCommand ();
 
 
@@ -199,13 +262,36 @@ public class Uncontrollable_Machine : UncontrollableAction {
         }
 
         if (victim is AgentModel) {
-            this.victimAnim = AgentLayer.currentLayer.GetAgent(victim.instanceId).puppetAnim;
+			(victim as AgentModel).ResetAnimator ();
+			AgentUnit unit = AgentLayer.currentLayer.GetAgent (victim.instanceId);
+			this.victimAnim = unit.puppetAnim;
         }
         else if (victim is OfficerModel) {
             this.victimAnim = OfficerLayer.currentLayer.GetOfficer(victim.instanceId).puppetAnim;
         }
 
         AnimatorManager.instance.ChangeAnimatorByName(victim.instanceId, "Machine_victim", victimAnim, true, false);
+		victimAnim.SetInteger ("Type", 2);
+
     }
+
+	public void FailDrag()
+	{
+		if (!drag) {
+			return;
+		}
+
+		victim.ResetAnimator ();
+		victim.GetControl ();
+	}
+
+	public override void UnderAttack()
+	{
+		if(this.drag)
+		{
+			underattackTimer = 3.0f;
+			Drag ();
+		}
+	}
 
 }

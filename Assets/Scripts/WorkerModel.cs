@@ -313,6 +313,9 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
 			OnDie ();
         }
 
+		if (unconAction != null)
+			unconAction.UnderAttack ();
+		
 		MakeSpatteredBlood ();
     }
 
@@ -343,6 +346,8 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
 			OnDie ();
         }
 
+		if (unconAction != null)
+			unconAction.UnderAttack ();
 		MakeSpatteredBlood ();
     }
 
@@ -386,6 +391,10 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
 	public virtual void Stun(float time)
 	{
 		stunTime = time;
+	}
+	public virtual void StopStun()
+	{
+		stunTime = 0;
 	}
 
 	public virtual void OnHitByWorker(WorkerModel worker)

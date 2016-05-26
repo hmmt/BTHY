@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class OfficerUnitUI
+{
+	public Image touchArea;
+}
 
 public class OfficerUnit : MonoBehaviour {
     
@@ -17,6 +22,9 @@ public class OfficerUnit : MonoBehaviour {
     public GameObject puppetNode;
     public Animator puppetAnim;
     public AgentAnim animTarget;
+
+	public OfficerUnitUI ui;
+
 
     public float oldPos;
     public float oldPosY;
@@ -38,29 +46,7 @@ public class OfficerUnit : MonoBehaviour {
 
     public Dictionary<string, SoundEffectPlayer> sounds;
 
-    void LateUpdate() {
-        /*
-        foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>()) {
-            if (renderer.sprite.name == "Face_A_00")
-                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
-            else if (renderer.sprite.name == "Face_A_01")
-                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_01");
-            else if (renderer.sprite.name == "Face_A_02")
-                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_02");
-        }
-
-        foreach (var renderer in hairSprite.GetComponents<SpriteRenderer>()) {
-            if (renderer.sprite.name == "Hair_M_A_00")
-                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
-            else if (renderer.sprite.name == "Hair_M_A_01")
-                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_01");
-            else if (renderer.sprite.name == "Hair_M_A_02")
-            {
-                renderer.sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_02");
-                renderer.transform.localScale.Set(-1, 1, 1);
-            }
-        }*/
-    }
+ 
 
     void Start() {
         AnimatorManager.instance.SaveAnimator(model.instanceId, puppetAnim);
@@ -75,9 +61,6 @@ public class OfficerUnit : MonoBehaviour {
 
         officerName.text = model.name;
 
-        //faceSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Face/Face_" + model.faceSpriteName + "_00");
-        //hairSprite.GetComponent<SpriteRenderer>().sprite = ResourceCache.instance.GetSprite("Sprites/Agent/Hair/Hair_M_" + model.hairSpriteName + "_00");
-        
         //ChangeAgentUnifrom();과 동일?
         model.SetUnit(this);
         this.animTarget.Init(this.model);
@@ -126,45 +109,6 @@ public class OfficerUnit : MonoBehaviour {
 				puppetScale.x = -puppetScale.x;
 		}
 		puppet.transform.localScale = puppetScale;
-
-		return;
-
-        MapEdge currentEdge = model.GetCurrentEdge();
-		EdgeDirection edgeDirection = model.GetEdgeDirection();
-
-        if (currentEdge != null) {
-            MapNode node1 = currentEdge.node1;
-            MapNode node2 = currentEdge.node2;
-
-            Vector2 pos1 = node1.GetPosition();
-            Vector2 pos2 = node2.GetPosition();
-
-			if (edgeDirection == EdgeDirection.FORWARD)
-            {
-
-                if (pos2.x - pos1.x > 0 && puppetScale.x < 0)
-                {
-                    puppetScale.x = -puppetScale.x;
-                }
-                else if (pos2.x - pos1.x < 0 && puppetScale.x > 0)
-                {
-                    puppetScale.x = -puppetScale.x;
-                }
-                puppetAnim.transform.localScale = puppetScale;
-            }
-            else {
-
-                if (pos2.x - pos1.x > 0 && puppetScale.x > 0)
-                {
-                    puppetScale.x = -puppetScale.x;
-                }
-                else if (pos2.x - pos1.x < 0 && puppetScale.x < 0)
-                {
-                    puppetScale.x = -puppetScale.x;
-                }
-                puppetAnim.transform.localScale = puppetScale;
-            }
-        }
     }
 
     private bool visible = true;
@@ -196,6 +140,26 @@ public class OfficerUnit : MonoBehaviour {
             transform.localPosition = newPosition;
         }
     }
+
+	private void UpdateTouch()
+	{
+		if(model.GetState() == OfficerAIState.CANNOT_CONTROLL && model.unconAction is Uncontrollable_Machine)
+		{
+			/*
+			ui.touchAreaLarge.gameObject.SetActive (true);
+			RectTransform rt = ui.touchAreaLarge.GetComponent<RectTransform>();
+			Vector3 pos = rt.localPosition;
+			pos.z = -10000f;
+			rt.localPosition = pos;
+			*/
+			ui.touchArea.gameObject.SetActive (true);
+		}
+		else
+		{
+			ui.touchArea.gameObject.SetActive (false);
+			//ui.touchAreaLarge.gameObject.SetActive (false);
+		}
+	}
 
     private float waitTimer = 0;
 
@@ -248,20 +212,9 @@ public class OfficerUnit : MonoBehaviour {
 		{
 	        if (model.GetMovableNode().IsMoving())
 	        {
-	            /*
-	            puppetAnim.SetBool("Move", true);
-	            faceSprite.GetComponent<Animator>().SetBool("Move", true);
-	            hairSprite.GetComponent<Animator>().SetBool("Move", true);
-	            //officerAnimator.SetBool();
-	            */
 	            puppetAnim.SetBool("Move", true);
 	        }
 	        else {
-	            /*
-	            officerAnimator.SetBool("AgentMove", false);
-	            faceSprite.GetComponent<Animator>().SetBool("Move", false);
-	            hairSprite.GetComponent<Animator>().SetBool("Move", false);
-	             */
 	            puppetAnim.SetBool("Move", false);
 	        }
 		}
@@ -634,6 +587,50 @@ public class OfficerUnit : MonoBehaviour {
         return false;
     }
     */
+
+	IEnumerator MannualMovingWithTime(Vector3 pos, bool blockMoving, float time)
+	{
+		Transform target = this.gameObject.transform;
+		Vector3 initial = new Vector3(target.position.x, target.position.y, target.position.z);
+		Vector3 reference = new Vector3(pos.x - target.position.x,
+			pos.y - target.position.y,
+			0f);
+		//int cnt = 3;
+		float elapsedTime = 0;
+		this.blockMoving = blockMoving;
+
+		//while (cnt > 0)
+		while(elapsedTime < time)
+		{
+			//yield return new WaitForSeconds(0.1f);
+			yield return new WaitForFixedUpdate();
+			target.localPosition = new Vector3(initial.x + (reference.x ) * (elapsedTime / time), initial.y + (reference.y ) * (elapsedTime / time), initial.z);
+			//cnt--;
+			elapsedTime += Time.deltaTime;
+		}
+
+		isMovingByMannually = true;
+	}
+
+	public bool MannualMovingCallWithTime(Vector3 pos, float time)
+	{
+		if (!isMovingStarted)
+		{
+			isMovingStarted = true;
+			isMovingByMannually = false;
+			StartCoroutine(MannualMovingWithTime(pos, true, time));
+			return false;
+		}
+
+		if (isMovingByMannually)
+		{
+			isMovingByMannually = false;
+			isMovingStarted = false;
+			return true;
+		}
+		return false;
+	}
+
     public bool CheckMannualMovingEnd() {
         
         if (isMovingByMannually) {

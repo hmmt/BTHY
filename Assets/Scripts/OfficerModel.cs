@@ -379,7 +379,8 @@ public class OfficerModel : WorkerModel {
 
 	public override void StopAction()
 	{
-		state = OfficerAIState.IDLE;
+		if(state != OfficerAIState.CANNOT_CONTROLL)
+			state = OfficerAIState.IDLE;
 		commandQueue.Clear();
        
         if (isMoving) isMoving = false;
@@ -396,9 +397,9 @@ public class OfficerModel : WorkerModel {
     public override void TakePhysicalDamage(int damage, DamageType dmgType)
     {
         base.TakePhysicalDamage(damage, dmgType);
-        StopAction();
-        //_unit.puppetAnim.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
-        
+
+		if(unconAction == null)
+        	StopAction();
     }
 
     public override void OnHitByWorker(WorkerModel worker)
@@ -410,8 +411,9 @@ public class OfficerModel : WorkerModel {
     public override void TakePhysicalDamageByCreature(float damage)
     {
         base.TakePhysicalDamageByCreature(damage);
-        StopAction();
-        //_unit.puppetAnim.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
+
+		if(unconAction == null)
+        	StopAction();
     }
 
     public override void ShowCreatureActionSpeech(long creatureID, string key)

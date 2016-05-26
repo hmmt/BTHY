@@ -43,4 +43,21 @@ public class SingingMachine : CreatureBase {
 	{
 		return false;
 	}
+
+	public override void AgentAnimCalled(int i, WorkerModel actor)
+	{
+		switch (i)
+		{
+		case 1:
+			if (actor is AgentModel) {
+				AgentUnit agentView = AgentLayer.currentLayer.GetAgent (actor.instanceId);
+				agentView.MannualMovingCallWithTime (agentView.transform.localPosition + new Vector3 (-2f, 0, 0), 4f);
+			}
+			else if(actor is OfficerModel){
+				OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (actor.instanceId);
+				officerView.MannualMovingCallWithTime (officerView.transform.localPosition + new Vector3 (-2f, 0, 0), 4f);
+			}
+			break;
+		}
+	}
 }

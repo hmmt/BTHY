@@ -903,7 +903,8 @@ public class AgentModel : WorkerModel
 	public override void StopAction()
 	{
 		// if state is CANNOT_CONTROLL?
-		state = AgentAIState.IDLE;
+		if(state != AgentAIState.CANNOT_CONTROLL)
+			state = AgentAIState.IDLE;
 		commandQueue.Clear();
 		//AgentCommand cmd = GetCurrentCommand();
 		this.target = null;
