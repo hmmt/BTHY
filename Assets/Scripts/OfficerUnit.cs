@@ -98,6 +98,9 @@ public class OfficerUnit : MonoBehaviour {
 
 		Vector3 puppetScale = puppet.localScale;
 
+		if (animTarget.GetFlipDirection ())
+			movableDirection = (movableDirection == UnitDirection.LEFT ? UnitDirection.RIGHT : UnitDirection.LEFT);
+
 		if (movableDirection == UnitDirection.RIGHT)
 		{
 			if (puppetScale.x > 0)

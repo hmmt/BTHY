@@ -392,7 +392,7 @@ public class AgentModel : WorkerModel
 		if(moveDelay > 0)
 			movableNode.ProcessMoveNode(0);
 		else
-			movableNode.ProcessMoveNode((int)(movement * movementMul));
+			movableNode.ProcessMoveNode(movement * movementMul);
     }
 
     public void checkAgentLifeValue(TraitTypeInfo addTrait)

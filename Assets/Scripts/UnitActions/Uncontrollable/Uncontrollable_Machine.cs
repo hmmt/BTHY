@@ -222,11 +222,22 @@ public class Uncontrollable_Machine : UncontrollableAction {
             AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
 
             agentView.SetParameterOnce("Drop", true);
+			agentView.animTarget.FlipDirection (false);
         }
         else if (this.model is OfficerModel) {
             OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(model.instanceId);
             officerView.SetParameterOnce("Drop", true);
+			officerView.animTarget.FlipDirection (false);
         }
+
+		if (victim is AgentModel) {
+			AgentUnit unit = AgentLayer.currentLayer.GetAgent (victim.instanceId);
+			unit.animTarget.FlipDirection (false);
+		}
+		else if (victim is OfficerModel) {
+			OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer (victim.instanceId);
+			unit.animTarget.FlipDirection (false);
+		}
 
 
 		//AnimatorManager.instance.ChangeAnimatorByID(this.victim.instanceId, AnimatorName.id_Machine_victim, victimAnim, true, false);
@@ -249,25 +260,33 @@ public class Uncontrollable_Machine : UncontrollableAction {
         this.victim = victim;
         this.drag = true;
         this.moveDelayTimer = 0;
+
+		this.victim.movementMul = (float)this.model.movement / (float)this.victim.movement * 1.1f;
+		Debug.Log ("set movementMul : " + victim.movementMul);
         
         //격리실로 이동 시작
         if (this.model is AgentModel) {
             AgentUnit agentView = AgentLayer.currentLayer.GetAgent(model.instanceId);
 
             agentView.SetParameterOnce("Drag", true);
+			agentView.animTarget.FlipDirection (true);
         }
         else if (this.model is OfficerModel) {
             OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(model.instanceId);
             officerView.SetParameterOnce("Drag", true);
+			officerView.animTarget.FlipDirection (true);
         }
 
         if (victim is AgentModel) {
 			(victim as AgentModel).ResetAnimator ();
 			AgentUnit unit = AgentLayer.currentLayer.GetAgent (victim.instanceId);
 			this.victimAnim = unit.puppetAnim;
+			unit.animTarget.FlipDirection (true);
         }
         else if (victim is OfficerModel) {
+			OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer (victim.instanceId);
             this.victimAnim = OfficerLayer.currentLayer.GetOfficer(victim.instanceId).puppetAnim;
+			unit.animTarget.FlipDirection (true);
         }
 
         AnimatorManager.instance.ChangeAnimatorByName(victim.instanceId, "Machine_victim", victimAnim, true, false);
@@ -281,6 +300,16 @@ public class Uncontrollable_Machine : UncontrollableAction {
 			return;
 		}
 
+		victim.movementMul = 1;
+
+		if (victim is AgentModel) {
+			AgentUnit unit = AgentLayer.currentLayer.GetAgent (victim.instanceId);
+			unit.animTarget.FlipDirection (false);
+		}
+		else if (victim is OfficerModel) {
+			OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer (victim.instanceId);
+			unit.animTarget.FlipDirection (false);
+		}
 		victim.ResetAnimator ();
 		victim.GetControl ();
 	}

@@ -170,7 +170,7 @@ public class WorkerModel: UnitModel, IObserver, ISerializablePlayData {
     public virtual void OnFixedUpdate() {
         if (haltUpdate) return;
         ProcessAction();
-		movableNode.ProcessMoveNode((int)(movement * movementMul));
+		movableNode.ProcessMoveNode(movement * movementMul);
     }
     
     /// <summary>
