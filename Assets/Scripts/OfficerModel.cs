@@ -459,6 +459,9 @@ public class OfficerModel : WorkerModel {
 
 	public override void LoseControl()
 	{
+		if (state == OfficerAIState.MEMO_MOVE || state == OfficerAIState.MEMO_STAY) {
+			SefiraManager.instance.GetSefira(currentSefira).EndCreatureWork(target);
+		}
 		state = OfficerAIState.CANNOT_CONTROLL;
 		commandQueue.Clear ();
 	}
@@ -548,6 +551,10 @@ public class OfficerModel : WorkerModel {
 
 	public override void OnDie()
 	{
+		if (state == OfficerAIState.MEMO_MOVE || state == OfficerAIState.MEMO_STAY) {
+			SefiraManager.instance.GetSefira(currentSefira).EndCreatureWork(target);
+		}
+
 		if (unconAction != null) {
 			unconAction.OnDie ();
 		}
