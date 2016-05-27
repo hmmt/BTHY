@@ -25,4 +25,19 @@ public class UncontrollableAction {
 	public virtual void OnClick()
 	{
 	}
+
+
+	public virtual void UnderAttack()
+	{
+
+	}
+
+	public virtual void OnTakePhysicalDamage(int damage)
+	{
+		
+	}
+
+	public virtual void OnTakeMentalDamage(int damage)
+	{
+	}
 }

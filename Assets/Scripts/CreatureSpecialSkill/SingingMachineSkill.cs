@@ -154,16 +154,23 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
 
     private void SpecialSkill(WorkerModel target, int type) {
         Animator targetAnim;
+
         Debug.Log(target.name);
         if (target is AgentModel) {
-            targetAnim = AgentLayer.currentLayer.GetAgent(target.instanceId).puppetAnim;
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (target.instanceId);
+			targetAnim = agentView.puppetAnim;
 
 			(target as AgentModel).FinishWorking ();
+
+			//agentView.MannualMovingCallWithTime (agentView.transform.localPosition + new Vector3 (-1.5f, 0, 0), 3);
         }
         else if(target is OfficerModel){
-            targetAnim = OfficerLayer.currentLayer.GetOfficer(target.instanceId).puppetAnim;
+			OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer (target.instanceId);
+
+			targetAnim = officerView.puppetAnim;
         }
-        else{
+        else
+		{
             Debug.Log("Error");
             return;
         }
@@ -175,6 +182,10 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         AnimatorManager.instance.ResetAnimatorTransform(target.instanceId);
         AnimatorManager.instance.ChangeAnimatorByID(target.instanceId, AnimatorName.id_Machine_victim, targetAnim, true, false);
         targetAnim.SetInteger("Type", type);
+
+		target.animationMessageRecevied = model.script;
+
+		target.Die ();
         MakeNote();
         //add feeling 80% 
         this.model.AddFeeling((float)this.model.metaInfo.feelingMax * 0.8f);

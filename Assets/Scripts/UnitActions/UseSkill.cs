@@ -134,6 +134,9 @@ public class UseSkill : ActionClassBase
 
     public void FixedUpdate()
     {
+		if (finished)
+			return;
+		
 		if (agent.GetCurrentNode() != null && agent.GetCurrentNode().GetId() == targetCreature.GetWorkspaceNode().GetId())
 		{
 			if (!faceCreature)
@@ -146,8 +149,13 @@ public class UseSkill : ActionClassBase
 			}
 		}
 
+		if (finished)
+			return;
 
 		targetCreature.script.OnFixedUpdateInSkill (this);
+
+		if (finished)
+			return;
 
 		CheckLive();
 		if (finished)

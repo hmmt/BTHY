@@ -392,7 +392,7 @@ public class AgentModel : WorkerModel
 		if(moveDelay > 0)
 			movableNode.ProcessMoveNode(0);
 		else
-			movableNode.ProcessMoveNode((int)(movement * movementMul));
+			movableNode.ProcessMoveNode(movement * movementMul);
     }
 
     public void checkAgentLifeValue(TraitTypeInfo addTrait)
@@ -903,7 +903,8 @@ public class AgentModel : WorkerModel
 	public override void StopAction()
 	{
 		// if state is CANNOT_CONTROLL?
-		state = AgentAIState.IDLE;
+		if(state != AgentAIState.CANNOT_CONTROLL)
+			state = AgentAIState.IDLE;
 		commandQueue.Clear();
 		//AgentCommand cmd = GetCurrentCommand();
 		this.target = null;
@@ -1134,6 +1135,8 @@ public class AgentModel : WorkerModel
         else { 
             
         }
+
+        AgentLayer.currentLayer.GetAgent(this.instanceId).RemoveAccessoryAll();
 	}
 
     /// <summary>
@@ -1554,6 +1557,7 @@ public class AgentModel : WorkerModel
     {
         base.TakeMentalDamage(damage);
         AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.instanceId);
+        unit.animTarget.TakeDamageAnim(0);
         int damageLevel;
         float unitValue = this.defaultMaxMental / 5f;
         damageLevel = (int)(damage / unitValue);

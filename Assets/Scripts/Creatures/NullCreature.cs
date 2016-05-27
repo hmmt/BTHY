@@ -64,6 +64,21 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     private static string transImage = "Unit/creature/NullThing";
 
     private bool changed = false;
+    bool isPlayingDeadScene = false;
+
+
+    const string changeSoundKey0 = "change0";
+    const string changeSoundKey1 = "change1";
+    const string changeSoundKey2 = "change2";
+    const string waitSoundKey0 = "wait0";
+    const string waitSoundKey1 = "wait1";
+    const string waitSoundKey2 = "wait2";
+    const string waitSoundKey3 = "wait3";
+    const string deadsceneSoundKey0 = "deadscene0";
+    const string deadsceneSoundKey1 = "deadscene1";
+    const string transformingSoundKey = "transforming";
+    const string suppressedSoundKey = "suppressed";
+
     public NullState currentNullState = NullState.WORKER;
     private WorkerModel _currentWorker = null;
     public WorkerModel currentWorker {
@@ -71,8 +86,11 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
             return _currentWorker;
         }
     }
+    public PersonalityType currentLifeType = PersonalityType.C;
+    WorkerModel recentWorker = null;
 
     public List<WorkerModel> attackingList = new List<WorkerModel>();
+    List<WorkerModel> currentAttackTarget = new List<WorkerModel>();
     NullthingLevelController levelControl = null;
     NullthingAnim animScript = null;
     bool isEscaped = false;
@@ -82,7 +100,10 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     public bool isChanging = false;
     CreatureTimer delayedChangeTimer = new CreatureTimer();
     CreatureTimer escapeCoolTimer = new CreatureTimer(60f);
+    CreatureTimer staySoundTimer = new CreatureTimer();
     bool isEscapableState = true;
+
+    CreatureUnit _nullUnit = null;
 
 	public override void OnInit()
 	{
@@ -91,7 +112,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         }
         model.escapeType = CreatureEscapeType.WANDER;
         model.AddFeeling(1000);//make Max feeling
-
+        staySoundTimer.TimerStart(Random.Range(10f, 30f), true);
 		//model.SetCurrentNode (MapGraph.instance.GetNodeById("sefira-malkuth-4"));
 	}
 
@@ -111,6 +132,39 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         escapeCoolTimer.TimerStop();
         escapeCoolTimer.TimerStart(true);
     }
+
+
+    public void ActivateSkillEscaped(WorkerModel targetWorker)
+    {
+        //levelControl.Good.gameObject.SetActive(false);
+        //levelControl.Good = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId).gameObject;
+        //levelControl.Good.gameObject.SetActive(true);
+        //levelControl.Change(skill.agent);
+        //this.ChangeToWoreker(skill.agent);
+        // skill.agent.SetUncontrollableAction(new Uncontrollable_Nullthing(skill.agent, this));
+        //model.AddFeeling(200f);
+
+        levelControl.Good.gameObject.SetActive(false);
+        if (targetWorker is AgentModel)
+        {
+            levelControl.Good = AgentLayer.currentLayer.GetAgent(targetWorker.instanceId).gameObject;
+
+        }
+        else if (targetWorker is OfficerModel)
+        {
+            levelControl.Good = OfficerLayer.currentLayer.GetOfficer(targetWorker.instanceId).gameObject;
+        }
+        ChangeToWoreker(targetWorker);
+        levelControl.Change(targetWorker);
+        model.AddFeeling(200f);
+        model.GetMovableNode().Assign(targetWorker.GetMovableNode());
+        (model.GetAnimScript() as NullthingAnim).isDisguised = true;
+        escapeTimer.TimerStart(false);
+        UIEffectManager.instance.ActivateUIEffect("BlackOut", 1f, 0, false);
+
+        _nullUnit.PlaySound(changeSoundKey0);
+    }
+
 
     private void ChangeBody()
     {
@@ -135,6 +189,11 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         //if escaped, make effect
         
         this._currentWorker = targetModel;
+        recentWorker = targetModel;
+        if (recentWorker is AgentModel) {
+            currentLifeType = (recentWorker as AgentModel).agentLifeValue;
+        }
+        
         targetModel.LoseControl();
         Debug.Log("Null Change to " + targetModel.name);
         model.AddFeeling(200f);
@@ -214,13 +273,17 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     {
         levelControl = model.GetAnimScript().gameObject.GetComponent<NullthingLevelController>();
         animScript = model.GetAnimScript() as NullthingAnim;
+        AnimatorEventInit();
         levelControl.Init(this.model);
+
+        _nullUnit = CreatureLayer.currentLayer.GetCreature(this.model.instanceId);
 
         AnimatorEventInit();
     }
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
+        if (isPlayingDeadScene) return;
         CheckCreatureFeeling();
         if (isChanging) return;
 
@@ -245,6 +308,28 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         if (_currentWorker != null) {
             model.GetMovableNode().Assign(_currentWorker.GetMovableNode());
         }
+
+        if (!isEscaped) {
+            if (staySoundTimer.TimerRun()) {
+                int randVal = Random.Range(0, 4);
+                switch (randVal) { 
+                    case 0:
+                        _nullUnit.PlaySound(waitSoundKey0);
+                        break;
+                    case 1:
+                        _nullUnit.PlaySound(waitSoundKey1);
+                        break;
+                    case 2:
+                        _nullUnit.PlaySound(waitSoundKey2);
+                        break;
+                    default:
+                        _nullUnit.PlaySound(waitSoundKey3);
+                        break;
+                }
+
+                staySoundTimer.TimerStart(Random.Range(10f, 30f), true);
+            }
+        }
     }
 
     public override void OnReturn()
@@ -258,8 +343,9 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         if (model.GetFeelingPercent() < 33f && this.currentNullState != NullState.CREATURE) {
             currentNullState = NullState.CREATURE;
             isChanging = true;
-            levelControl.ChangeTransform();
+            levelControl.ChangeTransform(1f);
             this.model.GetMovableNode().StopMoving();
+            //_currentWorker = null;
             //model.GetAnimScript().SendMessage("Transform");
             //make message for eat agent
             //this.levelControl.Disable(this.currentNullState);
@@ -269,7 +355,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         if (model.GetFeelingPercent() >= 33f && model.GetFeelingPercent() < 66f && this.currentNullState != NullState.BROKEN) {
             currentNullState = NullState.BROKEN;
             isChanging = true;
-            levelControl.ChangeTransform();
+            levelControl.ChangeTransform(1f);
             this.model.GetMovableNode().StopMoving();
             //model.GetAnimScript().SendMessage("Transform");
             ChangeToCollapsed();
@@ -281,7 +367,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
 
             currentNullState = NullState.WORKER;
             isChanging = true;
-            levelControl.ChangeTransform();
+            levelControl.ChangeTransform(3f);
             this.model.GetMovableNode().StopMoving();
             //model.GetAnimScript().SendMessage("Transform");
             //this.levelControl.Disable(this.currentNullState);
@@ -359,10 +445,13 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     */
 
     public void ActivateSkillOut(WorkerModel wm) {
-        if (Prob(100))
+        if (Prob(50))
         {
             //UIEffectManager.instance.Noise(8f);
             Debug.Log("Escape Activate Skill " + wm.name);
+            wm.GetMovableNode().StopMoving();
+            this.model.GetMovableNode().StopMoving();
+            wm.HaltUpdate();
             ActivateSkillEscaped(wm);
             attackingList.Clear();
 
@@ -373,6 +462,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
                 {
                     if (am == wm) continue;
                     am.TakeMentalDamage(Random.Range(1, 3));
+                    
                 }
                 foreach (OfficerModel om in sefira.officerList)
                 {
@@ -382,13 +472,53 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
             }
         }
         else {
-            UIEffectManager.instance.Noise(5f);
+            //DeadScene
+
+            this.model.GetMovableNode().StopMoving();
+            wm.HaltUpdate();
+
+            DeadScene(wm);
+
+            //UIEffectManager.instance.Noise(5f);
+           // UIEffectManager.instance.ActivateUIEffect("BlackOut", 1f, false);
+            UIEffectManager.instance.NoiseScreen(2f, 30);
         }
+    }
+
+    void DeadScene(WorkerModel wm) {
+        this.animScript.animator.SetBool("Killcam", true);
+        this.animScript.animator.SetBool("Special", false);
+
+        Animator animTarget = null;
+        float TargetPos = wm.GetMovableNode().GetCurrentViewPosition().x;
+        if (wm is AgentModel)
+        {
+            animTarget = AgentLayer.currentLayer.GetAgent(wm.instanceId).puppetAnim;
+           
+        }
+        else {
+            animTarget = OfficerLayer.currentLayer.GetOfficer(wm.instanceId).puppetAnim;
+        }
+
+        AnimatorManager.instance.ResetAnimatorTransform(wm.instanceId);
+        AnimatorManager.instance.ChangeAnimatorByID(wm.instanceId, AnimatorName.id_Nullthing_AgentCTRL, animTarget, true, false);
+
+        if (TargetPos < this.model.GetMovableNode().GetCurrentViewPosition().x)
+        {
+            this.model.GetMovableNode().SetDirection(UnitDirection.LEFT);
+        }
+        else {
+            this.model.GetMovableNode().SetDirection(UnitDirection.RIGHT);        
+        }
+
+        this.isPlayingDeadScene = true;
+
     }
 
     public override void UniqueEscape()
     {
         CheckCreatureFeeling();
+        if (isPlayingDeadScene) return;
         if (isChanging) {
             model.GetMovableNode().StopMoving();
             if (_currentWorker != null) {
@@ -417,9 +547,28 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
 
         if (currentNullState == NullState.CREATURE)
         {
+            this.currentAttackTarget.Clear();
             if (AttackNearAgent()) {
-                Debug.Log("Null Attack " + this.attackingList[0].name);
-                model.PursueWorker(attackingList[Random.Range(0, attackingList.Count)]);
+                int index = Random.Range(0, attackingList.Count);
+                Debug.Log("Null Attack " + this.attackingList[index].name);
+                model.PursueWorker(attackingList[index]);
+                //방향 뒤집자
+                /*
+                WorkerModel target = attackingList[index];
+                float targetX = target.GetMovableNode().GetCurrentViewPosition().x;
+                float modelX = this.model.GetMovableNode().GeftCurrentViewPosition().x;
+
+                
+                if (modelX < targetX)
+                {
+                    model.GetMovableNode().SetDirection(UnitDirection.RIGHT);
+                }
+                else {
+                    model.GetMovableNode().SetDirection(UnitDirection.LEFT);
+                }
+                */
+                
+                this.currentAttackTarget.Add(attackingList[index]);
             }
 
             /*
@@ -483,32 +632,6 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
             }
         }
 
-    }
-
-    public void ActivateSkillEscaped(WorkerModel targetWorker)
-    {
-        //levelControl.Good.gameObject.SetActive(false);
-        //levelControl.Good = AgentLayer.currentLayer.GetAgent(skill.agent.instanceId).gameObject;
-        //levelControl.Good.gameObject.SetActive(true);
-        //levelControl.Change(skill.agent);
-        //this.ChangeToWoreker(skill.agent);
-       // skill.agent.SetUncontrollableAction(new Uncontrollable_Nullthing(skill.agent, this));
-        //model.AddFeeling(200f);
-
-        levelControl.Good.gameObject.SetActive(false);
-        if (targetWorker is AgentModel) {
-            levelControl.Good = AgentLayer.currentLayer.GetAgent(targetWorker.instanceId).gameObject;
-            
-        }
-        else if (targetWorker is OfficerModel) {
-            levelControl.Good = OfficerLayer.currentLayer.GetOfficer(targetWorker.instanceId).gameObject;
-        }
-        ChangeToWoreker(targetWorker);
-        levelControl.Change(targetWorker);
-        model.AddFeeling(200f);
-        model.GetMovableNode().Assign(targetWorker.GetMovableNode());
-        (model.GetAnimScript() as NullthingAnim).isDisguised = true;
-        escapeTimer.TimerStart(false);
     }
 
     public void Escape() {
@@ -583,10 +706,14 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         {
             foreach (AgentModel am in detectedAgent)
             {
-                if (am.isDead()) {
+                if (am.isDead())
+                {
                     Debug.Log("this is dead " + am.name);
                 }
-                nearTarget.Add(am);
+                else {
+                    nearTarget.Add(am);
+                }
+                
             }
         }
 
@@ -610,37 +737,46 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     public override void UniqueFinish(UseSkill skill)
     {
         NullWorkingEffTable.TableElement[] currentTable = null;
-        if (this._currentWorker is AgentModel)
+        if (this.recentWorker is AgentModel && this.currentNullState != NullState.CREATURE)
         {
-            switch ((this._currentWorker as AgentModel).agentLifeValue) {
+            Debug.Log("Current Type: " + currentLifeType);
+            switch (currentLifeType)
+            {
                 case PersonalityType.D:
                     currentTable = NullWorkingEffTable.Dtype;
+                    //Debug.Log("D");
                     break;
                 case PersonalityType.I:
                     currentTable = NullWorkingEffTable.Itype;
+                    //Debug.Log("I");
                     break;
                 case PersonalityType.S:
                     currentTable = NullWorkingEffTable.Stype;
+                    //Debug.Log("S");
                     break;
                 case PersonalityType.C:
                     currentTable = NullWorkingEffTable.Ctype;
+                    //Debug.Log("C");
                     break;
                 default:
                     currentTable = NullWorkingEffTable.Default;
+                    //Debug.Log("Default");
                     break;
             }
         }
         else {
             currentTable = NullWorkingEffTable.Default;
+            Debug.Log("Default");
         }
         if (skill.skillTypeInfo.id > 5) {
             Debug.Log("NullCreatre cannot has unique skill in current");
         }
-        Debug.Log((int)skill.skillTypeInfo.id);
+        
         NullWorkingEffTable.TableElement currentElement = currentTable[(int)skill.skillTypeInfo.id];
         //정확한 수치 계산식이 필요합니다
         float scale = 2 - (0.5f * (currentElement.index));
-        
+        Debug.Log("value "+currentElement.index);
+
         if (currentElement.index == 3) {
             scale -= 0.5f;
 
@@ -650,16 +786,18 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
         }
 
         //float energyAdded = skill.agent.GetEnergyAbility(skill.skillTypeInfo) * skill.successCount / skill.totalTickNum;
-
+        int result = 0;
         if (currentElement.index < 3) {
             SetCurrentSkillResult(0);
             model.AddFeeling(skill.skillTypeInfo.amount * skill.successCount / skill.totalTickNum * scale);
+            result = 0;
         }
         else if (currentElement.index > 3) {
             SetCurrentSkillResult(2);
             model.SubFeeling( skill.skillTypeInfo.amount * skill.successCount / skill.totalTickNum * scale);
+            result = 2;
         }
-        MakeEffect(skill.targetCreatureView.room);
+        MakeEffectAlter(skill.targetCreatureView.room, result);
         ResetCurrentSkillResult();
 
         //model.SetFeelingChange(5, skill.skillTypeInfo.amount * skill.successCount / skill.totalTickNum * scale);
@@ -669,26 +807,59 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     void EndTransform() {
         //levelControl.Appear(currentNullState);
         levelControl.Disable(currentNullState);
+        _nullUnit.PlaySound(transformingSoundKey, AudioRolloffMode.Linear);
         if (_currentWorker != null)
         {
             if (currentNullState == NullState.WORKER) {
-                _currentWorker.hp = _currentWorker.maxHp;
+                // _currentWorker.hp = _currentWorker.maxHp * 10;
+                float val = 0.2f;
+                PassageObjectModel pom = model.GetMovableNode().GetPassage();
+                if (pom != null) {
+                    float avr = 0f;
+                    int cnt = 0;
+                    //List<AgentModel> passageAgent = new List<AgentModel>();
+                    if (model.sefira != null) {
+                        foreach (AgentModel am in model.sefira.agentList) {
+                            //passageAgent.Add(am);
+                            if (am.isDead()) continue;
+                            if (am.GetMovableNode().GetPassage() != null) {
+                                if (am.GetMovableNode().GetPassage() == pom) {
+                                    //avr += (float)am.hp;
+                                    avr += (float)am.hp / am.maxHp;
+                                    cnt++;
+                                }
+                            }
+                        }
+
+                        val = avr / cnt;
+                        Debug.Log(val);
+                    }
+                }
+
+                _currentWorker.hp = (int)(_currentWorker.maxHp * val);
+                _currentWorker.mental = _currentWorker.maxMental;
             }
             else if(currentNullState == NullState.BROKEN){
                 _currentWorker.TakePhysicalDamage(100000, DamageType.NORMAL);
-                _currentWorker = null;
+                //_currentWorker.TakePhysicalDamageByCreature(10000);
+                //_currentWorker = null;
             }
+
+            if (_currentWorker != null) {
+                _currentWorker.ReleaseUpdate();
+            }
+            
         }
     }
 
     void DeleteOlder() {
         isChanging = false;
-        levelControl.EndTransform(); 
-        
+        levelControl.EndTransform();
     }
 
     public void OnCalled()
     {
+        this.isPlayingDeadScene = false;
     }
 
     public void OnCalled(int i)
@@ -703,6 +874,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
 
     public void AnimatorEventInit()
     {
+        levelControl.animScript = this;
     }
 
     public void AgentReset() { }
@@ -713,9 +885,25 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
     }
 
     public void TakeDamageAnim(int isPhysical) { }
-    public void SoundMake(string src) { }
+    public void SoundMake(string src) {
+        _nullUnit.PlaySound(src, AudioRolloffMode.Linear);
+    }
+
+    //요기구현필요
     public void AttackCalled(int i)
     {
-
+        foreach (WorkerModel wm in currentAttackTarget) {
+            AgentAnim targetAnim = null;
+            if (wm is AgentModel)
+            {
+                targetAnim = AgentLayer.currentLayer.GetAgent(wm.instanceId).animTarget;
+            }
+            else {
+                targetAnim = OfficerLayer.currentLayer.GetOfficer(wm.instanceId).animTarget;
+            }
+            targetAnim.AttackedEffectInBodyPos("Effect/Slash");
+        }
+        currentAttackTarget.Clear();
+        
     }
 }

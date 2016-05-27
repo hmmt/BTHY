@@ -345,11 +345,19 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
     }
 
     public void TakeDamageAnim(int isPhysical) {
-
+        /*
         if (this.model is AgentModel)
         {
             AgentUnit unit = AgentLayer.currentLayer.GetAgent(this.model.instanceId);
-            unit.animTarget.AttackedEffectByRandomPos("Effect/HitEffectGun");
+            if (isPhysical == 1)
+            {
+                unit.puppetAnim.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
+                unit.animTarget.AttackedEffectByRandomPos("Effect/HitEffectGun");
+            }
+            else
+            {
+                unit.puppetAnim.SetInteger("MentalAttacked", UnityEngine.Random.Range(1, 4));
+            }
         }
         else {
             OfficerUnit unit = OfficerLayer.currentLayer.GetOfficer(this.model.instanceId);
@@ -357,14 +365,24 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
             if (isPhysical == 1)
             {
                 unit.puppetAnim.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
+                unit.animTarget.AttackedEffectByRandomPos("Effect/HitEffectGun");
             }
             else {
                 unit.puppetAnim.SetInteger("MentalAttacked", UnityEngine.Random.Range(1, 4));
             }
 
-            unit.animTarget.AttackedEffectByRandomPos("Effect/HitEffectGun");
+           
         }
+        */
 
+        if (isPhysical == 1)
+        {
+            this.animator.SetInteger("PhysicalAttacked", UnityEngine.Random.Range(1, 4));
+            AttackedEffectInBodyPos("Effect/HitEffectGun");
+        }
+        else {
+            this.animator.SetInteger("MentalAttacked", UnityEngine.Random.Range(1, 4));
+        }
     }
 
     public void AttackCalled(int i) { 
@@ -402,7 +420,7 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         }
     }
 
-    public void AttackedEffectByRandomPos(string src) {
+    public void AttackedEffectInBodyPos(string src) {
         GameObject ge = Prefab.LoadPrefab(src);
         Vector3 pos = this.model.GetMovableNode().GetCurrentViewPosition();
         
@@ -411,6 +429,20 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         ge.transform.localPosition = Vector3.zero;
     }
 
+    public void AttackedEEffectHeadPos(string src) {
+        GameObject ge = Prefab.LoadPrefab(src);
+        
+        ge.transform.SetParent(this.face.gameObject.transform);
+        ge.transform.localPosition = Vector3.zero;
+        ge.transform.localRotation = Quaternion.identity;
+    }
+
+    public void EffectMakeInCurrentPos(string src) {
+        GameObject ge = Prefab.LoadPrefab(src);
+        Vector3 pos = this.model.GetMovableNode().GetCurrentViewPosition();
+
+        ge.transform.localPosition = pos;
+    }
 
     public void SoundMake(string src) { }
 
@@ -421,4 +453,15 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
             this.model.ReleaseUpdate();
         }
     }
+
+	private bool bFlip = false;
+	public void FlipDirection(bool b)
+	{
+		bFlip = b;
+	}
+
+	public bool GetFlipDirection()
+	{
+		return bFlip;
+	}
 }

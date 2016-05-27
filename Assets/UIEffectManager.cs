@@ -4,10 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class UIEffectModule {
+public class UIEffectModule
+{
+    public string name;
     public string src;
     public bool hasSequence;
     public float time;
+    public Image targetImage = null;
+
+    public int defaultFPS = 30;
 
     public List<Sprite> list;
     int index = 0;
@@ -27,6 +32,10 @@ public class UIEffectModule {
     }
 
     public void Init() {
+        if (targetImage != null) {
+            targetImage.gameObject.SetActive(false);
+        }
+        
         if (hasSequence)
         {
             Sprite[] sprites = Resources.LoadAll<Sprite>(src);
@@ -34,6 +43,7 @@ public class UIEffectModule {
         }
         else {
             spriteUnit = Resources.Load<Sprite>(src);
+            Debug.Log(spriteUnit.name);
         }
     }
 
@@ -59,6 +69,7 @@ public class UIEffectManager : MonoBehaviour {
     public UIEffectModule currentModule;
 
     public Image NoiseImage;
+    public Image EffectTargetImage;
 
     public void Awake() {
         _instance = this;
@@ -66,10 +77,11 @@ public class UIEffectManager : MonoBehaviour {
 
     public void Start() {
         NoiseImage.gameObject.SetActive(false);
-
+        EffectTargetImage.gameObject.SetActive(false);
         foreach (UIEffectModule module in this.modules) {
             module.Init();
         }
+
     }
 
     public void Noise(float time) {
@@ -103,5 +115,57 @@ public class UIEffectManager : MonoBehaviour {
         }
         currentModule = null;
         image.gameObject.SetActive(false);
+    }
+
+    public UIEffectModule GetModule(string name) {
+        UIEffectModule output = null;
+        foreach (UIEffectModule m in this.modules) {
+            if (m.name == name) {
+                output = m;
+                break;
+            }
+        }
+        return output;
+    }
+
+    public void ActivateUIEffect(string targetName, float displayTime, int fps, bool useDefaultImage) {
+        StartCoroutine(ModuleActivator(GetModule(targetName), displayTime, fps, useDefaultImage));
+    }
+
+    IEnumerator ModuleActivator(UIEffectModule target, float displayTime, int fps, bool useDefaultImage) {
+        int unit = fps;
+        if (fps == 0) {
+            unit = target.defaultFPS;
+        }
+
+        float elapsed = 0;
+        if (NoiseImage.gameObject.activeInHierarchy) {
+            NoiseImage.gameObject.SetActive(false);
+        }
+        Image targetImage = null;
+        if (useDefaultImage || target.targetImage == null)
+        {
+            targetImage = EffectTargetImage;
+        }
+        else {
+            EffectTargetImage.gameObject.SetActive(false);
+            targetImage = target.targetImage;
+        }
+
+        targetImage.gameObject.SetActive(true);
+        targetImage.sprite = target.current;
+        while (true) {
+            if (elapsed > displayTime) {
+                break;
+            }
+
+            yield return new WaitForSeconds(1 / (float)unit);
+            target.Update();
+            elapsed += Time.deltaTime;
+            targetImage.sprite = target.current;
+        }
+        targetImage.gameObject.SetActive(false);
+
+
     }
 }

@@ -50,6 +50,7 @@ public class AgentUnitUI
         mental.color = new Color(currentAlpha, currentAlpha, currentAlpha, 1);
 
         //workIcon.GetChild(1).GetComponent<Image>().color = c;
+        hp.maxValue = (float)model.maxHp;
 		hp.value = model.hp / (float)model.maxHp;
     }
 
@@ -240,6 +241,9 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 		Transform puppet = puppetNode.transform.parent;
 
         Vector3 puppetScale = puppet.localScale;
+
+		if (animTarget.GetFlipDirection ())
+			movableDirection = (movableDirection == UnitDirection.LEFT ? UnitDirection.RIGHT : UnitDirection.LEFT);
 
 		if (movableDirection == UnitDirection.RIGHT)
 		{
@@ -487,14 +491,22 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
 	void Update()
 	{
-        if (dead) return;
-        if (model.isDead()) {
-            ui.initUI();
-            dead = true;
+		UpdateDirection();
+		if (model.isDead() && model.nullParasite == null)
+		{
+			if (!dead) {
+				ui.initUI ();
+				dead = true;
+			}
             return;
         }
+		else
+		{
+			if (dead) {
+				ui.activateUI (model);
+			}
+		}
 		UpdateViewPosition();
-		UpdateDirection();
 		UpdateTouch ();
 		///SetCurrentHP (model.hp);
 		//UpdateMentalView ();
@@ -664,6 +676,11 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 		accessoryUnit.SetAccessory (imgpos, imgsrc, 1f);
 	}
 
+    public void RemoveAccessoryAll() { 
+        //foreach(
+        accessoryUnit.RemoveAll();
+    }
+
     public void UIRecoilInput(int level, int target) {
         RectTransform targetRect = null;
         RecoilEffectUI recoil = null;
@@ -820,6 +837,49 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
         }
         return false;
     }
+
+	IEnumerator MannualMovingWithTime(Vector3 pos, bool blockMoving, float time)
+	{
+		Transform target = this.gameObject.transform;
+		Vector3 initial = new Vector3(target.position.x, target.position.y, target.position.z);
+		Vector3 reference = new Vector3(pos.x - target.position.x,
+			pos.y - target.position.y,
+			0f);
+		//int cnt = 3;
+		float elapsedTime = 0;
+		this.blockMoving = blockMoving;
+
+		//while (cnt > 0)
+		while(elapsedTime < time)
+		{
+			//yield return new WaitForSeconds(0.1f);
+			yield return new WaitForFixedUpdate();
+			target.localPosition = new Vector3(initial.x + (reference.x ) * (elapsedTime / time), initial.y + (reference.y ) * (elapsedTime / time), initial.z);
+			//cnt--;
+			elapsedTime += Time.deltaTime;
+		}
+
+		isMovingByMannually = true;
+	}
+
+	public bool MannualMovingCallWithTime(Vector3 pos, float time)
+	{
+		if (!isMovingStarted)
+		{
+			isMovingStarted = true;
+			isMovingByMannually = false;
+			StartCoroutine(MannualMovingWithTime(pos, true, time));
+			return false;
+		}
+
+		if (isMovingByMannually)
+		{
+			isMovingByMannually = false;
+			isMovingStarted = false;
+			return true;
+		}
+		return false;
+	}
 
     public void PlaySound(string src, string key, bool isLoop) {
         SoundEffectPlayer output = null;
