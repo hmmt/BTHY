@@ -32,6 +32,8 @@
         <section bound="100" gen="-0.1375"/>
       </energyGenSection>
 
+      <speed>4</speed>
+
       <prefer id="1">-0.5</prefer>
       <prefer id="2">-0.6</prefer>
       <prefer id="3">0.5</prefer>
@@ -146,7 +148,7 @@
       ]
     </narration>
 
-    <anim prefab="Unit/CreatureAnimator/MagicalGirlAnim" x="-1" y="-2"/>
+    <anim prefab="Unit/CreatureAnimator/MagicalGirl" x="-1" y="-2"/>
 
     <!--<img src="Unit/creature/MatchGirl_01" x="-1" y="-1"/>-->
     <img src="Unit/dummy" x="-1" y="-1"/>

@@ -252,7 +252,7 @@ public class CameraMover : MonoBehaviour
             {
                 //PlayerModel.instance.SetCurrentEmergencyLevel(2);
                 foreach (CreatureModel creatureModel in CreatureManager.instance.GetCreatureList()) {
-                    if (creatureModel.metadataId == 100005)
+                    if (creatureModel.metadataId == 100004)
                     {
                         creatureModel.SubFeeling(10f);
                     }
@@ -264,7 +264,7 @@ public class CameraMover : MonoBehaviour
                 //PlayerModel.instance.SetCurrentEmergencyLevel(2);
                 foreach (CreatureModel creatureModel in CreatureManager.instance.GetCreatureList())
                 {
-                    if (creatureModel.metadataId == 100005)
+                    if (creatureModel.metadataId == 100004)
                     {
                         creatureModel.AddFeeling(10f);
                     }
