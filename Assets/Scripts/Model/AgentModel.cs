@@ -1279,10 +1279,10 @@ public class AgentModel : WorkerModel
 	{
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
 
+		agentView.animTarget.ChangeFaceToDefault();
+
 		AnimatorManager.instance.ChangeAnimatorByID (instanceId, instanceId,
 			agentView.puppetAnim, false, false);
-
-        agentView.animTarget.ChangeFaceToDefault();
 	}
 
 	public void WorkEndReaction()

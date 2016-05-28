@@ -442,6 +442,11 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 	            puppetAnim.SetBool("Move", false);
 	        }
 		}
+
+		if (AnimatorUtil.HasParameter (puppetAnim, "Dead"))
+		{
+			puppetAnim.SetBool ("Dead", model.isDead ());
+		}
         /*
         if (oldPosY != transform.localPosition.y)
         {
@@ -492,6 +497,9 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 	void Update()
 	{
 		UpdateDirection();
+		UpdateViewPosition();
+		UpdateTouch ();
+
 		if (model.isDead() && model.nullParasite == null)
 		{
 			if (!dead) {
@@ -506,8 +514,6 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 				ui.activateUI (model);
 			}
 		}
-		UpdateViewPosition();
-		UpdateTouch ();
 		///SetCurrentHP (model.hp);
 		//UpdateMentalView ();
         /*
