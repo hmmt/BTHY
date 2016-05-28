@@ -115,6 +115,8 @@ public class OldLady : CreatureBase {
         else
         {
             this.equalAgentWorkCount = 0;
+
+            
             if (!violentWorked)
             {
                 if (Prob(75))
