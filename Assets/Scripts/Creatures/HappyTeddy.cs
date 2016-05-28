@@ -32,9 +32,9 @@ public class HappyTeddy  : CreatureBase {
 		{
 			skill.ResumeWorking ();
 
-			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (skill.agent.instanceId);
+			skill.agent.ResetAnimator ();
 
-			AnimatorManager.instance.ResetAnimatorTransform (skill.agent.instanceId);
+			AgentUnit agentView = AgentLayer.currentLayer.GetAgent (skill.agent.instanceId);
 			AnimatorManager.instance.ChangeAnimatorByName (skill.agent.instanceId, AnimatorName.Teddy_agent,
 				agentView.puppetAnim, true, false);
 
@@ -128,10 +128,12 @@ public class HappyTeddy  : CreatureBase {
 		Debug.Log ("hug prob : " + hugProb + "(teddyWorkNum:"+teddyWorkNum+", noHugNum:"+noHugNum+")");
 		if (Random.value < hugProb)
 		{
+			Debug.Log ("AA");
 			ActivateSkillInWork (skill);
 		}
 		else if (skill.skillTypeInfo == GetSpecialSkill ())
 		{
+			Debug.Log ("BB");
 			HugSkill (skill);
 		}
     }

@@ -1285,7 +1285,6 @@ public class AgentModel : WorkerModel
 
 		AnimatorManager.instance.ChangeAnimatorByID (instanceId, instanceId,
 			agentView.puppetAnim, false, false);
-
 	}
 
 	public void WorkEndReaction()
