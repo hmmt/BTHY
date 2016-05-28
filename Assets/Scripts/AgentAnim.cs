@@ -97,9 +97,14 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
         this.AnimatorEventInit();
         if (am is OfficerModel) {
             defaultFace = (am as OfficerModel).faceSprite;
+            SetFace(defaultFace);
         }
         else if (am is AgentModel) {
             defaultFace = (am as AgentModel).tempFaceSprite;
+            //Debug.Log((am as AgentModel).tempFaceSprite);
+            SetFace(defaultFace);
+            this.face.sprite = defaultFace;
+            //Debug.Log(face.sprite.name);
         }
     }
 	
@@ -137,10 +142,12 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 	{
 		this.hair.sprite = sprite;
 	}
+
 	public void SetFace(Sprite sprite)
 	{
 		this.face.sprite = sprite;
 	}
+
 	public void SetClothes(Sprite[] sprites)
 	{
 		foreach (Sprite sprite in sprites)
@@ -234,7 +241,11 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 
     public void OnCalled(int i)
     {
-
+        if (i == 1) {
+            if (this.model is AgentModel) {
+                (this.model as AgentModel).WorkAnimPlayed();
+            }
+        }
     }
 
     public void AnimatorEventInit()
@@ -313,8 +324,9 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
     }
 
     public void ChangeFaceToDefault() {
-
+        //Debug.Log(defaultFace.name);
         SetFace(defaultFace);
+        
     }
 
     public void PlaySoundOneShot(string src) {
@@ -464,4 +476,5 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
 	{
 		return bFlip;
 	}
+
 }

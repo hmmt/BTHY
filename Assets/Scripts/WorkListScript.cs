@@ -233,7 +233,7 @@ public class WorkListScript : MonoBehaviour {
     {
 
         EventTrigger trigger = target.AddComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
+        EventTrigger.Entry entry = new EventTrigger.Entry();    
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener((eventData) => { this.OnClick(script); });
         trigger.triggers.Add(entry);

@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class SingingMachine : CreatureBase {
 
-    
-
     public override void OnInit()
     {
         this.skill = new SingingMachineSkill(this.model);
@@ -20,8 +18,8 @@ public class SingingMachine : CreatureBase {
 
     public override void OnFixedUpdate(CreatureModel creature)
     {
-		if (creature.GetFeelingPercent() < 30f)
-        //if (creature.GetFeelingPercent() < 100f)
+		//if (creature.GetFeelingPercent() < 30f)
+        if (creature.GetFeelingPercent() < 100f)
 		//if (creature.GetFeelingPercent() < 110f )
         {
             this.skill.Activate();

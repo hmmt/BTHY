@@ -333,6 +333,7 @@ public class OfficerModel : WorkerModel {
         _unit.MannualMovingCall(this.currentSpecialAction.GetNode().GetPosition(), false, this.currentSpecialAction.shouldMove, false);
          */
         //ㅇ러일ㅇ말
+        if (currentSpecialAction == null) { return; }
         Vector3 pos = this.currentSpecialAction.GetNode().GetPosition();
         pos.z = _unit.zValue;
         _unit.MannualMovingCall(pos,false, true, true, true, false, 0.01f);
@@ -459,6 +460,9 @@ public class OfficerModel : WorkerModel {
 
 	public override void LoseControl()
 	{
+		if (state == OfficerAIState.MEMO_MOVE || state == OfficerAIState.MEMO_STAY) {
+			SefiraManager.instance.GetSefira(currentSefira).EndCreatureWork(target);
+		}
 		state = OfficerAIState.CANNOT_CONTROLL;
 		commandQueue.Clear ();
 	}
@@ -548,6 +552,10 @@ public class OfficerModel : WorkerModel {
 
 	public override void OnDie()
 	{
+		if (state == OfficerAIState.MEMO_MOVE || state == OfficerAIState.MEMO_STAY) {
+			SefiraManager.instance.GetSefira(currentSefira).EndCreatureWork(target);
+		}
+
 		if (unconAction != null) {
 			unconAction.OnDie ();
 		}
@@ -555,8 +563,8 @@ public class OfficerModel : WorkerModel {
 
     public override void ResetAnimator() {
         OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(instanceId);
-
-        AnimatorManager.instance.ChangeAnimatorByID(instanceId, instanceId, officerView.puppetAnim, false, false);
         officerView.animTarget.ChangeFaceToDefault();
+        AnimatorManager.instance.ChangeAnimatorByID(instanceId, instanceId, officerView.puppetAnim, false, false);
+        
     }
 }

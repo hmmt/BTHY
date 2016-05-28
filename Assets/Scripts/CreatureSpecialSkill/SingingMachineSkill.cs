@@ -7,6 +7,9 @@ using UnityEngine;
 public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
     public List<WorkerModel> attractTarget;
     List<WorkerModel> targetList;
+	private List<WorkerModel> attackTargets = new List<WorkerModel>();
+
+
     const float frequency = 5f;
     float elapsed = 0f;
     bool Attracted = false;
@@ -220,6 +223,10 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
     public void CheckAgentInRange() {
         foreach (AgentModel am in this.sefira.agentList) {
             if (this.targetList.Contains(am)) continue;
+
+			if (am.isDead () || am.GetState () == AgentAIState.CANNOT_CONTROLL)
+				continue;
+			
 			if (am.GetMovableNode().GetPassage() == this.passageModel) {
                 this.targetList.Add(am);
                 Debug.Log(am.name);
@@ -228,6 +235,10 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         }
         foreach (OfficerModel om in this.sefira.officerList) {
             if (this.targetList.Contains(om)) continue;
+
+			if (om.isDead () || om.GetState () == OfficerAIState.CANNOT_CONTROLL)
+				continue;
+			
 			if (om.GetMovableNode().GetPassage() == this.passageModel) {
                 this.targetList.Add(om);
                 Debug.Log(om.name);
@@ -271,4 +282,19 @@ public class SingingMachineSkill : CreatureSpecialSkill, IObserver {
         }
         base.DeActivate();
     }
+
+	public void AddAttackTarget(WorkerModel worker)
+	{
+		attackTargets.Add (worker);
+	}
+
+	public void RemoveAttackTarget(WorkerModel worker)
+	{
+		attackTargets.Remove (worker);
+	}
+
+	public bool ContainsAttackTarget(WorkerModel worker)
+	{
+		return attackTargets.Contains (worker);
+	}
 }
