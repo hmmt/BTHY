@@ -153,6 +153,9 @@ public class AgentLayer : MonoBehaviour, IObserver {
     public void OnStageStart() {
         foreach (AgentUnit unit in this.agentList) {
             unit.animTarget.SetSprite();
+            //unit.animTarget.ChangeFaceToDefault();
+            unit.animTarget.face.sprite = unit.model.tempFaceSprite;
+
         }
     }
 }

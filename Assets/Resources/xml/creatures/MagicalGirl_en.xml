@@ -8,6 +8,8 @@
               ex) <desc id="1" openLevel="1">"openLevel이 1일 때 이 정보가 제공됨"</desc>
               
               observe 노드 안의 level 은 관찰 단계의 갯수를 나타냄
+              
+    5.28
   -->
   <info
     id ="100004"
@@ -169,8 +171,12 @@
       <edge node1="creature" node2="workspace" type="road" />
     </graph>
 
-    <sound action="attack" src="creature/match_girl/matchgirl_attack"/>
-    <sound action="enter" src="creature/match_girl/matchgirl_enter"/>
+    <sound action="heal" src="creature/magicalgirl/points_ticker_bonus_score_reward_single_03"/>
+    <sound action="heart" src="creature/magicalgirl/collect_item_16"/>
+    <sound action="transform" src="creature/magicalgirl/Event_2"/>
+    <sound action="transform2" src="creature/magicalgirl/H_Impact_High_Short"/>
+    <sound action="laser" src="creature/magicalgirl/레이저_3_(저작권)"/>
+    <sound action="spear" src="creature/magicalgirl/268561__robinhood76__05695-harpoon-deploy-swoosh"/>
   </info>
 
   <observe level ="4">

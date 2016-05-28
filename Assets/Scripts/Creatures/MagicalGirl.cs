@@ -26,18 +26,21 @@ public class MagicalGirl : CreatureBase {
     CreatureTimer coolTime = new CreatureTimer(10f);
     CreatureTimer attackDelay = new CreatureTimer(3f);
     CreatureTimer goodDefaultAction = new CreatureTimer(10f);
+    CreatureTimer escapeReturnTimer = new CreatureTimer(30f);
 
     public MagicalGirlAnim animScript;
     public MagicalLaserScript laser;
 
     Sefira _currentSefira;
-    CreatureUnit _unit;
+    public CreatureUnit _unit;
     PassageObjectModel currentPassage;
     MapNode currentMovingTarget = null;
     WorkerModel currentAttackTarget = null;
     bool isAreaHasTarget = false;
     bool isAttacking = false;
     bool isTransforming = false;
+    bool canEscape = true;
+    int currentStateInt = 0;
 
     List<WorkerModel> rangedTarget = new List<WorkerModel>();
 
@@ -58,8 +61,9 @@ public class MagicalGirl : CreatureBase {
         this.laser.Init(this.model);
         _unit = CreatureLayer.currentLayer.GetCreature(model.instanceId);
         _currentSefira = model.sefira;
-
+        animScript.NormalAnim.SetInteger("DefaultTrans", currentStateInt);
         goodDefaultAction.TimerStart(true);
+
     }
 
     private void ChangeDark(CreatureModel creature)
@@ -90,6 +94,11 @@ public class MagicalGirl : CreatureBase {
                 }
                 goodDefaultAction.TimerStart(true);
             }
+        }
+
+        if (escapeReturnTimer.TimerRun()) {
+            canEscape = true;
+            escapeReturnTimer.TimerStop();
         }
     }
 
@@ -124,22 +133,25 @@ public class MagicalGirl : CreatureBase {
                 StartAttack(attackTarget);
             }
         }*/
-
         //isAreaHasTarget = CheckRange();
-        if (!isAreaHasTarget) {
-           // List<WorkerModel> list = new List<WorkerModel>();
-            isAreaHasTarget = CheckRange();
 
-            if (isAreaHasTarget)
-            {
+        isAreaHasTarget = CheckRange();
+
+        if (isAreaHasTarget)
+        {
+            if (!isAttacking) {
+                isAttacking = true;
                 StartAttack();
-            }
-            else {
-                ReleaseMovement();
             }
         }
         else
         {
+            laser.LaserDisable();
+            ReleaseMovement();
+            isAttacking = false;
+        }
+
+        if (isAttacking) {
             if (attackDelay.TimerRun())
             {
                 PreAttack();
@@ -160,6 +172,7 @@ public class MagicalGirl : CreatureBase {
         ReleaseMovement();
         attackDelay.TimerStop();
         isAreaHasTarget = false;
+        isAttacking = false;
     }
 
     public void SuccessAttack() {
@@ -167,7 +180,7 @@ public class MagicalGirl : CreatureBase {
         //currentAttackTarget = null;
         
         isAreaHasTarget = false;
-        ReleaseMovement();
+        //ReleaseMovement();
     }
 
     public void StartAttack()
@@ -195,6 +208,7 @@ public class MagicalGirl : CreatureBase {
     {
         attackDelay.TimerStart(true);
         animScript.animator.SetBool("AttackTransition", true);
+        isAttacking = false;
     }
 
     void MakeMovement() {
@@ -244,6 +258,7 @@ public class MagicalGirl : CreatureBase {
 
     bool CheckRange()
     {
+        //Debug.Log("CheckRange");
         PassageObjectModel currentPassage = model.GetMovableNode().GetPassage();
         List<WorkerModel> rangedTarget = new List<WorkerModel>();//같은 구역에 있는 직원들
         if (currentPassage != null) {
@@ -251,6 +266,7 @@ public class MagicalGirl : CreatureBase {
                 
                 if (am.GetMovableNode().GetPassage() == currentPassage) {
                     if (am.isDead()) continue;
+                    if (am.IsPanic()) continue;
                     rangedTarget.Add(am);
                 }
             }
@@ -258,6 +274,7 @@ public class MagicalGirl : CreatureBase {
             foreach (OfficerModel om in this._currentSefira.officerList) {
                 if (om.GetMovableNode().GetPassage() == currentPassage) {
                     if (om.isDead()) continue;
+                    if (om.IsPanic()) continue;
                     rangedTarget.Add(om);
                 }
             }
@@ -352,11 +369,16 @@ public class MagicalGirl : CreatureBase {
     }
 
 	public override void OnReturn ()
-	{
+    {
+        isEscaped = false;
+        ChangeNormal(this.model);
+        animScript.NormalAnim.SetBool("SnakeReturn", true);
+        animScript.NormalAnim.SetInteger("DefaultTrans", currentStateInt);
+        this.model.state = CreatureState.WAIT;
         coolTime.enabled = false;
         coolTime.TimerStop();
+        escapeReturnTimer.TimerStart(true);
 
-        isEscaped = false;
 	}
 
     private void SkillDarkAttack(UseSkill skill)
@@ -374,15 +396,7 @@ public class MagicalGirl : CreatureBase {
 
     public override void OnRelease(UseSkill skill)
     {
-        if (currentState == MagicalGirlState.GOOD)
-        {
-            //smth effect
-            AgentMentalRecovery(skill.agent);
-        }
-        else { 
-            //AgentMentalDamage();
-        }
-
+        
         if (skill.skillTypeInfo.id == 40004) {
             if (isAnesthetized) {
                 Debug.Log("TimerStart");
@@ -401,7 +415,7 @@ public class MagicalGirl : CreatureBase {
     }
 
     public void PreEscape() {
-        
+        canEscape = false;
         animScript.NormalAnim.SetBool("ChangeTrans", true);
     }
 
@@ -409,20 +423,18 @@ public class MagicalGirl : CreatureBase {
         //smth flags check
         if (model.GetFeelingPercent() < 20f && isEscaped == false)
         {
-            if (!isTransforming) {
-                isTransforming = true;
-                PreEscape();
+            if (canEscape) {
+                if (!isTransforming)
+                {
+                    isTransforming = true;
+                    PreEscape();
+                }
             }
         }
 
         if (model.GetFeelingPercent() < 33f && this.currentState != MagicalGirlState.BAD) { 
             //state transition
             this.currentState = MagicalGirlState.BAD;
-
-            if (animScript.NormalAnim.GetInteger("DefaultTrans") != 2)
-            {
-                animScript.NormalAnim.SetInteger("DefaultTrans", 2);
-            }
 
             if (anestheticReady) {
                 anestheticReady = false;
@@ -436,9 +448,7 @@ public class MagicalGirl : CreatureBase {
             && this.currentState != MagicalGirlState.NORMAL)
         {
             this.currentState = MagicalGirlState.NORMAL;
-            if (animScript.NormalAnim.GetInteger("DefaultTrans") != 1) {
-                animScript.NormalAnim.SetInteger("DefaultTrans", 1);
-            }
+            
 
             if (!isAnesthetized && !anestheticReady) {
                 if (coolTime.enabled)
@@ -458,15 +468,36 @@ public class MagicalGirl : CreatureBase {
 
         if (model.GetFeelingPercent() >= 66f && this.currentState != MagicalGirlState.GOOD) {
             this.currentState = MagicalGirlState.GOOD;
-            if (animScript.NormalAnim.GetInteger("DefaultTrans") != 0)
-            {
-                animScript.NormalAnim.SetInteger("DefaultTrans", 0);
-            }
+            
 
             if (anestheticReady)
             {
                 anestheticReady = false;
             }
+        }
+
+        switch (this.currentState) { 
+            case MagicalGirlState.BAD:
+                if (animScript.NormalAnim.GetInteger("DefaultTrans") != 2)
+                {
+                    animScript.NormalAnim.SetInteger("DefaultTrans", 2);
+                    currentStateInt = 2;
+                }
+                break;
+            case MagicalGirlState.GOOD:
+                if (animScript.NormalAnim.GetInteger("DefaultTrans") != 0)
+                {
+                    animScript.NormalAnim.SetInteger("DefaultTrans", 0);
+                    currentStateInt = 0;
+                }
+                break;
+            case MagicalGirlState.NORMAL:
+                if (animScript.NormalAnim.GetInteger("DefaultTrans") != 1)
+                {
+                    animScript.NormalAnim.SetInteger("DefaultTrans", 1);
+                    currentStateInt = 1;
+                }
+                break;
         }
     }
 
@@ -494,6 +525,7 @@ public class MagicalGirl : CreatureBase {
 
     public void AgentMentalRecovery(AgentModel worker) {
         animScript.NormalAnim.SetBool("Attack", true);
+        Debug.Log("Heal");
         worker.RecoverMental(5);
     }
 
@@ -535,6 +567,19 @@ public class MagicalGirl : CreatureBase {
         }
         else {
             return this.coolTime.elapsed.ToString();
+        }
+    }
+
+    public override void OnAgentWorkEndAnimationPlayed(UseSkill skill)
+    {
+        if (currentState == MagicalGirlState.GOOD)
+        {
+            //smth effect
+            AgentMentalRecovery(skill.agent);
+        }
+        else
+        {
+            //AgentMentalDamage();
         }
     }
 }

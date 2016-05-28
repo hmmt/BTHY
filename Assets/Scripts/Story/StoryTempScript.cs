@@ -86,7 +86,9 @@ public class StoryTempScript : MonoBehaviour {
         if (nextLoading) return;
         src.PlayOneShot(src.clip);
         nextLoading = true;
-        LoadStartScene();
+        //int day = PlayerModel.instance.GetDay();
+       // PlayerModel.instance.SetDay(day + 1);
+        //LoadStartScene();
     }
 
     public void OnStartGame() {

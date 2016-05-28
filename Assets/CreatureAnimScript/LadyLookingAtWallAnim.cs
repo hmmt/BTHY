@@ -73,4 +73,5 @@ public class LadyLookingAtWallAnim : CreatureAnimScript, IAnimatorEventCalled {
         CreatureUnit unit = script.currentCreatureUnit;
         unit.PlaySound(src, AudioRolloffMode.Linear);
     }
+
 }

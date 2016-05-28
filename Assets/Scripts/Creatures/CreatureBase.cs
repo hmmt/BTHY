@@ -383,4 +383,8 @@ public class CreatureBase {
         }
 
     }
+
+    public virtual void OnAgentWorkEndAnimationPlayed(UseSkill skill) { 
+        
+    }
 }

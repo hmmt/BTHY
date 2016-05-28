@@ -333,6 +333,7 @@ public class OfficerModel : WorkerModel {
         _unit.MannualMovingCall(this.currentSpecialAction.GetNode().GetPosition(), false, this.currentSpecialAction.shouldMove, false);
          */
         //ㅇ러일ㅇ말
+        if (currentSpecialAction == null) { return; }
         Vector3 pos = this.currentSpecialAction.GetNode().GetPosition();
         pos.z = _unit.zValue;
         _unit.MannualMovingCall(pos,false, true, true, true, false, 0.01f);
@@ -562,8 +563,8 @@ public class OfficerModel : WorkerModel {
 
     public override void ResetAnimator() {
         OfficerUnit officerView = OfficerLayer.currentLayer.GetOfficer(instanceId);
-
-        AnimatorManager.instance.ChangeAnimatorByID(instanceId, instanceId, officerView.puppetAnim, false, false);
         officerView.animTarget.ChangeFaceToDefault();
+        AnimatorManager.instance.ChangeAnimatorByID(instanceId, instanceId, officerView.puppetAnim, false, false);
+        
     }
 }
