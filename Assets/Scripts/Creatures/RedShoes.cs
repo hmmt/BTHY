@@ -21,7 +21,7 @@ public class RedShoes : CreatureBase {
     {
 		model.canBeSuppressed = false;
         this.skill = new RedShoesSkill(this.model);
-		//model.SubFeeling (100);
+		model.SubFeeling (100);
     }
 
     // temporary

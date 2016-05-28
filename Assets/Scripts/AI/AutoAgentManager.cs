@@ -174,6 +174,28 @@ public class AutoCommandManager : MonoBehaviour, IObserver {
 					ai.actor.SuppressAgent (agentTarget);
 				}
 			}
+			else if(ai.target is OfficerModel)
+			{
+				OfficerModel officerTarget = (OfficerModel)ai.target;
+
+				if (officerTarget.IsPanic () == false && officerTarget.GetState () != OfficerAIState.CANNOT_CONTROLL)
+				{
+					rmSuppressList.Add (ai.actor.instanceId);
+					continue;
+				}
+				if (officerTarget.isDead ())
+				{
+					rmSuppressList.Add (ai.actor.instanceId);
+					continue;
+				}
+				if(officerTarget.GetMovableNode().GetPassage() == null) // missing
+					continue;
+
+				if (ai.actor.GetState () != AgentAIState.SUPPRESS_WORKER || ai.actor.targetWorker != ai.target)
+				{
+					ai.actor.SuppressAgent (officerTarget);
+				}
+			}
 		}
 
 		foreach (int rmTargetId in rmSuppressList)

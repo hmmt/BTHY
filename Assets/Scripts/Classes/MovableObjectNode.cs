@@ -190,7 +190,7 @@ public class MovableObjectNode {
      * 매 프레임 마다 호출해야 합니다.
      * 
      */
-    public void ProcessMoveNode(int movement)
+    public void ProcessMoveNode(float movement)
     {
 		ProcessMoveByDistance (Time.deltaTime * movement);
     }

@@ -69,4 +69,9 @@ public class CreatureAnimScript : MonoBehaviour {
 				animator.SetBool(info.name, info.bvalue);
 		}
 	}
+
+	public void FlipDirection(bool b)
+	{
+		throw new System.NotImplementedException();
+	}
 }

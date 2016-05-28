@@ -453,4 +453,15 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
             this.model.ReleaseUpdate();
         }
     }
+
+	private bool bFlip = false;
+	public void FlipDirection(bool b)
+	{
+		bFlip = b;
+	}
+
+	public bool GetFlipDirection()
+	{
+		return bFlip;
+	}
 }

@@ -14,6 +14,12 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 	public override void OnInit(WorkerModel agent)
 	{
 		base.OnInit (agent);
+
+		if (actor.unconAction is Uncontrollable_Machine)
+		{
+			(actor.unconAction as Uncontrollable_Machine).target = targetAgent;
+			(actor.unconAction as Uncontrollable_Machine).GetMachineSkill ().AddAttackTarget (targetAgent);
+		}
 	}
 
 	public override void OnStart(WorkerModel agent)
@@ -24,16 +30,22 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 	{
 		base.Execute(agent);
 
+		CheckRanage (agent);
+
 		if (targetAgent.isDead ()) {
 			OnDieTarget (agent);
 			return;
 		}
-
-		CheckRanage (agent);
 	}
 	public override void OnDestroy(WorkerModel agent)
 	{
 		base.OnDestroy (agent);
+
+		if (actor.unconAction is Uncontrollable_Machine)
+		{
+			(actor.unconAction as Uncontrollable_Machine).target = null;
+			(actor.unconAction as Uncontrollable_Machine).GetMachineSkill ().RemoveAttackTarget (targetAgent);
+		}
 	}
 
 	void OnDieTarget(WorkerModel actor)
@@ -48,6 +60,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
         {
 			targetAgent.SetInvincible (true);
 			targetAgent.LoseControl ();
+			targetAgent.hp = 1;
             Finish();
             //끌고가는걸 시작
             (actor.unconAction as Uncontrollable_Machine).StartDrag(targetAgent);

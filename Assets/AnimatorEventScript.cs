@@ -10,6 +10,7 @@ public interface IAnimatorEventCalled {
     void TakeDamageAnim(int isPhysical);
     void AttackCalled(int i);
     void SoundMake(string src);
+	//void FlipDirection (bool b);
 }
 
 public class AnimatorEventScript : MonoBehaviour {
@@ -67,5 +68,10 @@ public class AnimatorEventScript : MonoBehaviour {
     public void SoundMake(string src) {
         target.SoundMake(src);
     }
+
+	public void FlipDirection(bool b)
+	{
+		//target.FlipDirection (b);
+	}
 
 }
