@@ -149,6 +149,7 @@
       <edge node1="workspace" node2="inner" type="road" />
       <edge node1="creature" node2="workspace" type="road" />
     </graph>
+    
     <sound action="smallExplode" src="creature/match_girl/explosion_small_04"/>
     <sound action="stackOverflow" src="creature/match_girl/fuse_burning_bomb_dynamite_loop_01"/>
     <sound action="explosion" src="creature/match_girl/explosion_large_01"/>

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Uncontrollable_Machine : UncontrollableAction {
     private WorkerModel model;
-    private SingingMachineSkill machineSkill;
+    public SingingMachineSkill machineSkill;
 
     private float waitTimer = 0;
     public WorkerModel target = null;
@@ -74,26 +74,6 @@ public class Uncontrollable_Machine : UncontrollableAction {
 
             if (target == null)
             {
-				/*
-                AgentModel[] nears = AgentManager.instance.GetNearAgents(model.GetMovableNode());
-
-                List<AgentModel> filteredAgents = new List<AgentModel>();
-                foreach (AgentModel nearAgent in nears)
-                {
-                    if (nearAgent != model)
-                        filteredAgents.Add(nearAgent);
-                }
-
-                if (filteredAgents.Count > 0)
-                {
-                    //target = filteredAgents[0];
-                    if (model is AgentModel)
-						((AgentModel)model).PursueUnconAgent(filteredAgents[0]);
-                    else
-						((OfficerModel)model).PursueUnconAgent(filteredAgents[0]);
-                }
-                */
-
 				List<WorkerModel> detectedWorkers = new List<WorkerModel> (AgentManager.instance.GetNearAgents (model.GetMovableNode ()));
 				detectedWorkers.AddRange (OfficerManager.instance.GetNearOfficers (model.GetMovableNode ()));
 
@@ -108,6 +88,12 @@ public class Uncontrollable_Machine : UncontrollableAction {
 							continue;
 
 						if (worker == model)
+							continue;
+
+						if (worker.unconAction is Uncontrollable_Machine)
+							continue;
+
+						if (machineSkill.ContainsAttackTarget (worker))
 							continue;
 
 						Vector3 v = worker.GetCurrentViewPosition () - model.GetCurrentViewPosition ();
@@ -142,9 +128,6 @@ public class Uncontrollable_Machine : UncontrollableAction {
 				this.puppetAnim.SetBool("Kill", false);
             }
         }
-        
-
-
     }
 
 
@@ -197,16 +180,19 @@ public class Uncontrollable_Machine : UncontrollableAction {
 
         if (moveDelayTimer <= 0)
         {
-            model.MoveToNode(machineSkill.model.GetWorkspaceNode());
+			if (creatureAnim.GetBool("Kill"))
+				model.MoveToNode (machineSkill.model.GetEntryNode ());
+			else
+				model.MoveToNode (machineSkill.model.GetWorkspaceNode ());
 
 			victim.StopStun ();
 			//victim.MoveToMovable (model.GetMovableNode ());
 			victim.FollowMovable(model.GetMovableNode());
 
-            moveDelayTimer = 1.5f;
+            moveDelayTimer = 0.5f;
         }
 
-        if (model.GetCurrentNode() == machineSkill.model.GetWorkspaceNode())
+		if (model.GetCurrentNode() == machineSkill.model.GetWorkspaceNode() && !creatureAnim.GetBool("Kill"))
         {
             Drop();
         }
@@ -252,12 +238,16 @@ public class Uncontrollable_Machine : UncontrollableAction {
         this.machineSkill.AttractSkillActivate(this.victim);
         this.puppetAnim.SetBool("Kill", true);
         this.drag = false;
+
+		machineSkill.RemoveAttackTarget (victim);
         this.victim = null;
         this.listen = true;
     }
 
     public void StartDrag(WorkerModel victim) {
         this.victim = victim;
+		machineSkill.AddAttackTarget (victim);
+
         this.drag = true;
         this.moveDelayTimer = 0;
 
@@ -291,7 +281,6 @@ public class Uncontrollable_Machine : UncontrollableAction {
 
         AnimatorManager.instance.ChangeAnimatorByName(victim.instanceId, "Machine_victim", victimAnim, true, false);
 		victimAnim.SetInteger ("Type", 2);
-
     }
 
 	public void FailDrag()
@@ -312,6 +301,13 @@ public class Uncontrollable_Machine : UncontrollableAction {
 		}
 		victim.ResetAnimator ();
 		victim.GetControl ();
+		machineSkill.RemoveAttackTarget (victim);
+		victim = null;
+	}
+
+	public SingingMachineSkill GetMachineSkill()
+	{
+		return machineSkill;
 	}
 
 	public override void UnderAttack()

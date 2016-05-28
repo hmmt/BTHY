@@ -18,6 +18,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 		if (actor.unconAction is Uncontrollable_Machine)
 		{
 			(actor.unconAction as Uncontrollable_Machine).target = targetAgent;
+			(actor.unconAction as Uncontrollable_Machine).GetMachineSkill ().AddAttackTarget (targetAgent);
 		}
 	}
 
@@ -43,6 +44,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 		if (actor.unconAction is Uncontrollable_Machine)
 		{
 			(actor.unconAction as Uncontrollable_Machine).target = null;
+			(actor.unconAction as Uncontrollable_Machine).GetMachineSkill ().RemoveAttackTarget (targetAgent);
 		}
 	}
 

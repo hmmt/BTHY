@@ -167,6 +167,8 @@ public class GameManager : MonoBehaviour
 
         foreach (AgentModel am in AgentManager.instance.GetAgentList()) {
             am.MakeAccessoryByTraits();
+            //am.ResetAnimator();
+            
         }
 
         AgentLayer.currentLayer.OnStageStart();

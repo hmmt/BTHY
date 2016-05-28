@@ -353,6 +353,7 @@ public class ObserveAction : ActionClassBase {
 		//progressObj.transform.parent = creatureView.transform;
 		//progressObj.transform.localPosition = new Vector3(0, -0.7f, 0);
 		progressObj.transform.SetParent(inst.targetCreatureView.room.transform.GetChild(0).transform);
+        progressObj.transform.localPosition = Vector3.zero;
 		progressObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1.65f, 0.874f);
 
 		inst.progressBar = progressObj.GetComponent<ProgressBar>();
@@ -362,7 +363,10 @@ public class ObserveAction : ActionClassBase {
 		inst.progressBar.transform.localScale = new Vector3(0.7692308f, 0.7692308f, 1f);
 		float posy = inst.targetCreatureView.transform.localPosition.y;
 		posy = 1 + posy;
-		inst.progressBar.GetComponent<RectTransform>().anchoredPosition = new Vector2(-3.251f, -0.354f);
+        //Vector3 defPos = inst.progressBar.GetComponent<RectTransform>().localPosition = Vector3.zero;
+        //defPos = new Vector3(-3.251f, -0.354f, -5f);
+        //inst.progressBar.GetComponent<RectTransform>().localPosition = Vector3.zero;
+		//inst.progressBar.GetComponent<RectTransform>().anchoredPosition = new Vector2(-3.251f, -0.354f);
 		//inst.agent.currentSkill = inst;
 		Notice.instance.Send("UpdateCreatureState_" + inst.targetCreature.instanceId);
 

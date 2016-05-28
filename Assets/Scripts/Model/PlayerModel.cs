@@ -120,7 +120,7 @@ public class PlayerModel {
             CreatureManager.instance.AddCreature(100022, "right-upper-way3", 24f, -3.5f, added); // 단한가지악(100009) -> 벽을 보는 여인(100022)
 			CreatureManager.instance.AddCreature(100001, "left-down-way2", -8, -10f, added);
 			CreatureManager.instance.AddCreature(100022, "right-down-way2", 8, -10f, added);
-
+            
         }
         else if (added == "2")
         {

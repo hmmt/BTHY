@@ -772,7 +772,7 @@ public class NullCreature : CreatureBase, IAnimatorEventCalled {
             Debug.Log("NullCreatre cannot has unique skill in current");
         }
         
-        NullWorkingEffTable.TableElement currentElement = currentTable[(int)skill.skillTypeInfo.id];
+        NullWorkingEffTable.TableElement currentElement = currentTable[(int)skill.skillTypeInfo.id - 1];
         //정확한 수치 계산식이 필요합니다
         float scale = 2 - (0.5f * (currentElement.index));
         Debug.Log("value "+currentElement.index);
