@@ -114,8 +114,10 @@
       <edge node1="creature" node2="workspace" type="road" />
     </graph>
     
-    <sound action="attack" src="creature/match_girl/matchgirl_attack"/>
-    <sound action="enter" src="creature/match_girl/matchgirl_enter"/>
+    <sound action="attack" src="creature/singing_machine/Chainsaw"/>
+    <sound action="end_attack" src="creature/singing_machine/MetalItemDrops2"/>
+    <sound action="open" src="creature/singing_machine/Swinging"/>
+    <sound action="scream" src="creature/singing_machine/Scream"/>
     
   </info>
   

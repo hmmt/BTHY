@@ -59,4 +59,15 @@ public class SingingMachine : CreatureBase {
 			break;
 		}
 	}
+
+	public override void OnViewInit(CreatureUnit unit)
+	{
+		MachineAnim animScript = unit.animTarget as MachineAnim;
+		animScript.Init(this);
+	}
+
+	public CreatureUnit GetCurrentCreatureUnit()
+	{
+		return CreatureLayer.currentLayer.GetCreature (model.instanceId);
+	}
 }

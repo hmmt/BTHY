@@ -210,6 +210,11 @@ public class OfficerUnit : MonoBehaviour {
             }
         }
         */
+
+		if (AnimatorUtil.HasParameter (puppetAnim, "Dead"))
+		{
+			puppetAnim.SetBool ("Dead", model.isDead ());
+		}
         
 		if(AnimatorUtil.HasParameter(puppetAnim, "Move"))
 		{

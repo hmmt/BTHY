@@ -303,6 +303,7 @@ public class Uncontrollable_Machine : UncontrollableAction {
 		victim.GetControl ();
 		machineSkill.RemoveAttackTarget (victim);
 		victim = null;
+		drag = false;
 	}
 
 	public SingingMachineSkill GetMachineSkill()
