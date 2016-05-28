@@ -173,6 +173,7 @@ public class UseSkill : ActionClassBase
         if (agent.workEndReaction) {
             agent.workEndReaction = false;
             MakeReaction();
+            //this.OnWorkEndAnimPlayed();
         }
         //check work end and state changed to pile checking
 
@@ -192,7 +193,7 @@ public class UseSkill : ActionClassBase
          
             readyToFinish = true;
             agent.OnWorkEndFlag = false;
-  
+            //this.OnWorkEndAnimPlayed();
 			return;
         }
         if (workPlaying && readyToFinish)
@@ -709,6 +710,11 @@ public class UseSkill : ActionClassBase
         Notice.instance.Send("UpdateCreatureState_" + inst.targetCreature.instanceId);
 
         return inst;
+    }
+
+    public void OnWorkEndAnimPlayed() {
+        if (targetCreature.script != null)
+            targetCreature.script.OnAgentWorkEndAnimationPlayed(this);
     }
 
 }

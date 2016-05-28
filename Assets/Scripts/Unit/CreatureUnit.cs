@@ -301,6 +301,21 @@ public class CreatureUnit : MonoBehaviour {
            output=  SoundEffectPlayer.PlayOnce(soundFilename, transform.position);
         }
         if (output == null) {
+            Debug.Log("Error in sound founding " + soundKey);
+        }
+        return output;
+    }
+
+    public SoundEffectPlayer PlaySound(string soundKey, float volume)
+    {
+        string soundFilename;
+        SoundEffectPlayer output = null;
+        if (model.metaInfo.soundTable.TryGetValue(soundKey, out soundFilename))
+        {
+            output = SoundEffectPlayer.PlayOnce(soundFilename, transform.position);
+        }
+        if (output == null)
+        {
             Debug.Log("Error in sound founding");
         }
         return output;

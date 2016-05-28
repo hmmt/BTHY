@@ -33,6 +33,9 @@ public class ProgressBar : MonoBehaviour {
             GameObject temp = Instantiate(Resources.Load<GameObject>("Prefabs/isloate_energy_item"));
             temp.GetComponent<UnityEngine.UI.Image>().sprite = this.currentSprite;
             temp.transform.SetParent(this.transform);
+            Vector3 vect = temp.transform.localPosition;
+            temp.transform.localPosition = new Vector3(vect.x, vect.y, -5f);
+
             temp.transform.localScale = Vector3.one;
         }
 		//bar.transform.localScale = new Vector3(rate, 1, 1);

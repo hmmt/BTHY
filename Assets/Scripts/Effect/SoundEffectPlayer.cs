@@ -42,6 +42,27 @@ public class SoundEffectPlayer : MonoBehaviour {
         return effect;
 	}
 
+    public static SoundEffectPlayer PlayOnce(string filename, Vector2 position, float volume)
+    {
+        GameObject newEffect = Prefab.LoadPrefab("SoundEffectPlayer");
+
+        SoundEffectPlayer effect = newEffect.GetComponent<SoundEffectPlayer>();
+
+
+        AudioSource source = newEffect.GetComponent<AudioSource>();
+        //source.clip = Resources.Load<AudioClip> ("Sounds/" + filename);
+
+        AudioClip clip = Resources.Load<AudioClip>("Sounds/" + filename);
+
+        newEffect.transform.position = new Vector3(position.x, position.y, Camera.main.transform.position.z);
+
+
+        source.PlayOneShot(clip);
+
+        effect.destroyTime = clip.length;
+        return effect;
+    }
+
     public static SoundEffectPlayer PlayOnce(string filename, Vector2 position, AudioRolloffMode mode)
     {
         GameObject newEffect = Prefab.LoadPrefab("SoundEffectPlayer");

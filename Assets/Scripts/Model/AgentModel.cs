@@ -150,6 +150,7 @@ public class AgentModel : WorkerModel
 	public bool workEndReaction = false;
 
 
+
     private ValueInfo levelSetting;
     private AgentAIState state = AgentAIState.IDLE;
 
@@ -393,6 +394,8 @@ public class AgentModel : WorkerModel
 			movableNode.ProcessMoveNode(0);
 		else
 			movableNode.ProcessMoveNode(movement * movementMul);
+
+
     }
 
     public void checkAgentLifeValue(TraitTypeInfo addTrait)
@@ -1278,11 +1281,11 @@ public class AgentModel : WorkerModel
 	public override void ResetAnimator()
 	{
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
+        agentView.animTarget.ChangeFaceToDefault();
 
 		AnimatorManager.instance.ChangeAnimatorByID (instanceId, instanceId,
 			agentView.puppetAnim, false, false);
 
-        agentView.animTarget.ChangeFaceToDefault();
 	}
 
 	public void WorkEndReaction()
@@ -1290,8 +1293,14 @@ public class AgentModel : WorkerModel
 		AgentUnit agentView = AgentLayer.currentLayer.GetAgent (instanceId);
 		agentView.puppetAnim.SetBool("SpecialWork", true);
 		workEndReaction = true;
+
 	}
 
+    public void WorkAnimPlayed() {
+        if (currentSkill != null) {
+            currentSkill.OnWorkEndAnimPlayed();
+        }
+    }
 	// motion
 
 

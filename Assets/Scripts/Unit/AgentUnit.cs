@@ -116,6 +116,7 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
     public bool dead = false;
 
+    bool lateInit = false;
     Dictionary<string, SoundEffectPlayer> sounds = new Dictionary<string, SoundEffectPlayer>();
 
     //직원 대사
@@ -123,6 +124,12 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
     void LateUpdate()
     {
+        /*
+        if (lateInit == false) {
+            lateInit = true;
+            animTarget.face.sprite = this.model.tempFaceSprite;
+        }*/
+
         /*
         foreach (var renderer in faceSprite.GetComponents<SpriteRenderer>())
         {
@@ -902,6 +909,14 @@ public class AgentUnit : MonoBehaviour, IOverlapOnclick {
 
         if(this.sounds.TryGetValue(key, out sep)){
             sep.Stop();
+        }
+    }
+
+    public void OnLateInit() {
+        if (lateInit == false)
+        {
+            lateInit = true;
+            animTarget.face.sprite = this.model.tempFaceSprite;
         }
     }
 }

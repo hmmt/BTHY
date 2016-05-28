@@ -111,7 +111,7 @@ public class AgentManager : IObserver, ISerializablePlayData {
 		if(AgentListScript.instance != null)
         	AgentListScript.instance.SetAgentList(unit);
         */
-
+        //unit.ResetAnimator();
         AgentAllocateWindow.instance.AddAgent(unit);
         /*
         Debug.Log("EI Trait "+RandomEiTrait.name);

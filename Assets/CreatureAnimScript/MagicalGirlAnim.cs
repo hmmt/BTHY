@@ -88,6 +88,9 @@ public class MagicalGirlAnim : CreatureAnimScript, IAnimatorEventCalled{
 
     public void SoundMake(string src)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        CreatureUnit unit = script._unit;
+
+        unit.PlaySound(src);
     }
 }

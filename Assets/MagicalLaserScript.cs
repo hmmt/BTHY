@@ -119,6 +119,13 @@ public class MagicalLaserScript : MonoBehaviour {
         float minX = 0f;
         MapNode passageEndNode = null;
         UnitDirection rot = UnitDirection.RIGHT;
+        if (passage == null) {
+            Debug.Log("Null");
+
+            LaserDisable();
+            return;
+        }
+
         foreach (MapNode node in passage.GetNodeList()) {
             UnitDirection dir;
             float nodeX = node.GetPosition().x;
@@ -325,8 +332,23 @@ public class MagicalLaserScript : MonoBehaviour {
     }
 
     public void SetPos( Vector3 end) {
+        
         line.SetPosition(0, startPos.transform.position);
         line.SetPosition(1, new Vector3(end.x, startPos.transform.position.y, end.z));
+
+        if (this.currentDir == UnitDirection.RIGHT) {
+            if (startPos.transform.position.x > end.x) {
+                line.enabled = false;
+                return;
+            }
+        }
+        else if (this.currentDir == UnitDirection.LEFT) {
+            if (startPos.transform.position.x < end.x) {
+                line.enabled = false;
+                return;
+            }
+        }
+        line.enabled = true;
     }
 
     void Shoot(WorkerModel target) {
