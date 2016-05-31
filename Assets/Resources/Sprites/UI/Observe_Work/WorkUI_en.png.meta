@@ -1,0 +1,339 @@
+fileFormatVersion: 2
+guid: c75ff0721f6b84c45bd7d8f623f4ca70
+timeCreated: 1464432524
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: WorkUI_en_MalBg
+    21300002: WorkUI_en_Mal_Bg
+    21300004: WorkUI_en_2
+    21300006: WorkUI_en_Mal_Default
+    21300008: WorkUI_en_Mal_Over
+    21300010: WorkUI_en_Mal_Click
+    21300012: WorkUI_en_Yes_Default
+    21300014: WorkUI_en_Yes_Over
+    21300016: WorkUI_en_Yes_Click
+    21300018: WorkUI_en_YesBg
+    21300020: WorkUI_en_MalDefault
+    21300022: WorkUI_en_MalOver
+    21300024: WorkUI_en_MalClick
+    21300026: WorkUI_en_YesDefalut
+    21300028: WorkUI_en_YesOver
+    21300030: WorkUI_en_YesClick
+    21300032: WorkUI_en_MalClick2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: WorkUI_en_YesBg
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 3900
+        width: 3002
+        height: 1931
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 499.1443, y: -138.86572}
+        - {x: 517.1443, y: -120.86572}
+        - {x: 517.1443, y: 284.13428}
+        - {x: 498.1443, y: 303.13428}
+        - {x: 337.1443, y: 303.13428}
+        - {x: 336.1443, y: 307.13428}
+        - {x: 333.1443, y: 310.13428}
+        - {x: 331.1443, y: 315.13428}
+        - {x: 329.1443, y: 317.13428}
+        - {x: 325.1443, y: 325.13428}
+        - {x: 319.1443, y: 332.13428}
+        - {x: 57.144287, y: 332.13428}
+        - {x: 54.144287, y: 330.13428}
+        - {x: 51.144287, y: 324.13428}
+        - {x: 49.144287, y: 322.13428}
+        - {x: 48.144287, y: 319.13428}
+        - {x: 46.144287, y: 316.13428}
+        - {x: 46.144287, y: 315.13428}
+        - {x: 44.144287, y: 313.13428}
+        - {x: 44.144287, y: 312.13428}
+        - {x: 42.144287, y: 310.13428}
+        - {x: 42.144287, y: 309.13428}
+        - {x: 40.144287, y: 307.13428}
+        - {x: 40.144287, y: 306.13428}
+        - {x: 38.144287, y: 303.13428}
+        - {x: -133.85571, y: 303.13428}
+        - {x: -139.85571, y: 307.13428}
+        - {x: -141.85571, y: 307.13428}
+        - {x: -145.85571, y: 309.13428}
+        - {x: -149.85571, y: 309.13428}
+        - {x: -150.85571, y: 310.13428}
+        - {x: -156.85571, y: 310.13428}
+        - {x: -157.85571, y: 311.13428}
+        - {x: -475.8557, y: 311.13428}
+        - {x: -476.8557, y: 310.13428}
+        - {x: -482.8557, y: 310.13428}
+        - {x: -483.8557, y: 309.13428}
+        - {x: -486.8557, y: 309.13428}
+        - {x: -490.8557, y: 307.13428}
+        - {x: -493.8557, y: 307.13428}
+        - {x: -496.8557, y: 305.13428}
+        - {x: -498.8557, y: 304.13428}
+        - {x: -504.8557, y: 299.13428}
+        - {x: -505.8557, y: 299.13428}
+        - {x: -511.8557, y: 293.13428}
+        - {x: -511.8557, y: 292.13428}
+        - {x: -515.8557, y: 287.13428}
+        - {x: -515.8557, y: -325.86572}
+        - {x: -513.8557, y: -327.86572}
+        - {x: -513.8557, y: -328.86572}
+        - {x: -510.8557, y: -331.86572}
+        - {x: 183.14429, y: -331.86572}
+        - {x: 202.14429, y: -312.86572}
+        - {x: 485.1443, y: -312.86572}
+        - {x: 499.1443, y: -298.86572}
+    - name: WorkUI_en_MalBg
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 1632
+        width: 3002
+        height: 1931
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 494.1443, y: -303.70532}
+        - {x: 494.1443, y: -302.70532}
+        - {x: 499.1443, y: -297.70532}
+        - {x: 499.1443, y: -137.70532}
+        - {x: 517.1443, y: -119.70532}
+        - {x: 517.1443, y: 285.29468}
+        - {x: 498.1443, y: 304.29468}
+        - {x: 338.1443, y: 304.29468}
+        - {x: 336.1443, y: 306.29468}
+        - {x: 336.1443, y: 307.29468}
+        - {x: 332.1443, y: 312.29468}
+        - {x: 331.1443, y: 316.29468}
+        - {x: 329.1443, y: 318.29468}
+        - {x: 328.1443, y: 321.29468}
+        - {x: 326.1443, y: 323.29468}
+        - {x: 324.1443, y: 328.29468}
+        - {x: 319.1443, y: 333.29468}
+        - {x: 57.144287, y: 333.29468}
+        - {x: 55.144287, y: 331.29468}
+        - {x: 55.144287, y: 330.29468}
+        - {x: 49.144287, y: 322.29468}
+        - {x: 48.144287, y: 319.29468}
+        - {x: 43.144287, y: 313.29468}
+        - {x: 42.144287, y: 311.29468}
+        - {x: 40.144287, y: 308.29468}
+        - {x: 40.144287, y: 307.29468}
+        - {x: 38.144287, y: 304.29468}
+        - {x: -133.85571, y: 304.29468}
+        - {x: -139.85571, y: 308.29468}
+        - {x: -141.85571, y: 308.29468}
+        - {x: -145.85571, y: 310.29468}
+        - {x: -149.85571, y: 310.29468}
+        - {x: -150.85571, y: 311.29468}
+        - {x: -156.85571, y: 311.29468}
+        - {x: -157.85571, y: 312.29468}
+        - {x: -475.8557, y: 312.29468}
+        - {x: -476.8557, y: 311.29468}
+        - {x: -482.8557, y: 311.29468}
+        - {x: -483.8557, y: 310.29468}
+        - {x: -486.8557, y: 310.29468}
+        - {x: -490.8557, y: 308.29468}
+        - {x: -493.8557, y: 308.29468}
+        - {x: -496.8557, y: 306.29468}
+        - {x: -498.8557, y: 305.29468}
+        - {x: -504.8557, y: 300.29468}
+        - {x: -505.8557, y: 300.29468}
+        - {x: -511.8557, y: 294.29468}
+        - {x: -511.8557, y: 293.29468}
+        - {x: -514.8557, y: 291.29468}
+        - {x: -515.8557, y: 288.29468}
+        - {x: -515.8557, y: -324.70532}
+        - {x: -514.8557, y: -327.70532}
+        - {x: -510.8557, y: -331.70532}
+        - {x: 182.14429, y: -331.70532}
+        - {x: 202.14429, y: -311.70532}
+        - {x: 485.1443, y: -311.70532}
+        - {x: 488.1443, y: -309.70532}
+    - name: WorkUI_en_2
+      rect:
+        serializedVersion: 2
+        x: 2562
+        y: 1529
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WorkUI_en_MalDefault
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 783
+        width: 854
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -135.6416, y: 86.05774}
+        - {x: -146.6416, y: 75.05774}
+        - {x: -146.6416, y: -85.94226}
+        - {x: 137.3584, y: -85.94226}
+        - {x: 147.3584, y: -75.94226}
+        - {x: 147.3584, y: 86.05774}
+    - name: WorkUI_en_MalOver
+      rect:
+        serializedVersion: 2
+        x: 1173
+        y: 783
+        width: 854
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -141.92883, y: 86.05774}
+        - {x: -146.92883, y: 80.05774}
+        - {x: -146.92883, y: -85.94226}
+        - {x: 141.07117, y: -85.94226}
+        - {x: 147.07117, y: -78.94226}
+        - {x: 147.07117, y: 86.05774}
+    - name: WorkUI_en_MalClick
+      rect:
+        serializedVersion: 2
+        x: 2213
+        y: 783
+        width: 1
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WorkUI_en_YesDefalut
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 185
+        width: 854
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -136.6416, y: 86.57047}
+        - {x: -138.6416, y: 85.57047}
+        - {x: -146.6416, y: 76.57047}
+        - {x: -146.6416, y: -85.42953}
+        - {x: 136.3584, y: -85.42953}
+        - {x: 147.3584, y: -74.42953}
+        - {x: 147.3584, y: 86.57047}
+    - name: WorkUI_en_YesOver
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 185
+        width: 854
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 147.4148, y: -78.42953}
+        - {x: 147.4148, y: 86.57047}
+        - {x: -140.5852, y: 86.57047}
+        - {x: -143.5852, y: 84.57047}
+        - {x: -145.5852, y: 83.57047}
+        - {x: -145.5852, y: 81.57047}
+        - {x: -146.5852, y: 80.57047}
+        - {x: -146.5852, y: -85.42953}
+        - {x: 140.4148, y: -85.42953}
+        - {x: 143.4148, y: -82.42953}
+        - {x: 143.4148, y: -81.42953}
+        - {x: 146.4148, y: -79.42953}
+    - name: WorkUI_en_YesClick
+      rect:
+        serializedVersion: 2
+        x: 2213
+        y: 185
+        width: 854
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -141.5597, y: 86.57047}
+        - {x: -146.5597, y: 80.57047}
+        - {x: -146.5597, y: -85.42953}
+        - {x: 140.4403, y: -85.42953}
+        - {x: 147.4403, y: -78.42953}
+        - {x: 147.4403, y: 86.57047}
+    - name: WorkUI_en_MalClick2
+      rect:
+        serializedVersion: 2
+        x: 2213
+        y: 783
+        width: 854
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -139.5597, y: 86.05774}
+        - {x: -146.5597, y: 79.05774}
+        - {x: -146.5597, y: -85.94226}
+        - {x: 141.4403, y: -85.94226}
+        - {x: 147.4403, y: -80.94226}
+        - {x: 147.4403, y: 86.05774}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
