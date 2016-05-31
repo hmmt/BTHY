@@ -70,4 +70,15 @@ public class SingingMachine : CreatureBase {
 	{
 		return CreatureLayer.currentLayer.GetCreature (model.instanceId);
 	}
+
+	public void PlayAttackEffect()
+	{
+
+		GameObject ge = Prefab.LoadPrefab("Effect/MachineAttackBlood");
+		Vector3 pos = this.model.GetMovableNode().GetCurrentViewPosition();
+
+		ge.transform.localPosition = pos + new Vector3 (0, 0, 0.5f);
+		//ge.transform.SetParent(this.body.gameObject.transform);
+		//ge.transform.localPosition = Vector3.zero;
+	}
 }

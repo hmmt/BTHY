@@ -194,7 +194,10 @@ public class Uncontrollable_Machine : UncontrollableAction {
 
 		if (model.GetCurrentNode() == machineSkill.model.GetWorkspaceNode() && !creatureAnim.GetBool("Kill"))
         {
-            Drop();
+			if (victim.GetCurrentNode () != machineSkill.model.GetWorkspaceNode ())
+				victim.MoveToNode (machineSkill.model.GetWorkspaceNode ());
+			else
+            	Drop();
         }
     }
 

@@ -1229,9 +1229,9 @@ public class AgentModel : WorkerModel
     
     public override void PanicReadyComplete()
     {
-		CurrentPanicAction = new PanicRoaming (this);
+		//CurrentPanicAction = new PanicRoaming (this);
 		//CurrentPanicAction = new PanicOpenIsolate(this);
-		//CurrentPanicAction = new PanicViolence(this);
+		CurrentPanicAction = new PanicViolence(this);
 		//CurrentPanicAction = new PanicSuicideExecutor(this);
 		return;
 

@@ -37,7 +37,7 @@ public class MachineAnim : CreatureAnimScript, IAnimatorEventCalled {
 
 	public void TakeDamageAnim(int isPhysical)
 	{
-		throw new System.NotImplementedException();
+		//throw new System.NotImplementedException();
 	}
 
 	public void AttackCalled(int i)
@@ -49,5 +49,12 @@ public class MachineAnim : CreatureAnimScript, IAnimatorEventCalled {
 	{
 		CreatureUnit unit = script.GetCurrentCreatureUnit ();
 		unit.PlaySound(src);
+	}
+
+
+	public void PlayAttackEffect()
+	{
+		//script.get
+		script.PlayAttackEffect();
 	}
 }

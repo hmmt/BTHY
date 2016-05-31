@@ -75,7 +75,7 @@ public class UnconPursueWorkerCommand : WorkerCommand {
 
 		if(actor.GetMovableNode().GetPassage() != null &&
 			actor.GetMovableNode().GetPassage() == targetAgent.GetMovableNode().GetPassage() &&
-			dist.sqrMagnitude <= 2)
+			dist.sqrMagnitude <= 5)
 		{
 			float actorX = actor.GetCurrentViewPosition ().x;
 			float targetX = targetAgent.GetCurrentViewPosition ().x;
