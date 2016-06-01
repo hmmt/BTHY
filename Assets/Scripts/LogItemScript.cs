@@ -10,9 +10,9 @@ public class LogItemScript : MonoBehaviour {
     }
 
     public GameObject textObject;
-    public static Text textTarget;
-    public static RectTransform imgRect;
-    public static RectTransform textRect;
+    public Text textTarget;
+    public RectTransform imgRect;
+    public RectTransform textRect;
     public float height;
 
     public void Awake(){

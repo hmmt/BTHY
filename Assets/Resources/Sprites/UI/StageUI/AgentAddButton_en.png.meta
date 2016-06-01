@@ -1,0 +1,127 @@
+fileFormatVersion: 2
+guid: 2321ef02a9ac28541a179435b7b658fc
+timeCreated: 1464677584
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: AgentAddButton_en_Over
+    21300002: AgentAddButton_en_Default
+    21300004: AgentAddButton_en_Click
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: AgentAddButton_en_Over
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 845
+        width: 2089
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -795.9286, y: 52.30951}
+        - {x: -795.9286, y: 11.309509}
+        - {x: -794.9286, y: 10.309509}
+        - {x: -794.9286, y: 9.309509}
+        - {x: -779.9286, y: -5.6904907}
+        - {x: -778.9286, y: -7.6904907}
+        - {x: -763.9286, y: -21.69049}
+        - {x: -762.9286, y: -23.69049}
+        - {x: -747.9286, y: -37.69049}
+        - {x: -746.9286, y: -39.69049}
+        - {x: -734.9286, y: -50.69049}
+        - {x: 735.0714, y: -50.69049}
+        - {x: 797.0714, y: 11.309509}
+        - {x: 797.0714, y: 52.30951}
+    - name: AgentAddButton_en_Default
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 542
+        width: 2089
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 765.2857, y: -25.547607}
+        - {x: 767.2857, y: -24.547607}
+        - {x: 781.2857, y: -9.547607}
+        - {x: 783.2857, y: -8.547607}
+        - {x: 796.2857, y: 5.4523926}
+        - {x: 796.2857, y: 50.452393}
+        - {x: -792.7143, y: 50.452393}
+        - {x: -794.7143, y: 48.452393}
+        - {x: -794.7143, y: 9.452393}
+        - {x: -734.7143, y: -50.547607}
+        - {x: 740.2857, y: -50.547607}
+        - {x: 749.2857, y: -41.547607}
+        - {x: 751.2857, y: -40.547607}
+    - name: AgentAddButton_en_Click
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 241
+        width: 2089
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -794.9286, y: 51.61905}
+        - {x: -795.9286, y: 50.61905}
+        - {x: -795.9286, y: 9.619049}
+        - {x: -735.9286, y: -50.38095}
+        - {x: 763.0714, y: -50.38095}
+        - {x: 797.0714, y: 9.619049}
+        - {x: 797.0714, y: 51.61905}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

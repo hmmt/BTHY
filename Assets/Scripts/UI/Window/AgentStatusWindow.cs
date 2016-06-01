@@ -17,9 +17,15 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
     public Text DepartMent;
     public Text TraitText;
     public Text AgentLifeStyle;
+    public Text AgentName;
+
+    public Color d;
+    public Color i;
+    public Color s;
+    public Color c;
     //public Transform traitScrollTarget;
 
-	public Image AgentFace;
+    public Image AgentFace;
     public Image AgentHair;
     public Image AgentBody;
 
@@ -309,7 +315,16 @@ public class AgentStatusWindow : MonoBehaviour, IObserver, IActivatableObject {
         for (int i = 0; i < target.traitList.Count; i++) {
             iconList.Add(script.MakeTrait(target.traitList[i]));
         }
-        AgentLifeStyle.text = target.LifeStyle() + " " + target.name;
+        AgentLifeStyle.text = target.LifeStyle();
+        AgentName.text = target.name;
+
+        switch (target.agentLifeValue)
+        {
+            case PersonalityType.D: AgentLifeStyle.color = d; break;
+            case PersonalityType.I: AgentLifeStyle.color = i; break;
+            case PersonalityType.S: AgentLifeStyle.color = s; break;
+            case PersonalityType.C: AgentLifeStyle.color = c; break;
+        }
         script.SortTrait();
     }
 

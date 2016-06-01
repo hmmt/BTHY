@@ -16,7 +16,15 @@ public class WorkAllocateSlot : MonoBehaviour {
     public Sprite working;
     public Image Bg;
 
-    public Text tagSlot;
+  
+    public Text gradeSlot;
+    public Text valueSlot;
+    public Text nameSlot;
+
+    public Color d;
+    public Color i;
+    public Color s;
+    public Color c;
 
     public Slider hp;
     public Image mentalBreak;
@@ -78,7 +86,7 @@ public class WorkAllocateSlot : MonoBehaviour {
         {
             Bg.sprite = normal;
 
-            tagSlot.text = this.model.target.metaInfo.name;
+            nameSlot.text = this.model.target.metaInfo.name;
             //Debug.Log(this.model.currentSkill.skillTypeInfo.name);
             if (WorkAllocateWindow.currentWindow.GetTargetCreature() != null && this.model.target != null)
             {
@@ -102,8 +110,16 @@ public class WorkAllocateSlot : MonoBehaviour {
         else {
             Bg.sprite = normal;
             isWorking = false;
-            tagSlot.text = AgentModel.GetLevelGradeText(this.model) + 
-                " " + this.model.LifeStyle() + " " + this.model.name;
+            gradeSlot.text = AgentModel.GetLevelGradeText(this.model);
+            valueSlot.text = this.model.LifeStyle();
+     
+                switch (model.agentLifeValue) {
+                case PersonalityType.D : valueSlot.color = d; break;
+                case PersonalityType.I: valueSlot.color = i; break;
+                case PersonalityType.S: valueSlot.color = s; break;
+                case PersonalityType.C: valueSlot.color = c; break;
+            }
+            nameSlot.text = this.model.name;
         }
     }
 

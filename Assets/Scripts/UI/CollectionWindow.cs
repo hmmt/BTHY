@@ -21,6 +21,11 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
 	public Text intLevel;
     public Text observePercent;
     public Text DangerRank;//same with dangerLevel
+    public Color zayin;
+    public Color teth;
+    public Color he;
+    public Color waw;
+    public Color aleph;
 	public Image profImage;
     public RectTransform descList;
     public RectTransform observeList;
@@ -152,8 +157,29 @@ public class CollectionWindow : MonoBehaviour, IActivatableObject {
         DisplayText(name, wnd.name);
         string riskLevel = (string)dataTable.GetList("horrorLevel").GetData(currentObservationLevel);
         DisplayText(riskLevel, wnd.dangerLevel);
+
+        switch(riskLevel)
+        {
+            case ("ZAYIN"): wnd.dangerLevel.color = zayin; Debug.Log("자인"); break;
+            case ("TETH"): wnd.dangerLevel.color = teth; Debug.Log("테트"); break;
+            case ("HE"): wnd.dangerLevel.color = he; Debug.Log("헤헤"); break;
+            case ("WAW"): wnd.dangerLevel.color = waw; Debug.Log("와우"); break;
+            case (" ALEPH"): wnd.dangerLevel.color = aleph; Debug.Log("알레프"); break;
+            default: break;
+        }
+
         string dangerRank = info.attackType.ToString() + " " + wnd.dangerLevel.text;
         wnd.DangerRank.text = dangerRank;
+
+        switch (dangerRank)
+        {
+            case ("ZAYIN"): wnd.DangerRank.color = zayin; Debug.Log("자인2"); break;
+            case ("TETH"): wnd.DangerRank.color = teth; Debug.Log("테트2"); break;
+            case ("HE"): wnd.DangerRank.color = he; Debug.Log("헤헤2"); break;
+            case ("WAW"): wnd.DangerRank.color = waw; Debug.Log("와우2"); break;
+            case (" ALEPH"): wnd.DangerRank.color = aleph; Debug.Log("알레프2"); break;
+            default: break;
+        }
         profImage.sprite = ResourceCache.instance.GetSprite("Sprites/Unit/creature/dummy");
         /*
         if (currentObservationLevel >= dataTable.GetList("portrait").GetLevel(currentObservationLevel))

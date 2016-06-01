@@ -52,7 +52,7 @@ public class TraitListScript : MonoBehaviour {
         Text textPanel = traitPanel.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Text>();
         string[] desc;
         Sprite[] icon = TraitIcon.instnace.GetSpriteByTrait(trait, out desc);
-        Transform iconGrid = traitPanel.transform.GetChild(1);
+        //Transform iconGrid = traitPanel.transform.GetChild(1);
 
         for (int i = 0; i < icon.Length; i++) {
             //GameObject iconObject = ResourceCache.instance.LoadPrefab("Slot/IconImage");
