@@ -85,8 +85,8 @@ public class BriefingInfo : MonoBehaviour {
             cancel = true;
             setActive(true);
             AreaImage.sprite = ResourceCache.instance.GetSprite("Sprites/MalkuthMain");
-            area = "솔루션계획팀";
-            tmpBriefing = " 환상체들의 위험도와 특징들을 분류하고 이에 대한 해결법을 강구 및 해결해내는 부서 입니다.\n 복지관리팀에서부터 나오는 관찰기록이나 상담기록들을 토대로 <해결법>을 연구해 나갑니다. \n좀 더 명확하고 안전한 해결법을 위한 실험들을 진행하기도 합니다. \n\n\n 열기위한 에너지 비용:10"; 
+            area = "Control Team";
+            tmpBriefing = " This is a department that sets out plans and commands regarding of abnormalitic's management and surveillance. Here, you can give out direct orders by watching over the CCTV that has the facility under surveillance. \n\n\n COST:10"; 
         }
         else if (StageUI.instance.currentSefriaUi == "1")
         {

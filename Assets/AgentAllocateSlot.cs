@@ -12,6 +12,11 @@ public class AgentAllocateSlot : MonoBehaviour {
         public Text LifeStyle;
         public Text Grade;
 
+        public Color d;
+        public Color i;
+        public Color s;
+        public Color c;
+
         public Image Health;
         public Image Mental;
         public Image Movement;
@@ -53,6 +58,14 @@ public class AgentAllocateSlot : MonoBehaviour {
         {
             this.Name.text = model.name;
             this.LifeStyle.text = model.LifeStyle();
+
+            switch (model.agentLifeValue)
+            {
+                case PersonalityType.D: LifeStyle.color = d; break;
+                case PersonalityType.I: LifeStyle.color = i; break;
+                case PersonalityType.S: LifeStyle.color = s; break;
+                case PersonalityType.C: LifeStyle.color = c; break;
+            }
 
             this.Face.sprite = model.tempFaceSprite;
             this.Hair.sprite = model.tempHairSprite;

@@ -30,14 +30,16 @@ public class LogItemScript : MonoBehaviour {
         int cnt = 0;
 
         if (maxX < sizeX) {
-            cnt = (int)(sizeX / maxX);
-            //Debug.Log(cnt);
+            cnt = (int)(sizeX / maxX) ;
+            Debug.Log(cnt);
             sizeX = maxX;
         }
 
-        float sizeY = textTarget.fontSize + 2;
-        sizeY *= (cnt + 1);
-        sizeY += 1f;//for small space
+        float sizeY = textTarget.fontSize + 5;
+        //Debug.Log(sizeY + " " + (cnt+1).ToString());
+        sizeY *= (cnt + 2);
+        Debug.Log(sizeY);
+        sizeY += 2f;//for small space
         sizeY = sizeY + v_spacing;
         imgRect.sizeDelta = new Vector2(sizeX + h_spacing , sizeY + v_spacing);
         textRect.sizeDelta = new Vector2(sizeX, sizeY);

@@ -289,7 +289,7 @@ public class AgentAnim : MonoBehaviour , IAnimatorEventCalled{
     }
 
     public void SetSprite() {
-        
+        Debug.Log(model);
         Sefira sefira = SefiraManager.instance.GetSefira(this.model.currentSefira);
         
         if (sefira == null) return;

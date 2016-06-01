@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: 79ce1effe91529a46ad5d7f6075e95b9
+timeCreated: 1464778242
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: OpenButton_Default
+    21300002: OpenButton_Over
+    21300004: OpenButton_Click
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: OpenButton_Default
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 93
+        width: 128
+        height: 1012
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -33, y: -493}
+        - {x: -14, y: -484}
+        - {x: -12, y: -482}
+        - {x: 7, y: -473}
+        - {x: 9, y: -471}
+        - {x: 28, y: -462}
+        - {x: 30, y: -460}
+        - {x: 49, y: -451}
+        - {x: 64, y: -442}
+        - {x: 64, y: 443}
+        - {x: 30, y: 460}
+        - {x: 28, y: 462}
+        - {x: 9, y: 471}
+        - {x: 7, y: 473}
+        - {x: -12, y: 482}
+        - {x: -14, y: 484}
+        - {x: -33, y: 493}
+        - {x: -35, y: 495}
+        - {x: -54, y: 504}
+        - {x: -56, y: 506}
+        - {x: -64, y: 506}
+        - {x: -64, y: -506}
+        - {x: -56, y: -506}
+        - {x: -54, y: -504}
+        - {x: -35, y: -495}
+    - name: OpenButton_Over
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 93
+        width: 128
+        height: 1012
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: -492}
+        - {x: -10, y: -483}
+        - {x: -8, y: -481}
+        - {x: 11, y: -472}
+        - {x: 13, y: -470}
+        - {x: 32, y: -461}
+        - {x: 34, y: -459}
+        - {x: 55, y: -449}
+        - {x: 64, y: -443}
+        - {x: 64, y: 444}
+        - {x: 34, y: 459}
+        - {x: 32, y: 461}
+        - {x: 13, y: 470}
+        - {x: 11, y: 472}
+        - {x: -8, y: 481}
+        - {x: -10, y: 483}
+        - {x: -29, y: 492}
+        - {x: -31, y: 494}
+        - {x: -50, y: 503}
+        - {x: -52, y: 505}
+        - {x: -55, y: 506}
+        - {x: -64, y: 506}
+        - {x: -64, y: -506}
+        - {x: -55, y: -506}
+        - {x: -52, y: -505}
+        - {x: -50, y: -503}
+        - {x: -31, y: -494}
+    - name: OpenButton_Click
+      rect:
+        serializedVersion: 2
+        x: 662
+        y: 93
+        width: 128
+        height: 1012
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: -491}
+        - {x: -10, y: -482}
+        - {x: -8, y: -480}
+        - {x: 11, y: -471}
+        - {x: 13, y: -469}
+        - {x: 32, y: -460}
+        - {x: 34, y: -458}
+        - {x: 55, y: -448}
+        - {x: 64, y: -442}
+        - {x: 64, y: 443}
+        - {x: 34, y: 458}
+        - {x: 32, y: 460}
+        - {x: 13, y: 469}
+        - {x: 11, y: 471}
+        - {x: -8, y: 480}
+        - {x: -10, y: 482}
+        - {x: -29, y: 491}
+        - {x: -31, y: 493}
+        - {x: -50, y: 502}
+        - {x: -52, y: 504}
+        - {x: -57, y: 506}
+        - {x: -64, y: 506}
+        - {x: -64, y: -506}
+        - {x: -57, y: -506}
+        - {x: -52, y: -504}
+        - {x: -50, y: -502}
+        - {x: -31, y: -493}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

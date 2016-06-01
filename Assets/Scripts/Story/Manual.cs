@@ -4,6 +4,7 @@ using System.Collections;
 public class Manual : MonoBehaviour {
 
     public UnityEngine.UI.Image[] manualImage;
+    //public UnityEngine.UI.Button[] manualButton;
     public int currentIndex = 0;
 
     public Animator manualMove;
@@ -30,7 +31,14 @@ public class Manual : MonoBehaviour {
 	
 	}
 
-    public void goPage()
+    public void MovePage(int buttonNum)
+    {
+        manualImage[currentIndex].gameObject.SetActive(false);
+        currentIndex = buttonNum;
+        manualImage[currentIndex].gameObject.SetActive(true);
+    }
+
+   /* public void goPage()
     {
         if (currentIndex < manualImage.Length)
         {
@@ -42,9 +50,9 @@ public class Manual : MonoBehaviour {
             }
             manualImage[currentIndex].gameObject.SetActive(true);
         }
-    }
+    }*/
 
-    public void backPage()
+    /*public void backPage()
     {
         if (currentIndex > 0)
         {
@@ -53,7 +61,7 @@ public class Manual : MonoBehaviour {
             manualImage[currentIndex].gameObject.SetActive(true);
         }
     }
-
+    **/
     public void manualAnim()
     {
         if (!manualMove.GetBool("manualOut"))
@@ -64,5 +72,13 @@ public class Manual : MonoBehaviour {
         {
             manualMove.SetBool("manualOut", false);
         }
+    }
+
+    public void OnEnterPointer(int i) {
+            
+    }
+
+    public void OnExitPointer(int i) {
+
     }
 }
